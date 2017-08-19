@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>SmartProxy Settings</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/font-awesome.min.css" rel="stylesheet" />
+	<link href="css/common.css" rel="stylesheet" />
+	<link href="css/jsgrid.min.css" rel="stylesheet" />
+	<link href="css/jsgrid-theme.min.css" rel="stylesheet" />
+	<link href="css/noty.css" rel="stylesheet" />
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap-popper-fix.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jsgrid.bootstrap.js"></script>
+	<script src="js/noty.min.js"></script>
+	<script src="js-ext/messageBox.js"></script>
+	<script src="settings.js"></script>
+</head>
+<body>
+	<div class="container p-2 pt-3">
+		<div class="row">
+			<div class="col-sm-4 col-md-3 col-3">
+				<h2 class="slogan">
+
+					<img src="../icons/smartproxy-48.png" />
+					<br />
+					SmartProxy
+				</h2>
+				<br />
+				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+					<a class="nav-link active" id="tab-general-tab" data-toggle="pill" href="#tab-general" role="tab" aria-controls="tab-general" aria-expanded="true">
+						<i class="fa fa-cog fa-lg text-primary" aria-hidden="true"></i>
+						About
+					</a>
+					<a class="nav-link" id="tab-servers-tab" data-toggle="pill" href="#tab-servers" role="tab" aria-controls="tab-servers" aria-expanded="true">
+						<i class="fa fa-server fa-lg text-secondary" aria-hidden="true"></i>
+
+						Proxy Servers
+					</a>
+					<a class="nav-link" id="tab-rules-tab" data-toggle="pill" href="#tab-rules" role="tab" aria-controls="tab-rules" aria-expanded="true">
+						<i class="fa fa-magic fa-lg text-warning" aria-hidden="true"></i>
+
+						Proxy Rules
+					</a>
+					<a class="nav-link" id="tab-backup-tab" data-toggle="pill" href="#tab-backup" role="tab" aria-controls="tab-backup" aria-expanded="true">
+						<i class="fa fa-life-ring text-success" aria-hidden="true"></i>
+						Backup/ Restore
+					</a>
+				</div>
+			</div>
+			<div class="col-sm-8 col-md-9 col-9 ">
+				<div class="tab-content" id="v-pills-tabContent">
+					<div class="tab-pane fade show active" id="tab-general" role="tabpanel" aria-labelledby="tab-general-tab">
+						<h3>About</h3>
+						<hr class="afshin-line" />
+
+						<div id="divNoServersWarning" class="alert alert-danger alert-dismissible fade show" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong><i class="fa fa-info-circle" aria-hidden="true"></i> No Servers!</strong>
+							Before anything you have to define proxy servers.
+						</div>
+
+						<div class="alert alert-danger alert-dismissibleX fade show" role="alert">
+							<strong><i class="fa fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
+							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not finalized yet (Smart features are not enabled due the bugs). Please be patient and report any bugs you encounter end help me to improve this extension. Thanks.
+						</div>
+						<h4>
+							SmartProxy
+						</h4>
+						<p>
+							Use patterns to automatically define rules for proxify  your web experience. With SmartProxy, you don't need to change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.
+						</p>
+						<p>
+							What's more, SmartProxy is inspired by AutoProxy and AutoProxy-ng and that are now considered legacy. SmartProxy is completely written from ground up using WebExtensions and provides same and even more functionality than those proxies.
+						</p>
+						<ul>
+							<li>Automatically detect when to enable or disable proxy to certain websites based on rule patterns</li>
+							<li>Easily switch between many proxy servers as your active proxy server setting</li>
+							<li>Easily with one click add current site to your proxy list</li>
+							<li>View current website items and requests and decide whether to proxify them with one click</li>
+							<li>Easily switch between proxy modes and enable proxy for all domains</li>
+							<li>Backup/Restore settings and rules</li>
+						</ul>
+						<br />
+						<h5>Here is the list of upcoming features</h5>
+						<ul>
+							<li>Sync settings and rules</li>
+							<li>Import rules from other proxy extensions</li>
+						</ul>			
+						<br>						
+						<h5>And here is the list of to-do features that currently can't be done due immature WebExtensions API</h5>
+						<ul>
+							<li>A <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">bug</a> in Firefox preventing communication between SmartProxy components</li>
+							<li>Features to enable SmartProxy to be act more smart</li>
+							<li>Authentication for proxy servers</li>
+							<li>Use system proxy mode</li>
+						</ul>
+						<p>I will do my best to implement these features as soon as the APIs are ready.</p>
+						<br />
+						<h5>And please note that:</h5>
+						<p>
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+							SmartProxy does not provide any type of proxy or network services.
+							<br />
+							<i class="fa fa-eye-slash" aria-hidden="true"></i>
+							SmartProxy does not track you.
+							<br />
+							<i class="fa fa-eye-slash" aria-hidden="true"></i>
+							SmartProxy does not use or insert ads into pages or any other places.
+							<br />
+						</p>
+					</div>
+					<div class="tab-pane fade" id="tab-servers" role="tabpanel" aria-labelledby="tab-servers-tab">
+						<h3>Proxy Servers</h3>
+						<hr class="afshin-line" />
+						<h5>
+							Active Proxy Server:
+						</h5>
+						<div class="row mb-3">
+							<div class="col-6">
+								<select id="cmbActiveProxyServer" class="form-control custom-select">
+									<option value="0">(Select)</option>
+								</select>
+							</div>
+						</div>
+						<h5>
+							Manage your proxy servers:
+						</h5>
+						<p>
+							Here is the list of proxy servers. You can define as many proxy as you want and switch between then from toolbar.
+						</p>
+						<p>
+							<button id="btnAddProxyServer" class="btn btn-secondary">Add Server</button>
+						</p>
+						<div id="grdServers"></div>
+
+						<p class="mt-3">
+							<button id="btnSaveProxyServers" class="btn btn-primary">Save Changes</button>
+							<button id="btnRejectProxyServers" class="btn btn-secondary">Reject Changes</button>
+						</p>
+					</div>
+					<div class="tab-pane fade" id="tab-rules" role="tabpanel" aria-labelledby="tab-rules-tab">
+						<h3>Proxy Rules</h3>
+						<hr class="afshin-line" />
+
+						<h4>
+							Manage your proxy rules:
+						</h4>
+						<p>
+							Here is the list if rules that will help SmartProxy to decide whether to enable proxy for a specific domain or not.
+						</p>
+						<p>
+							<button id="btnAddProxyRule" class="btn btn-secondary">Add Rule</button>
+						</p>
+						<div id="grdRules"></div>
+
+						<p class="mt-2">
+							<button id="btnSaveProxyRules" class="btn btn-primary">Save Changes</button>
+							<button id="btnRejectProxyRules" class="btn btn-secondary">Reject Changes</button>
+						</p>
+
+					</div>
+					<div class="tab-pane fade" id="tab-backup" role="tabpanel" aria-labelledby="tab-backup-tab">
+						<h3>Backup/Restore</h3>
+						<hr class="afshin-line" />
+						<h5>
+							Settings
+						</h5>
+						<p>
+							You can make either full or partial backup of your settings.
+						</p>
+						<p>
+							<button id="btnBackupComplete" class="btn btn-outline-primary">
+								<i class="fa fa-download" aria-hidden="true"></i>
+								Create full backup
+							</button>
+							<span class="custom-control-description">
+								Make a full backup of the options (including proxy servers and rules).
+							</span>
+						</p>
+						<p>
+							<button id="btnBackupRules" class="btn btn-outline-primary">
+								<i class="fa fa-download" aria-hidden="true"></i>
+								Create rules backup
+							</button>
+							<span class=" ">
+								Make backup of the proxy rules.
+							</span>
+						</p>
+						
+						<form id="frmRestoreBackup" style="display: none"></form>
+						<p>
+							<button disabledX id="btnRestoreBackup" class="btn btn-outline-primary">
+								<i class="fa fa-upload" aria-hidden="true"></i>
+								Restore backup
+							</button>
+							<span class=" ">
+								Restore your previously taken backup from a local file
+							</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-5">
+			<div class="col">
+				<div class="text-dark text-center text-secondary small">
+					<small> Brought to you by Salar Khalilzadeh ,</small>
+					<small id="spanVersion"></small>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

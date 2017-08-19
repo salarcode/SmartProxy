@@ -1,0 +1,35 @@
+﻿.slogan {
+	font-weight: bold;
+	color: navy;
+}
+
+.fullwidth {
+	width: 100%;
+}
+
+hr.afshin-line {
+	/* فقط به خاطر افشین نوبخت*/
+	margin-bottom: 10px;
+	border: 0;
+	height: 1px;
+	background-color: silver;
+	background: linear-gradient(to right,rgba(165,165,165,0.45) 0%, rgba(0,0,0,0) 130%);
+}
+
+.nav-link.active .fa {
+	color: white !important;
+}
+
+select.active-proxy-select {
+	width: 100%;
+}
+
+.jsgrid.jsgrid-font-smaller .jsgrid-cell {
+	font-size: smaller;
+	text-overflow: ellipsis;
+}
+.jsgrid-cell-one-liner {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

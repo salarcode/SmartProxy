@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/font-awesome.min.css" rel="stylesheet" />
+	<link href="css/common.css" rel="stylesheet" />
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap-popper-fix.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="popup.js"></script>
+</head>
+<body>
+<div class="container-fluid p-1">
+	<div id="divRestartRequired" style="display: none">
+		<div class="alert alert-danger" role="alert">
+			Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
+			changes require restart.
+			<br/>Please restart. Sorry for inconvenience.
+		</div>
+	</div>
+	<div id="divProxyMode" class="nav flex-column nav-pills">
+		<a href="javascript:void()" class="nav-link disabled px-5">SmartProxy Activation</a>
+		<a href="javascript:void()" data-proxyMode="1" class="nav-link">
+			<i class="fa fa-ban fa-lg text-danger" aria-hidden="true"></i>
+			Direct (No Proxy)
+		</a>
+		<a href="javascript:void()" data-proxyMode="2" class="nav-link active">
+			<i class="fa fa-magic fa-lg text-success" aria-hidden="true"></i>
+			Smart Proxy
+		</a>
+		<a href="javascript:void()" data-proxyMode="3" class="nav-link">
+			<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
+			Always Enable
+		</a>
+		<a href="javascript:void()" data-proxyMode="4" class="nav-link disabled">
+			<i class="fa fa-windows fa-lg text-info" aria-hidden="true"></i>
+			System Proxy
+		</a>
+		<!--<div class="dropdown-divider"></div>
+		<a href="#" class="nav-link active">Settings</a>-->
+	</div>
+	<div id="divActiveProxy" style="display: none">
+		<hr class="afshin-line"/>
+		<div class="nav flex-column nav-pills">
+			<a href="javascript:void()" class="nav-link disabled">Active Proxy:</a>
+		</div>
+		<div class="p-2">
+			<select id="cmbActiveProxy" class="custom-select active-proxy-select">
+				<option value="0">No server is defined</option>
+			</select>
+		</div>
+	</div>
+	<div id="divProxiableContainer" style="display: none">
+		<hr class="afshin-line"/>
+		<div id="divProxiableDomains" class="nav flex-column nav-pills">
+			<a href="javascript:void()" class="nav-link disabled">Enable proxy on</a>
+			<a id="divProxiableDomainItem" href="javascript:void()" class="nav-link" style="display: none">
+				<div class="row">
+					<div class="col-9 text-nowrap">
+						<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
+						<span class="proxiable-host-name">-</span>
+					</div>
+					<div class="col-3 text-center">
+						<i class="proxiable-status-icon fa fa-square-o fa-lg" aria-hidden="true"></i>
+						<!--<i title="Not enabled" class="fa fa-square-o fa-lg" aria-hidden="true"></i>-->
+						<!--<i title="Enabled" class="fa fa-check-square-o" aria-hidden="true"></i>-->
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<hr class="afshin-line"/>
+	<div class="nav flex-column nav-pills">
+		<a style="display: none" id="openProxiable" href="javascript:void()" class="nav-link">
+			<i class="fa fa-search fa-lg text-info" aria-hidden="true"></i>
+			Proxyable Resources
+		</a>
+		<a id="openSettings" href="javascript:void()" class="nav-link">
+			<i class="fa fa-cog fa-lg text-success" aria-hidden="true"></i>
+			Settings
+		</a>
+	</div>
+</div>
+</body>
+</html>

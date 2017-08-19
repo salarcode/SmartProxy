@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Proxyable Resources</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+	<link href="css/font-awesome.min.css" rel="stylesheet" />
+	<link href="css/common.css" rel="stylesheet" />
+	<link href="css/jsgrid.min.css" rel="stylesheet" />
+	<link href="css/jsgrid-theme.min.css" rel="stylesheet" />
+	<link href="css/noty.css" rel="stylesheet" />
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap-popper-fix.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jsgrid.bootstrap.js"></script>
+	<script src="js/noty.min.js"></script>
+	<script src="js-ext/messageBox.js"></script>
+	<script src="proxyable.js"></script>
+</head>
+<body>
+	<div class="container p-2 pt-3">
+		<h2>Proxyable items on this page</h2>
+		<p>
+			Here is the list of resources that are used or invoked from this page. Use this list to add these resources to the proxy activation rules.
+			<br />
+			If you don't see anything here, reload the page to see the resources.
+			<button id="btnReload" class="btn btn-outline-secondary btn-sm">
+				<i class="fa fa-refresh" aria-hidden="true"></i>
+				Reload
+			</button>
+		</p>
+		<p>
+			<input id="txtPageUrl" type="text" readonly style="width: 100%" class="disabled form-control" />
+		</p>
+		<div class="row">
+			<div class="col">
+				<div id="grdProxyable" class="jsgrid-font-smaller"></div>
+			</div>
+		</div>
+		<br />
+		<button id="btnClose" class="btn btn-outline-danger">
+			<i class="fa fa-times" aria-hidden="true"></i>
+			Close
+		</button>
+	</div>
+</body>
+</html>
