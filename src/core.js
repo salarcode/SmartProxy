@@ -1,4 +1,3 @@
-"use strict";
 const changesRerquireRestart = true;
 const proxyServerProtocols = ["HTTP", "HTTPS", "SOCKS4", "SOCKS5"];
 var loggedRequests = {};
@@ -16,6 +15,16 @@ var settings = {
 			protocol: 'HTTP'
 		}]
 };
+var environment = {
+	chrome: false
+};
+
+// Google Chrome pollyfill
+if (typeof browser === "undefined") {
+	browser = chrome;
+	environment.chrome = true;
+}
+
 (function () {
 	const proxyScriptURL = "core-proxy.js";
 	const proxyScriptExtentionURL = browser.extension.getURL(proxyScriptURL);
@@ -244,7 +253,10 @@ var settings = {
 		else if (browser.proxy["registerProxyScript"])
 			// support for older firefox versions
 			browser.proxy.registerProxyScript(proxyScriptURL);
+		else {
+			// Chrome proxy model
 
+		}
 
 		browser.proxy.onProxyError.addListener(onProxyError);
 	}
@@ -452,16 +464,23 @@ var settings = {
 		},
 		initialize: function () {
 			///<summary>The initialization method</summary>
-			browser.storage.local.get()
-				.then(function (data) {
-					// all the settings
-					settings = data;
-					settingsOperation.setDefaultSettins(settings);
-					console.log(`settings loaded>`, settings);
-				},
-				function (error) {
-					console.error(`settingsOperation.initialize error: ${error.message}`);
-				});
+			function onGetLocalData(data) {
+				// all the settings
+				settings = data;
+				settingsOperation.setDefaultSettins(settings);
+				console.log(`settings loaded>`, settings);
+			}
+			function onGetLocalError(error) {
+				console.error(`settingsOperation.initialize error: ${error.message}`);
+			}
+
+			if (environment.chrome) {
+				browser.storage.local.get(null, onGetLocalData);
+			} else {
+				browser.storage.local.get()
+					.then(onGetLocalData, onGetLocalError);
+			}
+
 		},
 		findProxyServerByName: function (name) {
 			for (var i = 0; i < settings.proxyServers.length; i++) {
@@ -623,7 +642,7 @@ var settings = {
 			function restoreProxyMode(backupProxyMode) {
 
 				if (backupProxyMode == null ||
-					backupProxyMode<=0) {
+					backupProxyMode <= 0) {
 					return { success: false, message: "Invalid proxy mode setting" };
 				}
 				return { success: true, result: backupProxyMode };
@@ -687,7 +706,7 @@ var settings = {
 					settings.proxyServers = backupServers;
 
 					settingsOperation.saveProxyServers();
-					
+
 				}
 
 				if (backupRules != null) {
