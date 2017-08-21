@@ -14,7 +14,7 @@
 				{
 					active: true,
 					//openerTabId: null,
-					url: browser.extension.getURL(`ui/proxyable.html?id=${sourceTabId}`)
+					url: browser.runtime.getURL(`ui/proxyable.html?id=${sourceTabId}`)
 				}
 			);
 			window.close();

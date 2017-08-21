@@ -1,3 +1,4 @@
+"use strict";
 const changesRerquireRestart = true;
 const proxyServerProtocols = ["HTTP", "HTTPS", "SOCKS4", "SOCKS5"];
 var loggedRequests = {};
@@ -15,19 +16,10 @@ var settings = {
 			protocol: 'HTTP'
 		}]
 };
-var environment = {
-	chrome: false
-};
-
-// Google Chrome polyfill
-if (typeof browser === "undefined") {
-	browser = chrome;
-	environment.chrome = true;
-}
 
 (function () {
 	const proxyScriptURL = "core-proxy.js";
-	const proxyScriptExtentionURL = browser.extension.getURL(proxyScriptURL);
+	const proxyScriptExtentionURL = browser.runtime.getURL(proxyScriptURL);
 	var currentTab = null;
 
 	// -------------------------
