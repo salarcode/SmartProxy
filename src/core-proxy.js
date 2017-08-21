@@ -11,6 +11,54 @@ var resultActiveProxy = "DIRECT";
 const resultDirect = "DIRECT";
 const resultSystem = "SYSTEM";
 
+//-----------------------------
+// Subset of polyfill api for proxy, since it doesn't have access to 'core-polyfill.js'
+//-----------------------------
+var environment = {
+	chrome: false
+};
+
+// Google Chrome polyfill
+if (typeof browser === "undefined") {
+	browser = chrome;
+	environment.chrome = true;
+}
+
+var polyfill = {
+	lastError: function () {
+		if (environment.chrome) {
+			// chrome.extension.lastError Deprecated since Chrome 58
+			return chrome.runtime.lastError;
+		} else {
+			return browser.runtime.lastError;
+		}
+	},
+
+	runtimeSendMessage: function (message, success, fail, options, extensionId) {
+		if (environment.chrome) {
+			chrome.runtime.sendMessage(extensionId,
+				message,
+				options,
+				function (response) {
+					var error = polyfill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			browser.runtime.sendMessage(
+				extensionId,
+				message,
+				options
+			).then(success, fail);
+		}
+	}
+};
+//-----------------------------
+//-----------------------------
+
 (function () {
 
 	// start handling messages
@@ -34,7 +82,7 @@ const resultSystem = "SYSTEM";
 				}
 
 			} else if (command == "activeProxyServerChanged" &&
-				message["activeProxyServer"]!=null) {
+				message["activeProxyServer"] != null) {
 
 				var newActiveProxyServer = message["activeProxyServer"];
 
@@ -52,10 +100,10 @@ const resultSystem = "SYSTEM";
 	}
 
 	function initialize() {
-		browser.runtime.sendMessage("init")
-			.then(function (proxyInitData) {
+		polyfill.runtimeSendMessage("init",
+			function (proxyInitData) {
 				if (!proxyInitData) {
-					browser.runtime.sendMessage('Init response received empty!!');
+					polyfill.runtimeSendMessage('Init response received empty!!');
 					return;
 				}
 
@@ -65,9 +113,9 @@ const resultSystem = "SYSTEM";
 				activeProxyServer = proxyInitData.activeProxyServer;
 				resultActiveProxy = convertActiveProxyServer(activeProxyServer);
 
-			})
-			.catch(function (e) {
-				browser.runtime.sendMessage('PAC Init failed! > ' + e);
+			},
+			function (e) {
+				polyfill.runtimeSendMessage('PAC Init failed! > ' + e);
 			});
 	}
 
@@ -189,7 +237,7 @@ function FindProxyForURL(url, host) {
 
 		return resultDirect;
 	} catch (e) {
-		browser.runtime.sendMessage('Error in FindProxyForURL for ' + url);
+		polyfill.runtimeSendMessage('Error in FindProxyForURL for ' + url);
 	}
 }
 

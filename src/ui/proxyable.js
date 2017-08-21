@@ -32,8 +32,7 @@
 			return;
 		}
 
-		browser.tabs.get(sourceTabId)
-			.then(
+		polyfill.tabsGet(sourceTabId,
 			function (tabInfo) {
 				sourceTab = tabInfo;
 
@@ -46,8 +45,8 @@
 
 				// start the logger
 				listenToLogger();
-			})
-			.catch(function () {
+			},
+			function () {
 				if (sourceTab == null) {
 					messageBox.error("Source tab not found!");
 				}
@@ -56,7 +55,7 @@
 
 	function listenToLogger() {
 		// request log for this page
-		browser.runtime.sendMessage({
+		polyfill.runtimeSendMessage({
 			command: "requestProxyableLog",
 			tabId: sourceTabId
 		});
@@ -64,7 +63,7 @@
 
 	function stopListeningToLogger() {
 		// request log for this page
-		browser.runtime.sendMessage({
+		polyfill.runtimeSendMessage({
 			command: "removeProxyableLog",
 			tabId: sourceTabId
 		});
@@ -76,8 +75,8 @@
 		}
 
 		$("#btnClose").click(function () {
-			browser.tabs.query({ active: true, currentWindow: true })
-				.then(function (tabs) {
+			polyfill.tabsQuery({ active: true, currentWindow: true },
+				function (tabs) {
 					if (!tabs || !tabs[0])
 						return;
 
@@ -85,13 +84,13 @@
 					stopListeningToLogger();
 
 					// close this tab
-					browser.tabs.remove(tabs[0].id);
+					polyfill.tabsRemove(tabs[0].id);
 				});
 		});
 
 		$("#btnReload").click(function () {
 			proxyableGrid.clearLogData();
-			browser.tabs.reload(sourceTabId);
+			polyfill.tabsReload(sourceTabId);
 		});
 
 		proxyableGrid.initialize();
@@ -115,7 +114,7 @@
 
 				var item = data[i];
 				if (ruleRegex.test(item.url)) {
-					
+
 					item.enabled = enabled;
 
 					if (enabled) {
@@ -130,12 +129,13 @@
 		},
 		toggleProxyUrl: function (url, item, enabled) {
 
-			browser.runtime.sendMessage({
-				command: "toggleProxyForUrl",
-				url: url,
-				enabled: enabled
-			})
-				.then(function (response) {
+			polyfill.runtimeSendMessage(
+				{
+					command: "toggleProxyForUrl",
+					url: url,
+					enabled: enabled
+				},
+				function (response) {
 
 					if (!response)
 						return;

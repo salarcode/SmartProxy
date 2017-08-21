@@ -23,8 +23,8 @@ var polyfill = {
 			return chrome.proxy.onProxyError;
 		} else {
 			if (browser.proxy.onError)
-				// this is under consideration
-				return browser.onError;
+				// this is under consideration for future version of Firefox #1388619
+				return browser.proxy.onError;
 			else
 				return browser.proxy.onProxyError;
 		}
@@ -90,6 +90,22 @@ var polyfill = {
 				});
 		} else {
 			browser.tabs.query(queryInfo)
+				.then(success, fail);
+		}
+	},
+	tabsCreate: function (createProperties, success, fail) {
+		if (environment.chrome) {
+			chrome.tabs.create(createProperties,
+				function (tabInfo) {
+					var error = polyfill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(tabInfo);
+					}
+				});
+		} else {
+			browser.tabs.create(createProperties)
 				.then(success, fail);
 		}
 	},
@@ -162,7 +178,7 @@ var polyfill = {
 				.then(success, fail);
 		}
 	},
-	runtimeOpenOptionsPage: function () {
+	runtimeOpenOptionsPage: function (success, fail) {
 		if (environment.chrome) {
 			chrome.runtime.openOptionsPage(
 				function (response) {

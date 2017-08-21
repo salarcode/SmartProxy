@@ -67,11 +67,12 @@
 				activeProxyServer: settingsUiData.activeProxyServer
 			};
 
-			browser.runtime.sendMessage({
-				command: "settingsSaveProxyServers",
-				saveData: saveData
-			})
-				.then(function (response) {
+			polyfill.runtimeSendMessage(
+				{
+					command: "settingsSaveProxyServers",
+					saveData: saveData
+				},
+				function (response) {
 					if (!response) return;
 					if (response.success) {
 						if (response.message)
@@ -105,11 +106,12 @@
 
 			var rules = settingsGrid.getRules();
 
-			browser.runtime.sendMessage({
-				command: "settingsSaveProxyRules",
-				proxyRules: rules
-			})
-				.then(function (response) {
+			polyfill.runtimeSendMessage(
+				{
+					command: "settingsSaveProxyRules",
+					proxyRules: rules
+				},
+				function (response) {
 					if (!response) return;
 					if (response.success) {
 						if (response.message)
@@ -156,11 +158,13 @@
 		$("#btnRestoreBackup").click(function () {
 
 			function callRestoreSettings(fileData) {
-				browser.runtime.sendMessage({
-					command: "restoreSettings",
-					fileData: fileData
-				})
-					.then(function (response) {
+
+				polyfill.runtimeSendMessage(
+					{
+						command: "restoreSettings",
+						fileData: fileData
+					},
+					function (response) {
 
 						if (response.success) {
 							if (response.message) {
@@ -179,10 +183,10 @@
 								messageBox.error(response.message);
 							}
 						}
-					})
-					.catch(function (error) {
+					},
+					function (error) {
 						messageBox.error("There was an error in restoring the backup");
-						browser.runtime.sendMessage("restoreSettings failed with> " + error.message);
+						polyfill.runtimeSendMessage("restoreSettings failed with> " + error.message);
 					});
 			}
 
@@ -210,8 +214,8 @@
 	}
 
 	function initialize() {
-		browser.runtime.sendMessage("getDataForSettingsUi")
-			.then(function (dataForSettingsUi) {
+		polyfill.runtimeSendMessage("getDataForSettingsUi",
+			function (dataForSettingsUi) {
 
 				if (dataForSettingsUi != null) {
 					settingsUiData = dataForSettingsUi;
@@ -224,7 +228,7 @@
 
 			},
 			function (error) {
-				browser.runtime.sendMessage("getDataForSettingsUi failed! > " + error);
+				polyfill.runtimeSendMessage("getDataForSettingsUi failed! > " + error);
 			});
 	}
 

@@ -5,12 +5,12 @@
 
 		$("#openSettings").click(function () {
 
-			browser.runtime.openOptionsPage();
+			polyfill.runtimeOpenOptionsPage();
 			window.close();
 		});
 		$("#openProxiable").click(function () {
 			var sourceTabId = popupData.currentTabId;
-			browser.tabs.create(
+			polyfill.tabsCreate(
 				{
 					active: true,
 					//openerTabId: null,
@@ -50,11 +50,11 @@
 
 				if (!dataForPopup.hasProxyServers) {
 					// just open the settings page
-					browser.runtime.openOptionsPage();
+					polyfill.runtimeOpenOptionsPage();
 					window.close();
 				} else {
 					// change proxy mode
-					browser.runtime.sendMessage({
+					polyfill.runtimeSendMessage({
 						command: "changeProxyMode",
 						proxyMode: selectedProxyMode
 					});
@@ -95,15 +95,15 @@
 
 			cmbActiveProxy.on('change',
 				function () {
-					// TODO: on change for active proxy
 					var value = cmbActiveProxy.val();
 					if (!value) return;
 
-					browser.runtime.sendMessage({
-						command: "changeActiveProxyServer",
-						name: value
-					})
-						.then(function (response) {
+					polyfill.runtimeSendMessage(
+						{
+							command: "changeActiveProxyServer",
+							name: value
+						},
+						function (response) {
 							if (!response) return;
 							if (response.restartRequired) {
 								// restart required
@@ -190,15 +190,15 @@
 
 	function toggleProxyForHost(hostName) {
 		// send message to the core
-		browser.runtime.sendMessage({
+		polyfill.runtimeSendMessage({
 			command: "toggleProxyForHost",
 			host: hostName
 		});
 	}
 
 	function initialize() {
-		browser.runtime.sendMessage("getDataForPopup")
-			.then(function (dataForPopup) {
+		polyfill.runtimeSendMessage("getDataForPopup",
+			function (dataForPopup) {
 
 				if (dataForPopup != null) {
 					popupData = dataForPopup;
@@ -206,7 +206,7 @@
 				}
 			},
 			function (error) {
-				browser.runtime.sendMessage("getDataForPopup failed! > " + error);
+				polyfill.runtimeSendMessage("getDataForPopup failed! > " + error);
 			});
 	}
 

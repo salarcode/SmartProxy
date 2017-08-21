@@ -26,12 +26,12 @@ var settings = {
 	function logToConsole() {
 		///<summary>Send log to the console</summary>
 		// Uncomment when debugging
-		//console.log.apply(this, arguments);
+		console.log.apply(this, arguments);
 	}
 	function errorToConsole() {
 		///<summary>Send error log to the console</summary>
 		// Uncomment when debugging
-		//console.error.apply(this, arguments);
+		console.error.apply(this, arguments);
 	}
 
 	// -------------------------
@@ -263,7 +263,7 @@ var settings = {
 			// TODO: Chrome proxy model
 		}
 
-		browser.proxy.onProxyError.addListener(onProxyError);
+		polyfill.onProxyError().addListener(onProxyError);
 	}
 
 	function onProxyError(error) {
@@ -325,8 +325,8 @@ var settings = {
 					incognito: false
 				};
 
-				browser.tabs.get(tabId)
-					.then(function (tabInfo) {
+				polyfill.tabsGet(tabId,
+					function (tabInfo) {
 
 						// saveing the tab in the storage
 						saveLoggedTabInfo(tabData, tabInfo);
@@ -350,12 +350,14 @@ var settings = {
 		notifyProxyableLogRequest: function (url, tabId) {
 			var proxyableData = requestLogger.getProxyableDataForUrl(url);
 
-			browser.runtime.sendMessage({
-				command: "notifyProxyableLogRequest",
-				tabId: tabId,
-				logInfo: proxyableData
-			})
-				.catch(function (error) {
+			polyfill.runtimeSendMessage(
+				{
+					command: "notifyProxyableLogRequest",
+					tabId: tabId,
+					logInfo: proxyableData
+				},
+				null,
+				function (error) {
 
 					// no more logging for this tab
 					requestLogger.removeFromPorxyableLogIdList(tabId);
@@ -423,8 +425,7 @@ var settings = {
 			}
 
 			// query the active tab in active window
-			var gettingActiveTab = browser.tabs.query({ active: true, currentWindow: true });
-			gettingActiveTab.then(updateTab);
+			polyfill.tabsQuery({ active: true, currentWindow: true }, updateTab);
 		}
 
 
@@ -458,7 +459,7 @@ var settings = {
 			}
 			settingObj.product = "SmartProxy";
 
-			browser.management.getSelf().then(function (info) {
+			polyfill.managementGetSelf(function (info) {
 				settingObj.version = info.version;
 			});
 		},
@@ -473,12 +474,9 @@ var settings = {
 				errorToConsole(`settingsOperation.initialize error: ${error.message}`);
 			}
 
-			if (environment.chrome) {
-				browser.storage.local.get(null, onGetLocalData);
-			} else {
-				browser.storage.local.get()
-					.then(onGetLocalData, onGetLocalError);
-			}
+			polyfill.storageLocalGet(null,
+				onGetLocalData,
+				onGetLocalError);
 
 		},
 		findProxyServerByName: function (name) {
@@ -491,46 +489,36 @@ var settings = {
 			return null;
 		},
 		saveAll: function () {
-			browser.storage.local.set(settings)
-				.then(function () {
-
-				},
+			polyfill.storageLocalSet(settings,
+				null,
 				function (error) {
 					errorToConsole(`settingsOperation.saveAll error: ${error.message}`);
 				});
 		},
 		saveRules: function () {
-			browser.storage.local.set({ proxyRules: settings.proxyRules })
-				.then(function () {
-
-				},
+			polyfill.storageLocalSet({ proxyRules: settings.proxyRules },
+				null,
 				function (error) {
 					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
 				});
 		},
 		saveProxyServers: function () {
-			browser.storage.local.set({ proxyServers: settings.proxyServers })
-				.then(function () {
-
-				},
+			polyfill.storageLocalSet({ proxyServers: settings.proxyServers },
+				null,
 				function (error) {
 					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
 				});
 		},
 		saveActiveProxyServer: function () {
-			browser.storage.local.set({ activeProxyServer: settings.activeProxyServer })
-				.then(function () {
-
-				},
+			polyfill.storageLocalSet({ activeProxyServer: settings.activeProxyServer },
+				null,
 				function (error) {
 					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
 				});
 		},
 		saveProxyMode: function () {
-			browser.storage.local.set({ proxyMode: settings.proxyMode })
-				.then(function () {
-
-				},
+			polyfill.storageLocalSet({ proxyMode: settings.proxyMode },
+				null,
 				function (error) {
 					errorToConsole(`settingsOperation.saveProxyMode error: ${error.message}`);
 				});
@@ -745,61 +733,62 @@ var settings = {
 
 			restartRequired = changesRerquireRestart;
 
-			browser.runtime.sendMessage(
+			polyfill.runtimeSendMessage(
 				{
 					command: "proxyModeChanged",
 					proxyMode: settings.proxyMode
 				},
-				{
-					toProxyScript: true
-				})
-				.catch(function (error) {
+				null,
+				function (error) {
 					// browser.runtime.sendMessage with toProxyScript fails on Windows
 					// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
 					// Error: Could not establish connection. Receiving end does not exist.
 					restartRequired = true;
 
 					errorToConsole("notifyProxyModeChange failed with ", error);
+				},
+				{
+					toProxyScript: true
 				});
 		},
 		notifyProxyRulesChange: function () {
 
 			restartRequired = changesRerquireRestart;
-			browser.runtime.sendMessage(
+			polyfill.runtimeSendMessage(
 				{
 					command: "proxyRulesChanged",
 					proxyRules: settings.proxyRules
 				},
-				{
-					toProxyScript: true
-				})
-				.catch(function (error) {
+				function (error) {
 					// browser.runtime.sendMessage with toProxyScript fails on Windows
 					// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
 					// Error: Could not establish connection. Receiving end does not exist.
 					restartRequired = true;
 
 					errorToConsole("notifyProxyRulesChange failed with ", error);
+				},
+				{
+					toProxyScript: true
 				});
 		},
 		notifyActiveProxyServerChange: function () {
 
 			restartRequired = changesRerquireRestart;
-			browser.runtime.sendMessage(
+			polyfill.runtimeSendMessage(
 				{
 					command: "activeProxyServerChanged",
 					activeProxyServer: settings.activeProxyServer
 				},
-				{
-					toProxyScript: true
-				})
-				.catch(function (error) {
+				function (error) {
 					// browser.runtime.sendMessage with toProxyScript fails on Windows
 					// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
 					// Error: Could not establish connection. Receiving end does not exist.
 					restartRequired = true;
 
 					errorToConsole("notifyActiveProxyServerChange failed with ", error);
+				},
+				{
+					toProxyScript: true
 				});
 		},
 		toggleHost: function (host) {
