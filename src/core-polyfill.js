@@ -8,7 +8,7 @@ if (typeof browser === "undefined") {
 	environment.chrome = true;
 }
 
-// the api used in this extension, polyfiled to use Promises if possible
+// Only polyfill the API that is used in extension
 var polyfill = {
 	lastError: function () {
 		if (environment.chrome) {

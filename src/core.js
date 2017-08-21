@@ -740,10 +740,11 @@ var settings = {
 				},
 				null,
 				function (error) {
-					// browser.runtime.sendMessage with toProxyScript fails on Windows
-					// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
-					// Error: Could not establish connection. Receiving end does not exist.
-					restartRequired = true;
+					if (!environment.chrome)
+						// browser.runtime.sendMessage with toProxyScript fails on Windows
+						// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
+						// Error: Could not establish connection. Receiving end does not exist.
+						restartRequired = true;
 
 					errorToConsole("notifyProxyModeChange failed with ", error);
 				},
@@ -760,10 +761,11 @@ var settings = {
 					proxyRules: settings.proxyRules
 				},
 				function (error) {
-					// browser.runtime.sendMessage with toProxyScript fails on Windows
-					// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
-					// Error: Could not establish connection. Receiving end does not exist.
-					restartRequired = true;
+					if (!environment.chrome)
+						// browser.runtime.sendMessage with toProxyScript fails on Windows
+						// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
+						// Error: Could not establish connection. Receiving end does not exist.
+						restartRequired = true;
 
 					errorToConsole("notifyProxyRulesChange failed with ", error);
 				},
@@ -780,10 +782,11 @@ var settings = {
 					activeProxyServer: settings.activeProxyServer
 				},
 				function (error) {
-					// browser.runtime.sendMessage with toProxyScript fails on Windows
-					// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
-					// Error: Could not establish connection. Receiving end does not exist.
-					restartRequired = true;
+					if (!environment.chrome)
+						// browser.runtime.sendMessage with toProxyScript fails on Windows
+						// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
+						// Error: Could not establish connection. Receiving end does not exist.
+						restartRequired = true;
 
 					errorToConsole("notifyActiveProxyServerChange failed with ", error);
 				},
