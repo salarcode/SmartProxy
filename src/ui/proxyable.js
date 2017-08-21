@@ -198,7 +198,7 @@
 						name: "enabled", title: "", type: "text",
 						itemTemplate: function (value, item) {
 							if (value) {
-								return $(`<button class="btn btn-sm btn-outline-danger"><i class="fa fa-times" aria-hidden="true"></i> Disable</button>`)
+								return $(`<button class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Disable</button>`)
 									.click(function () {
 										var url = item.url;
 										messageBox.confirm("Are you sure you want to delete the selected rule?",
@@ -207,7 +207,7 @@
 											});
 									});
 							} else {
-								return $(`<button class="btn btn-sm btn-outline-success"><i class="fa fa-plus" aria-hidden="true"></i> Enable</button>`)
+								return $(`<button class="btn btn-sm btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Enable</button>`)
 									.click(function () {
 										var url = item.url;
 
