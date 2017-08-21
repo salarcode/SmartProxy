@@ -760,6 +760,7 @@ var settings = {
 					command: "proxyRulesChanged",
 					proxyRules: settings.proxyRules
 				},
+				null,
 				function (error) {
 					if (!environment.chrome)
 						// browser.runtime.sendMessage with toProxyScript fails on Windows
@@ -781,6 +782,7 @@ var settings = {
 					command: "activeProxyServerChanged",
 					activeProxyServer: settings.activeProxyServer
 				},
+				null,
 				function (error) {
 					if (!environment.chrome)
 						// browser.runtime.sendMessage with toProxyScript fails on Windows
