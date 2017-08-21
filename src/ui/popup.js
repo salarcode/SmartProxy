@@ -32,9 +32,16 @@
 	function populateProxyMode(proxyMode, dataForPopup) {
 
 		var divProxyMode = $("#divProxyMode");
+		divProxyMode.find("li.disabled a").css("cursor", "default");
 
 		divProxyMode.find(".nav-link").removeClass("active");
-		divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`).addClass("active");
+		divProxyMode.find("li").removeClass("active");
+
+		divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
+			.addClass("active")
+			.parent("li")
+			.addClass("active");
+
 		divProxyMode.find(".nav-link:not(.disabled)")
 			.on("click",
 			function () {
@@ -88,7 +95,7 @@
 
 			cmbActiveProxy.on('change',
 				function () {
-					// todo: on change for active proxy
+					// TODO: on change for active proxy
 					var value = cmbActiveProxy.val();
 					if (!value) return;
 
@@ -99,6 +106,7 @@
 						.then(function (response) {
 							if (!response) return;
 							if (response.restartRequired) {
+								// restart required
 								$("#divRestartRequired").show();
 							}
 						});
@@ -162,13 +170,12 @@
 
 
 					if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
-						browser.runtime.sendMessage(`proxiable-host-name: ${host}`);
 
 						toggleProxyForHost(host);
 
 						window.close();
 					} else {
-						browser.runtime.sendMessage(`rule is not for this host: ${host}`);
+						// rule is not for this host
 					}
 
 					//$(this).find(".proxiable-status-icon")

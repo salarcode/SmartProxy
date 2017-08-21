@@ -19,7 +19,7 @@ var environment = {
 	chrome: false
 };
 
-// Google Chrome pollyfill
+// Google Chrome polyfill
 if (typeof browser === "undefined") {
 	browser = chrome;
 	environment.chrome = true;
@@ -31,9 +31,22 @@ if (typeof browser === "undefined") {
 	var currentTab = null;
 
 	// -------------------------
+	function logToConsole() {
+		///<summary>Send log to the console</summary>
+		// Uncomment when debugging
+		//console.log.apply(this, arguments);
+	}
+	function errorToConsole() {
+		///<summary>Send error log to the console</summary>
+		// Uncomment when debugging
+		//console.error.apply(this, arguments);
+	}
 
+	// -------------------------
 	function handleMessages(message, sender, sendResponse) {
-		console.log('core.js incoming> ', message);
+		///<summary>The main message handler</summary>
+
+		logToConsole("core.js incoming> ", message);
 
 		if (sender.url == proxyScriptExtentionURL) {
 			// only handle messages from the proxy script
@@ -51,7 +64,7 @@ if (typeof browser === "undefined") {
 				}
 			} else {
 				// after the init message the only other messages are status messages
-				//console.log(message);
+				logToConsole(message);
 			}
 			return;
 		}
@@ -77,8 +90,6 @@ if (typeof browser === "undefined") {
 
 				// send the data
 				sendResponse(dataForSettingsUi);
-
-				console.log('dataForSettingsUi sent', dataForSettingsUi);
 			}
 			return;
 		}
@@ -176,7 +187,7 @@ if (typeof browser === "undefined") {
 			if (commad == "settingsSaveProxyServers" &&
 				message["saveData"] != null) {
 
-				//// validate the proxy servers
+				//// TODO: validate the proxy servers
 				//if (!validate) {
 				//	if (sendResponse) {
 				//		sendResponse({
@@ -197,7 +208,8 @@ if (typeof browser === "undefined") {
 				if (sendResponse) {
 					sendResponse({
 						success: true,
-						message: 'Proxy servers saved successfully.'
+						message: 'Proxy servers saved successfully.',
+						restartRequired: restartRequired
 					});
 				}
 				return;
@@ -206,7 +218,7 @@ if (typeof browser === "undefined") {
 			if (commad == "settingsSaveProxyRules" &&
 				message["proxyRules"] != null) {
 
-				//// validate the proxy servers
+				//// TODO: validate the proxy servers
 				//if (!validate) {
 				//	if (sendResponse) {
 				//		sendResponse({
@@ -224,7 +236,8 @@ if (typeof browser === "undefined") {
 				if (sendResponse) {
 					sendResponse({
 						success: true,
-						message: 'Proxy rules saved successfully.'
+						message: 'Proxy rules saved successfully.',
+						restartRequired: restartRequired
 					});
 				}
 				return;
@@ -255,14 +268,14 @@ if (typeof browser === "undefined") {
 			browser.proxy.registerProxyScript(proxyScriptURL);
 		else {
 			// Chrome proxy model
-
+			// TODO: Chrome proxy model
 		}
 
 		browser.proxy.onProxyError.addListener(onProxyError);
 	}
 
 	function onProxyError(error) {
-		console.error(`Proxy error: ${error.message}`);
+		errorToConsole(`Proxy error: ${error.message}`);
 	}
 
 	function saveLoggedTabInfo(tabData, tabInfo) {
@@ -325,8 +338,6 @@ if (typeof browser === "undefined") {
 
 						// saveing the tab in the storage
 						saveLoggedTabInfo(tabData, tabInfo);
-
-						console.log("Saved: ", tabData);
 					});
 			}
 
@@ -354,9 +365,8 @@ if (typeof browser === "undefined") {
 			})
 				.catch(function (error) {
 
+					// no more logging for this tab
 					requestLogger.removeFromPorxyableLogIdList(tabId);
-
-					console.error("Failed to notifyProxyableLogRequest> ", tabId, error.message);
 				});
 		},
 		getProxyableDataForUrl: function (url) {
@@ -415,7 +425,6 @@ if (typeof browser === "undefined") {
 				if (!tabs || !tabs[0])
 					return;
 				currentTab = tabs[0];
-				console.log(`Active tab, id='${currentTab.id}' url='${currentTab.url}' `);
 
 				// save tab log info
 				saveLoggedTabInfo(null, currentTab);
@@ -459,7 +468,6 @@ if (typeof browser === "undefined") {
 
 			browser.management.getSelf().then(function (info) {
 				settingObj.version = info.version;
-				console.log("setDefaultSettins.version>", settingObj);
 			});
 		},
 		initialize: function () {
@@ -468,10 +476,9 @@ if (typeof browser === "undefined") {
 				// all the settings
 				settings = data;
 				settingsOperation.setDefaultSettins(settings);
-				console.log(`settings loaded>`, settings);
 			}
 			function onGetLocalError(error) {
-				console.error(`settingsOperation.initialize error: ${error.message}`);
+				errorToConsole(`settingsOperation.initialize error: ${error.message}`);
 			}
 
 			if (environment.chrome) {
@@ -497,7 +504,7 @@ if (typeof browser === "undefined") {
 
 				},
 				function (error) {
-					console.error(`settingsOperation.saveAll error: ${error.message}`);
+					errorToConsole(`settingsOperation.saveAll error: ${error.message}`);
 				});
 		},
 		saveRules: function () {
@@ -506,7 +513,7 @@ if (typeof browser === "undefined") {
 
 				},
 				function (error) {
-					console.error(`settingsOperation.saveRules error: ${error.message}`);
+					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
 				});
 		},
 		saveProxyServers: function () {
@@ -515,7 +522,7 @@ if (typeof browser === "undefined") {
 
 				},
 				function (error) {
-					console.error(`settingsOperation.saveRules error: ${error.message}`);
+					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
 				});
 		},
 		saveActiveProxyServer: function () {
@@ -524,7 +531,7 @@ if (typeof browser === "undefined") {
 
 				},
 				function (error) {
-					console.error(`settingsOperation.saveRules error: ${error.message}`);
+					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
 				});
 		},
 		saveProxyMode: function () {
@@ -533,7 +540,7 @@ if (typeof browser === "undefined") {
 
 				},
 				function (error) {
-					console.error(`settingsOperation.saveProxyMode error: ${error.message}`);
+					errorToConsole(`settingsOperation.saveProxyMode error: ${error.message}`);
 				});
 		},
 		validateProxyServer: function (server) {
@@ -737,7 +744,6 @@ if (typeof browser === "undefined") {
 
 
 			} catch (e) {
-				console.error("restoreSettings> error in restoring the data> ", fileData);
 				return { success: false, message: "There was an error in restoring the data" };
 			}
 		}
@@ -761,7 +767,7 @@ if (typeof browser === "undefined") {
 					// Error: Could not establish connection. Receiving end does not exist.
 					restartRequired = true;
 
-					console.error("notifyProxyModeChange failed with ", error);
+					errorToConsole("notifyProxyModeChange failed with ", error);
 				});
 		},
 		notifyProxyRulesChange: function () {
@@ -781,7 +787,7 @@ if (typeof browser === "undefined") {
 					// Error: Could not establish connection. Receiving end does not exist.
 					restartRequired = true;
 
-					console.error("notifyProxyRulesChange failed with ", error);
+					errorToConsole("notifyProxyRulesChange failed with ", error);
 				});
 		},
 		notifyActiveProxyServerChange: function () {
@@ -801,7 +807,7 @@ if (typeof browser === "undefined") {
 					// Error: Could not establish connection. Receiving end does not exist.
 					restartRequired = true;
 
-					console.error("notifyActiveProxyServerChange failed with ", error);
+					errorToConsole("notifyActiveProxyServerChange failed with ", error);
 				});
 		},
 		toggleHost: function (host) {
@@ -809,10 +815,8 @@ if (typeof browser === "undefined") {
 			let rule = proxyRules.getHostRule(host);
 			if (rule == null) {
 				proxyRules.addHost(host);
-				console.log('toggleHost.added> ', host, settings.proxyRules);
 			} else {
 				proxyRules.remove(rule);
-				console.log('toggleHost.removed> ', rule, settings.proxyRules);
 			}
 		},
 		toggleUrl: function (url, enabled) {
@@ -830,8 +834,6 @@ if (typeof browser === "undefined") {
 				if (rule == null) {
 					rule = proxyRules.addHost(host);
 
-					console.log('toggleUrl.added> ', host, settings.proxyRules);
-
 					rule.ruleRegex = proxyRules.matchPatternToRegExp(rule.rule);
 
 					return { success: true, rule: rule };
@@ -840,7 +842,6 @@ if (typeof browser === "undefined") {
 			} else {
 				if (rule != null) {
 					proxyRules.remove(rule);
-					console.log('toggleUrl.removed> ', rule, settings.proxyRules);
 
 					rule.ruleRegex = proxyRules.matchPatternToRegExp(rule.rule);
 

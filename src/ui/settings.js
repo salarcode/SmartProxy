@@ -31,6 +31,19 @@
 			a[0].dispatchEvent(new MouseEvent("click"));
 		}
 
+		function checkRestartRequired(required) {
+			if (!required) return;
+
+			$("#divRestartRequired").show();
+
+			// confirm is more anoying?
+			//messageBox.confirm('Due a Firefox bug, any SmartProxy changes require restart. ' +
+			//	'Do you want to restart the add-on now?<br/>' +
+			//	'Sorry for inconvenience.',
+			//	function() {
+			//		browser.runtime.reload();
+			//	});
+		}
 
 		var cmbActiveProxyServer = $("#cmbActiveProxyServer");
 		cmbActiveProxyServer.on("change",
@@ -63,6 +76,8 @@
 					if (response.success) {
 						if (response.message)
 							messageBox.success(response.message);
+
+						checkRestartRequired(response.restartRequired);
 
 					} else {
 						if (response.message)
@@ -99,6 +114,8 @@
 					if (response.success) {
 						if (response.message)
 							messageBox.success(response.message);
+
+						checkRestartRequired(response.restartRequired);
 
 					} else {
 						if (response.message)

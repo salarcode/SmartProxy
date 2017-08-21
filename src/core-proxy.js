@@ -25,8 +25,6 @@ const resultSystem = "SYSTEM";
 		if (typeof (message) == "object") {
 			var command = message["command"];
 
-			browser.runtime.sendMessage('Proxy message incoming> ' + command);
-
 			if (command == "proxyModeChanged" &&
 				message["proxyMode"] != null) {
 
@@ -49,13 +47,7 @@ const resultSystem = "SYSTEM";
 				var newProxyRules = message["proxyRules"];
 
 				proxyHosts = convertHosts(newProxyRules);
-
-				browser.runtime.sendMessage('proxyRulesChanged > hosts: ' + newProxyRules.length + ' converted: ' + proxyHosts.length);
 			}
-		} else {
-
-			browser.runtime.sendMessage('Proxy message incoming> ' + message);
-
 		}
 	}
 
@@ -73,11 +65,9 @@ const resultSystem = "SYSTEM";
 				activeProxyServer = proxyInitData.activeProxyServer;
 				resultActiveProxy = convertActiveProxyServer(activeProxyServer);
 
-				browser.runtime.sendMessage('Init response received > hosts: ' + proxyInitData.proxyRules.length + ' converted: ' + proxyHosts.length);
-
 			})
 			.catch(function (e) {
-				browser.runtime.sendMessage('Init failed! > ' + e);
+				browser.runtime.sendMessage('PAC Init failed! > ' + e);
 			});
 	}
 
@@ -193,7 +183,6 @@ function FindProxyForURL(url, host) {
 			let hostRegex = proxyHosts[i];
 
 			if (hostRegex.test(url)) {
-				browser.runtime.sendMessage(`SmartProxy> ${url} with ${resultActiveProxy}`);
 				return resultActiveProxy;
 			}
 		}
