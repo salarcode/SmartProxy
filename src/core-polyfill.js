@@ -111,6 +111,10 @@ var polyfill = {
 	},
 	runtimeSendMessage: function (message, success, fail, options, extensionId) {
 		if (environment.chrome) {
+			if (options != null) {
+				// deleting firefox specific property of sending message to PAC
+				delete options["toProxyScript"];
+			}
 			chrome.runtime.sendMessage(extensionId,
 				message,
 				options,
