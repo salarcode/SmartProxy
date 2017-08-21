@@ -5,6 +5,8 @@
 <VisualWebDeveloper>
 
   <Globals>
-    <UserProperties manifest_1json__JSONSchema="http://json.schemastore.org/webextension"/>
+    
+  
+    <UserProperties src_4manifest_1json__JSONSchema="http://json.schemastore.org/webextension"/>
   </Globals>
 </VisualWebDeveloper>
