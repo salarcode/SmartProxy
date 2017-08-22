@@ -114,11 +114,14 @@ var settings = {
 
 				settings.proxyMode = newProxyMode;
 
+				// save the changes
+				settingsOperation.saveProxyMode();
+
 				// send it to the proxy server
 				proxyRules.notifyProxyModeChange();
 
-				// save the changes
-				settingsOperation.saveProxyMode();
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
 				return;
 			}
 			if (commad == "changeActiveProxyServer" &&
@@ -133,6 +136,9 @@ var settings = {
 
 					// send it to the proxy server
 					proxyRules.notifyActiveProxyServerChange();
+
+					// update proxy rules
+					proxyRules.updateChromeProxyConfig();
 
 					if (sendResponse) {
 						sendResponse({
@@ -152,6 +158,10 @@ var settings = {
 
 				// notify the proxy script
 				proxyRules.notifyProxyRulesChange();
+
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
 				return;
 			}
 
@@ -171,6 +181,10 @@ var settings = {
 
 				// notify the proxy script
 				proxyRules.notifyProxyRulesChange();
+
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
 				return;
 			}
 
@@ -213,6 +227,9 @@ var settings = {
 
 				proxyRules.notifyActiveProxyServerChange();
 
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
 				if (sendResponse) {
 					sendResponse({
 						success: true,
@@ -240,6 +257,9 @@ var settings = {
 				settingsOperation.saveRules();
 
 				proxyRules.notifyProxyRulesChange();
+
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
 
 				if (sendResponse) {
 					sendResponse({
@@ -275,8 +295,9 @@ var settings = {
 			// support for older firefox versions
 			browser.proxy.registerProxyScript(proxyScriptURL);
 		else {
-			// Chrome proxy model
-			// TODO: Chrome proxy model
+
+			// just set the rules
+			proxyRules.updateChromeProxyConfig();
 		}
 
 		polyfill.onProxyError().addListener(onProxyError);
@@ -479,12 +500,16 @@ var settings = {
 				settingObj.version = info.version;
 			});
 		},
-		initialize: function () {
+		initialize: function (success) {
 			///<summary>The initialization method</summary>
 			function onGetLocalData(data) {
 				// all the settings
 				settings = data;
 				settingsOperation.setDefaultSettins(settings);
+
+				if (success) {
+					success();
+				}
 			}
 			function onGetLocalError(error) {
 				errorToConsole(`settingsOperation.initialize error: ${error.message}`);
@@ -736,6 +761,9 @@ var settings = {
 					proxyRules.notifyProxyModeChange();
 				}
 
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
 				return { success: true, message: "Settings are restored successfully" }
 
 
@@ -745,7 +773,35 @@ var settings = {
 		}
 	}
 	var proxyRules = {
+		updateChromeProxyConfig: function () {
+			///<summary>Chrome only. Updating Chrome proxy config.</summary>
+
+			// this code should run only in Chrome
+			if (!environment.chrome)
+				return;
+
+			// generate PAC script specific to Chrome
+			var pacScript = chromeProxy.generateChromePacScript(settings);
+
+			var config = {
+				mode: "pac_script",
+				pacScript: {
+					data: pacScript
+				}
+			};
+			chrome.proxy.settings.set(
+				{ value: config, scope: "regular" },
+				function () {
+					if (chrome.runtime.lastError) {
+						errorToConsole("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
+					}
+				});
+		},
 		notifyProxyModeChange: function () {
+
+			// only for Firefox
+			if (environment.chrome)
+				return;
 
 			restartRequired = changesRerquireRestart;
 
@@ -770,6 +826,10 @@ var settings = {
 		},
 		notifyProxyRulesChange: function () {
 
+			// only for Firefox
+			if (environment.chrome)
+				return;
+
 			restartRequired = changesRerquireRestart;
 			polyfill.runtimeSendMessage(
 				{
@@ -791,6 +851,10 @@ var settings = {
 				});
 		},
 		notifyActiveProxyServerChange: function () {
+
+			// only for Firefox
+			if (environment.chrome)
+				return;
 
 			restartRequired = changesRerquireRestart;
 			polyfill.runtimeSendMessage(
@@ -1184,11 +1248,11 @@ var settings = {
 	// read the settings
 	settingsOperation.initialize();
 
-	// start handling messages
-	browser.runtime.onMessage.addListener(handleMessages);
-
 	// register the proxy
 	registerProxy();
+
+	// start handling messages
+	browser.runtime.onMessage.addListener(handleMessages);
 
 	// register the request logger
 	requestLogger.startLogger();
