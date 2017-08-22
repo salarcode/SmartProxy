@@ -398,6 +398,8 @@ var settings = {
 
 					// no more logging for this tab
 					requestLogger.removeFromPorxyableLogIdList(tabId);
+
+					errorToConsole("notifyProxyableLogRequest failed for ", tabId, error);
 				});
 		},
 		getProxyableDataForUrl: function (url) {

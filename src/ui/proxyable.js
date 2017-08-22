@@ -33,8 +33,17 @@
 
 			// insert to the grid
 			proxyableGrid.insertLogRequest(message.logInfo);
+
+			// Chrome requires a response
+			if (sendResponse)
+				sendResponse(null);
+
 			return;
 		}
+
+		// Chrome requires a response
+		if (sendResponse)
+			sendResponse(null);
 	}
 	function initialize() {
 		var url = new URL(document.location);
