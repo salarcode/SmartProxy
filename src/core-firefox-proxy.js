@@ -256,13 +256,3 @@ function FindProxyForURL(url, host) {
 		polyfill.runtimeSendMessage('Error in FindProxyForURL for ' + url);
 	}
 }
-
-if (typeof (shExpMatch) === "undefined")
-	function shExpMatch(url, pattern) {
-		pattern = pattern.replace(/\\./g, '\\\\.');
-		pattern = pattern.replace(/\\*/g, '.*');
-		pattern = pattern.replace(/\\?/g, '.');
-		var newRe = new RegExp('^' + pattern + '$');
-		return newRe.test(url);
-	}
-
