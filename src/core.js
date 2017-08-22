@@ -1246,10 +1246,12 @@ var settings = {
 	// the starting point
 
 	// read the settings
-	settingsOperation.initialize();
+	settingsOperation.initialize(function () {
+		// on settings read success
 
-	// register the proxy
-	registerProxy();
+		// register the proxy when config is ready
+		registerProxy();
+	});
 
 	// start handling messages
 	browser.runtime.onMessage.addListener(handleMessages);
