@@ -38,6 +38,13 @@
 
 	function initializeUi() {
 
+		if (environment.chrome) {
+			$("#divAlertChrome").show();
+		} else {
+			$("#divAlertFirefox").show();
+		}
+
+
 		function downloadData(data, fileName) {
 
 			var downloadUrl = "data:application/json;charset=utf-8," + encodeURIComponent(data);

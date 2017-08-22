@@ -91,10 +91,15 @@
 							Before anything you have to define proxy servers.
 						</div>
 
-						<div class="alert alert-danger alert-dismissible" role="alert">
+						<div id="divAlertFirefox" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<strong><i class="fa fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
 							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not finalized yet (Smart features are not enabled due the bugs). Please be patient and report any bugs you encounter end help me to improve this extension. Thanks.
+						</div>
+						<div id="divAlertChrome" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<strong><i class="fa fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
+							This extension is still in development and most of the features are not finalized yet, please be patient and report any bug you encounter.
 						</div>
 						<h4>
 							SmartProxy
@@ -235,8 +240,12 @@
 		<div class="row mt-5">
 			<div class="col">
 				<div class="text-dark text-center text-muted small">
-					<small> Brought to you by Salar Khalilzadeh ,</small>
-					<small id="spanVersion"></small>
+					<small>
+						Brought to you by Salar Khalilzadeh ,
+						<small id="spanVersion"></small>
+						&nbsp;
+						<a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">Report bugs</a>
+					</small>
 				</div>
 			</div>
 		</div>
