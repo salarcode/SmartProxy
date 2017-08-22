@@ -171,10 +171,10 @@
 						}
 
 						var rule = response.rule;
-						var ruleRegex = null;
+						var ruleMatchPattern = null;
 
 						if (rule != null) {
-							ruleRegex = rule.ruleRegex;
+							ruleMatchPattern = rule.rule;
 						}
 
 						if (enabled) {
@@ -188,9 +188,13 @@
 							item.matchHost = "";
 						}
 
-						if (rule != null && ruleRegex != null)
+						if (rule != null && ruleMatchPattern != null) {
+
+							let ruleRegex = utils.matchPatternToRegExp(ruleMatchPattern);
+
 							// status
 							proxyableGrid.changeGridDataStatus(ruleRegex, rule.host, enabled);
+						}
 
 					} else {
 						if (response.message) {

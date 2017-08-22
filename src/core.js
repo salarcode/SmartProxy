@@ -902,7 +902,7 @@ var settings = {
 				if (rule == null) {
 					rule = proxyRules.addHost(host);
 
-					rule.ruleRegex = utils.matchPatternToRegExp(rule.rule);
+					rule.rule = rule.rule;
 
 					return { success: true, rule: rule };
 				}
@@ -911,7 +911,7 @@ var settings = {
 				if (rule != null) {
 					proxyRules.remove(rule);
 
-					rule.ruleRegex = utils.matchPatternToRegExp(rule.rule);
+					rule.rule = rule.rule;
 
 					return { success: true, rule: rule };
 				}
