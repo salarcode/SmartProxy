@@ -34,7 +34,7 @@
 		}
 	},
 	"background": {
-		"scripts": [ "core-polyfill.js", "core.js" ]
+		"scripts": [ "core-utils.js", "core-polyfill.js", "core.js" ]
 	},
 	"options_ui": {
 		"page": "ui/settings.html",

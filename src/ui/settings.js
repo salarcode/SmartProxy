@@ -206,7 +206,7 @@
 					});
 			}
 
-			utils.selectFileOnTheFly($("#frmRestoreBackup")[0],
+			selectFileOnTheFly($("#frmRestoreBackup")[0],
 				"retore-file",
 				function (inputElement, files) {
 					var file = files[0];
@@ -248,64 +248,29 @@
 			});
 	}
 
-	var utils = {
-		isValidHost: function (host) {
-			if (!host)
-				return false;
-			if (host.indexOf("about:") > -1)
-				return false;
-			return true;
-		},
-		isFullUrl: function (host) {
-			if (!host)
-				return false;
-			if (host.indexOf("://") > -1)
-				return true;
-			return false;
-		},
-		extractHostFromUrl: function (url) {
-			// and extracts [ , scheme, host, path, ]
-			const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^\/\*]+|)\/?(.*))$/i);
+	function selectFileOnTheFly(form, inputName, onFileSelected, acceptFormat) {
+		///<summary>Select a file from a detached file input</summary>
+		var fileContainer = $(`<div style='display: none'><input style='display: none' type=file accept='${acceptFormat || ""}' class='' name='${inputName}'/></div>`);
+		var fileInput = fileContainer.find("input");
 
-			const match = matchPattern.exec(url);
-			if (!match) {
-				return null;
+		form = $(form);
+		form.append(fileContainer);
+
+		function onfile(evt) {
+			fileContainer.remove();
+
+			var files = evt.target.files;
+			if (!files.length)
+				return;
+
+			if (onFileSelected) {
+				onFileSelected(fileInput, files);
 			}
-			const [, scheme, host, path,] = match;
-			return host;
-		},
-		hostToMatchPattern: function (host) {
-
-			// only convert to match pattern if it is just host address like 'google.com'
-			if (host.indexOf(":") > -1)
-				return host;
-
-			return `*://*.${host}/*`;
-		},
-		selectFileOnTheFly: function (form, inputName, onFileSelected, acceptFormat) {
-			///<summary>Select a file from a detached file input</summary>
-			var fileContainer = $(`<div style='display: none'><input style='display: none' type=file accept='${acceptFormat || ""}' class='' name='${inputName}'/></div>`);
-			var fileInput = fileContainer.find("input");
-
-			form = $(form);
-			form.append(fileContainer);
-
-			function onfile(evt) {
-				fileContainer.remove();
-
-				var files = evt.target.files;
-				if (!files.length)
-					return;
-
-				if (onFileSelected) {
-					onFileSelected(fileInput, files);
-				}
-			}
-			fileInput.on("change", onfile);
-			fileInput.trigger("click");
 		}
-
+		fileInput.on("change", onfile);
+		fileInput.trigger("click");
 	}
+
 	// ------------------
 	var settingsGrid = {
 		initialize: function () {

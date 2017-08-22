@@ -178,13 +178,6 @@ var polyfill = {
 		return resultDirect;
 	}
 
-	function toExpMatchRegex(pattern) {
-		pattern = pattern.replace(/\\./g, '\\\\.');
-		pattern = pattern.replace(/\\*/g, '.*');
-		pattern = pattern.replace(/\\?/g, '.');
-		return new RegExp('^' + pattern + '$');
-	}
-
 	function matchPatternToRegExp(pattern) {
 		// Source: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns
 		// Modified by Salar Khalilzadeh
