@@ -18,7 +18,7 @@ var settings = {
 };
 
 (function () {
-	const proxyScriptURL = "core-proxy.js";
+	const proxyScriptURL = "core-firefox-proxy.js";
 	const proxyScriptExtentionURL = browser.runtime.getURL(proxyScriptURL);
 	var currentTab = null;
 
@@ -1004,6 +1004,9 @@ var settings = {
 				rule.enabled = true;
 
 			return { success: true };
+		},
+		generateChromePacScript:function() {
+			
 		}
 	};
 
