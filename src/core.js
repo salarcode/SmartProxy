@@ -1020,9 +1020,6 @@ var settings = {
 				rule.enabled = true;
 
 			return { success: true };
-		},
-		generateChromePacScript:function() {
-			
 		}
 	};
 
