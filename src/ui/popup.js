@@ -64,18 +64,17 @@
 				let element = $(this);
 				var selectedProxyMode = element.attr("data-proxyMode");
 
+				// change proxy mode
+				polyfill.runtimeSendMessage({
+					command: "changeProxyMode",
+					proxyMode: selectedProxyMode
+				});
+				
 				if (!dataForPopup.hasProxyServers) {
-					// just open the settings page
+					// open the settings page
 					polyfill.runtimeOpenOptionsPage();
-					window.close();
-				} else {
-					// change proxy mode
-					polyfill.runtimeSendMessage({
-						command: "changeProxyMode",
-						proxyMode: selectedProxyMode
-					});
-					window.close();
 				}
+				window.close();
 			});
 	}
 
