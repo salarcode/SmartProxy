@@ -1070,7 +1070,8 @@ var settings = {
 				proxyServers: settings.proxyServers,
 				activeProxyServer: settings.activeProxyServer,
 				restartRequired: restartRequired,
-				currentTabId: null
+				currentTabId: null,
+				currentTabIndex: null
 			};
 			if (currentTab == null)
 				return dataForPopup;
@@ -1080,8 +1081,9 @@ var settings = {
 			if (tabData == null)
 				return dataForPopup;
 
-			// tab id
+			// tab info
 			dataForPopup.currentTabId = currentTab.id;
+			dataForPopup.currentTabIndex = currentTab.index;
 
 			// get the host name from url
 			let urlHost = utils.extractHostFromUrl(tabData.url);

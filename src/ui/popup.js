@@ -30,7 +30,8 @@
 				{
 					active: true,
 					//openerTabId: null,
-					url: browser.runtime.getURL(`ui/proxyable.html?id=${sourceTabId}`)
+					url: browser.runtime.getURL(`ui/proxyable.html?id=${sourceTabId}`),
+					index: popupData.currentTabIndex + 1
 				}
 			);
 			window.close();
