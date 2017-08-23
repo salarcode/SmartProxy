@@ -31,6 +31,16 @@
 		const [, scheme, host, path,] = match;
 		return host;
 	},
+	extractSubdomainsFromUrl: function (url) {
+		if (!url)
+			return [];
+
+		var host = utils.extractHostFromUrl(url);
+		if (host == null)
+			return [];
+
+		return utils.extractSubdomainsFromHost(host);
+	},
 	extractSubdomainsFromHost: function (host) {
 		///<summary></summary>
 		var parts = host.split(".");

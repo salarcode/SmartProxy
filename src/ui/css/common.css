@@ -23,6 +23,10 @@
 	width: 100%;
 }
 
+.font-url {
+	font-family: Segoe UI, Courier New, Courier, monospace;
+}
+
 hr.afshin-line {
 	/* فقط به خاطر افشین نوبخت*/
 	margin-top: 6px;

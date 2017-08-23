@@ -156,7 +156,7 @@
 
 			polyfill.runtimeSendMessage(
 				{
-					command: "toggleProxyForUrl",
+					command: "toggleProxyForUrl+returnRule",
 					url: url,
 					enabled: enabled
 				},
@@ -205,6 +205,53 @@
 					$("#grdProxyable").jsGrid("refresh");
 				});
 		},
+		enableProxyOnClick: function (domain, item) {
+			messageBox.confirm(`Are you sure to create a rule for the selected domain <b>'${domain}'</b>?`,
+				function () {
+					var url = "http://" + domain;
+					proxyableGrid.toggleProxyUrl(url, item, true);
+				});
+		},
+		gridEnableDisableTemplate: function (value, item) {
+			if (value) {
+				return $(`<button class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Disable</button>`)
+					.click(function () {
+						messageBox.confirm("Are you sure you want to delete the selected rule for <b>'" + item.matchHost + "'</b>?",
+							function () {
+								var hostUrl = "http://" + item.matchHost;
+								proxyableGrid.toggleProxyUrl(hostUrl, item, false);
+							});
+					});
+			} else {
+				var template =
+					`<div class="btn-group">
+						<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-plus" aria-hidden="true"></i> Enable <span class="caret"></span>
+						</button><ul class="subdomains-list dropdown-menu dropdown-menu-right"></ul>
+					</div>`;
+				var url = item.url;
+				var subDomains = utils.extractSubdomainsFromUrl(url);
+				if (subDomains && subDomains.length) {
+
+					var templateElement = $(template);
+					var subdomainContainer = templateElement.find(".subdomains-list");
+
+					for (var index = 0; index < subDomains.length; index++) {
+						var domain = subDomains[index];
+						var domainElement = $(`<li data-domain="${domain}"><a href="#"><small>Enable for: <b class='font-url'>${domain}</b></small></a></li>`);
+
+						domainElement.click(function () {
+							var domain = $(this).attr("data-domain");
+							proxyableGrid.enableProxyOnClick(domain, item);
+						});
+
+						subdomainContainer.append(domainElement);
+					}
+
+					return templateElement;
+				}
+			}
+		},
 		initializeRequestLogGrid: function () {
 
 			$("#grdProxyable").jsGrid({
@@ -216,39 +263,13 @@
 				sorting: true,
 				paging: false,
 				noDataContent: "No requests",
-				//data: clients,
-
 				fields: [
 					{ name: "url", title: "Request Url", css: "jsgrid-cell-one-liner", type: "text", width: "60%" },
 					{ name: "enabled", title: "Proxied", type: "checkbox", width: 50, sorting: true, sorter: "number" },
 					{ name: "matchHost", title: "In effect rule", type: "text" },
-					//{ name: "rule", title: "Rule", type: "text" }
 					{
 						name: "enabled", title: "", type: "text",
-						itemTemplate: function (value, item) {
-							if (value) {
-								return $(`<button class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Disable</button>`)
-									.click(function () {
-										var url = item.url;
-										messageBox.confirm("Are you sure you want to delete the selected rule?",
-											function () {
-												proxyableGrid.toggleProxyUrl(url, item, false);
-											});
-									});
-							} else {
-								return $(`<button class="btn btn-sm btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Enable</button>`)
-									.click(function () {
-										var url = item.url;
-
-										messageBox.confirm("Are you sure to create a rule for the selected url?",
-											function () {
-
-												proxyableGrid.toggleProxyUrl(url, item, true);
-											});
-
-									});
-							}
-						}
+						itemTemplate: proxyableGrid.gridEnableDisableTemplate
 					}
 				]
 			});

@@ -165,7 +165,7 @@ var settings = {
 				return;
 			}
 
-			if (commad == "toggleProxyForUrl" &&
+			if (commad == "toggleProxyForUrl+returnRule" &&
 				message["url"] != null &&
 				message["enabled"] != null) {
 
