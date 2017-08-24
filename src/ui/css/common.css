@@ -37,6 +37,9 @@ hr.afshin-line {
 	background: linear-gradient(to right,rgba(165,165,165,0.45) 0%, rgba(0,0,0,0) 130%);
 }
 
+.nav li {
+	cursor: pointer;
+}
 .nav-pills.nav-stacked > li.active .fa {
 	color: white !important;
 }
