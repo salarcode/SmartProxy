@@ -305,8 +305,17 @@
 
 				var proxyRules = settingsGrid.getRules();
 
+				var importFunction;
 				if (sourceType == "autoproxy") {
-					ruleImporter.importAutoProxy(selectFile,
+					importFunction = ruleImporter.importAutoProxy;
+				} else if (sourceType == "switchy") {
+					importFunction = ruleImporter.importSwitchyRules;
+				} else {
+					messageBox.warning("Please select source type");
+				}
+
+				if (importFunction)
+					importFunction(selectFile,
 						append,
 						proxyRules,
 						function (response) {
@@ -330,13 +339,11 @@
 							}
 						},
 						function (error) {
-
+							var message = '';
+							if (error && error.message)
+								message = error.message;
+							messageBox.error("Failed to import the file. " + message);
 						});
-				} else {
-
-				}
-
-
 			});
 
 			$("#btnAddProxyRule").click(function () {

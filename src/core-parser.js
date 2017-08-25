@@ -15,6 +15,32 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 var ruleImporter = {
+	importSwitchyRules: function (file, append, currentRules, success, fail) {
+
+		if (!file) {
+			if (fail) fail();
+			return;
+		}
+		var reader = new FileReader();
+		reader.onerror = function (event) {
+			if (fail) fail(event);
+		};
+		reader.onload = function (event) {
+			var textFile = event.target;
+			var fileText = textFile.result;
+
+			try {
+				
+				// TODO: implement switchy import rules
+				var parsedRuleList = externalAppRuleParser.Switchy.parse(fileText);
+				
+
+			} catch (e) {
+				if (fail) fail(e);
+			}
+		};
+		reader.readAsText(file);
+	},
 	importAutoProxy: function (file, append, currentRules, success, fail) {
 		///<summary>
 		/// Parses AutoProxy rules and *JUST* uses it as a way to extract domain list to be proxyfied
@@ -183,21 +209,18 @@ Beginning with !, just for explanation.
  * @source   https://github.com/FelisCatus/SwitchyOmega
  * @license  GPL3
  */
-strStartsWith = function (str, prefix) {
-	return str.substr(0, prefix.length) === prefix;
-};
 var externalAppRuleParser = {
 	'AutoProxy': {
 		magicPrefix: "W0F1dG9Qcm94",
 		detect: function (text) {
-			if (strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
+			if (utils.strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
 				return true;
-			} else if (strStartsWith(text, "[AutoProxy")) {
+			} else if (utils.strStartsWith(text, "[AutoProxy")) {
 				return true;
 			}
 		},
 		preprocess: function (text) {
-			if (strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
+			if (utils.strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
 				text = new Buffer(text, "base64").toString("utf8");
 			}
 			return text;
@@ -259,7 +282,7 @@ var externalAppRuleParser = {
 		omegaPrefix: "[SwitchyOmega Conditions",
 		specialLineStart: "[;#@!",
 		detect: function (text) {
-			if (strStartsWith(text, externalAppRuleParser["Switchy"].omegaPrefix)) {
+			if (utils.strStartsWith(text, externalAppRuleParser["Switchy"].omegaPrefix)) {
 				return true;
 			}
 		},
@@ -315,7 +338,7 @@ var externalAppRuleParser = {
 			specialLineStart = externalAppRuleParser["Switchy"].specialLineStart + "+";
 			for (_i = 0, _len = rules.length; _i < _len; _i++) {
 				rule = rules[_i];
-				line = Conditions.str(rule.condition);
+				line = externalAppRuleParser.module.str(rule.condition);
 				if (useExclusive && rule.profileName === defaultProfileName) {
 					line = "!" + line;
 				} else {
@@ -337,7 +360,7 @@ var externalAppRuleParser = {
 			var parser, switchy;
 			switchy = externalAppRuleParser["Switchy"];
 			parser = "parseOmega";
-			if (!strStartsWith(text, switchy.omegaPrefix)) {
+			if (!utils.strStartsWith(text, switchy.omegaPrefix)) {
 				if (text[0] === "#" || text.indexOf("\n#") >= 0) {
 					parser = "parseLegacy";
 				}
@@ -356,7 +379,7 @@ var externalAppRuleParser = {
 					pattern += "*";
 				}
 			}
-			host = Conditions.urlWildcard2HostWildcard(pattern);
+			host = externalAppRuleParser.module.urlWildcard2HostWildcard(pattern);
 			if (host) {
 				return {
 					conditionType: "HostWildcardCondition",
@@ -508,7 +531,7 @@ var externalAppRuleParser = {
 				} else {
 					profile = matchProfileName;
 				}
-				cond = Conditions.fromStr(line);
+				cond = externalAppRuleParser.module.fromStr(line);
 				if (!cond) {
 					if (typeof error === "function") {
 						error({

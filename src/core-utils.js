@@ -6,6 +6,9 @@
 				return t[prop] === thing[prop];
 			}) === index);
 	},
+	strStartsWith: function (str, prefix) {
+		return str.substr(0, prefix.length) === prefix;
+	},
 	isValidHost: function (host) {
 		if (!host)
 			return false;
