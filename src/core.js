@@ -822,7 +822,9 @@ var settings = {
 			if (environment.chrome)
 				return;
 
-			restartRequired = changesRerquireRestart;
+			if (environment.version < environment.bugFreeVersions.firefoxToProxyScript)
+				// in these version this bug requires restart
+				restartRequired = changesRerquireRestart;
 
 			polyfill.runtimeSendMessage(
 				{
@@ -849,7 +851,10 @@ var settings = {
 			if (environment.chrome)
 				return;
 
-			restartRequired = changesRerquireRestart;
+			if (environment.version < environment.bugFreeVersions.firefoxToProxyScript)
+				// in these version this bug requires restart
+				restartRequired = changesRerquireRestart;
+
 			polyfill.runtimeSendMessage(
 				{
 					command: "proxyRulesChanged",
@@ -875,7 +880,10 @@ var settings = {
 			if (environment.chrome)
 				return;
 
-			restartRequired = changesRerquireRestart;
+			if (environment.version < environment.bugFreeVersions.firefoxToProxyScript)
+				// in these version this bug requires restart
+				restartRequired = changesRerquireRestart;
+
 			polyfill.runtimeSendMessage(
 				{
 					command: "activeProxyServerChanged",

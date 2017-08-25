@@ -14,8 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
- var environment = {
-	chrome: false
+var environment = {
+	chrome: false,
+	name: "general",
+	version: 1.0,
+	bugFreeVersions: {
+		firefoxToProxyScript: 57
+	}
 };
 
 // Google Chrome polyfill
@@ -198,6 +203,22 @@ var polyfill = {
 				.then(success, fail);
 		}
 	},
+	runtimeGetBrowserInfo: function (success, fail) {
+		if (environment.chrome) {
+			chrome.runtime.getBrowserInfo(
+				function (response) {
+					var error = polyfill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			browser.runtime.getBrowserInfo()
+				.then(success, fail);
+		}
+	},
 	runtimeOpenOptionsPage: function (success, fail) {
 		if (environment.chrome) {
 			chrome.runtime.openOptionsPage(
@@ -215,3 +236,9 @@ var polyfill = {
 		}
 	}
 };
+
+polyfill.runtimeGetBrowserInfo(function (response) {
+	// browser version
+	environment.version = parseInt(response.version) || 1.0;
+	environment.name = response.name;
+});
