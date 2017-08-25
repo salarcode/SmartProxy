@@ -1,4 +1,11 @@
 ﻿var utils = {
+	removeDuplicates: function (originalArray, prop) {
+		///<reference path="https://stackoverflow.com/a/36744732/322446"/>
+		return originalArray.filter(
+			(thing, index, self) => self.findIndex((t) =>{
+				return t[prop] === thing[prop];
+			}) === index);
+	},
 	isValidHost: function (host) {
 		if (!host)
 			return false;
