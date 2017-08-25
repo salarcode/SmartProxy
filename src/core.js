@@ -782,10 +782,27 @@ var settings = {
 			if (!environment.chrome)
 				return;
 
-			// generate PAC script specific to Chrome
-			var pacScript = chromeProxy.generateChromePacScript(settings);
+			const proxyModeType_systemProxy = "4";
+			if (settings.proxyMode == proxyModeType_systemProxy) {
+				// No need to generate PAC since this code does the job
 
-			var config = {
+				let config = {
+					mode: "system"
+				};
+				chrome.proxy.settings.set(
+					{ value: config, scope: "regular" },
+					function () {
+						if (chrome.runtime.lastError) {
+							errorToConsole("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
+						}
+					});
+				return;
+			}
+
+			// generate PAC script specific to Chrome
+			let pacScript = chromeProxy.generateChromePacScript(settings);
+
+			let config = {
 				mode: "pac_script",
 				pacScript: {
 					data: pacScript

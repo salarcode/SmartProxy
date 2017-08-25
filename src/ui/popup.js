@@ -41,6 +41,13 @@
 			$("#divRestartRequired").show();
 		}
 
+		if (environment.chrome) {
+			// Chrome supports "SYSTEM" proxy mode
+			// FIREFOX: This code should be removed when firefox supports this
+			$("#divProxyModeSystem").removeClass("disabled")
+				.find("a.nav-link").removeClass("disabled");
+		}
+
 		populateProxyMode(dataForPopup.proxyMode, dataForPopup);
 		populateActiveProxy(dataForPopup);
 		populateProxiableDomainList(dataForPopup.proxiableDomains);
@@ -70,7 +77,7 @@
 					command: "changeProxyMode",
 					proxyMode: selectedProxyMode
 				});
-				
+
 				if (!dataForPopup.hasProxyServers) {
 					// open the settings page
 					polyfill.runtimeOpenOptionsPage();
