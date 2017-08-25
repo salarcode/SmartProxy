@@ -31,9 +31,9 @@ var messageBox = {
 			}
 		}).show();
 	},
-	alert: function (title, timeout, onClose) {
+	warning: function (title, timeout, onClose) {
 		new Noty({
-			type: "alert",
+			type: "warning",
 			layout: "topCenter",
 			text: title,
 			timeout: timeout == null ? 3000 : timeout,
