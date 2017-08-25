@@ -27,6 +27,10 @@
 	font-family: Segoe UI, Courier New, Courier, monospace;
 }
 
+input[type=file].form-control {
+	height: auto;
+}
+
 hr.afshin-line {
 	/* فقط به خاطر افشین نوبخت*/
 	margin-top: 6px;

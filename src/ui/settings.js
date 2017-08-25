@@ -288,6 +288,57 @@
 				settingsGrid.insertRowServersGrid();
 			});
 
+
+			$("#btnImportProxyServer").click(function () {
+				let modalContainer = $("#modalImportProxyServer");
+				var selectFileElement = modalContainer.find("#btnImportProxyServerSelectFile")[0];
+
+				if (selectFileElement.files.length == 0) {
+					messageBox.error("Please select a rules file");
+					return;
+				}
+
+				var selectFile = selectFileElement.files[0];
+
+				var append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
+				var sourceType = modalContainer.find("#cmbImportProxyServerType").val();
+
+				var proxyRules = settingsGrid.getRules();
+
+				if (sourceType == "autoproxy") {
+					ruleImporter.importAutoProxy(selectFile,
+						append,
+						proxyRules,
+						function (response) {
+							if (!response) return;
+
+							if (response.success) {
+								if (response.message)
+									messageBox.info(response.message);
+
+								// empty the file input
+								selectFileElement.value = "";
+
+								var rules = response.result;
+								settingsGrid.loadRules(rules);
+
+								// close the window
+								modalContainer.modal("hide");
+							} else {
+								if (response.message)
+									messageBox.error(response.message);
+							}
+						},
+						function (error) {
+
+						});
+				} else {
+
+				}
+
+
+			});
+
 			$("#btnAddProxyRule").click(function () {
 				settingsGrid.insertRowRulesGrid();
 			});
