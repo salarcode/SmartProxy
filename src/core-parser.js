@@ -42,6 +42,8 @@ var ruleImporter = {
 				for (var i = 0; i < parsedRuleList.length; i++) {
 					var parsedRule = parsedRuleList[i];
 
+
+
 					switch (parsedRule.condition.conditionType) {
 						case "KeywordCondition":
 						case "HostWildcardCondition":
