@@ -205,15 +205,18 @@ var polyfill = {
 	},
 	runtimeGetBrowserInfo: function (success, fail) {
 		if (environment.chrome) {
-			chrome.runtime.getBrowserInfo(
-				function (response) {
-					var error = polyfill.lastError();
-					if (error) {
-						if (fail) fail(error);
-					} else {
-						if (success) success(response);
-					}
-				});
+			// No implemented in chrome yet!
+			if (fail) fail({ message: "getBrowserInfo is not implemented" });
+
+			//chrome.runtime.getBrowserInfo(
+			//	function (response) {
+			//		var error = polyfill.lastError();
+			//		if (error) {
+			//			if (fail) fail(error);
+			//		} else {
+			//			if (success) success(response);
+			//		}
+			//	});
 		} else {
 			browser.runtime.getBrowserInfo()
 				.then(success, fail);
