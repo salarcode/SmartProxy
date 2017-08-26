@@ -140,13 +140,12 @@ var polyfill = {
 			return [];
 		var result = [];
 
-		//for (let rule of proxyRules) {
 		for (let i = 0; i < proxyRules.length; i++) {
 			let rule = proxyRules[i];
 
 			if (!rule.enabled) continue;
 
-			let regex = matchPatternToRegExp(rule.rule);
+			let regex = matchPatternToRegExp(rule.pattern);
 			if (regex != null)
 				result.push(regex);
 		}
@@ -237,9 +236,9 @@ function FindProxyForURL(url, host) {
 	try {
 
 		for (let i = 0; i < proxyHosts.length; i++) {
-			let hostRegex = proxyHosts[i];
+			let ruleRegex = proxyHosts[i];
 
-			if (hostRegex.test(url)) {
+			if (ruleRegex.test(url)) {
 				return resultActiveProxy;
 			}
 		}

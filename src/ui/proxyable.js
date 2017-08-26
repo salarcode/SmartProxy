@@ -15,7 +15,6 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
-	//var selfTabId = null;
 	var sourceTabId = null;
 	var sourceTab = null;
 
@@ -131,7 +130,7 @@
 		clearLogData: function () {
 			$("#grdProxyable").jsGrid("option", "data", []);
 		},
-		changeGridDataStatus: function (ruleRegex, matchHost, enabled) {
+		changeGridDataStatus: function (ruleRegex, source, enabled) {
 
 			var data = $("#grdProxyable").jsGrid("option", "data");
 
@@ -143,22 +142,22 @@
 					item.enabled = enabled;
 
 					if (enabled) {
-						item.matchHost = matchHost;
+						item.source = source;
 					} else {
-						item.matchHost = "";
+						item.source = "";
 					}
 				}
 			}
 
 			$("#grdProxyable").jsGrid("refresh");
 		},
-		toggleProxyUrl: function (url, item, enabled) {
+		toggleProxyableRequest: function (enableByDomain, removeBySource, item) {
 
 			polyfill.runtimeSendMessage(
 				{
-					command: "toggleProxyForUrl+returnRule",
-					url: url,
-					enabled: enabled
+					command: "toggleProxyableRequest+returnRule",
+					enableByDomain: enableByDomain,
+					removeBySource: removeBySource
 				},
 				function (response) {
 
@@ -169,31 +168,26 @@
 						if (response.message) {
 							messageBox.success(response.message);
 						}
-
+						var enabled = enableByDomain != null;
 						var rule = response.rule;
-						var ruleMatchPattern = null;
-
-						if (rule != null) {
-							ruleMatchPattern = rule.rule;
-						}
 
 						if (enabled) {
 							item.enabled = true;
 							if (rule != null) {
-								item.matchHost = rule.host;
+								item.source = rule.source;
 							}
 
 						} else {
 							item.enabled = false;
-							item.matchHost = "";
+							item.source = "";
 						}
 
-						if (rule != null && ruleMatchPattern != null) {
+						if (rule != null) {
 
-							let ruleRegex = utils.matchPatternToRegExp(ruleMatchPattern);
+							let ruleRegex = utils.matchPatternToRegExp(rule.pattern);
 
 							// status
-							proxyableGrid.changeGridDataStatus(ruleRegex, rule.host, enabled);
+							proxyableGrid.changeGridDataStatus(ruleRegex, rule.source, enabled);
 						}
 
 					} else {
@@ -208,18 +202,16 @@
 		enableProxyOnClick: function (domain, item) {
 			messageBox.confirm(`Are you sure to create a rule for the selected domain <b>'${domain}'</b>?`,
 				function () {
-					var url = "http://" + domain;
-					proxyableGrid.toggleProxyUrl(url, item, true);
+					proxyableGrid.toggleProxyableRequest(domain, null, item);
 				});
 		},
 		gridEnableDisableTemplate: function (value, item) {
 			if (value) {
 				return $(`<button class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Disable</button>`)
 					.click(function () {
-						messageBox.confirm("Are you sure you want to delete the selected rule for <b>'" + item.matchHost + "'</b>?",
+						messageBox.confirm("Are you sure you want to delete the selected rule for <b>'" + item.source + "'</b>?",
 							function () {
-								var hostUrl = "http://" + item.matchHost;
-								proxyableGrid.toggleProxyUrl(hostUrl, item, false);
+								proxyableGrid.toggleProxyableRequest(null, item.source, item);
 							});
 					});
 			} else {
@@ -266,7 +258,7 @@
 				fields: [
 					{ name: "url", title: "Request Url", css: "jsgrid-cell-one-liner", type: "text", width: "60%" },
 					{ name: "enabled", title: "Proxied", type: "checkbox", width: 50, sorting: true, sorter: "number" },
-					{ name: "matchHost", title: "In effect rule", type: "text" },
+					{ name: "source", title: "In effect rule", type: "text" },
 					{
 						name: "enabled", title: "", type: "text",
 						itemTemplate: proxyableGrid.gridEnableDisableTemplate

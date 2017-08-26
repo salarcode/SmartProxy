@@ -79,16 +79,16 @@ var ruleImporter = {
 								url = "http://" + url;
 							}
 
-							var host = utils.extractHostFromUrl(url);
-							if (!utils.isValidHost(host)) {
+							var source = utils.extractHostFromUrl(url);
+							if (!utils.isValidHost(source)) {
 								notImportedRules++;
 								continue;
 							}
 
-							var matchPattern = utils.hostToMatchPattern(host);
+							var pattern = utils.hostToMatchPattern(source);
 
 							importedRuleList.push(
-								{ rule: matchPattern, host: host, enabled: true }
+								{ pattern: pattern, source: source, enabled: true }
 							);
 							break;
 
@@ -100,7 +100,7 @@ var ruleImporter = {
 				}
 
 				// remove the duplicates from imported rules
-				importedRuleList = utils.removeDuplicates(importedRuleList, "rule");
+				importedRuleList = utils.removeDuplicates(importedRuleList, "pattern");
 
 				// rules are ready
 				if (append) {
@@ -116,7 +116,7 @@ var ruleImporter = {
 						var ruleExists = false;
 						for (var ci = 0; ci < currentRules.length; ci++) {
 
-							if (currentRules[ci].rule == importedRuke.rule) {
+							if (currentRules[ci].pattern == importedRuke.pattern) {
 								ruleExists = true;
 								break;
 							}

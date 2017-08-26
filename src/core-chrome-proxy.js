@@ -77,13 +77,12 @@ var chromeProxy = {
 			return [];
 		var result = [];
 
-		//for (let rule of proxyRulesList) {
 		for (let i = 0; i < proxyRulesList.length; i++) {
 			let rule = proxyRulesList[i];
 
 			if (!rule.enabled) continue;
 
-			let regex = chromeProxy.matchPatternToRegExp(rule.rule);
+			let regex = chromeProxy.matchPatternToRegExp(rule.pattern);
 			if (regex != null)
 				result.push(regex);
 		}
@@ -128,6 +127,7 @@ function FindProxyForURL(url, host) {
 	if (proxyMode == proxyModeType.direct)
 		return resultDirect;
 
+	// in chrome system mode is not controlled here
 	if (proxyMode == proxyModeType.systemProxy)
 		return resultSystem;
 

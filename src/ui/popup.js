@@ -187,14 +187,14 @@
 			item.on("click",
 				function () {
 					let domainResult = $(this).data("domainResult");
-					let host = domainResult.domain;
+					let domain = domainResult.domain;
 					let hasMatchingRule = domainResult.hasMatchingRule;
 					let ruleIsForThisHost = domainResult.ruleIsForThisHost;
 
 
 					if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
 
-						toggleProxyForHost(host);
+						toggleProxyForDomain(domain);
 
 						window.close();
 					} else {
@@ -211,11 +211,11 @@
 		}
 	}
 
-	function toggleProxyForHost(hostName) {
+	function toggleProxyForDomain(domain) {
 		// send message to the core
 		polyfill.runtimeSendMessage({
-			command: "toggleProxyForHost",
-			host: hostName
+			command: "toggleProxyForDomain",
+			domain: domain
 		});
 	}
 

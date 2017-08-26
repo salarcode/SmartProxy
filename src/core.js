@@ -16,13 +16,13 @@
  */
 "use strict";
 const changesRerquireRestart = true;
-const proxyServerProtocols = ["HTTP", "HTTPS", "SOCKS4", "SOCKS5"];
 var loggedRequests = {};
 var tabPorxyableLogIdList = [];
 var restartRequired = false;
 var settings = {
 	proxyMode: "1",
-	proxyRules: [{ rule: "rule", host: "host", enabled: false }],
+	// patterns can be https://mozilla.org/*/b/*/ or https://mozilla.org/path/*
+	proxyRules: [{ pattern: "*://*.salarcode.com/*", source: "salarcode.com", enabled: false }],
 	activeProxyServer: null,
 	proxyServers: [
 		{
@@ -150,11 +150,11 @@ var settings = {
 				return;
 			}
 
-			if (commad == "toggleProxyForHost" &&
-				message["host"] != null) {
+			if (commad == "toggleProxyForDomain" &&
+				message["domain"] != null) {
 
-				let hostName = message["host"];
-				proxyRules.toggleHost(hostName);
+				let domain = message["domain"];
+				proxyRules.toggleByDomain(domain);
 
 				// notify the proxy script
 				proxyRules.notifyProxyRulesChange();
@@ -165,18 +165,23 @@ var settings = {
 				return;
 			}
 
-			if (commad == "toggleProxyForUrl+returnRule" &&
-				message["url"] != null &&
-				message["enabled"] != null) {
+			if (commad == "toggleProxyableRequest+returnRule" &&
+				(message["enableByDomain"] != null || message["removeBySource"] != null)) {
 
-				let url = message.url;
-				let enabled = message.enabled;
+				let enableByDomain = message.enableByDomain;
+				let removeBySource = message.removeBySource;
 
-				// toggle
-				let toggleUrlResult = proxyRules.toggleUrl(url, enabled);
+				let result;
 
-				if (toggleUrlResult != null && sendResponse) {
-					sendResponse(toggleUrlResult);
+				// apply
+				if (enableByDomain)
+					result = proxyRules.enableByDomain(enableByDomain);
+				else
+					result = proxyRules.removeBySource(removeBySource);
+
+				// send the responses
+				if (result != null && sendResponse) {
+					sendResponse(result);
 				}
 
 				// notify the proxy script
@@ -409,7 +414,8 @@ var settings = {
 			return {
 				url: url,
 				enabled: testRuesult.match,
-				matchHost: testRuesult.matchHost
+				source: testRuesult.source,
+				pattern: testRuesult.pattern
 			}
 		},
 		addToPorxyableLogIdList: function (tabId) {
@@ -782,8 +788,7 @@ var settings = {
 			if (!environment.chrome)
 				return;
 
-			const proxyModeType_systemProxy = "4";
-			if (settings.proxyMode == proxyModeType_systemProxy) {
+			if (settings.proxyMode == proxyModeType.systemProxy) {
 				// No need to generate PAC since this code does the job
 
 				let config = {
@@ -903,52 +908,57 @@ var settings = {
 					toProxyScript: true
 				});
 		},
-		toggleHost: function (host) {
-			///<summary>Adds/Removes a host from rule list</summary>
-			let rule = proxyRules.getHostRule(host);
+		enableByDomain: function (domain) {
+
+			// current url should be valid
+			if (!utils.isValidHost(domain))
+				return { success: false, message: "The selected domain is not valid", domain: domain };
+
+			// the domain should be the source
+			var rule = proxyRules.getRuleBySource(domain);
+
+			if (rule != null) {
+				return { success: true, message: "Rule for the domain already exists", rule: rule };
+			}
+
+			rule = proxyRules.addDomain(domain);
+
+			return { success: true, rule: rule };
+		},
+		removeBySource: function (source) {
+
+			// get the rule for the source
+			var rule = proxyRules.getRuleBySource(source);
+
+			if (rule != null) {
+				proxyRules.remove(rule);
+
+				return { success: true, rule: rule };
+			}
+			return { success: false, message: `There isn't any rule for '${source}'`, source: source };
+		},
+		toggleByDomain: function (domain) {
+
+			// the domain should be the source
+			var rule = proxyRules.getRuleBySource(domain);
+
 			if (rule == null) {
-				proxyRules.addHost(host);
+				if (!utils.isValidHost(domain))
+					// this is an extra check!
+					return;
+
+				proxyRules.addDomain(domain);
 			} else {
 				proxyRules.remove(rule);
 			}
 		},
-		toggleUrl: function (url, enabled) {
-			///<summary>Adds/Removes a url from rule list</summary>
+		addDomain: function (domain) {
 
-			// get the host name from url
-			let host = utils.extractHostFromUrl(url);
+			var pattern = utils.hostToMatchPattern(domain);
 
-			// current url should be valid
-			if (!utils.isValidHost(host))
-				return { success: false, message: "The selected url is not valid", host: host };
-
-			let rule = proxyRules.getHostRule(host);
-			if (enabled) {
-				if (rule == null) {
-					rule = proxyRules.addHost(host);
-
-					rule.rule = rule.rule;
-
-					return { success: true, rule: rule };
-				}
-				return { success: true, message: "Rule for the url already existed", rule: rule };
-			} else {
-				if (rule != null) {
-					proxyRules.remove(rule);
-
-					rule.rule = rule.rule;
-
-					return { success: true, rule: rule };
-				}
-				return { success: false, message: `There isn't any rule for the host '${host}'`, host: host };
-			}
-		},
-		addHost: function (host) {
-
-			var matchPattern = utils.hostToMatchPattern(host);
 			var rule = {
-				rule: matchPattern,
-				host: host,
+				pattern: pattern,
+				source: domain,
 				enabled: true
 			};
 
@@ -981,12 +991,13 @@ var settings = {
 				//for (let rule of settings.proxyRules) {
 				if (!rule.enabled) continue;
 
-				let regex = utils.matchPatternToRegExp(rule.rule);
+				let regex = utils.matchPatternToRegExp(rule.pattern);
 
 				if (regex.test(url)) {
 					return {
 						match: true,
-						matchHost: rule.host
+						source: rule.source,
+						pattern: rule.pattern
 					};
 				}
 			}
@@ -994,13 +1005,13 @@ var settings = {
 				match: false
 			};
 		},
-		testMultipleRule: function (urls) {
+		testMultipleRule: function (domainArray) {
 			// the url should be complete
 			var cachedRegexes = [];
 			var result = [];
-			for (var uindex = 0; uindex < urls.length; uindex++) {
-				var host = urls[uindex];
-				var url = host;
+			for (var uindex = 0; uindex < domainArray.length; uindex++) {
+				var domain = domainArray[uindex];
+				var url = domain;
 
 				if (url.indexOf(":") == -1)
 					url = "http://" + url;
@@ -1011,15 +1022,16 @@ var settings = {
 
 					let regex = cachedRegexes[rindex];
 					if (regex == null) {
-						regex = utils.matchPatternToRegExp(rule.rule);
+						regex = utils.matchPatternToRegExp(rule.pattern);
 
 						cachedRegexes[rindex] = regex;
 					}
 
 					if (regex.test(url)) {
 						result[uindex] = {
-							host: host,
-							matchHost: rule.host,
+							domain: domain,
+							pattern: rule.pattern,
+							source: rule.source,
 							match: true
 						};
 						break;
@@ -1029,7 +1041,7 @@ var settings = {
 				// no atching rule found
 				if (result[uindex] == null) {
 					result[uindex] = {
-						host: host,
+						domain: domain,
 						match: false
 					};
 				}
@@ -1037,12 +1049,12 @@ var settings = {
 
 			return result;
 		},
-		getHostRule: function (host) {
+		getRuleBySource: function (source) {
 			///<summary>Finds the defined rule for the host</summary>
 			for (var i = 0; i < settings.proxyRules.length; i++) {
 				var rule = settings.proxyRules[i];
 
-				if (rule.host == host) {
+				if (rule.source == source) {
 					return rule;
 				}
 			}
@@ -1050,21 +1062,23 @@ var settings = {
 		},
 		validateRule: function (rule) {
 			// 	proxyRules: [{ rule: "rule", host: "host", enabled: false }],
-			if (!rule.host) {
-				return { success: false, message: `Rule host is empty` };
+			if (!rule.source) {
+				return { success: false, message: `Rule 'source' is empty` };
 			} else {
 
-				if (!utils.isValidHost(rule.host)) {
-					return { success: false, message: `Host is not valid '${rule.host}'` };
+				if (!utils.isValidHost(rule.source)) {
+					return { success: false, message: `'source' is not valid '${rule.source}'` };
 				}
 
-				//var crule = proxyRules.getHostRule(rule.host);
+				//var crule = proxyRules.getHostRuleXXXXXX(rule.host);
 				//if (crule != null) {
-				//	return { success: false, exist: true, message: `A rule for ${rule.host} already exists` };
+				//	return { success: false, exist: true, message: `A rule for ${rule.source} already exists` };
 				//}
 			}
 
-			rule.rule = utils.hostToMatchPattern(rule.host);
+			if (!rule.pattern)
+				// just in case that pattern was empty
+				rule.pattern = utils.hostToMatchPattern(rule.source);
 
 			if (rule["enabled"] == null)
 				rule.enabled = true;
@@ -1131,7 +1145,8 @@ var settings = {
 
 				if (hasMatchingRule.match) {
 					// check to see if the matched rule is for this host or not!
-					if (hasMatchingRule.matchHost == proxiableDomainList[0]) {
+					// sources are same
+					if (hasMatchingRule.source == proxiableDomainList[0]) {
 						ruleIsForThisHost = true;
 					}
 				}
@@ -1139,6 +1154,7 @@ var settings = {
 				// add the domain
 				dataForPopup.proxiableDomains.push({
 					domain: proxiableDomainList[0],
+					pattern: hasMatchingRule.pattern /* only if match */,
 					hasMatchingRule: hasMatchingRule.match,
 					ruleIsForThisHost: ruleIsForThisHost
 				});
@@ -1153,14 +1169,15 @@ var settings = {
 					let ruleIsForThisHost = false;
 					if (result.match) {
 						// check to see if the matched rule is for this host or not!
-						if (result.matchHost == proxiableDomainList[i]) {
+						if (result.source == proxiableDomainList[i]) {
 							ruleIsForThisHost = true;
 						}
 					}
 
 					// add the domain
 					dataForPopup.proxiableDomains.push({
-						domain: result.host,
+						domain: result.domain,
+						pattern: hasMatchingRule.pattern /* only if match */,
 						hasMatchingRule: result.match,
 						ruleIsForThisHost: ruleIsForThisHost
 					});

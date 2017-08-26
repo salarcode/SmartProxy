@@ -447,13 +447,6 @@
 		},
 		initializeServersGrid: function () {
 
-			var protocols = [
-				{ name: "HTTP" },
-				{ name: "HTTPS" },
-				{ name: "SOCKS4" },
-				{ name: "SOCKS5" }
-			];
-
 			$("#grdServers").jsGrid({
 				width: "100%",
 				height: "300px",
@@ -467,7 +460,7 @@
 
 				fields: [
 					{ name: "name", title: "Name", type: "text", width: 150, validate: "required" },
-					{ name: "protocol", align: "left", title: "Protocol", type: "select", items: protocols, valueField: "name", textField: "name", validate: "required" },
+					{ name: "protocol", align: "left", title: "Protocol", type: "select", items: proxyServerProtocols, validate: "required" },
 					{ name: "host", title: "Server", type: "text", width: 200, validate: "required" },
 					{ name: "port", title: "Port", align: "left", type: "number", width: 100, validate: "required" },
 					{ type: "control" }
@@ -513,45 +506,42 @@
 
 			if (settingsUiData && settingsUiData.proxyServers)
 				settingsGrid.loadServers(settingsUiData.proxyServers);
+
 		},
-		validateRulesHost: function (args, checkExisting) {
-			var host = args.item.host;
-			if (!host) {
+		validateRulesSource: function (args, checkExisting) {
+			var source = args.item.source;
+			if (!source) {
 				args.cancel = true;
-				messageBox.error("Please specify the Host of the rule!");
+				messageBox.error("Please specify the source of the rule!");
 				return;
 			}
 
-			if (!utils.isValidHost(host)) {
+			if (!utils.isValidHost(source)) {
 				args.cancel = true;
-				messageBox.error("Host name is invalid, host name should be something like 'google.com'");
+				messageBox.error("source is invalid, source name should be something like 'google.com'");
 				return;
 			}
 
-			if (utils.isFullUrl(host)) {
-				let extractedHost = utils.extractHostFromUrl(host);
+			if (utils.isFullUrl(source)) {
+				let extractedHost = utils.extractHostFromUrl(source);
 				if (extractedHost == null || !utils.isValidHost(extractedHost)) {
 					args.cancel = true;
 					messageBox.error(`Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`);
 					return;
 				}
-				host = extractedHost;
-				args.item.host = host;
 			} else {
 				// this extraction is to remove paths from rules, e.g. google.com/test/
 
-				let extractedHost = utils.extractHostFromUrl("http://" + host);
+				let extractedHost = utils.extractHostFromUrl("http://" + source);
 				if (extractedHost == null || !utils.isValidHost(extractedHost)) {
 					args.cancel = true;
 					messageBox.error(`Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`);
 					return;
 				}
-				host = extractedHost;
-				args.item.host = host;
 			}
 
 			// the pattern
-			args.item.rule = utils.hostToMatchPattern(host);
+			args.item.pattern = utils.hostToMatchPattern(source);
 
 			if (checkExisting !== false) {
 				var data = args.grid.data;
@@ -562,16 +552,15 @@
 						continue;
 
 					var item = data[i];
-					if (host == item.host) {
+					if (source == item.source) {
 						args.cancel = true;
-						messageBox.error("A Rule with the same host already exists!");
+						messageBox.error("A Rule with the same source already exists!");
 						return;
 					}
 				}
 			}
 		},
 		initializeRulesGrid: function () {
-
 
 			$("#grdRules").jsGrid({
 				width: "100%",
@@ -584,8 +573,8 @@
 				//data: clients,
 
 				fields: [
-					{ name: "host", title: "Host", type: "text", width: 250, validate: "required" },
-					{ name: "rule", title: "Generated Pattern", type: "disabled", width: 250 },
+					{ name: "source", title: "Source", type: "text", width: 250, validate: "required" },
+					{ name: "pattern", title: "Pattern", type: "disabled", width: 250 },
 					{ name: "enabled", title: "Enabled", type: "checkbox", width: 80 },
 					{ type: "control" }
 				],
@@ -597,7 +586,7 @@
 					changeTracking.rules = true;
 				},
 				onItemInserting: function (args) {
-					settingsGrid.validateRulesHost(args);
+					settingsGrid.validateRulesSource(args);
 				},
 				onItemInserted: function (e) {
 
@@ -605,18 +594,18 @@
 				},
 				onItemUpdating: function (args) {
 
-					if (args.item.host != args.previousItem.host) {
+					if (args.item.source != args.previousItem.source) {
 
 						// validate the host
-						settingsGrid.validateRulesHost(args);
+						settingsGrid.validateRulesSource(args);
 					}
 				},
 				onItemUpdated: function (args) {
 					// because the changes to host in 'onItemUpdating' is applied we have to do it here, again!
-					if (args.item.host != args.previousItem.host) {
+					if (args.item.source != args.previousItem.source) {
 
 						// don't check for existing rule
-						settingsGrid.validateRulesHost(args, false);
+						settingsGrid.validateRulesSource(args, false);
 
 						// to display the changes this is required
 						$("#grdRules").jsGrid("refresh");
