@@ -69,7 +69,7 @@ var ruleImporter = {
 					var parsedRule = parsedRuleList[i];
 
 
-
+					
 					switch (parsedRule.condition.conditionType) {
 						case "KeywordCondition":
 						case "HostWildcardCondition":
@@ -98,8 +98,11 @@ var ruleImporter = {
 							break;
 					}
 				}
-				// rules are ready
 
+				// remove the duplicates from imported rules
+				importedRuleList = utils.removeDuplicates(importedRuleList, "rule");
+
+				// rules are ready
 				if (append) {
 					if (!currentRules)
 						currentRules = [];
@@ -139,9 +142,6 @@ var ruleImporter = {
 					}
 
 				} else {
-
-					// remove any duplicate rule
-					importedRuleList = utils.removeDuplicates(importedRuleList, "rule");
 
 					var message = `Total ${importedRuleList.length} out of ${parsedRuleList.length} rules are imported.<br>Don't forget to save the changes.`;
 					if (success) {

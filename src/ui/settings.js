@@ -512,7 +512,7 @@
 			});
 
 			if (settingsUiData && settingsUiData.proxyServers)
-				$("#grdServers").jsGrid("option", "data", settingsUiData.proxyServers);
+				settingsGrid.loadServers(settingsUiData.proxyServers);
 		},
 		validateRulesHost: function (args, checkExisting) {
 			var host = args.item.host;
@@ -556,6 +556,11 @@
 			if (checkExisting !== false) {
 				var data = args.grid.data;
 				for (var i = 0; i < data.length; i++) {
+
+					// don't check the item itself
+					if (i == args.itemIndex)
+						continue;
+
 					var item = data[i];
 					if (host == item.host) {
 						args.cancel = true;
@@ -623,7 +628,7 @@
 			});
 
 			if (settingsUiData && settingsUiData.proxyRules)
-				$("#grdRules").jsGrid("option", "data", settingsUiData.proxyRules);
+				settingsGrid.loadRules(settingsUiData.proxyRules);
 		}
 	};
 
