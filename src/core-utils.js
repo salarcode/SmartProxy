@@ -32,7 +32,7 @@
 	},
 	extractHostFromUrl: function (url) {
 		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^\/\*]+|)\/?(.*))$/i);
+		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^\/]+|)\/?(.*))$/i);
 
 		const match = matchPattern.exec(url);
 		if (!match) {
