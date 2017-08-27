@@ -407,6 +407,22 @@ var settings = {
 					errorToConsole("notifyProxyableLogRequest failed for ", tabId, error);
 				});
 		},
+		notifyProxyableOriginTabRemoved: function (tabId) {
+			var index = tabPorxyableLogIdList.indexOf(tabId);
+			if (index == -1) {
+				return;
+			}
+
+			polyfill.runtimeSendMessage(
+				{
+					command: "notifyProxyableOriginTabRemoved",
+					tabId: tabId
+				},
+				null,
+				function (error) {
+					errorToConsole("notifyProxyableOriginTabRemoved failed for ", tabId, error);
+				});
+		},
 		getProxyableDataForUrl: function (url) {
 
 			var testRuesult = proxyRules.testSingleRule(url);
@@ -437,8 +453,15 @@ var settings = {
 		handleTabRemoved: function (tabId) {
 			let tabData = loggedRequests[tabId];
 			if (tabData != null) {
+
 				tabData.requests = null;
 				delete loggedRequests[tabId];
+
+				// also remove from notification list
+				requestLogger.removeFromPorxyableLogIdList(tabId);
+
+				// send notify
+				requestLogger.notifyProxyableOriginTabRemoved(tabId);
 			}
 		},
 		handleTabUpdated: function (tabId, changeInfo, tabInfo) {

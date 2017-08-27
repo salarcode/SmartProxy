@@ -25,7 +25,7 @@
 			message["tabId"] != null &&
 			message["logInfo"] != null) {
 
-			var tabId = message["tabId"];
+			let tabId = message["tabId"];
 			if (tabId != sourceTabId) {
 				return;
 			}
@@ -38,6 +38,17 @@
 				sendResponse(null);
 
 			return;
+		}
+		if (message["command"] === "notifyProxyableOriginTabRemoved" &&
+			message["tabId"] != null) {
+
+			let tabId = message["tabId"];
+			if (tabId != sourceTabId) {
+				return;
+			}
+
+			// TODO: close itself
+
 		}
 
 		// Chrome requires a response
@@ -99,17 +110,7 @@
 		}
 
 		$("#btnClose").click(function () {
-			polyfill.tabsQuery({ active: true, currentWindow: true },
-				function (tabs) {
-					if (!tabs || !tabs[0])
-						return;
-
-					// signal stopping the looger
-					stopListeningToLogger();
-
-					// close this tab
-					polyfill.tabsRemove(tabs[0].id);
-				});
+			closeSelf();
 		});
 
 		$("#btnReload").click(function () {
@@ -118,6 +119,19 @@
 		});
 
 		proxyableGrid.initialize();
+	}
+	function closeSelf() {
+		polyfill.tabsQuery({ active: true, currentWindow: true },
+			function (tabs) {
+				if (!tabs || !tabs[0])
+					return;
+
+				// signal stopping the looger
+				stopListeningToLogger();
+
+				// close this tab
+				polyfill.tabsRemove(tabs[0].id);
+			});
 	}
 
 	var proxyableGrid = {
