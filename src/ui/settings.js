@@ -118,7 +118,7 @@
 		});
 		$("#btnRejectProxyServers").click(function () {
 			// reset the data
-			settingsGrid.loadRules(settingsUiData.proxyServers);
+			settingsGrid.loadServers(settingsUiData.proxyServers);
 
 			changeTracking.servers = false;
 
