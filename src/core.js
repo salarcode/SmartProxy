@@ -1140,13 +1140,13 @@ var settings = {
 			// check if there are rules for the domains
 			if (proxiableDomainList.length == 1) {
 
-				let hasMatchingRule = proxyRules.testSingleRule(proxiableDomainList[0]);
+				let testResult = proxyRules.testSingleRule(proxiableDomainList[0]);
 				let ruleIsForThisHost = false;
 
-				if (hasMatchingRule.match) {
+				if (testResult.match) {
 					// check to see if the matched rule is for this host or not!
 					// sources are same
-					if (hasMatchingRule.source == proxiableDomainList[0]) {
+					if (testResult.source == proxiableDomainList[0]) {
 						ruleIsForThisHost = true;
 					}
 				}
@@ -1154,17 +1154,17 @@ var settings = {
 				// add the domain
 				dataForPopup.proxiableDomains.push({
 					domain: proxiableDomainList[0],
-					pattern: hasMatchingRule.pattern /* only if match */,
-					hasMatchingRule: hasMatchingRule.match,
+					pattern: testResult.pattern /* only if match */,
+					hasMatchingRule: testResult.match,
 					ruleIsForThisHost: ruleIsForThisHost
 				});
 
 			} else {
 
-				var hasMatchingRuleList = proxyRules.testMultipleRule(proxiableDomainList);
+				var multiTestResultList = proxyRules.testMultipleRule(proxiableDomainList);
 
-				for (var i = 0; i < hasMatchingRuleList.length; i++) {
-					var result = hasMatchingRuleList[i];
+				for (var i = 0; i < multiTestResultList.length; i++) {
+					var result = multiTestResultList[i];
 
 					let ruleIsForThisHost = false;
 					if (result.match) {
@@ -1177,7 +1177,7 @@ var settings = {
 					// add the domain
 					dataForPopup.proxiableDomains.push({
 						domain: result.domain,
-						pattern: hasMatchingRule.pattern /* only if match */,
+						pattern: result.pattern /* only if match */,
 						hasMatchingRule: result.match,
 						ruleIsForThisHost: ruleIsForThisHost
 					});
