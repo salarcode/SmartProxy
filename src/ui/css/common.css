@@ -41,6 +41,14 @@ hr.afshin-line {
 	background: linear-gradient(to right,rgba(165,165,165,0.45) 0%, rgba(0,0,0,0) 130%);
 }
 
+.background-white {
+	background-color: white;
+}
+
+.vertical-align-middle {
+	vertical-align: middle
+}
+
 .nav li {
 	cursor: pointer;
 }
