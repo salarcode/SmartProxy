@@ -30,10 +30,10 @@ var ruleImporter = {
 			var fileText = textFile.result;
 
 			try {
-				
+
 				// TODO: implement switchy import rules
 				var parsedRuleList = externalAppRuleParser.Switchy.parse(fileText);
-				
+
 
 			} catch (e) {
 				if (fail) fail(e);
@@ -68,35 +68,15 @@ var ruleImporter = {
 				for (var i = 0; i < parsedRuleList.length; i++) {
 					var parsedRule = parsedRuleList[i];
 
-
-					
-					switch (parsedRule.condition.conditionType) {
-						case "KeywordCondition":
-						case "HostWildcardCondition":
-						case "UrlWildcardCondition":
-							var url = parsedRule.condition.pattern;
-							if (!utils.isFullUrl(url)) {
-								url = "http://" + url;
-							}
-
-							var source = utils.extractHostFromUrl(url);
-							if (!utils.isValidHost(source)) {
-								notImportedRules++;
-								continue;
-							}
-
-							var pattern = utils.hostToMatchPattern(source);
-
-							importedRuleList.push(
-								{ pattern: pattern, source: source, enabled: true }
-							);
-							break;
-
-						case "UrlRegexCondition":
-							// Not supported
-							notImportedRules++;
-							break;
+					var convertResult = ruleImporter.convertAutoProxyRule(parsedRule.condition.pattern, parsedRule.condition.conditionType);
+					if (!convertResult.success) {
+						notImportedRules++;
+						continue;
 					}
+
+					importedRuleList.push(
+						{ pattern: convertResult.pattern, source: convertResult.source, enabled: true }
+					);
 				}
 
 				// remove the duplicates from imported rules
@@ -160,6 +140,125 @@ var ruleImporter = {
 			}
 		};
 		reader.readAsText(file);
+	},
+	convertAutoProxyRule: function (cleanCondition, conditionType) {
+		// "man..ok?".replace(/([.])\1+/g,".")
+		var source = "";
+		var pattern = "";
+
+		switch (conditionType) {
+			case "KeywordCondition":
+				// no (*) character
+
+				// NOTE: keyword type is supported as domain name
+				// it also works for https as well as http
+
+				if (cleanCondition[0] === ".") {
+					cleanCondition = cleanCondition.substring(1);
+				}
+				source = cleanCondition;
+
+				if (cleanCondition.endsWith("/"))
+					// no extra slash
+					source = cleanCondition.substring(0, cleanCondition.length - 2);
+
+				pattern = `*://*.${source}/*`;
+				break;
+
+			case "HostWildcardCondition":
+				if (cleanCondition[0] === ".") {
+					cleanCondition = cleanCondition.substring(1);
+				}
+				// remove (*) chars
+				cleanCondition = cleanCondition.replace(/\*/g, "");
+
+				// remove (.) duplicates
+				cleanCondition = cleanCondition.replace(/([.])\1+/g, ".");
+
+				if (cleanCondition[0] === ".") {
+					cleanCondition = cleanCondition.substring(1);
+				}
+
+				// source
+				source = cleanCondition;
+
+				if (cleanCondition.endsWith("/"))
+					// no extra slash
+					source = cleanCondition.substring(0, cleanCondition.length - 2);
+
+				pattern = `*://*.${source}/*`;
+				break;
+
+			case "UrlWildcardCondition":
+				// very restricted support
+				if (cleanCondition[0] === "*") {
+					// no problem
+					cleanCondition = cleanCondition.substring(1);
+				}
+				if (cleanCondition[0] === ".") {
+					cleanCondition = cleanCondition.substring(1);
+				}
+
+				if (cleanCondition.indexOf("*") !== -1) {
+
+					var cleanConditionRemMiddle = cleanCondition;
+
+					if (cleanConditionRemMiddle.indexOf("://*.") !== -1) {
+						cleanConditionRemMiddle = cleanConditionRemMiddle.replace("//*.", "://");
+					}
+
+					if (cleanConditionRemMiddle.endsWith("*")) {
+						cleanCondition = cleanCondition.substring(0, cleanCondition.length - 2);
+						cleanConditionRemMiddle = cleanConditionRemMiddle.substring(0, cleanCondition.length - 2);
+					}
+
+					if (cleanConditionRemMiddle.indexOf("*") !== -1) {
+
+						// (/*/) is supported, lets remove them and check again for other rules)
+						cleanConditionRemMiddle = cleanCondition.replace(/\/\*\//g, "/");
+
+						if (cleanConditionRemMiddle.indexOf("*") !== -1) {
+							// still there is some left
+							// * in middle is not supported
+
+							return {
+								success: false
+							}
+						}
+					}
+				}
+
+
+				// source
+				source = cleanCondition;
+
+				if (cleanCondition.endsWith("/"))
+					// no extra slash
+					source = cleanCondition.substring(0, cleanCondition.length - 2);
+
+				if (source.indexOf("://") !== -1) {
+					pattern = `${source}/*`;
+				} else {
+					pattern = `*://*.${source}/*`;
+				}
+
+				break;
+
+			case "UrlRegexCondition":
+				// not supported
+				return {
+					success: false
+				}
+		}
+
+		return {
+			success: true,
+			source: source,
+			pattern: pattern,
+			toString: function () {
+				return `[${source} , ${pattern}]`;
+			}
+		}
 	}
 }
 
@@ -205,7 +304,7 @@ Beginning with !, just for explanation.
 // -----------------------------------------------
 /*!
  * This piece of code is from SwitchyOmega_Firefox <omega_pac.min.js>
- * Modiefied to prevent adding extra (*) charcter to the patterns
+ * Modiefied to return the not generalized pattern
  *
  * @source   https://github.com/FelisCatus/SwitchyOmega
  * @license  GPL3
@@ -254,21 +353,24 @@ var externalAppRuleParser = {
 						? line[1] === "|"
 							? {
 								conditionType: "HostWildcardCondition",
-								pattern: /*"*." +*/ line.substring(2)
+								pattern: "*." + line.substring(2),
+								cleanCondition: line.substring(2)
 							}
 							: {
 								conditionType: "UrlWildcardCondition",
-								pattern: line.substring(1) //+ "*"
+								pattern: line.substring(1) + "*",
+								cleanCondition: line.substring(1)
 							}
 						: line.indexOf("*") < 0
 							? {
 								conditionType: "KeywordCondition",
-								pattern: line
+								pattern: line,
+								cleanCondition: line
 							}
 							: {
 								conditionType: "UrlWildcardCondition",
-								//pattern: "http://*" + line + "*"
-								pattern: "http://" + line
+								pattern: "http://*" + line + "*",
+								cleanCondition: line
 							};
 				list.push({
 					condition: cond,
