@@ -459,6 +459,10 @@
 		},
 		initializeServersGrid: function () {
 
+			var protocolSelect = proxyServerProtocols.map(function(item) {
+				return { name: item }
+			});
+
 			$("#grdServers").jsGrid({
 				width: "100%",
 				height: "300px",
@@ -472,7 +476,7 @@
 
 				fields: [
 					{ name: "name", title: "Name", type: "text", width: 150, validate: "required" },
-					{ name: "protocol", align: "left", title: "Protocol", type: "select", items: proxyServerProtocols, validate: "required" },
+					{ name: "protocol", align: "left", title: "Protocol", type: "select", items: protocolSelect, valueField: "name", textField: "name", validate: "required" },
 					{ name: "host", title: "Server", type: "text", width: 200, validate: "required" },
 					{ name: "port", title: "Port", align: "left", type: "number", width: 100, validate: "required" },
 					{ type: "control" }
