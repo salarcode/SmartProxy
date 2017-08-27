@@ -163,6 +163,18 @@
 			messageBox.info("Changes reverted successfully");
 		});
 
+		$("#btnClearProxyRules").click(function () {
+
+			messageBox.confirm("Are you sure to remove all the rules?",
+				function() {
+					settingsGrid.loadRules([]);
+
+					changeTracking.rules = false;
+
+					messageBox.info("All rules are removed.<br/>You have to save to apply the changes.");
+				});
+		});
+
 		$("#btnBackupComplete").on("click",
 			function () {
 
