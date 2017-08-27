@@ -107,6 +107,7 @@ var ruleImporter = {
 					if (!currentRules)
 						currentRules = [];
 
+					// make a copy
 					var appendedRuleList = currentRules.slice();
 					var appendedRuleCount = 0;
 

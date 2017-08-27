@@ -16,6 +16,11 @@
  */
 (function () {
 	var settingsUiData = null;
+	var originalSettingsData = {
+		proxyServers: null,
+		proxyRules: null,
+		activeProxyServer: null
+	};
 	var changeTracking = {
 		rules: false,
 		servers: false,
@@ -118,7 +123,10 @@
 		});
 		$("#btnRejectProxyServers").click(function () {
 			// reset the data
+			settingsUiData.proxyServers = originalSettingsData.proxyServers.slice();
 			settingsGrid.loadServers(settingsUiData.proxyServers);
+			settingsGrid.reloadActiveProxyServer();
+			$("#grdServers").jsGrid("refresh");
 
 			changeTracking.servers = false;
 
@@ -156,7 +164,9 @@
 		});
 		$("#btnRejectProxyRules").click(function () {
 			// reset the data
+			settingsUiData.proxyRules = originalSettingsData.proxyRules.slice();
 			settingsGrid.loadRules(settingsUiData.proxyRules);
+			$("#grdRules").jsGrid("refresh");
 
 			changeTracking.rules = false;
 
@@ -166,7 +176,7 @@
 		$("#btnClearProxyRules").click(function () {
 
 			messageBox.confirm("Are you sure to remove all the rules?",
-				function() {
+				function () {
 					settingsGrid.loadRules([]);
 
 					changeTracking.rules = false;
@@ -259,6 +269,11 @@
 					settingsGrid.loadRules(settingsUiData.proxyRules);
 					settingsGrid.loadServers(settingsUiData.proxyServers);
 					settingsGrid.loadActiveProxyServer(settingsUiData.proxyServers);
+
+					// make copy
+					originalSettingsData.proxyRules = settingsUiData.proxyRules.slice();
+					originalSettingsData.proxyServers = settingsUiData.proxyServers.slice();
+					originalSettingsData.activeProxyServer = settingsUiData.activeProxyServer;
 				}
 
 			},
@@ -459,7 +474,7 @@
 		},
 		initializeServersGrid: function () {
 
-			var protocolSelect = proxyServerProtocols.map(function(item) {
+			var protocolSelect = proxyServerProtocols.map(function (item) {
 				return { name: item }
 			});
 
