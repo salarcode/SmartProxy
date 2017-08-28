@@ -142,7 +142,6 @@ var ruleImporter = {
 		reader.readAsText(file);
 	},
 	convertAutoProxyRule: function (cleanCondition, conditionType) {
-		// "man..ok?".replace(/([.])\1+/g,".")
 		var source = "";
 		var pattern = "";
 
