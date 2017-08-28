@@ -108,6 +108,10 @@
 
 						checkRestartRequired(response.restartRequired);
 
+						// current server should become equal to saved servers
+						settings.proxyServers = saveData.proxyServers;
+						settings.activeProxyServer = saveData.activeProxyServer;
+
 					} else {
 						if (response.message)
 							messageBox.error(response.message);
@@ -149,6 +153,9 @@
 							messageBox.success(response.message);
 
 						checkRestartRequired(response.restartRequired);
+
+						// current rules should become equal to saved rules
+						settings.proxyRules = rules;
 
 					} else {
 						if (response.message)
