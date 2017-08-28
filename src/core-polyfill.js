@@ -19,7 +19,7 @@ var environment = {
 	name: "general",
 	version: 1.0,
 	bugFreeVersions: {
-		firefoxToProxyScript: 57
+		firefoxToProxyScript: 56
 	}
 };
 
