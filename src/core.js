@@ -29,7 +29,12 @@ var settings = {
 			name: 'name',
 			host: 'host',
 			port: 8080,
-			protocol: 'HTTP'
+			protocol: 'HTTP',
+			username: null,
+			password: null,
+			// proxyDNS can only be true for SOCKS proxy servers
+			proxyDNS: false,
+			failoverTimeout:null
 		}]
 };
 
