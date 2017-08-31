@@ -228,7 +228,8 @@ function FindProxyForURL(url, host) {
 
 	// there should be active proxy
 	if (activeProxyServer == null)
-		return resultDirect;
+		// null is equal to "PASS" which lets the browser decide
+		return null;
 
 	if (proxyMode == proxyModeType.always)
 		return resultActiveProxy;
@@ -242,9 +243,10 @@ function FindProxyForURL(url, host) {
 				return resultActiveProxy;
 			}
 		}
-
-		return resultDirect;
 	} catch (e) {
 		polyfill.runtimeSendMessage('Error in FindProxyForURL for ' + url);
 	}
+
+	// null is equal to "PASS" which lets the browser decide
+	return null;
 }
