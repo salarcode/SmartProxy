@@ -133,7 +133,8 @@ function FindProxyForURL(url, host) {
 
 	// there should be active proxy
 	if (!hasActiveProxyServer)
-		return resultDirect;
+		// let the browser decide
+		return null;
 
 	if (proxyMode == proxyModeType.always)
 		return resultActiveProxy;
@@ -147,11 +148,12 @@ function FindProxyForURL(url, host) {
 				return resultActiveProxy;
 			}
 		}
-
-		return resultDirect;
 	} catch (e) {
 		//polyfill.runtimeSendMessage('Error in FindProxyForURL for ' + url);
 	}
+
+	// let the browser decide
+	return null;
 }`;
 		return pacTemplateString;
 	},
