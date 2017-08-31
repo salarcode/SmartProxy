@@ -1021,7 +1021,7 @@ var settings = {
 
 				let regex = utils.matchPatternToRegExp(rule.pattern);
 
-				if (regex.test(url)) {
+				if (regex && regex.test(url)) {
 					return {
 						match: true,
 						source: rule.source,
@@ -1055,7 +1055,7 @@ var settings = {
 						cachedRegexes[rindex] = regex;
 					}
 
-					if (regex.test(url)) {
+					if (regex && regex.test(url)) {
 						result[uindex] = {
 							domain: domain,
 							pattern: rule.pattern,
