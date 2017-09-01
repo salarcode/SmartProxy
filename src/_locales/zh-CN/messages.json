@@ -1,0 +1,383 @@
+﻿{
+	"uiDirection": {
+		"message": "ltr",
+		"description": ""
+	},
+	"extensionName": {
+		"message": "SmartProxy",
+		"description": ""
+	},
+	"extensionDescription": {
+		"message": "SmartProxy 会基于一个可定制的模式自动判断是否对访问的网站使用代理",
+		"description": ""
+	},
+	"popupTitle": {
+		"message": "SmartProxy 已激活",
+		"description": ""
+	},
+	"popupNoProxy": {
+		"message": "直连（无代理）",
+		"description": ""
+	},
+	"popupSmartProxy": {
+		"message": "智能判断",
+		"description": ""
+	},
+	"popupAlwaysEnable": {
+		"message": "总是启用",
+		"description": ""
+	},
+	"popupSystemProxy": {
+		"message": "系统代理",
+		"description": ""
+	},
+	"popupActiveProxy": {
+		"message": "使用中的代理：",
+		"description": ""
+	},
+	"popupEnableProxyOn": {
+		"message": "以下页面使用代理",
+		"description": ""
+	},
+	"popupProxyableResources": {
+		"message": "可用代理的资源",
+		"description": ""
+	},
+	"popupSettings": {
+		"message": "设置",
+		"description": ""
+	},
+	"proxyableTitle": {
+		"message": "可用代理的资源",
+		"description": ""
+	},
+	"proxyableHeader": {
+		"message": "该页面内可用代理的项目",
+		"description": ""
+	},
+	"proxyableReload": {
+		"message": "重载",
+		"description": ""
+	},
+	"proxyableClose": {
+		"message": "关闭",
+		"description": ""
+	},
+	"proxyableHeaderDesc": {
+		"message": "以下为当前页中使用中或可供调用的资源列表。该列表用于向代理激活判定规则添加条目。<br />如果页面为空，请重载页面。",
+		"description": ""
+	},
+	"proxyableErrNoSourceTab": {
+		"message": "未找到来源标签页！",
+		"description": ""
+	},
+	"proxyableCreateRuleConfirm": {
+		"message": "你确定对选定的域名添加规则？",
+		"description": ""
+	},
+	"proxyableDisableButton": {
+		"message": "禁用",
+		"description": ""
+	},
+	"proxyableEnableButton": {
+		"message": "启用",
+		"description": ""
+	},
+	"proxyableEnableButtonDomain": {
+		"message": "已启用的域名：",
+		"description": ""
+	},
+	"proxyableDeleteRuleConfirm": {
+		"message": "你确定希望删除以下域名的规则：",
+		"description": ""
+	},
+	"proxyableGridNoDataContent": {
+		"message": "无请求",
+		"description": ""
+	},
+	"proxyableGridColUrl": {
+		"message": "请求 URL",
+		"description": ""
+	},
+	"proxyableGridColEnabled": {
+		"message": "已代理",
+		"description": ""
+	},
+	"proxyableGridColSource": {
+		"message": "包括于生效的规则",
+		"description": ""
+	},
+	"settingsTabAbout": {
+		"message": "关于",
+		"description": ""
+	},
+	"settingsTabProxyServers": {
+		"message": "代理服务器",
+		"description": ""
+	},
+	"settingsTabProxyRules": {
+		"message": "代理规则",
+		"description": ""
+	},
+	"settingsTabBackupRestore": {
+		"message": "备份/还原",
+		"description": ""
+	},
+	"settingsTabAboutDescription": {
+		"message": "使用自动化模式来定义是否使用代理。SmartProxy 将让你无需手动改变或开关代理。一键将页面添加到规则，之后，当你访问这些特定页面，SmartProxy 就会为页面自动启动代理。",
+		"description": ""
+	},
+	"settingsTabProxyServersTitle": {
+		"message": "管理代理服务器：",
+		"description": ""
+	},
+	"settingsTabProxyServersDescription": {
+		"message": "此处为代理服务器列表。可定义任意数量的代理，通过工具栏按钮即可切换。",
+		"description": ""
+	},
+	"settingsTabProxyRulesTitle": {
+		"message": "管理代理规则列表：",
+		"description": ""
+	},
+	"settingsTabProxyRulesDescription": {
+		"message": "此处为 SmartProxy 规则列表，用于判断是否为特定域名启用代理。<br />规则基于<a href='https://developer.mozilla.org/zh-CN/Add-ons/WebExtensions/Match_patterns' target='_blank'>匹配模式</a>.",
+		"description": ""
+	},
+	"settingsTabBackupRestoreDescription": {
+		"message": "备份你的设置中的部分或全部",
+		"description": ""
+	},
+	"settingsErrNoServersTitle": {
+		"message": "无服务器！",
+		"description": ""
+	},
+	"settingsErrNoServersDescription": {
+		"message": "你必须先定义代理服务器",
+		"description": ""
+	},
+	"settingsActiveProxyServer": {
+		"message": "已激活的代理服务器：",
+		"description": ""
+	},
+	"settingsAddServerButton": {
+		"message": "添加服务器",
+		"description": ""
+	},
+	"settingsSaveChangesButton": {
+		"message": "保存更改",
+		"description": ""
+	},
+	"settingsRejectChangesButton": {
+		"message": "放弃更改",
+		"description": ""
+	},
+	"settingsFullBackupButton": {
+		"message": "创建完整备份",
+		"description": ""
+	},
+	"settingsFullBackupButtonDesc": {
+		"message": "完整备份你的偏好设置（包含代理服务器与规则）",
+		"description": ""
+	},
+	"settingsRulesBackupButton": {
+		"message": "创建规则备份",
+		"description": ""
+	},
+	"settingsRulesBackupButtonDesc": {
+		"message": "备份你的代理规则",
+		"description": ""
+	},
+	"settingsRestoreBackupButton": {
+		"message": "从备份恢复",
+		"description": ""
+	},
+	"settingsRestoreBackupButtonDesc": {
+		"message": "从本地备份文件中恢复",
+		"description": ""
+	},
+	"settingsAddRuleButton": {
+		"message": "添加规则",
+		"description": ""
+	},
+	"settingsImportRulesButton": {
+		"message": "导入规则",
+		"description": ""
+	},
+	"settingsImportRulesTitle": {
+		"message": "导入规则",
+		"description": ""
+	},
+	"settingsImportRulesSelectButton": {
+		"message": "规则备份文件",
+		"description": ""
+	},
+	"settingsImportRulesFrom": {
+		"message": "规则导入来源",
+		"description": ""
+	},
+	"settingsImportRulesOptionAppend": {
+		"message": "添加到当前规则",
+		"description": ""
+	},
+	"settingsImportRulesOptionOverride": {
+		"message": "替换当前规则（谨慎操作）",
+		"description": ""
+	},
+	"settingsImportRulesCancelButton": {
+		"message": "取消",
+		"description": ""
+	},
+	"settingsImportRulesImportButton": {
+		"message": "导入",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveServers": {
+		"message": "保存服务器失败",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveRules": {
+		"message": "保存规则失败",
+		"description": ""
+	},
+	"settingsChangesReverted": {
+		"message": "成功回滚更改",
+		"description": ""
+	},
+	"settingsRemoveAllRules": {
+		"message": "确定移除所有规则？",
+		"description": ""
+	},
+	"settingsRemoveAllRulesSuccess": {
+		"message": "所有规则已移除。<br/>你必须保存以应用更改。",
+		"description": ""
+	},
+	"settingsRestoreBackupFailed": {
+		"message": "恢复备份时出错",
+		"description": ""
+	},
+	"settingsRestoreBackupFileError": {
+		"message": "无法读取选定的文件",
+		"description": ""
+	},
+	"settingsRulesFileNotSelected": {
+		"message": "请选择规则文件",
+		"description": ""
+	},
+	"settingsSourceTypeNotSelected": {
+		"message": "请选择来源类型",
+		"description": ""
+	},
+	"settingsImportRulesFailed": {
+		"message": "导入文件失败",
+		"description": ""
+	},
+	"settingsServerNameRequired": {
+		"message": "请指定服务器名称！",
+		"description": ""
+	},
+	"settingsServerNameExists": {
+		"message": "已有重名的服务器！",
+		"description": ""
+	},
+	"settingsServersGridNoDataContent": {
+		"message": "没有已定义的服务器",
+		"description": ""
+	},
+	"settingsServersGridColName": {
+		"message": "名称",
+		"description": ""
+	},
+	"settingsServersGridColProtocol": {
+		"message": "协议",
+		"description": ""
+	},
+	"settingsServersGridColServer": {
+		"message": "服务器",
+		"description": ""
+	},
+	"settingsServersGridColPort": {
+		"message": "端口",
+		"description": ""
+	},
+	"settingsRuleSourceRequired": {
+		"message": "请指定规则来源！",
+		"description": ""
+	},
+	"settingsRuleSourceInvalid": {
+		"message": "来源无效。来源名称应类似于 'google.com'",
+		"description": ""
+	},
+	"settingsRuleSourceInvalidFormat": {
+		"message": "'来源' 无效 '{0}'",
+		"description": ""
+	},
+	"settingsRuleSourceAlreadyExists": {
+		"message": "已有相同来源的规则！",
+		"description": ""
+	},
+	"settingsRuleHostInvalid": {
+		"message": "主机名 '{0}' 无效，主机名应类似于 'google.com'",
+		"description": ""
+	},
+	"settingsRulesGridNoDataContent": {
+		"message": "无已定义的规则",
+		"description": ""
+	},
+	"settingsRulesGridColSource": {
+		"message": "来源",
+		"description": ""
+	},
+	"settingsRulesGridColPattern": {
+		"message": "模式",
+		"description": ""
+	},
+	"settingsRulesGridColEnabled": {
+		"message": "启用",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSuccess": {
+		"message": "成功保存代理规则",
+		"description": ""
+	},
+	"settingsServerPortInvalid": {
+		"message": "服务器端口 '{0}' 无效",
+		"description": ""
+	},
+	"settingsServerHostInvalid": {
+		"message": "服务器主机名 '{0}' 无效",
+		"description": ""
+	},
+	"settingsProxyModeInvalid": {
+		"message": "无效的代理模式设置",
+		"description": ""
+	},
+	"settingsRestoreSettingsSuccess": {
+		"message": "成功还原设置",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailed": {
+		"message": "还原设置中出错",
+		"description": ""
+	},
+	"settingsEnableByDomainInvalid": {
+		"message": "选定的域名非法",
+		"description": ""
+	},
+	"settingsEnableByDomainExists": {
+		"message": "该域名规则已存在",
+		"description": ""
+	},
+	"settingsNoRuleFoundForDomain": {
+		"message": "未找到域名 '{0}' 的规则",
+		"description": ""
+	},
+	"settingsRuleSourceIsEmpty": {
+		"message": "规则 '来源' 为空",
+		"description": ""
+	},
+	"importerImportSuccess": {
+		"message": "{1} 当中的 {0} 条规则已添加。<br>注意保存更改。",
+		"description": ""
+	}
+
+}
