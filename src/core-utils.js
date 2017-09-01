@@ -18,7 +18,7 @@ var utils = {
 	removeDuplicates: function (originalArray, prop) {
 		///<reference path="https://stackoverflow.com/a/36744732/322446"/>
 		return originalArray.filter(
-			(thing, index, self) => self.findIndex((t) =>{
+			(thing, index, self) => self.findIndex((t) => {
 				return t[prop] === thing[prop];
 			}) === index);
 	},
@@ -132,5 +132,32 @@ var utils = {
 			+ (host === '*' ? "[^\\/]*" : escape(host).replace(/^\*\./g, '(?:[^\\/]+)?'))
 			+ (path ? (path == '*' ? '(?:\\/.*)?' : ('\\/' + escape(path).replace(/\*/g, '.*'))) : '\\/?')
 			+ ')$');
+	}
+}
+
+
+function localizeHtmlPage() {
+	///<summary></summary>
+	function replace_i18n(obj, tag) {
+		var msg = browser.i18n.getMessage(tag.trim()) || '';
+
+		if (msg != tag) obj.innerHTML = msg;
+	}
+
+	// Localize using data-localize tags
+	var data = document.querySelectorAll('[data-localize]');
+
+	for (var i in data) if (data.hasOwnProperty(i)) {
+		var obj = data[i];
+		var tag = obj.getAttribute('data-localize').toString();
+
+		replace_i18n(obj, tag);
+	}
+
+	// page direction
+	var dir = browser.i18n.getMessage("uiDirection");
+	if (dir) {
+		let body = document.getElementsByTagName("body");
+		$(body).addClass(dir).css("direction", dir);
 	}
 }

@@ -34,7 +34,7 @@ var settings = {
 			password: null,
 			// proxyDNS can only be true for SOCKS proxy servers
 			proxyDNS: false,
-			failoverTimeout:null
+			failoverTimeout: null
 		}]
 };
 
@@ -274,7 +274,8 @@ var settings = {
 				if (sendResponse) {
 					sendResponse({
 						success: true,
-						message: 'Proxy rules saved successfully.',
+						// Proxy rules saved successfully.
+						message: browser.i18n.getMessage("settingsSaveProxyRulesSuccess"),
 						restartRequired: restartRequired
 					});
 				}
@@ -602,15 +603,21 @@ var settings = {
 		},
 		validateProxyServer: function (server) {
 			if (server.port <= 0 || server.port >= 65535) {
-				return { success: false, message: `Port ${server.host}:${server.port} is not valid` };
+				return {
+					success: false,
+					message: browser.i18n.getMessage("settingsServerPortInvalid").replace("{0}", `${server.host}:${server.port}`)
+				};
 			}
 
 			if (!server.host || !utils.isValidHost(server.host)) {
-				return { success: false, message: `Server host ${server.host}:${server.port} is not valid` };
+				return {
+					success: false,
+					message: browser.i18n.getMessage("settingsServerHostInvalid").replace("{0}", `${server.host}:${server.port}`)
+				};
 			}
 
 			if (!server.name) {
-				return { success: false, message: `Server name ${server.name} is not valid` };
+				return { success: false, message: browser.i18n.getMessage("settingsServerNameRequired") };
 			} else {
 
 				//var currentServers = settings.proxyServers;
@@ -707,7 +714,7 @@ var settings = {
 
 				if (backupProxyMode == null ||
 					backupProxyMode <= 0) {
-					return { success: false, message: "Invalid proxy mode setting" };
+					return { success: false, message: browser.i18n.getMessage("settingsProxyModeInvalid") };
 				}
 				return { success: true, result: backupProxyMode };
 			}
@@ -800,11 +807,11 @@ var settings = {
 				// update proxy rules
 				proxyRules.updateChromeProxyConfig();
 
-				return { success: true, message: "Settings are restored successfully" }
+				return { success: true, message: browser.i18n.getMessage("settingsRestoreSettingsSuccess") }
 
 
 			} catch (e) {
-				return { success: false, message: "There was an error in restoring the data" };
+				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
 			}
 		}
 	}
@@ -940,13 +947,15 @@ var settings = {
 
 			// current url should be valid
 			if (!utils.isValidHost(domain))
-				return { success: false, message: "The selected domain is not valid", domain: domain };
+				// The selected domain is not valid
+				return { success: false, message: browser.i18n.getMessage("settingsEnableByDomainInvalid"), domain: domain };
 
 			// the domain should be the source
 			var rule = proxyRules.getRuleBySource(domain);
 
 			if (rule != null) {
-				return { success: true, message: "Rule for the domain already exists", rule: rule };
+				// Rule for the domain already exists
+				return { success: true, message: browser.i18n.getMessage("settingsEnableByDomainExists"), rule: rule };
 			}
 
 			rule = proxyRules.addDomain(domain);
@@ -963,7 +972,11 @@ var settings = {
 
 				return { success: true, rule: rule };
 			}
-			return { success: false, message: `There isn't any rule for '${source}'`, source: source };
+			return {
+				success: false,
+				message: browser.i18n.getMessage("settingsNoRuleFoundForDomain").replace("{0}", source),
+				source: source
+			};
 		},
 		toggleByDomain: function (domain) {
 
@@ -1091,17 +1104,14 @@ var settings = {
 		validateRule: function (rule) {
 			// 	proxyRules: [{ rule: "rule", host: "host", enabled: false }],
 			if (!rule.source) {
-				return { success: false, message: `Rule 'source' is empty` };
+				// Rule 'source' is empty
+				return { success: false, message: browser.i18n.getMessage("settingsRuleSourceIsEmpty") };
 			} else {
 
 				if (!utils.isValidHost(rule.source)) {
-					return { success: false, message: `'source' is not valid '${rule.source}'` };
+					// 'source' is not valid '${rule.source}
+					return { success: false, message: browser.i18n.getMessage("settingsRuleSourceInvalidFormat").replace("{0}", rule.source) };
 				}
-
-				//var crule = proxyRules.getHostRuleXXXXXX(rule.host);
-				//if (crule != null) {
-				//	return { success: false, exist: true, message: `A rule for ${rule.source} already exists` };
-				//}
 			}
 
 			if (!rule.pattern)

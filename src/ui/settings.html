@@ -18,7 +18,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>SmartProxy Settings</title>
+	<title data-localize="settingsTitle">SmartProxy Settings</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/font-awesome.min.css" rel="stylesheet" />
 	<link href="css/common.css" rel="stylesheet" />
@@ -51,32 +51,32 @@
 
 					<img src="../icons/smartproxy-48.png" />
 					<br />
-					SmartProxy
+					<span data-localize="extensionName">SmartProxy</span>
 				</h2>
 				<br />
 				<ul class="nav nav-pills nav-stacked" role="tablist">
 					<li role="presentation" class="active">
 						<a href="#tab-general" aria-controls="home" role="tab" data-toggle="tab">
 							<i class="fa fa-cog fa-lg text-primary" aria-hidden="true"></i>
-							About
+							<span data-localize="settingsTabAbout">About</span>
 						</a>
 					</li>
 					<li role="presentation">
 						<a href="#tab-servers" aria-controls="profile" role="tab" data-toggle="tab">
 							<i class="fa fa-server fa-lg text-secondary" aria-hidden="true"></i>
-							Proxy Servers
+							<span data-localize="settingsTabProxyServers">Proxy Servers</span>
 						</a>
 					</li>
 					<li role="presentation">
 						<a href="#tab-rules" aria-controls="messages" role="tab" data-toggle="tab">
 							<i class="fa fa-magic fa-lg text-warning" aria-hidden="true"></i>
-							Proxy Rules
+							<span data-localize="settingsTabProxyRules">Proxy Rules</span>
 						</a>
 					</li>
 					<li role="presentation">
 						<a href="#tab-backup" aria-controls="settings" role="tab" data-toggle="tab">
 							<i class="fa fa-life-ring text-success" aria-hidden="true"></i>
-							Backup/ Restore
+							<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
 						</a>
 					</li>
 				</ul>
@@ -84,13 +84,16 @@
 			<div class="col-md-9 col-sm-8">
 				<div class="tab-content">
 					<div class="tab-pane active" id="tab-general" role="tabpanel">
-						<h3>About</h3>
+						<h3 data-localize="settingsTabAbout">About</h3>
 						<hr class="afshin-line" />
 
 						<div id="divNoServersWarning" class="alert alert-danger alert-dismissible" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<strong><i class="fa fa-info-circle" aria-hidden="true"></i> No Servers!</strong>
-							Before anything you have to define proxy servers.
+							<strong>
+								<i class="fa fa-info-circle" aria-hidden="true"></i>
+								<span data-localize="settingsErrNoServersTitle">No Servers!</span>
+							</strong>
+							<span data-localize="settingsErrNoServersDescription">Before anything you have to define proxy servers.</span>
 						</div>
 
 						<div id="divAlertFirefox" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
@@ -103,10 +106,10 @@
 							<strong><i class="fa fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
 							This extension is still in development and most of the features are not finalized yet, please be patient and report any bug you encounter.
 						</div>
-						<h4>
+						<h4 data-localize="extensionName">
 							SmartProxy
 						</h4>
-						<p>
+						<p data-localize="settingsTabAboutDescription">
 							Use patterns to automatically define rules for proxify your web experience. With SmartProxy, you don't need to change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.
 						</p>
 						<p>
@@ -150,9 +153,9 @@
 						</p>
 					</div>
 					<div class="tab-pane" id="tab-servers" role="tabpanel">
-						<h3>Proxy Servers</h3>
+						<h3 data-localize="settingsTabProxyServers">Proxy Servers</h3>
 						<hr class="afshin-line" />
-						<h5>
+						<h5 data-localize="settingsActiveProxyServer">
 							Active Proxy Server:
 						</h5>
 						<div class="row mb-3">
@@ -162,42 +165,46 @@
 								</select>
 							</div>
 						</div>
-						<h5>
+						<h5 data-localize="settingsTabProxyServersTitle">
 							Manage your proxy servers:
 						</h5>
-						<p>
+						<p data-localize="settingsTabProxyServersDescription">
 							Here is the list of proxy servers. You can define as many proxy as you want and switch between then from toolbar.
 						</p>
 						<p>
 							<div class="pull-left">
-								<button id="btnAddProxyServer" class="btn btn-info">Add Server</button>
+								<button id="btnAddProxyServer" class="btn btn-info" data-localize="settingsAddServerButton">Add Server</button>
 							</div>
 						</p>
 						<div id="grdServers"></div>
 
 						<p class="mt-4">
-							<button id="btnSaveProxyServers" class="btn btn-primary">Save Changes</button>
-							<button id="btnRejectProxyServers" class="btn btn-default">Reject Changes</button>
+							<button id="btnSaveProxyServers" class="btn btn-primary">
+								<span data-localize="settingsSaveChangesButton">Save Changes</span>
+							</button>
+							<button id="btnRejectProxyServers" class="btn btn-default">
+								<span data-localize="settingsRejectChangesButton">Reject Changes</span>
+							</button>
 						</p>
 					</div>
 					<div class="tab-pane" id="tab-rules" role="tabpanel">
-						<h3>Proxy Rules</h3>
+						<h3 data-localize="settingsTabProxyRules">Proxy Rules</h3>
 						<hr class="afshin-line" />
 
-						<h4>
+						<h4 data-localize="settingsTabProxyRulesTitle">
 							Manage your proxy rules:
 						</h4>
-						<p>
-							Here is the list if rules that will help SmartProxy to decide whether to enable proxy for a specific domain or not.<br/>
+						<p data-localize="settingsTabProxyRulesDescription">
+							Here is the list if rules that will help SmartProxy to decide whether to enable proxy for a specific domain or not.<br />
 							Rules are based on <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" target="_blank">Match patterns</a>.
 						</p>
 
 						<p>
 							<div class="pull-left">
-								<button id="btnAddProxyRule" class="btn btn-info">Add Rule</button>
+								<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">Add Rule</button>
 							</div>
 							<div class="pull-right">
-								<button id="btnImportProxyServerOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportProxyServer">
+								<button id="btnImportProxyServerOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportProxyServer" data-localize="settingsImportRulesButton">
 									Import Rules
 								</button>
 								<div class="modal fade" id="modalImportProxyServer" tabindex="-1" role="dialog" aria-labelledby="modalImportProxyServerLabel">
@@ -205,15 +212,15 @@
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-												<h4 class="modal-title" id="modalImportProxyServerLabel">Import Rules</h4>
+												<h4 class="modal-title" id="modalImportProxyServerLabel" data-localize="settingsImportRulesTitle">Import Rules</h4>
 											</div>
 											<div class="modal-body">
 												<div class="form-group">
-													<label for="btnImportProxyServerSelectFile">Rule Backup File</label>
-													<input type="file" id="btnImportProxyServerSelectFile" class="form-control"/>
+													<label for="btnImportProxyServerSelectFile" data-localize="settingsImportRulesSelectButton">Rule Backup File</label>
+													<input type="file" id="btnImportProxyServerSelectFile" class="form-control" />
 												</div>
 												<div class="form-group">
-													<label for="cmbImportProxyServerType">From</label>
+													<label for="cmbImportProxyServerType" data-localize="settingsImportRulesFrom">From</label>
 													<select id="cmbImportProxyServerType" class="form-control custom-select">
 														<!--<option value="">(Please select)</option>-->
 														<option value="autoproxy">AutoProxy</option>
@@ -223,20 +230,20 @@
 
 												<div class="radio">
 													<label>
-														<input checked type="radio" id="cmbImportProxyServerOverride_Append" name="cmbImportProxyServerOverride"/>
-														Append to existing rules
+														<input checked type="radio" id="cmbImportProxyServerOverride_Append" name="cmbImportProxyServerOverride" />
+														<span data-localize="settingsImportRulesOptionAppend">Append to existing rules</span>
 													</label>
 												</div>
 												<div class="radio">
 													<label>
-														<input type="radio" id="cmbImportProxyServerOverride_Replace" name="cmbImportProxyServerOverride"/>
-														Replace current rules (use with caution)
+														<input type="radio" id="cmbImportProxyServerOverride_Replace" name="cmbImportProxyServerOverride" />
+														<span data-localize="settingsImportRulesOptionOverride">Replace current rules (use with caution)</span>
 													</label>
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-												<button type="button" id="btnImportProxyServer" class="btn btn-primary">Import</button>
+												<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsImportRulesCancelButton">Cancel</button>
+												<button type="button" id="btnImportProxyServer" class="btn btn-primary" data-localize="settingsImportRulesImportButton">Import</button>
 											</div>
 										</div>
 									</div>
@@ -248,8 +255,12 @@
 
 						<p class="mt-2">
 							<div class="pull-left">
-								<button id="btnSaveProxyRules" class="btn btn-primary">Save Changes</button>
-								<button id="btnRejectProxyRules" class="btn btn-default">Reject Changes</button>
+								<button id="btnSaveProxyRules" class="btn btn-primary">
+									<span data-localize="settingsSaveChangesButton">Save Changes</span>
+								</button>
+								<button id="btnRejectProxyRules" class="btn btn-default">
+									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
+								</button>
 							</div>
 							<div class="pull-right">
 								<button id="btnClearProxyRules" class="btn btn-default " title="Clear all the rules">
@@ -261,27 +272,27 @@
 
 					</div>
 					<div class="tab-pane" id="tab-backup" role="tabpanel">
-						<h3>Backup/Restore</h3>
+						<h3 data-localize="settingsTabBackupRestore">Backup/Restore</h3>
 						<hr class="afshin-line" />
 						<br />
-						<p>
+						<p data-localize="settingsTabBackupRestoreDescription">
 							You can make either full or partial backup of your settings.
 						</p>
 						<p>
 							<button id="btnBackupComplete" class="btn btn-default">
 								<i class="fa fa-download" aria-hidden="true"></i>
-								Create full backup
+								<span data-localize="settingsFullBackupButton">Create full backup</span>
 							</button>
-							<span class="custom-control-description">
+							<span class="custom-control-description" data-localize="settingsFullBackupButtonDesc">
 								Make a full backup of the options (including proxy servers and rules).
 							</span>
 						</p>
 						<p>
 							<button id="btnBackupRules" class="btn btn-default">
 								<i class="fa fa-download" aria-hidden="true"></i>
-								Create rules backup
+								<span data-localize="settingsRulesBackupButton">Create rules backup</span>
 							</button>
-							<span class=" ">
+							<span data-localize="settingsRulesBackupButtonDesc">
 								Make backup of the proxy rules.
 							</span>
 						</p>
@@ -290,9 +301,9 @@
 						<p>
 							<button id="btnRestoreBackup" class="btn btn-default">
 								<i class="fa fa-upload" aria-hidden="true"></i>
-								Restore backup
+								<span data-localize="settingsRestoreBackupButton">Restore backup</span>
 							</button>
-							<span class=" ">
+							<span data-localize="settingsRestoreBackupButtonDesc">
 								Restore your previously taken backup from a local file
 							</span>
 						</p>

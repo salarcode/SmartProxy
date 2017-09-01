@@ -25,6 +25,7 @@
 	<script src="js/bootstrap-popper-fix.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="../core-polyfill.js"></script>
+	<script src="../core-utils.js"></script>
 	<script src="popup.js"></script>
 </head>
 <body>
@@ -36,36 +37,36 @@
 				<br />Please restart. Sorry for inconvenience.
 			</div>
 		</div>
-		<h5 class="text-muted text-center">SmartProxy Activation</h5>
+		<h5 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h5>
 		<ul id="divProxyMode" class="nav nav-pills nav-stacked">
 			<li>
 				<a data-proxyMode="1" class="nav-link">
 					<i class="fa fa-ban fa-lg text-danger" aria-hidden="true"></i>
-					Direct (No Proxy)
+					<span data-localize="popupNoProxy">Direct (No Proxy)</span>
 				</a>
 			</li>
 			<li class="active">
 				<a data-proxyMode="2" class="nav-link">
 					<i class="fa fa-magic fa-lg text-success" aria-hidden="true"></i>
-					Smart Proxy
+					<span data-localize="popupSmartProxy">Smart Proxy</span>
 				</a>
 			</li>
 			<li>
 				<a data-proxyMode="3" class="nav-link">
 					<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
-					Always Enable
+					<span data-localize="popupAlwaysEnable">Always Enable</span>
 				</a>
 			</li>
 			<li class="disabled" id="divProxyModeSystem">
 				<a data-proxyMode="4" class="nav-link disabled">
 					<i class="fa fa-windows fa-lg text-info" aria-hidden="true"></i>
-					System Proxy
+					<span data-localize="popupSystemProxy">System Proxy</span>
 				</a>
 			</li>
 		</ul>
 		<div id="divActiveProxy" style="display: none">
 			<hr class="afshin-line" />
-			<h5 class="text-muted px-2">Active Proxy:</h5>
+			<h5 class="text-muted px-2" data-localize="popupActiveProxy">Active Proxy:</h5>
 			<div class="p-2">
 				<select id="cmbActiveProxy" class="custom-select active-proxy-select">
 					<option value="0">No server is defined</option>
@@ -74,7 +75,7 @@
 		</div>
 		<div id="divProxiableContainer" style="display: none">
 			<hr class="afshin-line" />
-			<h5 class="text-muted px-2">Enable proxy on</h5>
+			<h5 class="text-muted px-2" data-localize="popupEnableProxyOn">Enable proxy on</h5>
 			<ul id="divProxiableDomains" class="nav nav-pills nav-stacked">
 				<li id="divProxiableDomainItem" style="display: none">
 					<a>
@@ -98,13 +99,13 @@
 			<li class="" id="openProxiable" style="display: none">
 				<a class="nav-link">
 					<i class="fa fa-search fa-lg text-info" aria-hidden="true"></i>
-					Proxyable Resources
+					<span data-localize="popupProxyableResources">Proxyable Resources</span>
 				</a>
 			</li>
 			<li class="">
 				<a id="openSettings" class="nav-link">
 					<i class="fa fa-cog fa-lg text-success" aria-hidden="true"></i>
-					Settings
+					<span data-localize="popupSettings">Settings</span>
 				</a>
 			</li>
 		</ul>

@@ -18,7 +18,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Proxyable Resources</title>
+	<title data-localize="proxyableTitle">Proxyable Resources</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/font-awesome.min.css" rel="stylesheet" />
 	<link href="css/common.css" rel="stylesheet" />
@@ -36,14 +36,16 @@
 </head>
 <body>
 	<div class="container p-2 pt-3">
-		<h2>Proxyable items on this page</h2>
+		<h2 data-localize="proxyableHeader">Proxyable items on this page</h2>
 		<p>
-			Here is the list of resources that are used or invoked from this page. Use this list to add these resources to the proxy activation rules.
-			<br />
-			If you don't see anything here, reload the page to see the resources.
+			<span data-localize="proxyableHeaderDesc">
+				Here is the list of resources that are used or invoked from this page. Use this list to add these resources to the proxy activation rules.
+				<br />
+				If you don't see anything here, reload the page to see the resources.
+			</span>
 			<button id="btnReload" class="btn btn-info btn-sm">
 				<i class="fa fa-refresh" aria-hidden="true"></i>
-				Reload
+				<span data-localize="proxyableReload">Reload</span>
 			</button>
 		</p>
 		<p>
@@ -57,7 +59,7 @@
 		<br />
 		<button id="btnClose" class="btn btn-danger">
 			<i class="fa fa-times" aria-hidden="true"></i>
-			Close
+			<span data-localize="proxyableClose">Close</span>
 		</button>
 	</div>
 </body>

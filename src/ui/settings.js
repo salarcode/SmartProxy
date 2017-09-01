@@ -118,7 +118,7 @@
 					}
 				},
 				function (error) {
-					messageBox.error("Failed to save servers. " + error.message);
+					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveServers") + " " + error.message);
 				});
 
 			changeTracking.servers = false;
@@ -134,7 +134,8 @@
 
 			changeTracking.servers = false;
 
-			messageBox.info("Changes reverted successfully");
+			// Changes reverted successfully
+			messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
 		});
 
 		$("#btnSaveProxyRules").click(function () {
@@ -163,7 +164,7 @@
 					}
 				},
 				function (error) {
-					messageBox.error("Failed to save servers. " + error.message);
+					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveRules") + " " + error.message);
 				});
 
 			changeTracking.rules = false;
@@ -177,18 +178,21 @@
 
 			changeTracking.rules = false;
 
-			messageBox.info("Changes reverted successfully");
+			// Changes reverted successfully
+			messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
 		});
 
 		$("#btnClearProxyRules").click(function () {
 
-			messageBox.confirm("Are you sure to remove all the rules?",
+			// Are you sure to remove all the rules?
+			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllRules"),
 				function () {
 					settingsGrid.loadRules([]);
 
 					changeTracking.rules = false;
 
-					messageBox.info("All rules are removed.<br/>You have to save to apply the changes.");
+					// All rules are removed.<br/>You have to save to apply the changes.
+					messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
 				});
 		});
 
@@ -237,7 +241,8 @@
 						}
 					},
 					function (error) {
-						messageBox.error("There was an error in restoring the backup");
+						// There was an error in restoring the backup
+						messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFailed"));
 						polyfill.runtimeSendMessage("restoreSettings failed with> " + error.message);
 					});
 			}
@@ -249,7 +254,8 @@
 
 					var reader = new FileReader();
 					reader.onerror = function (event) {
-						messageBox.error("Failed to read the selected file");
+						// Failed to read the selected file
+						messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFileError"));
 					};
 					reader.onload = function (event) {
 						var textFile = event.target;
@@ -328,7 +334,8 @@
 				var selectFileElement = modalContainer.find("#btnImportProxyServerSelectFile")[0];
 
 				if (selectFileElement.files.length == 0) {
-					messageBox.error("Please select a rules file");
+					// Please select a rules file
+					messageBox.error(browser.i18n.getMessage("settingsRulesFileNotSelected"));
 					return;
 				}
 
@@ -345,7 +352,7 @@
 				} else if (sourceType == "switchy") {
 					importFunction = ruleImporter.importSwitchyRules;
 				} else {
-					messageBox.warning("Please select source type");
+					messageBox.warning(browser.i18n.getMessage("settingsSourceTypeNotSelected"));
 				}
 
 				if (importFunction)
@@ -376,7 +383,7 @@
 							var message = '';
 							if (error && error.message)
 								message = error.message;
-							messageBox.error("Failed to import the file. " + message);
+							messageBox.error(browser.i18n.getMessage("settingsImportRulesFailed") + " " + message);
 						});
 			});
 
@@ -463,7 +470,9 @@
 			var name = args.item.name;
 			if (!name) {
 				args.cancel = true;
-				messageBox.error("Specify the name of the server!");
+
+				// Specify the name of the server
+				messageBox.error(browser.i18n.getMessage("settingsServerNameRequired"));
 				return;
 			}
 
@@ -473,7 +482,8 @@
 					var item = data[i];
 					if (name == item.name) {
 						args.cancel = true;
-						messageBox.error("A Server with the same name already exists!");
+						// A Server with the same name already exists!
+						messageBox.error(browser.i18n.getMessage("settingsServerNameExists"));
 						return;
 					}
 				}
@@ -493,14 +503,14 @@
 				editing: true,
 				sorting: true,
 				paging: false,
-				noDataContent: "No server is defined",
+				noDataContent: browser.i18n.getMessage("settingsServersGridNoDataContent"),
 				//data: clients,
 
 				fields: [
-					{ name: "name", title: "Name", type: "text", width: 150, validate: "required" },
-					{ name: "protocol", align: "left", title: "Protocol", type: "select", items: protocolSelect, valueField: "name", textField: "name", validate: "required" },
-					{ name: "host", title: "Server", type: "text", width: 200, validate: "required" },
-					{ name: "port", title: "Port", align: "left", type: "number", width: 100, validate: "required" },
+					{ name: "name", title: browser.i18n.getMessage("settingsServersGridColName"), type: "text", width: 150, validate: "required" },
+					{ name: "protocol", align: "left", title: browser.i18n.getMessage("settingsServersGridColProtocol"), type: "select", items: protocolSelect, valueField: "name", textField: "name", validate: "required" },
+					{ name: "host", title: browser.i18n.getMessage("settingsServersGridColServer"), type: "text", width: 200, validate: "required" },
+					{ name: "port", title: browser.i18n.getMessage("settingsServersGridColPort"), align: "left", type: "number", width: 100, validate: "required" },
 					{ type: "control" }
 				],
 				onItemDeleting: function (args) {
@@ -550,13 +560,15 @@
 			var source = args.item.source;
 			if (!source) {
 				args.cancel = true;
-				messageBox.error("Please specify the source of the rule!");
+				// Please specify the source of the rule!
+				messageBox.error(browser.i18n.getMessage("settingsRuleSourceRequired"));
 				return;
 			}
 
 			if (!utils.isValidHost(source)) {
 				args.cancel = true;
-				messageBox.error("source is invalid, source name should be something like 'google.com'");
+				// source is invalid, source name should be something like 'google.com'
+				messageBox.error(browser.i18n.getMessage("settingsRuleSourceInvalid"));
 				return;
 			}
 
@@ -564,7 +576,12 @@
 				let extractedHost = utils.extractHostFromUrl(source);
 				if (extractedHost == null || !utils.isValidHost(extractedHost)) {
 					args.cancel = true;
-					messageBox.error(`Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`);
+
+					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+					messageBox.error(
+						browser.i18n.getMessage("settingsRuleHostInvalid")
+							.replace("{0}", extractedHost)
+					);
 					return;
 				}
 			} else {
@@ -573,7 +590,12 @@
 				let extractedHost = utils.extractHostFromUrl("http://" + source);
 				if (extractedHost == null || !utils.isValidHost(extractedHost)) {
 					args.cancel = true;
-					messageBox.error(`Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`);
+
+					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+					messageBox.error(
+						browser.i18n.getMessage("settingsRuleHostInvalid")
+						.replace("{0}", extractedHost)
+					);
 					return;
 				}
 			}
@@ -592,7 +614,8 @@
 					var item = data[i];
 					if (source == item.source) {
 						args.cancel = true;
-						messageBox.error("A Rule with the same source already exists!");
+						// A Rule with the same source already exists!
+						messageBox.error(browser.i18n.getMessage("settingsRuleSourceAlreadyExists"));
 						return;
 					}
 				}
@@ -607,13 +630,13 @@
 				editing: true,
 				sorting: true,
 				paging: true,
-				noDataContent: "No rule is defined",
+				noDataContent: browser.i18n.getMessage("settingsRulesGridNoDataContent"),
 				//data: clients,
 
 				fields: [
-					{ name: "source", title: "Source", type: "text", width: 250, validate: "required" },
-					{ name: "pattern", title: "Pattern", type: "disabled", width: 250 },
-					{ name: "enabled", title: "Enabled", type: "checkbox", width: 80 },
+					{ name: "source", title: browser.i18n.getMessage("settingsRulesGridColSource"), type: "text", width: 250, validate: "required" },
+					{ name: "pattern", title: browser.i18n.getMessage("settingsRulesGridColPattern"), type: "disabled", width: 250 },
+					{ name: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled"), type: "checkbox", width: 80 },
 					{ type: "control" }
 				],
 				onItemDeleting: function (args) {
@@ -666,4 +689,7 @@
 	initialize();
 	$(initializeUi);
 	$(settingsGrid.initialize);
+
+	// internationalization
+	$(localizeHtmlPage);
 })();

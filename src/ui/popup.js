@@ -240,5 +240,7 @@
 	// initialize the popup
 	initialize();
 
+	// internationalization
+	$(localizeHtmlPage);
 
 })();

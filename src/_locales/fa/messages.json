@@ -1,0 +1,383 @@
+﻿{
+	"uiDirection": {
+		"message": "rtl",
+		"description": ""
+	},
+	"extensionName": {
+		"message": "SmartProxy",
+		"description": ""
+	},
+	"extensionDescription": {
+		"message": "خودکار سازی اعمال پراکسی به سایتهایی که در حال مشاهده هستید بدون اینکه کاری انجام دهید. این کار با استفاده از لیستی از قوانینی که برای اعمال پراکسی بر روی سایتها قبلا توسط شما و با یک کلیک اضافه شده اند، انجام می شود.",
+		"description": ""
+	},
+	"popupTitle": {
+		"message": "SmartProxy Activation",
+		"description": ""
+	},
+	"popupNoProxy": {
+		"message": "مستقیم (بدون پراکسی)",
+		"description": ""
+	},
+	"popupSmartProxy": {
+		"message": "پراکسی هوشمند",
+		"description": ""
+	},
+	"popupAlwaysEnable": {
+		"message": "پراکسی برای همه جا",
+		"description": ""
+	},
+	"popupSystemProxy": {
+		"message": "تنظیمات سیستم",
+		"description": ""
+	},
+	"popupActiveProxy": {
+		"message": "پراکسی فعال:",
+		"description": ""
+	},
+	"popupEnableProxyOn": {
+		"message": "فعال کردن پراکسی برای",
+		"description": ""
+	},
+	"popupProxyableResources": {
+		"message": "صفحات قابل پراکسی شدن",
+		"description": ""
+	},
+	"popupSettings": {
+		"message": "تنظیمات",
+		"description": ""
+	},
+	"proxyableTitle": {
+		"message": "لیست درخواست های قابل پراکسی شدن",
+		"description": ""
+	},
+	"proxyableHeader": {
+		"message": "لیست درخواست ها/عکس/منایع قابل پراکسی شدن در این صفحه",
+		"description": ""
+	},
+	"proxyableReload": {
+		"message": "بازخوانی صفحه",
+		"description": ""
+	},
+	"proxyableClose": {
+		"message": "خروج",
+		"description": ""
+	},
+	"proxyableHeaderDesc": {
+		"message": "Here is the list of resources that are used or invoked from this page. Use this list to add these resources to the proxy activation rules.<br />If you don't see anything here, reload the page to see the resources.",
+		"description": ""
+	},
+	"proxyableErrNoSourceTab": {
+		"message": "Source tab not found!",
+		"description": ""
+	},
+	"proxyableCreateRuleConfirm": {
+		"message": "Are you sure to create a rule for the selected domain",
+		"description": ""
+	},
+	"proxyableDisableButton": {
+		"message": "غیر فعال",
+		"description": ""
+	},
+	"proxyableEnableButton": {
+		"message": "فعال کردن",
+		"description": ""
+	},
+	"proxyableEnableButtonDomain": {
+		"message": "فعال کردن برای: ",
+		"description": ""
+	},
+	"proxyableDeleteRuleConfirm": {
+		"message": "Are you sure you want to delete the selected rule for:",
+		"description": ""
+	},
+	"proxyableGridNoDataContent": {
+		"message": "No requests",
+		"description": ""
+	},
+	"proxyableGridColUrl": {
+		"message": "Request Url",
+		"description": ""
+	},
+	"proxyableGridColEnabled": {
+		"message": "Proxied",
+		"description": ""
+	},
+	"proxyableGridColSource": {
+		"message": "In effect rule",
+		"description": ""
+	},
+	"settingsTabAbout": {
+		"message": "About",
+		"description": ""
+	},
+	"settingsTabProxyServers": {
+		"message": "Proxy Servers",
+		"description": ""
+	},
+	"settingsTabProxyRules": {
+		"message": "Proxy Rules",
+		"description": ""
+	},
+	"settingsTabBackupRestore": {
+		"message": "Backup/ Restore",
+		"description": ""
+	},
+	"settingsTabAboutDescription": {
+		"message": "Use patterns to automatically define rules for proxify your web experience. With SmartProxy, you don't need to change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.",
+		"description": ""
+	},
+	"settingsTabProxyServersTitle": {
+		"message": "Manage your proxy servers:",
+		"description": ""
+	},
+	"settingsTabProxyServersDescription": {
+		"message": "Here is the list of proxy servers. You can define as many proxy as you want and switch between then from toolbar.",
+		"description": ""
+	},
+	"settingsTabProxyRulesTitle": {
+		"message": "Manage your proxy rules:",
+		"description": ""
+	},
+	"settingsTabProxyRulesDescription": {
+		"message": "Here is the list if rules that will help SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a>.",
+		"description": ""
+	},
+	"settingsTabBackupRestoreDescription": {
+		"message": "You can make either full or partial backup of your settings.",
+		"description": ""
+	},
+	"settingsErrNoServersTitle": {
+		"message": "No Servers!",
+		"description": ""
+	},
+	"settingsErrNoServersDescription": {
+		"message": "Before anything you have to define proxy servers.",
+		"description": ""
+	},
+	"settingsActiveProxyServer": {
+		"message": "Active Proxy Server:",
+		"description": ""
+	},
+	"settingsAddServerButton": {
+		"message": "Add Server",
+		"description": ""
+	},
+	"settingsSaveChangesButton": {
+		"message": "Save Changes",
+		"description": ""
+	},
+	"settingsRejectChangesButton": {
+		"message": "Reject Changes",
+		"description": ""
+	},
+	"settingsFullBackupButton": {
+		"message": "Create full backup",
+		"description": ""
+	},
+	"settingsFullBackupButtonDesc": {
+		"message": "Make a full backup of the options (including proxy servers and rules).",
+		"description": ""
+	},
+	"settingsRulesBackupButton": {
+		"message": "Create rules backup",
+		"description": ""
+	},
+	"settingsRulesBackupButtonDesc": {
+		"message": "Make backup of the proxy rules.",
+		"description": ""
+	},
+	"settingsRestoreBackupButton": {
+		"message": "Restore backup",
+		"description": ""
+	},
+	"settingsRestoreBackupButtonDesc": {
+		"message": "Restore your previously taken backup from a local file",
+		"description": ""
+	},
+	"settingsAddRuleButton": {
+		"message": "Add Rule",
+		"description": ""
+	},
+	"settingsImportRulesButton": {
+		"message": "Import Rules",
+		"description": ""
+	},
+	"settingsImportRulesTitle": {
+		"message": "Import Rules",
+		"description": ""
+	},
+	"settingsImportRulesSelectButton": {
+		"message": "Rule Backup File",
+		"description": ""
+	},
+	"settingsImportRulesFrom": {
+		"message": "From",
+		"description": ""
+	},
+	"settingsImportRulesOptionAppend": {
+		"message": "Append to existing rules",
+		"description": ""
+	},
+	"settingsImportRulesOptionOverride": {
+		"message": "Replace current rules (use with caution)",
+		"description": ""
+	},
+	"settingsImportRulesCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsImportRulesImportButton": {
+		"message": "Import",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveServers": {
+		"message": "Failed to save servers.",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveRules": {
+		"message": "Failed to save rules.",
+		"description": ""
+	},
+	"settingsChangesReverted": {
+		"message": "Changes reverted successfully.",
+		"description": ""
+	},
+	"settingsRemoveAllRules": {
+		"message": "Are you sure to remove all the rules?",
+		"description": ""
+	},
+	"settingsRemoveAllRulesSuccess": {
+		"message": "All rules are removed.<br/>You have to save to apply the changes.",
+		"description": ""
+	},
+	"settingsRestoreBackupFailed": {
+		"message": "There was an error in restoring the backup",
+		"description": ""
+	},
+	"settingsRestoreBackupFileError": {
+		"message": "Failed to read the selected file",
+		"description": ""
+	},
+	"settingsRulesFileNotSelected": {
+		"message": "Please select a rules file",
+		"description": ""
+	},
+	"settingsSourceTypeNotSelected": {
+		"message": "Please select source type",
+		"description": ""
+	},
+	"settingsImportRulesFailed": {
+		"message": "Failed to import the file.",
+		"description": ""
+	},
+	"settingsServerNameRequired": {
+		"message": "Specify the name of the server!",
+		"description": ""
+	},
+	"settingsServerNameExists": {
+		"message": "A Server with the same name already exists!",
+		"description": ""
+	},
+	"settingsServersGridNoDataContent": {
+		"message": "No server is defined",
+		"description": ""
+	},
+	"settingsServersGridColName": {
+		"message": "Name",
+		"description": ""
+	},
+	"settingsServersGridColProtocol": {
+		"message": "Protocol",
+		"description": ""
+	},
+	"settingsServersGridColServer": {
+		"message": "Server",
+		"description": ""
+	},
+	"settingsServersGridColPort": {
+		"message": "Port",
+		"description": ""
+	},
+	"settingsRuleSourceRequired": {
+		"message": "Please specify the source of the rule!",
+		"description": ""
+	},
+	"settingsRuleSourceInvalid": {
+		"message": "source is invalid, source name should be something like 'google.com'",
+		"description": ""
+	},
+	"settingsRuleSourceInvalidFormat": {
+		"message": "'source' is not valid '{0}'",
+		"description": ""
+	},
+	"settingsRuleSourceAlreadyExists": {
+		"message": "A Rule with the same source already exists!",
+		"description": ""
+	},
+	"settingsRuleHostInvalid": {
+		"message": "Host name '{0}' is invalid, host name should be something like 'google.com'",
+		"description": ""
+	},
+	"settingsRulesGridNoDataContent": {
+		"message": "No rule is defined",
+		"description": ""
+	},
+	"settingsRulesGridColSource": {
+		"message": "Source",
+		"description": ""
+	},
+	"settingsRulesGridColPattern": {
+		"message": "Pattern",
+		"description": ""
+	},
+	"settingsRulesGridColEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSuccess": {
+		"message": "Proxy rules saved successfully.",
+		"description": ""
+	},
+	"settingsServerPortInvalid": {
+		"message": "Server port '{0}' is invalid",
+		"description": ""
+	},
+	"settingsServerHostInvalid": {
+		"message": "Server host '{0}' is invalid",
+		"description": ""
+	},
+	"settingsProxyModeInvalid": {
+		"message": "Invalid proxy mode setting",
+		"description": ""
+	},
+	"settingsRestoreSettingsSuccess": {
+		"message": "Settings are restored successfully",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailed": {
+		"message": "There was an error in restoring the settings",
+		"description": ""
+	},
+	"settingsEnableByDomainInvalid": {
+		"message": "The selected domain is not valid",
+		"description": ""
+	},
+	"settingsEnableByDomainExists": {
+		"message": "Rule for the domain already exists",
+		"description": ""
+	},
+	"settingsNoRuleFoundForDomain": {
+		"message": "There isn't any rule for '{0}'",
+		"description": ""
+	},
+	"settingsRuleSourceIsEmpty": {
+		"message": "Rule 'source' is empty",
+		"description": ""
+	},
+	"importerImportSuccess": {
+		"message": "Total {0} out of {1} rules are appended.<br>Don't forget to save the changes.",
+		"description": ""
+	}
+
+}

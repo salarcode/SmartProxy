@@ -111,7 +111,10 @@ var ruleImporter = {
 						appendedRuleCount++;
 					}
 
-					var message = `Total ${appendedRuleCount} out of ${parsedRuleList.length} rules are appended.<br>Don't forget to save the changes.`;
+					// Total ${appendedRuleCount} out of ${parsedRuleList.length} rules are appended.<br>Don't forget to save the changes.
+					let message = browser.i18n.getMessage("importerImportSuccess")
+						.replace("{0}", appendedRuleCount)
+						.replace("{1}", parsedRuleList.length);
 
 					if (success) {
 						// not need for any check, return straight away
@@ -124,7 +127,11 @@ var ruleImporter = {
 
 				} else {
 
-					var message = `Total ${importedRuleList.length} out of ${parsedRuleList.length} rules are imported.<br>Don't forget to save the changes.`;
+					// Total ${importedRuleList.length} out of ${parsedRuleList.length} rules are imported.<br>Don't forget to save the changes.
+					let message = browser.i18n.getMessage("importerImportSuccess")
+						.replace("{0}", importedRuleList.length)
+						.replace("{1}", parsedRuleList.length);
+
 					if (success) {
 						// not need for any check, return straight away
 						success({

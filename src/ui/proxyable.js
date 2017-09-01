@@ -83,7 +83,8 @@
 			},
 			function () {
 				if (sourceTab == null) {
-					messageBox.error("Source tab not found!");
+					// Source tab not found!
+					messageBox.error(browser.i18n.getMessage("proxyableErrNoSourceTab"));
 				}
 			});
 	}
@@ -106,7 +107,8 @@
 
 	function initializeUi() {
 		if (!(sourceTabId > -1)) {
-			messageBox.error("Source tab not found!");
+			// Source tab not found!
+			messageBox.error(browser.i18n.getMessage("proxyableErrNoSourceTab"));
 		}
 
 		$("#btnClose").click(function () {
@@ -214,16 +216,17 @@
 				});
 		},
 		enableProxyOnClick: function (domain, item) {
-			messageBox.confirm(`Are you sure to create a rule for the selected domain <b>'${domain}'</b>?`,
+			// Source tab not found!
+			messageBox.confirm(`${browser.i18n.getMessage("proxyableCreateRuleConfirm")} <b>'${domain}'</b>?`,
 				function () {
 					proxyableGrid.toggleProxyableRequest(domain, null, item);
 				});
 		},
 		gridEnableDisableTemplate: function (value, item) {
 			if (value) {
-				return $(`<button class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Disable</button>`)
+				return $(`<button class="btn btn-sm btn-danger"><i class="fa fa-times" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableDisableButton")}</button>`)
 					.click(function () {
-						messageBox.confirm("Are you sure you want to delete the selected rule for <b>'" + item.source + "'</b>?",
+						messageBox.confirm(`${browser.i18n.getMessage("proxyableDeleteRuleConfirm")} <b>'${item.source}'</b>?`,
 							function () {
 								proxyableGrid.toggleProxyableRequest(null, item.source, item);
 							});
@@ -232,7 +235,7 @@
 				var template =
 					`<div class="btn-group">
 						<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i class="fa fa-plus" aria-hidden="true"></i> Enable <span class="caret"></span>
+							<i class="fa fa-plus" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableEnableButton")} <span class="caret"></span>
 						</button><ul class="subdomains-list dropdown-menu dropdown-menu-right"></ul>
 					</div>`;
 				var url = item.url;
@@ -244,7 +247,7 @@
 
 					for (var index = 0; index < subDomains.length; index++) {
 						var domain = subDomains[index];
-						var domainElement = $(`<li data-domain="${domain}"><a href="#"><small>Enable for: <b class='font-url'>${domain}</b></small></a></li>`);
+						var domainElement = $(`<li data-domain="${domain}"><a href="#"><small>${browser.i18n.getMessage("proxyableEnableButtonDomain")} <b class='font-url'>${domain}</b></small></a></li>`);
 
 						domainElement.click(function () {
 							var domain = $(this).attr("data-domain");
@@ -268,11 +271,11 @@
 				editing: false,
 				sorting: true,
 				paging: false,
-				noDataContent: "No requests",
+				noDataContent: browser.i18n.getMessage("proxyableGridNoDataContent"),
 				fields: [
-					{ name: "url", title: "Request Url", css: "jsgrid-cell-one-liner", type: "text", width: "60%" },
-					{ name: "enabled", title: "Proxied", type: "checkbox", width: 50, sorting: true, sorter: "number" },
-					{ name: "source", title: "In effect rule", type: "text" },
+					{ name: "url", title: browser.i18n.getMessage("proxyableGridColUrl"), css: "jsgrid-cell-one-liner", type: "text", width: "60%" },
+					{ name: "enabled", title: browser.i18n.getMessage("proxyableGridColEnabled"), type: "checkbox", width: 50, sorting: true, sorter: "number" },
+					{ name: "source", title: browser.i18n.getMessage("proxyableGridColSource"), type: "text" },
 					{
 						name: "enabled", title: "", type: "text",
 						itemTemplate: proxyableGrid.gridEnableDisableTemplate
@@ -288,4 +291,7 @@
 
 	// start handling messages
 	browser.runtime.onMessage.addListener(handleMessages);
+
+	// internationalization
+	$(localizeHtmlPage);
 })();
