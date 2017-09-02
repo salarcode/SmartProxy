@@ -2,8 +2,8 @@
 
 #### Download
 
- * Firefox: https://addons.mozilla.org/en-US/firefox/addon/smartproxy
- * Chrome(Not offical, disables after restart): https://github.com/salarcode/SmartProxy/releases
+ * [Firefox Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy)
+ * [Chrome Extension](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj)
 
 #### Summary
 SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions.
