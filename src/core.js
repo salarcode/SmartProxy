@@ -595,6 +595,8 @@ var settings = {
 				});
 		},
 		saveProxyMode: function () {
+			internal.setBrowserActionStatus();
+
 			polyfill.storageLocalSet({ proxyMode: settings.proxyMode },
 				null,
 				function (error) {
@@ -1222,6 +1224,62 @@ var settings = {
 				}
 			}
 			return dataForPopup;
+		},
+		setBrowserActionStatus: function () {
+			var extensionName = browser.i18n.getMessage("extensionName");
+
+			switch (settings.proxyMode) {
+
+				case proxyModeType.direct:
+
+					browser.browserAction.setTitle({ title: `${extensionName} : ${browser.i18n.getMessage("popupNoProxy")}` });
+					polyfill.browserActionSetIcon({
+						path: {
+							16: "icons/proxymode-disabled-16.png",
+							32: "icons/proxymode-disabled-32.png",
+							48: "icons/proxymode-disabled-48.png"
+						}
+					});
+					break;
+
+				case proxyModeType.always:
+
+					browser.browserAction.setTitle({ title: `${extensionName} : ${browser.i18n.getMessage("popupAlwaysEnable")}` });
+					polyfill.browserActionSetIcon({
+						path: {
+							16: "icons/proxymode-always-16.png",
+							32: "icons/proxymode-always-32.png",
+							48: "icons/proxymode-always-48.png"
+						}
+					});
+					break;
+
+				case proxyModeType.systemProxy:
+
+					browser.browserAction.setTitle({ title: `${extensionName} : ${browser.i18n.getMessage("popupSystemProxy")}` });
+					polyfill.browserActionSetIcon({
+						path: {
+							16: "icons/proxymode-system-16.png",
+							32: "icons/proxymode-system-32.png",
+							48: "icons/proxymode-system-48.png"
+						}
+					});
+					break;
+
+				case proxyModeType.smartProxy:
+				default:
+
+					browser.browserAction.setTitle({ title: `${extensionName} : ${browser.i18n.getMessage("popupSmartProxy")}` });
+					polyfill.browserActionSetIcon({
+						path: {
+							16: "icons/smartproxy-16.png",
+							24: "icons/smartproxy-24.png",
+							48: "icons/smartproxy-48.png",
+							96: "icons/smartproxy-96.png"
+						}
+					});
+					break;
+			}
 		}
 	};
 
@@ -1234,6 +1292,9 @@ var settings = {
 
 		// register the proxy when config is ready
 		registerProxy();
+
+		// set the title
+		internal.setBrowserActionStatus();
 	});
 
 	// start handling messages

@@ -237,6 +237,22 @@ var polyfill = {
 			browser.runtime.openOptionsPage()
 				.then(success, fail);
 		}
+	},
+	browserActionSetIcon: function (details, success, fail) {
+		if (environment.chrome) {
+			chrome.browserAction.setIcon(details,
+				function (response) {
+					var error = polyfill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			browser.browserAction.setIcon(details)
+				.then(success, fail);
+		}
 	}
 };
 
