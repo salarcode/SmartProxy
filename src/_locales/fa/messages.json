@@ -107,6 +107,10 @@
 		"message": "In effect rule",
 		"description": ""
 	},
+	"settingsTitle": {
+		"message": "تنظیمات SmartProxy",
+		"description": ""
+	},
 	"settingsTabAbout": {
 		"message": "About",
 		"description": ""

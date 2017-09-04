@@ -107,6 +107,10 @@
 		"message": "包括于生效的规则",
 		"description": ""
 	},
+	"settingsTitle": {
+		"message": "SmartProxy Settings",
+		"description": ""
+	},
 	"settingsTabAbout": {
 		"message": "关于",
 		"description": ""
