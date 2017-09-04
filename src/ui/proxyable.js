@@ -15,6 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
+	var selfTabId = null;
 	var sourceTabId = null;
 	var sourceTab = null;
 
@@ -47,8 +48,15 @@
 				return;
 			}
 
-			// TODO: close itself
+			// Chrome requires a response before current tab gets removed
+			if (sendResponse)
+				sendResponse(null);
 
+			// Close this tab
+			if (selfTabId != null)
+				polyfill.tabsRemove(selfTabId);
+
+			return;
 		}
 
 		// Chrome requires a response
@@ -121,6 +129,15 @@
 		});
 
 		proxyableGrid.initialize();
+
+		// read own tab id
+		polyfill.tabsQuery({ active: true, currentWindow: true },
+			function (tabs) {
+				if (!tabs || !tabs[0])
+					return;
+
+				selfTabId = tabs[0].id;
+			});
 	}
 	function closeSelf() {
 		polyfill.tabsQuery({ active: true, currentWindow: true },

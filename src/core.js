@@ -463,11 +463,11 @@ var settings = {
 				tabData.requests = null;
 				delete loggedRequests[tabId];
 
-				// also remove from notification list
-				requestLogger.removeFromPorxyableLogIdList(tabId);
-
-				// send notify
+				// send notification first
 				requestLogger.notifyProxyableOriginTabRemoved(tabId);
+
+				// then remove the tab from the notification list
+				requestLogger.removeFromPorxyableLogIdList(tabId);
 			}
 		},
 		handleTabUpdated: function (tabId, changeInfo, tabInfo) {
