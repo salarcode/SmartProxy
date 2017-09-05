@@ -20,7 +20,8 @@
 		"proxy",
 		"webRequest",
 		"webRequestBlocking",
-		"storage"
+		"storage",
+		"unlimitedStorage"
 	],
 	"browser_action": {
 		"chrome_style": true,
