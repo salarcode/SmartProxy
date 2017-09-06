@@ -140,7 +140,7 @@
 
 		$("#btnClearProxyServers").click(function () {
 
-			// Are you sure to remove all the rules?
+			// Are you sure to remove all the servers?
 			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServers"),
 				function () {
 					settingsGrid.loadServers([]);
