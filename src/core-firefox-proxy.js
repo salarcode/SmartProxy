@@ -229,7 +229,7 @@ function FindProxyForURL(url, host) {
 	// there should be active proxy
 	if (activeProxyServer == null)
 		// null is equal to "PASS" which lets the browser decide
-		return null;
+		return "";
 
 	if (proxyMode == proxyModeType.always)
 		return resultActiveProxy;
@@ -248,5 +248,5 @@ function FindProxyForURL(url, host) {
 	}
 
 	// null is equal to "PASS" which lets the browser decide
-	return null;
+	return "";
 }

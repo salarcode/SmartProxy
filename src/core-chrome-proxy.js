@@ -134,7 +134,7 @@ function FindProxyForURL(url, host) {
 	// there should be active proxy
 	if (!hasActiveProxyServer)
 		// let the browser decide
-		return null;
+		return "";
 
 	if (proxyMode == proxyModeType.always)
 		return resultActiveProxy;
@@ -153,7 +153,7 @@ function FindProxyForURL(url, host) {
 	}
 
 	// let the browser decide
-	return null;
+	return "";
 }`;
 		return pacTemplateString;
 	},
