@@ -22,7 +22,7 @@ var restartRequired = false;
 var settings = {
 	proxyMode: "1",
 	// patterns can be https://mozilla.org/*/b/*/ or https://mozilla.org/path/*
-	proxyRules: [{ pattern: "*://*.salarcode.com/*", source: "salarcode.com", enabled: false }],
+	proxyRules: [{ pattern: "*://*.salarcode.com/*", source: "salarcode.com", proxy: null, enabled: false }],
 	activeProxyServer: null,
 	proxyServers: [
 		{
@@ -35,7 +35,8 @@ var settings = {
 			// proxyDNS can only be true for SOCKS proxy servers
 			proxyDNS: false,
 			failoverTimeout: null
-		}]
+		}
+	]
 };
 
 (function () {
