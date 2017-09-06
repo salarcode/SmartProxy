@@ -235,6 +235,66 @@
 		"message": "Import",
 		"description": ""
 	},
+	"settingsImportProxiesButton": {
+		"message": "Import Proxies",
+		"description": ""
+	},
+	"settingsExportProxiesButton": {
+		"message": "Export Proxies",
+		"description": ""
+	},
+	"settingsImportProxiesTitle": {
+		"message": "Import Proxy List",
+		"description": ""
+	},
+	"settingsImportProxiesSelectFileButton": {
+		"message": "Proxy list file",
+		"description": ""
+	},
+	"settingsImportProxiesSelectTextButton": {
+		"message": "Proxy list text",
+		"description": ""
+	},
+	"settingsImportProxiesOptionAppend": {
+		"message": "Append to existing proxies",
+		"description": ""
+	},
+	"settingsImportProxiesOptionOverride": {
+		"message": "Replace current proxies (use with caution)",
+		"description": ""
+	},
+	"settingsImportProxiesCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsImportProxiesImportButton": {
+		"message": "Import",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServers": {
+		"message": "Are you sure to remove all the rules?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServersSuccess": {
+		"message": "All the proxy servers are removed.<br/>You have to save to apply the changes.",
+		"description": ""
+	},
+	"settingsImportProxiesFileNotSelected": {
+		"message": "Please select a proxy list file",
+		"description": ""
+	},
+	"settingsImportProxyListTextIsEmpty": {
+		"message": "Please enter proxy list",
+		"description": ""
+	},
+	"settingsImportProxyServersFailed": {
+		"message": "Failed to import the proxy servers",
+		"description": ""
+	},
+	"importerImportProxySuccess": {
+		"message": "Total ${importedRuleList.length} out of ${parsedRuleList.length} proxies are imported.<br>Don't forget to save the changes.",
+		"description": ""
+	},
 	"settingsErrorFailedToSaveServers": {
 		"message": "Failed to save servers.",
 		"description": ""

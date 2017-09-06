@@ -14,6 +14,153 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+var proxyImporter = {
+	importText: function (text, file, append, currentProxies, success, fail) {
+		if (!file && !text) {
+			if (fail) fail();
+			return;
+		}
+
+		if (text)
+			doImport(text);
+		else {
+			var reader = new FileReader();
+			reader.onerror = function (event) {
+				if (fail) fail(event);
+			};
+			reader.onload = function (event) {
+				var textFile = event.target;
+				var fileText = textFile.result;
+
+				doImport(fileText);
+			};
+			reader.readAsText(file);
+		}
+
+
+		function doImport(text) {
+			var parsedProxies = proxyImporter.parseText(text);
+
+			var importedProxies = utils.removeDuplicatesFunc(parsedProxies,
+				function (item1, item2) {
+					return item1.host == item2.host &&
+						item1.port == item2.port &&
+						item1.username == item2.username &&
+						item1.password == item2.password;
+				});
+
+
+			// proxies are ready
+			if (append) {
+				if (!currentProxies)
+					currentProxies = [];
+
+				// make a copy
+				var appendedProxyList = currentProxies.slice();
+				var appendedProxyCount = 0;
+
+				for (var importIndex = 0; importIndex < importedProxies.length; importIndex++) {
+					var importedProxy = importedProxies[importIndex];
+
+					var proxyExists = false;
+					for (var ci = 0; ci < currentProxies.length; ci++) {
+						var cp = currentProxies[ci];
+
+						if (cp.host == importedProxy.host &&
+							cp.port == importedProxy.port &&
+							cp.username == importedProxy.username &&
+							cp.password == importedProxy.password) {
+							proxyExists = true;
+							break;
+						}
+					}
+
+					if (proxyExists)
+						continue;
+
+					// append imported proxy
+					appendedProxyList.push(importedProxy);
+					appendedProxyCount++;
+				}
+
+				// Total ${appendedProxyCount} out of ${appendedProxyList.length} proxies are appended.<br>Don't forget to save the changes.
+				let message = browser.i18n.getMessage("importerImportProxySuccess")
+					.replace("{0}", appendedProxyCount)
+					.replace("{1}", importedProxies.length);
+
+				if (success) {
+					// not need for any check, return straight away
+					success({
+						success: true,
+						message: message,
+						result: appendedProxyList
+					});
+				}
+
+			} else {
+
+				// Total ${importedRuleList.length} out of ${parsedRuleList.length} proxies are imported.<br>Don't forget to save the changes.
+				let message = browser.i18n.getMessage("importerImportProxySuccess")
+					.replace("{0}", importedProxies.length)
+					.replace("{1}", parsedProxies.length);
+
+				if (success) {
+					// not need for any check, return straight away
+					success({
+						success: true,
+						message: message,
+						result: importedProxies
+					});
+				}
+			}
+		}
+
+	},
+	parseText: function (proxyListText) {
+		///<summary>Parses the proxy</summary>
+		if (!proxyListText || typeof (proxyListText) !== "string") return null;
+
+		// ip:port [protocol] [name] [username] [password]
+		const proxyRegex = /(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)(?::+|[\t\s,]+)(\d{2,5})(?:[\t\s]+\[(\w+)\][\t\s]+\[([\w\s]+)\](?:[\t\s]+\[(.+)\][\t\s]+\[(.+)\])?)?/i;
+
+		let proxyListLines = proxyListText.split(/(\r|\n)/);
+		let parsedProxies = [];
+
+		for (let line = 0; line < proxyListLines.length; line++) {
+			var proxyLine = proxyListLines[line];
+
+			// simple check
+			if (proxyLine.length < 4)
+				continue;
+
+			var match = proxyRegex.exec(proxyLine);
+			if (!match) {
+				continue;
+			}
+
+			let [, ip, port, protocol, name, username, password] = match;
+			if (!ip || !port) {
+				continue;
+			}
+			if (!protocol)
+				protocol = "HTTP";
+			else
+				protocol = protocol.toUpperCase();
+
+			parsedProxies.push({
+				name: name || `${ip}:${port}`,
+				host: ip,
+				port: port,
+				protocol: protocol,
+				username: username,
+				password: password
+			});
+		}
+
+		return parsedProxies;
+	}
+}
 var ruleImporter = {
 	importSwitchyRules: function (file, append, currentRules, success, fail) {
 

@@ -22,6 +22,13 @@ var utils = {
 				return t[prop] === thing[prop];
 			}) === index);
 	},
+	removeDuplicatesFunc: function (originalArray, areEqualFunc) {
+		///<reference path="https://stackoverflow.com/a/36744732/322446"/>
+		return originalArray.filter(
+			(thing, index, self) => self.findIndex((t) => {
+				return areEqualFunc(t,thing);
+			}) === index);
+	},
 	strStartsWith: function (str, prefix) {
 		return str.substr(0, prefix.length) === prefix;
 	},
@@ -139,9 +146,9 @@ var utils = {
 function localizeHtmlPage() {
 	///<summary></summary>
 	function replace_i18n(obj, tag) {
-		var msg = browser.i18n.getMessage(tag.trim()) || '';
+		var msg = browser.i18n.getMessage(tag.trim());
 
-		if (msg != tag) obj.innerHTML = msg;
+		if (msg && msg != tag) obj.innerHTML = msg;
 	}
 
 	// Localize using data-localize tags

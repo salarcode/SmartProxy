@@ -47,12 +47,12 @@ var settings = {
 	function logToConsole() {
 		///<summary>Send log to the console</summary>
 		// Uncomment when debugging
-		console.log.apply(this, arguments);
+		console.log(arguments);
 	}
 	function errorToConsole() {
 		///<summary>Send error log to the console</summary>
 		// Uncomment when debugging
-		console.error.apply(this, arguments);
+		console.error(arguments);
 	}
 
 	// -------------------------

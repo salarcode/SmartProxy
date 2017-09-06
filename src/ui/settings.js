@@ -41,6 +41,15 @@
 
 	}
 
+	function downloadData(data, fileName) {
+
+		var downloadUrl = "data:application/json;charset=utf-8," + encodeURIComponent(data);
+		var a = $("<a/>")
+			.attr("download", fileName || "")
+			.attr("href", downloadUrl);
+		a[0].dispatchEvent(new MouseEvent("click"));
+	}
+
 	function initializeUi() {
 
 		if (environment.chrome) {
@@ -49,15 +58,6 @@
 			$("#divAlertFirefox").show();
 		}
 
-
-		function downloadData(data, fileName) {
-
-			var downloadUrl = "data:application/json;charset=utf-8," + encodeURIComponent(data);
-			var a = $("<a/>")
-				.attr("download", fileName || "")
-				.attr("href", downloadUrl);
-			a[0].dispatchEvent(new MouseEvent("click"));
-		}
 
 		function checkRestartRequired(required) {
 			if (!required) return;
@@ -138,6 +138,20 @@
 			messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
 		});
 
+		$("#btnClearProxyServers").click(function () {
+
+			// Are you sure to remove all the rules?
+			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServers"),
+				function () {
+					settingsGrid.loadServers([]);
+
+					changeTracking.servers = true;
+
+					// All the proxy servers are removed.<br/>You have to save to apply the changes.
+					messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServersSuccess"));
+				});
+		});
+
 		$("#btnSaveProxyRules").click(function () {
 
 			var rules = settingsGrid.getRules();
@@ -189,7 +203,7 @@
 				function () {
 					settingsGrid.loadRules([]);
 
-					changeTracking.rules = false;
+					changeTracking.rules = true;
 
 					// All rules are removed.<br/>You have to save to apply the changes.
 					messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
@@ -327,11 +341,77 @@
 			$("#btnAddProxyServer").click(function () {
 				settingsGrid.insertRowServersGrid();
 			});
+			$("#btnExportProxyServerOpen").click(function () {
+				var proxyList = settingsGrid.exportProxyListFormatted();
 
-
+				downloadData(proxyList, "SmartProxy-Servers.txt");
+			});
 			$("#btnImportProxyServer").click(function () {
 				let modalContainer = $("#modalImportProxyServer");
-				var selectFileElement = modalContainer.find("#btnImportProxyServerSelectFile")[0];
+				var append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
+				var file, text;
+
+				if (modalContainer.find("#rbtnImportProxyServer_File").prop("checked")) {
+					// file should be selected
+
+					var selectFileElement = modalContainer.find("#btnImportProxyServerSelectFile")[0];
+
+					if (selectFileElement.files.length == 0) {
+						// Please select a proxy list file
+						messageBox.error(browser.i18n.getMessage("settingsImportProxiesFileNotSelected"));
+						return;
+					}
+					file = selectFileElement.files[0];
+
+				} else {
+					var proxyServerListText = modalContainer.find("#btnImportProxyServerListText").val().trim();
+					if (proxyServerListText == "") {
+						// Please enter proxy list
+						messageBox.error(browser.i18n.getMessage("settingsImportProxyListTextIsEmpty"));
+						return;
+					}
+					text = proxyServerListText;
+				}
+
+				var proxyServers = settingsGrid.getServers();
+
+				proxyImporter.importText(text, file,
+					append,
+					proxyServers,
+					function (response) {
+						if (!response) return;
+
+						if (response.success) {
+							if (response.message)
+								messageBox.info(response.message);
+
+							// empty the input
+							modalContainer.find("#btnImportProxyServerSelectFile")[0].value = "";
+							modalContainer.find("#btnImportProxyServerListText").val("");
+
+							var servers = response.result;
+							settingsGrid.loadServers(servers);
+
+							// close the window
+							modalContainer.modal("hide");
+						} else {
+							if (response.message)
+								messageBox.error(response.message);
+						}
+					},
+					function (error) {
+						var message = '';
+						if (error && error.message)
+							message = error.message;
+						messageBox.error(browser.i18n.getMessage("settingsImportProxyServersFailed") + " " + message);
+					});
+
+			});
+
+
+			$("#btnImportRules").click(function () {
+				let modalContainer = $("#modalImportRules");
+				var selectFileElement = modalContainer.find("#btnImportRulesSelectFile")[0];
 
 				if (selectFileElement.files.length == 0) {
 					// Please select a rules file
@@ -341,8 +421,8 @@
 
 				var selectFile = selectFileElement.files[0];
 
-				var append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
-				var sourceType = modalContainer.find("#cmbImportProxyServerType").val();
+				var append = modalContainer.find("#cmbImportRulesOverride_Append").prop("checked");
+				var sourceType = modalContainer.find("#cmbImportRulesFormat").val();
 
 				var proxyRules = settingsGrid.getRules();
 
@@ -594,7 +674,7 @@
 					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
 					messageBox.error(
 						browser.i18n.getMessage("settingsRuleHostInvalid")
-						.replace("{0}", extractedHost)
+							.replace("{0}", extractedHost)
 					);
 					return;
 				}
@@ -679,6 +759,26 @@
 
 			if (settingsUiData && settingsUiData.proxyRules)
 				settingsGrid.loadRules(settingsUiData.proxyRules);
+		},
+		exportProxyListFormatted: function () {
+			var proxyList = settingsGrid.getServers();
+			var result = `[SmartProxy Servers]\r\n`;
+
+			for (var i = 0; i < proxyList.length; i++) {
+				var proxy = proxyList[i];
+
+				var proxyExport = `${proxy.host}:${proxy.port} [${proxy.protocol}]`;
+
+				if (proxy.username) {
+					proxyExport += ` [${proxy.name}] [${proxy.username}] [${proxy.password}]`;
+				}
+				else if (proxy.name != `${proxy.host}:${proxy.port}`) {
+					proxyExport += ` [${proxy.name}]`;
+				}
+
+				result += proxyExport + "\r\n";
+			}
+			return result;
 		}
 	};
 

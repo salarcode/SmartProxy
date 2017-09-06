@@ -175,16 +175,76 @@
 							<div class="pull-left">
 								<button id="btnAddProxyServer" class="btn btn-info" data-localize="settingsAddServerButton">Add Server</button>
 							</div>
+							<div class="pull-right">
+								<button id="btnImportProxyServerOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportProxyServer" data-localize="settingsImportProxiesButton">
+									Import Proxies
+								</button>
+								<button id="btnExportProxyServerOpen" type="button" class="btn btn-info" data-localize="settingsExportProxiesButton">
+									Export Proxies
+								</button>
+								<div class="modal fade" id="modalImportProxyServer" tabindex="-1" role="dialog" aria-labelledby="modalImportProxyServerLabel">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+												<h4 class="modal-title" id="modalImportProxyServerLabel" data-localize="settingsImportProxiesTitle">Import Proxy List</h4>
+											</div>
+											<div class="modal-body">
+												<div class="form-group">
+													<label>
+														<input checked type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_File"/>
+														<span data-localize="settingsImportProxiesSelectFileButton">Proxy list file</span>
+													</label>
+													<input type="file" id="btnImportProxyServerSelectFile" class="form-control" />
+												</div>
+												<div class="form-group">
+													<label>
+														<input type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_Text" />
+														<span data-localize="settingsImportProxiesSelectTextButton">Proxy list text</span>
+													</label>
+													<textarea class="form-control" id="btnImportProxyServerListText" rows="10"></textarea>
+												</div>
+
+												<div class="radio">
+													<label>
+														<input checked type="radio" id="cmbImportProxyServerOverride_Append" name="cmbImportProxyServerOverride" />
+														<span data-localize="settingsImportProxiesOptionAppend">Append to existing proxies</span>
+													</label>
+												</div>
+												<div class="radio">
+													<label>
+														<input type="radio" id="cmbImportProxyServerOverride_Replace" name="cmbImportProxyServerOverride" />
+														<span data-localize="settingsImportProxiesOptionOverride">Replace current proxies (use with caution)</span>
+													</label>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsImportProxiesCancelButton">Cancel</button>
+												<button type="button" id="btnImportProxyServer" class="btn btn-primary" data-localize="settingsImportProxiesImportButton">Import</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="clearfix"></div>
 						</p>
 						<div id="grdServers"></div>
 
 						<p class="mt-4">
-							<button id="btnSaveProxyServers" class="btn btn-primary">
-								<span data-localize="settingsSaveChangesButton">Save Changes</span>
-							</button>
-							<button id="btnRejectProxyServers" class="btn btn-default">
-								<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-							</button>
+							<div class="pull-left">
+								<button id="btnSaveProxyServers" class="btn btn-primary">
+									<span data-localize="settingsSaveChangesButton">Save Changes</span>
+								</button>
+								<button id="btnRejectProxyServers" class="btn btn-default">
+									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
+								</button>
+							</div>
+							<div class="pull-right">
+								<button id="btnClearProxyServers" class="btn btn-default " title="Clear the servers list">
+									<i class="fa fa-trash text-danger" aria-hidden="true"></i>
+								</button>
+							</div>
+							<div class="clearfix"></div>
 						</p>
 					</div>
 					<div class="tab-pane" id="tab-rules" role="tabpanel">
@@ -204,24 +264,24 @@
 								<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">Add Rule</button>
 							</div>
 							<div class="pull-right">
-								<button id="btnImportProxyServerOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportProxyServer" data-localize="settingsImportRulesButton">
+								<button id="btnImportRulesOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportRules" data-localize="settingsImportRulesButton">
 									Import Rules
 								</button>
-								<div class="modal fade" id="modalImportProxyServer" tabindex="-1" role="dialog" aria-labelledby="modalImportProxyServerLabel">
+								<div class="modal fade" id="modalImportRules" tabindex="-1" role="dialog" aria-labelledby="modalImportRulesLabel">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-												<h4 class="modal-title" id="modalImportProxyServerLabel" data-localize="settingsImportRulesTitle">Import Rules</h4>
+												<h4 class="modal-title" id="modalImportRulesLabel" data-localize="settingsImportRulesTitle">Import Rules</h4>
 											</div>
 											<div class="modal-body">
 												<div class="form-group">
-													<label for="btnImportProxyServerSelectFile" data-localize="settingsImportRulesSelectButton">Rule Backup File</label>
-													<input type="file" id="btnImportProxyServerSelectFile" class="form-control" />
+													<label for="btnImportRulesSelectFile" data-localize="settingsImportRulesSelectButton">Rule Backup File</label>
+													<input type="file" id="btnImportRulesSelectFile" class="form-control" />
 												</div>
 												<div class="form-group">
-													<label for="cmbImportProxyServerType" data-localize="settingsImportRulesFrom">From</label>
-													<select id="cmbImportProxyServerType" class="form-control custom-select">
+													<label for="cmbImportRulesFormat" data-localize="settingsImportRulesFrom">From</label>
+													<select id="cmbImportRulesFormat" class="form-control custom-select">
 														<!--<option value="">(Please select)</option>-->
 														<option value="autoproxy">AutoProxy</option>
 														<!--<option value="switchy">SwitchyOmega/SwitchySharp</option>-->
@@ -230,20 +290,20 @@
 
 												<div class="radio">
 													<label>
-														<input checked type="radio" id="cmbImportProxyServerOverride_Append" name="cmbImportProxyServerOverride" />
+														<input checked type="radio" id="cmbImportRulesOverride_Append" name="cmbImportRulesOverride" />
 														<span data-localize="settingsImportRulesOptionAppend">Append to existing rules</span>
 													</label>
 												</div>
 												<div class="radio">
 													<label>
-														<input type="radio" id="cmbImportProxyServerOverride_Replace" name="cmbImportProxyServerOverride" />
+														<input type="radio" id="cmbImportRulesOverride_Replace" name="cmbImportRulesOverride" />
 														<span data-localize="settingsImportRulesOptionOverride">Replace current rules (use with caution)</span>
 													</label>
 												</div>
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsImportRulesCancelButton">Cancel</button>
-												<button type="button" id="btnImportProxyServer" class="btn btn-primary" data-localize="settingsImportRulesImportButton">Import</button>
+												<button type="button" id="btnImportRules" class="btn btn-primary" data-localize="settingsImportRulesImportButton">Import</button>
 											</div>
 										</div>
 									</div>
