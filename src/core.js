@@ -541,7 +541,7 @@ var settings = {
 			///<summary>The initialization method</summary>
 			function onGetLocalData(data) {
 				// all the settings
-				settings = data;
+				settings = migrateFromOldVersion(data);
 				settingsOperation.setDefaultSettins(settings);
 
 				if (success) {
@@ -550,6 +550,29 @@ var settings = {
 			}
 			function onGetLocalError(error) {
 				errorToConsole(`settingsOperation.initialize error: ${error.message}`);
+			}
+			function migrateFromOldVersion(data) {
+				///<summary>Temporary migration for old version of this addon in Firefox. This method will be removed in the future</summary>
+				if (!data) return data;
+
+				if (data.proxyRules &&
+					data.proxyRules.length > 0 &&
+					// the old property
+					data.proxyRules[0].rule) {
+
+					var newProxyRules = [];
+					for (let i = 0; i < data.proxyRules.length; i++) {
+						var oldRule = data.proxyRules[i];
+						newProxyRules.push(
+							{
+								pattern: oldRule.rule,
+								source: oldRule.host,
+								enabled: oldRule.enabled
+							});
+					}
+					data.proxyRules = newProxyRules;
+				}
+				return data;
 			}
 
 			polyfill.storageLocalGet(null,
