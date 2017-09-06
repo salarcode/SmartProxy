@@ -290,7 +290,12 @@
 				paging: false,
 				noDataContent: browser.i18n.getMessage("proxyableGridNoDataContent"),
 				fields: [
-					{ name: "url", title: browser.i18n.getMessage("proxyableGridColUrl"), css: "jsgrid-cell-one-liner", type: "text", width: "60%" },
+					{
+						name: "url", title: browser.i18n.getMessage("proxyableGridColUrl"), css: "jsgrid-cell-one-liner", type: "text", width: "60%",
+						itemTemplate: function (value, item) {
+							return `<a href="${value}" target='_blank'>${value}</a>`;
+						}
+					},
 					{ name: "enabled", title: browser.i18n.getMessage("proxyableGridColEnabled"), type: "checkbox", width: 50, sorting: true, sorter: "number" },
 					{ name: "source", title: browser.i18n.getMessage("proxyableGridColSource"), type: "text" },
 					{
