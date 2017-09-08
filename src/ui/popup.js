@@ -91,10 +91,16 @@
 		var divActiveProxy = $("#divActiveProxy");
 		var cmbActiveProxy = divActiveProxy.find("#cmbActiveProxy");
 
-		if (dataForPopup.proxyServers && dataForPopup.proxyServers.length > 1) {
+		if (!dataForPopup.proxyServers)
+			dataForPopup.proxyServers = [];
+		if (!dataForPopup.proxyServersSubscribed)
+			dataForPopup.proxyServersSubscribed = [];
 
-			// remove previous items
-			cmbActiveProxy.find('option').remove();
+		// remove previous items
+		cmbActiveProxy.find("option").remove();
+
+		if (dataForPopup.proxyServers.length > 1 ||
+			dataForPopup.proxyServersSubscribed.length) {
 
 			// display select combo
 			divActiveProxy.show();
@@ -116,7 +122,24 @@
 				$option.prop("selected", (proxyServer.name === activeProxyName));
 			});
 
-			cmbActiveProxy.on('change',
+			if (dataForPopup.proxyServersSubscribed.length > 0) {
+				var subscriptionGroup = $("<optgroup>")
+					// -Subscriptions-
+					.attr("label", browser.i18n.getMessage("popupSubscriptions"))
+					.appendTo(cmbActiveProxy);
+
+				dataForPopup.proxyServersSubscribed.forEach(function (proxyServer) {
+					// proxyServer
+					var $option = $("<option>")
+						.attr("value", proxyServer.name)
+						.text(proxyServer.name)
+						.appendTo(subscriptionGroup);
+
+					$option.prop("selected", (proxyServer.name === activeProxyName));
+				});
+			}
+
+			cmbActiveProxy.on("change",
 				function () {
 					var value = cmbActiveProxy.val();
 					if (!value) return;
@@ -166,9 +189,6 @@
 				.text(domain);
 			item.appendTo(divProxiableDomain);
 			item.data("domainResult", domainResult);
-			//item.data("host-name", domain);
-			//item.data("ruleIsForThisHost", ruleIsForThisHost);
-			//item.data("hasMatchingRule", domainResult.hasMatchingRule);
 
 			var itemIcon = item.find(".proxiable-status-icon");
 			if (domainResult.hasMatchingRule) {

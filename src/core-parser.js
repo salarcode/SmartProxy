@@ -16,7 +16,60 @@
  */
 
 var proxyImporter = {
-	importText: function (text, file, append, currentProxies, success, fail) {
+	readFromServer: function (serverDetail, success, fail) {
+		if (!serverDetail || !serverDetail.url) {
+			if (fail) fail();
+			return;
+		}
+		if (!success) throw "onSuccess callback is mandatory";
+
+		function ajaxSuccess(response) {
+			if (!response)
+				if (fail) fail();
+
+			proxyImporter.importText(response,
+				null,
+				false,
+				null,
+				function (importResult) {
+					if (!importResult.success) {
+						if (fail)
+							fail(importResult);
+						return;
+					}
+					if (success)
+						success(importResult);
+				},
+				function (error) {
+					if (fail)
+						fail(error);
+				},
+				{
+					// options
+					proxyProtocol: serverDetail.proxyProtocol,
+					obfuscation: serverDetail.obfuscation
+				});
+		}
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", serverDetail.url);
+
+		if (serverDetail.username && serverDetail.password) {
+			var pass = atob(serverDetail.password);
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(serverDetail.username + ":" + pass));
+		}
+
+		xhr.onload = function () {
+			if (xhr.status === 200) {
+				ajaxSuccess(xhr.responseText);
+			}
+			else {
+				if (fail) fail(xhr.status);
+			}
+		};
+		xhr.send();
+	},
+	importText: function (text, file, append, currentProxies, success, fail, options) {
 		if (!file && !text) {
 			if (fail) fail();
 			return;
@@ -40,7 +93,7 @@ var proxyImporter = {
 
 
 		function doImport(text) {
-			var parsedProxies = proxyImporter.parseText(text);
+			var parsedProxies = proxyImporter.parseText(text, options);
 
 			var importedProxies = utils.removeDuplicatesFunc(parsedProxies,
 				function (item1, item2) {
@@ -117,15 +170,26 @@ var proxyImporter = {
 		}
 
 	},
-	parseText: function (proxyListText) {
+	parseText: function (proxyListText, options) {
 		///<summary>Parses the proxy</summary>
 		if (!proxyListText || typeof (proxyListText) !== "string") return null;
 
 		// ip:port [protocol] [name] [username] [password]
 		const proxyRegex = /(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)(?::+|[\t\s,]+)(\d{2,5})(?:[\t\s]+\[(\w+)\][\t\s]+\[([\w\s]+)\](?:[\t\s]+\[(.+)\][\t\s]+\[(.+)\])?)?/i;
 
+		if (options && options.obfuscation) {
+			if (options.obfuscation.toLowerCase() == "base64") {
+				// decode base64
+				proxyListText = atob(proxyListText);
+			}
+		}
+
 		let proxyListLines = proxyListText.split(/(\r|\n)/);
 		let parsedProxies = [];
+
+		var defaultProxyProtocol = "HTTP";
+		if (options && options.proxyProtocol)
+			defaultProxyProtocol = options.proxyProtocol;
 
 		for (let line = 0; line < proxyListLines.length; line++) {
 			var proxyLine = proxyListLines[line];
@@ -144,7 +208,7 @@ var proxyImporter = {
 				continue;
 			}
 			if (!protocol)
-				protocol = "HTTP";
+				protocol = defaultProxyProtocol;
 			else
 				protocol = protocol.toUpperCase();
 

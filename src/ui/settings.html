@@ -74,6 +74,12 @@
 						</a>
 					</li>
 					<li role="presentation">
+						<a href="#tab-server-subscriptions" aria-controls="profile" role="tab" data-toggle="tab">
+							<i class="fa fa-server fa-lg text-secondary" aria-hidden="true"></i>
+							<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
+						</a>
+					</li>
+					<li role="presentation">
 						<a href="#tab-backup" aria-controls="settings" role="tab" data-toggle="tab">
 							<i class="fa fa-life-ring text-success" aria-hidden="true"></i>
 							<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
@@ -192,7 +198,7 @@
 											<div class="modal-body">
 												<div class="form-group">
 													<label>
-														<input checked type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_File"/>
+														<input checked type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_File" />
 														<span data-localize="settingsImportProxiesSelectFileButton">Proxy list file</span>
 													</label>
 													<input type="file" id="btnImportProxyServerSelectFile" class="form-control" />
@@ -255,7 +261,7 @@
 							Manage your proxy rules:
 						</h4>
 						<p data-localize="settingsTabProxyRulesDescription">
-							Here is the list if rules that will help SmartProxy to decide whether to enable proxy for a specific domain or not.<br />
+							Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />
 							Rules are based on <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" target="_blank">Match patterns</a>.
 						</p>
 
@@ -330,6 +336,104 @@
 							<div class="clearfix"></div>
 						</p>
 
+					</div>
+					<div class="tab-pane" id="tab-server-subscriptions" role="tabpanel">
+						<h3 data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</h3>
+						<hr class="afshin-line" />
+						<h4 data-localize="settingsTabProxyServerSubscriptionsTitle">
+							Manage proxy server subscriptions:
+						</h4>
+						<p data-localize="settingsTabProxyServerSubscriptionsDescription">
+							Here you can subscribe to proxy lists and switch between the proxies later.
+						</p>
+						<p>
+							<div class="pull-left">
+								<button id="btnAddServerSubscription" class="btn btn-info" data-localize="settingsAddServerSubscriptionButton">Subscribe to a list</button>
+							</div>
+							<div class="clearfix"></div>
+						</p>
+						<div id="grdServerSubscriptions"></div>
+
+						<div class="modal fade" id="modalServerSubscription" tabindex="-1" role="dialog" aria-labelledby="modalServerSubscriptionLabel">
+							<div class="modal-dialog" role="document">
+								<form class="modal-content" onsubmit="return false;">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<h4 class="modal-title" id="modalServerSubscriptionLabel" data-localize="settingsServerSubscriptionModalTitle">Subscribe to a proxy server list</h4>
+									</div>
+									<div class="modal-body">
+										<div class="form-group">
+											<label for="txtName" data-localize="settingsServerSubscriptionName">Name:</label>
+											<input type="text" class="form-control" id="txtName" placeholder="Name" required>
+										</div>
+										<div class="form-group">
+											<label for="txtUrl" data-localize="settingsServerSubscriptionUrl">Url:</label>
+											<input type="url" class="form-control" id="txtUrl" placeholder="Url" required>
+										</div>
+										<div class="row">
+											<div class="form-group col-sm-6">
+												<label for="numRefereshRate" data-localize="settingsServerSubscriptionRefreshRate">Refresh Rate:</label>
+												<input type="number" min="0" class="form-control" id="numRefereshRate" placeholder="Refresh rate in minutes" required>
+												<span data-localize="settingsServerSubscriptionRefreshRateHelp" class="help-block">(in minutes, 0 means no refresh)</span>
+											</div>
+											<div class="form-group col-sm-6">
+												<br />
+												<input type="checkbox" class="" id="chkEnabled" checked>
+												<label for="chkEnabled" data-localize="settingsServerSubscriptionEnabled">Enabled</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-sm-6">
+												<label for="cmbServerSubscriptionProtocol" data-localize="settingsServerSubscriptionProtocol">Protocol:</label>
+												<select class="form-control" id="cmbServerSubscriptionProtocol"></select>
+											</div>
+											<div class="form-group col-sm-6">
+												<label for="cmbServerSubscriptionObfuscation" data-localize="settingsServerSubscriptionObfuscation">Obfuscation:</label>
+												<select class="form-control" id="cmbServerSubscriptionObfuscation"></select>
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-sm-6">
+												<label for="cmbServerSubscriptionUsername" data-localize="settingsServerSubscriptionUsername">Username:</label>
+												<input type="text" class="form-control" id="cmbServerSubscriptionUsername">
+												<span data-localize="" class="help-block">(if the list requires authentication)</span>
+											</div>
+											<div class="form-group col-sm-6">
+												<label for="cmbServerSubscriptionPassword" data-localize="settingsServerSubscriptionPassword">Password:</label>
+												<input type="password" class="form-control" id="cmbServerSubscriptionPassword" />
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<div class="pull-right">
+											<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
+											<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">Save</button>
+										</div>
+										<div class="pull-left">
+											<button type="button" id="btnTestServerSubscription" class="btn btn-default" data-localize="settingsServerSubscriptionTestButton">Test</button>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<p class="mt-2">
+							<div class="pull-left">
+								<button id="btnSaveServerSubscriptionsChanges" class="btn btn-primary">
+									<span data-localize="settingsSaveChangesButton">Save Changes</span>
+								</button>
+								<button id="btnRejectServerSubscriptionsChanges" class="btn btn-default">
+									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
+								</button>
+							</div>
+							<div class="pull-right">
+								<button id="btnClearServerSubscriptions" class="btn btn-default " title="Clear all the subscriptions">
+									<i class="fa fa-trash text-danger" aria-hidden="true"></i>
+								</button>
+							</div>
+							<div class="clearfix"></div>
+						</p>
 					</div>
 					<div class="tab-pane" id="tab-backup" role="tabpanel">
 						<h3 data-localize="settingsTabBackupRestore">Backup/Restore</h3>

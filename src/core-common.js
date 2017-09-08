@@ -21,3 +21,4 @@ const proxyModeType = {
 	always: "3",
 	systemProxy: "4"
 };
+const proxyServerSubscriptionObfuscate = ["None", "Base64"];

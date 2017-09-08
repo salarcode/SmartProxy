@@ -30,9 +30,11 @@
 input[type=file].form-control {
 	height: auto;
 }
+input:invalid {
+	border: rgba(255, 0, 0, 0.5) 1px solid;
+}
 
 hr.afshin-line {
-	/* فقط به خاطر افشین نوبخت*/
 	margin-top: 6px;
 	margin-bottom: 10px;
 	border: 0;

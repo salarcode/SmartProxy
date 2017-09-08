@@ -36,6 +36,25 @@ var settings = {
 			proxyDNS: false,
 			failoverTimeout: null
 		}
+	],
+	proxyServerSubscriptions: [
+		{
+			name: null,
+			url: null,
+			enabled: false,
+			// same as proxyServerProtocols
+			proxyProtocol: null,
+			// in minutes
+			refreshRate: 0,
+			// types stored in proxyServerSubscriptionObfuscate
+			obfuscation: null,
+			// number of proxies in the list
+			totalCount: 0,
+			username: null,
+			password: null,
+			// the loaded proxies
+			proxies: []
+		}
 	]
 };
 
@@ -45,22 +64,35 @@ var settings = {
 	var currentTab = null;
 
 	// -------------------------
-	function logToConsole() {
-		///<summary>Send log to the console</summary>
-		// Uncomment when debugging
-		console.log(arguments);
+	function setDebug(isDebug) {
+		if (isDebug) {
+			window.debug = {
+				log: window.console.log.bind(window.console),
+				error: window.console.error.bind(window.console),
+				info: window.console.info.bind(window.console),
+				warn: window.console.warn.bind(window.console)
+			};
+		} else {
+			var noOp = function () { };
+
+			window.debug = {
+				log: noOp,
+				error: noOp,
+				warn: noOp,
+				info: noOp
+			}
+		}
 	}
-	function errorToConsole() {
-		///<summary>Send error log to the console</summary>
-		// Uncomment when debugging
-		console.error(arguments);
-	}
+
+	// Uncomment when debugging
+	setDebug(true);
+	//setDebug(false);
 
 	// -------------------------
 	function handleMessages(message, sender, sendResponse) {
 		///<summary>The main message handler</summary>
 
-		logToConsole("core.js incoming> ", message);
+		debug.log("core.js incoming> ", message);
 
 		if (sender.url == proxyScriptExtentionURL) {
 			// only handle messages from the proxy script
@@ -78,7 +110,7 @@ var settings = {
 				}
 			} else {
 				// after the init message the only other messages are status messages
-				logToConsole(message);
+				debug.log(message);
 			}
 			return;
 		}
@@ -149,6 +181,13 @@ var settings = {
 					if (sendResponse) {
 						sendResponse({
 							success: true,
+							restartRequired: restartRequired
+						});
+					}
+				} else {
+					if (sendResponse) {
+						sendResponse({
+							success: false,
 							restartRequired: restartRequired
 						});
 					}
@@ -259,7 +298,7 @@ var settings = {
 				//	if (sendResponse) {
 				//		sendResponse({
 				//			success: false,
-				//			message: 'Proxy rules are invalid.'
+				//			message: 'Proxy servers are invalid.'
 				//		});
 				//	}
 				//}
@@ -283,6 +322,41 @@ var settings = {
 				return;
 			}
 
+			if (commad == "settingsSaveProxySubscriptions" &&
+				message["proxyServerSubscriptions"] != null) {
+
+				//// TODO: validate the proxy servers
+				//if (!validate) {
+				//	if (sendResponse) {
+				//		sendResponse({
+				//			success: false,
+				//			message: 'Proxy servers are invalid.'
+				//		});
+				//	}
+				//}
+
+				settings.proxyServerSubscriptions = message.proxyServerSubscriptions;
+				settingsOperation.saveProxyServerSubscriptions();
+
+				// update the timers
+				timerManagement.updateSubscriptions();
+
+				// it is possible that active proxy is changed
+				proxyRules.notifyActiveProxyServerChange();
+
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
+				if (sendResponse) {
+					sendResponse({
+						success: true,
+						// Proxy server subscriptions saved successfully.
+						message: browser.i18n.getMessage("settingsSaveProxyServerSubscriptionsSuccess"),
+						restartRequired: restartRequired
+					});
+				}
+				return;
+			}
 			if (commad == "restoreSettings" &&
 				message["fileData"] != null) {
 
@@ -316,7 +390,7 @@ var settings = {
 	}
 
 	function onProxyError(error) {
-		errorToConsole(`Proxy error: ${error.message}`);
+		debug.error(`Proxy error: ${error.message}`, error);
 	}
 
 	function saveLoggedTabInfo(tabData, tabInfo) {
@@ -411,7 +485,7 @@ var settings = {
 					// no more logging for this tab
 					requestLogger.removeFromPorxyableLogIdList(tabId);
 
-					errorToConsole("notifyProxyableLogRequest failed for ", tabId, error);
+					debug.error("notifyProxyableLogRequest failed for ", tabId, error);
 				});
 		},
 		notifyProxyableOriginTabRemoved: function (tabId) {
@@ -427,7 +501,7 @@ var settings = {
 				},
 				null,
 				function (error) {
-					errorToConsole("notifyProxyableOriginTabRemoved failed for ", tabId, error);
+					debug.error("notifyProxyableOriginTabRemoved failed for ", tabId, error);
 				});
 		},
 		getProxyableDataForUrl: function (url) {
@@ -529,6 +603,9 @@ var settings = {
 			if (settingObj["proxyServers"] == null || !Array.isArray(settingObj.proxyServers)) {
 				settingObj.proxyServers = [];
 			}
+			if (settingObj["proxyServerSubscriptions"] == null || !Array.isArray(settingObj.proxyServerSubscriptions)) {
+				settingObj.proxyServerSubscriptions = [];
+			}
 			if (settingObj["activeProxyServer"] == null) {
 				settingObj.activeProxyServer = null;
 			}
@@ -550,7 +627,7 @@ var settings = {
 				}
 			}
 			function onGetLocalError(error) {
-				errorToConsole(`settingsOperation.initialize error: ${error.message}`);
+				debug.error(`settingsOperation.initialize error: ${error.message}`);
 			}
 			function migrateFromOldVersion(data) {
 				///<summary>Temporary migration for old version of this addon in Firefox. This method will be removed in the future</summary>
@@ -588,34 +665,52 @@ var settings = {
 					return item;
 				}
 			}
+
+			for (var i = 0; i < settings.proxyServerSubscriptions.length; i++) {
+				var subscription = settings.proxyServerSubscriptions[i];
+
+				for (var j = 0; j < subscription.proxies.length; j++) {
+					var item = subscription.proxies[j];
+					if (item.name === name) {
+						return item;
+					}
+				}
+			}
 			return null;
 		},
 		saveAll: function () {
 			polyfill.storageLocalSet(settings,
 				null,
 				function (error) {
-					errorToConsole(`settingsOperation.saveAll error: ${error.message}`);
+					debug.error(`settingsOperation.saveAll error: ${error.message}`);
 				});
 		},
 		saveRules: function () {
 			polyfill.storageLocalSet({ proxyRules: settings.proxyRules },
 				null,
 				function (error) {
-					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
+					debug.error(`settingsOperation.saveRules error: ${error.message}`);
 				});
 		},
 		saveProxyServers: function () {
 			polyfill.storageLocalSet({ proxyServers: settings.proxyServers },
 				null,
 				function (error) {
-					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
+					debug.error(`settingsOperation.saveRules error: ${error.message}`);
+				});
+		},
+		saveProxyServerSubscriptions: function () {
+			polyfill.storageLocalSet({ proxyServerSubscriptions: settings.proxyServerSubscriptions },
+				null,
+				function (error) {
+					debug.error(`settingsOperation.proxyServerSubscriptions error: ${error.message}`);
 				});
 		},
 		saveActiveProxyServer: function () {
 			polyfill.storageLocalSet({ activeProxyServer: settings.activeProxyServer },
 				null,
 				function (error) {
-					errorToConsole(`settingsOperation.saveRules error: ${error.message}`);
+					debug.error(`settingsOperation.saveRules error: ${error.message}`);
 				});
 		},
 		saveProxyMode: function () {
@@ -624,7 +719,7 @@ var settings = {
 			polyfill.storageLocalSet({ proxyMode: settings.proxyMode },
 				null,
 				function (error) {
-					errorToConsole(`settingsOperation.saveProxyMode error: ${error.message}`);
+					debug.error(`settingsOperation.saveProxyMode error: ${error.message}`);
 				});
 		},
 		validateProxyServer: function (server) {
@@ -859,7 +954,7 @@ var settings = {
 					{ value: config, scope: "regular" },
 					function () {
 						if (chrome.runtime.lastError) {
-							errorToConsole("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
+							debug.error("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
 						}
 					});
 				return;
@@ -878,7 +973,7 @@ var settings = {
 				{ value: config, scope: "regular" },
 				function () {
 					if (chrome.runtime.lastError) {
-						errorToConsole("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
+						debug.error("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
 					}
 				});
 		},
@@ -905,7 +1000,7 @@ var settings = {
 						// Error: Could not establish connection. Receiving end does not exist.
 						restartRequired = true;
 
-					errorToConsole("notifyProxyModeChange failed with ", error);
+					debug.error("notifyProxyModeChange failed with ", error);
 				},
 				{
 					toProxyScript: true
@@ -934,7 +1029,7 @@ var settings = {
 						// Error: Could not establish connection. Receiving end does not exist.
 						restartRequired = true;
 
-					errorToConsole("notifyProxyRulesChange failed with ", error);
+					debug.error("notifyProxyRulesChange failed with ", error);
 				},
 				{
 					toProxyScript: true
@@ -963,7 +1058,7 @@ var settings = {
 						// Error: Could not establish connection. Receiving end does not exist.
 						restartRequired = true;
 
-					errorToConsole("notifyActiveProxyServerChange failed with ", error);
+					debug.error("notifyActiveProxyServerChange failed with ", error);
 				},
 				{
 					toProxyScript: true
@@ -1150,7 +1245,150 @@ var settings = {
 			return { success: true };
 		}
 	};
+	var timerManagement = {
+		serverSubscriptionTimers: [{ id: null, name: null, refreshRate: null }],
+		rulesSubscriptionTimers: [{ id: null, name: null, refreshRate: null }],
+		updateSubscriptions: function () {
 
+			// -------------------------
+			// Proxy Server Subscriptions
+			var serverExistingNames = [];
+			for (let i = 0; i < settings.proxyServerSubscriptions.length; i++) {
+				let subscription = settings.proxyServerSubscriptions[i];
+				if (!subscription.enabled) continue;
+
+				// refresh is not requested
+				if (!(subscription.refreshRate > 0))
+					continue;
+
+				// it should be active, don't remove it
+				serverExistingNames.push(subscription.name);
+
+				let shouldCreate = false;
+				let serverTimerInfo = timerManagement.getServerSubscriptionTimer(subscription.name);
+				if (serverTimerInfo == null) {
+					// should be created
+					shouldCreate = true;
+				} else {
+
+					// should be updated if rates are changed
+					if (serverTimerInfo.timer.refreshRate != subscription.refreshRate) {
+						shouldCreate = true;
+						clearInterval(serverTimerInfo.timer.id);
+
+						// remove from array
+						timerManagement.serverSubscriptionTimers.splice(serverTimerInfo.index, 1);
+					}
+				}
+
+				if (shouldCreate) {
+					let internval = subscription.refreshRate * 60 * 1000;
+					//internval = 1000;
+					let id = setInterval(
+						timerManagement.readServerSubscription,
+						internval,
+						subscription.name);
+
+					timerManagement.serverSubscriptionTimers.push({
+						id: id,
+						name: subscription.name,
+						refreshRate: subscription.refreshRate
+					});
+				}
+			}
+			// remove the remaining timers
+			for (let i = timerManagement.serverSubscriptionTimers.length - 1; i >= 0; i--) {
+				var timer = timerManagement.serverSubscriptionTimers[i];
+
+				// it is created or updated, don't remove it
+				if (serverExistingNames.indexOf(timer.name) !== -1) {
+					continue;
+				}
+
+				// not used or removed. Just unregister it then remove it
+				clearInterval(timer.id);
+
+				// remove from array
+				timerManagement.serverSubscriptionTimers.splice(i, 1);
+			}
+
+			// -------------------------
+			// Proxy Rules Subscriptions
+			// TODO
+		},
+		readServerSubscription: function (subscriptionName) {
+			debug.log("readServerSubscription", subscriptionName);
+			if (!subscriptionName)
+				return;
+
+
+			var subscription = null;
+			for (var i = 0; i < settings.proxyServerSubscriptions.length; i++) {
+				var item = settings.proxyServerSubscriptions[i];
+				if (item.name == subscriptionName) {
+					subscription = item;
+					break;
+				}
+			}
+			if (subscription == null) {
+				// the subscription is removed.
+				//remove the timer
+				let serverTimerInfo = timerManagement.getServerSubscriptionTimer(subscriptionName);
+
+				if (!serverTimerInfo)
+					return;
+
+				clearInterval(serverTimerInfo.timer.id);
+				timerManagement.serverSubscriptionTimers.splice(serverTimerInfo.index, 1);
+				return;
+			}
+
+			proxyImporter.readFromServer(subscription,
+				function (response) {
+					if (!response) return;
+
+					if (response.success) {
+
+						var count = response.result.length;
+
+						subscription.proxies = response.result;
+						subscription.totalCount = count;
+
+						settingsOperation.saveProxyServerSubscriptions();
+
+					} else {
+						debug.warn("Failed to read proxy server subscription: " + subscriptionName);
+					}
+				},
+				function (ex) {
+					debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, ex);
+				});
+		},
+		getServerSubscriptionTimer: function (name) {
+			for (var i = 0; i < timerManagement.serverSubscriptionTimers.length; i++) {
+				var timer = timerManagement.serverSubscriptionTimers[i];
+
+				if (timer.name == name)
+					return {
+						timer: timer,
+						index: i
+					};
+			}
+			return null;
+		},
+		getRulesSubscriptionTimersTimer: function (name) {
+			for (var i = 0; i < timerManagement.rulesSubscriptionTimers.length; i++) {
+				var timer = timerManagement.rulesSubscriptionTimers[i];
+
+				if (timer.name == name)
+					return {
+						timer: timer,
+						index: i
+					};
+			}
+			return null;
+		}
+	};
 	var internal = {
 		getDataForProxyScript: function () {
 
@@ -1164,6 +1402,24 @@ var settings = {
 
 			return settings;
 		},
+		getAllSubscribedProxyServers: function () {
+
+			if (!settings.proxyServerSubscriptions || !settings.proxyServerSubscriptions.length)
+				return [];
+			var result = [];
+
+			for (let i = 0; i < settings.proxyServerSubscriptions.length; i++) {
+				var subsription = settings.proxyServerSubscriptions[i];
+				if (!subsription.enabled) continue;;
+
+				for (var pindex = 0; pindex < subsription.proxies.length; pindex++) {
+					var proxy = subsription.proxies[pindex];
+
+					result.push(proxy);
+				}
+			}
+			return result;
+		},
 		getDataForPopup: function () {
 			///<summary>The data that is required for the popup</summary>
 			var dataForPopup = {
@@ -1174,8 +1430,10 @@ var settings = {
 				activeProxyServer: settings.activeProxyServer,
 				restartRequired: restartRequired,
 				currentTabId: null,
-				currentTabIndex: null
+				currentTabIndex: null,
+				proxyServersSubscribed: internal.getAllSubscribedProxyServers()
 			};
+
 			if (currentTab == null)
 				return dataForPopup;
 
@@ -1319,6 +1577,9 @@ var settings = {
 
 		// set the title
 		internal.setBrowserActionStatus();
+
+		// update the timers
+		timerManagement.updateSubscriptions();
 	});
 
 	// start handling messages
