@@ -47,6 +47,10 @@
 		"message": "Settings",
 		"description": ""
 	},
+	"popupSubscriptions": {
+		"message": "-Subscriptions-",
+		"description": ""
+	},
 	"proxyableTitle": {
 		"message": "Proxyable Resources",
 		"description": ""
@@ -123,6 +127,10 @@
 		"message": "Proxy Rules",
 		"description": ""
 	},
+	"settingsTabProxyServerSubscriptions": {
+		"message": "Proxy Server Subscriptions",
+		"description": ""
+	},
 	"settingsTabBackupRestore": {
 		"message": "Backup/ Restore",
 		"description": ""
@@ -144,7 +152,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "Here is the list if rules that will help SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a>.",
+		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a>.",
 		"description": ""
 	},
 	"settingsTabBackupRestoreDescription": {
@@ -442,6 +450,153 @@
 	"importerImportSuccess": {
 		"message": "Total {0} out of {1} rules are appended.<br>Don't forget to save the changes.",
 		"description": ""
+	},
+	"settingsTabProxyServerSubscriptionsTitle": {
+		"message": "Manage proxy server subscriptions:",
+		"description": ""
+	},
+	"settingsTabProxyServerSubscriptionsDescription": {
+		"message": "Here you can subscribe to proxy lists and switch between the proxies later.",
+		"description": ""
+	},
+	"settingsAddServerSubscriptionButton": {
+		"message": "Subscribe to a list",
+		"description": ""
+	},
+	"settingsServerSubscriptionModalTitle": {
+		"message": "Subscribe to a proxy server list",
+		"description": ""
+	},
+	"settingsServerSubscriptionName": {
+		"message": "Name:",
+		"description": ""
+	},
+	"settingsServerSubscriptionUrl": {
+		"message": "Url:",
+		"description": ""
+	},
+	"settingsServerSubscriptionRefreshRate": {
+		"message": "Refresh Rate:",
+		"description": ""
+	},
+	"settingsServerSubscriptionRefreshRateHelp": {
+		"message": "(in minutes, 0 means no refresh)",
+		"description": ""
+	},
+	"settingsServerSubscriptionEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
+	"settingsServerSubscriptionProtocol": {
+		"message": "Protocol:",
+		"description": ""
+	},
+	"settingsServerSubscriptionObfuscation": {
+		"message": "Obfuscation:",
+		"description": ""
+	},
+	"settingsServerSubscriptionUsername": {
+		"message": "Username:",
+		"description": ""
+	},
+	"settingsServerSubscriptionPassword": {
+		"message": "Password:",
+		"description": ""
+	},
+	"settingsServerSubscriptionCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveButton": {
+		"message": "Save",
+		"description": ""
+	},
+	"settingsServerSubscriptionSavingButton": {
+		"message": "Saving...",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestButton": {
+		"message": "Test",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestingButton": {
+		"message": "Testing...",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServerSubscriptions": {
+		"message": "Are you sure to remove all the proxy server subscriptions?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
+		"message": "All the proxy server subscriptions are removed.<br/>You have to save to apply the changes.",
+		"description": ""
+	},
+	"settingsServerSubscriptionProtocolDefault": {
+		"message": "(Auto detect with HTTP fallback)",
+		"description": ""
+	},
+	"settingsInitializeFailed": {
+		"message": "Failed to read the configurations. Please close the settings page and try again.",
+		"description": ""
+	},
+	"settingsActiveProxyServerSubscriptions": {
+		"message": "-Subscriptions-",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridNoDataContent": {
+		"message": "No subscriptions",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColName": {
+		"message": "Name",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColUrl": {
+		"message": "Url",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColCount": {
+		"message": "Count",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
+	"settingsServerSubscriptionIncompleteForm": {
+		"message": "Please fill the required fields in the right format",
+		"description": ""
+	},
+	"settingsServerSubscriptionInvalidForm": {
+		"message": "Invalid proxy server subscription details",
+		"description": ""
+	},
+	"settingsServerSubscriptionDuplicateName": {
+		"message": "The entered name is already used, please enter another name.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveUpdated": {
+		"message": "The subscription is updated with {0} proxies in it. <br/>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveAdded": {
+		"message": "The subscription is added with {0} proxies in it. <br/>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveFailedGet": {
+		"message": "Failed to get proxies.",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestSuccess": {
+		"message": "Test was successfull. The list returned {0} proxies.",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestFailed": {
+		"message": "Test failed",
+		"description": ""
+	},
+	"settingsSaveProxyServerSubscriptionsSuccess": {
+		"message": "Proxy server subscriptions saved successfully.",
+		"description": ""
 	}
-
 }
