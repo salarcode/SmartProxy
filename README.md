@@ -1,9 +1,11 @@
 ## SmartProxy
 
+[![license](https://img.shields.io/github/license/salarcode/SmartProxy.svg)](https://github.com/salarcode/SmartProxy/blob/master/LICENSE)
+
 #### Download
 
- * [Firefox Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy)
- * [Chrome Extension](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj)
+ * [Firefox Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy) [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/)
+ * [Chrome Extension](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj) [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/jogcnplbkgkfdakgdenhlpcfhjioidoj.svg)](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj)
 
 #### Summary
 SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions.
