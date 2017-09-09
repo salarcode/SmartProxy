@@ -32,7 +32,8 @@
 	function populateSettingsUiData(settingsUiData) {
 
 		let divNoServersWarning = $("#divNoServersWarning");
-		if (settingsUiData.proxyServers.length > 0) {
+		if (settingsUiData.proxyServers.length > 0 ||
+			(settingsUiData.proxyServerSubscriptions && settingsUiData.proxyServerSubscriptions.length > 0)) {
 
 			divNoServersWarning.hide();
 		} else {
@@ -80,14 +81,11 @@
 			function () {
 
 				var proxyName = cmbActiveProxyServer.val();
-				var proxyServers = settingsGrid.getServers();
 
-				var server = settingsGrid.findProxyServerByName(proxyServers, proxyName);
+				var server = settingsGrid.findProxyServerByName(proxyName);
 
 				// this can be null
 				settingsUiData.activeProxyServer = server;
-
-				//messageBox.info("ActiveProxyServer> " + server + " > " + proxyName);
 			});
 
 		$("#btnSaveProxyServers").click(function () {
@@ -390,7 +388,7 @@
 					settingsGrid.loadRules(settingsUiData.proxyRules);
 					settingsGrid.loadServers(settingsUiData.proxyServers);
 					settingsGrid.loadServerSubscriptions(settingsUiData.proxyServerSubscriptions);
-					settingsGrid.reloadActiveProxyServer();
+					settingsGrid.reloadActiveProxyServer(settingsUiData.proxyServers, settingsUiData.proxyServerSubscriptions);
 
 					// make copy
 					originalSettingsData.proxyRules = settingsUiData.proxyRules.slice();
@@ -569,34 +567,35 @@
 				settingsGrid.insertRowRulesGrid();
 			});
 		},
-		findProxyServerByName: function (proxyServers, name) {
+		findProxyServerByName: function (name) {
+			var proxyServers = settingsGrid.getServers();
+			var serverSubscriptions = settingsGrid.getServerSubscriptions();
+
 			for (var i = 0; i < proxyServers.length; i++) {
 				var item = proxyServers[i];
 				if (item.name === name) {
 					return item;
 				}
 			}
+
+			for (var i = 0; i < serverSubscriptions.length; i++) {
+				var subscription = serverSubscriptions[i];
+
+				for (var j = 0; j < subscription.proxies.length; j++) {
+					var item = subscription.proxies[j];
+					if (item.name === name) {
+						return item;
+					}
+				}
+			}
 			return null;
 		},
-		reloadActiveProxyServer: function () {
-			var proxyServers = settingsGrid.getServers();
-			var serverSubscriptions = settingsGrid.getServerSubscriptions();
-
-			// the mix of both
-			settingsGrid.loadActiveProxyServer(proxyServers, serverSubscriptions);
-		},
-		loadActiveProxyServer: function (proxyServers, serverSubscriptions) {
-			var activeProxyServer = settingsUiData.activeProxyServer;
-			
-			var activeProxyName = "";
-			if (activeProxyServer != null) {
-				activeProxyName = activeProxyServer.name;
-			}
-
-			var cmbActiveProxyServer = $("#cmbActiveProxyServer");
-
-			// remove previous items
-			cmbActiveProxyServer.find("option,optgroup").remove();
+		populateProxyServersToCombobox: function ($comboBox, selectedProxyName, proxyServers, serverSubscriptions) {
+			if (!$comboBox) return;
+			if (!proxyServers)
+				proxyServers = settingsGrid.getServers();
+			if (!serverSubscriptions)
+				serverSubscriptions = settingsGrid.getServerSubscriptions();
 
 			var hadSelected = false;
 
@@ -607,9 +606,9 @@
 				let option = $("<option>")
 					.attr("value", proxyServer.name)
 					.text(proxyServer.name)
-					.appendTo(cmbActiveProxyServer);
+					.appendTo($comboBox);
 
-				let selected = (proxyServer.name === activeProxyName);
+				let selected = (proxyServer.name === selectedProxyName);
 				option.prop("selected", selected);
 
 				if (selected) {
@@ -621,7 +620,7 @@
 				var subscriptionGroup = $("<optgroup>")
 					// -Subscriptions-
 					.attr("label", browser.i18n.getMessage("settingsActiveProxyServerSubscriptions"))
-					.appendTo(cmbActiveProxyServer);
+					.appendTo($comboBox);
 
 				let added = false;
 
@@ -637,7 +636,7 @@
 							.text(proxyServer.name)
 							.appendTo(subscriptionGroup);
 
-						let selected = (proxyServer.name === activeProxyName);
+						let selected = (proxyServer.name === selectedProxyName);
 						option.prop("selected", selected);
 
 						if (selected) {
@@ -652,13 +651,28 @@
 				}
 			}
 
-
 			if (!hadSelected) {
 				// first item
-				cmbActiveProxyServer[0].selectedIndex = 0;
-				cmbActiveProxyServer.trigger("change");
+				$comboBox[0].selectedIndex = 0;
+				$comboBox.trigger("change");
+			}
+		},
+		reloadActiveProxyServer: function (proxyServers, serverSubscriptions) {
+
+			var activeProxyServer = settingsUiData.activeProxyServer;
+
+			var activeProxyName = "";
+			if (activeProxyServer != null) {
+				activeProxyName = activeProxyServer.name;
 			}
 
+			var cmbActiveProxyServer = $("#cmbActiveProxyServer");
+
+			// remove previous items
+			cmbActiveProxyServer.find("option,optgroup").remove();
+
+			// populate
+			settingsGrid.populateProxyServersToCombobox(cmbActiveProxyServer, activeProxyName, proxyServers, serverSubscriptions);
 		},
 		insertRowServersGrid: function () {
 			var grdServers = $("#grdServers");
@@ -859,10 +873,27 @@
 					{ name: "source", title: browser.i18n.getMessage("settingsRulesGridColSource"), type: "text", width: 250, validate: "required" },
 					{ name: "pattern", title: browser.i18n.getMessage("settingsRulesGridColPattern"), type: "disabled", width: 250 },
 					{ name: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled"), type: "checkbox", width: 80 },
+					{
+						name: "proxy", title: browser.i18n.getMessage("settingsRulesGridColProxy"), width: 150, align: "left",
+						editTemplate: proxyColEditTemplate,
+						type: "select", valueType: "string",
+						editValue: function () {
+
+							if (this._cmbProxySelect) {
+								var selectedName = this._cmbProxySelect.val();
+								return settingsGrid.findProxyServerByName(selectedName);
+							}
+							return null;
+						},
+						itemTemplate: function (value) {
+							if (!value)
+								return browser.i18n.getMessage("settingsRulesProxyDefault");
+							return value.name;
+						}
+					},
 					{ type: "control" }
 				],
 				onItemDeleting: function (args) {
-
 
 				},
 				onItemDeleted: function (e) {
@@ -876,7 +907,6 @@
 					changeTracking.rules = true;
 				},
 				onItemUpdating: function (args) {
-
 					if (args.item.source != args.previousItem.source) {
 
 						// validate the host
@@ -898,6 +928,30 @@
 
 				}
 			});
+
+			function proxyColEditTemplate(value, item) {
+
+				var selectedProxyName = "";
+				if (value) {
+					selectedProxyName = value.name;
+				}
+
+				var cmbProxySelect = jsGrid.fields.select.prototype.editTemplate.apply(this, arguments);
+				cmbProxySelect.addClass("form-control");
+
+				// the default value which is empty string
+				$("<option>")
+					.attr("value", "")
+					// [General]
+					.text(browser.i18n.getMessage("settingsRulesProxyDefault"))
+					.appendTo(cmbProxySelect);
+
+				// populate
+				settingsGrid.populateProxyServersToCombobox(cmbProxySelect, selectedProxyName);
+
+				this._cmbProxySelect = cmbProxySelect;
+				return cmbProxySelect;
+			}
 
 			if (settingsUiData && settingsUiData.proxyRules)
 				settingsGrid.loadRules(settingsUiData.proxyRules);
@@ -956,6 +1010,8 @@
 				},
 				onItemDeleted: function (e) {
 
+					changeTracking.serverSubscriptions = true;
+					settingsGrid.reloadActiveProxyServer();
 				},
 				onItemInserting: function (args) {
 
@@ -964,6 +1020,7 @@
 
 
 					changeTracking.serverSubscriptions = true;
+					settingsGrid.reloadActiveProxyServer();
 				},
 				onItemUpdating: function (args) {
 
@@ -974,6 +1031,7 @@
 
 
 					changeTracking.serverSubscriptions = true;
+					settingsGrid.reloadActiveProxyServer();
 				}
 			});
 

@@ -85,8 +85,8 @@ var settings = {
 	}
 
 	// Uncomment when debugging
-	setDebug(true);
-	//setDebug(false);
+	//setDebug(true);
+	setDebug(false);
 
 	// -------------------------
 	function handleMessages(message, sender, sendResponse) {
@@ -108,9 +108,6 @@ var settings = {
 					// send the rules
 					sendResponse(proxyInitData);
 				}
-			} else {
-				// after the init message the only other messages are status messages
-				debug.log(message);
 			}
 			return;
 		}
@@ -632,20 +629,30 @@ var settings = {
 			function migrateFromOldVersion(data) {
 				///<summary>Temporary migration for old version of this addon in Firefox. This method will be removed in the future</summary>
 				if (!data) return data;
+				var shouldMigrate = false;
 
 				if (data.proxyRules &&
-					data.proxyRules.length > 0 &&
-					// the old property
-					data.proxyRules[0].rule) {
+					data.proxyRules.length > 0) {
+
+					var rule = data.proxyRules[0];
+
+					// the old properties
+					if (rule.hasOwnProperty("rule") ||
+						!rule.hasOwnProperty("proxy")) {
+						shouldMigrate = true;
+					}
+				}
+				if (shouldMigrate) {
 
 					var newProxyRules = [];
 					for (let i = 0; i < data.proxyRules.length; i++) {
 						var oldRule = data.proxyRules[i];
 						newProxyRules.push(
 							{
-								pattern: oldRule.rule,
-								source: oldRule.host,
-								enabled: oldRule.enabled
+								pattern: oldRule.rule || oldRule.pattern,
+								source: oldRule.host || oldRule.source,
+								enabled: oldRule.enabled,
+								proxy: oldRule.proxy
 							});
 					}
 					data.proxyRules = newProxyRules;
@@ -1121,7 +1128,8 @@ var settings = {
 			var rule = {
 				pattern: pattern,
 				source: domain,
-				enabled: true
+				enabled: true,
+				proxy: null
 			};
 
 			// add and save it

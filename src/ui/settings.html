@@ -105,7 +105,7 @@
 						<div id="divAlertFirefox" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<strong><i class="fa fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
-							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not finalized yet (Smart features are not enabled due the bugs). Please be patient and report any bugs you encounter end help me to improve this extension. Thanks.
+							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not finalized yet (Smart features are not enabled due the bugs). Please be patient and <a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">report</a> any bugs you encounter end help me to improve this extension. Thanks.
 						</div>
 						<div id="divAlertChrome" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -356,7 +356,7 @@
 
 						<div class="modal fade" id="modalServerSubscription" tabindex="-1" role="dialog" aria-labelledby="modalServerSubscriptionLabel">
 							<div class="modal-dialog" role="document">
-								<form class="modal-content" onsubmit="return false;">
+								<form class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 										<h4 class="modal-title" id="modalServerSubscriptionLabel" data-localize="settingsServerSubscriptionModalTitle">Subscribe to a proxy server list</h4>
@@ -396,7 +396,7 @@
 											<div class="form-group col-sm-6">
 												<label for="cmbServerSubscriptionUsername" data-localize="settingsServerSubscriptionUsername">Username:</label>
 												<input type="text" class="form-control" id="cmbServerSubscriptionUsername">
-												<span data-localize="" class="help-block">(if the list requires authentication)</span>
+												<span data-localize="settingsServerSubscriptionAuthenticationHelp" class="help-block">(if the list requires authentication)</span>
 											</div>
 											<div class="form-group col-sm-6">
 												<label for="cmbServerSubscriptionPassword" data-localize="settingsServerSubscriptionPassword">Password:</label>

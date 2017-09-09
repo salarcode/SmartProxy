@@ -72,7 +72,7 @@ var chromeProxy = {
 			+ (path ? (path == '*' ? '(?:\\/.*)?' : ('\\/' + escape(path).replace(/\*/g, '.*'))) : '\\/?')
 			+ ')$');
 	},
-	convertHosts: function (proxyRulesList) {
+	compileRules: function (proxyRulesList) {
 		if (!proxyRulesList || !proxyRulesList.length)
 			return [];
 		var result = [];
@@ -83,31 +83,43 @@ var chromeProxy = {
 			if (!rule.enabled) continue;
 
 			let regex = chromeProxy.matchPatternToRegExp(rule.pattern);
-			if (regex != null)
-				result.push(regex);
+			if (regex != null) {
+				var proxyResult = null;
+				if (rule.proxy) {
+					proxyResult = chromeProxy.convertActiveProxyServer(rule.proxy);
+				}
+				result.push({
+					regex: regex,
+					proxy: proxyResult
+				});
+			}
 		}
 
 		return result;
 	},
-	regexHostArrayToString: function (regexHostArray) {
-		var proxyHostsAsStringArray = [];
-		for (var index = 0; index < regexHostArray.length; index++) {
-			var hostRegex = regexHostArray[index];
+	regexHostArrayToString: function (compiledRules) {
+		var compiledRulesAsStringArray = [];
+		for (var index = 0; index < compiledRules.length; index++) {
+			var rule = compiledRules[index];
 
-			proxyHostsAsStringArray.push(hostRegex.toString());
+			if (rule.proxy) {
+				compiledRulesAsStringArray.push(`{regex:${rule.regex.toString()},proxy:"${rule.proxy}"}`);
+			} else {
+				compiledRulesAsStringArray.push(`{regex:${rule.regex.toString()}}`);
+			}
 		}
-		return proxyHostsAsStringArray;
+		return compiledRulesAsStringArray;
 	},
 	generateChromePacScript: function (proxyInitData) {
 		var proxyRules = proxyInitData.proxyRules;
 		var proxyMode = proxyInitData.proxyMode;
 		var resultActiveProxy = chromeProxy.convertActiveProxyServer(proxyInitData.activeProxyServer);
 
-		var proxyHosts = chromeProxy.convertHosts(proxyRules);
-		var proxyHostsAsString = chromeProxy.regexHostArrayToString(proxyHosts).join(",");
+		var compiledRules = chromeProxy.compileRules(proxyRules);
+		var compiledRulesAsString = chromeProxy.regexHostArrayToString(compiledRules).join(",");
 
 		var pacTemplateString = `var proxyMode = "${proxyMode}";
-var proxyHosts = [${proxyHostsAsString}];
+var compiledRules = [${compiledRulesAsString}];
 var hasActiveProxyServer = ${((proxyInitData.activeProxyServer) ? "true" : "false")};
 const proxyModeType = {
 	direct: "1",
@@ -122,7 +134,6 @@ const resultSystem = "SYSTEM";
 // required PAC function that will be called to determine
 // if a proxy should be used.
 function FindProxyForURL(url, host) {
-
 	// BUGFIX: we need implict convertion (==) instead of (===), since proxy mode comes from different places and i'm lazy to track it
 	if (proxyMode == proxyModeType.direct)
 		return resultDirect;
@@ -139,17 +150,15 @@ function FindProxyForURL(url, host) {
 	if (proxyMode == proxyModeType.always)
 		return resultActiveProxy;
 
-	try {
+	for (let i = 0; i < compiledRules.length; i++) {
+		let rule = compiledRules[i];
 
-		for (let i = 0; i < proxyHosts.length; i++) {
-			let hostRegex = proxyHosts[i];
-
-			if (hostRegex.test(url)) {
-				return resultActiveProxy;
-			}
+		if (rule.regex.test(url)) {
+			if (rule.proxy)
+				// this rule has its own proxy setted
+				return rule.proxy;
+			return resultActiveProxy;
 		}
-	} catch (e) {
-		//polyfill.runtimeSendMessage('Error in FindProxyForURL for ' + url);
 	}
 
 	// let the browser decide

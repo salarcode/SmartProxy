@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 var proxyMode = "1";
-var proxyHosts = [];
+var compiledRules = [];
 var activeProxyServer = null;
 const proxyModeType = {
 	direct: "1",
@@ -110,7 +110,7 @@ var polyfill = {
 
 				var newProxyRules = message["proxyRules"];
 
-				proxyHosts = convertHosts(newProxyRules);
+				compiledRules = compileRules(newProxyRules);
 			}
 		}
 	}
@@ -123,7 +123,7 @@ var polyfill = {
 					return;
 				}
 
-				proxyHosts = convertHosts(proxyInitData.proxyRules);
+				compiledRules = compileRules(proxyInitData.proxyRules);
 				proxyMode = proxyInitData.proxyMode;
 
 				activeProxyServer = proxyInitData.activeProxyServer;
@@ -135,7 +135,7 @@ var polyfill = {
 			});
 	}
 
-	function convertHosts(proxyRules) {
+	function compileRules(proxyRules) {
 		if (!proxyRules || !proxyRules.length)
 			return [];
 		var result = [];
@@ -146,8 +146,16 @@ var polyfill = {
 			if (!rule.enabled) continue;
 
 			let regex = matchPatternToRegExp(rule.pattern);
-			if (regex != null)
-				result.push(regex);
+			if (regex != null) {
+				var proxyResult = null;
+				if (rule.proxy) {
+					proxyResult = convertActiveProxyServer(rule.proxy);
+				}
+				result.push({
+					regex: regex,
+					proxy: proxyResult
+				});
+			}
 		}
 
 		return result;
@@ -229,17 +237,22 @@ function FindProxyForURL(url, host) {
 	// there should be active proxy
 	if (activeProxyServer == null)
 		// null is equal to "PASS" which lets the browser decide
-		return "";
+		// in firefox due a bug "PASS" is not possible: https://bugzilla.mozilla.org/show_bug.cgi?id=1319634
+		// return "PASS";
+		return resultDirect;
 
 	if (proxyMode == proxyModeType.always)
 		return resultActiveProxy;
 
 	try {
 
-		for (let i = 0; i < proxyHosts.length; i++) {
-			let ruleRegex = proxyHosts[i];
+		for (let i = 0; i < compiledRules.length; i++) {
+			let rule = compiledRules[i];
 
-			if (ruleRegex.test(url)) {
+			if (rule.regex.test(url)) {
+				if (rule.proxy)
+					// this rule has its own proxy setted
+					return rule.proxy;
 				return resultActiveProxy;
 			}
 		}
@@ -248,5 +261,7 @@ function FindProxyForURL(url, host) {
 	}
 
 	// null is equal to "PASS" which lets the browser decide
-	return "";
+	// in firefox due a bug "PASS" is not possible: https://bugzilla.mozilla.org/show_bug.cgi?id=1319634
+	// return "PASS";
+	return resultDirect;
 }
