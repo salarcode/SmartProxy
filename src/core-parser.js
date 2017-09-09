@@ -93,7 +93,13 @@ var proxyImporter = {
 
 
 		function doImport(text) {
+
 			var parsedProxies = proxyImporter.parseText(text, options);
+
+			if (parsedProxies == null) {
+				if (fail) fail();
+				return;
+			}
 
 			var importedProxies = utils.removeDuplicatesFunc(parsedProxies,
 				function (item1, item2) {
@@ -178,9 +184,13 @@ var proxyImporter = {
 		const proxyRegex = /(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)(?::+|[\t\s,]+)(\d{2,5})(?:[\t\s]+\[(\w+)\][\t\s]+\[([\w\s]+)\](?:[\t\s]+\[(.+)\][\t\s]+\[(.+)\])?)?/i;
 
 		if (options && options.obfuscation) {
-			if (options.obfuscation.toLowerCase() == "base64") {
-				// decode base64
-				proxyListText = atob(proxyListText);
+			try {
+				if (options.obfuscation.toLowerCase() == "base64") {
+					// decode base64
+					proxyListText = atob(proxyListText);
+				}
+			} catch (e) {
+				return null;
 			}
 		}
 
