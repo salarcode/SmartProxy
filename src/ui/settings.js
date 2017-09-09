@@ -778,7 +778,6 @@
 						// validate the host
 						settingsGrid.validateServersRecord(args);
 					}
-
 				},
 				onItemUpdated: function (e) {
 
@@ -1018,17 +1017,12 @@
 				},
 				onItemInserted: function (e) {
 
-
 					changeTracking.serverSubscriptions = true;
 					settingsGrid.reloadActiveProxyServer();
 				},
 				onItemUpdating: function (args) {
-
-
-
 				},
 				onItemUpdated: function (e) {
-
 
 					changeTracking.serverSubscriptions = true;
 					settingsGrid.reloadActiveProxyServer();

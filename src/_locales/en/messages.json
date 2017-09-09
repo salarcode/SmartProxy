@@ -407,6 +407,14 @@
 		"message": "Enabled",
 		"description": ""
 	},
+	"settingsRulesGridColProxy": {
+		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsRulesProxyDefault": {
+		"message": "[General]",
+		"description": ""
+	},
 	"settingsSaveProxyRulesSuccess": {
 		"message": "Proxy rules saved successfully.",
 		"description": ""
@@ -501,6 +509,10 @@
 	},
 	"settingsServerSubscriptionPassword": {
 		"message": "Password:",
+		"description": ""
+	},
+	"settingsServerSubscriptionAuthenticationHelp": {
+		"message": "(if the list requires authentication)",
 		"description": ""
 	},
 	"settingsServerSubscriptionCancelButton": {

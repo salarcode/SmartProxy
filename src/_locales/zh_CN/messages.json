@@ -407,6 +407,14 @@
 		"message": "启用",
 		"description": ""
 	},
+	"settingsRulesGridColProxy": {
+		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsRulesProxyDefault": {
+		"message": "[General]",
+		"description": ""
+	},
 	"settingsSaveProxyRulesSuccess": {
 		"message": "成功保存代理规则",
 		"description": ""
@@ -501,6 +509,10 @@
 	},
 	"settingsServerSubscriptionPassword": {
 		"message": "Password:",
+		"description": ""
+	},
+	"settingsServerSubscriptionAuthenticationHelp": {
+		"message": "(if the list requires authentication)",
 		"description": ""
 	},
 	"settingsServerSubscriptionCancelButton": {
