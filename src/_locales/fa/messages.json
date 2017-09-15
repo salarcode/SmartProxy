@@ -51,6 +51,10 @@
 		"message": "-Subscriptions-",
 		"description": ""
 	},
+	"popupUpdateText": {
+		"message": "Update to {0} is available",
+		"description": ""
+	},
 	"proxyableTitle": {
 		"message": "لیست درخواست های قابل پراکسی شدن",
 		"description": ""
@@ -133,6 +137,10 @@
 	},
 	"settingsTabBackupRestore": {
 		"message": "Backup/ Restore",
+		"description": ""
+	},
+	"settingsTabUpdateText": {
+		"message": "Update to {0}",
 		"description": ""
 	},
 	"settingsTabAboutDescription": {
