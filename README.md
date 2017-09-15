@@ -4,9 +4,9 @@
 
 #### Download Unlisted Version
 
-Using these release you don't need to wait for stores to release the latest versions.
+Using these releases you don't need to wait for stores to release the latest versions.
 
-Please not that these version won't update automatically and you have to install new version manually.
+Please note that these versions won't update automatically and you have to install new versions manually. Don't worry, you'll be notified to do so.
 
  * [Firefox Extension from Github](https://github.com/salarcode/SmartProxy/releases) [![GitHub release](https://img.shields.io/github/release/salarcode/SmartProxy.svg)](https://github.com/salarcode/SmartProxy/releases)
 
