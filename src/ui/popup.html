@@ -30,12 +30,13 @@
 </head>
 <body>
 	<div class="container-fluid p-1 popup-menu">
-		<div id="divRestartRequired" style="display: none">
-			<div class="alert alert-danger" role="alert">
-				Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
-				changes require restart.
-				<br />Please restart. Sorry for inconvenience.
-			</div>
+		<div id="divRestartRequired" style="display: none" class="alert alert-danger" role="alert">
+			Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
+			changes require restart.
+			<br />Please restart. Sorry for inconvenience.
+		</div>
+		<div id="divUpdateIsAvailable" style="display: none" class="alert alert-success" role="alert">
+			<a href="#" target="_blank">Update text</a>
 		</div>
 		<h5 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h5>
 		<ul id="divProxyMode" class="nav nav-pills nav-stacked">

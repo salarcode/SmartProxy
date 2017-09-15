@@ -29,7 +29,8 @@
 		serverSubscriptions: false
 	};
 
-	function populateSettingsUiData(settingsUiData) {
+	function populateSettingsUiData(dataForSettingsUi) {
+		let settingsUiData = dataForSettingsUi.settings;
 
 		let divNoServersWarning = $("#divNoServersWarning");
 		if (settingsUiData.proxyServers.length > 0 ||
@@ -42,6 +43,13 @@
 
 		$("#spanVersion").text("Version: " + settingsUiData.version);
 
+		if (dataForSettingsUi.updateAvailableText && dataForSettingsUi.updateInfo) {
+			$("#divUpdateIsAvailable").show()
+				.find("a")
+				.attr("href", dataForSettingsUi.updateInfo.downloadPage)
+				.find("span")
+				.text(dataForSettingsUi.updateAvailableText);
+		}
 	}
 
 	function downloadData(data, fileName) {
@@ -382,8 +390,8 @@
 			function (dataForSettingsUi) {
 
 				if (dataForSettingsUi != null) {
-					settingsUiData = dataForSettingsUi;
-					populateSettingsUiData(settingsUiData);
+					settingsUiData = dataForSettingsUi.settings;
+					populateSettingsUiData(dataForSettingsUi);
 
 					settingsGrid.loadRules(settingsUiData.proxyRules);
 					settingsGrid.loadServers(settingsUiData.proxyServers);

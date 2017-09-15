@@ -1397,6 +1397,47 @@ var settings = {
 			return null;
 		}
 	};
+	var updateManager = {
+		updateInfoUrl: "https://raw.githubusercontent.com/salarcode/SmartProxy/master/updateinfo.json",
+		unlistedVersionIndicator: "-unlisted",
+		updateIsAvailable: false,
+		updateInfo: null,
+		readUpdateInfo: function () {
+
+			var addonId = browser.runtime.id || '';
+
+			// IMPORTANT NOTE:
+			// this code will not run in listed versions (listed in AMO or WebStore)
+			if (addonId.indexOf(updateManager.unlistedVersionIndicator) != -1) {
+
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", updateManager.updateInfoUrl);
+
+				xhr.onload = function () {
+					if (xhr.status === 200) {
+						try {
+							var updateInfo = JSON.parse(xhr.responseText);
+							updateManager.updateInfo = updateInfo.latestVersion;
+							checkForUpdate(updateInfo);
+						} catch (e) {
+							debug.error("readUpdateInfo>", e);
+						}
+					}
+				};
+				xhr.send();
+			}
+
+			function checkForUpdate(updateInfo) {
+
+				var manifest = browser.runtime.getManifest();
+				var latestVersion = updateInfo.latestVersion;
+
+				if (latestVersion && latestVersion.version > manifest.version) {
+					updateManager.updateIsAvailable = true;
+				}
+			}
+		}
+	}
 	var internal = {
 		getDataForProxyScript: function () {
 
@@ -1408,7 +1449,20 @@ var settings = {
 		},
 		getDataForSettingsUi: function () {
 
-			return settings;
+			let dataForSettingsUi = {
+				settings: settings,
+				updateAvailableText: null,
+				updateInfo: null
+			};
+
+			if (updateManager.updateIsAvailable) {
+				// generate update text
+				dataForSettingsUi.updateAvailableText =
+					browser.i18n.getMessage("settingsTabUpdateText").replace("{0}", updateManager.updateInfo.versionName);
+				dataForSettingsUi.updateInfo = updateManager.updateInfo;
+			}
+
+			return dataForSettingsUi;
 		},
 		getAllSubscribedProxyServers: function () {
 
@@ -1439,8 +1493,17 @@ var settings = {
 				restartRequired: restartRequired,
 				currentTabId: null,
 				currentTabIndex: null,
-				proxyServersSubscribed: internal.getAllSubscribedProxyServers()
+				proxyServersSubscribed: internal.getAllSubscribedProxyServers(),
+				updateAvailableText: null,
+				updateInfo: null,
 			};
+
+			if (updateManager.updateIsAvailable) {
+				// generate update text
+				dataForPopup.updateAvailableText =
+					browser.i18n.getMessage("popupUpdateText").replace("{0}", updateManager.updateInfo.versionName);
+				dataForPopup.updateInfo = updateManager.updateInfo;
+			}
 
 			if (currentTab == null)
 				return dataForPopup;
@@ -1588,6 +1651,9 @@ var settings = {
 
 		// update the timers
 		timerManagement.updateSubscriptions();
+
+		// check for updates, only in unlisted version
+		updateManager.readUpdateInfo();
 	});
 
 	// start handling messages

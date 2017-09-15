@@ -41,6 +41,13 @@
 			$("#divRestartRequired").show();
 		}
 
+		if (popupData.updateAvailableText && dataForPopup.updateInfo) {
+			$("#divUpdateIsAvailable").show()
+				.find("a")
+				.text(popupData.updateAvailableText)
+				.attr("href", dataForPopup.updateInfo.downloadPage);
+		}
+
 		if (environment.chrome) {
 			// Chrome supports "SYSTEM" proxy mode
 			// FIREFOX: This code should be removed when firefox supports this
