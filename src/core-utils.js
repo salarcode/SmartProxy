@@ -68,7 +68,7 @@ var utils = {
 		if (!url)
 			return [];
 
-		var host = utils.extractHostFromUrl(url);
+		let host = utils.extractHostFromUrl(url);
 		if (host == null)
 			return [];
 
@@ -76,7 +76,7 @@ var utils = {
 	},
 	extractSubdomainsFromHost: function (host) {
 		///<summary></summary>
-		var parts = host.split(".");
+		let parts = host.split(".");
 		if (parts.length <= 2)
 			return [host];
 
@@ -86,12 +86,12 @@ var utils = {
 		if (parts.length <= 2)
 			return [parts.join(".")];
 
-		var result = [];
-		for (var i = 0; i < parts.length; i++) {
+		let result = [];
+		for (let i = 0; i < parts.length; i++) {
 			if (i == parts.length - 1)
 				break;
 
-			var sliced = parts.slice(i, parts.length);
+			let sliced = parts.slice(i, parts.length);
 			//if (sliced.length > 0)
 			result.push(sliced.join("."));
 		}
@@ -146,23 +146,23 @@ var utils = {
 function localizeHtmlPage() {
 	///<summary></summary>
 	function replace_i18n(obj, tag) {
-		var msg = browser.i18n.getMessage(tag.trim());
+		let msg = browser.i18n.getMessage(tag.trim());
 
 		if (msg && msg != tag) obj.innerHTML = msg;
 	}
 
 	// Localize using data-localize tags
-	var data = document.querySelectorAll('[data-localize]');
+	let data = document.querySelectorAll('[data-localize]');
 
-	for (var i in data) if (data.hasOwnProperty(i)) {
-		var obj = data[i];
-		var tag = obj.getAttribute('data-localize').toString();
+	for (let i in data) if (data.hasOwnProperty(i)) {
+		let obj = data[i];
+		let tag = obj.getAttribute('data-localize').toString();
 
 		replace_i18n(obj, tag);
 	}
 
 	// page direction
-	var dir = browser.i18n.getMessage("uiDirection");
+	let dir = browser.i18n.getMessage("uiDirection");
 	if (dir) {
 		let body = document.getElementsByTagName("body");
 		$(body).addClass(dir).css("direction", dir);

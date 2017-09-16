@@ -15,9 +15,9 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
-	var selfTabId = null;
-	var sourceTabId = null;
-	var sourceTab = null;
+	let selfTabId = null;
+	let sourceTabId = null;
+	let sourceTab = null;
 
 
 	function handleMessages(message, sender, sendResponse) {
@@ -64,9 +64,9 @@
 			sendResponse(null);
 	}
 	function initialize() {
-		var url = new URL(document.location);
-		var idStr = url.searchParams.get("id");
-		var id = parseInt(idStr);
+		let url = new URL(document.location);
+		let idStr = url.searchParams.get("id");
+		let id = parseInt(idStr);
 		sourceTabId = id;
 
 		// should be greater or euqal to zero
@@ -165,7 +165,7 @@
 		},
 		changeGridDataStatus: function (ruleRegex, source, enabled) {
 
-			var data = $("#grdProxyable").jsGrid("option", "data");
+			let data = $("#grdProxyable").jsGrid("option", "data");
 
 			for (let item of data) {
 				if (ruleRegex.test(item.url)) {
@@ -193,8 +193,8 @@
 						if (response.message) {
 							messageBox.success(response.message);
 						}
-						var enabled = enableByDomain != null;
-						var rule = response.rule;
+						let enabled = enableByDomain != null;
+						let rule = response.rule;
 
 						if (enabled) {
 							item.enabled = true;
@@ -241,24 +241,24 @@
 							});
 					});
 			} else {
-				var template =
+				let template =
 					`<div class="btn-group">
 						<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<i class="fa fa-plus" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableEnableButton")} <span class="caret"></span>
 						</button><ul class="subdomains-list dropdown-menu dropdown-menu-right"></ul>
 					</div>`;
-				var url = item.url;
-				var subDomains = utils.extractSubdomainsFromUrl(url);
+				let url = item.url;
+				let subDomains = utils.extractSubdomainsFromUrl(url);
 				if (subDomains && subDomains.length) {
 
-					var templateElement = $(template);
-					var subdomainContainer = templateElement.find(".subdomains-list");
+					let templateElement = $(template);
+					let subdomainContainer = templateElement.find(".subdomains-list");
 
 					for (let domain of subDomains) {
-						var domainElement = $(`<li data-domain="${domain}"><a href="#"><small>${browser.i18n.getMessage("proxyableEnableButtonDomain")} <b class='font-url'>${domain}</b></small></a></li>`);
+						let domainElement = $(`<li data-domain="${domain}"><a href="#"><small>${browser.i18n.getMessage("proxyableEnableButtonDomain")} <b class='font-url'>${domain}</b></small></a></li>`);
 
 						domainElement.click(function () {
-							var domain = $(this).attr("data-domain");
+							let domain = $(this).attr("data-domain");
 							proxyableGrid.enableProxyOnClick(domain, item);
 						});
 

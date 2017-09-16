@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
-	var popupData = null;
+	let popupData = null;
 
 	function populateDataForPopup(dataForPopup) {
 
@@ -25,7 +25,7 @@
 			window.close();
 		});
 		$("#openProxiable").click(function () {
-			var sourceTabId = popupData.currentTabId;
+			let sourceTabId = popupData.currentTabId;
 			polyfill.tabsCreate(
 				{
 					active: true,
@@ -62,7 +62,7 @@
 
 	function populateProxyMode(proxyMode, dataForPopup) {
 
-		var divProxyMode = $("#divProxyMode");
+		let divProxyMode = $("#divProxyMode");
 		divProxyMode.find("li.disabled a").css("cursor", "default");
 
 		divProxyMode.find(".nav-link").removeClass("active");
@@ -77,7 +77,7 @@
 			.on("click",
 			function () {
 				let element = $(this);
-				var selectedProxyMode = element.attr("data-proxyMode");
+				let selectedProxyMode = element.attr("data-proxyMode");
 
 				// change proxy mode
 				polyfill.runtimeSendMessage({
@@ -95,8 +95,8 @@
 
 	function populateActiveProxy(dataForPopup) {
 
-		var divActiveProxy = $("#divActiveProxy");
-		var cmbActiveProxy = divActiveProxy.find("#cmbActiveProxy");
+		let divActiveProxy = $("#divActiveProxy");
+		let cmbActiveProxy = divActiveProxy.find("#cmbActiveProxy");
 
 		if (!dataForPopup.proxyServers)
 			dataForPopup.proxyServers = [];
@@ -112,7 +112,7 @@
 			// display select combo
 			divActiveProxy.show();
 
-			var activeProxyName = "";
+			let activeProxyName = "";
 			if (dataForPopup.activeProxyServer != null) {
 				activeProxyName = dataForPopup.activeProxyServer.name;
 			}
@@ -121,7 +121,7 @@
 			$.each(dataForPopup.proxyServers, function (index, proxyServer) {
 
 				// proxyServer
-				var $option = $("<option>")
+				let $option = $("<option>")
 					.attr("value", proxyServer.name)
 					.text(proxyServer.name)
 					.appendTo(cmbActiveProxy);
@@ -130,14 +130,14 @@
 			});
 
 			if (dataForPopup.proxyServersSubscribed.length > 0) {
-				var subscriptionGroup = $("<optgroup>")
+				let subscriptionGroup = $("<optgroup>")
 					// -Subscriptions-
 					.attr("label", browser.i18n.getMessage("popupSubscriptions"))
 					.appendTo(cmbActiveProxy);
 
 				dataForPopup.proxyServersSubscribed.forEach(function (proxyServer) {
 					// proxyServer
-					var $option = $("<option>")
+					let $option = $("<option>")
 						.attr("value", proxyServer.name)
 						.text(proxyServer.name)
 						.appendTo(subscriptionGroup);
@@ -148,7 +148,7 @@
 
 			cmbActiveProxy.on("change",
 				function () {
-					var value = cmbActiveProxy.val();
+					let value = cmbActiveProxy.val();
 					if (!value) return;
 
 					polyfill.runtimeSendMessage(
@@ -175,9 +175,9 @@
 	function populateProxiableDomainList(proxiableDomainList) {
 		if (!proxiableDomainList || !proxiableDomainList.length) return;
 
-		var divProxiableContainer = $("#divProxiableContainer");
-		var divProxiableDomain = divProxiableContainer.find("#divProxiableDomains");
-		var divProxiableDomainItem = divProxiableDomain.find("#divProxiableDomainItem");
+		let divProxiableContainer = $("#divProxiableContainer");
+		let divProxiableDomain = divProxiableContainer.find("#divProxiableDomains");
+		let divProxiableDomainItem = divProxiableDomain.find("#divProxiableDomainItem");
 
 		// display the list container
 		divProxiableContainer.show();
@@ -196,7 +196,7 @@
 			item.appendTo(divProxiableDomain);
 			item.data("domainResult", domainResult);
 
-			var itemIcon = item.find(".proxiable-status-icon");
+			let itemIcon = item.find(".proxiable-status-icon");
 			if (domainResult.hasMatchingRule) {
 				itemIcon.removeClass("fa-square-o")
 					.addClass("fa-check-square-o");

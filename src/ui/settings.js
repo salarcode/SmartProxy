@@ -15,14 +15,14 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 (function () {
-	var settingsUiData = null;
-	var originalSettingsData = {
+	let settingsUiData = null;
+	let originalSettingsData = {
 		proxyServers: null,
 		proxyRules: null,
 		activeProxyServer: null,
 		proxyServerSubscriptions: null
 	};
-	var changeTracking = {
+	let changeTracking = {
 		rules: false,
 		servers: false,
 		activeProxy: false,
@@ -54,8 +54,8 @@
 
 	function downloadData(data, fileName) {
 
-		var downloadUrl = "data:application/json;charset=utf-8," + encodeURIComponent(data);
-		var a = $("<a/>")
+		let downloadUrl = "data:application/json;charset=utf-8," + encodeURIComponent(data);
+		let a = $("<a/>")
 			.attr("download", fileName || "")
 			.attr("href", downloadUrl);
 		a[0].dispatchEvent(new MouseEvent("click"));
@@ -84,13 +84,13 @@
 			//	});
 		}
 
-		var cmbActiveProxyServer = $("#cmbActiveProxyServer");
+		let cmbActiveProxyServer = $("#cmbActiveProxyServer");
 		cmbActiveProxyServer.on("change",
 			function () {
 
-				var proxyName = cmbActiveProxyServer.val();
+				let proxyName = cmbActiveProxyServer.val();
 
-				var server = settingsGrid.findProxyServerByName(proxyName);
+				let server = settingsGrid.findProxyServerByName(proxyName);
 
 				// this can be null
 				settingsUiData.activeProxyServer = server;
@@ -98,7 +98,7 @@
 
 		$("#btnSaveProxyServers").click(function () {
 
-			var saveData = {
+			let saveData = {
 				proxyServers: settingsGrid.getServers(),
 				activeProxyServer: settingsUiData.activeProxyServer
 			};
@@ -162,7 +162,7 @@
 
 		$("#btnSaveProxyRules").click(function () {
 
-			var rules = settingsGrid.getRules();
+			let rules = settingsGrid.getRules();
 
 			polyfill.runtimeSendMessage(
 				{
@@ -221,12 +221,12 @@
 		$("#btnBackupComplete").on("click",
 			function () {
 
-				var data = JSON.stringify(settingsUiData);
+				let data = JSON.stringify(settingsUiData);
 				downloadData(data, "SmartProxy-FullBackup.json");
 			});
 
 		$("#btnBackupRules").click(function () {
-			var data = JSON.stringify(
+			let data = JSON.stringify(
 				{
 					proxyRules: settingsUiData.proxyRules
 				}
@@ -272,16 +272,16 @@
 			selectFileOnTheFly($("#frmRestoreBackup")[0],
 				"retore-file",
 				function (inputElement, files) {
-					var file = files[0];
+					let file = files[0];
 
-					var reader = new FileReader();
+					let reader = new FileReader();
 					reader.onerror = function (event) {
 						// Failed to read the selected file
 						messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFileError"));
 					};
 					reader.onload = function (event) {
-						var textFile = event.target;
-						var fileText = textFile.result;
+						let textFile = event.target;
+						let fileText = textFile.result;
 
 						callRestoreSettings(fileText);
 					};
@@ -340,7 +340,7 @@
 			});
 		})();
 		$("#btnSaveServerSubscriptionsChanges").click(function () {
-			var proxyServerSubscriptions = settingsGrid.getServerSubscriptions();
+			let proxyServerSubscriptions = settingsGrid.getServerSubscriptions();
 
 			polyfill.runtimeSendMessage(
 				{
@@ -414,8 +414,8 @@
 
 	function selectFileOnTheFly(form, inputName, onFileSelected, acceptFormat) {
 		///<summary>Select a file from a detached file input</summary>
-		var fileContainer = $(`<div style='display: none'><input style='display: none' type=file accept='${acceptFormat || ""}' class='' name='${inputName}'/></div>`);
-		var fileInput = fileContainer.find("input");
+		let fileContainer = $(`<div style='display: none'><input style='display: none' type=file accept='${acceptFormat || ""}' class='' name='${inputName}'/></div>`);
+		let fileInput = fileContainer.find("input");
 
 		form = $(form);
 		form.append(fileContainer);
@@ -423,7 +423,7 @@
 		function onfile(evt) {
 			fileContainer.remove();
 
-			var files = evt.target.files;
+			let files = evt.target.files;
 			if (!files.length)
 				return;
 
@@ -446,19 +446,19 @@
 				settingsGrid.insertRowServersGrid();
 			});
 			$("#btnExportProxyServerOpen").click(function () {
-				var proxyList = settingsGrid.exportProxyListFormatted();
+				let proxyList = settingsGrid.exportProxyListFormatted();
 
 				downloadData(proxyList, "SmartProxy-Servers.txt");
 			});
 			$("#btnImportProxyServer").click(function () {
 				let modalContainer = $("#modalImportProxyServer");
-				var append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
-				var file, text;
+				let append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
+				let file, text;
 
 				if (modalContainer.find("#rbtnImportProxyServer_File").prop("checked")) {
 					// file should be selected
 
-					var selectFileElement = modalContainer.find("#btnImportProxyServerSelectFile")[0];
+					let selectFileElement = modalContainer.find("#btnImportProxyServerSelectFile")[0];
 
 					if (selectFileElement.files.length == 0) {
 						// Please select a proxy list file
@@ -468,7 +468,7 @@
 					file = selectFileElement.files[0];
 
 				} else {
-					var proxyServerListText = modalContainer.find("#btnImportProxyServerListText").val().trim();
+					let proxyServerListText = modalContainer.find("#btnImportProxyServerListText").val().trim();
 					if (proxyServerListText == "") {
 						// Please enter proxy list
 						messageBox.error(browser.i18n.getMessage("settingsImportProxyListTextIsEmpty"));
@@ -477,7 +477,7 @@
 					text = proxyServerListText;
 				}
 
-				var proxyServers = settingsGrid.getServers();
+				let proxyServers = settingsGrid.getServers();
 
 				proxyImporter.importText(text, file,
 					append,
@@ -493,7 +493,7 @@
 							modalContainer.find("#btnImportProxyServerSelectFile")[0].value = "";
 							modalContainer.find("#btnImportProxyServerListText").val("");
 
-							var servers = response.result;
+							let servers = response.result;
 							settingsGrid.loadServers(servers);
 
 							// close the window
@@ -504,7 +504,7 @@
 						}
 					},
 					function (error) {
-						var message = "";
+						let message = "";
 						if (error && error.message)
 							message = error.message;
 						messageBox.error(browser.i18n.getMessage("settingsImportProxyServersFailed") + " " + message);
@@ -515,7 +515,7 @@
 
 			$("#btnImportRules").click(function () {
 				let modalContainer = $("#modalImportRules");
-				var selectFileElement = modalContainer.find("#btnImportRulesSelectFile")[0];
+				let selectFileElement = modalContainer.find("#btnImportRulesSelectFile")[0];
 
 				if (selectFileElement.files.length == 0) {
 					// Please select a rules file
@@ -523,14 +523,14 @@
 					return;
 				}
 
-				var selectFile = selectFileElement.files[0];
+				let selectFile = selectFileElement.files[0];
 
-				var append = modalContainer.find("#cmbImportRulesOverride_Append").prop("checked");
-				var sourceType = modalContainer.find("#cmbImportRulesFormat").val();
+				let append = modalContainer.find("#cmbImportRulesOverride_Append").prop("checked");
+				let sourceType = modalContainer.find("#cmbImportRulesFormat").val();
 
-				var proxyRules = settingsGrid.getRules();
+				let proxyRules = settingsGrid.getRules();
 
-				var importFunction;
+				let importFunction;
 				if (sourceType == "autoproxy") {
 					importFunction = ruleImporter.importAutoProxy;
 				} else if (sourceType == "switchy") {
@@ -553,7 +553,7 @@
 								// empty the file input
 								selectFileElement.value = "";
 
-								var rules = response.result;
+								let rules = response.result;
 								settingsGrid.loadRules(rules);
 
 								// close the window
@@ -564,7 +564,7 @@
 							}
 						},
 						function (error) {
-							var message = "";
+							let message = "";
 							if (error && error.message)
 								message = error.message;
 							messageBox.error(browser.i18n.getMessage("settingsImportRulesFailed") + " " + message);
@@ -576,8 +576,8 @@
 			});
 		},
 		findProxyServerByName: function (name) {
-			var proxyServers = settingsGrid.getServers();
-			var serverSubscriptions = settingsGrid.getServerSubscriptions();
+			let proxyServers = settingsGrid.getServers();
+			let serverSubscriptions = settingsGrid.getServerSubscriptions();
 
 			let proxy = proxyServers.find(item => { return item.name === name });
 			if (proxy !== undefined) return proxy;
@@ -595,7 +595,7 @@
 			if (!serverSubscriptions)
 				serverSubscriptions = settingsGrid.getServerSubscriptions();
 
-			var hadSelected = false;
+			let hadSelected = false;
 
 			// display select options
 			$.each(proxyServers, function (index, proxyServer) {
@@ -615,7 +615,7 @@
 			});
 
 			if (serverSubscriptions && serverSubscriptions.length > 0) {
-				var subscriptionGroup = $("<optgroup>")
+				let subscriptionGroup = $("<optgroup>")
 					// -Subscriptions-
 					.attr("label", browser.i18n.getMessage("settingsActiveProxyServerSubscriptions"))
 					.appendTo($comboBox);
@@ -652,14 +652,14 @@
 		},
 		reloadActiveProxyServer: function (proxyServers, serverSubscriptions) {
 
-			var activeProxyServer = settingsUiData.activeProxyServer;
+			let activeProxyServer = settingsUiData.activeProxyServer;
 
-			var activeProxyName = "";
+			let activeProxyName = "";
 			if (activeProxyServer != null) {
 				activeProxyName = activeProxyServer.name;
 			}
 
-			var cmbActiveProxyServer = $("#cmbActiveProxyServer");
+			let cmbActiveProxyServer = $("#cmbActiveProxyServer");
 
 			// remove previous items
 			cmbActiveProxyServer.find("option,optgroup").remove();
@@ -668,13 +668,13 @@
 			settingsGrid.populateProxyServersToCombobox(cmbActiveProxyServer, activeProxyName, proxyServers, serverSubscriptions);
 		},
 		insertRowServersGrid: function () {
-			var grdServers = $("#grdServers");
-			var inserting = grdServers.jsGrid("option", "inserting");
+			let grdServers = $("#grdServers");
+			let inserting = grdServers.jsGrid("option", "inserting");
 			grdServers.jsGrid("option", "inserting", !inserting);
 		},
 		insertRowRulesGrid: function () {
-			var grdRules = $("#grdRules");
-			var inserting = grdRules.jsGrid("option", "inserting");
+			let grdRules = $("#grdRules");
+			let inserting = grdRules.jsGrid("option", "inserting");
 			grdRules.jsGrid("option", "inserting", !inserting);
 		},
 		getServers: function () {
@@ -699,7 +699,7 @@
 				$("#grdServerSubscriptions").jsGrid("option", "data", proxyServerSubscriptions);
 		},
 		validateServersRecord: function (args, checkExisting) {
-			var name = args.item.name;
+			let name = args.item.name;
 			if (!name) {
 				args.cancel = true;
 
@@ -718,7 +718,7 @@
 		},
 		initializeServersGrid: function () {
 
-			var protocolSelect = proxyServerProtocols.map(function (item) {
+			let protocolSelect = proxyServerProtocols.map(function (item) {
 				return { name: item }
 			});
 
@@ -780,7 +780,7 @@
 
 		},
 		validateRulesSource: function (args, checkExisting) {
-			var source = args.item.source;
+			let source = args.item.source;
 			if (!source) {
 				args.cancel = true;
 				// Please specify the source of the rule!
@@ -827,14 +827,14 @@
 			args.item.pattern = utils.hostToMatchPattern(source);
 
 			if (checkExisting !== false) {
-				var data = args.grid.data;
-				for (var i = 0; i < data.length; i++) { // TODO: rewrite with for..of, find out args.item for coding
+				let data = args.grid.data;
+				for (let i = 0; i < data.length; i++) { // TODO: rewrite with for..of, find out args.item for coding
 
 					// don't check the item itself
 					if (i == args.itemIndex)
 						continue;
 
-					var item = data[i];
+					let item = data[i];
 					if (source == item.source) {
 						args.cancel = true;
 						// A Rule with the same source already exists!
@@ -867,7 +867,7 @@
 						editValue: function () {
 
 							if (this._cmbProxySelect) {
-								var selectedName = this._cmbProxySelect.val();
+								let selectedName = this._cmbProxySelect.val();
 								return settingsGrid.findProxyServerByName(selectedName);
 							}
 							return null;
@@ -918,12 +918,12 @@
 
 			function proxyColEditTemplate(value, item) {
 
-				var selectedProxyName = "";
+				let selectedProxyName = "";
 				if (value) {
 					selectedProxyName = value.name;
 				}
 
-				var cmbProxySelect = jsGrid.fields.select.prototype.editTemplate.apply(this, arguments);
+				let cmbProxySelect = jsGrid.fields.select.prototype.editTemplate.apply(this, arguments);
 				cmbProxySelect.addClass("form-control");
 
 				// the default value which is empty string
@@ -944,11 +944,11 @@
 				settingsGrid.loadRules(settingsUiData.proxyRules);
 		},
 		exportProxyListFormatted: function () {
-			var proxyList = settingsGrid.getServers();
-			var result = `[SmartProxy Servers]\r\n`;
+			let proxyList = settingsGrid.getServers();
+			let result = `[SmartProxy Servers]\r\n`;
 
 			for (let proxy of proxyList) {
-				var proxyExport = `${proxy.host}:${proxy.port} [${proxy.protocol}]`;
+				let proxyExport = `${proxy.host}:${proxy.port} [${proxy.protocol}]`;
 
 				if (proxy.username) {
 					proxyExport += ` [${proxy.name}] [${proxy.username}] [${proxy.password}]`;
@@ -981,9 +981,9 @@
 					{
 						name: "name", title: "", width: 80,
 						itemTemplate: function (value, item) {
-							var editButton = $(`<button class="btn btn-sm btn-default" data-name="${value}">${"Edit"}</button>`);
+							let editButton = $(`<button class="btn btn-sm btn-default" data-name="${value}">${"Edit"}</button>`);
 							editButton.click(function () {
-								var name = $(this).attr("data-name");
+								let name = $(this).attr("data-name");
 								settingsGrid.serverSubscriptionsEdit(name);
 							});
 							return editButton;
@@ -1073,7 +1073,7 @@
 			dest.totalCount = src.totalCount;
 		},
 		serverSubscriptionsAdd: function () {
-			var modal = $("#modalServerSubscription");
+			let modal = $("#modalServerSubscription");
 			modal.data("editing", null);
 
 			// empty the form
@@ -1083,13 +1083,13 @@
 		},
 		serverSubscriptionsEdit: function (name) {
 			if (!name) return;
-			var subscriptionsList = settingsGrid.getServerSubscriptions();
+			let subscriptionsList = settingsGrid.getServerSubscriptions();
 			let theSubscription = subscriptionsList.find(item => { return item.name === name });
 			if (!theSubscription) {
 				return;
 			}
 
-			var modal = $("#modalServerSubscription");
+			let modal = $("#modalServerSubscription");
 			modal.data("editing", name);
 
 			// display the data in the form
@@ -1098,7 +1098,7 @@
 			modal.modal("show");
 		},
 		serverSubscriptionsSave: function () {
-			var modal = $("#modalServerSubscription");
+			let modal = $("#modalServerSubscription");
 
 
 			if (!modal.find("form")[0].checkValidity()) {
@@ -1106,15 +1106,15 @@
 				messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionIncompleteForm"));
 				return;
 			}
-			var subscriptionModel = settingsGrid.serverSubscriptionsGetModel(modal);
+			let subscriptionModel = settingsGrid.serverSubscriptionsGetModel(modal);
 			if (!subscriptionModel) {
 				messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionInvalidForm"));
 				return;
 			}
 
-			var subscriptionsList = settingsGrid.getServerSubscriptions();
-			var editingName = modal.data("editing");
-			var editingSubscription = null;
+			let subscriptionsList = settingsGrid.getServerSubscriptions();
+			let editingName = modal.data("editing");
+			let editingSubscription = null;
 
 			if (editingName) {
 				let nameIsDuplicate = false;
@@ -1145,7 +1145,7 @@
 					$("#btnSaveServerSubscription").button('reset');
 
 					if (response.success) {
-						var count = response.result.length;
+						let count = response.result.length;
 
 						subscriptionModel.proxies = response.result;
 						subscriptionModel.totalCount = count;
@@ -1179,7 +1179,7 @@
 				});
 		},
 		serverSubscriptionsTest: function (updateButtonState) {
-			var modal = $("#modalServerSubscription");
+			let modal = $("#modalServerSubscription");
 
 			if (!modal.find("form")[0].checkValidity()) {
 				// Please fill the required fields in the right format
@@ -1187,7 +1187,7 @@
 				return;
 			}
 
-			var subscriptionModel = settingsGrid.serverSubscriptionsGetModel(modal);
+			let subscriptionModel = settingsGrid.serverSubscriptionsGetModel(modal);
 
 			if (!subscriptionModel) {
 				messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionInvalidForm"));
@@ -1206,7 +1206,7 @@
 						$("#btnTestServerSubscription").button('reset');
 
 					if (response.success) {
-						var count = response.result.length;
+						let count = response.result.length;
 
 						messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionTestSuccess").replace("{0}", count));
 					} else {

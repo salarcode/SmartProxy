@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-var environment = {
+let environment = {
 	chrome: false,
 	name: "general",
 	version: 1.0,
@@ -54,7 +54,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.tabs.get(tabId,
 				function (tabInfo) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -70,7 +70,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.tabs.remove(tabIds,
 				function (tabInfo) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -86,7 +86,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.tabs.reload(tabId, reloadProperties,
 				function (tabInfo) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -102,7 +102,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.tabs.query(queryInfo,
 				function (tabs) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -118,7 +118,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.tabs.create(createProperties,
 				function (tabInfo) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -140,7 +140,7 @@ var polyfill = {
 				message,
 				options,
 				function (response) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -159,7 +159,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.management.getSelf(
 				function (response) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -175,7 +175,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.storage.local.get(keys,
 				function (response) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -191,7 +191,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.storage.local.set(items,
 				function (response) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -226,7 +226,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.runtime.openOptionsPage(
 				function (response) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -242,7 +242,7 @@ var polyfill = {
 		if (environment.chrome) {
 			chrome.browserAction.setIcon(details,
 				function (response) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {

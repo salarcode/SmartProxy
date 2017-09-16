@@ -51,11 +51,11 @@ var proxyImporter = {
 				});
 		}
 
-		var xhr = new XMLHttpRequest();
+		let xhr = new XMLHttpRequest();
 		xhr.open("GET", serverDetail.url);
 
 		if (serverDetail.username && serverDetail.password) {
-			var pass = atob(serverDetail.password);
+			let pass = atob(serverDetail.password);
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(serverDetail.username + ":" + pass));
 		}
 
@@ -78,13 +78,13 @@ var proxyImporter = {
 		if (text)
 			doImport(text);
 		else {
-			var reader = new FileReader();
+			let reader = new FileReader();
 			reader.onerror = function (event) {
 				if (fail) fail(event);
 			};
 			reader.onload = function (event) {
-				var textFile = event.target;
-				var fileText = textFile.result;
+				let textFile = event.target;
+				let fileText = textFile.result;
 
 				doImport(fileText);
 			};
@@ -94,14 +94,14 @@ var proxyImporter = {
 
 		function doImport(text) {
 
-			var parsedProxies = proxyImporter.parseText(text, options);
+			let parsedProxies = proxyImporter.parseText(text, options);
 
 			if (parsedProxies == null) {
 				if (fail) fail();
 				return;
 			}
 
-			var importedProxies = utils.removeDuplicatesFunc(parsedProxies,
+			let importedProxies = utils.removeDuplicatesFunc(parsedProxies,
 				function (item1, item2) {
 					return item1.host == item2.host &&
 						item1.port == item2.port &&
@@ -116,8 +116,8 @@ var proxyImporter = {
 					currentProxies = [];
 
 				// make a copy
-				var appendedProxyList = currentProxies.slice();
-				var appendedProxyCount = 0;
+				let appendedProxyList = currentProxies.slice();
+				let appendedProxyCount = 0;
 
 				for (let importedProxy of importedProxies) {
 					let proxyExists = currentProxies.some(cp => 
@@ -189,7 +189,7 @@ var proxyImporter = {
 		let proxyListLines = proxyListText.split(/(\r|\n)/);
 		let parsedProxies = [];
 
-		var defaultProxyProtocol = "HTTP";
+		let defaultProxyProtocol = "HTTP";
 		if (options && options.proxyProtocol)
 			defaultProxyProtocol = options.proxyProtocol;
 
@@ -198,7 +198,7 @@ var proxyImporter = {
 			if (proxyLine.length < 4)
 				continue;
 
-			var match = proxyRegex.exec(proxyLine);
+			let match = proxyRegex.exec(proxyLine);
 			if (!match) {
 				continue;
 			}
@@ -232,18 +232,18 @@ var ruleImporter = {
 			if (fail) fail();
 			return;
 		}
-		var reader = new FileReader();
+		let reader = new FileReader();
 		reader.onerror = function (event) {
 			if (fail) fail(event);
 		};
 		reader.onload = function (event) {
-			var textFile = event.target;
-			var fileText = textFile.result;
+			let textFile = event.target;
+			let fileText = textFile.result;
 
 			try {
 
 				// TODO: implement switchy import rules
-				var parsedRuleList = externalAppRuleParser.Switchy.parse(fileText);
+				let parsedRuleList = externalAppRuleParser.Switchy.parse(fileText);
 
 
 			} catch (e) {
@@ -262,22 +262,22 @@ var ruleImporter = {
 			return;
 		}
 
-		var reader = new FileReader();
+		let reader = new FileReader();
 		reader.onerror = function (event) {
 			if (fail) fail(event);
 		};
 		reader.onload = function (event) {
-			var textFile = event.target;
-			var fileText = textFile.result;
+			let textFile = event.target;
+			let fileText = textFile.result;
 
 			try {
-				var parsedRuleList = externalAppRuleParser.AutoProxy.parse(fileText);
+				let parsedRuleList = externalAppRuleParser.AutoProxy.parse(fileText);
 
-				var importedRuleList = [];
-				var notImportedRules = 0;
+				let importedRuleList = [];
+				let notImportedRules = 0;
 
 				for (let parsedRule of parsedRuleList) {
-					var convertResult = ruleImporter.convertAutoProxyRule(parsedRule.condition.pattern, parsedRule.condition.conditionType);
+					let convertResult = ruleImporter.convertAutoProxyRule(parsedRule.condition.pattern, parsedRule.condition.conditionType);
 					if (!convertResult.success) {
 						notImportedRules++;
 						continue;
@@ -297,11 +297,11 @@ var ruleImporter = {
 						currentRules = [];
 
 					// make a copy
-					var appendedRuleList = currentRules.slice();
-					var appendedRuleCount = 0;
+					let appendedRuleList = currentRules.slice();
+					let appendedRuleCount = 0;
 
 					for (let importedRuke of importedRuleList) {
-						var ruleExists = false;
+						let ruleExists = false;
 						for (let c of currentRules) {
 
 							if (c.pattern == importedRuke.pattern) {
@@ -356,8 +356,8 @@ var ruleImporter = {
 		reader.readAsText(file);
 	},
 	convertAutoProxyRule: function (cleanCondition, conditionType) {
-		var source = "";
-		var pattern = "";
+		let source = "";
+		let pattern = "";
 
 		switch (conditionType) {
 			case "KeywordCondition":
@@ -414,7 +414,7 @@ var ruleImporter = {
 
 				if (cleanCondition.indexOf("*") !== -1) {
 
-					var cleanConditionRemMiddle = cleanCondition;
+					let cleanConditionRemMiddle = cleanCondition;
 
 					if (cleanConditionRemMiddle.indexOf("://*.") !== -1) {
 						cleanConditionRemMiddle = cleanConditionRemMiddle.replace("//*.", "://");
@@ -539,7 +539,7 @@ var externalAppRuleParser = {
 			return text;
 		},
 		parse: function (text, matchProfileName, defaultProfileName) {
-			var cond, exclusive_rules, line, list, normal_rules, profile, source, _i, _len, _ref;
+			let cond, exclusive_rules, line, list, normal_rules, profile, source, _i, _len, _ref;
 			normal_rules = [];
 			exclusive_rules = [];
 			_ref = text.split(/\n|\r/);
@@ -603,13 +603,13 @@ var externalAppRuleParser = {
 			}
 		},
 		parse: function (text, matchProfileName, defaultProfileName) {
-			var parser, switchy;
+			let parser, switchy;
 			switchy = externalAppRuleParser["Switchy"];
 			parser = switchy.getParser(text);
 			return switchy[parser](text, matchProfileName, defaultProfileName);
 		},
 		directReferenceSet: function (_arg) {
-			var defaultProfileName, iSpace, line, matchProfileName, parser, profile, refs, ruleList, switchy, text, _i, _len, _ref;
+			let defaultProfileName, iSpace, line, matchProfileName, parser, profile, refs, ruleList, switchy, text, _i, _len, _ref;
 			ruleList = _arg.ruleList, matchProfileName = _arg.matchProfileName, defaultProfileName = _arg.defaultProfileName;
 			text = ruleList.trim();
 			switchy = externalAppRuleParser["Switchy"];
@@ -638,7 +638,7 @@ var externalAppRuleParser = {
 			return refs;
 		},
 		compose: function (_arg, _arg1) {
-			var defaultProfileName, eol, line, rule, ruleList, rules, specialLineStart, useExclusive, withResult, _i, _len, _ref;
+			let defaultProfileName, eol, line, rule, ruleList, rules, specialLineStart, useExclusive, withResult, _i, _len, _ref;
 			rules = _arg.rules, defaultProfileName = _arg.defaultProfileName;
 			_ref = _arg1 != null ? _arg1 : {}, withResult = _ref.withResult, useExclusive = _ref.useExclusive;
 			eol = "\r\n";
@@ -673,7 +673,7 @@ var externalAppRuleParser = {
 			return ruleList;
 		},
 		getParser: function (text) {
-			var parser, switchy;
+			let parser, switchy;
 			switchy = externalAppRuleParser["Switchy"];
 			parser = "parseOmega";
 			if (!utils.strStartsWith(text, switchy.omegaPrefix)) {
@@ -684,7 +684,7 @@ var externalAppRuleParser = {
 			return parser;
 		},
 		conditionFromLegacyWildcard: function (pattern) {
-			var host;
+			let host;
 			if (pattern[0] === "@") {
 				pattern = pattern.substring(1);
 			} else {
@@ -709,7 +709,7 @@ var externalAppRuleParser = {
 			}
 		},
 		parseLegacy: function (text, matchProfileName, defaultProfileName) {
-			var begin, cond, exclusive_rules, line, list, normal_rules, profile, section, source, _i, _len, _ref;
+			let begin, cond, exclusive_rules, line, list, normal_rules, profile, section, source, _i, _len, _ref;
 			normal_rules = [];
 			exclusive_rules = [];
 			begin = false;
@@ -766,14 +766,14 @@ var externalAppRuleParser = {
 			return exclusive_rules.concat(normal_rules);
 		},
 		parseOmega: function (text, matchProfileName, defaultProfileName, args) {
-			var cond, directive, error, exclusiveProfile, feature, iSpace, includeSource, line, lno, profile, rule, rules, rulesWithDefaultProfile, source, strict, withResult, _i, _j, _len, _len1, _ref, _ref1;
+			let cond, directive, error, exclusiveProfile, feature, iSpace, includeSource, line, lno, profile, rule, rules, rulesWithDefaultProfile, source, strict, withResult, _i, _j, _len, _len1, _ref, _ref1;
 			if (args == null) {
 				args = {};
 			}
 			strict = args.strict;
 			if (strict) {
 				error = function (fields) {
-					var err, key, value;
+					let err, key, value;
 					err = new Error(fields.message);
 					for (key in fields) {
 						if (!__hasProp.call(fields, key)) continue;
