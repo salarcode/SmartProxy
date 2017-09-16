@@ -48,11 +48,11 @@
 		"description": ""
 	},
 	"popupSubscriptions": {
-		"message": "-Subscriptions-",
+		"message": "-订阅-",
 		"description": ""
 	},
 	"popupUpdateText": {
-		"message": "Update to {0} is available",
+		"message": "新版本 {0} 可用",
 		"description": ""
 	},
 	"proxyableTitle": {
@@ -116,7 +116,7 @@
 		"description": ""
 	},
 	"settingsTitle": {
-		"message": "SmartProxy Settings",
+		"message": "SmartProxy 设置",
 		"description": ""
 	},
 	"settingsTabAbout": {
@@ -132,7 +132,7 @@
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptions": {
-		"message": "Proxy Server Subscriptions",
+		"message": "代理服务器订阅",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -140,7 +140,7 @@
 		"description": ""
 	},
 	"settingsTabUpdateText": {
-		"message": "Update to {0}",
+		"message": "更新至版本 {0}",
 		"description": ""
 	},
 	"settingsTabAboutDescription": {
@@ -252,63 +252,63 @@
 		"description": ""
 	},
 	"settingsImportProxiesButton": {
-		"message": "Import Proxies",
+		"message": "导入代理",
 		"description": ""
 	},
 	"settingsExportProxiesButton": {
-		"message": "Export Proxies",
+		"message": "导出代理",
 		"description": ""
 	},
 	"settingsImportProxiesTitle": {
-		"message": "Import Proxy List",
+		"message": "导入代理列表",
 		"description": ""
 	},
 	"settingsImportProxiesSelectFileButton": {
-		"message": "Proxy list file",
+		"message": "导出代理列表",
 		"description": ""
 	},
 	"settingsImportProxiesSelectTextButton": {
-		"message": "Proxy list text",
+		"message": "代理列表文本",
 		"description": ""
 	},
 	"settingsImportProxiesOptionAppend": {
-		"message": "Append to existing proxies",
+		"message": "增量添加到代理列表",
 		"description": ""
 	},
 	"settingsImportProxiesOptionOverride": {
-		"message": "Replace current proxies (use with caution)",
+		"message": "覆盖当前列表（谨慎操作）",
 		"description": ""
 	},
 	"settingsImportProxiesCancelButton": {
-		"message": "Cancel",
+		"message": "取消",
 		"description": ""
 	},
 	"settingsImportProxiesImportButton": {
-		"message": "Import",
+		"message": "导入",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServers": {
-		"message": "Are you sure to remove all the proxy servers?",
+		"message": "你确定移除所有代理服务器？",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "All the proxy servers are removed.<br/>You have to save to apply the changes.",
+		"message": "所有代理服务器已移除。<br/>你必须保存才能应用更改。",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
-		"message": "Please select a proxy list file",
+		"message": "请选择代理列表文件",
 		"description": ""
 	},
 	"settingsImportProxyListTextIsEmpty": {
-		"message": "Please enter proxy list",
+		"message": "请输入代理列表",
 		"description": ""
 	},
 	"settingsImportProxyServersFailed": {
-		"message": "Failed to import the proxy servers",
+		"message": "导入代理服务器失败",
 		"description": ""
 	},
 	"importerImportProxySuccess": {
-		"message": "Total ${importedRuleList.length} out of ${parsedRuleList.length} proxies are imported.<br>Don't forget to save the changes.",
+		"message": "总计导入 ${parsedRuleList.length} 个代理服务器当中的 ${importedRuleList.length} 个。<br>请注意保存更改。",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveServers": {
@@ -416,11 +416,11 @@
 		"description": ""
 	},
 	"settingsRulesGridColProxy": {
-		"message": "Proxy Server",
+		"message": "代理服务器",
 		"description": ""
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[General]",
+		"message": "[通用]",
 		"description": ""
 	},
 	"settingsSaveProxyRulesSuccess": {
@@ -468,155 +468,155 @@
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
-		"message": "Manage proxy server subscriptions:",
+		"message": "管理代理服务器订阅：",
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptionsDescription": {
-		"message": "Here you can subscribe to proxy lists and switch between the proxies later.",
+		"message": "此处可以订阅代理列表并在稍后用于切换代理。",
 		"description": ""
 	},
 	"settingsAddServerSubscriptionButton": {
-		"message": "Subscribe to a list",
+		"message": "订阅一个列表",
 		"description": ""
 	},
 	"settingsServerSubscriptionModalTitle": {
-		"message": "Subscribe to a proxy server list",
+		"message": "订阅一个代理服务器列表",
 		"description": ""
 	},
 	"settingsServerSubscriptionName": {
-		"message": "Name:",
+		"message": "名称：",
 		"description": ""
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "Url:",
+		"message": "URL：",
 		"description": ""
 	},
 	"settingsServerSubscriptionRefreshRate": {
-		"message": "Refresh Rate:",
+		"message": "刷新率：",
 		"description": ""
 	},
 	"settingsServerSubscriptionRefreshRateHelp": {
-		"message": "(in minutes, 0 means no refresh)",
+		"message": "（分钟，0 表示不刷新）",
 		"description": ""
 	},
 	"settingsServerSubscriptionEnabled": {
-		"message": "Enabled",
+		"message": "启用",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocol": {
-		"message": "Protocol:",
+		"message": "协议：",
 		"description": ""
 	},
 	"settingsServerSubscriptionObfuscation": {
-		"message": "Obfuscation:",
+		"message": "混淆：",
 		"description": ""
 	},
 	"settingsServerSubscriptionUsername": {
-		"message": "Username:",
+		"message": "用户名：",
 		"description": ""
 	},
 	"settingsServerSubscriptionPassword": {
-		"message": "Password:",
+		"message": "密码：",
 		"description": ""
 	},
 	"settingsServerSubscriptionAuthenticationHelp": {
-		"message": "(if the list requires authentication)",
+		"message": "（当需要验证身份时请填入）",
 		"description": ""
 	},
 	"settingsServerSubscriptionCancelButton": {
-		"message": "Cancel",
+		"message": "取消",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveButton": {
-		"message": "Save",
+		"message": "保存",
 		"description": ""
 	},
 	"settingsServerSubscriptionSavingButton": {
-		"message": "Saving...",
+		"message": "保持中...",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestButton": {
-		"message": "Test",
+		"message": "测试",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestingButton": {
-		"message": "Testing...",
+		"message": "测试中...",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
-		"message": "Are you sure to remove all the proxy server subscriptions?",
+		"message": "你希望移除所有代理服务器订阅？",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "All the proxy server subscriptions are removed.<br/>You have to save to apply the changes.",
+		"message": "所有代理服务器订阅已移除。<br/>你必须保存以应用更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
-		"message": "(Auto detect with HTTP fallback)",
+		"message": "（自动检测回退 HTTP 代理）",
 		"description": ""
 	},
 	"settingsInitializeFailed": {
-		"message": "Failed to read the configurations. Please close the settings page and try again.",
+		"message": "读取设置失败。请关闭设置页然后重试。",
 		"description": ""
 	},
 	"settingsActiveProxyServerSubscriptions": {
-		"message": "-Subscriptions-",
+		"message": "-订阅-",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridNoDataContent": {
-		"message": "No subscriptions",
+		"message": "没有订阅",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColName": {
-		"message": "Name",
+		"message": "名称",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "Url",
+		"message": "URL",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColCount": {
-		"message": "Count",
+		"message": "计数",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColEnabled": {
-		"message": "Enabled",
+		"message": "已启用",
 		"description": ""
 	},
 	"settingsServerSubscriptionIncompleteForm": {
-		"message": "Please fill the required fields in the right format",
+		"message": "请使用正确格式在必要的区域填入信息。",
 		"description": ""
 	},
 	"settingsServerSubscriptionInvalidForm": {
-		"message": "Invalid proxy server subscription details",
+		"message": "无效的代理服务器订阅信息",
 		"description": ""
 	},
 	"settingsServerSubscriptionDuplicateName": {
-		"message": "The entered name is already used, please enter another name.",
+		"message": "该名称已占用，请重新输入。",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "The subscription is updated with {0} proxies in it. <br/>Don't forget to save the changes.",
+		"message": "订阅已更新，包含 {0} 个代理。<br/>请注意保存更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "The subscription is added with {0} proxies in it. <br/>Don't forget to save the changes.",
+		"message": "订阅已添加，包含 {0} 个代理。<br/>请注意保存更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {
-		"message": "Failed to get proxies.",
+		"message": "无法拉取代理",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "Test was successfull. The list returned {0} proxies.",
+		"message": "测试成功。列表返回 {0} 个代理。",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestFailed": {
-		"message": "Test failed",
+		"message": "测试失败",
 		"description": ""
 	},
 	"settingsSaveProxyServerSubscriptionsSuccess": {
-		"message": "Proxy server subscriptions saved successfully.",
+		"message": "代理服务器订阅成功。",
 		"description": ""
 	}
 }
