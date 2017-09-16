@@ -119,22 +119,14 @@ var proxyImporter = {
 				var appendedProxyList = currentProxies.slice();
 				var appendedProxyCount = 0;
 
-				for (var importIndex = 0; importIndex < importedProxies.length; importIndex++) {
-					var importedProxy = importedProxies[importIndex];
-
-					var proxyExists = false;
-					for (var ci = 0; ci < currentProxies.length; ci++) {
-						var cp = currentProxies[ci];
-
-						if (cp.host == importedProxy.host &&
+				for (let importedProxy of importedProxies) {
+					let proxyExists = currentProxies.some(cp => 
+					{
+						return (cp.host == importedProxy.host &&
 							cp.port == importedProxy.port &&
 							cp.username == importedProxy.username &&
-							cp.password == importedProxy.password) {
-							proxyExists = true;
-							break;
-						}
-					}
-
+							cp.password == importedProxy.password) 
+					});
 					if (proxyExists)
 						continue;
 
@@ -201,9 +193,7 @@ var proxyImporter = {
 		if (options && options.proxyProtocol)
 			defaultProxyProtocol = options.proxyProtocol;
 
-		for (let line = 0; line < proxyListLines.length; line++) {
-			var proxyLine = proxyListLines[line];
-
+		for (let proxyLine of proxyListLines) {
 			// simple check
 			if (proxyLine.length < 4)
 				continue;
@@ -286,9 +276,7 @@ var ruleImporter = {
 				var importedRuleList = [];
 				var notImportedRules = 0;
 
-				for (var i = 0; i < parsedRuleList.length; i++) {
-					var parsedRule = parsedRuleList[i];
-
+				for (let parsedRule of parsedRuleList) {
 					var convertResult = ruleImporter.convertAutoProxyRule(parsedRule.condition.pattern, parsedRule.condition.conditionType);
 					if (!convertResult.success) {
 						notImportedRules++;
@@ -312,13 +300,11 @@ var ruleImporter = {
 					var appendedRuleList = currentRules.slice();
 					var appendedRuleCount = 0;
 
-					for (var importIndex = 0; importIndex < importedRuleList.length; importIndex++) {
-						var importedRuke = importedRuleList[importIndex];
-
+					for (let importedRuke of importedRuleList) {
 						var ruleExists = false;
-						for (var ci = 0; ci < currentRules.length; ci++) {
+						for (let c of currentRules) {
 
-							if (currentRules[ci].pattern == importedRuke.pattern) {
+							if (c.pattern == importedRuke.pattern) {
 								ruleExists = true;
 								break;
 							}

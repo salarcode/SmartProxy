@@ -77,9 +77,7 @@ var chromeProxy = {
 			return [];
 		var result = [];
 
-		for (let i = 0; i < proxyRulesList.length; i++) {
-			let rule = proxyRulesList[i];
-
+		for (let rule of proxyRulesList) {
 			if (!rule.enabled) continue;
 
 			let regex = chromeProxy.matchPatternToRegExp(rule.pattern);
@@ -99,9 +97,7 @@ var chromeProxy = {
 	},
 	regexHostArrayToString: function (compiledRules) {
 		var compiledRulesAsStringArray = [];
-		for (var index = 0; index < compiledRules.length; index++) {
-			var rule = compiledRules[index];
-
+		for (let rule of compiledRules) {
 			if (rule.proxy) {
 				compiledRulesAsStringArray.push(`{regex:${rule.regex.toString()},proxy:"${rule.proxy}"}`);
 			} else {
@@ -150,12 +146,10 @@ function FindProxyForURL(url, host) {
 	if (proxyMode == proxyModeType.always)
 		return resultActiveProxy;
 
-	for (let i = 0; i < compiledRules.length; i++) {
-		let rule = compiledRules[i];
-
+	for (let rule of compiledRules) {
 		if (rule.regex.test(url)) {
 			if (rule.proxy)
-				// this rule has its own proxy setted
+				// this rule has its own proxy setup
 				return rule.proxy;
 			return resultActiveProxy;
 		}

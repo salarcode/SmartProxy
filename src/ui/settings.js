@@ -579,22 +579,12 @@
 			var proxyServers = settingsGrid.getServers();
 			var serverSubscriptions = settingsGrid.getServerSubscriptions();
 
-			for (var i = 0; i < proxyServers.length; i++) {
-				var item = proxyServers[i];
-				if (item.name === name) {
-					return item;
-				}
-			}
+			let proxy = proxyServers.find(item => { return item.name === name });
+			if (proxy !== undefined) return proxy;
 
-			for (var i = 0; i < serverSubscriptions.length; i++) {
-				var subscription = serverSubscriptions[i];
-
-				for (var j = 0; j < subscription.proxies.length; j++) {
-					var item = subscription.proxies[j];
-					if (item.name === name) {
-						return item;
-					}
-				}
+			for (let subscription of serverSubscriptions) {
+				let subitem = subscription.proxies.find(item => { return item.name === name });
+				if (subitem !== undefined) return proxy;
 			}
 			return null;
 		},
@@ -632,13 +622,10 @@
 
 				let added = false;
 
-				for (let i = 0; i < serverSubscriptions.length; i++) {
-					let subscription = serverSubscriptions[i];
+				for (let subscription of serverSubscriptions) {
 					if (!subscription.enabled || !subscription.proxies) continue;
 
-					for (let pindex = 0; pindex < subscription.proxies.length; pindex++) {
-						let proxyServer = subscription.proxies[pindex];
-
+					for (let proxyServer of subscription.proxies) {
 						let option = $("<option>")
 							.attr("value", proxyServer.name)
 							.text(proxyServer.name)
@@ -646,10 +633,8 @@
 
 						let selected = (proxyServer.name === selectedProxyName);
 						option.prop("selected", selected);
+						hadSelected = selected;
 
-						if (selected) {
-							hadSelected = true;
-						}
 						added = true;
 					}
 				}
@@ -724,15 +709,10 @@
 			}
 
 			if (checkExisting !== false) {
-				var data = args.grid.data;
-				for (var i = 0; i < data.length; i++) {
-					var item = data[i];
-					if (name == item.name) {
-						args.cancel = true;
-						// A Server with the same name already exists!
-						messageBox.error(browser.i18n.getMessage("settingsServerNameExists"));
-						return;
-					}
+				if (args.grid.data.some(item => {(name == item.name)})) {
+					args.cancel = true;
+					// A Server with the same name already exists!
+					messageBox.error(browser.i18n.getMessage("settingsServerNameExists"));
 				}
 			}
 		},
@@ -848,7 +828,7 @@
 
 			if (checkExisting !== false) {
 				var data = args.grid.data;
-				for (var i = 0; i < data.length; i++) {
+				for (var i = 0; i < data.length; i++) { // TODO: rewrite with for..of, find out args.item for coding
 
 					// don't check the item itself
 					if (i == args.itemIndex)
@@ -967,9 +947,7 @@
 			var proxyList = settingsGrid.getServers();
 			var result = `[SmartProxy Servers]\r\n`;
 
-			for (var i = 0; i < proxyList.length; i++) {
-				var proxy = proxyList[i];
-
+			for (let proxy of proxyList) {
 				var proxyExport = `${proxy.host}:${proxy.port} [${proxy.protocol}]`;
 
 				if (proxy.username) {
@@ -1106,15 +1084,7 @@
 		serverSubscriptionsEdit: function (name) {
 			if (!name) return;
 			var subscriptionsList = settingsGrid.getServerSubscriptions();
-			var theSubscription = null;
-			for (let sindex = 0; sindex < subscriptionsList.length; sindex++) {
-				var item = subscriptionsList[sindex];
-				if (item.name == name) {
-					theSubscription = item;
-					break;
-				}
-			}
-
+			let theSubscription = subscriptionsList.find(item => { return item.name === name });
 			if (!theSubscription) {
 				return;
 			}
@@ -1148,8 +1118,7 @@
 
 			if (editingName) {
 				let nameIsDuplicate = false;
-				for (var i = 0; i < subscriptionsList.length; i++) {
-					var item = subscriptionsList[i];
+				for (let item of subscriptionsList) {
 					if (item.name === editingName) {
 						editingSubscription = item;
 					}

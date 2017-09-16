@@ -167,18 +167,10 @@
 
 			var data = $("#grdProxyable").jsGrid("option", "data");
 
-			for (let i = 0; i < data.length; i++) {
-
-				var item = data[i];
+			for (let item of data) {
 				if (ruleRegex.test(item.url)) {
-
 					item.enabled = enabled;
-
-					if (enabled) {
-						item.source = source;
-					} else {
-						item.source = "";
-					}
+					item.source = enabled ? source : "";
 				}
 			}
 
@@ -262,8 +254,7 @@
 					var templateElement = $(template);
 					var subdomainContainer = templateElement.find(".subdomains-list");
 
-					for (var index = 0; index < subDomains.length; index++) {
-						var domain = subDomains[index];
+					for (let domain of subDomains) {
 						var domainElement = $(`<li data-domain="${domain}"><a href="#"><small>${browser.i18n.getMessage("proxyableEnableButtonDomain")} <b class='font-url'>${domain}</b></small></a></li>`);
 
 						domainElement.click(function () {

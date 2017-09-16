@@ -185,8 +185,7 @@
 		// this is proxyable
 		$("#openProxiable").show();
 
-		for (let i = 0; i < proxiableDomainList.length; i++) {
-			let domainResult = proxiableDomainList[i];
+		for (let domainResult of proxiableDomainList) {
 			let domain = domainResult.domain;
 			let ruleIsForThisHost = domainResult.ruleIsForThisHost;
 

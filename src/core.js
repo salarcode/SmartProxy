@@ -645,8 +645,7 @@ var settings = {
 				if (shouldMigrate) {
 
 					var newProxyRules = [];
-					for (let i = 0; i < data.proxyRules.length; i++) {
-						var oldRule = data.proxyRules[i];
+					for (let oldRule of data.proxyRules) {
 						newProxyRules.push(
 							{
 								pattern: oldRule.rule || oldRule.pattern,
@@ -666,23 +665,14 @@ var settings = {
 
 		},
 		findProxyServerByName: function (name) {
-			for (var i = 0; i < settings.proxyServers.length; i++) {
-				var item = settings.proxyServers[i];
-				if (item.name === name) {
-					return item;
-				}
+			let proxy = settings.proxyServers.find(item => { return item.name === name });
+			if (proxy !== undefined) return proxy;
+
+			for (let subscription of settings.proxyServerSubscriptions) {
+				let subitem = subscription.proxies.find(item => { return item.name === name });
+				if (subitem !== undefined) return proxy;
 			}
 
-			for (var i = 0; i < settings.proxyServerSubscriptions.length; i++) {
-				var subscription = settings.proxyServerSubscriptions[i];
-
-				for (var j = 0; j < subscription.proxies.length; j++) {
-					var item = subscription.proxies[j];
-					if (item.name === name) {
-						return item;
-					}
-				}
-			}
 			return null;
 		},
 		saveAll: function () {
@@ -750,11 +740,8 @@ var settings = {
 
 				//var currentServers = settings.proxyServers;
 
-				//for (let sindex = 0; sindex < currentServers.length; sindex++) {
-				//	var cserver = currentServers[sindex];
-
+				//for (let cserver of currentServers) {
 				//	if (cserver.name == server.name) {
-
 				//		return { success: false, exist: true, message: `Server name ${server.name} already exists` };
 				//	}
 				//}
@@ -777,10 +764,7 @@ var settings = {
 
 			function restoreServers(backupServers) {
 				var upcomingServers = [];
-				for (let i = 0; i < backupServers.length; i++) {
-
-					var server = backupServers[i];
-
+				for (let server of backupServers) {
 					let validateResult = settingsOperation.validateProxyServer(server);
 					if (!validateResult.success) {
 						// if validation failed
@@ -801,10 +785,7 @@ var settings = {
 
 			function restoreRules(backupRules) {
 				var upcomingRules = [];
-				for (let i = 0; i < backupRules.length; i++) {
-
-					var rule = backupRules[i];
-
+				for (let rule of backupRules) {
 					let validateResult = proxyRules.validateRule(rule);
 					if (!validateResult.success) {
 						// if validation failed
@@ -1156,9 +1137,7 @@ var settings = {
 			if (url.indexOf(":") == -1)
 				url = "http://" + url;
 
-			for (let i = 0; i < settings.proxyRules.length; i++) {
-				let rule = settings.proxyRules[i];
-				//for (let rule of settings.proxyRules) {
+			for (let rule of settings.proxyRules) {
 				if (!rule.enabled) continue;
 
 				let regex = utils.matchPatternToRegExp(rule.pattern);
@@ -1221,14 +1200,8 @@ var settings = {
 		},
 		getRuleBySource: function (source) {
 			///<summary>Finds the defined rule for the host</summary>
-			for (var i = 0; i < settings.proxyRules.length; i++) {
-				var rule = settings.proxyRules[i];
-
-				if (rule.source == source) {
-					return rule;
-				}
-			}
-			return null;
+			let rule = settings.proxyRules.find(rule => { return rule.source == source });
+			return ((rule !== undefined) ? rule : null);
 		},
 		validateRule: function (rule) {
 			// 	proxyRules: [{ rule: "rule", host: "host", enabled: false }],
@@ -1261,8 +1234,7 @@ var settings = {
 			// -------------------------
 			// Proxy Server Subscriptions
 			var serverExistingNames = [];
-			for (let i = 0; i < settings.proxyServerSubscriptions.length; i++) {
-				let subscription = settings.proxyServerSubscriptions[i];
+			for (let subscription of settings.proxyServerSubscriptions) {
 				if (!subscription.enabled) continue;
 
 				// refresh is not requested
@@ -1305,20 +1277,17 @@ var settings = {
 				}
 			}
 			// remove the remaining timers
-			for (let i = timerManagement.serverSubscriptionTimers.length - 1; i >= 0; i--) {
-				var timer = timerManagement.serverSubscriptionTimers[i];
-
-				// it is created or updated, don't remove it
-				if (serverExistingNames.indexOf(timer.name) !== -1) {
-					continue;
+			let newArray = timerManagement.serverSubscriptionTimers.filter(timer => {
+				// not used or removed. Just unregister it then remove it
+				if (serverExistingNames.indexOf(timer.name) === -1) {
+					clearInterval(timer.id);
+					return false;
 				}
 
-				// not used or removed. Just unregister it then remove it
-				clearInterval(timer.id);
-
-				// remove from array
-				timerManagement.serverSubscriptionTimers.splice(i, 1);
-			}
+				// it is created or updated, don't remove it
+				return true;
+			});
+			timerManagement.serverSubscriptionTimers = newArray;
 
 			// -------------------------
 			// Proxy Rules Subscriptions
@@ -1330,15 +1299,8 @@ var settings = {
 				return;
 
 
-			var subscription = null;
-			for (var i = 0; i < settings.proxyServerSubscriptions.length; i++) {
-				var item = settings.proxyServerSubscriptions[i];
-				if (item.name == subscriptionName) {
-					subscription = item;
-					break;
-				}
-			}
-			if (subscription == null) {
+			var subscription = settings.proxyServerSubscriptions.find(item => { return item.name === name });
+			if (!subscription) {
 				// the subscription is removed.
 				//remove the timer
 				let serverTimerInfo = timerManagement.getServerSubscriptionTimer(subscriptionName);
@@ -1372,30 +1334,22 @@ var settings = {
 					debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, ex);
 				});
 		},
-		getServerSubscriptionTimer: function (name) {
-			for (var i = 0; i < timerManagement.serverSubscriptionTimers.length; i++) {
-				var timer = timerManagement.serverSubscriptionTimers[i];
-
-				if (timer.name == name)
-					return {
-						timer: timer,
-						index: i
-					};
+		_getSubscriptionTimer: function (timers, name) {
+			let index = timers.findIndex(timer => { return timer.name === name });
+			if (index >= 0) {
+				return {
+					timer: timers[index],
+					index: index
+				};
 			}
 			return null;
 		},
-		getRulesSubscriptionTimersTimer: function (name) {
-			for (var i = 0; i < timerManagement.rulesSubscriptionTimers.length; i++) {
-				var timer = timerManagement.rulesSubscriptionTimers[i];
-
-				if (timer.name == name)
-					return {
-						timer: timer,
-						index: i
-					};
-			}
-			return null;
-		}
+		getServerSubscriptionTimer: function (name) {
+			return this._getSubscriptionTimer(timerManagement.serverSubscriptionTimers, name);
+		},
+		getRulesSubscriptionTimersTimer: function (name) { // TODO: Merge to a function
+			return this._getSubscriptionTimer(timerManagement.rulesSubscriptionTimers, name);
+		},
 	};
 	var updateManager = {
 		updateInfoUrl: "https://raw.githubusercontent.com/salarcode/SmartProxy/master/updateinfo.json",
@@ -1470,14 +1424,9 @@ var settings = {
 				return [];
 			var result = [];
 
-			for (let i = 0; i < settings.proxyServerSubscriptions.length; i++) {
-				var subsription = settings.proxyServerSubscriptions[i];
-				if (!subsription.enabled) continue;;
-
-				for (var pindex = 0; pindex < subsription.proxies.length; pindex++) {
-					var proxy = subsription.proxies[pindex];
-
-					result.push(proxy);
+			for (let subsription of settings.proxyServerSubscriptions) {
+				if (subsription.enabled) {
+					result = result.concat(subsription.proxies);
 				}
 			}
 			return result;
