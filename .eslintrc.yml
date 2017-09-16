@@ -1,0 +1,31 @@
+root: true
+
+env:
+  browser: true
+  es6: true
+  webextensions: true
+
+extends:
+  eslint:recommended
+
+globals:
+  $: false
+  browser: true
+  debug: false
+  environment: false
+  jQuery: false
+  jsGrid: false
+  messageBox: false
+  Noty: false
+  polyfill: false
+  utils: false
+
+parserOptions:
+  ecmaVersion: 6
+
+rules:
+  no-console: 1
+  no-undef: 1
+  no-unused-vars: 1
+  no-extra-semi: 1
+  no-useless-escape: 1
