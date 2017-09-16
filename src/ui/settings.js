@@ -436,7 +436,7 @@
 	}
 
 	// ------------------
-	var settingsGrid = {
+	const settingsGrid = {
 		initialize: function () {
 			settingsGrid.initializeServersGrid();
 			settingsGrid.initializeRulesGrid();

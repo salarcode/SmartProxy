@@ -40,7 +40,7 @@ if (typeof browser === "undefined") {
 	environment.chrome = true;
 }
 
-var polyfill = {
+const polyfill = {
 	lastError: function () {
 		if (environment.chrome) {
 			// chrome.extension.lastError Deprecated since Chrome 58

@@ -153,7 +153,7 @@
 			});
 	}
 
-	var proxyableGrid = {
+	const proxyableGrid = {
 		initialize: function () {
 			proxyableGrid.initializeRequestLogGrid();
 		},

@@ -30,7 +30,7 @@ if (typeof browser === "undefined") {
 }
 
 // Only polyfill the API that is used in extension
-var polyfill = {
+const polyfill = {
 	lastError: function () {
 		if (environment.chrome) {
 			// chrome.extension.lastError Deprecated since Chrome 58
@@ -210,7 +210,7 @@ var polyfill = {
 
 			//chrome.runtime.getBrowserInfo(
 			//	function (response) {
-			//		var error = polyfill.lastError();
+			//		const error = polyfill.lastError();
 			//		if (error) {
 			//			if (fail) fail(error);
 			//		} else {

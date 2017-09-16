@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-var utils = {
+const utils = {
 	removeDuplicates: function (originalArray, prop) {
 		///<reference path="https://stackoverflow.com/a/36744732/322446"/>
 		return originalArray.filter(
@@ -55,7 +55,7 @@ var utils = {
 	},
 	extractHostFromUrl: function (url) {
 		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^\/]+|)\/?(.*))$/i);
+		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
 
 		const match = matchPattern.exec(url);
 		if (!match) {
@@ -121,7 +121,7 @@ var utils = {
 
 		// matches all valid match patterns (except '<all_urls>')
 		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^\/]+|)\/?(.*))$/i);
+		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
 
 		if (pattern === '<all_urls>') {
 			//return (/^(?:https?|file|ftp|app):\/\//);

@@ -77,7 +77,7 @@ let messageBox = {
 		}).show();
 	},
 	confirm: function (title, accept, cancel) {
-		var dialog = new Noty({
+		const dialog = new Noty({
 			text: title,
 			layout: "center",
 			modal: true,

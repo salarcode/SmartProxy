@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var proxyImporter = {
+const proxyImporter = {
 	readFromServer: function (serverDetail, success, fail) {
 		if (!serverDetail || !serverDetail.url) {
 			if (fail) fail();
@@ -225,7 +225,7 @@ var proxyImporter = {
 		return parsedProxies;
 	}
 }
-var ruleImporter = {
+const ruleImporter = {
 	importSwitchyRules: function (file, append, currentRules, success, fail) {
 
 		if (!file) {
@@ -522,7 +522,7 @@ Beginning with !, just for explanation.
  * @source   https://github.com/FelisCatus/SwitchyOmega
  * @license  GPL3
  */
-var externalAppRuleParser = {
+const externalAppRuleParser = {
 	'AutoProxy': {
 		magicPrefix: "W0F1dG9Qcm94",
 		detect: function (text) {

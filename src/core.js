@@ -417,7 +417,7 @@ let settings = {
 		return tabData;
 	}
 
-	var requestLogger = {
+	const requestLogger = {
 
 		startLogger: function () {
 
@@ -588,7 +588,7 @@ let settings = {
 		updateActiveTab();
 	}
 
-	var settingsOperation = {
+	const settingsOperation = {
 		setDefaultSettins: function (settingObj) {
 
 			if (settingObj["proxyRules"] == null || !Array.isArray(settingObj.proxyRules)) {
@@ -738,7 +738,7 @@ let settings = {
 				return { success: false, message: browser.i18n.getMessage("settingsServerNameRequired") };
 			} else {
 
-				//var currentServers = settings.proxyServers;
+				//const currentServers = settings.proxyServers;
 
 				//for (let cserver of currentServers) {
 				//	if (cserver.name == server.name) {
@@ -924,7 +924,7 @@ let settings = {
 			}
 		}
 	}
-	var proxyRules = {
+	const proxyRules = {
 		updateChromeProxyConfig: function () {
 			///<summary>Chrome only. Updating Chrome proxy config.</summary>
 
@@ -1226,7 +1226,7 @@ let settings = {
 			return { success: true };
 		}
 	};
-	var timerManagement = {
+	const timerManagement = {
 		serverSubscriptionTimers: [{ id: null, name: null, refreshRate: null }],
 		rulesSubscriptionTimers: [{ id: null, name: null, refreshRate: null }],
 		updateSubscriptions: function () {
@@ -1351,7 +1351,7 @@ let settings = {
 			return this._getSubscriptionTimer(timerManagement.rulesSubscriptionTimers, name);
 		},
 	};
-	var updateManager = {
+	const updateManager = {
 		updateInfoUrl: "https://raw.githubusercontent.com/salarcode/SmartProxy/master/updateinfo.json",
 		unlistedVersionIndicator: "-unlisted",
 		updateIsAvailable: false,
@@ -1392,7 +1392,7 @@ let settings = {
 			}
 		}
 	}
-	var internal = {
+	const internal = {
 		getDataForProxyScript: function () {
 
 			return {

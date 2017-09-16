@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-var chromeProxy = {
+const chromeProxy = {
 	convertActiveProxyServer: function (activeProxyServer) {
 		const resultDirect = "DIRECT";
 
@@ -53,7 +53,7 @@ var chromeProxy = {
 
 		// matches all valid match patterns (except '<all_urls>')
 		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^\/]+|)\/?(.*))$/i);
+		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
 
 		if (pattern === '<all_urls>') {
 			//return (/^(?:https?|file|ftp|app):\/\//);

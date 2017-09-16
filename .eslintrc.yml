@@ -15,9 +15,13 @@ globals:
   environment: false
   jQuery: false
   jsGrid: false
+  localizeHtmlPage: false
   messageBox: false
   Noty: false
+  proxyImporter: false
+  proxyModeType: false
   polyfill: false
+  ruleImporter: false
   utils: false
 
 parserOptions:
