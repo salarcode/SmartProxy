@@ -533,11 +533,12 @@ const externalAppRuleParser = {
 			return text;
 		},
 		parse: function (text, matchProfileName, defaultProfileName) {
-			let cond, exclusive_rules, list, normal_rules, profile, source, ref;
+			let cond, exclusive_rules, line, list, normal_rules, profile, source, _i, _len, _ref;
 			normal_rules = [];
 			exclusive_rules = [];
-			ref = text.split(/\n|\r/);
-			for (let line of ref) {
+			_ref = text.split(/\n|\r/);
+			for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+				line = _ref[_i];
 				line = line.trim();
 				if (line.length === 0 || line[0] === "!" || line[0] === "[") {
 					continue;
@@ -602,7 +603,7 @@ const externalAppRuleParser = {
 			return switchy[parser](text, matchProfileName, defaultProfileName);
 		},
 		directReferenceSet: function (_arg) {
-			let defaultProfileName, iSpace, matchProfileName, parser, profile, refs, ruleList, switchy, text;
+			let defaultProfileName, iSpace, line, matchProfileName, parser, profile, refs, ruleList, switchy, text, _i, _len, _ref;
 			ruleList = _arg.ruleList, matchProfileName = _arg.matchProfileName, defaultProfileName = _arg.defaultProfileName;
 			text = ruleList.trim();
 			switchy = externalAppRuleParser["Switchy"];
@@ -614,8 +615,9 @@ const externalAppRuleParser = {
 				return;
 			}
 			refs = {};
-			let ref = text.split(/\n|\r/);
-			for (let line of ref) {
+			_ref = text.split(/\n|\r/);
+			for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+				line = _ref[_i];
 				line = line.trim();
 				if (switchy.specialLineStart.indexOf(line[0]) < 0) {
 					iSpace = line.lastIndexOf(" +");
@@ -630,7 +632,7 @@ const externalAppRuleParser = {
 			return refs;
 		},
 		compose: function (_arg, _arg1) {
-			let defaultProfileName, eol, line, ruleList, rules, specialLineStart, useExclusive, withResult, _ref;
+			let defaultProfileName, eol, line, rule, ruleList, rules, specialLineStart, useExclusive, withResult, _i, _len, _ref;
 			rules = _arg.rules, defaultProfileName = _arg.defaultProfileName;
 			_ref = _arg1 != null ? _arg1 : {}, withResult = _ref.withResult, useExclusive = _ref.useExclusive;
 			eol = "\r\n";
@@ -644,7 +646,8 @@ const externalAppRuleParser = {
 				ruleList += eol;
 			}
 			specialLineStart = externalAppRuleParser["Switchy"].specialLineStart + "+";
-			for (let rule of rules) {
+			for (_i = 0, _len = rules.length; _i < _len; _i++) {
+				rule = rules[_i];
 				line = externalAppRuleParser.module.str(rule.condition);
 				if (useExclusive && rule.profileName === defaultProfileName) {
 					line = "!" + line;
@@ -700,13 +703,14 @@ const externalAppRuleParser = {
 			}
 		},
 		parseLegacy: function (text, matchProfileName, defaultProfileName) {
-			let begin, cond, exclusive_rules, list, normal_rules, profile, section, source, ref;
+			let begin, cond, exclusive_rules, line, list, normal_rules, profile, section, source, _i, _len, _ref;
 			normal_rules = [];
 			exclusive_rules = [];
 			begin = false;
 			section = "WILDCARD";
-			ref = text.split(/\n|\r/);
-			for (let line of ref) {
+			_ref = text.split(/\n|\r/);
+			for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+				line = _ref[_i];
 				line = line.trim();
 				if (line.length === 0 || line[0] === ";") {
 					continue;
@@ -756,7 +760,7 @@ const externalAppRuleParser = {
 			return exclusive_rules.concat(normal_rules);
 		},
 		parseOmega: function (text, matchProfileName, defaultProfileName, args) {
-			let cond, directive, error, exclusiveProfile, feature, iSpace, includeSource, lno, profile, rule, rules, rulesWithDefaultProfile, source, strict, withResult, _ref;
+			let cond, directive, error, exclusiveProfile, feature, iSpace, includeSource, line, lno, profile, rule, rules, rulesWithDefaultProfile, source, strict, withResult, _i, _j, _len, _len1, _ref, _ref1;
 			if (args == null) {
 				args = {};
 			}
@@ -779,7 +783,9 @@ const externalAppRuleParser = {
 			withResult = false;
 			exclusiveProfile = null;
 			lno = 0;
-			for (let line of text.split(/\n|\r/)) {
+			_ref1 = text.split(/\n|\r/);
+			for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+				line = _ref1[_i];
 				lno++;
 				line = line.trim();
 				if (line.length === 0) {
@@ -869,7 +875,8 @@ const externalAppRuleParser = {
 					}
 					exclusiveProfile = defaultProfileName || "direct";
 				}
-				for (let rule of rulesWithDefaultProfile) {
+				for (_j = 0, _len1 = rulesWithDefaultProfile.length; _j < _len1; _j++) {
+					rule = rulesWithDefaultProfile[_j];
 					rule.profileName = exclusiveProfile;
 				}
 			}
