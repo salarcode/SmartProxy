@@ -33,43 +33,26 @@ const utils = {
 		return str.substr(0, prefix.length) === prefix;
 	},
 	isValidHost: function (host) {
-		if (!host)
-			return false;
-		if (host.indexOf("about:") > -1)
-			return false;
-		return true;
+		return (host && host.indexOf("about:") === -1);
 	},
 	isValidUrl: function (url) {
-		if (!url)
-			return false;
-		if (url.indexOf("://") == -1)
-			return false;
-		return true;
+		try { new URL(url); return true; }
+		catch (e) { return false; }
 	},
-	isFullUrl: function (host) {
-		if (!host)
-			return false;
-		if (host.indexOf("://") > -1)
-			return true;
-		return false;
+	isFullUrl: function (host) { // note: allow like http:/example.org/ in Chrome and Firefox
+		return this.isValidUrl(host);
 	},
 	extractHostFromUrl: function (url) {
-		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
-
-		const match = matchPattern.exec(url);
-		if (!match) {
-			return null;
+		try {
+			let u = new URL(url)
+			if (u.protocol in "moz-extension:|chrome-extension:") return null;
+			return u.host
 		}
-		const [, scheme, host, path,] = match;
-		return host;
+		catch (e) { return null; }
 	},
 	extractSubdomainsFromUrl: function (url) {
-		if (!url)
-			return [];
-
 		let host = utils.extractHostFromUrl(url);
-		if (host == null)
+		if (host === null)
 			return [];
 
 		return utils.extractSubdomainsFromHost(host);
@@ -154,9 +137,8 @@ function localizeHtmlPage() {
 	// Localize using data-localize tags
 	let data = document.querySelectorAll('[data-localize]');
 
-	for (let i in data) if (data.hasOwnProperty(i)) {
-		let obj = data[i];
-		let tag = obj.getAttribute('data-localize').toString();
+	for (let obj of data) {
+		let tag = obj.dataset['localize'];
 
 		replace_i18n(obj, tag);
 	}
@@ -164,7 +146,6 @@ function localizeHtmlPage() {
 	// page direction
 	let dir = browser.i18n.getMessage("uiDirection");
 	if (dir) {
-		let body = document.getElementsByTagName("body");
-		$(body).addClass(dir).css("direction", dir);
+		$(document.body).addClass(dir).css("direction", dir);
 	}
 }
