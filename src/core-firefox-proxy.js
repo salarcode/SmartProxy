@@ -140,7 +140,9 @@ const polyfill = {
 			return [];
 		let result = [];
 
-		for (let rule of proxyRules) {
+		for (let i = 0; i < proxyRules.length; i++) {
+			let rule = proxyRules[i];
+
 			if (!rule.enabled) continue;
 
 			let regex = matchPatternToRegExp(rule.pattern);
@@ -244,7 +246,9 @@ function FindProxyForURL(url, host) {
 
 	try {
 
-		for (let rule of compiledRules) {
+		for (let i = 0; i < compiledRules.length; i++) {
+			let rule = compiledRules[i];
+
 			if (rule.regex.test(url)) {
 				if (rule.proxy)
 					// this rule has its own proxy setup
