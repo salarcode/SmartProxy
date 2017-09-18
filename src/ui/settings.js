@@ -579,11 +579,11 @@
 			let proxyServers = settingsGrid.getServers();
 			let serverSubscriptions = settingsGrid.getServerSubscriptions();
 
-			let proxy = proxyServers.find(item => { return item.name === name });
+			let proxy = proxyServers.find(item => item.name === name);
 			if (proxy !== undefined) return proxy;
 
 			for (let subscription of serverSubscriptions) {
-				let subitem = subscription.proxies.find(item => { return item.name === name });
+				let subitem = subscription.proxies.find(item => item.name === name);
 				if (subitem !== undefined) return proxy;
 			}
 			return null;
@@ -828,7 +828,7 @@
 
 			if (checkExisting !== false) {
 				let data = args.grid.data;
-				for (let i = 0; i < data.length; i++) { // TODO: rewrite with for..of, find out args.item for coding
+				for (let i = 0; i < data.length; i++) {
 
 					// don't check the item itself
 					if (i == args.itemIndex)
@@ -1084,7 +1084,7 @@
 		serverSubscriptionsEdit: function (name) {
 			if (!name) return;
 			let subscriptionsList = settingsGrid.getServerSubscriptions();
-			let theSubscription = subscriptionsList.find(item => { return item.name === name });
+			let theSubscription = subscriptionsList.find(item => item.name === name);
 			if (!theSubscription) {
 				return;
 			}

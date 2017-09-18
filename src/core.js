@@ -665,11 +665,11 @@ let settings = {
 
 		},
 		findProxyServerByName: function (name) {
-			let proxy = settings.proxyServers.find(item => { return item.name === name });
+			let proxy = settings.proxyServers.find(item => item.name === name);
 			if (proxy !== undefined) return proxy;
 
 			for (let subscription of settings.proxyServerSubscriptions) {
-				let subitem = subscription.proxies.find(item => { return item.name === name });
+				let subitem = subscription.proxies.find(item => item.name === name);
 				if (subitem !== undefined) return proxy;
 			}
 
@@ -1200,8 +1200,8 @@ let settings = {
 		},
 		getRuleBySource: function (source) {
 			///<summary>Finds the defined rule for the host</summary>
-			let rule = settings.proxyRules.find(rule => { return rule.source == source });
-			return ((rule !== undefined) ? rule : null);
+			let rule = settings.proxyRules.find(rule => rule.source == source);
+			return rule;
 		},
 		validateRule: function (rule) {
 			// 	proxyRules: [{ rule: "rule", host: "host", enabled: false }],
@@ -1277,7 +1277,7 @@ let settings = {
 				}
 			}
 			// remove the remaining timers
-			let newArray = timerManagement.serverSubscriptionTimers.filter(timer => {
+			let remainingTimers = timerManagement.serverSubscriptionTimers.filter(timer => {
 				// not used or removed. Just unregister it then remove it
 				if (serverExistingNames.indexOf(timer.name) === -1) {
 					clearInterval(timer.id);
@@ -1287,7 +1287,7 @@ let settings = {
 				// it is created or updated, don't remove it
 				return true;
 			});
-			timerManagement.serverSubscriptionTimers = newArray;
+			timerManagement.serverSubscriptionTimers = remainingTimers;
 
 			// -------------------------
 			// Proxy Rules Subscriptions
@@ -1299,7 +1299,7 @@ let settings = {
 				return;
 
 
-			let subscription = settings.proxyServerSubscriptions.find(item => { return item.name === name });
+			let subscription = settings.proxyServerSubscriptions.find(item => item.name === name);
 			if (!subscription) {
 				// the subscription is removed.
 				//remove the timer
@@ -1335,7 +1335,7 @@ let settings = {
 				});
 		},
 		_getSubscriptionTimer: function (timers, name) {
-			let index = timers.findIndex(timer => { return timer.name === name });
+			let index = timers.findIndex(timer => timer.name === name);
 			if (index >= 0) {
 				return {
 					timer: timers[index],

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
  * Copyright (C) 2017 Salar Khalilzadeh <salar2k@gmail.com>
  *
@@ -39,13 +39,14 @@ const utils = {
 		try { new URL(url); return true; }
 		catch (e) { return false; }
 	},
-	isFullUrl: function (host) { // note: allow like http:/example.org/ in Chrome and Firefox
+	isFullUrl: function (host) { // note: this will accept like http:/example.org/ in Chrome and Firefox
 		return this.isValidUrl(host);
 	},
 	extractHostFromUrl: function (url) {
 		try {
-			let u = new URL(url)
-			if (u.protocol in "moz-extension:|chrome-extension:") return null;
+			const u = new URL(url)
+			const skip = "moz-extension:|chrome-extension:|about:|chrome:|opera:".split('|');
+			if (skip.indexOf(u.protocol) >= 0) return null;
 			return u.host
 		}
 		catch (e) { return null; }
