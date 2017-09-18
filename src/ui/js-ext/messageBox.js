@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-var messageBox = {
+let messageBox = {
 	error: function (title, timeout, onClose) {
 		//alert(title);
 		new Noty({
@@ -77,7 +77,7 @@ var messageBox = {
 		}).show();
 	},
 	confirm: function (title, accept, cancel) {
-		var dialog = new Noty({
+		const dialog = new Noty({
 			text: title,
 			layout: "center",
 			modal: true,

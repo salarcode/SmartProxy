@@ -1,0 +1,12 @@
+{
+  "name": "SmartProxy",
+  "description": "SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions.",
+  "devDependencies": {
+    "eslint": "^4.7.0"
+  },
+  "scripts": {
+    "lint": "eslint ./src",
+    "test": "npm run lint"
+  },
+  "license": "GPL-3.0"
+}

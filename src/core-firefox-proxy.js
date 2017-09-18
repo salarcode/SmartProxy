@@ -14,23 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-var proxyMode = "1";
-var compiledRules = [];
-var activeProxyServer = null;
+let proxyMode = "1";
+let compiledRules = [];
+let activeProxyServer = null;
 const proxyModeType = {
 	direct: "1",
 	smartProxy: "2",
 	always: "3",
 	systemProxy: "4"
 };
-var resultActiveProxy = "DIRECT";
+let resultActiveProxy = "DIRECT";
 const resultDirect = "DIRECT";
 const resultSystem = "SYSTEM";
 
 //-----------------------------
 // Subset of polyfill api for proxy, since it doesn't have access to 'core-polyfill.js'
 //-----------------------------
-var environment = {
+let environment = {
 	chrome: false
 };
 
@@ -40,7 +40,7 @@ if (typeof browser === "undefined") {
 	environment.chrome = true;
 }
 
-var polyfill = {
+const polyfill = {
 	lastError: function () {
 		if (environment.chrome) {
 			// chrome.extension.lastError Deprecated since Chrome 58
@@ -56,7 +56,7 @@ var polyfill = {
 				message,
 				options,
 				function (response) {
-					var error = polyfill.lastError();
+					let error = polyfill.lastError();
 					if (error) {
 						if (fail) fail(error);
 					} else {
@@ -87,7 +87,7 @@ var polyfill = {
 	function handleMessages(message, sender, sendResponse) {
 
 		if (typeof (message) == "object") {
-			var command = message["command"];
+			let command = message["command"];
 
 			if (command == "proxyModeChanged" &&
 				message["proxyMode"] != null) {
@@ -100,7 +100,7 @@ var polyfill = {
 			} else if (command == "activeProxyServerChanged" &&
 				message["activeProxyServer"] != null) {
 
-				var newActiveProxyServer = message["activeProxyServer"];
+				let newActiveProxyServer = message["activeProxyServer"];
 
 				activeProxyServer = newActiveProxyServer;
 				resultActiveProxy = convertActiveProxyServer(activeProxyServer);
@@ -108,7 +108,7 @@ var polyfill = {
 			} else if (command == "proxyRulesChanged" &&
 				message["proxyRules"] != null) {
 
-				var newProxyRules = message["proxyRules"];
+				let newProxyRules = message["proxyRules"];
 
 				compiledRules = compileRules(newProxyRules);
 			}
@@ -138,7 +138,7 @@ var polyfill = {
 	function compileRules(proxyRules) {
 		if (!proxyRules || !proxyRules.length)
 			return [];
-		var result = [];
+		let result = [];
 
 		for (let i = 0; i < proxyRules.length; i++) {
 			let rule = proxyRules[i];
@@ -147,7 +147,7 @@ var polyfill = {
 
 			let regex = matchPatternToRegExp(rule.pattern);
 			if (regex != null) {
-				var proxyResult = null;
+				let proxyResult = null;
 				if (rule.proxy) {
 					proxyResult = convertActiveProxyServer(rule.proxy);
 				}
@@ -251,7 +251,7 @@ function FindProxyForURL(url, host) {
 
 			if (rule.regex.test(url)) {
 				if (rule.proxy)
-					// this rule has its own proxy setted
+					// this rule has its own proxy setup
 					return rule.proxy;
 				return resultActiveProxy;
 			}

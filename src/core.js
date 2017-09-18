@@ -16,10 +16,10 @@
  */
 "use strict";
 const changesRerquireRestart = true;
-var loggedRequests = {};
-var tabPorxyableLogIdList = [];
-var restartRequired = false;
-var settings = {
+let loggedRequests = {};
+let tabPorxyableLogIdList = [];
+let restartRequired = false;
+let settings = {
 	proxyMode: "1",
 	// patterns can be https://mozilla.org/*/b/*/ or https://mozilla.org/path/*
 	proxyRules: [{ pattern: "*://*.salarcode.com/*", source: "salarcode.com", proxy: null, enabled: false }],
@@ -61,7 +61,7 @@ var settings = {
 (function () {
 	const proxyScriptURL = "core-firefox-proxy.js";
 	const proxyScriptExtentionURL = browser.runtime.getURL(proxyScriptURL);
-	var currentTab = null;
+	let currentTab = null;
 
 	// -------------------------
 	function setDebug(isDebug) {
@@ -73,7 +73,7 @@ var settings = {
 				warn: window.console.warn.bind(window.console)
 			};
 		} else {
-			var noOp = function () { };
+			let noOp = function () { };
 
 			window.debug = {
 				log: noOp,
@@ -103,7 +103,7 @@ var settings = {
 				// if response method is available
 				if (sendResponse) {
 
-					var proxyInitData = internal.getDataForProxyScript();
+					let proxyInitData = internal.getDataForProxyScript();
 
 					// send the rules
 					sendResponse(proxyInitData);
@@ -140,7 +140,7 @@ var settings = {
 
 		// message is object
 		if (typeof (message) == "object") {
-			var commad = message["command"];
+			let commad = message["command"];
 
 			if (commad == "changeProxyMode" &&
 				message["proxyMode"] != null) {
@@ -358,7 +358,7 @@ var settings = {
 				message["fileData"] != null) {
 
 				let fileData = message.fileData;
-				var result = settingsOperation.restoreSettings(fileData);
+				let result = settingsOperation.restoreSettings(fileData);
 
 				if (sendResponse) {
 					sendResponse(result);
@@ -417,7 +417,7 @@ var settings = {
 		return tabData;
 	}
 
-	var requestLogger = {
+	const requestLogger = {
 
 		startLogger: function () {
 
@@ -429,7 +429,7 @@ var settings = {
 			browser.tabs.onUpdated.addListener(requestLogger.handleTabUpdated);
 		},
 		logRequest: function (requestDetails) {
-			var tabId = requestDetails.tabId;
+			let tabId = requestDetails.tabId;
 			if (!(tabId > -1))
 				// only requests from tabs are logged
 				return;
@@ -468,7 +468,7 @@ var settings = {
 				requestLogger.notifyProxyableLogRequest(requestDetails.url, tabId);
 		},
 		notifyProxyableLogRequest: function (url, tabId) {
-			var proxyableData = requestLogger.getProxyableDataForUrl(url);
+			let proxyableData = requestLogger.getProxyableDataForUrl(url);
 
 			polyfill.runtimeSendMessage(
 				{
@@ -486,7 +486,7 @@ var settings = {
 				});
 		},
 		notifyProxyableOriginTabRemoved: function (tabId) {
-			var index = tabPorxyableLogIdList.indexOf(tabId);
+			let index = tabPorxyableLogIdList.indexOf(tabId);
 			if (index == -1) {
 				return;
 			}
@@ -503,7 +503,7 @@ var settings = {
 		},
 		getProxyableDataForUrl: function (url) {
 
-			var testRuesult = proxyRules.testSingleRule(url);
+			let testRuesult = proxyRules.testSingleRule(url);
 
 			return {
 				url: url,
@@ -514,7 +514,7 @@ var settings = {
 		},
 		addToPorxyableLogIdList: function (tabId) {
 			///<summary>remove from summary list</summary>
-			var index = tabPorxyableLogIdList.indexOf(tabId);
+			let index = tabPorxyableLogIdList.indexOf(tabId);
 
 			// only one instance
 			if (index == -1) {
@@ -523,7 +523,7 @@ var settings = {
 		},
 		removeFromPorxyableLogIdList: function (tabId) {
 			///<summary>remove from summary list</summary>
-			var index = tabPorxyableLogIdList.indexOf(tabId);
+			let index = tabPorxyableLogIdList.indexOf(tabId);
 			if (index > -1) {
 				tabPorxyableLogIdList.splice(index, 1);
 			}
@@ -588,7 +588,7 @@ var settings = {
 		updateActiveTab();
 	}
 
-	var settingsOperation = {
+	const settingsOperation = {
 		setDefaultSettins: function (settingObj) {
 
 			if (settingObj["proxyRules"] == null || !Array.isArray(settingObj.proxyRules)) {
@@ -629,12 +629,12 @@ var settings = {
 			function migrateFromOldVersion(data) {
 				///<summary>Temporary migration for old version of this addon in Firefox. This method will be removed in the future</summary>
 				if (!data) return data;
-				var shouldMigrate = false;
+				let shouldMigrate = false;
 
 				if (data.proxyRules &&
 					data.proxyRules.length > 0) {
 
-					var rule = data.proxyRules[0];
+					let rule = data.proxyRules[0];
 
 					// the old properties
 					if (rule.hasOwnProperty("rule") ||
@@ -644,9 +644,8 @@ var settings = {
 				}
 				if (shouldMigrate) {
 
-					var newProxyRules = [];
-					for (let i = 0; i < data.proxyRules.length; i++) {
-						var oldRule = data.proxyRules[i];
+					let newProxyRules = [];
+					for (let oldRule of data.proxyRules) {
 						newProxyRules.push(
 							{
 								pattern: oldRule.rule || oldRule.pattern,
@@ -666,23 +665,14 @@ var settings = {
 
 		},
 		findProxyServerByName: function (name) {
-			for (var i = 0; i < settings.proxyServers.length; i++) {
-				var item = settings.proxyServers[i];
-				if (item.name === name) {
-					return item;
-				}
+			let proxy = settings.proxyServers.find(item => item.name === name);
+			if (proxy !== undefined) return proxy;
+
+			for (let subscription of settings.proxyServerSubscriptions) {
+				let subitem = subscription.proxies.find(item => item.name === name);
+				if (subitem !== undefined) return proxy;
 			}
 
-			for (var i = 0; i < settings.proxyServerSubscriptions.length; i++) {
-				var subscription = settings.proxyServerSubscriptions[i];
-
-				for (var j = 0; j < subscription.proxies.length; j++) {
-					var item = subscription.proxies[j];
-					if (item.name === name) {
-						return item;
-					}
-				}
-			}
 			return null;
 		},
 		saveAll: function () {
@@ -748,13 +738,10 @@ var settings = {
 				return { success: false, message: browser.i18n.getMessage("settingsServerNameRequired") };
 			} else {
 
-				//var currentServers = settings.proxyServers;
+				//const currentServers = settings.proxyServers;
 
-				//for (let sindex = 0; sindex < currentServers.length; sindex++) {
-				//	var cserver = currentServers[sindex];
-
+				//for (let cserver of currentServers) {
 				//	if (cserver.name == server.name) {
-
 				//		return { success: false, exist: true, message: `Server name ${server.name} already exists` };
 				//	}
 				//}
@@ -776,11 +763,8 @@ var settings = {
 				return { success: false, message: "Invalid data" };
 
 			function restoreServers(backupServers) {
-				var upcomingServers = [];
-				for (let i = 0; i < backupServers.length; i++) {
-
-					var server = backupServers[i];
-
+				let upcomingServers = [];
+				for (let server of backupServers) {
 					let validateResult = settingsOperation.validateProxyServer(server);
 					if (!validateResult.success) {
 						// if validation failed
@@ -800,11 +784,8 @@ var settings = {
 			}
 
 			function restoreRules(backupRules) {
-				var upcomingRules = [];
-				for (let i = 0; i < backupRules.length; i++) {
-
-					var rule = backupRules[i];
-
+				let upcomingRules = [];
+				for (let rule of backupRules) {
 					let validateResult = proxyRules.validateRule(rule);
 					if (!validateResult.success) {
 						// if validation failed
@@ -848,11 +829,11 @@ var settings = {
 			}
 
 			try {
-				var backupData = JSON.parse(fileData);
-				var backupServers;
-				var backupRules;
-				var backupActiveServer;
-				var backupProxyMode;
+				let backupData = JSON.parse(fileData);
+				let backupServers;
+				let backupRules;
+				let backupActiveServer;
+				let backupProxyMode;
 
 				if (backupData["proxyServers"] != null &&
 					Array.isArray(backupData.proxyServers)) {
@@ -943,7 +924,7 @@ var settings = {
 			}
 		}
 	}
-	var proxyRules = {
+	const proxyRules = {
 		updateChromeProxyConfig: function () {
 			///<summary>Chrome only. Updating Chrome proxy config.</summary>
 
@@ -1079,7 +1060,7 @@ var settings = {
 				return { success: false, message: browser.i18n.getMessage("settingsEnableByDomainInvalid"), domain: domain };
 
 			// the domain should be the source
-			var rule = proxyRules.getRuleBySource(domain);
+			let rule = proxyRules.getRuleBySource(domain);
 
 			if (rule != null) {
 				// Rule for the domain already exists
@@ -1093,7 +1074,7 @@ var settings = {
 		removeBySource: function (source) {
 
 			// get the rule for the source
-			var rule = proxyRules.getRuleBySource(source);
+			let rule = proxyRules.getRuleBySource(source);
 
 			if (rule != null) {
 				proxyRules.remove(rule);
@@ -1109,7 +1090,7 @@ var settings = {
 		toggleByDomain: function (domain) {
 
 			// the domain should be the source
-			var rule = proxyRules.getRuleBySource(domain);
+			let rule = proxyRules.getRuleBySource(domain);
 
 			if (rule == null) {
 				if (!utils.isValidHost(domain))
@@ -1123,9 +1104,9 @@ var settings = {
 		},
 		addDomain: function (domain) {
 
-			var pattern = utils.hostToMatchPattern(domain);
+			let pattern = utils.hostToMatchPattern(domain);
 
-			var rule = {
+			let rule = {
 				pattern: pattern,
 				source: domain,
 				enabled: true,
@@ -1143,7 +1124,7 @@ var settings = {
 		},
 		remove: function (ruleObject) {
 
-			var itemIndex = settings.proxyRules.indexOf(ruleObject);
+			let itemIndex = settings.proxyRules.indexOf(ruleObject);
 			if (itemIndex > -1) {
 				settings.proxyRules.splice(itemIndex, 1);
 			}
@@ -1156,9 +1137,7 @@ var settings = {
 			if (url.indexOf(":") == -1)
 				url = "http://" + url;
 
-			for (let i = 0; i < settings.proxyRules.length; i++) {
-				let rule = settings.proxyRules[i];
-				//for (let rule of settings.proxyRules) {
+			for (let rule of settings.proxyRules) {
 				if (!rule.enabled) continue;
 
 				let regex = utils.matchPatternToRegExp(rule.pattern);
@@ -1177,11 +1156,11 @@ var settings = {
 		},
 		testMultipleRule: function (domainArray) {
 			// the url should be complete
-			var cachedRegexes = [];
-			var result = [];
-			for (var uindex = 0; uindex < domainArray.length; uindex++) {
-				var domain = domainArray[uindex];
-				var url = domain;
+			let cachedRegexes = [];
+			let result = [];
+			for (let uindex = 0; uindex < domainArray.length; uindex++) {
+				let domain = domainArray[uindex];
+				let url = domain;
 
 				if (url.indexOf(":") == -1)
 					url = "http://" + url;
@@ -1221,14 +1200,8 @@ var settings = {
 		},
 		getRuleBySource: function (source) {
 			///<summary>Finds the defined rule for the host</summary>
-			for (var i = 0; i < settings.proxyRules.length; i++) {
-				var rule = settings.proxyRules[i];
-
-				if (rule.source == source) {
-					return rule;
-				}
-			}
-			return null;
+			let rule = settings.proxyRules.find(rule => rule.source == source);
+			return rule;
 		},
 		validateRule: function (rule) {
 			// 	proxyRules: [{ rule: "rule", host: "host", enabled: false }],
@@ -1253,16 +1226,15 @@ var settings = {
 			return { success: true };
 		}
 	};
-	var timerManagement = {
+	const timerManagement = {
 		serverSubscriptionTimers: [{ id: null, name: null, refreshRate: null }],
 		rulesSubscriptionTimers: [{ id: null, name: null, refreshRate: null }],
 		updateSubscriptions: function () {
 
 			// -------------------------
 			// Proxy Server Subscriptions
-			var serverExistingNames = [];
-			for (let i = 0; i < settings.proxyServerSubscriptions.length; i++) {
-				let subscription = settings.proxyServerSubscriptions[i];
+			let serverExistingNames = [];
+			for (let subscription of settings.proxyServerSubscriptions) {
 				if (!subscription.enabled) continue;
 
 				// refresh is not requested
@@ -1305,20 +1277,17 @@ var settings = {
 				}
 			}
 			// remove the remaining timers
-			for (let i = timerManagement.serverSubscriptionTimers.length - 1; i >= 0; i--) {
-				var timer = timerManagement.serverSubscriptionTimers[i];
-
-				// it is created or updated, don't remove it
-				if (serverExistingNames.indexOf(timer.name) !== -1) {
-					continue;
+			let remainingTimers = timerManagement.serverSubscriptionTimers.filter(timer => {
+				// not used or removed. Just unregister it then remove it
+				if (serverExistingNames.indexOf(timer.name) === -1) {
+					clearInterval(timer.id);
+					return false;
 				}
 
-				// not used or removed. Just unregister it then remove it
-				clearInterval(timer.id);
-
-				// remove from array
-				timerManagement.serverSubscriptionTimers.splice(i, 1);
-			}
+				// it is created or updated, don't remove it
+				return true;
+			});
+			timerManagement.serverSubscriptionTimers = remainingTimers;
 
 			// -------------------------
 			// Proxy Rules Subscriptions
@@ -1330,15 +1299,8 @@ var settings = {
 				return;
 
 
-			var subscription = null;
-			for (var i = 0; i < settings.proxyServerSubscriptions.length; i++) {
-				var item = settings.proxyServerSubscriptions[i];
-				if (item.name == subscriptionName) {
-					subscription = item;
-					break;
-				}
-			}
-			if (subscription == null) {
+			let subscription = settings.proxyServerSubscriptions.find(item => item.name === name);
+			if (!subscription) {
 				// the subscription is removed.
 				//remove the timer
 				let serverTimerInfo = timerManagement.getServerSubscriptionTimer(subscriptionName);
@@ -1357,7 +1319,7 @@ var settings = {
 
 					if (response.success) {
 
-						var count = response.result.length;
+						let count = response.result.length;
 
 						subscription.proxies = response.result;
 						subscription.totalCount = count;
@@ -1372,51 +1334,43 @@ var settings = {
 					debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, ex);
 				});
 		},
-		getServerSubscriptionTimer: function (name) {
-			for (var i = 0; i < timerManagement.serverSubscriptionTimers.length; i++) {
-				var timer = timerManagement.serverSubscriptionTimers[i];
-
-				if (timer.name == name)
-					return {
-						timer: timer,
-						index: i
-					};
+		_getSubscriptionTimer: function (timers, name) {
+			let index = timers.findIndex(timer => timer.name === name);
+			if (index >= 0) {
+				return {
+					timer: timers[index],
+					index: index
+				};
 			}
 			return null;
 		},
-		getRulesSubscriptionTimersTimer: function (name) {
-			for (var i = 0; i < timerManagement.rulesSubscriptionTimers.length; i++) {
-				var timer = timerManagement.rulesSubscriptionTimers[i];
-
-				if (timer.name == name)
-					return {
-						timer: timer,
-						index: i
-					};
-			}
-			return null;
-		}
+		getServerSubscriptionTimer: function (name) {
+			return this._getSubscriptionTimer(timerManagement.serverSubscriptionTimers, name);
+		},
+		getRulesSubscriptionTimersTimer: function (name) { // TODO: Merge to a function
+			return this._getSubscriptionTimer(timerManagement.rulesSubscriptionTimers, name);
+		},
 	};
-	var updateManager = {
+	const updateManager = {
 		updateInfoUrl: "https://raw.githubusercontent.com/salarcode/SmartProxy/master/updateinfo.json",
 		unlistedVersionIndicator: "-unlisted",
 		updateIsAvailable: false,
 		updateInfo: null,
 		readUpdateInfo: function () {
 
-			var addonId = browser.runtime.id || '';
+			let addonId = browser.runtime.id || '';
 
 			// IMPORTANT NOTE:
 			// this code will not run in listed versions (listed in AMO or WebStore)
 			if (addonId.indexOf(updateManager.unlistedVersionIndicator) != -1) {
 
-				var xhr = new XMLHttpRequest();
+				let xhr = new XMLHttpRequest();
 				xhr.open("GET", updateManager.updateInfoUrl);
 
 				xhr.onload = function () {
 					if (xhr.status === 200) {
 						try {
-							var updateInfo = JSON.parse(xhr.responseText);
+							let updateInfo = JSON.parse(xhr.responseText);
 							updateManager.updateInfo = updateInfo.latestVersion;
 							checkForUpdate(updateInfo);
 						} catch (e) {
@@ -1429,8 +1383,8 @@ var settings = {
 
 			function checkForUpdate(updateInfo) {
 
-				var manifest = browser.runtime.getManifest();
-				var latestVersion = updateInfo.latestVersion;
+				let manifest = browser.runtime.getManifest();
+				let latestVersion = updateInfo.latestVersion;
 
 				if (latestVersion && latestVersion.version > manifest.version) {
 					updateManager.updateIsAvailable = true;
@@ -1438,7 +1392,7 @@ var settings = {
 			}
 		}
 	}
-	var internal = {
+	const internal = {
 		getDataForProxyScript: function () {
 
 			return {
@@ -1468,23 +1422,18 @@ var settings = {
 
 			if (!settings.proxyServerSubscriptions || !settings.proxyServerSubscriptions.length)
 				return [];
-			var result = [];
+			let result = [];
 
-			for (let i = 0; i < settings.proxyServerSubscriptions.length; i++) {
-				var subsription = settings.proxyServerSubscriptions[i];
-				if (!subsription.enabled) continue;;
-
-				for (var pindex = 0; pindex < subsription.proxies.length; pindex++) {
-					var proxy = subsription.proxies[pindex];
-
-					result.push(proxy);
+			for (let subsription of settings.proxyServerSubscriptions) {
+				if (subsription.enabled) {
+					result = result.concat(subsription.proxies);
 				}
 			}
 			return result;
 		},
 		getDataForPopup: function () {
 			///<summary>The data that is required for the popup</summary>
-			var dataForPopup = {
+			let dataForPopup = {
 				proxiableDomains: [],
 				proxyMode: settings.proxyMode,
 				hasProxyServers: settings.proxyServers.length > 0,
@@ -1525,7 +1474,7 @@ var settings = {
 				return dataForPopup;
 
 			// extract list of domain and subdomains
-			var proxiableDomainList = utils.extractSubdomainsFromHost(urlHost);
+			let proxiableDomainList = utils.extractSubdomainsFromHost(urlHost);
 
 			if (!proxiableDomainList || !proxiableDomainList.length)
 				return dataForPopup;
@@ -1554,10 +1503,10 @@ var settings = {
 
 			} else {
 
-				var multiTestResultList = proxyRules.testMultipleRule(proxiableDomainList);
+				let multiTestResultList = proxyRules.testMultipleRule(proxiableDomainList);
 
-				for (var i = 0; i < multiTestResultList.length; i++) {
-					var result = multiTestResultList[i];
+				for (let i = 0; i < multiTestResultList.length; i++) {
+					let result = multiTestResultList[i];
 
 					let ruleIsForThisHost = false;
 					if (result.match) {
@@ -1579,7 +1528,7 @@ var settings = {
 			return dataForPopup;
 		},
 		setBrowserActionStatus: function () {
-			var extensionName = browser.i18n.getMessage("extensionName");
+			let extensionName = browser.i18n.getMessage("extensionName");
 
 			switch (settings.proxyMode) {
 

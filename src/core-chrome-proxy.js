@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-var chromeProxy = {
+const chromeProxy = {
 	convertActiveProxyServer: function (activeProxyServer) {
 		const resultDirect = "DIRECT";
 
@@ -53,7 +53,7 @@ var chromeProxy = {
 
 		// matches all valid match patterns (except '<all_urls>')
 		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^\/]+|)\/?(.*))$/i);
+		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
 
 		if (pattern === '<all_urls>') {
 			//return (/^(?:https?|file|ftp|app):\/\//);
@@ -75,7 +75,7 @@ var chromeProxy = {
 	compileRules: function (proxyRulesList) {
 		if (!proxyRulesList || !proxyRulesList.length)
 			return [];
-		var result = [];
+		let result = [];
 
 		for (let i = 0; i < proxyRulesList.length; i++) {
 			let rule = proxyRulesList[i];
@@ -84,7 +84,7 @@ var chromeProxy = {
 
 			let regex = chromeProxy.matchPatternToRegExp(rule.pattern);
 			if (regex != null) {
-				var proxyResult = null;
+				let proxyResult = null;
 				if (rule.proxy) {
 					proxyResult = chromeProxy.convertActiveProxyServer(rule.proxy);
 				}
@@ -98,9 +98,9 @@ var chromeProxy = {
 		return result;
 	},
 	regexHostArrayToString: function (compiledRules) {
-		var compiledRulesAsStringArray = [];
-		for (var index = 0; index < compiledRules.length; index++) {
-			var rule = compiledRules[index];
+		let compiledRulesAsStringArray = [];
+		for (let index = 0; index < compiledRules.length; index++) {
+			let rule = compiledRules[index];
 
 			if (rule.proxy) {
 				compiledRulesAsStringArray.push(`{regex:${rule.regex.toString()},proxy:"${rule.proxy}"}`);
@@ -111,14 +111,14 @@ var chromeProxy = {
 		return compiledRulesAsStringArray;
 	},
 	generateChromePacScript: function (proxyInitData) {
-		var proxyRules = proxyInitData.proxyRules;
-		var proxyMode = proxyInitData.proxyMode;
-		var resultActiveProxy = chromeProxy.convertActiveProxyServer(proxyInitData.activeProxyServer);
+		let proxyRules = proxyInitData.proxyRules;
+		let proxyMode = proxyInitData.proxyMode;
+		let resultActiveProxy = chromeProxy.convertActiveProxyServer(proxyInitData.activeProxyServer);
 
-		var compiledRules = chromeProxy.compileRules(proxyRules);
-		var compiledRulesAsString = chromeProxy.regexHostArrayToString(compiledRules).join(",");
+		let compiledRules = chromeProxy.compileRules(proxyRules);
+		let compiledRulesAsString = chromeProxy.regexHostArrayToString(compiledRules).join(",");
 
-		var pacTemplateString = `var proxyMode = "${proxyMode}";
+		let pacTemplateString = `var proxyMode = "${proxyMode}";
 var compiledRules = [${compiledRulesAsString}];
 var hasActiveProxyServer = ${((proxyInitData.activeProxyServer) ? "true" : "false")};
 const proxyModeType = {
@@ -155,7 +155,7 @@ function FindProxyForURL(url, host) {
 
 		if (rule.regex.test(url)) {
 			if (rule.proxy)
-				// this rule has its own proxy setted
+				// this rule has its own proxy setup
 				return rule.proxy;
 			return resultActiveProxy;
 		}

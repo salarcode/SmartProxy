@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
  * Copyright (C) 2017 Salar Khalilzadeh <salar2k@gmail.com>
  *
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-var utils = {
+const utils = {
 	removeDuplicates: function (originalArray, prop) {
 		///<reference path="https://stackoverflow.com/a/36744732/322446"/>
 		return originalArray.filter(
@@ -33,50 +33,34 @@ var utils = {
 		return str.substr(0, prefix.length) === prefix;
 	},
 	isValidHost: function (host) {
-		if (!host)
-			return false;
-		if (host.indexOf("about:") > -1)
-			return false;
-		return true;
+		return (host && host.indexOf("about:") === -1);
 	},
 	isValidUrl: function (url) {
-		if (!url)
-			return false;
-		if (url.indexOf("://") == -1)
-			return false;
-		return true;
+		try { new URL(url); return true; }
+		catch (e) { return false; }
 	},
-	isFullUrl: function (host) {
-		if (!host)
-			return false;
-		if (host.indexOf("://") > -1)
-			return true;
-		return false;
+	isFullUrl: function (host) { // note: this will accept like http:/example.org/ in Chrome and Firefox
+		return this.isValidUrl(host);
 	},
 	extractHostFromUrl: function (url) {
-		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^\/]+|)\/?(.*))$/i);
-
-		const match = matchPattern.exec(url);
-		if (!match) {
-			return null;
+		try {
+			const u = new URL(url)
+			const skip = "moz-extension:|chrome-extension:|about:|chrome:|opera:".split('|');
+			if (skip.indexOf(u.protocol) >= 0) return null;
+			return u.host
 		}
-		const [, scheme, host, path,] = match;
-		return host;
+		catch (e) { return null; }
 	},
 	extractSubdomainsFromUrl: function (url) {
-		if (!url)
-			return [];
-
-		var host = utils.extractHostFromUrl(url);
-		if (host == null)
+		let host = utils.extractHostFromUrl(url);
+		if (host === null)
 			return [];
 
 		return utils.extractSubdomainsFromHost(host);
 	},
 	extractSubdomainsFromHost: function (host) {
 		///<summary></summary>
-		var parts = host.split(".");
+		let parts = host.split(".");
 		if (parts.length <= 2)
 			return [host];
 
@@ -86,12 +70,12 @@ var utils = {
 		if (parts.length <= 2)
 			return [parts.join(".")];
 
-		var result = [];
-		for (var i = 0; i < parts.length; i++) {
+		let result = [];
+		for (let i = 0; i < parts.length; i++) {
 			if (i == parts.length - 1)
 				break;
 
-			var sliced = parts.slice(i, parts.length);
+			let sliced = parts.slice(i, parts.length);
 			//if (sliced.length > 0)
 			result.push(sliced.join("."));
 		}
@@ -121,7 +105,7 @@ var utils = {
 
 		// matches all valid match patterns (except '<all_urls>')
 		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^\/]+|)\/?(.*))$/i);
+		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
 
 		if (pattern === '<all_urls>') {
 			//return (/^(?:https?|file|ftp|app):\/\//);
@@ -146,25 +130,23 @@ var utils = {
 function localizeHtmlPage() {
 	///<summary></summary>
 	function replace_i18n(obj, tag) {
-		var msg = browser.i18n.getMessage(tag.trim());
+		let msg = browser.i18n.getMessage(tag.trim());
 
 		if (msg && msg != tag) obj.innerHTML = msg;
 	}
 
 	// Localize using data-localize tags
-	var data = document.querySelectorAll('[data-localize]');
+	let data = document.querySelectorAll('[data-localize]');
 
-	for (var i in data) if (data.hasOwnProperty(i)) {
-		var obj = data[i];
-		var tag = obj.getAttribute('data-localize').toString();
+	for (let obj of data) {
+		let tag = obj.dataset['localize'];
 
 		replace_i18n(obj, tag);
 	}
 
 	// page direction
-	var dir = browser.i18n.getMessage("uiDirection");
+	let dir = browser.i18n.getMessage("uiDirection");
 	if (dir) {
-		let body = document.getElementsByTagName("body");
-		$(body).addClass(dir).css("direction", dir);
+		$(document.body).addClass(dir).css("direction", dir);
 	}
 }
