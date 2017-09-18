@@ -795,7 +795,7 @@
 				return;
 			}
 
-			if (utils.isFullUrl(source)) {
+			if (utils.urlHasSchema(source)) {
 				let extractedHost = utils.extractHostFromUrl(source);
 				if (extractedHost == null || !utils.isValidHost(extractedHost)) {
 					args.cancel = true;

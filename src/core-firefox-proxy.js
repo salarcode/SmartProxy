@@ -199,7 +199,7 @@ const polyfill = {
 
 		// matches all valid match patterns (except '<all_urls>')
 		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^\/]+|)\/?(.*))$/i);
+		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
 
 		if (pattern === '<all_urls>') {
 			//return (/^(?:https?|file|ftp|app):\/\//);

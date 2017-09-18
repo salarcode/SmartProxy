@@ -39,15 +39,20 @@ const utils = {
 		try { new URL(url); return true; }
 		catch (e) { return false; }
 	},
-	isFullUrl: function (host) { // note: this will accept like http:/example.org/ in Chrome and Firefox
-		return this.isValidUrl(host);
+	urlHasSchema: function (url) { // note: this will accept like http:/example.org/ in Chrome and Firefox
+		if (!url)
+			return false;
+		if (url.indexOf(":/") > -1)
+			return true;
+		return false;
 	},
 	extractHostFromUrl: function (url) {
 		try {
-			const u = new URL(url)
-			const skip = "moz-extension:|chrome-extension:|about:|chrome:|opera:".split('|');
-			if (skip.indexOf(u.protocol) >= 0) return null;
-			return u.host
+			const u = new URL(url);
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "chrome:", "opera:"];
+			if (skip.indexOf(u.protocol) >= 0) 
+				return null;
+			return u.host;
 		}
 		catch (e) { return null; }
 	},
