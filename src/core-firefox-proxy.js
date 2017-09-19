@@ -178,7 +178,7 @@ const polyfill = {
 				return `SOCKS4 ${activeProxyServer.host}:${activeProxyServer.port}`;
 
 			case "SOCKS5":
-				return `SOCKS5 ${activeProxyServer.host}:${activeProxyServer.port}`;
+				return `SOCKS ${activeProxyServer.host}:${activeProxyServer.port}`; // see https://bugzilla.mozilla.org/show_bug.cgi?id=1378205
 		}
 
 		// invalid proxy protocol
