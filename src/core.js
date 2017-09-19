@@ -55,7 +55,12 @@ let settings = {
 			// the loaded proxies
 			proxies: []
 		}
-	]
+	],
+	bypass: {
+		enableForAlways: false,
+		enableForSystem: false,
+		bypassList: ["127.0.0.1", "localhost"]
+	}
 };
 
 (function () {
@@ -354,6 +359,29 @@ let settings = {
 				}
 				return;
 			}
+
+			if (commad == "settingsSaveBypass" &&
+				message["bypass"] != null) {
+
+				settings.bypass = message.bypass;
+				settingsOperation.saveBypass();
+
+				proxyRules.notifyBypassChanged();
+
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
+				if (sendResponse) {
+					sendResponse({
+						success: true,
+						// Proxy server subscriptions saved successfully.
+						message: browser.i18n.getMessage("settingsSaveBypassSuccess"),
+						restartRequired: restartRequired
+					});
+				}
+				return;
+			}
+
 			if (commad == "restoreSettings" &&
 				message["fileData"] != null) {
 
@@ -606,6 +634,13 @@ let settings = {
 			if (settingObj["activeProxyServer"] == null) {
 				settingObj.activeProxyServer = null;
 			}
+			if (settingObj["bypass"] == null) {
+				settingObj.bypass = {
+					enableForAlways: false,
+					enableForSystem: false,
+					bypassList: ["127.0.0.1", "localhost"]
+				};
+			}
 			settingObj.product = "SmartProxy";
 
 			polyfill.managementGetSelf(function (info) {
@@ -703,6 +738,13 @@ let settings = {
 					debug.error(`settingsOperation.proxyServerSubscriptions error: ${error.message}`);
 				});
 		},
+		saveBypass: function () {
+			polyfill.storageLocalSet({ bypass: settings.bypass },
+				null,
+				function (error) {
+					debug.error(`settingsOperation.bypass error: ${error.message}`);
+				});
+		},
 		saveActiveProxyServer: function () {
 			polyfill.storageLocalSet({ activeProxyServer: settings.activeProxyServer },
 				null,
@@ -776,7 +818,7 @@ let settings = {
 						return validateResult;
 					}
 
-					// good
+				// good
 					upcomingServers.push(server);
 				}
 
@@ -797,7 +839,7 @@ let settings = {
 						return validateResult;
 					}
 
-					// good
+				// good
 					upcomingRules.push(rule);
 				}
 
@@ -827,6 +869,18 @@ let settings = {
 				}
 				return { success: true, result: backupProxyMode };
 			}
+			function restoreBypass(backupBypass) {
+
+				if (backupBypass == null ||
+					backupBypass.bypassList == null ||
+					!Array.isArray(backupBypass.bypassList)) {
+					return { success: false, message: browser.i18n.getMessage("settingsBypassInvalid") };
+				}
+				backupBypass.enableForAlways = backupBypass.enableForAlways || false;
+				backupBypass.enableForSystem = backupBypass.enableForSystem || false;
+
+				return { success: true, result: backupBypass };
+			}
 
 			try {
 				let backupData = JSON.parse(fileData);
@@ -834,6 +888,7 @@ let settings = {
 				let backupRules;
 				let backupActiveServer;
 				let backupProxyMode;
+				let backupBypass;
 
 				if (backupData["proxyServers"] != null &&
 					Array.isArray(backupData.proxyServers)) {
@@ -878,7 +933,16 @@ let settings = {
 
 					backupProxyMode = restoreProxyModeResult.result;
 				}
+				if (backupData["bypass"] != null &&
+					typeof (backupData.bypass) == "string") {
 
+					let restoreProxyModeResult = restoreBypass(backupData.bypass);
+
+					if (!restoreProxyModeResult.success)
+						return restoreProxyModeResult;
+
+					backupBypass = restoreProxyModeResult.result;
+				}
 
 				// everything is fine so far
 				// so start restoring
@@ -911,6 +975,14 @@ let settings = {
 
 					settingsOperation.saveProxyMode();
 					proxyRules.notifyProxyModeChange();
+				}
+
+				if (backupBypass != null) {
+
+					settings.bypass = backupBypass;
+
+					settingsOperation.saveBypass();
+					proxyRules.notifyBypassChanged();
 				}
 
 				// update proxy rules
@@ -1018,6 +1090,35 @@ let settings = {
 						restartRequired = true;
 
 					debug.error("notifyProxyRulesChange failed with ", error);
+				},
+				{
+					toProxyScript: true
+				});
+		},
+		notifyBypassChanged: function () {
+
+			// only for Firefox
+			if (environment.chrome)
+				return;
+
+			if (environment.version < environment.bugFreeVersions.firefoxToProxyScript)
+				// in these version this bug requires restart
+				restartRequired = changesRerquireRestart;
+
+			polyfill.runtimeSendMessage(
+				{
+					command: "bypassChanged",
+					bypass: settings.bypass
+				},
+				null,
+				function (error) {
+					if (!environment.chrome)
+						// browser.runtime.sendMessage with toProxyScript fails on Windows
+						// https://bugzilla.mozilla.org/show_bug.cgi?id=1389718
+						// Error: Could not establish connection. Receiving end does not exist.
+						restartRequired = true;
+
+					debug.error("notifyBypassChanged failed with ", error);
 				},
 				{
 					toProxyScript: true
@@ -1237,11 +1338,11 @@ let settings = {
 			for (let subscription of settings.proxyServerSubscriptions) {
 				if (!subscription.enabled) continue;
 
-				// refresh is not requested
+			// refresh is not requested
 				if (!(subscription.refreshRate > 0))
 					continue;
 
-				// it should be active, don't remove it
+			// it should be active, don't remove it
 				serverExistingNames.push(subscription.name);
 
 				let shouldCreate = false;

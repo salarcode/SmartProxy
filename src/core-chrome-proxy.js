@@ -117,9 +117,11 @@ const chromeProxy = {
 
 		let compiledRules = chromeProxy.compileRules(proxyRules);
 		let compiledRulesAsString = chromeProxy.regexHostArrayToString(compiledRules).join(",");
+		let compiledBypass = JSON.stringify(proxyInitData.bypass);
 
 		let pacTemplateString = `var proxyMode = "${proxyMode}";
 var compiledRules = [${compiledRulesAsString}];
+var bypass = ${compiledBypass};
 var hasActiveProxyServer = ${((proxyInitData.activeProxyServer) ? "true" : "false")};
 const proxyModeType = {
 	direct: "1",
@@ -140,6 +142,7 @@ function FindProxyForURL(url, host) {
 
 	// in chrome system mode is not controlled here
 	if (proxyMode == proxyModeType.systemProxy)
+		// bypass list should be checked here if Chrome supported this model
 		return resultSystem;
 
 	// there should be active proxy
@@ -147,8 +150,14 @@ function FindProxyForURL(url, host) {
 		// let the browser decide
 		return "";
 
-	if (proxyMode == proxyModeType.always)
-		return resultActiveProxy;
+	if (proxyMode == proxyModeType.always) {
+		// should bypass this host?
+		if (bypass.enableForAlways === true &&
+			bypass.bypassList.indexOf(host) !== -1)
+			return resultDirect;
+		else
+			return resultActiveProxy;
+	}
 
 	for (let i = 0; i < compiledRules.length; i++) {
 		let rule = compiledRules[i];

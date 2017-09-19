@@ -65,6 +65,9 @@
 
 		if (environment.chrome) {
 			$("#divAlertChrome").show();
+
+			// not supported by Chrome
+			$("#chkEnableBypassForSystemProxy").attr("disabled", "disabled");
 		} else {
 			$("#divAlertFirefox").show();
 		}
@@ -216,6 +219,47 @@
 					// All rules are removed.<br/>You have to save to apply the changes.
 					messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
 				});
+		});
+
+		$("#btnSaveBypassChanges").click(function () {
+			let bypassList = settingsGrid.getBypassList();
+			settingsUiData.bypass.bypassList = bypassList;
+			settingsUiData.bypass.enableForAlways = $("#chkEnableBypassForAlwaysEnable").prop("checked");
+			settingsUiData.bypass.enableForSystem = $("#chkEnableBypassForSystemProxy").prop("checked");
+
+			polyfill.runtimeSendMessage(
+				{
+					command: "settingsSaveBypass",
+					bypass: settingsUiData.bypass
+				},
+				function (response) {
+					if (!response) return;
+					if (response.success) {
+						if (response.message)
+							messageBox.success(response.message);
+
+						checkRestartRequired(response.restartRequired);
+
+					} else {
+						if (response.message)
+							messageBox.error(response.message);
+					}
+				},
+				function (error) {
+					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveBypass") + " " + error.message);
+				});
+
+			changeTracking.rules = false;
+		});
+		$("#btnRejectBypass").click(function () {
+			// reset the data
+			settingsUiData.bypass = jQuery.extend({}, originalSettingsData.bypass);
+			settingsGrid.loadBypass(settingsUiData.bypass);
+
+			changeTracking.bypass = false;
+
+			// Changes reverted successfully
+			messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
 		});
 
 		$("#btnBackupComplete").on("click",
@@ -397,12 +441,14 @@
 					settingsGrid.loadServers(settingsUiData.proxyServers);
 					settingsGrid.loadServerSubscriptions(settingsUiData.proxyServerSubscriptions);
 					settingsGrid.reloadActiveProxyServer(settingsUiData.proxyServers, settingsUiData.proxyServerSubscriptions);
+					settingsGrid.loadBypass(settingsUiData.bypass);
 
 					// make copy
 					originalSettingsData.proxyRules = settingsUiData.proxyRules.slice();
 					originalSettingsData.proxyServers = settingsUiData.proxyServers.slice();
 					originalSettingsData.activeProxyServer = settingsUiData.activeProxyServer;
 					originalSettingsData.proxyServerSubscriptions = settingsUiData.proxyServerSubscriptions;
+					originalSettingsData.bypass = jQuery.extend({}, settingsUiData.bypass);
 				}
 
 			},
@@ -686,6 +732,9 @@
 		getServerSubscriptions: function () {
 			return $("#grdServerSubscriptions").jsGrid("option", "data");
 		},
+		getBypassList: function () {
+			return $("#txtBypassList").val().split(/[\r\n]+/);
+		},
 		loadServers: function (proxyServers) {
 			if (proxyServers)
 				$("#grdServers").jsGrid("option", "data", proxyServers);
@@ -693,6 +742,15 @@
 		loadRules: function (proxyRules) {
 			if (proxyRules)
 				$("#grdRules").jsGrid("option", "data", proxyRules);
+		},
+		loadBypass: function (bypass) {
+			if (bypass) {
+				$("#chkEnableBypassForAlwaysEnable").prop("checked", bypass.enableForAlways);
+				$("#chkEnableBypassForSystemProxy").prop("checked", bypass.enableForSystem);
+				if (bypass.bypassList && Array.isArray(bypass.bypassList)) {
+					$("#txtBypassList").val(bypass.bypassList.join("\n"));
+				}
+			}
 		},
 		loadServerSubscriptions: function (proxyServerSubscriptions) {
 			if (proxyServerSubscriptions)

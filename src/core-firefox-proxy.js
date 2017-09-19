@@ -16,6 +16,7 @@
  */
 let proxyMode = "1";
 let compiledRules = [];
+let bypass = {};
 let activeProxyServer = null;
 const proxyModeType = {
 	direct: "1",
@@ -111,6 +112,10 @@ const polyfill = {
 				let newProxyRules = message["proxyRules"];
 
 				compiledRules = compileRules(newProxyRules);
+			} else if (command == "bypassChanged" &&
+				message["bypass"] != null) {
+
+				bypass = fixBypass(message["bypass"]);
 			}
 		}
 	}
@@ -125,6 +130,7 @@ const polyfill = {
 
 				compiledRules = compileRules(proxyInitData.proxyRules);
 				proxyMode = proxyInitData.proxyMode;
+				bypass = fixBypass(proxyInitData.bypass);
 
 				activeProxyServer = proxyInitData.activeProxyServer;
 				resultActiveProxy = convertActiveProxyServer(activeProxyServer);
@@ -184,6 +190,20 @@ const polyfill = {
 		// invalid proxy protocol
 		return resultDirect;
 	}
+	function fixBypass(inputBypass) {
+		if (!inputBypass)
+			inputBypass = {};
+
+		if (!inputBypass.enableForAlways)
+			inputBypass.enableForAlways = false;
+
+		if (!inputBypass.enableForSystem)
+			inputBypass.enableForSystem = false;
+
+		if (!inputBypass.bypassList ||
+			!Array.isArray(inputBypass.bypassList))
+			inputBypass.bypassList = [];
+	}
 
 	function matchPatternToRegExp(pattern) {
 		// Source: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns
@@ -229,10 +249,16 @@ function FindProxyForURL(url, host) {
 	if (proxyMode == proxyModeType.direct)
 		return resultDirect;
 
-	if (proxyMode == proxyModeType.systemProxy)
-		// TODO: system is not implemented by Firefox yet
-		// TODO: https://bugzilla.mozilla.org/show_bug.cgi?id=1319630
-		return resultSystem;
+	if (proxyMode == proxyModeType.systemProxy) {
+		// should bypass this host?
+		if (bypass.enableForSystem === true &&
+			bypass.bypassList.indexOf(host) !== -1)
+			return resultDirect;
+		else
+			// TODO: system is not implemented by Firefox yet
+			// TODO: https://bugzilla.mozilla.org/show_bug.cgi?id=1319630
+			return resultSystem;
+	}
 
 	// there should be active proxy
 	if (activeProxyServer == null)
@@ -241,8 +267,14 @@ function FindProxyForURL(url, host) {
 		// return "PASS";
 		return resultDirect;
 
-	if (proxyMode == proxyModeType.always)
-		return resultActiveProxy;
+	if (proxyMode == proxyModeType.always) {
+		// should bypass this host?
+		if (bypass.enableForAlways === true &&
+			bypass.bypassList.indexOf(host) !== -1)
+			return resultDirect;
+		else
+			return resultActiveProxy;
+	}
 
 	try {
 

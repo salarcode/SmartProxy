@@ -80,6 +80,12 @@
 						</a>
 					</li>
 					<li role="presentation">
+						<a href="#tab-bypass" aria-controls="profile" role="tab" data-toggle="tab">
+							<i class="fa fa-hand-paper-o fa-lg text-secondary" aria-hidden="true"></i>
+							<span data-localize="settingsTabBypass">Bypass List</span>
+						</a>
+					</li>
+					<li role="presentation">
 						<a href="#tab-backup" aria-controls="settings" role="tab" data-toggle="tab">
 							<i class="fa fa-life-ring fa-lg text-success" aria-hidden="true"></i>
 							<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
@@ -111,7 +117,7 @@
 						<div id="divAlertFirefox" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<strong><i class="fa fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
-							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not finalized yet (Smart features are not enabled due the bugs). Please be patient and <a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">report</a> any bugs you encounter end help me to improve this extension. Thanks.
+							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not finalized yet (Smart features are not enabled due the bugs). Please be patient and <a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">report</a> any bugs you encounter and help me to improve this extension. Thanks.
 						</div>
 						<div id="divAlertChrome" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -436,6 +442,45 @@
 							<div class="pull-right">
 								<button id="btnClearServerSubscriptions" class="btn btn-default " title="Clear all the subscriptions">
 									<i class="fa fa-trash text-danger" aria-hidden="true"></i>
+								</button>
+							</div>
+							<div class="clearfix"></div>
+						</p>
+					</div>
+					<div class="tab-pane" id="tab-bypass" role="tabpanel">
+						<h3 data-localize="settingsTabBypass">Bypass List</h3>
+						<hr class="afshin-line" />
+
+						<p data-localize="settingsTabBypassDescription">
+							The following list is the list of hosts that proxy should not be applied to.
+						</p>
+
+
+						<div class="radio">
+							<label>
+								<input type="checkbox" id="chkEnableBypassForAlwaysEnable" name="chkEnableBypassForAlwaysEnable">
+								<span data-localize="settingsBypassEnableForAlways">Enable for 'Always Enable' mode</span>
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="checkbox" id="chkEnableBypassForSystemProxy" name="chkEnableBypassForSystemProxy">
+								<span data-localize="settingsBypassEnableForSystem">Enable for 'System Proxy' mode (Firefox only)</span>
+							</label>
+						</div>
+						
+						<div class="form-group">
+							<label for="txtBypassList" data-localize="settingsBypassList">Bypass list:</label>
+							<textarea class="form-control" id="txtBypassList" rows="10"></textarea>
+							<span data-localize="settingsBypassListHint" class="help-block">(Use new line to seperate entries)</span>
+						</div>
+						<p class="mt-2">
+							<div class="pull-left">
+								<button id="btnSaveBypassChanges" class="btn btn-primary">
+									<span data-localize="settingsSaveChangesButton">Save Changes</span>
+								</button>
+								<button id="btnRejectBypass" class="btn btn-default">
+									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
 								</button>
 							</div>
 							<div class="clearfix"></div>
