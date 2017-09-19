@@ -135,6 +135,10 @@
 		"message": "代理服务器订阅",
 		"description": ""
 	},
+	"settingsTabBypass": {
+		"message": "Bypass List",
+		"description": ""
+	},
 	"settingsTabBackupRestore": {
 		"message": "备份/还原",
 		"description": ""
@@ -161,6 +165,10 @@
 	},
 	"settingsTabProxyRulesDescription": {
 		"message": "此处为 SmartProxy 规则列表，用于判断是否为特定域名启用代理。<br />规则基于<a href='https://developer.mozilla.org/zh-CN/Add-ons/WebExtensions/Match_patterns' target='_blank'>匹配模式</a>.",
+		"description": ""
+	},
+	"settingsTabBypassDescription": {
+		"message": "The following list is the list of hosts that proxy should not be applied to.",
 		"description": ""
 	},
 	"settingsTabBackupRestoreDescription": {
@@ -617,6 +625,34 @@
 	},
 	"settingsSaveProxyServerSubscriptionsSuccess": {
 		"message": "代理服务器订阅成功。",
+		"description": ""
+	},
+	"settingsBypassEnableForAlways": {
+		"message": "Enable for 'Always Enable' mode",
+		"description": ""
+	},
+	"settingsBypassEnableForSystem": {
+		"message": "Enable for 'System Proxy' mode (Firefox only)",
+		"description": ""
+	},
+	"settingsBypassList": {
+		"message": "Bypass list:",
+		"description": ""
+	},
+	"settingsBypassListHint": {
+		"message": "(Use new line to seperate entries)",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveBypass": {
+		"message": "Failed to save bypas settings.",
+		"description": ""
+	},
+	"settingsSaveBypassSuccess": {
+		"message": "Bypass list saved successfully.",
+		"description": ""
+	},
+	"settingsBypassInvalid": {
+		"message": "Invalid bypass settings",
 		"description": ""
 	}
 }
