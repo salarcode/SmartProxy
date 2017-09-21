@@ -59,7 +59,7 @@ let settings = {
 	bypass: {
 		enableForAlways: false,
 		enableForSystem: false,
-		bypassList: ["127.0.0.1", "localhost"]
+		bypassList: ["127.0.0.1", "localhost", "::1"]
 	}
 };
 
@@ -638,7 +638,7 @@ let settings = {
 				settingObj.bypass = {
 					enableForAlways: false,
 					enableForSystem: false,
-					bypassList: ["127.0.0.1", "localhost"]
+					bypassList: ["127.0.0.1", "localhost", "::1"]
 				};
 			}
 			settingObj.product = "SmartProxy";
