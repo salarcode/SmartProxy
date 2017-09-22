@@ -858,7 +858,7 @@
 					},
 					{ name: "protocol", align: "left", title: browser.i18n.getMessage("settingsServersGridColProtocol"), type: "select", items: protocolSelect, valueField: "name", textField: "name", validate: "required" },
 					{
-						name: "host", title: browser.i18n.getMessage("settingsServersGridColServer"), type: "text", width: 200, validate: "required",
+						name: "host", align: "left", title: browser.i18n.getMessage("settingsServersGridColServer"), type: "text", width: 200, validate: "required",
 						insertTemplate: function () {
 							// setting default value
 							return jsGrid.fields.text.prototype.insertTemplate.call(this).val("127.0.0.1");
@@ -984,8 +984,8 @@
 				//data: clients,
 
 				fields: [
-					{ name: "source", title: browser.i18n.getMessage("settingsRulesGridColSource"), type: "text", width: 250, validate: "required" },
-					{ name: "pattern", title: browser.i18n.getMessage("settingsRulesGridColPattern"), type: "disabled", width: 250 },
+					{ name: "source", title: browser.i18n.getMessage("settingsRulesGridColSource"), type: "text", width: 250, align: "left", validate: "required" },
+					{ name: "pattern", title: browser.i18n.getMessage("settingsRulesGridColPattern"), type: "disabled", width: 250, align: "left" },
 					{ name: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled"), type: "checkbox", width: 80 },
 					{
 						name: "proxy", title: browser.i18n.getMessage("settingsRulesGridColProxy"), width: 150, align: "left",

@@ -19,17 +19,35 @@
 	color: navy;
 }
 
-.fullwidth {
-	width: 100%;
-}
-
 .font-url {
 	font-family: Segoe UI, Courier New, Courier, monospace;
+}
+
+.rtl {
+	font-family: Tahoma, sans-serif;
+}
+
+	.rtl .jsgrid-align-left {
+		direction: ltr;
+	}
+
+	.rtl .nav {
+		padding-right: 0;
+	}
+
+
+.direction-ltr {
+	direction: ltr;
+}
+
+.fullwidth {
+	width: 100%;
 }
 
 input[type=file].form-control {
 	height: auto;
 }
+
 input:invalid {
 	border: rgba(255, 0, 0, 0.5) 1px solid;
 }
@@ -48,12 +66,13 @@ hr.afshin-line {
 }
 
 .vertical-align-middle {
-	vertical-align: middle
+	vertical-align: middle;
 }
 
 .nav li {
 	cursor: pointer;
 }
+
 .nav-pills.nav-stacked > li.active .fa {
 	color: white !important;
 }
@@ -86,6 +105,21 @@ select.active-proxy-select {
 	.popup-menu .alert {
 		margin-bottom: 5px;
 		padding: 10px;
+	}
+
+.proxiable-item {
+	margin-left: -10px;
+	margin-right: -7px;
+}
+
+.rtl .proxiable-item {
+	margin-right: -8px;
+	margin-left: -8px;
+}
+
+	.rtl .proxiable-item > div {
+		padding-right: 10px;
+		padding-left: 10px;
 	}
 
 /* Bootstrap 4 styles*/

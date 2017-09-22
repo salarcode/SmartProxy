@@ -24,11 +24,11 @@
     "description":""
   },
   "popupAlwaysEnable":{
-    "message":"پراکسی برای همه جا",
+    "message":"پراکسی برای همه",
     "description":""
   },
   "popupSystemProxy":{
-    "message":"تنظیمات سیستم",
+    "message":"استفاده از تنظیمات سیستم",
     "description":""
   },
   "popupActiveProxy":{
@@ -84,7 +84,7 @@
     "description":""
   },
   "proxyableDisableButton":{
-    "message":"غیر فعال",
+    "message":"غیر فعال کردن",
     "description":""
   },
   "proxyableEnableButton":{
@@ -264,7 +264,7 @@
     "description":""
   },
   "settingsExportProxiesButton":{
-    "message":"تهیه خروجی پراکی ها",
+    "message":"تهیه خروجی پراکسی ها",
     "description":""
   },
   "settingsImportProxiesTitle":{
