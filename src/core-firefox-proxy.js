@@ -205,6 +205,8 @@ const polyfill = {
 		if (!inputBypass.bypassList ||
 			!Array.isArray(inputBypass.bypassList))
 			inputBypass.bypassList = [];
+
+		return inputBypass;
 	}
 
 	function matchPatternToRegExp(pattern) {

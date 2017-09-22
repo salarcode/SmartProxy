@@ -101,6 +101,9 @@
 
 		$("#btnSaveProxyServers").click(function () {
 
+			// update the active proxy server data
+			cmbActiveProxyServer.trigger("change");
+
 			let saveData = {
 				proxyServers: settingsGrid.getServers(),
 				activeProxyServer: settingsUiData.activeProxyServer
