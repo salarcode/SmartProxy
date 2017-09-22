@@ -767,12 +767,66 @@
 			}
 
 			if (checkExisting !== false) {
-				if (args.grid.data.some(item => {(name == item.name)})) {
+				if (args.grid.data.some(item => name == item.name)) {
 					args.cancel = true;
 					// A Server with the same name already exists!
 					messageBox.error(browser.i18n.getMessage("settingsServerNameExists"));
 				}
 			}
+		},
+		generateNewSubscriptionName: function () {
+			// generates a unique name for list subscription
+			let subscriptions = settingsGrid.getServerSubscriptions();
+			let itemNo = 1;
+			let result = `Subscription ${itemNo}`;
+
+			if (subscriptions && subscriptions.length > 0) {
+				let exist;
+
+				itemNo = subscriptions.length + 1;
+				result = `Subscription ${itemNo}`;
+
+				do {
+					exist = false;
+					for (let i = subscriptions.length - 1; i >= 0; i--) {
+						if (subscriptions[i].name === result) {
+							exist = true;
+							itemNo++;
+							result = `Subscription ${itemNo}`;
+							break;
+						}
+					}
+				} while (exist)
+			}
+
+			return result;
+		},
+		generateNewServerName: function () {
+			// generates a unique name for proxy server
+			let servers = settingsGrid.getServers();
+			let serverNo = 1;
+			let result = `Server ${serverNo}`;
+
+			if (servers && servers.length > 0) {
+				let exist;
+
+				serverNo = servers.length + 1;
+				result = `Server ${serverNo}`;
+
+				do {
+					exist = false;
+					for (let i = servers.length - 1; i >= 0; i--) {
+						if (servers[i].name === result) {
+							exist = true;
+							serverNo++;
+							result = `Server ${serverNo}`;
+							break;
+						}
+					}
+				} while (exist)
+			}
+
+			return result;
 		},
 		initializeServersGrid: function () {
 
@@ -792,9 +846,21 @@
 				//data: clients,
 
 				fields: [
-					{ name: "name", title: browser.i18n.getMessage("settingsServersGridColName"), type: "text", width: 150, validate: "required" },
+					{
+						name: "name", title: browser.i18n.getMessage("settingsServersGridColName"), type: "text", width: 150, validate: "required",
+						insertTemplate: function () {
+							// setting default value
+							return jsGrid.fields.text.prototype.insertTemplate.call(this).val(settingsGrid.generateNewServerName());
+						}
+					},
 					{ name: "protocol", align: "left", title: browser.i18n.getMessage("settingsServersGridColProtocol"), type: "select", items: protocolSelect, valueField: "name", textField: "name", validate: "required" },
-					{ name: "host", title: browser.i18n.getMessage("settingsServersGridColServer"), type: "text", width: 200, validate: "required" },
+					{
+						name: "host", title: browser.i18n.getMessage("settingsServersGridColServer"), type: "text", width: 200, validate: "required",
+						insertTemplate: function () {
+							// setting default value
+							return jsGrid.fields.text.prototype.insertTemplate.call(this).val("127.0.0.1");
+						}
+					},
 					{ name: "port", title: browser.i18n.getMessage("settingsServersGridColPort"), align: "left", type: "number", width: 100, validate: "required" },
 					{ type: "control" }
 				],
@@ -1093,7 +1159,8 @@
 					modal.find("#cmbServerSubscriptionPassword").val("");
 
 			} else {
-				modal.find("#txtName").val("");
+
+				modal.find("#txtName").val(settingsGrid.generateNewSubscriptionName());
 				modal.find("#txtUrl").val("");
 				modal.find("#numRefereshRate").val(0);
 				modal.find("#chkEnabled").prop('checked', true);
@@ -1138,6 +1205,13 @@
 			settingsGrid.serverSubscriptionsModelUpdate(modal, null);
 
 			modal.modal("show");
+
+			function focusUrl() {
+				modal.off("shown.bs.modal", focusUrl);
+				modal.find("#txtUrl").focus();
+			}
+
+			modal.on("shown.bs.modal", focusUrl);
 		},
 		serverSubscriptionsEdit: function (name) {
 			if (!name) return;
