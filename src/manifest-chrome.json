@@ -1,6 +1,6 @@
 {
 	"name": "__MSG_extensionName__",
-	"version": "0.5",
+	"version": "0.5.0.1",
 	"manifest_version": 2,
 	"author": "Salar Khalilzadeh",
 	"description": "__MSG_extensionDescription__",
@@ -36,7 +36,7 @@
 		}
 	},
 	"background": {
-		"scripts": [ "core-common.js", "core-utils.js", "core-polyfill.js", "core-chrome-proxy.js", "core.js" ]
+		"scripts": [ "core-common.js", "core-utils.js", "core-polyfill.js", "core-chrome-proxy.js", "pako.min.js", "core.js" ]
 	},
 	"options_ui": {
 		"page": "ui/settings.html",
