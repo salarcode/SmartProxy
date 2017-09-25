@@ -56,37 +56,43 @@
 				<br />
 				<ul class="nav nav-pills nav-stacked" role="tablist">
 					<li role="presentation" class="active">
-						<a href="#tab-general" aria-controls="home" role="tab" data-toggle="tab">
+						<a href="#tab-about" aria-controls="about" role="tab" data-toggle="tab">
 							<i class="fa fa-cog fa-lg text-primary" aria-hidden="true"></i>
 							<span data-localize="settingsTabAbout">About</span>
 						</a>
 					</li>
 					<li role="presentation">
-						<a href="#tab-servers" aria-controls="profile" role="tab" data-toggle="tab">
+						<a href="#tab-general" aria-controls="general" role="tab" data-toggle="tab">
+							<i class="fa fa-wrench fa-lg text-success" aria-hidden="true"></i>
+							<span data-localize="settingsTabGeneral">General Options</span>
+						</a>
+					</li>
+					<li role="presentation">
+						<a href="#tab-servers" aria-controls="servers" role="tab" data-toggle="tab">
 							<i class="fa fa-server fa-lg text-secondary" aria-hidden="true"></i>
 							<span data-localize="settingsTabProxyServers">Proxy Servers</span>
 						</a>
 					</li>
 					<li role="presentation">
-						<a href="#tab-rules" aria-controls="messages" role="tab" data-toggle="tab">
+						<a href="#tab-rules" aria-controls="rules" role="tab" data-toggle="tab">
 							<i class="fa fa-magic fa-lg text-warning" aria-hidden="true"></i>
 							<span data-localize="settingsTabProxyRules">Proxy Rules</span>
 						</a>
 					</li>
 					<li role="presentation">
-						<a href="#tab-server-subscriptions" aria-controls="profile" role="tab" data-toggle="tab">
+						<a href="#tab-server-subscriptions" aria-controls="proxy-server-subscriptions" role="tab" data-toggle="tab">
 							<i class="fa fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
 							<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
 						</a>
 					</li>
 					<li role="presentation">
-						<a href="#tab-bypass" aria-controls="profile" role="tab" data-toggle="tab">
+						<a href="#tab-bypass" aria-controls="bypass" role="tab" data-toggle="tab">
 							<i class="fa fa-hand-paper-o fa-lg text-secondary" aria-hidden="true"></i>
 							<span data-localize="settingsTabBypass">Bypass List</span>
 						</a>
 					</li>
 					<li role="presentation">
-						<a href="#tab-backup" aria-controls="settings" role="tab" data-toggle="tab">
+						<a href="#tab-backup" aria-controls="backup-restore" role="tab" data-toggle="tab">
 							<i class="fa fa-life-ring fa-lg text-success" aria-hidden="true"></i>
 							<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
 						</a>
@@ -101,7 +107,7 @@
 			</div>
 			<div class="col-md-9 col-sm-8">
 				<div class="tab-content">
-					<div class="tab-pane active" id="tab-general" role="tabpanel">
+					<div class="tab-pane active" id="tab-about" role="tabpanel">
 						<h3 data-localize="settingsTabAbout">About</h3>
 						<hr class="afshin-line" />
 
@@ -168,6 +174,35 @@
 							<i class="fa fa-eye-slash" aria-hidden="true"></i>
 							SmartProxy does not use or insert ads into pages or any other places.
 							<br />
+						</p>
+					</div>
+					<div class="tab-pane active" id="tab-general" role="tabpanel">
+						<h3 data-localize="settingsTabGeneral">General Options</h3>
+						<hr class="afshin-line" />
+
+						<h4 data-localize="settingsTabGeneralTitle">
+							General options of the extension:
+						</h4>
+
+						<div>
+							<h3 data-localize="settingsGeneralSyncing">Syncing</h3>
+							<label>
+								<input id="chkSyncSettings" checked type="checkbox" class="browser-style"/>
+								<span data-localize="settingsGeneralEnableSyncing">Enable settings syncing</span>
+							</label>
+							<div class="help-block" data-localize="settingsGeneralEnableSyncingDesc">By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.</div>
+						</div>
+						<div class="mt-5"></div>
+						<p class="mt-4">
+							<div class="pull-left">
+								<button id="btnSaveGeneralOptions" class="btn btn-primary">
+									<span data-localize="settingsSaveGeneralOptionsButton">Save Changes</span>
+								</button>
+								<button id="btnRejectGeneralOptions" class="btn btn-default">
+									<span data-localize="settingsRejectGeneralOptionsButton">Reject Changes</span>
+								</button>
+							</div>
+							<div class="clearfix"></div>
 						</p>
 					</div>
 					<div class="tab-pane" id="tab-servers" role="tabpanel">
@@ -356,7 +391,7 @@
 							Manage proxy server subscriptions:
 						</h4>
 						<p data-localize="settingsTabProxyServerSubscriptionsDescription">
-							Here you can subscribe to proxy lists and switch between the proxies later.
+							Here you can subscribe to proxy lists and switch between the proxies later. Please note that long lists may cause failure in syncing data between devices.
 						</p>
 						<p>
 							<div class="pull-left">

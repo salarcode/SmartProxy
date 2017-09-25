@@ -24,12 +24,18 @@ let settings = {
 	// patterns can be https://mozilla.org/*/b/*/ or https://mozilla.org/path/*
 	proxyRules: [{ pattern: "*://*.salarcode.com/*", source: "salarcode.com", proxy: null, enabled: false }],
 	activeProxyServer: null,
+	options: {
+		syncSettings: false,
+		detectRequestFailures: false,
+		displayFailedOnBadge: false,
+		displayAppliedProxyOnBadge: false
+	},
 	proxyServers: [
 		{
-			name: 'name',
-			host: 'host',
+			name: "name",
+			host: "host",
 			port: 8080,
-			protocol: 'HTTP',
+			protocol: "HTTP",
 			username: null,
 			password: null,
 			// proxyDNS can only be true for SOCKS proxy servers
@@ -156,6 +162,7 @@ let settings = {
 
 				// save the changes
 				settingsOperation.saveProxyMode();
+				settingsOperation.saveAllSync();
 
 				// send it to the proxy server
 				proxyRules.notifyProxyModeChange();
@@ -173,6 +180,7 @@ let settings = {
 
 					settings.activeProxyServer = proxy;
 					settingsOperation.saveActiveProxyServer();
+					settingsOperation.saveAllSync();
 
 					// send it to the proxy server
 					proxyRules.notifyActiveProxyServerChange();
@@ -276,6 +284,7 @@ let settings = {
 
 				settingsOperation.saveProxyServers();
 				settingsOperation.saveActiveProxyServer();
+				settingsOperation.saveAllSync();
 
 				proxyRules.notifyActiveProxyServerChange();
 
@@ -285,7 +294,7 @@ let settings = {
 				if (sendResponse) {
 					sendResponse({
 						success: true,
-						message: 'Proxy servers saved successfully.',
+						message: "Proxy servers saved successfully.",
 						restartRequired: restartRequired
 					});
 				}
@@ -307,6 +316,7 @@ let settings = {
 
 				settings.proxyRules = message.proxyRules;
 				settingsOperation.saveRules();
+				settingsOperation.saveAllSync();
 
 				proxyRules.notifyProxyRulesChange();
 
@@ -339,6 +349,7 @@ let settings = {
 
 				settings.proxyServerSubscriptions = message.proxyServerSubscriptions;
 				settingsOperation.saveProxyServerSubscriptions();
+				settingsOperation.saveAllSync();
 
 				// update the timers
 				timerManagement.updateSubscriptions();
@@ -365,6 +376,7 @@ let settings = {
 
 				settings.bypass = message.bypass;
 				settingsOperation.saveBypass();
+				settingsOperation.saveAllSync();
 
 				proxyRules.notifyBypassChanged();
 
@@ -376,6 +388,27 @@ let settings = {
 						success: true,
 						// Proxy server subscriptions saved successfully.
 						message: browser.i18n.getMessage("settingsSaveBypassSuccess"),
+						restartRequired: restartRequired
+					});
+				}
+				return;
+			}
+
+			if (commad == "settingsSaveOptions" &&
+				message["options"] != null) {
+
+				settings.options = message.options;
+				settingsOperation.saveOptions();
+				settingsOperation.saveAllSync();
+
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
+				if (sendResponse) {
+					sendResponse({
+						success: true,
+						// General options saved successfully.
+						message: browser.i18n.getMessage("settingsSaveOptionsSuccess"),
 						restartRequired: restartRequired
 					});
 				}
@@ -431,7 +464,7 @@ let settings = {
 				created: new Date(),
 				updated: new Date(),
 				requests: new Set(),
-				url: '',
+				url: "",
 				incognito: false
 			};
 
@@ -469,7 +502,7 @@ let settings = {
 					created: new Date(),
 					updated: new Date(),
 					requests: new Set(),
-					url: '',
+					url: "",
 					incognito: false
 				};
 
@@ -617,7 +650,7 @@ let settings = {
 	}
 
 	const settingsOperation = {
-		setDefaultSettins: function (settingObj) {
+		setDefaultSettings: function (settingObj) {
 
 			if (settingObj["proxyRules"] == null || !Array.isArray(settingObj.proxyRules)) {
 				settingObj.proxyRules = [];
@@ -641,18 +674,85 @@ let settings = {
 					bypassList: ["127.0.0.1", "localhost", "::1"]
 				};
 			}
+			if (settingObj["options"] == null) {
+				settingObj.options = {};
+			}
 			settingObj.product = "SmartProxy";
 
 			polyfill.managementGetSelf(function (info) {
 				settingObj.version = info.version;
 			});
 		},
+		readSyncedSettings: function (success) {
+			// gettin synced data
+			polyfill.storageSyncGet(null,
+				onGetSyncData,
+				onGetSyncError);
+
+			function onGetSyncData(data) {
+
+				try {
+					let syncedSettings = settingsOperation.decodeSyncData(data);
+
+					// only if sync settings is enabled
+					if (syncedSettings &&
+						syncedSettings.options) {
+
+						if (syncedSettings.options.syncSettings) {
+
+							// use synced settings
+							//settings = migrateFromOldVersion(syncedSettings);
+							settings = syncedSettings;
+							settingsOperation.setDefaultSettings(settings);
+
+						} else {
+							// sync is disabled
+							syncedSettings.options.syncSettings = false;
+						}
+					}
+				} catch (e) {
+					debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
+				}
+			}
+			function onGetSyncError(error) {
+				debug.error(`settingsOperation.readSyncedSettings error: ${error.message}`);
+			}
+		},
 		initialize: function (success) {
 			///<summary>The initialization method</summary>
 			function onGetLocalData(data) {
 				// all the settings
 				settings = migrateFromOldVersion(data);
-				settingsOperation.setDefaultSettins(settings);
+				settingsOperation.setDefaultSettings(settings);
+
+				// read all the synced data along with synced ones
+				polyfill.storageSyncGet(null,
+					onGetSyncData,
+					onGetSyncError);
+			}
+			function onGetSyncData(data) {
+
+				try {
+					let syncedSettings = settingsOperation.decodeSyncData(data);
+
+					// only if sync settings is enabled
+					if (syncedSettings &&
+						syncedSettings.options) {
+
+						if (syncedSettings.options.syncSettings) {
+
+							// use synced settings
+							settings = migrateFromOldVersion(syncedSettings);
+							settingsOperation.setDefaultSettings(settings);
+
+						} else {
+							// sync is disabled
+							syncedSettings.options.syncSettings = false;
+						}
+					}
+				} catch (e) {
+					debug.error(`settingsOperation.onGetSyncData error: ${e} \r\n ${data}`);
+				}
 
 				if (success) {
 					success();
@@ -660,6 +760,14 @@ let settings = {
 			}
 			function onGetLocalError(error) {
 				debug.error(`settingsOperation.initialize error: ${error.message}`);
+			}
+			function onGetSyncError(error) {
+				debug.error(`settingsOperation.initialize error: ${error.message}`);
+
+				// local settings should be used
+				if (success) {
+					success();
+				}
 			}
 			function migrateFromOldVersion(data) {
 				///<summary>Temporary migration for old version of this addon in Firefox. This method will be removed in the future</summary>
@@ -710,14 +818,137 @@ let settings = {
 
 			return null;
 		},
-		saveAll: function () {
+		encodeSyncData: function (inputObject) {
+
+			let settingStr = JSON.stringify(inputObject);
+
+			// encode string to utf8
+			let enc = new TextEncoder("utf-8");
+			let settingArray = enc.encode(settingStr);
+
+			// compress
+			let compressResultStr = pako.deflateRaw(settingArray, { to: "string" });
+			compressResultStr = utils.b64EncodeUnicode(compressResultStr);
+
+			let saveObject = {};
+
+			// some browsers have limitation on data size per item
+			// so we have split the data into chunks saved in a object
+			splitIntoChunks(compressResultStr, saveObject);
+
+			function splitIntoChunks(str, outputObject) {
+				let length = environment.storageQuota.syncQuotaBytesPerItem();
+				if (length > 0) {
+
+					let chunks = utils.chunkString(str, length);
+					outputObject.chunkLength = chunks.length;
+
+					for (let index = 0; index < chunks.length; index++) {
+						outputObject["c" + index] = chunks[index];
+					}
+
+				} else {
+					outputObject.c0 = str;
+					outputObject.chunkLength = 1;
+				}
+			}
+
+			return saveObject;
+		},
+		decodeSyncData: function (inputObject) {
+			if (!inputObject || !inputObject.chunkLength)
+				return null;
+
+			// joining the chunks
+			let chunks = [];
+			for (let index = 0; index < inputObject.chunkLength; index++) {
+				chunks.push(inputObject["c" + index]);
+			}
+			let compressResultStr = chunks.join("");
+
+			// convert from base64 string
+			compressResultStr = utils.b64DecodeUnicode(compressResultStr);
+
+			// decompress
+			let settingArray = pako.inflateRaw(compressResultStr);
+
+			// decode array to string
+			let dec = new TextDecoder();
+			let settingStr = dec.decode(settingArray);
+
+			// parse the JSON
+			return JSON.parse(settingStr);
+		},
+		syncOnChanged: function (changes, area) {
+			if (area !== "sync") return;
+
+			debug.log("syncOnChanged ", area, changes);
+
+			// read all the settings
+			settingsOperation.readSyncedSettings(function () {
+				// on settings read success
+
+				// force to save changes to local
+				settingsOperation.saveAllLocal(true);
+
+				proxyRules.notifyProxyRulesChange();
+				proxyRules.notifyActiveProxyServerChange();
+				proxyRules.notifyProxyModeChange();
+				proxyRules.notifyBypassChanged();
+
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
+			});
+		},
+		saveAllSync: function () {
+			if (!settings.options.syncSettings)
+				// only sync when enabled
+				return;
+			debugger;
+			// before anything save everything in local
+			settingsOperation.saveAllLocal(true);
+
+			let saveObject = settingsOperation.encodeSyncData(settings);
+
+			try {
+				polyfill.storageSyncSet(saveObject,
+					null,
+					function (error) {
+						debug.error(`settingsOperation.saveAllSync error: ${error.message} ` + saveObject);
+					});
+
+			} catch (e) {
+				debug.error(`settingsOperation.saveAllSync error: ${e}`);
+			}
+		},
+		saveAllLocal: function (forceSave) {
+			if (!forceSave && settings.options.syncSettings)
+				// don't save in local when sync enabled
+				return;
+
 			polyfill.storageLocalSet(settings,
 				null,
 				function (error) {
-					debug.error(`settingsOperation.saveAll error: ${error.message}`);
+					debug.error(`settingsOperation.saveAllLocal error: ${error.message}`);
+				});
+		},
+		saveOptions: function () {
+			if (settings.options.syncSettings)
+				// don't save in local when sync enabled
+				return;
+
+			polyfill.storageLocalSet({ options: settings.options },
+				null,
+				function (error) {
+					debug.error(`settingsOperation.saveOptions error: ${error.message}`);
 				});
 		},
 		saveRules: function () {
+			if (settings.options.syncSettings)
+				// don't save in local when sync enabled
+				return;
+
 			polyfill.storageLocalSet({ proxyRules: settings.proxyRules },
 				null,
 				function (error) {
@@ -725,6 +956,10 @@ let settings = {
 				});
 		},
 		saveProxyServers: function () {
+			if (settings.options.syncSettings)
+				// don't save in local when sync enabled
+				return;
+
 			polyfill.storageLocalSet({ proxyServers: settings.proxyServers },
 				null,
 				function (error) {
@@ -732,6 +967,10 @@ let settings = {
 				});
 		},
 		saveProxyServerSubscriptions: function () {
+			if (settings.options.syncSettings)
+				// don't save in local when sync enabled
+				return;
+
 			polyfill.storageLocalSet({ proxyServerSubscriptions: settings.proxyServerSubscriptions },
 				null,
 				function (error) {
@@ -739,6 +978,10 @@ let settings = {
 				});
 		},
 		saveBypass: function () {
+			if (settings.options.syncSettings)
+				// don't save in local when sync enabled
+				return;
+
 			polyfill.storageLocalSet({ bypass: settings.bypass },
 				null,
 				function (error) {
@@ -746,6 +989,10 @@ let settings = {
 				});
 		},
 		saveActiveProxyServer: function () {
+			if (settings.options.syncSettings)
+				// don't save in local when sync enabled
+				return;
+
 			polyfill.storageLocalSet({ activeProxyServer: settings.activeProxyServer },
 				null,
 				function (error) {
@@ -754,6 +1001,10 @@ let settings = {
 		},
 		saveProxyMode: function () {
 			internal.setBrowserActionStatus();
+
+			if (settings.options.syncSettings)
+				// don't save in local when sync enabled
+				return;
 
 			polyfill.storageLocalSet({ proxyMode: settings.proxyMode },
 				null,
@@ -984,6 +1235,9 @@ let settings = {
 					settingsOperation.saveBypass();
 					proxyRules.notifyBypassChanged();
 				}
+
+				// save synced if needed
+				settingsOperation.saveAllSync();
 
 				// update proxy rules
 				proxyRules.updateChromeProxyConfig();
@@ -1222,6 +1476,7 @@ let settings = {
 		add: function (ruleObject) {
 			settings.proxyRules.push(ruleObject);
 			settingsOperation.saveRules();
+			settingsOperation.saveAllSync();
 		},
 		remove: function (ruleObject) {
 
@@ -1232,6 +1487,7 @@ let settings = {
 			//settings.proxyRules.delete(ruleObject);
 
 			settingsOperation.saveRules();
+			settingsOperation.saveAllSync();
 		},
 		testSingleRule: function (url) {
 			// the url should be complete
@@ -1426,6 +1682,7 @@ let settings = {
 						subscription.totalCount = count;
 
 						settingsOperation.saveProxyServerSubscriptions();
+						settingsOperation.saveAllSync();
 
 					} else {
 						debug.warn("Failed to read proxy server subscription: " + subscriptionName);
@@ -1459,7 +1716,7 @@ let settings = {
 		updateInfo: null,
 		readUpdateInfo: function () {
 
-			let addonId = browser.runtime.id || '';
+			let addonId = browser.runtime.id || "";
 
 			// IMPORTANT NOTE:
 			// this code will not run in listed versions (listed in AMO or WebStore)
@@ -1704,6 +1961,10 @@ let settings = {
 
 		// check for updates, only in unlisted version
 		updateManager.readUpdateInfo();
+
+		// handle synced settings changes
+		browser.storage.onChanged.addListener(settingsOperation.syncOnChanged);
+
 	});
 
 	// start handling messages

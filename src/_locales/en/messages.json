@@ -123,6 +123,10 @@
 		"message": "About",
 		"description": ""
 	},
+	"settingsTabGeneral": {
+		"message": "General Options",
+		"description": ""
+	},
 	"settingsTabProxyServers": {
 		"message": "Proxy Servers",
 		"description": ""
@@ -149,6 +153,10 @@
 	},
 	"settingsTabAboutDescription": {
 		"message": "Use patterns to automatically define rules for proxify your web experience. With SmartProxy, you don't need to change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.",
+		"description": ""
+	},
+	"settingsTabGeneralTitle": {
+		"message": "General options of the extension:",
 		"description": ""
 	},
 	"settingsTabProxyServersTitle": {
@@ -181,6 +189,18 @@
 	},
 	"settingsErrNoServersDescription": {
 		"message": "Before anything you have to define proxy servers.",
+		"description": ""
+	},
+	"settingsGeneralSyncing": {
+		"message": "Syncing",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncing": {
+		"message": "Enable settings syncing",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncingDesc": {
+		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.",
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
@@ -392,11 +412,11 @@
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "source is invalid, source name should be something like 'google.com'",
+		"message": "source is invalid, source name should be something like 'google.com",
 		"description": ""
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'source' is not valid '{0}'",
+		"message": "source' is not valid '{0}",
 		"description": ""
 	},
 	"settingsRuleSourceAlreadyExists": {
@@ -404,7 +424,7 @@
 		"description": ""
 	},
 	"settingsRuleHostInvalid": {
-		"message": "Host name '{0}' is invalid, host name should be something like 'google.com'",
+		"message": "Host name '{0}' is invalid, host name should be something like 'google.com",
 		"description": ""
 	},
 	"settingsRulesGridNoDataContent": {
@@ -464,7 +484,7 @@
 		"description": ""
 	},
 	"settingsNoRuleFoundForDomain": {
-		"message": "There isn't any rule for '{0}'",
+		"message": "There isn't any rule for '{0}",
 		"description": ""
 	},
 	"settingsRuleSourceIsEmpty": {
@@ -480,7 +500,15 @@
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptionsDescription": {
-		"message": "Here you can subscribe to proxy lists and switch between the proxies later.",
+		"message": "Here you can subscribe to proxy lists and switch between the proxies later. Please note that long lists may cause failure in syncing data between devices.",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveGeneral": {
+		"message": "Failed to save options settings.",
+		"description": ""
+	},
+	"settingsSaveOptionsSuccess": {
+		"message": "General options saved successfully.",
 		"description": ""
 	},
 	"settingsAddServerSubscriptionButton": {

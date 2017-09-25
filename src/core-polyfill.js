@@ -20,6 +20,18 @@ let environment = {
 	version: 1.0,
 	bugFreeVersions: {
 		firefoxToProxyScript: 56
+	},
+	storageQuota: {
+		syncQuotaBytesPerItem: function () {
+			if (environment.chrome) {
+				// https://developer.chrome.com/apps/storage#property-sync
+				// QUOTA_BYTES_PER_ITEM = 8,192
+				return 8000;
+			} else {
+				// no limit
+				return -1;
+			}
+		}
 	}
 };
 
@@ -200,6 +212,38 @@ const polyfill = {
 				});
 		} else {
 			browser.storage.local.set(items)
+				.then(success, fail);
+		}
+	},
+	storageSyncGet: function (keys, success, fail) {
+		if (environment.chrome) {
+			chrome.storage.sync.get(keys,
+				function (response) {
+					let error = polyfill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			browser.storage.sync.get(keys)
+				.then(success, fail);
+		}
+	},
+	storageSyncSet: function (items, success, fail) {
+		if (environment.chrome) {
+			chrome.storage.sync.set(items,
+				function (response) {
+					let error = polyfill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			browser.storage.sync.set(items)
 				.then(success, fail);
 		}
 	},

@@ -87,6 +87,48 @@
 			//	});
 		}
 
+		$("#btnSaveGeneralOptions").click(function () {
+			let generalOptions = settingsGrid.getGeneralOptions();
+
+			polyfill.runtimeSendMessage(
+				{
+					command: "settingsSaveOptions",
+					options: generalOptions
+				},
+				function (response) {
+					if (!response) return;
+					if (response.success) {
+						if (response.message)
+							messageBox.success(response.message);
+
+						settingsUiData.options = generalOptions;
+
+						changeTracking.options = false;
+
+						checkRestartRequired(response.restartRequired);
+
+					} else {
+						if (response.message)
+							messageBox.error(response.message);
+					}
+				},
+				function (error) {
+					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveGeneral") + " " + error.message);
+				});
+		});
+
+		$("#btnRejectGeneralOptions").click(function () {
+			// reset the data
+			settingsUiData.options = jQuery.extend({}, originalSettingsData.options);
+			settingsGrid.loadGeneralOptions(settingsUiData.options);
+
+			changeTracking.options = false;
+
+			// Changes reverted successfully
+			messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+
+		});
+
 		let cmbActiveProxyServer = $("#cmbActiveProxyServer");
 		cmbActiveProxyServer.on("change",
 			function () {
@@ -126,6 +168,9 @@
 						settingsUiData.proxyServers = saveData.proxyServers;
 						settingsUiData.activeProxyServer = saveData.activeProxyServer;
 
+						changeTracking.servers = false;
+						changeTracking.activeProxy = false;
+
 					} else {
 						if (response.message)
 							messageBox.error(response.message);
@@ -134,9 +179,6 @@
 				function (error) {
 					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveServers") + " " + error.message);
 				});
-
-			changeTracking.servers = false;
-			changeTracking.activeProxy = false;
 
 		});
 		$("#btnRejectProxyServers").click(function () {
@@ -186,6 +228,8 @@
 						// current rules should become equal to saved rules
 						settingsUiData.proxyRules = rules;
 
+						changeTracking.rules = false;
+
 					} else {
 						if (response.message)
 							messageBox.error(response.message);
@@ -194,8 +238,6 @@
 				function (error) {
 					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveRules") + " " + error.message);
 				});
-
-			changeTracking.rules = false;
 
 		});
 		$("#btnRejectProxyRules").click(function () {
@@ -243,6 +285,8 @@
 
 						checkRestartRequired(response.restartRequired);
 
+						changeTracking.rules = false;
+
 					} else {
 						if (response.message)
 							messageBox.error(response.message);
@@ -251,8 +295,6 @@
 				function (error) {
 					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveBypass") + " " + error.message);
 				});
-
-			changeTracking.rules = false;
 		});
 		$("#btnRejectBypass").click(function () {
 			// reset the data
@@ -445,6 +487,7 @@
 					settingsGrid.loadServerSubscriptions(settingsUiData.proxyServerSubscriptions);
 					settingsGrid.reloadActiveProxyServer(settingsUiData.proxyServers, settingsUiData.proxyServerSubscriptions);
 					settingsGrid.loadBypass(settingsUiData.bypass);
+					settingsGrid.loadGeneralOptions(settingsUiData.options);
 
 					// make copy
 					originalSettingsData.proxyRules = settingsUiData.proxyRules.slice();
@@ -452,6 +495,7 @@
 					originalSettingsData.activeProxyServer = settingsUiData.activeProxyServer;
 					originalSettingsData.proxyServerSubscriptions = settingsUiData.proxyServerSubscriptions;
 					originalSettingsData.bypass = jQuery.extend({}, settingsUiData.bypass);
+					originalSettingsData.options = jQuery.extend({}, settingsUiData.options);
 				}
 
 			},
@@ -737,6 +781,21 @@
 		},
 		getBypassList: function () {
 			return $("#txtBypassList").val().split(/[\r\n]+/);
+		},
+		getGeneralOptions: function (generalOptions) {
+			if (!generalOptions)
+				generalOptions = {};
+			let divGeneral = $("#tab-general");
+
+			generalOptions.syncSettings = divGeneral.find("#chkSyncSettings").prop("checked");
+			return generalOptions;
+		},
+		loadGeneralOptions: function (generalOptions) {
+			if (!generalOptions)
+				return;
+			let divGeneral = $("#tab-general");
+
+			divGeneral.find("#chkSyncSettings").prop("checked", generalOptions.syncSettings || false);
 		},
 		loadServers: function (proxyServers) {
 			if (proxyServers)

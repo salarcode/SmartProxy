@@ -32,6 +32,44 @@ const utils = {
 	strStartsWith: function (str, prefix) {
 		return str.substr(0, prefix.length) === prefix;
 	},
+	chunkString:function(str, length) {
+		///<summmary></summmary>
+		let index = 0;
+		let endIndex = length;
+		if (endIndex > str.length)
+			endIndex = str.length;
+
+		let result = [];
+		do {
+			result.push(str.slice(index, endIndex));
+
+			if (endIndex >= str.length)
+				break;
+
+			index += length;
+			endIndex += length;
+
+			if (endIndex > str.length)
+				endIndex = str.length;
+		} while (true);
+
+		return result;
+	},
+	b64EncodeUnicode:function(str) {
+		// first we use encodeURIComponent to get percent-encoded UTF-8,
+		// then we convert the percent encodings into raw bytes which
+		// can be fed into btoa.
+		return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+			function toSolidBytes(match, p1) {
+				return String.fromCharCode("0x" + p1);
+			}));
+	},
+	b64DecodeUnicode:function(str) {
+		// Going backwards: from bytestream, to percent-encoding, to original string.
+		return decodeURIComponent(atob(str).split("").map(function (c) {
+			return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+		}).join(""));
+	},
 	isValidHost: function (host) {
 		return (host && host.indexOf("about:") === -1);
 	},
@@ -112,7 +150,7 @@ const utils = {
 		// and extracts [ , scheme, host, path, ]
 		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
 
-		if (pattern === '<all_urls>') {
+		if (pattern === "<all_urls>") {
 			//return (/^(?:https?|file|ftp|app):\/\//);
 			return null;
 		}
@@ -123,11 +161,11 @@ const utils = {
 		}
 		const [, scheme, host, path,] = match;
 
-		return new RegExp('^(?:'
-			+ (scheme === '*' ? 'https?' : escape(scheme)) + ':\\/\\/'
-			+ (host === '*' ? "[^\\/]*" : escape(host).replace(/^\*\./g, '(?:[^\\/]+)?'))
-			+ (path ? (path == '*' ? '(?:\\/.*)?' : ('\\/' + escape(path).replace(/\*/g, '.*'))) : '\\/?')
-			+ ')$');
+		return new RegExp("^(?:"
+			+ (scheme === "*" ? "https?" : escape(scheme)) + ":\\/\\/"
+			+ (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:[^\\/]+)?"))
+			+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
+			+ ")$");
 	}
 }
 
@@ -140,18 +178,18 @@ function localizeHtmlPage() {
 		if (msg && msg != tag) obj.innerHTML = msg;
 	}
 
-	// Localize using data-localize tags
-	let data = document.querySelectorAll('[data-localize]');
-
-	for (let obj of data) {
-		let tag = obj.dataset['localize'];
-
-		replace_i18n(obj, tag);
-	}
-
 	// page direction
 	let dir = browser.i18n.getMessage("uiDirection");
 	if (dir) {
 		$(document.body).addClass(dir).css("direction", dir);
+	}
+
+	// Localize using data-localize tags
+	let data = document.querySelectorAll("[data-localize]");
+
+	for (let obj of data) {
+		let tag = obj.dataset["localize"];
+
+		replace_i18n(obj, tag);
 	}
 }
