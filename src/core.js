@@ -905,7 +905,7 @@ let settings = {
 			if (!settings.options.syncSettings)
 				// only sync when enabled
 				return;
-			debugger;
+
 			// before anything save everything in local
 			settingsOperation.saveAllLocal(true);
 

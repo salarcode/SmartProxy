@@ -40,7 +40,7 @@ const utils = {
 			endIndex = str.length;
 
 		let result = [];
-		do {
+		for (;;) {
 			result.push(str.slice(index, endIndex));
 
 			if (endIndex >= str.length)
@@ -51,7 +51,7 @@ const utils = {
 
 			if (endIndex > str.length)
 				endIndex = str.length;
-		} while (true);
+		}
 
 		return result;
 	},
