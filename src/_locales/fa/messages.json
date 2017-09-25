@@ -1,4 +1,4 @@
-﻿{
+{
   "uiDirection":{
     "message":"rtl",
     "description":""
@@ -123,6 +123,10 @@
     "message":"درباره",
     "description":""
   },
+  "settingsTabGeneral":{
+    "message":"تنظیمات عمومی",
+    "description":""
+  },
   "settingsTabProxyServers":{
     "message":"پروکسی سرورها",
     "description":""
@@ -149,6 +153,10 @@
   },
   "settingsTabAboutDescription":{
     "message":"با استفاده از قوانین اعمال پراکسی به سایت ها می توانید تجربه استفاده از وب را برای خود بدون محدودیت و لذت بخش کنید. شما می توانید قوانین اعمال پراکسی به یک سایت خاص را فقط با یک کلیک انجام دهید. بعد از آن دیگر کاری لازم نیست انجام دهید و برای آن سایت به خصوص به صورت خودکار پراکسی اعمال خواهد شد. همه این کارهای فعال و غیر فعال کردن خودکار پراکسی برای سایتهایی که تنظیم کرده اید به صورت خودکار انجام می شود تا تجربه ای لذت بخش را داشته باشد.",
+    "description":""
+  },
+  "settingsTabGeneralTitle":{
+    "message":"تنظیمات عمومی مورد استفاده این افزونه:",
     "description":""
   },
   "settingsTabProxyServersTitle":{
@@ -181,6 +189,18 @@
   },
   "settingsErrNoServersDescription":{
     "message":"قبل از هر چیز باید پراکسی سرور تعریف کنید.",
+    "description":""
+  },
+  "settingsGeneralSyncing":{
+    "message":"تنظیمات همگام سازی",
+    "description":""
+  },
+  "settingsGeneralEnableSyncing":{
+    "message":"همگام سازی فعال باشد",
+    "description":""
+  },
+  "settingsGeneralEnableSyncingDesc":{
+    "message":"همگام سازی این اجازه را میدهد که تنظیمات افزونه در تمام وسایل اشتراکی شما به اشتراک گذاشته شده و دیگر نیازی نباشد همان تنظیمات رو مکررا در هر وسیله ای که استفاده می کنید وارد. این کارها خودکار انجام خواهند شد.",
     "description":""
   },
   "settingsActiveProxyServer":{
@@ -480,7 +500,15 @@
     "description":""
   },
   "settingsTabProxyServerSubscriptionsDescription":{
-    "message":"در اینجا می توانید به هر لیستی پراکسی که مایل بودید مشترک شوید و بعدا مابین آنها سوئیچ کنید.",
+    "message":"در اینجا می توانید به هر لیستی پراکسی که مایل بودید مشترک شوید و بعدا مابین آنها سوئیچ کنید. توجه داشته باشد که لیست های طولانی ممکن است باعث ایجاد مشکل و غیر فعال شدن همگام سازی شود.",
+    "description":""
+  },
+  "settingsErrorFailedToSaveGeneral":{
+    "message":"مشکلی در ذخیره تنظیمات کلی پیش آمده است.",
+    "description":""
+  },
+  "settingsSaveOptionsSuccess":{
+    "message":"تنظیمات عمومی با موفقیت ذخیره شد.",
     "description":""
   },
   "settingsAddServerSubscriptionButton":{

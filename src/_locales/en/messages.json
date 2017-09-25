@@ -412,11 +412,11 @@
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "source is invalid, source name should be something like 'google.com",
+		"message": "source is invalid, source name should be something like 'google.com'",
 		"description": ""
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "source' is not valid '{0}",
+		"message": "'source' is not valid '{0}'",
 		"description": ""
 	},
 	"settingsRuleSourceAlreadyExists": {
@@ -424,7 +424,7 @@
 		"description": ""
 	},
 	"settingsRuleHostInvalid": {
-		"message": "Host name '{0}' is invalid, host name should be something like 'google.com",
+		"message": "Host name '{0}' is invalid, host name should be something like 'google.com'",
 		"description": ""
 	},
 	"settingsRulesGridNoDataContent": {
@@ -484,7 +484,7 @@
 		"description": ""
 	},
 	"settingsNoRuleFoundForDomain": {
-		"message": "There isn't any rule for '{0}",
+		"message": "There isn't any rule for '{0}'",
 		"description": ""
 	},
 	"settingsRuleSourceIsEmpty": {
