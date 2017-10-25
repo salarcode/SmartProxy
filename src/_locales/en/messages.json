@@ -11,6 +11,14 @@
 		"message": "Smart Proxy will automatically enable/disable proxy for the sites you visit, based on customizable patterns.",
 		"description": ""
 	},
+	"toolbarTooltipEffectiveRule": {
+		"message": "In effect rule:",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRuleNone": {
+		"message": "In effect rule: none",
+		"description": ""
+	},
 	"popupTitle": {
 		"message": "SmartProxy Activation",
 		"description": ""

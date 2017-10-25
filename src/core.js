@@ -169,6 +169,10 @@ let settings = {
 
 				// update proxy rules
 				proxyRules.updateChromeProxyConfig();
+
+				// update active proxy tab status
+				internal.setBrowserActionStatus();
+
 				return;
 			}
 			if (commad == "changeActiveProxyServer" &&
@@ -187,6 +191,9 @@ let settings = {
 
 					// update proxy rules
 					proxyRules.updateChromeProxyConfig();
+
+					// update active proxy tab status
+					internal.setBrowserActionStatus();
 
 					if (sendResponse) {
 						sendResponse({
@@ -217,6 +224,10 @@ let settings = {
 				// update proxy rules
 				proxyRules.updateChromeProxyConfig();
 
+				// update active proxy tab status
+				updateTabDataProxyInfo();
+				internal.setBrowserActionStatus();
+
 				return;
 			}
 
@@ -236,6 +247,10 @@ let settings = {
 
 				// update proxy rules
 				proxyRules.updateChromeProxyConfig();
+
+				// update active proxy tab status
+				updateTabDataProxyInfo();
+				internal.setBrowserActionStatus();
 
 				// send the responses
 				if (updatedFailedRequests != null && sendResponse) {
@@ -271,6 +286,10 @@ let settings = {
 
 				// update proxy rules
 				proxyRules.updateChromeProxyConfig();
+
+				// update active proxy tab status
+				updateTabDataProxyInfo();
+				internal.setBrowserActionStatus();
 
 				return;
 			}
@@ -349,6 +368,10 @@ let settings = {
 
 				// update proxy rules
 				proxyRules.updateChromeProxyConfig();
+
+				// update active proxy tab status
+				updateTabDataProxyInfo();
+				internal.setBrowserActionStatus();
 
 				if (sendResponse) {
 					sendResponse({
@@ -496,6 +519,16 @@ let settings = {
 				failedRequests: new Map()
 			};
 
+		// check proxy rule
+		if (tabData.url != tabInfo.url ||
+			tabData.proxified == null) {
+
+			tabData.url = tabInfo.url;
+
+			updateTabDataProxyInfo(tabData);
+			internal.setBrowserActionStatus(tabData);
+		}
+
 		tabData.updated = new Date();
 		tabData.incognito = tabInfo.incognito;
 		tabData.url = tabInfo.url;
@@ -504,6 +537,31 @@ let settings = {
 		loggedRequests[tabId] = tabData;
 
 		return tabData;
+	}
+
+	function updateTabDataProxyInfo(tabData) {
+		if (!tabData) {
+			if (!currentTab)
+				return;
+			let tabId = currentTab.tabId;
+			tabData = loggedRequests[tabId];
+
+			if (!tabData)
+				return;
+		}
+
+		if (!tabData.url)
+			return;
+
+		let proxyResult = proxyRules.testSingleRule(tabData.url);
+
+		if (proxyResult.match) {
+			tabData.proxified = true;
+			tabData.proxySource = proxyResult.source;
+		} else {
+			tabData.proxified = false;
+			tabData.proxySource = null;
+		}
 	}
 
 	function convertFailedRequestsToArray(failedRequests) {
@@ -515,6 +573,22 @@ let settings = {
 		});
 
 		return result;
+	}
+
+	function failedRequestsNotProxifiedCount(failedRequests) {
+		///<summary>Number of not proxified requests</summary>
+		let failedCount = 0;
+
+		failedRequests.forEach(function (request, key, map) {
+
+			if (request.hasRule)
+				return;
+
+			if (request.isMain)
+				failedCount += request.hitCount;
+		});
+
+		return failedCount;
 	}
 
 	function requestMonitorCallback(event, requestDetails) {
@@ -548,6 +622,8 @@ let settings = {
 								failedRequests: convertFailedRequestsToArray(failedRequests),
 								failedInfo: failedInfo
 							});
+
+						internal.setBrowserActionStatus(tabData);
 					}
 					break;
 				}
@@ -576,6 +652,8 @@ let settings = {
 								failedRequests: convertFailedRequestsToArray(failedRequests),
 								failedInfo: failedInfo
 							});
+
+						internal.setBrowserActionStatus(tabData);
 					}
 
 					break;
@@ -594,7 +672,7 @@ let settings = {
 
 							let multiTestResultList = proxyRules.testMultipleRule(requestHostSubDomains);
 							let requestHostHasRule = false;
-							debugger;
+
 							// checking if the request itself has rule or not
 							for (let result of multiTestResultList) {
 								if (result.domain == requestHost &&
@@ -644,7 +722,7 @@ let settings = {
 								failedRequests.set(requestHost, failedInfo);
 							}
 
-							if (shouldNotify)
+							if (shouldNotify) {
 								// send message to the tab
 								// only on the first hit
 								polyfill.runtimeSendMessage(
@@ -654,6 +732,9 @@ let settings = {
 										failedRequests: convertFailedRequestsToArray(failedRequests),
 										failedInfo: failedInfo
 									});
+
+								internal.setBrowserActionStatus(tabData);
+							}
 
 						} else {
 							failedInfo = {
@@ -675,7 +756,7 @@ let settings = {
 							failedRequests.set(requestHost, failedInfo);
 
 							// send only if there is no rule
-							if (!failedInfo.hasRule)
+							if (!failedInfo.hasRule) {
 								// send message to the tab
 								// only on the first hit
 								polyfill.runtimeSendMessage(
@@ -685,10 +766,10 @@ let settings = {
 										failedRequests: convertFailedRequestsToArray(failedRequests),
 										failedInfo: failedInfo
 									});
+
+								internal.setBrowserActionStatus(tabData);
+							}
 						}
-
-
-
 
 					} else {
 						if (event === webRequestMonitor.eventTypes.requestError ||
@@ -1077,7 +1158,7 @@ let settings = {
 					return;
 				}
 
-				if (requestDetails.error === 'net::ERR_ABORTED') {
+				if (requestDetails.error === "net::ERR_ABORTED") {
 					if (req.timeoutCalled && !req.noTimeout) {
 
 						// callback request-timeout-aborted
@@ -2384,14 +2465,15 @@ let settings = {
 			}
 			return dataForPopup;
 		},
-		setBrowserActionStatus: function () {
+		setBrowserActionStatus: function (tabData) {
 			let extensionName = browser.i18n.getMessage("extensionName");
+			let proxyTitle = "";
 
 			switch (settings.proxyMode) {
 
 				case proxyModeType.direct:
 
-					browser.browserAction.setTitle({ title: `${extensionName} : ${browser.i18n.getMessage("popupNoProxy")}` });
+					proxyTitle = `${extensionName} : ${browser.i18n.getMessage("popupNoProxy")}`;
 					polyfill.browserActionSetIcon({
 						path: {
 							16: "icons/proxymode-disabled-16.png",
@@ -2403,7 +2485,7 @@ let settings = {
 
 				case proxyModeType.always:
 
-					browser.browserAction.setTitle({ title: `${extensionName} : ${browser.i18n.getMessage("popupAlwaysEnable")}` });
+					proxyTitle = `${extensionName} : ${browser.i18n.getMessage("popupAlwaysEnable")}`;
 					polyfill.browserActionSetIcon({
 						path: {
 							16: "icons/proxymode-always-16.png",
@@ -2415,7 +2497,7 @@ let settings = {
 
 				case proxyModeType.systemProxy:
 
-					browser.browserAction.setTitle({ title: `${extensionName} : ${browser.i18n.getMessage("popupSystemProxy")}` });
+					proxyTitle = `${extensionName} : ${browser.i18n.getMessage("popupSystemProxy")}`;
 					polyfill.browserActionSetIcon({
 						path: {
 							16: "icons/proxymode-system-16.png",
@@ -2428,7 +2510,7 @@ let settings = {
 				case proxyModeType.smartProxy:
 				default:
 
-					browser.browserAction.setTitle({ title: `${extensionName} : ${browser.i18n.getMessage("popupSmartProxy")}` });
+					proxyTitle = `${extensionName} : ${browser.i18n.getMessage("popupSmartProxy")}`;
 					polyfill.browserActionSetIcon({
 						path: {
 							16: "icons/smartproxy-16.png",
@@ -2439,6 +2521,54 @@ let settings = {
 					});
 					break;
 			}
+
+
+			if (currentTab != null || tabData != null) {
+				let tabId;
+
+				if (tabData) {
+					tabId = tabData.tabId;
+				}
+				else if (currentTab) {
+					tabId = currentTab.id;
+					tabData = loggedRequests[tabId];
+				} 
+
+				if (tabData) {
+					let failedCount = failedRequestsNotProxifiedCount(tabData.failedRequests);
+
+					if (failedCount > 0) {
+						browser.browserAction.setBadgeBackgroundColor({ color: "#f0ad4e" });
+						browser.browserAction.setBadgeText({
+							text: failedCount.toString(),
+							tabId: tabId
+						});
+					} else {
+						browser.browserAction.setBadgeText({
+							text: "",
+							tabId: tabId
+						});
+					}
+
+					if (tabData.proxified) {
+						proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySource}`;
+					} else {
+						proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
+					}
+
+				} else {
+					browser.browserAction.setBadgeText({
+						text: "",
+						tabId: tabId
+					});
+				}
+			}
+
+			if (settings.activeProxyServer) {
+				proxyTitle += `\r\nProxy server: ${settings.activeProxyServer.host} : ${settings.activeProxyServer.port}`;
+			}
+
+			browser.browserAction.setTitle({ title: proxyTitle });
 		}
 	};
 
