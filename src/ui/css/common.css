@@ -92,6 +92,24 @@ select.active-proxy-select {
 	text-overflow: ellipsis;
 }
 
+.popup-container {
+	display: table;
+	width: 100%;
+}
+
+.popup-menu-contents {
+	display: table-cell;
+	vertical-align: top;
+	min-width: 200px;
+}
+
+.popup-menu-failed {
+	display: table-cell;
+	vertical-align: top;
+	border-right: solid 1px silver;
+	min-width: 250px;
+}
+
 .popup-menu {
 	font-size: .85em;
 	min-width: 200px;
@@ -121,6 +139,72 @@ select.active-proxy-select {
 		padding-right: 10px;
 		padding-left: 10px;
 	}
+
+.failedrequest-item {
+	margin-left: 0;
+	margin-right: 0;
+	white-space: nowrap;
+}
+
+	.failedrequest-item > div {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+.popup-menu-failed {
+}
+
+	.popup-menu-failed .failed-requests-box {
+		background: white;
+		-ms-border-radius: 5px;
+		/*border-radius: 5px;*/
+		/*border-right: solid 1px silver;*/
+	}
+
+.failed-requests-box .failed-request-container {
+	overflow: auto;
+	max-height: 300px;
+}
+
+.failed-requests-box .request-box {
+	display: block;
+	white-space: nowrap;
+	vertical-align: middle;
+	position: relative;
+	margin-top: 2px;
+}
+
+	.failed-requests-box .request-box.request-box-dependant {
+		margin-top: 6px;
+		margin-left: -8px;
+	}
+
+	/*.failed-requests-box .request-box .request-checkbox {
+		display: inline-block;
+	}*/
+
+	.failed-requests-box .request-box .request-name {
+		display: inline-block;
+		max-width: 250px;
+		margin-right: 25px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		vertical-align: middle;
+	}
+
+		.failed-requests-box .request-box .request-name input {
+			margin: 0;
+			vertical-align: middle;
+			padding: 0;
+		}
+
+	.failed-requests-box .request-box .label {
+		display: inline-block;
+		float: right;
+		position: absolute;
+		right: 0;
+	}
+
 
 /* Bootstrap 4 styles*/
 .custom-select {

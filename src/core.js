@@ -220,6 +220,33 @@ let settings = {
 				return;
 			}
 
+			if (commad == "addDomainListToProxyRuleFromTab" &&
+				message["domainList"] != null) {
+
+				let domainList = message["domainList"];
+				let tabId = message["tabId"];
+
+
+				proxyRules.addDomainList(domainList);
+
+				let updatedFailedRequests = removeDomainsFromtabFailedRequests(tabId, domainList);
+
+				// notify the proxy script
+				proxyRules.notifyProxyRulesChange();
+
+				// update proxy rules
+				proxyRules.updateChromeProxyConfig();
+
+				// send the responses
+				if (updatedFailedRequests != null && sendResponse) {
+					sendResponse({
+						failedRequests: updatedFailedRequests
+					});
+				}
+
+				return;
+			}
+
 			if (commad == "toggleProxyableRequest+returnRule" &&
 				(message["enableByDomain"] != null || message["removeBySource"] != null)) {
 
@@ -465,7 +492,8 @@ let settings = {
 				updated: new Date(),
 				requests: new Set(),
 				url: "",
-				incognito: false
+				incognito: false,
+				failedRequests: new Map()
 			};
 
 		tabData.updated = new Date();
@@ -476,6 +504,232 @@ let settings = {
 		loggedRequests[tabId] = tabData;
 
 		return tabData;
+	}
+
+	function convertFailedRequestsToArray(failedRequests) {
+		///<summary>Converts failed to array</summary>
+		let result = [];
+
+		failedRequests.forEach(function (value, key, map) {
+			result.push(value);
+		});
+
+		return result;
+	}
+
+	function requestMonitorCallback(event, requestDetails) {
+		let tabId = requestDetails.tabId;
+		let tabData = loggedRequests[tabId];
+
+		if (!tabData)
+			return;
+
+		let requestId = requestDetails.requestId;
+		let requestUrl = requestDetails.url;
+		let requestHost = utils.extractHostFromUrl(requestUrl);
+
+		let failedRequests = tabData.failedRequests || (tabData.failedRequests = new Map());
+
+		switch (event) {
+			case webRequestMonitor.eventTypes.requestComplete:
+			case webRequestMonitor.eventTypes.requestRevertTimeout:
+				{
+					let failedInfo = failedRequests.get(requestHost);
+					if (!failedInfo) {
+
+						// remove the log
+						failedRequests.delete(requestHost);
+
+						// send message to the tab
+						polyfill.runtimeSendMessage(
+							{
+								command: "webRequestMonitor",
+								tabId: tabId,
+								failedRequests: convertFailedRequestsToArray(failedRequests),
+								failedInfo: failedInfo
+							});
+					}
+					break;
+				}
+
+			case webRequestMonitor.eventTypes.requestRedirected:
+				{
+					// here we check that the redirected location is in black-listed urls or not
+					// if it is black-listed then it should be considered to be added to filter suggestions
+					// BUG No #37: https://github.com/salarcode/SmartProxy/issues/37
+
+					// TODO: Implement in vFuture
+					let redirectUrl = requestDetails.redirectUrl;
+
+
+					let failedInfo = failedRequests.get(requestHost);
+					if (!failedInfo) {
+
+						// remove the log
+						failedRequests.delete(requestId);
+
+						// send message to the tab
+						polyfill.runtimeSendMessage(
+							{
+								command: "webRequestMonitor",
+								tabId: tabId,
+								failedRequests: convertFailedRequestsToArray(failedRequests),
+								failedInfo: failedInfo
+							});
+					}
+
+					break;
+				}
+
+			case webRequestMonitor.eventTypes.requestTimeoutAborted:
+			case webRequestMonitor.eventTypes.requestTimeout:
+			case webRequestMonitor.eventTypes.requestError:
+				{
+					let failedInfo = failedRequests.get(requestHost);
+					if (!failedInfo) {
+
+						let shouldNotify = false;
+						let requestHostSubDomains = utils.extractSubdomainsFromHost(requestHost);
+						if (requestHostSubDomains && requestHostSubDomains.length > 1) {
+
+							let multiTestResultList = proxyRules.testMultipleRule(requestHostSubDomains);
+							let requestHostHasRule = false;
+							debugger;
+							// checking if the request itself has rule or not
+							for (let result of multiTestResultList) {
+								if (result.domain == requestHost &&
+									result.match) {
+
+									requestHostHasRule = true;
+									break;
+								}
+							}
+
+							// add only if the request doesn't have rule
+							if (!requestHostHasRule) { // adding the subdomains and top-level domain all together
+								for (let i = 0; i < multiTestResultList.length; i++) {
+									let result = multiTestResultList[i];
+
+									let ruleIsForThisHost = false;
+									// check to see if the matched rule is for this host or not!
+									if (result.source == requestHostSubDomains[i]) {
+										ruleIsForThisHost = true;
+									}
+
+									failedInfo = {
+										url: requestDetails.url,
+										domain: result.domain,
+										hitCount: 1,
+										hasRule: result.match,
+										ruleIsForThisHost: ruleIsForThisHost,
+										isMain: requestHost == result.domain
+									};
+
+									// add to the list
+									failedRequests.set(result.domain, failedInfo);
+
+									if (!result.match)
+										shouldNotify = true;
+								}
+							} else {
+								// the root has match, just add it to prevent further checks
+								failedInfo = {
+									url: requestDetails.url,
+									domain: requestHost,
+									hitCount: 1,
+									hasRule: true
+								};
+
+								// add to the list
+								failedRequests.set(requestHost, failedInfo);
+							}
+
+							if (shouldNotify)
+								// send message to the tab
+								// only on the first hit
+								polyfill.runtimeSendMessage(
+									{
+										command: "webRequestMonitor",
+										tabId: tabId,
+										failedRequests: convertFailedRequestsToArray(failedRequests),
+										failedInfo: failedInfo
+									});
+
+						} else {
+							failedInfo = {
+								url: requestDetails.url,
+								domain: requestHost,
+								hitCount: 1,
+								hasRule: false
+							};
+
+							let testRuesult = proxyRules.testSingleRule(requestUrl);
+							if (testRuesult.match) {
+								// there is a rule for this url, so don't bother
+								// we are just adding this to prevent
+								// further call to 'proxyRules.testSingleRule' which is expensive
+								failedInfo.hasRule = true;
+							}
+
+							// add to the list
+							failedRequests.set(requestHost, failedInfo);
+
+							// send only if there is no rule
+							if (!failedInfo.hasRule)
+								// send message to the tab
+								// only on the first hit
+								polyfill.runtimeSendMessage(
+									{
+										command: "webRequestMonitor",
+										tabId: tabId,
+										failedRequests: convertFailedRequestsToArray(failedRequests),
+										failedInfo: failedInfo
+									});
+						}
+
+
+
+
+					} else {
+						if (event === webRequestMonitor.eventTypes.requestError ||
+							event === webRequestMonitor.eventTypes.requestTimeoutAborted) {
+
+							// only on error increase hit count
+							failedInfo.hitCount += 1;
+						}
+					}
+				}
+		}
+
+	}
+
+	function removeDomainsFromtabFailedRequests(tabId, domainList) {
+		if (!(tabId > -1))
+			return null;
+		if (!domainList || !domainList.length)
+			return null;
+
+		let tabData = loggedRequests[tabId];
+
+		if (!tabData) return null;
+
+		let failedRequests = tabData.failedRequests;
+		if (!failedRequests) return null;
+
+		for (let domain of domainList) {
+			failedRequests.delete(domain);
+		}
+
+		// rechecking the failed requests
+		failedRequests.forEach(function (request, key, map) {
+			let testRuesult = proxyRules.testSingleRule(request.domain);
+
+			if (testRuesult.match) {
+				failedRequests.delete(request.domain);
+			}
+		});
+
+		return failedRequests;
 	}
 
 	const requestLogger = {
@@ -503,7 +757,8 @@ let settings = {
 					updated: new Date(),
 					requests: new Set(),
 					url: "",
-					incognito: false
+					incognito: false,
+					failedRequests: new Map()
 				};
 
 				polyfill.tabsGet(tabId,
@@ -609,14 +864,242 @@ let settings = {
 			if (changeInfo["url"]) {
 
 				let tabData = loggedRequests[tabId];
-				if (tabData != null) {
+				if (tabData != null &&
+					// only if url is changed
+					changeInfo.url != tabData.url) {
+
+					// reload the tab data
+
 					tabData.requests.clear();
+					if (tabData.failedRequests)
+						tabData.failedRequests.clear();
+
 					delete loggedRequests[tabId];
 				}
 			}
 		}
 
 	}
+
+	const webRequestMonitor = {
+		verbose: false,
+		requests: {},
+		monitorCallback: null,
+		startMonitor: function (callback) {
+
+			if (webRequestMonitor.internal.isMonitoring)
+				return;
+
+			browser.webRequest.onBeforeRequest.addListener(webRequestMonitor.events.onBeforeRequest,
+				{ urls: ["<all_urls>"] }
+			);
+			browser.webRequest.onHeadersReceived.addListener(webRequestMonitor.events.onHeadersReceived,
+				{ urls: ["<all_urls>"] }
+			);
+			browser.webRequest.onBeforeRedirect.addListener(webRequestMonitor.events.onBeforeRedirect,
+				{ urls: ["<all_urls>"] }
+			);
+			browser.webRequest.onErrorOccurred.addListener(webRequestMonitor.events.onErrorOccurred,
+				{ urls: ["<all_urls>"] }
+			);
+			browser.webRequest.onCompleted.addListener(webRequestMonitor.events.onCompleted,
+				{ urls: ["<all_urls>"] }
+			);
+			webRequestMonitor.monitorCallback = callback;
+		},
+		internal: {
+			requestTimeoutTime: 5000,
+			isMonitoring: false,
+			timer: null,
+			timerTick: function () {
+
+				let now = Date.now();
+				let reqIds = Object.keys(webRequestMonitor.requests);
+				let requestTimeoutTime = webRequestMonitor.internal.requestTimeoutTime;
+
+				for (let i = reqIds.length - 1; i >= 0; i--) {
+					let reqId = reqIds[i];
+
+					if (reqId === undefined)
+						continue;
+
+					// get the request info
+					let req = webRequestMonitor.requests[reqId];
+					if (!req) continue;
+
+					if (now - req._startTime < requestTimeoutTime) {
+						continue;
+					} else {
+						req._isTimedOut = true;
+
+						// callback request-timeout
+						webRequestMonitor.events.raiseCallback(webRequestMonitor.eventTypes.requestTimeout, req);
+
+						if (webRequestMonitor.verbose)
+							webRequestMonitor.internal.logMessage(webRequestMonitor.eventTypes.requestTimeout, req);
+					}
+				}
+			},
+
+			logMessage: function (message, requestDetails, additional) {
+				debug.log(`${requestDetails.tabId}-${requestDetails.requestId}>`, message, requestDetails.url, additional || "");
+			}
+		},
+		eventTypes: {
+			requestStart: "request-start",
+			requestTimeout: "request-timeout",
+			requestRevertTimeout: "request-revert-timeout",
+			requestRedirected: "request-redirected",
+			requestComplete: "request-complete",
+			requestTimeoutAborted: "request-timeout-aborted",
+			requestError: "request-error"
+		},
+		events: {
+			raiseCallback: function () {
+				if (webRequestMonitor.monitorCallback)
+					webRequestMonitor.monitorCallback.apply(this, arguments);
+			},
+			onBeforeRequest: function (requestDetails) {
+				if (requestDetails.tabId < 0) {
+					return;
+				}
+
+				let reqInfo = requestDetails;
+				reqInfo._startTime = new Date();
+				reqInfo._isHealthy = false;
+
+				// add to requests
+				webRequestMonitor.requests[requestDetails.requestId] = requestDetails;
+
+				if (!webRequestMonitor.internal.timer) {
+					webRequestMonitor.internal.timer = setInterval(webRequestMonitor.internal.timerTick, 1000);
+				}
+
+				// callback request-start
+				webRequestMonitor.events.raiseCallback(webRequestMonitor.eventTypes.requestStart, requestDetails);
+
+				if (webRequestMonitor.verbose)
+					webRequestMonitor.internal.logMessage(webRequestMonitor.eventTypes.requestStart, requestDetails);
+
+			},
+			onHeadersReceived: function (requestDetails) {
+				let req = webRequestMonitor.requests[requestDetails.requestId];
+				if (!req)
+					return;
+
+				req._isHealthy = true;
+
+				if (req._isTimedOut) {
+					// call the callbacks indicating the request is healthy
+					// callback request-revert-from-timeout
+					webRequestMonitor.events.raiseCallback(webRequestMonitor.eventTypes.requestRevertTimeout, requestDetails);
+
+					if (webRequestMonitor.verbose)
+						webRequestMonitor.internal.logMessage(webRequestMonitor.eventTypes.requestRevertTimeout, requestDetails);
+				}
+
+
+			},
+			onBeforeRedirect: function (requestDetails) {
+				let url = requestDetails.redirectUrl;
+				if (!url)
+					return;
+
+				// callback request-revert-from-timeout
+				webRequestMonitor.events.raiseCallback(webRequestMonitor.eventTypes.requestRedirected, requestDetails);
+
+				if (webRequestMonitor.verbose)
+					webRequestMonitor.internal.logMessage(webRequestMonitor.eventTypes.requestRedirected, requestDetails, "to> " + requestDetails.redirectUrl);
+
+				// because 'requestId' doesn't change for redirects
+				// the request is basicly is still the same
+				// note that 'request-start' will happen after redirect
+
+				if (url.indexOf("data:") === 0 || url.indexOf("about:") === 0) {
+
+					// request is completed when redirecting to local pages
+					webRequestMonitor.events.onCompleted(requestDetails);
+				}
+			},
+			onCompleted: function (requestDetails) {
+				if (requestDetails.tabId < 0) {
+					return;
+				}
+
+				// callback request-complete
+				webRequestMonitor.events.raiseCallback(webRequestMonitor.eventTypes.requestComplete, requestDetails);
+
+				if (webRequestMonitor.verbose)
+					webRequestMonitor.internal.logMessage(webRequestMonitor.eventTypes.requestComplete, requestDetails);
+
+				delete webRequestMonitor.requests[requestDetails.requestId];
+			},
+			onErrorOccurred: function (requestDetails) {
+
+				let req = webRequestMonitor.requests[requestDetails.requestId];
+				delete webRequestMonitor.requests[requestDetails.requestId];
+
+				if (requestDetails.tabId < 0)
+					return;
+
+				if (!req)
+					return;
+
+				// details.error
+				if (requestDetails.tabId < 0) {
+					return;
+				}
+				if (requestDetails.error === "net::ERR_INCOMPLETE_CHUNKED_ENCODING") {
+					return;
+				}
+				if (requestDetails.error.indexOf("BLOCKED") >= 0) {
+					return;
+				}
+				if (requestDetails.error.indexOf("net::ERR_FILE_") === 0) {
+					return;
+				}
+				if (requestDetails.error.indexOf("NS_ERROR_ABORT") === 0) {
+					return;
+				}
+				if (requestDetails.url.indexOf("file:") === 0) {
+					return;
+				}
+				if (requestDetails.url.indexOf("chrome") === 0) {
+					return;
+				}
+				if (requestDetails.url.indexOf("about:") === 0) {
+					return;
+				}
+				if (requestDetails.url.indexOf("moz-") === 0) {
+					return;
+				}
+				if (requestDetails.url.indexOf("://127.0.0.1") > 0) {
+					return;
+				}
+
+				if (requestDetails.error === 'net::ERR_ABORTED') {
+					if (req.timeoutCalled && !req.noTimeout) {
+
+						// callback request-timeout-aborted
+						webRequestMonitor.events.raiseCallback(webRequestMonitor.eventTypes.requestTimeoutAborted, requestDetails);
+
+						if (webRequestMonitor.verbose)
+							webRequestMonitor.internal.logMessage(webRequestMonitor.eventTypes.requestTimeoutAborted, requestDetails);
+
+					}
+					return;
+				}
+
+				// callback request-error
+				webRequestMonitor.events.raiseCallback(webRequestMonitor.eventTypes.requestError, requestDetails);
+
+				if (webRequestMonitor.verbose)
+					webRequestMonitor.internal.logMessage(webRequestMonitor.eventTypes.requestError, requestDetails);
+
+			}
+		}
+	}
+
 
 	function trackActiveTab() {
 		///<summary>Always updating the latest tab</summary>
@@ -1069,7 +1552,7 @@ let settings = {
 						return validateResult;
 					}
 
-				// good
+					// good
 					upcomingServers.push(server);
 				}
 
@@ -1090,7 +1573,7 @@ let settings = {
 						return validateResult;
 					}
 
-				// good
+					// good
 					upcomingRules.push(rule);
 				}
 
@@ -1473,6 +1956,18 @@ let settings = {
 
 			return rule;
 		},
+		addDomainList: function (domainList) {
+			if (!domainList || !domainList.length)
+				return;
+			for (let domain of domainList) {
+
+				let rule = proxyRules.getRuleBySource(domain);
+
+				// don't add if it is already there
+				if (rule == null)
+					proxyRules.addDomain(domain);
+			}
+		},
 		add: function (ruleObject) {
 			settings.proxyRules.push(ruleObject);
 			settingsOperation.saveRules();
@@ -1594,11 +2089,11 @@ let settings = {
 			for (let subscription of settings.proxyServerSubscriptions) {
 				if (!subscription.enabled) continue;
 
-			// refresh is not requested
+				// refresh is not requested
 				if (!(subscription.refreshRate > 0))
 					continue;
 
-			// it should be active, don't remove it
+				// it should be active, don't remove it
 				serverExistingNames.push(subscription.name);
 
 				let shouldCreate = false;
@@ -1803,6 +2298,7 @@ let settings = {
 				proxyServersSubscribed: internal.getAllSubscribedProxyServers(),
 				updateAvailableText: null,
 				updateInfo: null,
+				failedRequests: null
 			};
 
 			if (updateManager.updateIsAvailable) {
@@ -1823,6 +2319,9 @@ let settings = {
 			// tab info
 			dataForPopup.currentTabId = currentTab.id;
 			dataForPopup.currentTabIndex = currentTab.index;
+
+			// failed requests
+			dataForPopup.failedRequests = convertFailedRequestsToArray(tabData.failedRequests);
 
 			// get the host name from url
 			let urlHost = utils.extractHostFromUrl(tabData.url);
@@ -1975,5 +2474,8 @@ let settings = {
 
 	// always knowing who is active
 	trackActiveTab();
+
+	// start the request monitor for failures
+	webRequestMonitor.startMonitor(requestMonitorCallback);
 
 })();

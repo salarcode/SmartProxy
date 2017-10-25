@@ -55,6 +55,26 @@
 		"message": "Update to {0} is available",
 		"description": ""
 	},
+	"popupFailedRequestsMenu": {
+		"message": "Failed Requests",
+		"description": ""
+	},
+	"popupFailedRequestsTitle": {
+		"message": "Failed Requests List",
+		"description": ""
+	},
+	"popupFailedRequestsDesc": {
+		"message": "These are the domains that are either timed-out or failed.<br />If you beleive that these domains are blocked, here you can add them to proxy rules list.",
+		"description": ""
+	},
+	"popupAddFailedRequestsConfirm": {
+		"message": "Add the selected domains to rule list?",
+		"description": ""
+	},
+	"popupAddFailedRequests": {
+		"message": "Add To Rules List",
+		"description": ""
+	},
 	"proxyableTitle": {
 		"message": "Proxyable Resources",
 		"description": ""

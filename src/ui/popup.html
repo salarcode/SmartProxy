@@ -29,87 +29,141 @@
 	<script src="popup.js"></script>
 </head>
 <body>
-	<div class="container-fluid p-1 popup-menu">
-		<div id="divRestartRequired" style="display: none" class="alert alert-danger" role="alert">
-			Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
-			changes require restart.
-			<br />Please restart. Sorry for inconvenience.
-		</div>
-		<div id="divUpdateIsAvailable" style="display: none" class="alert alert-success" role="alert">
-			<a href="#" target="_blank">Update text</a>
-		</div>
-		<h5 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h5>
-		<ul id="divProxyMode" class="nav nav-pills nav-stacked">
-			<li>
-				<a data-proxyMode="1" class="nav-link">
-					<i class="fa fa-ban fa-lg text-danger" aria-hidden="true"></i>
-					<span data-localize="popupNoProxy">Direct (No Proxy)</span>
-				</a>
-			</li>
-			<li class="active">
-				<a data-proxyMode="2" class="nav-link">
-					<i class="fa fa-magic fa-lg text-success" aria-hidden="true"></i>
-					<span data-localize="popupSmartProxy">Smart Proxy</span>
-				</a>
-			</li>
-			<li>
-				<a data-proxyMode="3" class="nav-link">
-					<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
-					<span data-localize="popupAlwaysEnable">Always Enable</span>
-				</a>
-			</li>
-			<li class="disabled" id="divProxyModeSystem">
-				<a data-proxyMode="4" class="nav-link disabled">
-					<i class="fa fa-windows fa-lg text-info" aria-hidden="true"></i>
-					<span data-localize="popupSystemProxy">System Proxy</span>
-				</a>
-			</li>
-		</ul>
-		<div id="divActiveProxy" style="display: none">
-			<hr class="afshin-line" />
-			<h5 class="text-muted px-2" data-localize="popupActiveProxy">Active Proxy:</h5>
-			<div class="p-2">
-				<select id="cmbActiveProxy" class="custom-select active-proxy-select">
-					<option value="0">No server is defined</option>
-				</select>
-			</div>
-		</div>
-		<div id="divProxiableContainer" style="display: none">
-			<hr class="afshin-line" />
-			<h5 class="text-muted px-2" data-localize="popupEnableProxyOn">Enable proxy on</h5>
-			<ul id="divProxiableDomains" class="nav nav-pills nav-stacked direction-ltr">
-				<li id="divProxiableDomainItem" style="display: none">
-					<a>
-						<div class="row proxiable-item">
-							<div class="col-xs-10 col-sm-11 text-nowrap">
-								<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
-								<span class="proxiable-host-name font-url">-</span>
-							</div>
-							<div class="col-xs-2 col-sm-1 text-right">
-								<i class="proxiable-status-icon fa fa-square-o fa-lg background-white vertical-align-middle" aria-hidden="true"></i>
-								<!--<i title="Not enabled" class="fa fa-square-o fa-lg" aria-hidden="true"></i>-->
-								<!--<i title="Enabled" class="fa fa-check-square-o" aria-hidden="true"></i>-->
+	<div class="container-fluid p-1 popup-menu popup-container">
+		<div class="popup-menu-failed p-1" style="display: none">
+			<div class="failed-requests-box">
+				<h5 class="text-muted text-center" data-localize="popupFailedRequestsTitle">Failed Requests List</h5>
+				<p data-localize="popupFailedRequestsDesc">
+					These are the domains that are either timed-out or failed.
+					<br />
+					If you beleive that these domains are blocked, here you can add them to proxy rules list.
+				</p>
+				<div>
+					<div class="panel panel-default">
+						<div class="panel-body failed-request-container">
+							<div class="request-box failed-request-template">
+								<div class="request-name">
+									<input type="checkbox" class="browser-style" checked />
+									<a href="" target="_blank">sample.com</a>
+								</div>
+								<span class="label-danger label failed-request-count" title="Failed Count" style="display: none">0</span>
+								<span class="label-warning label failed-request-root" title="Root" style="display: none">
+									<i class="fa fa-caret-down"></i>
+								</span>
 							</div>
 						</div>
+						<div class="panel-footer">
+							<button class="btn btn-success btn-sm" id="btnAddFailedRequests">
+								<i class="fa fa-plus"></i>
+								<span data-localize="popupAddFailedRequests">Add To Rules List</span>
+							</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="popup-menu-contents p-1">
+			<div id="divRestartRequired" style="display: none" class="alert alert-danger" role="alert">
+				Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
+				changes require restart.
+				<br />Please restart. Sorry for inconvenience.
+			</div>
+			<div id="divUpdateIsAvailable" style="display: none" class="alert alert-success" role="alert">
+				<a href="#" target="_blank">Update text</a>
+			</div>
+			<h5 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h5>
+			<ul id="divProxyMode" class="nav nav-pills nav-stacked">
+				<li>
+					<a data-proxyMode="1" class="nav-link">
+						<i class="fa fa-ban fa-lg text-danger" aria-hidden="true"></i>
+						<span data-localize="popupNoProxy">Direct (No Proxy)</span>
+					</a>
+				</li>
+				<li class="active">
+					<a data-proxyMode="2" class="nav-link">
+						<i class="fa fa-magic fa-lg text-success" aria-hidden="true"></i>
+						<span data-localize="popupSmartProxy">Smart Proxy</span>
+					</a>
+				</li>
+				<li>
+					<a data-proxyMode="3" class="nav-link">
+						<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
+						<span data-localize="popupAlwaysEnable">Always Enable</span>
+					</a>
+				</li>
+				<li class="disabled" id="divProxyModeSystem">
+					<a data-proxyMode="4" class="nav-link disabled">
+						<i class="fa fa-windows fa-lg text-info" aria-hidden="true"></i>
+						<span data-localize="popupSystemProxy">System Proxy</span>
+					</a>
+				</li>
+			</ul>
+			<div id="divFailedRequests" style="display: none">
+				<hr class="afshin-line" />
+				<ul class="nav nav-pills nav-stacked direction-ltr">
+					<li>
+						<a>
+							<div class="row failedrequest-item">
+								<div class="col-xs-10 col-sm-11">
+									<i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>
+									<span data-localize="popupFailedRequestsMenu">Failed Requests</span>
+								</div>
+								<div class="col-xs-2 col-sm-1">
+									<span id="lblFailedRequestCount" class="label label-warning">0</span>
+									<i class="fa fa-lg fa-angle-double-right text-success" aria-hidden="true"></i>
+								</div>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div id="divActiveProxy" style="display: none">
+				<hr class="afshin-line" />
+				<h5 class="text-muted px-2" data-localize="popupActiveProxy">Active Proxy:</h5>
+				<div class="p-2">
+					<select id="cmbActiveProxy" class="custom-select active-proxy-select">
+						<option value="0">No server is defined</option>
+					</select>
+				</div>
+			</div>
+			<div id="divProxiableContainer" style="display: none">
+				<hr class="afshin-line" />
+				<h5 class="text-muted px-2" data-localize="popupEnableProxyOn">Enable proxy on</h5>
+				<ul id="divProxiableDomains" class="nav nav-pills nav-stacked direction-ltr">
+					<li id="divProxiableDomainItem" style="display: none">
+						<a>
+							<div class="row proxiable-item">
+								<div class="col-xs-10 col-sm-11 text-nowrap">
+									<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
+									<span class="proxiable-host-name font-url">-</span>
+								</div>
+								<div class="col-xs-2 col-sm-1 text-right">
+									<i class="proxiable-status-icon fa fa-square-o fa-lg background-white vertical-align-middle" aria-hidden="true"></i>
+									<!--<i title="Not enabled" class="fa fa-square-o fa-lg" aria-hidden="true"></i>-->
+									<!--<i title="Enabled" class="fa fa-check-square-o" aria-hidden="true"></i>-->
+								</div>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<hr class="afshin-line" />
+			<ul class="nav nav-pills nav-stacked">
+				<li class="" id="openProxiable" style="display: none">
+					<a class="nav-link">
+						<i class="fa fa-search fa-lg text-info" aria-hidden="true"></i>
+						<span data-localize="popupProxyableResources">Proxyable Resources</span>
+					</a>
+				</li>
+				<li class="">
+					<a id="openSettings" class="nav-link">
+						<i class="fa fa-cog fa-lg text-success" aria-hidden="true"></i>
+						<span data-localize="popupSettings">Settings</span>
 					</a>
 				</li>
 			</ul>
 		</div>
-		<hr class="afshin-line" />
-		<ul class="nav nav-pills nav-stacked">
-			<li class="" id="openProxiable" style="display: none">
-				<a class="nav-link">
-					<i class="fa fa-search fa-lg text-info" aria-hidden="true"></i>
-					<span data-localize="popupProxyableResources">Proxyable Resources</span>
-				</a>
-			</li>
-			<li class="">
-				<a id="openSettings" class="nav-link">
-					<i class="fa fa-cog fa-lg text-success" aria-hidden="true"></i>
-					<span data-localize="popupSettings">Settings</span>
-				</a>
-			</li>
-		</ul>
 	</div>
 </body>
 </html>

@@ -26,13 +26,13 @@ const utils = {
 		///<reference path="https://stackoverflow.com/a/36744732/322446"/>
 		return originalArray.filter(
 			(thing, index, self) => self.findIndex((t) => {
-				return areEqualFunc(t,thing);
+				return areEqualFunc(t, thing);
 			}) === index);
 	},
 	strStartsWith: function (str, prefix) {
 		return str.substr(0, prefix.length) === prefix;
 	},
-	chunkString:function(str, length) {
+	chunkString: function (str, length) {
 		///<summmary></summmary>
 		let index = 0;
 		let endIndex = length;
@@ -40,7 +40,7 @@ const utils = {
 			endIndex = str.length;
 
 		let result = [];
-		for (;;) {
+		for (; ;) {
 			result.push(str.slice(index, endIndex));
 
 			if (endIndex >= str.length)
@@ -55,7 +55,7 @@ const utils = {
 
 		return result;
 	},
-	b64EncodeUnicode:function(str) {
+	b64EncodeUnicode: function (str) {
 		// first we use encodeURIComponent to get percent-encoded UTF-8,
 		// then we convert the percent encodings into raw bytes which
 		// can be fed into btoa.
@@ -64,7 +64,7 @@ const utils = {
 				return String.fromCharCode("0x" + p1);
 			}));
 	},
-	b64DecodeUnicode:function(str) {
+	b64DecodeUnicode: function (str) {
 		// Going backwards: from bytestream, to percent-encoding, to original string.
 		return decodeURIComponent(atob(str).split("").map(function (c) {
 			return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
@@ -88,9 +88,14 @@ const utils = {
 		try {
 			const u = new URL(url);
 			const skip = ["moz-extension:", "chrome-extension:", "about:", "chrome:", "opera:"];
-			if (skip.indexOf(u.protocol) >= 0) 
+			if (skip.indexOf(u.protocol) >= 0)
 				return null;
-			return u.host;
+			let host = u.host;
+
+			if (host.startsWith("www."))
+				return host.substring(4, host.length);
+
+			return host;
 		}
 		catch (e) { return null; }
 	},
