@@ -608,11 +608,11 @@ let settings = {
 			case webRequestMonitor.eventTypes.requestComplete:
 			case webRequestMonitor.eventTypes.requestRevertTimeout:
 				{
-					let failedInfo = failedRequests.get(requestHost);
-					if (!failedInfo) {
+					// remove the log
+					var removed = failedRequests.delete(requestHost);
 
-						// remove the log
-						failedRequests.delete(requestHost);
+					if (removed) {
+						// if there was an entry
 
 						// send message to the tab
 						polyfill.runtimeSendMessage(
@@ -620,7 +620,7 @@ let settings = {
 								command: "webRequestMonitor",
 								tabId: tabId,
 								failedRequests: convertFailedRequestsToArray(failedRequests),
-								failedInfo: failedInfo
+								failedInfo: null
 							});
 
 						internal.setBrowserActionStatus(tabData);
@@ -705,7 +705,6 @@ let settings = {
 
 									// add to the list
 									failedRequests.set(result.domain, failedInfo);
-
 									if (!result.match)
 										shouldNotify = true;
 								}
@@ -1065,7 +1064,7 @@ let settings = {
 				webRequestMonitor.requests[requestDetails.requestId] = requestDetails;
 
 				if (!webRequestMonitor.internal.timer) {
-					webRequestMonitor.internal.timer = setInterval(webRequestMonitor.internal.timerTick, 1000);
+					webRequestMonitor.internal.timer = setInterval(webRequestMonitor.internal.timerTick, 1500);
 				}
 
 				// callback request-start
@@ -1119,13 +1118,13 @@ let settings = {
 					return;
 				}
 
+				delete webRequestMonitor.requests[requestDetails.requestId];
+
 				// callback request-complete
 				webRequestMonitor.events.raiseCallback(webRequestMonitor.eventTypes.requestComplete, requestDetails);
 
 				if (webRequestMonitor.verbose)
 					webRequestMonitor.internal.logMessage(webRequestMonitor.eventTypes.requestComplete, requestDetails);
-
-				delete webRequestMonitor.requests[requestDetails.requestId];
 			},
 			onErrorOccurred: function (requestDetails) {
 

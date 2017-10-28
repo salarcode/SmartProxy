@@ -28,7 +28,7 @@
 			if (tabId != sourceTabId) {
 				return;
 			}
-			//let failedInfo = message["failedInfo"];
+
 			let failedRequests = message["failedRequests"];
 
 			// display the failed requests
@@ -306,7 +306,7 @@
 		}
 	}
 
-	function populateFailedRequests(failedRequests, currentFailedInfo) {
+	function populateFailedRequests(failedRequests) {
 
 		var divFailedRequests = $("#divFailedRequests");
 
