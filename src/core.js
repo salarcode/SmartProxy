@@ -942,21 +942,33 @@ let settings = {
 		handleTabUpdated: function (tabId, changeInfo, tabInfo) {
 			// only if url of the page is changed
 			// TODO: history changes? # tags?
-			if (changeInfo["url"]) {
 
-				let tabData = loggedRequests[tabId];
+			let tabData = loggedRequests[tabId];
+			let shouldReset = false;
+
+			if (changeInfo["status"] === "loading") {
+				shouldReset = true;
+			}
+			else if (changeInfo["url"]) {
+
 				if (tabData != null &&
 					// only if url is changed
 					changeInfo.url != tabData.url) {
 
-					// reload the tab data
+					// reset
+					shouldReset = true;
+				}
+			}
 
+			if (shouldReset) {
+				// reload the tab data
+
+				if (tabData) {
 					tabData.requests.clear();
 					if (tabData.failedRequests)
 						tabData.failedRequests.clear();
-
-					delete loggedRequests[tabId];
 				}
+				delete loggedRequests[tabId];
 			}
 		}
 
@@ -2532,7 +2544,7 @@ let settings = {
 				else if (currentTab) {
 					tabId = currentTab.id;
 					tabData = loggedRequests[tabId];
-				} 
+				}
 
 				if (tabData) {
 					let failedCount = failedRequestsNotProxifiedCount(tabData.failedRequests);

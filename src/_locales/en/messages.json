@@ -231,6 +231,14 @@
 		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.",
 		"description": ""
 	},
+	"settingsSaveGeneralOptionsButton": {
+		"message": "Save Changes",
+		"description": ""
+	},
+	"settingsRejectGeneralOptionsButton": {
+		"message": "Reject Changes",
+		"description": ""
+	},
 	"settingsActiveProxyServer": {
 		"message": "Active Proxy Server:",
 		"description": ""
