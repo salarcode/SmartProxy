@@ -8,7 +8,15 @@
 		"description": ""
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy автоматически включит/отключит прокси для сайтов, которые вы посещаете, на основе настраиваемых шаблонов.",
+		"message": "Smart Proxy автоматически включит\/отключит прокси для сайтов, которые вы посещаете, на основе настраиваемых шаблонов.",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRule": {
+		"message": "Правило действия:",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRuleNone": {
+		"message": "Правило действия: нет",
 		"description": ""
 	},
 	"popupTitle": {
@@ -36,7 +44,7 @@
 		"description": ""
 	},
 	"popupEnableProxyOn": {
-		"message": "Включить прокси",
+		"message": "Включить прокси для:",
 		"description": ""
 	},
 	"popupProxyableResources": {
@@ -53,6 +61,26 @@
 	},
 	"popupUpdateText": {
 		"message": "Доступно обновление до {0}",
+		"description": ""
+	},
+	"popupFailedRequestsMenu": {
+		"message": "Неудачные запросы",
+		"description": ""
+	},
+	"popupFailedRequestsTitle": {
+		"message": "Список неудачных запросов",
+		"description": ""
+	},
+	"popupFailedRequestsDesc": {
+		"message": "Это домены, у которых либо закончилось время, либо неисправные.<br \/>Если вы считаете, что эти домены заблокированы, вы можете добавить их в список правил прокси.",
+		"description": ""
+	},
+	"popupAddFailedRequestsConfirm": {
+		"message": "Добавить выбранные домены в список правил?",
+		"description": ""
+	},
+	"popupAddFailedRequests": {
+		"message": "Добавить в список правил",
 		"description": ""
 	},
 	"proxyableTitle": {
@@ -72,7 +100,7 @@
 		"description": ""
 	},
 	"proxyableHeaderDesc": {
-		"message": "Ниже приведён список ресурсов, которые используются или вызывается с этой страницы. Используйте этот список, чтобы добавить эти ресурсы в правила активации прокси.<br />Если вы ничего здесь не видите, перезагрузите страницу, чтобы просмотреть ресурсы.",
+		"message": "Ниже приведён список ресурсов, которые используются или вызывается с этой страницы. Используйте этот список, чтобы добавить эти ресурсы в правила активации прокси.<br \/>Если вы ничего здесь не видите, перезагрузите страницу, чтобы просмотреть ресурсы.",
 		"description": ""
 	},
 	"proxyableErrNoSourceTab": {
@@ -172,7 +200,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "Вот список правил, которые позволят SmartProxy решить, следует ли включать прокси для определенного домена или нет.<br />Правила основаны на <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Модели совпадений</a>.",
+		"message": "Вот список правил, которые позволят SmartProxy решить, следует ли включать прокси для определенного домена или нет.<br \/>Правила основаны на <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>Модели совпадений<\/a>.",
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
@@ -201,6 +229,14 @@
 	},
 	"settingsGeneralEnableSyncingDesc": {
 		"message": "Включив синхронизацию, все настройки, включая правила, серверы и подписки, будут доступны во всех браузерах.",
+		"description": ""
+	},
+	"settingsSaveGeneralOptionsButton": {
+		"message": "Сохранить изменения",
+		"description": ""
+	},
+	"settingsRejectGeneralOptionsButton": {
+		"message": "Отклонить изменения",
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
@@ -320,7 +356,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "Все прокси-серверы удалены.<br/>Вы должны сохранить, чтобы применить изменения.",
+		"message": "Все прокси-серверы удалены.<br\/>Вы должны сохранить, чтобы применить изменения.",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
@@ -356,7 +392,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "Все правила будут удалены.<br/>Вы должны сохранить, чтобы применить изменения.",
+		"message": "Все правила будут удалены.<br\/>Вы должны сохранить, чтобы применить изменения.",
 		"description": ""
 	},
 	"settingsRestoreBackupFailed": {
@@ -584,7 +620,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "Все подписки на прокси-сервер удалятся.<br/>Вы должны сохранить, чтобы применить изменения.",
+		"message": "Все подписки на прокси-сервер удалятся.<br\/>Вы должны сохранить, чтобы применить изменения.",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
@@ -632,11 +668,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "Подписка обновляется с помощью {0} прокси.<br/>Не забудьте сохранить изменения.",
+		"message": "Подписка обновляется с помощью {0} прокси.<br\/>Не забудьте сохранить изменения.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "Подписка добавляется с помощью {0} прокси.<br/>Не забудьте сохранить изменения.",
+		"message": "Подписка добавляется с помощью {0} прокси.<br\/>Не забудьте сохранить изменения.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {
