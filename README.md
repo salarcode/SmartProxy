@@ -2,14 +2,6 @@
 
 [![license](https://img.shields.io/github/license/salarcode/SmartProxy.svg)](https://github.com/salarcode/SmartProxy/blob/master/LICENSE) [![Travis](https://img.shields.io/travis/salarcode/SmartProxy.svg)]() [![Crowdin](https://d322cqt584bo4o.cloudfront.net/smartproxy/localized.svg)](https://crowdin.com/project/smartproxy)
 
-#### Download Unlisted Version
-
-Using these releases you don't need to wait for stores to release the latest versions.
-
-Please note that these versions won't update automatically and you have to install new versions manually. Don't worry, you'll be notified to do so.
-
- * [Firefox Extension from Github](https://github.com/salarcode/SmartProxy/releases) [![GitHub release](https://img.shields.io/github/release/salarcode/SmartProxy.svg)](https://github.com/salarcode/SmartProxy/releases)
-
 #### Download From Store
 
  * [Firefox Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy) [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/)
