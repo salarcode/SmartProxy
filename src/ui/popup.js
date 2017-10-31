@@ -100,7 +100,9 @@
 
 			if (domainList.length)
 				// Add the selected domains to rule list?
-				if (confirm(browser.i18n.getMessage("popupAddFailedRequestsConfirm"))) {
+				if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
+					confirm(browser.i18n.getMessage("popupAddFailedRequestsConfirm"))) {
+
 					// send message to the core
 					polyfill.runtimeSendMessage(
 						{

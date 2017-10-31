@@ -19,7 +19,8 @@ let environment = {
 	name: "general",
 	version: 1.0,
 	bugFreeVersions: {
-		firefoxToProxyScript: 56
+		firefoxToProxyScript: 56,
+		firefoxConfirmInPopupWorks: 57
 	},
 	storageQuota: {
 		syncQuotaBytesPerItem: function () {
