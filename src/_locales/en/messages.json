@@ -279,6 +279,22 @@
 		"message": "Restore your previously taken backup from a local file",
 		"description": ""
 	},
+	"settingsImportExportProxiesDesc": {
+		"message": "Import/Export individual list of proxies and rules.",
+		"description": ""
+	},
+	"settingsImportProxiesButtonBackup": {
+		"message": "Import Proxy Servers",
+		"description": ""
+	},
+	"settingsExportProxiesButtonBackup": {
+		"message": "Export Proxy Servers",
+		"description": ""
+	},
+	"settingsImportRulesButtonBackup": {
+		"message": "Import Proxy Rules",
+		"description": ""
+	},
 	"settingsAddRuleButton": {
 		"message": "Add Rule",
 		"description": ""

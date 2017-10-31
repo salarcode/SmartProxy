@@ -538,11 +538,12 @@
 			$("#btnAddProxyServer").click(function () {
 				settingsGrid.insertRowServersGrid();
 			});
-			$("#btnExportProxyServerOpen").click(function () {
+			$("#btnExportProxyServerOpen,#btnExportProxyServerOpenBackup").click(function () {
 				let proxyList = settingsGrid.exportProxyListFormatted();
 
 				downloadData(proxyList, "SmartProxy-Servers.txt");
 			});
+
 			$("#btnImportProxyServer").click(function () {
 				let modalContainer = $("#modalImportProxyServer");
 				let append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
