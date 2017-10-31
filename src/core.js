@@ -642,7 +642,7 @@ let settings = {
 					if (!failedInfo) {
 
 						// remove the log
-						failedRequests.delete(requestId);
+						failedRequests.delete(requestHost);
 
 						// send message to the tab
 						polyfill.runtimeSendMessage(
@@ -660,6 +660,31 @@ let settings = {
 				}
 
 			case webRequestMonitor.eventTypes.requestTimeoutAborted:
+				{
+					// request is either aborted or timeout, doesn't matter
+					// it should not be considered as failed.
+
+					let failedInfo = failedRequests.get(requestHost);
+					if (!failedInfo) {
+
+						// remove the log
+						failedRequests.delete(requestHost);
+
+						// send message to the tab
+						polyfill.runtimeSendMessage(
+							{
+								command: "webRequestMonitor",
+								tabId: tabId,
+								failedRequests: convertFailedRequestsToArray(failedRequests),
+								failedInfo: failedInfo
+							});
+
+						internal.setBrowserActionStatus(tabData);
+					}
+
+					break;
+				}
+
 			case webRequestMonitor.eventTypes.requestTimeout:
 			case webRequestMonitor.eventTypes.requestError:
 				{
