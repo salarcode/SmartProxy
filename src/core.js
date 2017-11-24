@@ -1026,13 +1026,17 @@ let settings = {
 		},
 		onAuthRequired: function (requestDetails, asyncCallback) {
 
-			let applyAuthentication = settings.proxyMode === proxyModeType.direct ||
-				settings.proxyMode === proxyModeType.systemProxy;
-			
-			if (applyAuthentication) {
-				let activeProxy = settings.activeProxyServer;
-				applyAuthentication = activeProxy && activeProxy.username && activeProxy.password;
-			}
+			let applyAuthentication = (settings.proxyMode !== proxyModeType.direct) &&
+				(settings.proxyMode !== proxyModeType.systemProxy);
+
+			let activeProxy = settings.activeProxyServer;
+
+			if (applyAuthentication &&
+				activeProxy &&
+				activeProxy.username && activeProxy.password)
+				applyAuthentication = true;
+			else
+				applyAuthentication = false;
 
 			if (asyncCallback) {
 				// this is chrome

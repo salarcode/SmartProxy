@@ -970,9 +970,6 @@
 
 				// insert to the grid
 				$("#grdServers").jsGrid("insertItem", serverInputInfo);
-
-				// The subscription is added with {0} proxies in it. <br/>Don't forget to save the changes.
-				messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionSaveAdded").replace("{0}", count));
 			}
 
 			changeTracking.servers = true;
