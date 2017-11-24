@@ -1482,8 +1482,8 @@ let settings = {
 			if (proxy !== undefined) return proxy;
 
 			for (let subscription of settings.proxyServerSubscriptions) {
-				let subitem = subscription.proxies.find(item => item.name === name);
-				if (subitem !== undefined) return proxy;
+				proxy = subscription.proxies.find(item => item.name === name);
+				if (proxy !== undefined) return proxy;
 			}
 
 			return null;

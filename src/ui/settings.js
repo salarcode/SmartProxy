@@ -45,8 +45,8 @@
 			if (proxy !== undefined) return proxy;
 
 			for (let subscription of serverSubscriptions) {
-				let subitem = subscription.proxies.find(item => item.name === name);
-				if (subitem !== undefined) return proxy;
+				proxy = subscription.proxies.find(item => item.name === name);
+				if (proxy !== undefined) return proxy;
 			}
 			return null;
 		},
@@ -95,7 +95,9 @@
 
 						let selected = (proxyServer.name === selectedProxyName);
 						option.prop("selected", selected);
-						hadSelected = selected;
+						if (selected) {
+							hadSelected = true;
+						}
 
 						added = true;
 					}
@@ -353,7 +355,6 @@
 						itemTemplate: function (value, item) {
 							let editButton = $(`<button class="btn btn-sm btn-default" data-name="${value}">${"Edit"}</button>`);
 							editButton.click(function () {
-								//debugger;
 								//let name = $(this).attr("data-name");
 								settingsGrid.serverEdit(item);
 							});
@@ -893,7 +894,6 @@
 
 		},
 		onChangeActiveProxyServer: function () {
-
 			let proxyName = $("#cmbActiveProxyServer").val();
 
 			let server = settingsGrid.findProxyServerByName(proxyName);
@@ -985,7 +985,6 @@
 
 			// update the active proxy server data
 			$("#cmbActiveProxyServer").trigger("change");
-
 			let saveData = {
 				proxyServers: settingsGrid.getServers(),
 				activeProxyServer: settingsUiData.activeProxyServer
