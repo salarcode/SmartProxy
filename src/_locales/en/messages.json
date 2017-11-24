@@ -439,6 +439,18 @@
 		"message": "A Server with the same name already exists!",
 		"description": ""
 	},
+	"settingsServerServerAddressIsEmpty": {
+		"message": "Server address cannot be empty",
+		"description": ""
+	},
+	"settingsServerPortNoInvalid": {
+		"message": "Please enter a valid port number",
+		"description": ""
+	},
+	"settingsServerAuthenticationInvalid": {
+		"message": "Both username and password are required for authentication",
+		"description": ""
+	},
 	"settingsServersGridNoDataContent": {
 		"message": "No server is defined",
 		"description": ""
@@ -545,6 +557,42 @@
 	},
 	"settingsSaveProxyRulesSuccess": {
 		"message": "Proxy rules saved successfully.",
+		"description": ""
+	},
+	"settingsRulesModalTitle": {
+		"message": "Rule Details",
+		"description": ""
+	},
+	"settingsRulesSourceDomain": {
+		"message": "Rule Source Domain",
+		"description": ""
+	},
+	"settingsRulesSourceDomainDesc": {
+		"message": "(e.g. google.com)",
+		"description": ""
+	},
+	"settingsRulesPattern": {
+		"message": "Match Pattern",
+		"description": ""
+	},
+	"settingsRulesPatternDesc": {
+		"message": "(generated automatically)",
+		"description": ""
+	},
+	"settingsRulesProxyServer": {
+		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsRulesEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
+	"settingsRulesModalCancel": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsRulesModalSave": {
+		"message": "Save",
 		"description": ""
 	},
 	"settingsServerPortInvalid": {

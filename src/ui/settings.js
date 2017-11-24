@@ -131,16 +131,6 @@
 			// populate
 			settingsGrid.populateProxyServersToCombobox(cmbActiveProxyServer, activeProxyName, proxyServers, serverSubscriptions);
 		},
-		insertRowServersGrid: function () {
-			let grdServers = $("#grdServers");
-			let inserting = grdServers.jsGrid("option", "inserting");
-			grdServers.jsGrid("option", "inserting", !inserting);
-		},
-		insertRowRulesGrid: function () {
-			let grdRules = $("#grdRules");
-			let inserting = grdRules.jsGrid("option", "inserting");
-			grdRules.jsGrid("option", "inserting", !inserting);
-		},
 		getServers: function () {
 			return $("#grdServers").jsGrid("option", "data");
 		},
@@ -363,14 +353,14 @@
 					},
 					{ type: "control", editButton: false }
 				],
-				onItemDeleting: function () {
-				},
 				onItemDeleted: function () {
 
 					settingsGrid.reloadActiveProxyServer();
 
 					changeTracking.servers = true;
-				},
+				}
+				//onItemDeleting: function () {
+				//},
 				//onItemInserting: function (args) {
 
 				//	settingsGrid.validateServersRecord(args);
@@ -467,13 +457,84 @@
 				}
 			}
 		},
+		proxyRuleAdd: function () {
+			let modal = $("#modalModifyRule");
+			modal.data("editing", null);
+
+			// update form
+			settingsGrid.proxyRuleModelUpdate(modal, null);
+
+			modal.modal("show");
+			modal.find("#txtRuleSource").focus();
+		},
+		proxyRuleEdit: function (item) {
+			let modal = $("#modalModifyRule");
+			modal.data("editing", item);
+
+			// update form
+			settingsGrid.proxyRuleModelUpdate(modal, item);
+
+			modal.modal("show");
+			modal.find("#txtRuleSource").focus();
+		},
+		proxyRuleModelUpdate: function (modal, dataItem) {
+
+			// populate servers
+			let cmdRuleProxyServer = modal.find("#cmdRuleProxyServer");
+			cmdRuleProxyServer.empty();
+
+			// the default value which is empty string
+			$("<option>")
+				.attr("value", "")
+				// [General]
+				.text(browser.i18n.getMessage("settingsRulesProxyDefault"))
+				.appendTo(cmdRuleProxyServer);
+
+			if (dataItem) {
+
+				modal.find("#txtRuleSource").val(dataItem.source);
+				modal.find("#txtRuleMatchPattern").val(dataItem.pattern);
+				modal.find("#chkRuleEnabled").prop('checked', dataItem.enabled);
+
+				let proxyServerName = null;
+				if (dataItem.proxy)
+					proxyServerName = dataItem.proxy.name;
+
+				settingsGrid.populateProxyServersToCombobox(cmdRuleProxyServer, proxyServerName);
+
+			} else {
+
+				modal.find("#txtRuleSource").val("");
+				modal.find("#txtRuleMatchPattern").val("");
+				modal.find("#chkRuleEnabled").prop('checked', false);
+
+				settingsGrid.populateProxyServersToCombobox(cmdRuleProxyServer, null);
+			}
+		},
+		proxyRuleReadModel: function (modal) {
+
+			let selectedProxyName = modal.find("#cmdRuleProxyServer").val();
+			let selectedProxy = null;
+
+			if (selectedProxyName)
+				selectedProxy = settingsGrid.findProxyServerByName(selectedProxyName);
+
+			let ruleInfo = {
+				source: modal.find("#txtRuleSource").val(),
+				proxy: selectedProxy,
+				// proxyDNS can only be true for SOCKS proxy servers
+				enabled: modal.find("#chkRuleEnabled").prop("checked")
+			};
+
+			return ruleInfo;
+		},
 		initializeRulesGrid: function () {
 
 			$("#grdRules").jsGrid({
 				width: "100%",
 
 				inserting: true,
-				editing: true,
+				editing: false,
 				sorting: true,
 				paging: true,
 				noDataContent: browser.i18n.getMessage("settingsRulesGridNoDataContent"),
@@ -484,82 +545,84 @@
 					{ name: "pattern", title: browser.i18n.getMessage("settingsRulesGridColPattern"), type: "disabled", width: 250, align: "left" },
 					{ name: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled"), type: "checkbox", width: 80 },
 					{
-						name: "proxy", title: browser.i18n.getMessage("settingsRulesGridColProxy"), width: 150, align: "left",
-						editTemplate: proxyColEditTemplate,
-						type: "select", valueType: "string",
-						editValue: function () {
-
-							if (this._cmbProxySelect) {
-								let selectedName = this._cmbProxySelect.val();
-								return settingsGrid.findProxyServerByName(selectedName);
-							}
-							return null;
-						},
+						name: "proxy", title: browser.i18n.getMessage("settingsRulesGridColProxy"), width: 140, align: "left",
+						type: "text",
 						itemTemplate: function (value) {
 							if (!value)
 								return browser.i18n.getMessage("settingsRulesProxyDefault");
 							return value.name;
 						}
 					},
-					{ type: "control" }
-				],
-				onItemDeleting: function () {
+					{
+						name: "name", title: "", width: 70,
+						itemTemplate: function (value, item) {
+							let editButton = $(`<button class="btn btn-sm btn-default" data-name="${value}">${"Edit"}</button>`);
+							editButton.click(function () {
+								settingsGrid.proxyRuleEdit(item);
+							});
+							return editButton;
+						}
+					},
 
-				},
+					{ type: "control", editButton: false }
+				],
 				onItemDeleted: function () {
 					changeTracking.rules = true;
-				},
-				onItemInserting: function (args) {
-					settingsGrid.validateRulesSource(args);
-				},
-				onItemInserted: function (e) {
-
-					changeTracking.rules = true;
-				},
-				onItemUpdating: function (args) {
-					if (args.item.source != args.previousItem.source) {
-
-						// validate the host
-						settingsGrid.validateRulesSource(args);
-					}
-				},
-				onItemUpdated: function (args) {
-					// because the changes to host in 'onItemUpdating' is applied we have to do it here, again!
-					if (args.item.source != args.previousItem.source) {
-
-						// don't check for existing rule
-						settingsGrid.validateRulesSource(args, false);
-
-						// to display the changes this is required
-						$("#grdRules").jsGrid("refresh");
-					}
-
-					changeTracking.rules = true;
-
 				}
+				//onItemDeleting: function () {
+
+				//},
+				//onItemInserting: function (args) {
+				//	settingsGrid.validateRulesSource(args);
+				//},
+				//onItemInserted: function (e) {
+
+				//	changeTracking.rules = true;
+				//},
+				//onItemUpdating: function (args) {
+				//	if (args.item.source != args.previousItem.source) {
+
+				//		// validate the host
+				//		settingsGrid.validateRulesSource(args);
+				//	}
+				//},
+				//onItemUpdated: function (args) {
+				//	// because the changes to host in 'onItemUpdating' is applied we have to do it here, again!
+				//	if (args.item.source != args.previousItem.source) {
+
+				//		// don't check for existing rule
+				//		settingsGrid.validateRulesSource(args, false);
+
+				//		// to display the changes this is required
+				//		$("#grdRules").jsGrid("refresh");
+				//	}
+
+				//	changeTracking.rules = true;
+
+				//}
 			});
 
-			function proxyColEditTemplate(value, item) {
-				let selectedProxyName = "";
-				if (value) {
-					selectedProxyName = value.name;
-				}
-				let cmbProxySelect = jsGrid.fields.select.prototype.editTemplate.apply(this, arguments);
-				cmbProxySelect.addClass("form-control");
+			//function proxyColEditTemplate(value, item) {
+			//	let selectedProxyName = "";
+			//	if (value) {
+			//		selectedProxyName = value.name;
+			//	}
+			//	let cmbProxySelect = jsGrid.fields.select.prototype.editTemplate.apply(this, arguments);
+			//	cmbProxySelect.addClass("form-control");
 
-				// the default value which is empty string
-				$("<option>")
-					.attr("value", "")
-					// [General]
-					.text(browser.i18n.getMessage("settingsRulesProxyDefault"))
-					.appendTo(cmbProxySelect);
+			//	// the default value which is empty string
+			//	$("<option>")
+			//		.attr("value", "")
+			//		// [General]
+			//		.text(browser.i18n.getMessage("settingsRulesProxyDefault"))
+			//		.appendTo(cmbProxySelect);
 
-				// populate
-				settingsGrid.populateProxyServersToCombobox(cmbProxySelect, selectedProxyName);
+			//	// populate
+			//	settingsGrid.populateProxyServersToCombobox(cmbProxySelect, selectedProxyName);
 
-				this._cmbProxySelect = cmbProxySelect;
-				return cmbProxySelect;
-			}
+			//	this._cmbProxySelect = cmbProxySelect;
+			//	return cmbProxySelect;
+			//}
 
 			if (settingsUiData && settingsUiData.proxyRules)
 				settingsGrid.loadRules(settingsUiData.proxyRules);
@@ -901,15 +964,6 @@
 			// this can be null
 			settingsUiData.activeProxyServer = server;
 		},
-		onClickEditProxyServer: function () {
-			//settingsGrid.insertRowServersGrid();
-			let modal = $("#modalModifyProxyServer");
-
-			settingsGrid.serverModalUpdate(modal, null);
-
-			modal.modal("show");
-			modal.find("#txtServerAddress").focus();
-		},
 		onClickAddProxyServer: function () {
 
 			settingsGrid.serverAdd();
@@ -948,16 +1002,16 @@
 
 			// ------------------
 			if (!serverInputInfo.host) {
-				messageBox.error("Server address cannot be empty");
+				messageBox.error(browser.i18n.getMessage("settingsServerServerAddressIsEmpty"));
 				return;
 			}
 			if (!serverInputInfo.port || serverInputInfo.port <= 0) {
-				messageBox.error("Please enter a valid port number");
+				messageBox.error(browser.i18n.getMessage("settingsServerPortNoInvalid"));
 				return;
 			}
 
 			if ((serverInputInfo.username && !serverInputInfo.password) || (!serverInputInfo.username && serverInputInfo.password)) {
-				messageBox.error("Both username and password are required for authentication");
+				messageBox.error(browser.i18n.getMessage("settingsServerAuthenticationInvalid"));
 				return;
 			}
 
@@ -1040,6 +1094,91 @@
 					// All the proxy servers are removed.<br/>You have to save to apply the changes.
 					messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServersSuccess"));
 				});
+		},
+		onClickAddProxyRule: function () {
+
+			settingsGrid.proxyRuleAdd();
+		},
+		onClickSubmitProxyRule: function () {
+
+			let modal = $("#modalModifyRule");
+			let editingModel = modal.data("editing");
+
+			let ruleInfo = settingsGrid.proxyRuleReadModel(modal);
+
+			let source = ruleInfo.source;
+			if (!source) {
+				// Please specify the source of the rule!
+				messageBox.error(browser.i18n.getMessage("settingsRuleSourceRequired"));
+				return;
+			}
+
+			if (!utils.isValidHost(source)) {
+				// source is invalid, source name should be something like 'google.com'
+				messageBox.error(browser.i18n.getMessage("settingsRuleSourceInvalid"));
+				return;
+			}
+
+			if (utils.urlHasSchema(source)) {
+				let extractedHost = utils.extractHostFromUrl(source);
+				if (extractedHost == null || !utils.isValidHost(extractedHost)) {
+
+					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+					messageBox.error(
+						browser.i18n.getMessage("settingsRuleHostInvalid")
+						.replace("{0}", extractedHost)
+					);
+					return;
+				}
+			} else {
+				// this extraction is to remove paths from rules, e.g. google.com/test/
+
+				let extractedHost = utils.extractHostFromUrl("http://" + source);
+				if (extractedHost == null || !utils.isValidHost(extractedHost)) {
+
+					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+					messageBox.error(
+						browser.i18n.getMessage("settingsRuleHostInvalid")
+						.replace("{0}", extractedHost)
+					);
+					return;
+				}
+			}
+
+			// the pattern
+			// TODO: Feature #41 Allow entering/modifying custom pattern for rules 
+			ruleInfo.pattern = utils.hostToMatchPattern(source);
+
+
+			// ------------------
+			let editingSource = null;
+			if (editingModel)
+				editingSource = editingModel.source;
+
+			let existingRules = settingsGrid.getRules();
+			let ruleExists = existingRules.some(rule => {
+				return (rule.source === ruleInfo.source && rule.source != editingSource);
+			});
+			if (ruleExists) {
+				// A Rule with the same source already exists!
+				messageBox.error(browser.i18n.getMessage("settingsRuleSourceAlreadyExists"));
+				return;
+			}
+
+			if (editingModel) {
+				$.extend(editingModel, ruleInfo);
+
+				$("#grdRules").jsGrid("refresh");
+
+			} else {
+
+				// insert to the grid
+				$("#ruleInfo").jsGrid("insertItem", ruleInfo);
+			}
+
+			changeTracking.rules = true;
+
+			modal.modal("hide");
 		},
 		onClickSaveProxyRules: function () {
 
@@ -1430,10 +1569,12 @@
 				$("#divAlertFirefox").show();
 			}
 
+			// general options
 			$("#btnSaveGeneralOptions").click(uiEvents.onClickSaveGeneralOptions);
 
 			$("#btnRejectGeneralOptions").click(uiEvents.onClickRejectGeneralOptions);
 
+			// proxy servers
 			$("#cmbActiveProxyServer").on("change", uiEvents.onChangeActiveProxyServer);
 
 			$("#btnAddProxyServer").click(uiEvents.onClickAddProxyServer);
@@ -1446,22 +1587,36 @@
 
 			$("#btnClearProxyServers").click(uiEvents.onClickClearProxyServers);
 
+			$("#btnExportProxyServerOpen,#btnExportProxyServerOpenBackup").click(uiEvents.onClickExportProxyServerOpenBackup);
+
+			$("#btnImportProxyServer").click(uiEvents.onClickImportProxyServer);
+
+			// rules
+			$("#btnSubmitRule").click(uiEvents.onClickSubmitProxyRule);
+
+			$("#btnImportRules").click(uiEvents.onClickImportRules);
+
+			$("#btnAddProxyRule").click(uiEvents.onClickAddProxyRule);
+
 			$("#btnSaveProxyRules").click(uiEvents.onClickSaveProxyRules);
 
 			$("#btnRejectProxyRules").click(uiEvents.onClickRejectProxyRules);
 
 			$("#btnClearProxyRules").click(uiEvents.onClickClearProxyRules);
 
+			// bypass list
 			$("#btnSaveBypassChanges").click(uiEvents.onClickSaveBypassChanges);
 
 			$("#btnRejectBypass").click(uiEvents.onClickRejectBypass);
 
+			// backup
 			$("#btnBackupComplete").click(uiEvents.onClickBackupComplete);
 
 			$("#btnBackupRules").click(uiEvents.onClickBackupRules);
 
 			$("#btnRestoreBackup").click(uiEvents.onClickRestoreBackup);
 
+			// proxy server subscriptions
 			$("#btnAddServerSubscription").click(function () {
 				settingsGrid.serverSubscriptionsAdd();
 			});
@@ -1479,15 +1634,6 @@
 			$("#btnRejectServerSubscriptionsChanges").click(uiEvents.onClickRejectServerSubscriptionsChanges);
 
 
-			$("#btnExportProxyServerOpen,#btnExportProxyServerOpenBackup").click(uiEvents.onClickExportProxyServerOpenBackup);
-
-			$("#btnImportProxyServer").click(uiEvents.onClickImportProxyServer);
-
-			$("#btnImportRules").click(uiEvents.onClickImportRules);
-
-			$("#btnAddProxyRule").click(function () {
-				settingsGrid.insertRowRulesGrid();
-			});
 
 			(function () {
 				// the default values

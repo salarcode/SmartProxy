@@ -514,6 +514,46 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="modalModifyRule" tabindex="-1" role="dialog" aria-labelledby="modalModifyRuleLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalModifyRuleLabel" data-localize="settingsRulesModalTitle">Rule Details</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="txtRuleSource" data-localize="settingsRulesSourceDomain">Rule Source Domain</label>
+							<input type="text" id="txtRuleSource" class="form-control" />
+							<span class="help-block text-muted small" data-localize="settingsRulesSourceDomainDesc">(e.g. google.com)</span>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="txtRuleMatchPattern" data-localize="settingsRulesPattern">Match Pattern</label>
+							<input disabled readonly type="text" id="txtRuleMatchPattern" class="form-control" />
+							<span class="help-block text-muted small" data-localize="settingsRulesPatternDesc">(generated automatically)</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="cmdRuleProxyServer" data-localize="settingsRulesProxyServer">Proxy Server</label>
+							<select id="cmdRuleProxyServer" class="form-control custom-select">
+							</select>
+						</div>
+						<div class="form-group col-sm-6">
+							<br />
+							<input type="checkbox" id="chkRuleEnabled" class="" />
+							<label for="chkRuleEnabled" data-localize="settingsRulesEnabled">Enabled</label>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsRulesModalCancel">Cancel</button>
+					<button type="button" id="btnSubmitRule" class="btn btn-primary" data-localize="settingsRulesModalSave">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="modal fade" id="modalModifyProxyServer" tabindex="-1" role="dialog" aria-labelledby="modalModifyProxyServerLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
