@@ -18,6 +18,7 @@ let proxyMode = "1";
 let compiledRules = [];
 let bypass = {};
 let activeProxyServer = null;
+let useNewReturnFormat = false;
 const proxyModeType = {
 	direct: "1",
 	smartProxy: "2",
@@ -128,6 +129,7 @@ const polyfill = {
 					return;
 				}
 
+				useNewReturnFormat = proxyInitData.useNewReturnFormat;
 				compiledRules = compileRules(proxyInitData.proxyRules);
 				proxyMode = proxyInitData.proxyMode;
 				bypass = fixBypass(proxyInitData.bypass);
@@ -173,20 +175,49 @@ const polyfill = {
 		if (!activeProxyServer || !activeProxyServer.host || !activeProxyServer.protocol || !activeProxyServer.port)
 			return resultDirect;
 
-		switch (activeProxyServer.protocol) {
-			case "HTTP":
-				return `PROXY ${activeProxyServer.host}:${activeProxyServer.port}`;
+		if (useNewReturnFormat) {
+			switch (activeProxyServer.protocol) {
+				case "HTTP":
+				case "HTTPS":
+				case "SOCKS4":
+					return [{
+						type: activeProxyServer.protocol,
+						host: activeProxyServer.host,
+						port: activeProxyServer.port,
+						proxyDNS: activeProxyServer.proxyDNS,
+						// Note: username and password are not effective for HTTP and HTTPS, for them `webRequest.onAuthRequired` is used
+						username : activeProxyServer.username,
+						password : activeProxyServer.password
+					}];
 
-			case "HTTPS":
-				return `HTTPS ${activeProxyServer.host}:${activeProxyServer.port}`;
+				case "SOCKS5":
+					// "socks" refers to the SOCKS5 protocol
+					return [{
+						type: "socks",
+						host: activeProxyServer.host,
+						port: activeProxyServer.port,
+						proxyDNS: activeProxyServer.proxyDNS,
+						username : activeProxyServer.username,
+						password : activeProxyServer.password
+					}];
+			}
+		} else {
 
-			case "SOCKS4":
-				return `SOCKS4 ${activeProxyServer.host}:${activeProxyServer.port}`;
+			switch (activeProxyServer.protocol) {
+				case "HTTP":
+					return `PROXY ${activeProxyServer.host}:${activeProxyServer.port}`;
 
-			case "SOCKS5":
-				// SOCKS is alias for SOCKS5 in Firefox
-				// see https://bugzilla.mozilla.org/show_bug.cgi?id=1378205
-				return `SOCKS ${activeProxyServer.host}:${activeProxyServer.port}`;
+				case "HTTPS":
+					return `HTTPS ${activeProxyServer.host}:${activeProxyServer.port}`;
+
+				case "SOCKS4":
+					return `SOCKS4 ${activeProxyServer.host}:${activeProxyServer.port}`;
+
+				case "SOCKS5":
+					// SOCKS is alias for SOCKS5 in Firefox
+					// see https://bugzilla.mozilla.org/show_bug.cgi?id=1378205
+					return `SOCKS ${activeProxyServer.host}:${activeProxyServer.port}`;
+			}
 		}
 
 		// invalid proxy protocol

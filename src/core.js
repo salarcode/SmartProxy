@@ -998,6 +998,76 @@ let settings = {
 
 	}
 
+	const webRequestProxyAuthentication = {
+		pendingRequests: {},
+		startMonitor: function () {
+			if (environment.chrome) {
+				// chrome supports asyncBlocking
+				browser.webRequest.onAuthRequired.addListener(webRequestProxyAuthentication.onAuthRequired,
+					{ urls: ["<all_urls>"] },
+					["asyncBlocking"]
+				);
+			} else {
+				browser.webRequest.onAuthRequired.addListener(webRequestProxyAuthentication.onAuthRequired,
+					{ urls: ["<all_urls>"] },
+					["blocking"]
+				);
+
+			}
+			browser.webRequest.onCompleted.addListener(
+				webRequestProxyAuthentication.onRequestFinished,
+				{ urls: ["<all_urls>"] }
+			);
+
+			browser.webRequest.onErrorOccurred.addListener(
+				webRequestProxyAuthentication.onRequestFinished,
+				{ urls: ["<all_urls>"] }
+			);
+		},
+		onAuthRequired: function (requestDetails, asyncCallback) {
+
+			let applyAuthentication = settings.proxyMode === proxyModeType.direct ||
+				settings.proxyMode === proxyModeType.systemProxy;
+			
+			if (applyAuthentication) {
+				let activeProxy = settings.activeProxyServer;
+				applyAuthentication = activeProxy && activeProxy.username && activeProxy.password;
+			}
+
+			if (asyncCallback) {
+				// this is chrome
+
+				// check if authentication is already provided
+				if (!applyAuthentication || webRequestProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+
+					asyncCallback({ cancel: true });
+					return { cancel: true };
+				}
+
+				// add this request to pending list
+				webRequestProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
+
+				asyncCallback({
+					authCredentials: { username: activeProxy.username, password: activeProxy.password }
+				});
+			} else {
+				// check if authentication is already provided
+				if (!applyAuthentication || webRequestProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+					return { cancel: true };
+				}
+
+				// add this request to pending list
+				webRequestProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
+
+				return {
+					authCredentials: { username: activeProxy.username, password: activeProxy.password }
+				};
+			}
+		},
+		onRequestFinished: function (requestDetails) {
+			delete webRequestProxyAuthentication.pendingRequests[requestDetails.requestId];
+		}
+	};
 	const webRequestMonitor = {
 		verbose: false,
 		requests: {},
@@ -1669,7 +1739,7 @@ let settings = {
 						return validateResult;
 					}
 
-					// good
+				// good
 					upcomingServers.push(server);
 				}
 
@@ -1690,7 +1760,7 @@ let settings = {
 						return validateResult;
 					}
 
-					// good
+				// good
 					upcomingRules.push(rule);
 				}
 
@@ -2080,7 +2150,7 @@ let settings = {
 
 				let rule = proxyRules.getRuleBySource(domain);
 
-				// don't add if it is already there
+			// don't add if it is already there
 				if (rule == null)
 					proxyRules.addDomain(domain);
 			}
@@ -2206,11 +2276,11 @@ let settings = {
 			for (let subscription of settings.proxyServerSubscriptions) {
 				if (!subscription.enabled) continue;
 
-				// refresh is not requested
+			// refresh is not requested
 				if (!(subscription.refreshRate > 0))
 					continue;
 
-				// it should be active, don't remove it
+			// it should be active, don't remove it
 				serverExistingNames.push(subscription.name);
 
 				let shouldCreate = false;
@@ -2368,7 +2438,8 @@ let settings = {
 			return {
 				proxyRules: settings.proxyRules,
 				proxyMode: settings.proxyMode,
-				activeProxyServer: settings.activeProxyServer
+				activeProxyServer: settings.activeProxyServer,
+				useNewReturnFormat: !environment.chrome && (environment.version >= environment.bugFreeVersions.firefoxNewPacScriptReturnData)
 			};
 		},
 		getDataForSettingsUi: function () {
@@ -2643,5 +2714,8 @@ let settings = {
 
 	// start the request monitor for failures
 	webRequestMonitor.startMonitor(requestMonitorCallback);
+
+	// start proxy authentication request check
+	webRequestProxyAuthentication.startMonitor();
 
 })();
