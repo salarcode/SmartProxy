@@ -1041,8 +1041,15 @@ let settings = {
 			if (asyncCallback) {
 				// this is chrome
 
+				// check if authentication is required
+				if (!applyAuthentication) {
+
+					asyncCallback({});
+					return {};
+				}
+
 				// check if authentication is already provided
-				if (!applyAuthentication || webRequestProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+				if (webRequestProxyAuthentication.pendingRequests[requestDetails.requestId]) {
 
 					asyncCallback({ cancel: true });
 					return { cancel: true };
@@ -1055,8 +1062,13 @@ let settings = {
 					authCredentials: { username: activeProxy.username, password: activeProxy.password }
 				});
 			} else {
+				// check if authentication is required
+				if (!applyAuthentication) {
+					return {};
+				}
+
 				// check if authentication is already provided
-				if (!applyAuthentication || webRequestProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+				if (webRequestProxyAuthentication.pendingRequests[requestDetails.requestId]) {
 					return { cancel: true };
 				}
 
