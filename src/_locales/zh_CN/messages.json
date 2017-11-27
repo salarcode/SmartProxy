@@ -11,6 +11,14 @@
     "message":"Smart Proxy 将基于用户设定的规则自动决定是否在访问时使用代理。",
     "description":""
   },
+  "toolbarTooltipEffectiveRule": {
+    "message": "正在使用的规则：",
+    "description": ""
+  },
+  "toolbarTooltipEffectiveRuleNone": {
+    "message": "正在使用的规则：无",
+    "description": ""
+  },
   "popupTitle":{
     "message":"SmartProxy 模式：",
     "description":""
@@ -55,6 +63,26 @@
     "message":"新版本 {0} 可用",
     "description":""
   },
+  "popupFailedRequestsMenu": {
+    "message": "加载失败",
+    "description": ""
+  },
+  "popupFailedRequestsTitle": {
+    "message": "Failed Requests List",
+    "description": ""
+  },
+	"popupFailedRequestsDesc": {
+		"message": "这些是请求超时或失败的域名。<br />如果您认为这些域名被阻止，您可以在这里将它们添加到代理规则列表中。",
+		"description": ""
+	},
+	"popupAddFailedRequestsConfirm": {
+		"message": "添加选中的域名到代理规则？",
+		"description": ""
+	},
+	"popupAddFailedRequests": {
+		"message": "添加到代理规则",
+		"description": ""
+	},
   "proxyableTitle":{
     "message":"可代理的资源",
     "description":""
@@ -112,7 +140,7 @@
     "description":""
   },
   "proxyableGridColSource":{
-    "message":"包括于生效的规则",
+    "message":"可代理的规则",
     "description":""
   },
   "settingsTitle":{
@@ -123,6 +151,10 @@
     "message":"关于",
     "description":""
   },
+	"settingsTabGeneral": {
+		"message": "常规",
+		"description": ""
+	},
   "settingsTabProxyServers":{
     "message":"代理服务器",
     "description":""
@@ -151,6 +183,10 @@
     "message":"使用自动化模式来定义是否使用代理。SmartProxy 将让你无需手动改变或开关代理。一键将页面添加到规则，之后，当你访问这些特定页面，SmartProxy 就会为页面自动启动代理。",
     "description":""
   },
+	"settingsTabGeneralTitle": {
+		"message": "扩展的常规选项：",
+		"description": ""
+	},
   "settingsTabProxyServersTitle":{
     "message":"管理您的代理服务器：",
     "description":""
@@ -183,6 +219,26 @@
     "message":"您必须先定义代理服务器。",
     "description":""
   },
+	"settingsGeneralSyncing": {
+		"message": "同步",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncing": {
+		"message": "开启选项同步",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncingDesc": {
+		"message": "如果选择同步，你所有的设置（代理规则、代理服务器设置，订阅的代理服务器）将被同步到所有浏览器。",
+		"description": ""
+	},
+	"settingsSaveGeneralOptionsButton": {
+		"message": "保存更改",
+		"description": ""
+	},
+	"settingsRejectGeneralOptionsButton": {
+		"message": "放弃更改",
+		"description": ""
+	},
   "settingsActiveProxyServer":{
     "message":"激活的代理服务器：",
     "description":""
@@ -223,6 +279,22 @@
     "message":"从本地备份文件还原",
     "description":""
   },
+	"settingsImportExportProxiesDesc": {
+		"message": "导入/导出代理服务器和规则",
+		"description": ""
+	},
+	"settingsImportProxiesButtonBackup": {
+		"message": "导入代理服务器",
+		"description": ""
+	},
+	"settingsExportProxiesButtonBackup": {
+		"message": "导出代理服务器",
+		"description": ""
+	},
+	"settingsImportRulesButtonBackup": {
+		"message": "导入规则",
+		"description": ""
+	},
   "settingsAddRuleButton":{
     "message":"添加规则",
     "description":""
@@ -367,6 +439,18 @@
     "message":"已有重名的服务器！",
     "description":""
   },
+	"settingsServerServerAddressIsEmpty": {
+		"message": "服务器地址不能为空",
+		"description": ""
+	},
+	"settingsServerPortNoInvalid": {
+		"message": "请输入合法的端口地址（1-65535）",
+		"description": ""
+	},
+	"settingsServerAuthenticationInvalid": {
+		"message": "需要用户名和密码来进行身份验证",
+		"description": ""
+	},
   "settingsServersGridNoDataContent":{
     "message":"没有已定义的服务器",
     "description":""
@@ -387,6 +471,46 @@
     "message":"端口",
     "description":""
   },
+	"settingsServersModalTitle": {
+		"message": "代理服务器详情",
+		"description": ""
+	},
+	"settingsServersServerName": {
+		"message": "服务器名",
+		"description": ""
+	},
+	"settingsServersSeverAddress": {
+		"message": "服务器地址",
+		"description": ""
+	},
+	"settingsServersProtocol": {
+		"message": "协议",
+		"description": ""
+	},
+	"settingsServersPort": {
+		"message": "端口",
+		"description": ""
+	},
+	"settingsServersProxyDNS": {
+		"message": "使用SOCKS5时代理DNS（防止DNS污染）",
+		"description": ""
+	},
+	"settingsServersUsername": {
+		"message": "用户名",
+		"description": ""
+	},
+	"settingsServersPassword": {
+		"message": "密码",
+		"description": ""
+	},
+	"settingsServersCancel": {
+		"message": "取消",
+		"description": ""
+	},
+	"settingsServersImport": {
+		"message": "导入",
+		"description": ""
+	},
   "settingsRuleSourceRequired":{
     "message":"请指定规则来源！",
     "description":""
@@ -435,6 +559,42 @@
     "message":"成功保存代理规则。",
     "description":""
   },
+	"settingsRulesModalTitle": {
+		"message": "规则详情",
+		"description": ""
+	},
+	"settingsRulesSourceDomain": {
+		"message": "要代理的域名",
+		"description": ""
+	},
+	"settingsRulesSourceDomainDesc": {
+		"message": "(比如：google.com)",
+		"description": ""
+	},
+	"settingsRulesPattern": {
+		"message": "匹配模式",
+		"description": ""
+	},
+	"settingsRulesPatternDesc": {
+		"message": "（自动生成）",
+		"description": ""
+	},
+	"settingsRulesProxyServer": {
+		"message": "代理服务器",
+		"description": ""
+	},
+	"settingsRulesEnabled": {
+		"message": "开启",
+		"description": ""
+	},
+	"settingsRulesModalCancel": {
+		"message": "取消",
+		"description": ""
+	},
+	"settingsRulesModalSave": {
+		"message": "保存",
+		"description": ""
+	},
   "settingsServerPortInvalid":{
     "message":"服务器端口 '{0}' 无效",
     "description":""
@@ -483,6 +643,14 @@
     "message":"此处可以订阅代理列表并在稍后用于切换代理。",
     "description":""
   },
+	"settingsErrorFailedToSaveGeneral": {
+		"message": "保存选项失败。",
+		"description": ""
+	},
+	"settingsSaveOptionsSuccess": {
+		"message": "保存成功.",
+		"description": ""
+	},
   "settingsAddServerSubscriptionButton":{
     "message":"订阅一个列表",
     "description":""
