@@ -316,7 +316,7 @@
 				width: "100%",
 				height: "300px",
 
-				inserting: true,
+				inserting: false,
 				editing: false,
 				sorting: true,
 				paging: false,
@@ -506,7 +506,7 @@
 
 				modal.find("#txtRuleSource").val("");
 				modal.find("#txtRuleMatchPattern").val("");
-				modal.find("#chkRuleEnabled").prop('checked', false);
+				modal.find("#chkRuleEnabled").prop('checked', true);
 
 				settingsGrid.populateProxyServersToCombobox(cmdRuleProxyServer, null);
 			}
@@ -533,7 +533,7 @@
 			$("#grdRules").jsGrid({
 				width: "100%",
 
-				inserting: true,
+				inserting: false,
 				editing: false,
 				sorting: true,
 				paging: true,
@@ -1173,7 +1173,7 @@
 			} else {
 
 				// insert to the grid
-				$("#ruleInfo").jsGrid("insertItem", ruleInfo);
+				$("#grdRules").jsGrid("insertItem", ruleInfo);
 			}
 
 			changeTracking.rules = true;
