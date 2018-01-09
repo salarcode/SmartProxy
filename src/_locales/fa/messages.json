@@ -279,6 +279,22 @@
 		"message": "بازگرداندن نسخه پشتیبانی که قبلا گرفته شده",
 		"description": ""
 	},
+	"settingsImportExportProxiesDesc": {
+		"message": "وارد کردن\/پشتیبانی گیری از لیست پراکسی سرور هاو قوانین.",
+		"description": ""
+	},
+	"settingsImportProxiesButtonBackup": {
+		"message": "وارد کردن پراکسی سرور ها",
+		"description": ""
+	},
+	"settingsExportProxiesButtonBackup": {
+		"message": "تهیه خروجی پراکسی ها",
+		"description": ""
+	},
+	"settingsImportRulesButtonBackup": {
+		"message": "وارد کردن قوانین",
+		"description": ""
+	},
 	"settingsAddRuleButton": {
 		"message": "افزودن قانون جدید",
 		"description": ""
@@ -423,6 +439,18 @@
 		"message": "پراکسی سرور با همین نام از قبل وجود دارد!",
 		"description": ""
 	},
+	"settingsServerServerAddressIsEmpty": {
+		"message": "آدرس سرور نمی تواند خالی باشد",
+		"description": ""
+	},
+	"settingsServerPortNoInvalid": {
+		"message": "لطفا شماره پورت را صحیح وارد کنید",
+		"description": ""
+	},
+	"settingsServerAuthenticationInvalid": {
+		"message": "نامه کاربری و کلمه عبور باید با هم وارد شوند",
+		"description": ""
+	},
 	"settingsServersGridNoDataContent": {
 		"message": "هیچ سروری تعریف نشده است",
 		"description": ""
@@ -441,6 +469,46 @@
 	},
 	"settingsServersGridColPort": {
 		"message": "Port",
+		"description": ""
+	},
+	"settingsServersModalTitle": {
+		"message": "اطلاعات سرور پراکسی",
+		"description": ""
+	},
+	"settingsServersServerName": {
+		"message": "نام سرور",
+		"description": ""
+	},
+	"settingsServersSeverAddress": {
+		"message": "آدرس سرور",
+		"description": ""
+	},
+	"settingsServersProtocol": {
+		"message": "پروتوکل",
+		"description": ""
+	},
+	"settingsServersPort": {
+		"message": "پورت",
+		"description": ""
+	},
+	"settingsServersProxyDNS": {
+		"message": "اعمال پروکسی به درخواست DNS اگر پروتوکل Socks 5 باشد",
+		"description": ""
+	},
+	"settingsServersUsername": {
+		"message": "نام کاربری",
+		"description": ""
+	},
+	"settingsServersPassword": {
+		"message": "کلمه عبور",
+		"description": ""
+	},
+	"settingsServersCancel": {
+		"message": "انصراف",
+		"description": ""
+	},
+	"settingsServersImport": {
+		"message": "واردکردن",
 		"description": ""
 	},
 	"settingsRuleSourceRequired": {
@@ -489,6 +557,42 @@
 	},
 	"settingsSaveProxyRulesSuccess": {
 		"message": "قوانین پروکسی با موفقیت ذخیره.",
+		"description": ""
+	},
+	"settingsRulesModalTitle": {
+		"message": "جزئیات قانون",
+		"description": ""
+	},
+	"settingsRulesSourceDomain": {
+		"message": "دامنه وب قانون",
+		"description": ""
+	},
+	"settingsRulesSourceDomainDesc": {
+		"message": "(مثلا: google.com)",
+		"description": ""
+	},
+	"settingsRulesPattern": {
+		"message": "قالب قوانین",
+		"description": ""
+	},
+	"settingsRulesPatternDesc": {
+		"message": "(خودکار تولید می شود)",
+		"description": ""
+	},
+	"settingsRulesProxyServer": {
+		"message": "پراکسی سرور",
+		"description": ""
+	},
+	"settingsRulesEnabled": {
+		"message": "فعال باشد",
+		"description": ""
+	},
+	"settingsRulesModalCancel": {
+		"message": "انصراف",
+		"description": ""
+	},
+	"settingsRulesModalSave": {
+		"message": "ذخیره",
 		"description": ""
 	},
 	"settingsServerPortInvalid": {

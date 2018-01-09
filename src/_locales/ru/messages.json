@@ -132,11 +132,11 @@
 		"description": ""
 	},
 	"proxyableGridColUrl": {
-		"message": "Веб-запросы",
+		"message": "Ссылка запроса",
 		"description": ""
 	},
 	"proxyableGridColEnabled": {
-		"message": "Прокси",
+		"message": "Через прокси",
 		"description": ""
 	},
 	"proxyableGridColSource": {
@@ -144,7 +144,7 @@
 		"description": ""
 	},
 	"settingsTitle": {
-		"message": "SmartProxy Настройки",
+		"message": "Настройки SmartProxy",
 		"description": ""
 	},
 	"settingsTabAbout": {
@@ -172,7 +172,7 @@
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
-		"message": "Резервная копия",
+		"message": "Резервное копирование\/Восстановление",
 		"description": ""
 	},
 	"settingsTabUpdateText": {
@@ -184,7 +184,7 @@
 		"description": ""
 	},
 	"settingsTabGeneralTitle": {
-		"message": "Общие параметры расширения:",
+		"message": "Общие настройки расширения:",
 		"description": ""
 	},
 	"settingsTabProxyServersTitle": {
@@ -277,6 +277,22 @@
 	},
 	"settingsRestoreBackupButtonDesc": {
 		"message": "Восстановите ранее сделанное резервное копирование из локального файла.",
+		"description": ""
+	},
+	"settingsImportExportProxiesDesc": {
+		"message": "Import\/Export individual list of proxies and rules.",
+		"description": ""
+	},
+	"settingsImportProxiesButtonBackup": {
+		"message": "Import Proxy Servers",
+		"description": ""
+	},
+	"settingsExportProxiesButtonBackup": {
+		"message": "Export Proxy Servers",
+		"description": ""
+	},
+	"settingsImportRulesButtonBackup": {
+		"message": "Import Proxy Rules",
 		"description": ""
 	},
 	"settingsAddRuleButton": {
@@ -423,6 +439,18 @@
 		"message": "Сервер с тем же именем уже существует!",
 		"description": ""
 	},
+	"settingsServerServerAddressIsEmpty": {
+		"message": "Server address cannot be empty",
+		"description": ""
+	},
+	"settingsServerPortNoInvalid": {
+		"message": "Please enter a valid port number",
+		"description": ""
+	},
+	"settingsServerAuthenticationInvalid": {
+		"message": "Both username and password are required for authentication",
+		"description": ""
+	},
 	"settingsServersGridNoDataContent": {
 		"message": "Сервер не определен",
 		"description": ""
@@ -441,6 +469,46 @@
 	},
 	"settingsServersGridColPort": {
 		"message": "Порт",
+		"description": ""
+	},
+	"settingsServersModalTitle": {
+		"message": "Proxy Server Details",
+		"description": ""
+	},
+	"settingsServersServerName": {
+		"message": "Server Name",
+		"description": ""
+	},
+	"settingsServersSeverAddress": {
+		"message": "Sever Address",
+		"description": ""
+	},
+	"settingsServersProtocol": {
+		"message": "Protocol",
+		"description": ""
+	},
+	"settingsServersPort": {
+		"message": "Port",
+		"description": ""
+	},
+	"settingsServersProxyDNS": {
+		"message": "Proxy DNS when using SOCKS v5",
+		"description": ""
+	},
+	"settingsServersUsername": {
+		"message": "Username",
+		"description": ""
+	},
+	"settingsServersPassword": {
+		"message": "Password",
+		"description": ""
+	},
+	"settingsServersCancel": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsServersImport": {
+		"message": "Import",
 		"description": ""
 	},
 	"settingsRuleSourceRequired": {
@@ -489,6 +557,42 @@
 	},
 	"settingsSaveProxyRulesSuccess": {
 		"message": "Правила прокси-сервера успешно сохранены.",
+		"description": ""
+	},
+	"settingsRulesModalTitle": {
+		"message": "Rule Details",
+		"description": ""
+	},
+	"settingsRulesSourceDomain": {
+		"message": "Rule Source Domain",
+		"description": ""
+	},
+	"settingsRulesSourceDomainDesc": {
+		"message": "(e.g. google.com)",
+		"description": ""
+	},
+	"settingsRulesPattern": {
+		"message": "Match Pattern",
+		"description": ""
+	},
+	"settingsRulesPatternDesc": {
+		"message": "(generated automatically)",
+		"description": ""
+	},
+	"settingsRulesProxyServer": {
+		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsRulesEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
+	"settingsRulesModalCancel": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsRulesModalSave": {
+		"message": "Save",
 		"description": ""
 	},
 	"settingsServerPortInvalid": {
