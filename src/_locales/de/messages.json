@@ -1,0 +1,826 @@
+{
+	"uiDirection": {
+		"message": "ltr",
+		"description": ""
+	},
+	"extensionName": {
+		"message": "SmartProxy",
+		"description": ""
+	},
+	"extensionDescription": {
+		"message": "Smart Proxy wird automatisch Proxy aktivieren\/deaktivieren für die Seiten die Sie besuchen, besierend auf anpassbaren Mustern.",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRule": {
+		"message": "Effektive Regel:",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRuleNone": {
+		"message": "Effektive Regel: keins",
+		"description": ""
+	},
+	"popupTitle": {
+		"message": "SmartProxy Aktivierung",
+		"description": ""
+	},
+	"popupNoProxy": {
+		"message": "Direkt (Kein Proxy)",
+		"description": ""
+	},
+	"popupSmartProxy": {
+		"message": "Smart Proxy",
+		"description": ""
+	},
+	"popupAlwaysEnable": {
+		"message": "Immer Aktiv",
+		"description": ""
+	},
+	"popupSystemProxy": {
+		"message": "System Proxy",
+		"description": ""
+	},
+	"popupActiveProxy": {
+		"message": "Aktive Proxy:",
+		"description": ""
+	},
+	"popupEnableProxyOn": {
+		"message": "Proxy aktivieren",
+		"description": ""
+	},
+	"popupProxyableResources": {
+		"message": "Proxyfähige Quellen",
+		"description": ""
+	},
+	"popupSettings": {
+		"message": "Einstellungen",
+		"description": ""
+	},
+	"popupSubscriptions": {
+		"message": "-Abonnements-",
+		"description": ""
+	},
+	"popupUpdateText": {
+		"message": "Aktualisierung zu {0} ist verfügbar",
+		"description": ""
+	},
+	"popupFailedRequestsMenu": {
+		"message": "Fehlgeschlagene Anforderungen",
+		"description": ""
+	},
+	"popupFailedRequestsTitle": {
+		"message": "Fehlgeschlagene Anforderungen Liste",
+		"description": ""
+	},
+	"popupFailedRequestsDesc": {
+		"message": "Dies sind die Domains, die entweder timed-out oder fehlgeschlagen sind.<br \/>Falls Sie glauben dass diese Domains blockiert sind, können Sie sie zu der Proxy Regeln liste hinzufügen.",
+		"description": ""
+	},
+	"popupAddFailedRequestsConfirm": {
+		"message": "Ausgewählte Domains zur Regelliste hinzufügen?",
+		"description": ""
+	},
+	"popupAddFailedRequests": {
+		"message": "Zur Regelnliste hinzufügen",
+		"description": ""
+	},
+	"proxyableTitle": {
+		"message": "Proxyfähige Quellen",
+		"description": ""
+	},
+	"proxyableHeader": {
+		"message": "Proxyfähige artikeln auf dieser Seite",
+		"description": ""
+	},
+	"proxyableReload": {
+		"message": "Neu laden",
+		"description": ""
+	},
+	"proxyableClose": {
+		"message": "Schließen",
+		"description": ""
+	},
+	"proxyableHeaderDesc": {
+		"message": "Hier ist die Liste der Quellen die von dieser Seite benutzt oder aufgeruft werden. Benutzen Sie diese Liste um diese Quellen zu den Proxy Aktivations Regeln hinzuzufügen.<br \/>Falls Sie hier nichts sehen, laden Sie die Seite neu um die Quellen zu sehen.",
+		"description": ""
+	},
+	"proxyableErrNoSourceTab": {
+		"message": "Quellen tab nicht gefunden!",
+		"description": ""
+	},
+	"proxyableCreateRuleConfirm": {
+		"message": "Sind Sie sicher eine Regel zu erstellen für den ausgewählten Domain",
+		"description": ""
+	},
+	"proxyableDisableButton": {
+		"message": "Deaktivieren",
+		"description": ""
+	},
+	"proxyableEnableButton": {
+		"message": "Aktivieren",
+		"description": ""
+	},
+	"proxyableEnableButtonDomain": {
+		"message": "Aktivieren für: ",
+		"description": ""
+	},
+	"proxyableDeleteRuleConfirm": {
+		"message": "Sind Sie sicher dass Sie die ausgewählte Regel löschen möchten für:",
+		"description": ""
+	},
+	"proxyableGridNoDataContent": {
+		"message": "Keine Anfragen",
+		"description": ""
+	},
+	"proxyableGridColUrl": {
+		"message": "Url benötigt",
+		"description": ""
+	},
+	"proxyableGridColEnabled": {
+		"message": "Proxied",
+		"description": ""
+	},
+	"proxyableGridColSource": {
+		"message": "Effektive Regel",
+		"description": ""
+	},
+	"settingsTitle": {
+		"message": "SmartProxy Einstellungen",
+		"description": ""
+	},
+	"settingsTabAbout": {
+		"message": "Über",
+		"description": ""
+	},
+	"settingsTabGeneral": {
+		"message": "Allgemeine Optionen",
+		"description": ""
+	},
+	"settingsTabProxyServers": {
+		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsTabProxyRules": {
+		"message": "Proxy Regeln",
+		"description": ""
+	},
+	"settingsTabProxyServerSubscriptions": {
+		"message": "Proxy Server Abonnements",
+		"description": ""
+	},
+	"settingsTabBypass": {
+		"message": "Bypass Liste",
+		"description": ""
+	},
+	"settingsTabBackupRestore": {
+		"message": "Sichern \/ Wiederherstellen",
+		"description": ""
+	},
+	"settingsTabUpdateText": {
+		"message": "Zu {0} aktualisieren",
+		"description": ""
+	},
+	"settingsTabAboutDescription": {
+		"message": "Benutzen Sie Patterns zur automatischen Definierung der Regeln für Ihre Weberfahrung proxifieren. Mit SmartProxy brauchen Sie nicht Ihr Proxy manuell veränder und es ein- und auszuschalten. Sie können Ihre erwünschte Webseite zu der Proxy Regelliste mit nur einen klick hinzufügen. Daraufhin, wenn Sie die spezifische Webseite besuchen, SmartProxy wird handeln und all die Datei für diese Webseite wird durch den Proxy überwiesen, ohne dass Sie etwas tuen.",
+		"description": ""
+	},
+	"settingsTabGeneralTitle": {
+		"message": "Allgemeine Einstellungen der Erweiterung:",
+		"description": ""
+	},
+	"settingsTabProxyServersTitle": {
+		"message": "Verwalten Sie Ihre Proxy Server:",
+		"description": ""
+	},
+	"settingsTabProxyServersDescription": {
+		"message": "Hier ist die Liste der Proxy Server. Sie können so viele Proxy wie Sie möchten definieren und von der Toolbar zwischen denen wechseln.",
+		"description": ""
+	},
+	"settingsTabProxyRulesTitle": {
+		"message": "Verwalten Sie Ihre Proxy Regeln:",
+		"description": ""
+	},
+	"settingsTabProxyRulesDescription": {
+		"message": "Hier ist die Liste der Regeln die SmartProxy entscheiden werden lässt ob Proxy für ein spezifischen Domain aktiviert wird oder nicht.<br \/>Regeln basieren auf <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'> Patterns übereinstimmen<\/a>.",
+		"description": ""
+	},
+	"settingsTabBypassDescription": {
+		"message": "Die folgende Liste ist die Liste der Hosts, die beim Proxy nicht angewendet werden soll.",
+		"description": ""
+	},
+	"settingsTabBackupRestoreDescription": {
+		"message": "Sie können entweder vollen oder teilweisenden Backup Ihrer Einstellungen machen.",
+		"description": ""
+	},
+	"settingsErrNoServersTitle": {
+		"message": "Keine Server!",
+		"description": ""
+	},
+	"settingsErrNoServersDescription": {
+		"message": "Vor allem müssen Sie Proxy Servers definieren.",
+		"description": ""
+	},
+	"settingsGeneralSyncing": {
+		"message": "Synchronisierung",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncing": {
+		"message": "Einstellungen Synchronisierung aktivieren",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncingDesc": {
+		"message": "Durch die Aktivierung der Synchronisierung, all Ihre Einstellungen einschließlich Regeln, werden Serves und Abonnemente verfügbar durch alle Browsern.",
+		"description": ""
+	},
+	"settingsSaveGeneralOptionsButton": {
+		"message": "Änderungen speichern",
+		"description": ""
+	},
+	"settingsRejectGeneralOptionsButton": {
+		"message": "Änderungen ablehnen",
+		"description": ""
+	},
+	"settingsActiveProxyServer": {
+		"message": "Aktive Proxy Server:",
+		"description": ""
+	},
+	"settingsAddServerButton": {
+		"message": "Server hinzufügen",
+		"description": ""
+	},
+	"settingsSaveChangesButton": {
+		"message": "Veränderungen speichern",
+		"description": ""
+	},
+	"settingsRejectChangesButton": {
+		"message": "Veränderungen ablehnen",
+		"description": ""
+	},
+	"settingsFullBackupButton": {
+		"message": "Vollständigen Backup ertsellen",
+		"description": ""
+	},
+	"settingsFullBackupButtonDesc": {
+		"message": "Machen Sie einen vollständigen Backup der Optionen (einschließlich Proxy Servers und Regeln).",
+		"description": ""
+	},
+	"settingsRulesBackupButton": {
+		"message": "Regeln Backup erstellen",
+		"description": ""
+	},
+	"settingsRulesBackupButtonDesc": {
+		"message": "Machen Sie einen Backup der Proxy Regeln.",
+		"description": ""
+	},
+	"settingsRestoreBackupButton": {
+		"message": "Backup wiederherstellen",
+		"description": ""
+	},
+	"settingsRestoreBackupButtonDesc": {
+		"message": "Wiederherstellen Sie Ihren vorherig genomennen Backup von einer lokalen Datei",
+		"description": ""
+	},
+	"settingsImportExportProxiesDesc": {
+		"message": "Importieren\/Exportieren Sie individuelle Liste der Proxies und Regeln.",
+		"description": ""
+	},
+	"settingsImportProxiesButtonBackup": {
+		"message": "Proxy Servers importieren",
+		"description": ""
+	},
+	"settingsExportProxiesButtonBackup": {
+		"message": "Proxy Servers exportieren",
+		"description": ""
+	},
+	"settingsImportRulesButtonBackup": {
+		"message": "Proxy Regeln importieren",
+		"description": ""
+	},
+	"settingsAddRuleButton": {
+		"message": "Regel hinzufügen",
+		"description": ""
+	},
+	"settingsImportRulesButton": {
+		"message": "Regeln importieren",
+		"description": ""
+	},
+	"settingsImportRulesTitle": {
+		"message": "Regeln importieren",
+		"description": ""
+	},
+	"settingsImportRulesSelectButton": {
+		"message": "Regel Backup Datei",
+		"description": ""
+	},
+	"settingsImportRulesFrom": {
+		"message": "Von",
+		"description": ""
+	},
+	"settingsImportRulesOptionAppend": {
+		"message": "Zu bestehenden Regeln hinzufügen",
+		"description": ""
+	},
+	"settingsImportRulesOptionOverride": {
+		"message": "Aktuelle Regeln ersetzen (mit Vorsicht benutzen)",
+		"description": ""
+	},
+	"settingsImportRulesCancelButton": {
+		"message": "Abbrechen",
+		"description": ""
+	},
+	"settingsImportRulesImportButton": {
+		"message": "Importieren",
+		"description": ""
+	},
+	"settingsImportProxiesButton": {
+		"message": "Proxies importieren",
+		"description": ""
+	},
+	"settingsExportProxiesButton": {
+		"message": "Proxies exportieren",
+		"description": ""
+	},
+	"settingsImportProxiesTitle": {
+		"message": "Proxy Liste importieren",
+		"description": ""
+	},
+	"settingsImportProxiesSelectFileButton": {
+		"message": "Proxy Liste Datei",
+		"description": ""
+	},
+	"settingsImportProxiesSelectTextButton": {
+		"message": "Proxy Liste Text",
+		"description": ""
+	},
+	"settingsImportProxiesOptionAppend": {
+		"message": "Zu bestehenden Proxies hinzufügen",
+		"description": ""
+	},
+	"settingsImportProxiesOptionOverride": {
+		"message": "Aktuelle Regeln ersetzen (mit Vorsicht benutzen)",
+		"description": ""
+	},
+	"settingsImportProxiesCancelButton": {
+		"message": "Abbrechen",
+		"description": ""
+	},
+	"settingsImportProxiesImportButton": {
+		"message": "Importieren",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServers": {
+		"message": "Sind Sie sicher alle Proxy Servers zu entfernen?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServersSuccess": {
+		"message": "Alle Proxy Serves wurden entfernt.<br\/>Sie müssen speichern um die Veränderungen zu übernehmen.",
+		"description": ""
+	},
+	"settingsImportProxiesFileNotSelected": {
+		"message": "Bitte wählen sie eine Proxy Listdatei",
+		"description": ""
+	},
+	"settingsImportProxyListTextIsEmpty": {
+		"message": "Bitte geben Sie eine Proxy Liste ein",
+		"description": ""
+	},
+	"settingsImportProxyServersFailed": {
+		"message": "Proxy Servers importieren fehlgeschlagen",
+		"description": ""
+	},
+	"importerImportProxySuccess": {
+		"message": "Total {0} von {1} Proxies wurden importiert.<br>Vergessen Sie nicht die Veränderungen zu speichern.",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveServers": {
+		"message": "Servers speichern fehlgeschlagen.",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveRules": {
+		"message": "Fehler beim Speichern der Regeln.",
+		"description": ""
+	},
+	"settingsChangesReverted": {
+		"message": "Veränderungen erfolgreich rückgängig gemacht.",
+		"description": ""
+	},
+	"settingsRemoveAllRules": {
+		"message": "Sind Sie sicher alle Regeln zu entfernen?",
+		"description": ""
+	},
+	"settingsRemoveAllRulesSuccess": {
+		"message": "Alle Regeln wurden entfernt.<br\/>Sie müssen Speichern um die Veränderungen zu übernehmen.",
+		"description": ""
+	},
+	"settingsRestoreBackupFailed": {
+		"message": "Es gab einen Fehler bei der Wiederherstellung der Backup",
+		"description": ""
+	},
+	"settingsRestoreBackupFileError": {
+		"message": "Lesen der ausgewählten Datei fehlgeschlagen",
+		"description": ""
+	},
+	"settingsRulesFileNotSelected": {
+		"message": "Bitte wählen sie eine Regeldatei",
+		"description": ""
+	},
+	"settingsSourceTypeNotSelected": {
+		"message": "Bitte wählen Sie die Quellenart",
+		"description": ""
+	},
+	"settingsImportRulesFailed": {
+		"message": "Importieren der Datei fehlgeschlagen.",
+		"description": ""
+	},
+	"settingsServerNameRequired": {
+		"message": "Spezifizieren Sie den Namen des Servers!",
+		"description": ""
+	},
+	"settingsServerNameExists": {
+		"message": "Ein Server mit dem gleichen Namen existiert bereits!",
+		"description": ""
+	},
+	"settingsServerServerAddressIsEmpty": {
+		"message": "Server adresse darf nicht leer sein",
+		"description": ""
+	},
+	"settingsServerPortNoInvalid": {
+		"message": "Bitte geben Sie eine gültige Portnummer ein",
+		"description": ""
+	},
+	"settingsServerAuthenticationInvalid": {
+		"message": "Sowohl der Benutzername als auch das Passwort sind für die Authentifizierung erforderlich",
+		"description": ""
+	},
+	"settingsServersGridNoDataContent": {
+		"message": "Kein Server ist definiert",
+		"description": ""
+	},
+	"settingsServersGridColName": {
+		"message": "Name",
+		"description": ""
+	},
+	"settingsServersGridColProtocol": {
+		"message": "Protokoll",
+		"description": ""
+	},
+	"settingsServersGridColServer": {
+		"message": "Server",
+		"description": ""
+	},
+	"settingsServersGridColPort": {
+		"message": "Port",
+		"description": ""
+	},
+	"settingsServersModalTitle": {
+		"message": "Proxy Server Details",
+		"description": ""
+	},
+	"settingsServersServerName": {
+		"message": "Server Name",
+		"description": ""
+	},
+	"settingsServersSeverAddress": {
+		"message": "Sever Adresse",
+		"description": ""
+	},
+	"settingsServersProtocol": {
+		"message": "Protokoll",
+		"description": ""
+	},
+	"settingsServersPort": {
+		"message": "Port",
+		"description": ""
+	},
+	"settingsServersProxyDNS": {
+		"message": "Proxy DNS bei verwenden SOCKS v5",
+		"description": ""
+	},
+	"settingsServersUsername": {
+		"message": "Benutzername",
+		"description": ""
+	},
+	"settingsServersPassword": {
+		"message": "Passwort",
+		"description": ""
+	},
+	"settingsServersCancel": {
+		"message": "Abbrechen",
+		"description": ""
+	},
+	"settingsServersImport": {
+		"message": "Importieren",
+		"description": ""
+	},
+	"settingsRuleSourceRequired": {
+		"message": "Bitte spezifizieren Sie die Quelle der Regel!",
+		"description": ""
+	},
+	"settingsRuleSourceInvalid": {
+		"message": "quelle ist ungültig, Quellenname sollte etwas wie 'google.com' sein",
+		"description": ""
+	},
+	"settingsRuleSourceInvalidFormat": {
+		"message": "'quelle' ist nicht gültig '{0}'",
+		"description": ""
+	},
+	"settingsRuleSourceAlreadyExists": {
+		"message": "Eine Regel mit der gleichen Quelle existiert bereits!",
+		"description": ""
+	},
+	"settingsRuleHostInvalid": {
+		"message": "Host Name '{0}' ist ungültig, Host Name sollte etwas wir 'google.com' sein",
+		"description": ""
+	},
+	"settingsRulesGridNoDataContent": {
+		"message": "Keine Regel ist definiert",
+		"description": ""
+	},
+	"settingsRulesGridColSource": {
+		"message": "Quelle",
+		"description": ""
+	},
+	"settingsRulesGridColPattern": {
+		"message": "Muster",
+		"description": ""
+	},
+	"settingsRulesGridColEnabled": {
+		"message": "Aktiviert",
+		"description": ""
+	},
+	"settingsRulesGridColProxy": {
+		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsRulesProxyDefault": {
+		"message": "[Allgemein]",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSuccess": {
+		"message": "Proxy Regeln erfolgreich gespeichert.",
+		"description": ""
+	},
+	"settingsRulesModalTitle": {
+		"message": "Regeldetails",
+		"description": ""
+	},
+	"settingsRulesSourceDomain": {
+		"message": "Regel Quelle Domain",
+		"description": ""
+	},
+	"settingsRulesSourceDomainDesc": {
+		"message": "(z.B. google.com)",
+		"description": ""
+	},
+	"settingsRulesPattern": {
+		"message": "Pattern übereinstimmen",
+		"description": ""
+	},
+	"settingsRulesPatternDesc": {
+		"message": "(automatisch generiert)",
+		"description": ""
+	},
+	"settingsRulesProxyServer": {
+		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsRulesEnabled": {
+		"message": "Aktiviert",
+		"description": ""
+	},
+	"settingsRulesModalCancel": {
+		"message": "Abbrechen",
+		"description": ""
+	},
+	"settingsRulesModalSave": {
+		"message": "Speichern",
+		"description": ""
+	},
+	"settingsServerPortInvalid": {
+		"message": "Server Port '{0}' ist ungültig",
+		"description": ""
+	},
+	"settingsServerHostInvalid": {
+		"message": "Server Host '{0}' ist ungültig",
+		"description": ""
+	},
+	"settingsProxyModeInvalid": {
+		"message": "Ungültige Proxy Modus Einstellung",
+		"description": ""
+	},
+	"settingsRestoreSettingsSuccess": {
+		"message": "Einstellungen wurden erfolgreich wiederhergestellt",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailed": {
+		"message": "Es gab einen Fehler bei der Wiederherstellung der Backup",
+		"description": ""
+	},
+	"settingsEnableByDomainInvalid": {
+		"message": "Der ausgewählte Domain ist nicht gültig",
+		"description": ""
+	},
+	"settingsEnableByDomainExists": {
+		"message": "Regel für den Domain existiert bereits",
+		"description": ""
+	},
+	"settingsNoRuleFoundForDomain": {
+		"message": "Dort ist keine Regel für '{0}'",
+		"description": ""
+	},
+	"settingsRuleSourceIsEmpty": {
+		"message": "Refel 'Quelle' ist leer",
+		"description": ""
+	},
+	"importerImportSuccess": {
+		"message": "Gesamt {0} von {1} Regeln sind angehängt.<br> Vergessen Sie nicht die Veränderungen zu speichern.",
+		"description": ""
+	},
+	"settingsTabProxyServerSubscriptionsTitle": {
+		"message": "Verwalten Sie die Proxy Server Abonnemente:",
+		"description": ""
+	},
+	"settingsTabProxyServerSubscriptionsDescription": {
+		"message": "Hier können Sie zu der Proxy liste abonnieren und zwischen den Proxies später wechseln. Bitte beachten Sie dass lange Listen zur Fehler verursachen kann bei der Synchronisierung der Datei zwischen Geräten.",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveGeneral": {
+		"message": "Optionen Einstellungen speichern fehlgeschlagen.",
+		"description": ""
+	},
+	"settingsSaveOptionsSuccess": {
+		"message": "Allgemeine Einstellungen erfolgreich gespeichert.",
+		"description": ""
+	},
+	"settingsAddServerSubscriptionButton": {
+		"message": "Tragen Sie zur einer Liste ein",
+		"description": ""
+	},
+	"settingsServerSubscriptionModalTitle": {
+		"message": "Tragen Sie zur einem Proxy Server Liste ein",
+		"description": ""
+	},
+	"settingsServerSubscriptionName": {
+		"message": "Name:",
+		"description": ""
+	},
+	"settingsServerSubscriptionUrl": {
+		"message": "Url:",
+		"description": ""
+	},
+	"settingsServerSubscriptionRefreshRate": {
+		"message": "Aktualisiere Bewertung:",
+		"description": ""
+	},
+	"settingsServerSubscriptionRefreshRateHelp": {
+		"message": "(in Minuten, 0 bedeutet keine Aktualisierung)",
+		"description": ""
+	},
+	"settingsServerSubscriptionEnabled": {
+		"message": "Aktiviert",
+		"description": ""
+	},
+	"settingsServerSubscriptionProtocol": {
+		"message": "Protokoll:",
+		"description": ""
+	},
+	"settingsServerSubscriptionObfuscation": {
+		"message": "Verdunkelung:",
+		"description": ""
+	},
+	"settingsServerSubscriptionUsername": {
+		"message": "Benutzername:",
+		"description": ""
+	},
+	"settingsServerSubscriptionPassword": {
+		"message": "Passwort:",
+		"description": ""
+	},
+	"settingsServerSubscriptionAuthenticationHelp": {
+		"message": "(wenn die Liste Authentifizierung erfordert)",
+		"description": ""
+	},
+	"settingsServerSubscriptionCancelButton": {
+		"message": "Abbrechen",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveButton": {
+		"message": "Speichern",
+		"description": ""
+	},
+	"settingsServerSubscriptionSavingButton": {
+		"message": "Speichert...",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestButton": {
+		"message": "Test",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestingButton": {
+		"message": "Testet...",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServerSubscriptions": {
+		"message": "Sind Sie sicher alle Proxy Server Abonnements zu entfernen?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
+		"message": "Alle Proxy Server Abonnements wurden entfernt.<br\/>Sie müssen speichern um die Veränderungen zu übernehmen.",
+		"description": ""
+	},
+	"settingsServerSubscriptionProtocolDefault": {
+		"message": "(Automatische Erkennung mit HTTP Fallback)",
+		"description": ""
+	},
+	"settingsInitializeFailed": {
+		"message": "Konfigurationen lesen fehlgeschlagen. Bitte schließen Sie die Einstellgunsseite und versuchen Sie es noch einmal.",
+		"description": ""
+	},
+	"settingsActiveProxyServerSubscriptions": {
+		"message": "-Abonnements-",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridNoDataContent": {
+		"message": "Keine Abonnements",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColName": {
+		"message": "Name",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColUrl": {
+		"message": "Url",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColCount": {
+		"message": "Anzahl",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColEnabled": {
+		"message": "Aktiviert",
+		"description": ""
+	},
+	"settingsServerSubscriptionIncompleteForm": {
+		"message": "Bitte füllen Sie die erforderlichen Felder in der richtigen Format",
+		"description": ""
+	},
+	"settingsServerSubscriptionInvalidForm": {
+		"message": "Ungültige Proxy Server Abonnementsdetails",
+		"description": ""
+	},
+	"settingsServerSubscriptionDuplicateName": {
+		"message": "Der eingegebene Name wird bereits benutzt, bitte geben Sie einen anderen Namen ein.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveUpdated": {
+		"message": "Das Abonnement ist aktualisiert mit {0} Proxies in es.<br\/>Bitte vergessen Sie nicht die Veränderungen zu speichern.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveAdded": {
+		"message": "Das Abonnement ist mit {0} hinzugefügt Proxies in es.<br\/>Vergessen Sie nicht die Veränderungen zu speichern.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveFailedGet": {
+		"message": "Proxies erhalten fehlgeschlagen.",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestSuccess": {
+		"message": "Test war erfolgreich. Die Liste kam {0} Proxies zurück.",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestFailed": {
+		"message": "Test fehlgeschlagen",
+		"description": ""
+	},
+	"settingsSaveProxyServerSubscriptionsSuccess": {
+		"message": "Proxy Serverabonnements erfolgreich gespeichert.",
+		"description": ""
+	},
+	"settingsBypassEnableForAlways": {
+		"message": "Für den 'Immer Aktiven' Modus aktivieren",
+		"description": ""
+	},
+	"settingsBypassEnableForSystem": {
+		"message": "Für den 'System Proxy' Modus aktivieren (Nur Firefox)",
+		"description": ""
+	},
+	"settingsBypassList": {
+		"message": "Bypass Liste:",
+		"description": ""
+	},
+	"settingsBypassListHint": {
+		"message": "(Benutzen Sie neue Zeile um die Eingaben zu trennen)",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveBypass": {
+		"message": "Bypass Einstellungen speichern fehlgeschlagen.",
+		"description": ""
+	},
+	"settingsSaveBypassSuccess": {
+		"message": "Bypass Liste erfolgreich gespeichert.",
+		"description": ""
+	},
+	"settingsBypassInvalid": {
+		"message": "Ungültige Bypass Einstellungen",
+		"description": ""
+	}
+}
