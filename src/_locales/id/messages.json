@@ -1,0 +1,826 @@
+{
+	"uiDirection": {
+		"message": "ltr",
+		"description": ""
+	},
+	"extensionName": {
+		"message": "SmartProxy",
+		"description": ""
+	},
+	"extensionDescription": {
+		"message": "Smart Proxy akan secara otomatis mengaktifkan\/menonaktifkan proksi untuk situs yang Anda kunjungi, berdasarkan pola yang sudah ditentukan.",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRule": {
+		"message": "Pengaruh aturan:",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRuleNone": {
+		"message": "Pengaruh aturan: tidak ada",
+		"description": ""
+	},
+	"popupTitle": {
+		"message": "Penggiatan SmartProxy",
+		"description": ""
+	},
+	"popupNoProxy": {
+		"message": "Langsung (Tanpa Proksi)",
+		"description": ""
+	},
+	"popupSmartProxy": {
+		"message": "Proksi Pintar",
+		"description": ""
+	},
+	"popupAlwaysEnable": {
+		"message": "Selalu Diaktifkan",
+		"description": ""
+	},
+	"popupSystemProxy": {
+		"message": "Sistem Proksi",
+		"description": ""
+	},
+	"popupActiveProxy": {
+		"message": "Proksi Aktif:",
+		"description": ""
+	},
+	"popupEnableProxyOn": {
+		"message": "Aktifkan proksi pada",
+		"description": ""
+	},
+	"popupProxyableResources": {
+		"message": "Sumber Proksi",
+		"description": ""
+	},
+	"popupSettings": {
+		"message": "Pengaturan",
+		"description": ""
+	},
+	"popupSubscriptions": {
+		"message": "-Langganan-",
+		"description": ""
+	},
+	"popupUpdateText": {
+		"message": "Pembaruan ke {0} telah tersedia",
+		"description": ""
+	},
+	"popupFailedRequestsMenu": {
+		"message": "Permintaan Gagal",
+		"description": ""
+	},
+	"popupFailedRequestsTitle": {
+		"message": "Daftar Permintaan Gagal",
+		"description": ""
+	},
+	"popupFailedRequestsDesc": {
+		"message": "Berikut adalah domain batas waktu atau bisa saja gagal.<br \/>Jika Anda merasa domain ini diblokir, silakan menambahkannya ke daftar aturan proksi.",
+		"description": ""
+	},
+	"popupAddFailedRequestsConfirm": {
+		"message": "Tambahlan domain terpilih ke daftar aturan?",
+		"description": ""
+	},
+	"popupAddFailedRequests": {
+		"message": "Tambahkan Ke Daftar Peraturan",
+		"description": ""
+	},
+	"proxyableTitle": {
+		"message": "Sumber Proksi",
+		"description": ""
+	},
+	"proxyableHeader": {
+		"message": "Item proksi pada halaman ini",
+		"description": ""
+	},
+	"proxyableReload": {
+		"message": "Memuat ulang",
+		"description": ""
+	},
+	"proxyableClose": {
+		"message": "Tutup",
+		"description": ""
+	},
+	"proxyableHeaderDesc": {
+		"message": "Berikut adalah daftar sumber yang digunakan atau dipanggil dari halaman ini. Gunakan daftar ini untuk menambahkan sumber ini ke aturan penggiatan proksi.<br \/>Jika Anda tidak melihat apa pun di sini, muat ulang halaman untuk melihat sumbernya.",
+		"description": ""
+	},
+	"proxyableErrNoSourceTab": {
+		"message": "Tab sumebr tidak ditemukan!",
+		"description": ""
+	},
+	"proxyableCreateRuleConfirm": {
+		"message": "Anda yakin membuat aturan untuk domain yang dipilih",
+		"description": ""
+	},
+	"proxyableDisableButton": {
+		"message": "Nonaktifkan",
+		"description": ""
+	},
+	"proxyableEnableButton": {
+		"message": "Aktifkan",
+		"description": ""
+	},
+	"proxyableEnableButtonDomain": {
+		"message": "Aktif untuk: ",
+		"description": ""
+	},
+	"proxyableDeleteRuleConfirm": {
+		"message": "Anda yakin ingin menghapus aturan terpilih untuk:",
+		"description": ""
+	},
+	"proxyableGridNoDataContent": {
+		"message": "Tidak ada permintaan",
+		"description": ""
+	},
+	"proxyableGridColUrl": {
+		"message": "Meminta URL",
+		"description": ""
+	},
+	"proxyableGridColEnabled": {
+		"message": "Proksi",
+		"description": ""
+	},
+	"proxyableGridColSource": {
+		"message": "Pengaruh aturan",
+		"description": ""
+	},
+	"settingsTitle": {
+		"message": "Pengaturan SmartProxy",
+		"description": ""
+	},
+	"settingsTabAbout": {
+		"message": "Tentang",
+		"description": ""
+	},
+	"settingsTabGeneral": {
+		"message": "Pilihan Umum",
+		"description": ""
+	},
+	"settingsTabProxyServers": {
+		"message": "Server Proksi",
+		"description": ""
+	},
+	"settingsTabProxyRules": {
+		"message": "Peraturan Proksi",
+		"description": ""
+	},
+	"settingsTabProxyServerSubscriptions": {
+		"message": "Langganan Server Proksi",
+		"description": ""
+	},
+	"settingsTabBypass": {
+		"message": "Daftar yang Dilewatkan",
+		"description": ""
+	},
+	"settingsTabBackupRestore": {
+		"message": "Cadangkan\/Pulihkan",
+		"description": ""
+	},
+	"settingsTabUpdateText": {
+		"message": "Perbarui ke {0}",
+		"description": ""
+	},
+	"settingsTabAboutDescription": {
+		"message": "Gunakan pola untuk menerapkan aturan secara otomatis untuk penggunaan proksi pada web Anda. Dengan SmartProxy, Anda tidak perlu lagi mengubah proksi Anda secara manual. Anda dapat menambahkan situs web yang Anda inginkan ke daftar aturan proksi hanya dengan sekali klik. Setelah itu, saat Anda mengunjungi situs web tertentu, SmartProxy akan bertindak dan semua data Anda untuk situs web tersebut akan ditransfer ke proksi, tanpa Anda melakukan apapun.",
+		"description": ""
+	},
+	"settingsTabGeneralTitle": {
+		"message": "Pilihan umum dari ekstensi:",
+		"description": ""
+	},
+	"settingsTabProxyServersTitle": {
+		"message": "Mengatur server proksi Anda:",
+		"description": ""
+	},
+	"settingsTabProxyServersDescription": {
+		"message": "Berikut adalah daftar server proksi. Anda bisa memakai banyak proksi dan bisa menggantinya dari bilah alat.",
+		"description": ""
+	},
+	"settingsTabProxyRulesTitle": {
+		"message": "Kelola aturan proksi Anda:",
+		"description": ""
+	},
+	"settingsTabProxyRulesDescription": {
+		"message": "Berikut adalah daftar dari aturan yang memberikan SmartProxy wewenang untuk mengaktifkan atau tidak proksi untuk domain tertentu.<br \/>Aturan berdasarkan<a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>Kecocokan pola<\/a>.",
+		"description": ""
+	},
+	"settingsTabBypassDescription": {
+		"message": "Berikut adalah daftar inang yang tidak seharusnya menggunakan proksi.",
+		"description": ""
+	},
+	"settingsTabBackupRestoreDescription": {
+		"message": "Anda bisa membuat cadangan penuh atau sebagain untuk pengaturan.",
+		"description": ""
+	},
+	"settingsErrNoServersTitle": {
+		"message": "Tidak Ada Server!",
+		"description": ""
+	},
+	"settingsErrNoServersDescription": {
+		"message": "Sebelumnya Anda harus menentukan server proksi.",
+		"description": ""
+	},
+	"settingsGeneralSyncing": {
+		"message": "Menyinkronkan",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncing": {
+		"message": "Aktifkan pengaturan menyinkronkan",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncingDesc": {
+		"message": "Dengan mengaktifkan menyinkronkan, semua pengaturan Anda termasuk aturan, server dan langganan akan bekerja di semua peramban.",
+		"description": ""
+	},
+	"settingsSaveGeneralOptionsButton": {
+		"message": "Simpan Perubahan",
+		"description": ""
+	},
+	"settingsRejectGeneralOptionsButton": {
+		"message": "Tolak Perubahan",
+		"description": ""
+	},
+	"settingsActiveProxyServer": {
+		"message": "Server Proksi yang Aktif:",
+		"description": ""
+	},
+	"settingsAddServerButton": {
+		"message": "Tambahkan Server",
+		"description": ""
+	},
+	"settingsSaveChangesButton": {
+		"message": "Simpan Perubahan",
+		"description": ""
+	},
+	"settingsRejectChangesButton": {
+		"message": "Tolak Perubahan",
+		"description": ""
+	},
+	"settingsFullBackupButton": {
+		"message": "Membuat cadangan penuh",
+		"description": ""
+	},
+	"settingsFullBackupButtonDesc": {
+		"message": "Buat pilihan cadangan penuh (termasuk server proksi dan aturan).",
+		"description": ""
+	},
+	"settingsRulesBackupButton": {
+		"message": "Membuat peraturan cadangan",
+		"description": ""
+	},
+	"settingsRulesBackupButtonDesc": {
+		"message": "Membuat cadangan aturan proksi.",
+		"description": ""
+	},
+	"settingsRestoreBackupButton": {
+		"message": "Pulihkan cadangan",
+		"description": ""
+	},
+	"settingsRestoreBackupButtonDesc": {
+		"message": "Pulihkan cadangan yang Anda ambil sebelumnya dari berkas lokal",
+		"description": ""
+	},
+	"settingsImportExportProxiesDesc": {
+		"message": "Impor\/Ekspor secara terpisah daftar proksi dan aturan.",
+		"description": ""
+	},
+	"settingsImportProxiesButtonBackup": {
+		"message": "Impor Server Proksi",
+		"description": ""
+	},
+	"settingsExportProxiesButtonBackup": {
+		"message": "Ekspor Server Proksi",
+		"description": ""
+	},
+	"settingsImportRulesButtonBackup": {
+		"message": "Impor Peraturan Proksi",
+		"description": ""
+	},
+	"settingsAddRuleButton": {
+		"message": "Tambahkan Peraturan",
+		"description": ""
+	},
+	"settingsImportRulesButton": {
+		"message": "Impor Peraturan",
+		"description": ""
+	},
+	"settingsImportRulesTitle": {
+		"message": "Impor Peraturan",
+		"description": ""
+	},
+	"settingsImportRulesSelectButton": {
+		"message": "Berkas Cadangan Aturan",
+		"description": ""
+	},
+	"settingsImportRulesFrom": {
+		"message": "Dari",
+		"description": ""
+	},
+	"settingsImportRulesOptionAppend": {
+		"message": "Tambahkan ke aturan saat ini",
+		"description": ""
+	},
+	"settingsImportRulesOptionOverride": {
+		"message": "Gantikan aturan saat ini (pertimbangkan)",
+		"description": ""
+	},
+	"settingsImportRulesCancelButton": {
+		"message": "Batal",
+		"description": ""
+	},
+	"settingsImportRulesImportButton": {
+		"message": "Impor",
+		"description": ""
+	},
+	"settingsImportProxiesButton": {
+		"message": "Impor Proksi",
+		"description": ""
+	},
+	"settingsExportProxiesButton": {
+		"message": "Ekspor Proksi",
+		"description": ""
+	},
+	"settingsImportProxiesTitle": {
+		"message": "Impor Daftar Proksi",
+		"description": ""
+	},
+	"settingsImportProxiesSelectFileButton": {
+		"message": "Berkas daftar proksi",
+		"description": ""
+	},
+	"settingsImportProxiesSelectTextButton": {
+		"message": "Teks daftar proksi",
+		"description": ""
+	},
+	"settingsImportProxiesOptionAppend": {
+		"message": "Tambahkan ke proksi saat ini",
+		"description": ""
+	},
+	"settingsImportProxiesOptionOverride": {
+		"message": "Gantikan proksi saat ini (pertimbangkan)",
+		"description": ""
+	},
+	"settingsImportProxiesCancelButton": {
+		"message": "Batal",
+		"description": ""
+	},
+	"settingsImportProxiesImportButton": {
+		"message": "Impor",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServers": {
+		"message": "Anda yakin menghapus semua server proksi?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServersSuccess": {
+		"message": "Semua server proksi dihapus.<br\/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
+		"description": ""
+	},
+	"settingsImportProxiesFileNotSelected": {
+		"message": "Silakan pilih berkas daftar proksi",
+		"description": ""
+	},
+	"settingsImportProxyListTextIsEmpty": {
+		"message": "Masukkan daftar proksi",
+		"description": ""
+	},
+	"settingsImportProxyServersFailed": {
+		"message": "Gagal mengimpor server proksi",
+		"description": ""
+	},
+	"importerImportProxySuccess": {
+		"message": "Total {0} dari {1} proksi telah diimpor.<br>Jangan lupa untuk menyimpan perubahan.",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveServers": {
+		"message": "Gagal untuk menyimpan server.",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveRules": {
+		"message": "Gagal menyimpan aturan.",
+		"description": ""
+	},
+	"settingsChangesReverted": {
+		"message": "Berhasil mengembalikan perubahan.",
+		"description": ""
+	},
+	"settingsRemoveAllRules": {
+		"message": "Anda yakin menghapus semua aturan?",
+		"description": ""
+	},
+	"settingsRemoveAllRulesSuccess": {
+		"message": "Semua aturan dihapus.<br\/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
+		"description": ""
+	},
+	"settingsRestoreBackupFailed": {
+		"message": "Terjadi eror saat memulihkan cadangan",
+		"description": ""
+	},
+	"settingsRestoreBackupFileError": {
+		"message": "Gagal membaca berkas yang dipilih",
+		"description": ""
+	},
+	"settingsRulesFileNotSelected": {
+		"message": "Pilih berkas aturan",
+		"description": ""
+	},
+	"settingsSourceTypeNotSelected": {
+		"message": "Pilih jenis sumber",
+		"description": ""
+	},
+	"settingsImportRulesFailed": {
+		"message": "Gagal mengimpor berkas.",
+		"description": ""
+	},
+	"settingsServerNameRequired": {
+		"message": "Tentukan nama server!",
+		"description": ""
+	},
+	"settingsServerNameExists": {
+		"message": "Server dengan nama yang sama sudah ada!",
+		"description": ""
+	},
+	"settingsServerServerAddressIsEmpty": {
+		"message": "Alamat server tidak boleh kosong",
+		"description": ""
+	},
+	"settingsServerPortNoInvalid": {
+		"message": "Masukkan nomor porta yang valid",
+		"description": ""
+	},
+	"settingsServerAuthenticationInvalid": {
+		"message": "Nama pengguna dankata sandi diperlukan untuk pembuktian keaslian",
+		"description": ""
+	},
+	"settingsServersGridNoDataContent": {
+		"message": "Tidak ada server yang digunakan",
+		"description": ""
+	},
+	"settingsServersGridColName": {
+		"message": "Nama",
+		"description": ""
+	},
+	"settingsServersGridColProtocol": {
+		"message": "Protokol",
+		"description": ""
+	},
+	"settingsServersGridColServer": {
+		"message": "Server",
+		"description": ""
+	},
+	"settingsServersGridColPort": {
+		"message": "Porta",
+		"description": ""
+	},
+	"settingsServersModalTitle": {
+		"message": "Detail Server Proksi",
+		"description": ""
+	},
+	"settingsServersServerName": {
+		"message": "Nama Server",
+		"description": ""
+	},
+	"settingsServersSeverAddress": {
+		"message": "Alamat Server",
+		"description": ""
+	},
+	"settingsServersProtocol": {
+		"message": "Protokol",
+		"description": ""
+	},
+	"settingsServersPort": {
+		"message": "Porta",
+		"description": ""
+	},
+	"settingsServersProxyDNS": {
+		"message": "DNS Proksi ketika menggunakan SOCKS v5",
+		"description": ""
+	},
+	"settingsServersUsername": {
+		"message": "Nama pengguna",
+		"description": ""
+	},
+	"settingsServersPassword": {
+		"message": "Kata sandi",
+		"description": ""
+	},
+	"settingsServersCancel": {
+		"message": "Batal",
+		"description": ""
+	},
+	"settingsServersImport": {
+		"message": "Impor",
+		"description": ""
+	},
+	"settingsRuleSourceRequired": {
+		"message": "Tentukan sumber aturannya!",
+		"description": ""
+	},
+	"settingsRuleSourceInvalid": {
+		"message": "sumber tidak valid, nam sumber harus seperti 'google.com'",
+		"description": ""
+	},
+	"settingsRuleSourceInvalidFormat": {
+		"message": "'sumber' tidak valid '{0}'",
+		"description": ""
+	},
+	"settingsRuleSourceAlreadyExists": {
+		"message": "Aturan dengan sumber yang sama sudah ada!",
+		"description": ""
+	},
+	"settingsRuleHostInvalid": {
+		"message": "Nama nang '{0}' tidak valid, nama inang harus seperti 'google.com'",
+		"description": ""
+	},
+	"settingsRulesGridNoDataContent": {
+		"message": "Tidak ada aturan yang digunakan",
+		"description": ""
+	},
+	"settingsRulesGridColSource": {
+		"message": "Sumber",
+		"description": ""
+	},
+	"settingsRulesGridColPattern": {
+		"message": "Pola",
+		"description": ""
+	},
+	"settingsRulesGridColEnabled": {
+		"message": "Diaktifkan",
+		"description": ""
+	},
+	"settingsRulesGridColProxy": {
+		"message": "Server Proksi",
+		"description": ""
+	},
+	"settingsRulesProxyDefault": {
+		"message": "[General]",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSuccess": {
+		"message": "Berhasil menyimpan aturan proksi.",
+		"description": ""
+	},
+	"settingsRulesModalTitle": {
+		"message": "Detail Aturan",
+		"description": ""
+	},
+	"settingsRulesSourceDomain": {
+		"message": "Domain Sumber Aturan",
+		"description": ""
+	},
+	"settingsRulesSourceDomainDesc": {
+		"message": "(cth. google.com)",
+		"description": ""
+	},
+	"settingsRulesPattern": {
+		"message": "Mencocokkan Pola",
+		"description": ""
+	},
+	"settingsRulesPatternDesc": {
+		"message": "(dihasilkan secara otomatis)",
+		"description": ""
+	},
+	"settingsRulesProxyServer": {
+		"message": "Server Proksi",
+		"description": ""
+	},
+	"settingsRulesEnabled": {
+		"message": "Aktifkan",
+		"description": ""
+	},
+	"settingsRulesModalCancel": {
+		"message": "Batal",
+		"description": ""
+	},
+	"settingsRulesModalSave": {
+		"message": "Simpan",
+		"description": ""
+	},
+	"settingsServerPortInvalid": {
+		"message": "Porta server '{0}' tidak valid",
+		"description": ""
+	},
+	"settingsServerHostInvalid": {
+		"message": "Inang server '{0}' tidak valid",
+		"description": ""
+	},
+	"settingsProxyModeInvalid": {
+		"message": "Mode pengaturan proksi tidak valid",
+		"description": ""
+	},
+	"settingsRestoreSettingsSuccess": {
+		"message": "Berhasil memulihkan pengaturan",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailed": {
+		"message": "Terjadi eror dalam pemulihan pengaturan",
+		"description": ""
+	},
+	"settingsEnableByDomainInvalid": {
+		"message": "Domain yang dipilih tidak valid",
+		"description": ""
+	},
+	"settingsEnableByDomainExists": {
+		"message": "Aturan untuk domain sudah ada",
+		"description": ""
+	},
+	"settingsNoRuleFoundForDomain": {
+		"message": "Tidak ada aturan untuk '{0}'",
+		"description": ""
+	},
+	"settingsRuleSourceIsEmpty": {
+		"message": "'Sumber' aturan kosong",
+		"description": ""
+	},
+	"importerImportSuccess": {
+		"message": "Total {0} dari {1} aturan ditambahkan.<br>Jangan lupa untuk menyimpan perubahan.",
+		"description": ""
+	},
+	"settingsTabProxyServerSubscriptionsTitle": {
+		"message": "Kelola langganan server proksi:",
+		"description": ""
+	},
+	"settingsTabProxyServerSubscriptionsDescription": {
+		"message": "Di sini Anda bisa berlangganan daftar proksi dan beralih di antara proksi kemudian. Harap dicatat bahwa daftar panjang dapat menyebabkan kegagalan dalam menyinkronkan data antar perangkat.",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveGeneral": {
+		"message": "Gagal menyimpan pengaturan pilihan.",
+		"description": ""
+	},
+	"settingsSaveOptionsSuccess": {
+		"message": "Berhasil menyimpan pilihan umum.",
+		"description": ""
+	},
+	"settingsAddServerSubscriptionButton": {
+		"message": "Berlangganan ke daftar",
+		"description": ""
+	},
+	"settingsServerSubscriptionModalTitle": {
+		"message": "Berlangganan ke daftar server proksi",
+		"description": ""
+	},
+	"settingsServerSubscriptionName": {
+		"message": "Nama:",
+		"description": ""
+	},
+	"settingsServerSubscriptionUrl": {
+		"message": "URL:",
+		"description": ""
+	},
+	"settingsServerSubscriptionRefreshRate": {
+		"message": "Frekuensi Penyegaran:",
+		"description": ""
+	},
+	"settingsServerSubscriptionRefreshRateHelp": {
+		"message": "(dalam menit, 0 berarti tidak ada penyegaran)",
+		"description": ""
+	},
+	"settingsServerSubscriptionEnabled": {
+		"message": "Diaktifkan",
+		"description": ""
+	},
+	"settingsServerSubscriptionProtocol": {
+		"message": "Protokol:",
+		"description": ""
+	},
+	"settingsServerSubscriptionObfuscation": {
+		"message": "Membingungkan:",
+		"description": ""
+	},
+	"settingsServerSubscriptionUsername": {
+		"message": "Nama pengguna:",
+		"description": ""
+	},
+	"settingsServerSubscriptionPassword": {
+		"message": "Kata sandi:",
+		"description": ""
+	},
+	"settingsServerSubscriptionAuthenticationHelp": {
+		"message": "(jika daftar membutuhkan pembuktian keaslian)",
+		"description": ""
+	},
+	"settingsServerSubscriptionCancelButton": {
+		"message": "Batal",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveButton": {
+		"message": "Simpan",
+		"description": ""
+	},
+	"settingsServerSubscriptionSavingButton": {
+		"message": "Menyimpan...",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestButton": {
+		"message": "Tes",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestingButton": {
+		"message": "Pengujian...",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServerSubscriptions": {
+		"message": "Anda yakin menghapus semua langganan server proksi?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
+		"message": "Semua langganan server proksi dihapus.<br\/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
+		"description": ""
+	},
+	"settingsServerSubscriptionProtocolDefault": {
+		"message": "(Secara otomatis mendeteksi jika HTTP bermasalah)",
+		"description": ""
+	},
+	"settingsInitializeFailed": {
+		"message": "Gagal membaca pengaturan. Harap tutup halaman pengaturan dan coba lagi.",
+		"description": ""
+	},
+	"settingsActiveProxyServerSubscriptions": {
+		"message": "-Langganan-",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridNoDataContent": {
+		"message": "Tidak ada langganan",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColName": {
+		"message": "Nama",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColUrl": {
+		"message": "URL",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColCount": {
+		"message": "Jumlah",
+		"description": ""
+	},
+	"settingsServerSubscriptionsGridColEnabled": {
+		"message": "Aktifkan",
+		"description": ""
+	},
+	"settingsServerSubscriptionIncompleteForm": {
+		"message": "Silakan isi kolom dengan format yang benar",
+		"description": ""
+	},
+	"settingsServerSubscriptionInvalidForm": {
+		"message": "Detail langganan server proksi tidak valid",
+		"description": ""
+	},
+	"settingsServerSubscriptionDuplicateName": {
+		"message": "Nama yang dimasukkan sudah digunakan, masukkan nama lain.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveUpdated": {
+		"message": "Langganan diperbarui dengan proksi {0} di dalamnya.<br\/>Jangan lupa menyimpan perubahan.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveAdded": {
+		"message": "Langganan telah ditambahkan dengan proksi {0} di dalamnya.<br\/>Jangan lupa menyimpan perubahan.",
+		"description": ""
+	},
+	"settingsServerSubscriptionSaveFailedGet": {
+		"message": "Gagal mendapatkan proksi.",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestSuccess": {
+		"message": "Pengujian berhasil. Daftar mengembalikan {0} proksi.",
+		"description": ""
+	},
+	"settingsServerSubscriptionTestFailed": {
+		"message": "Pengujian gagal",
+		"description": ""
+	},
+	"settingsSaveProxyServerSubscriptionsSuccess": {
+		"message": "Berhasil menyimpan langganan server proksi.",
+		"description": ""
+	},
+	"settingsBypassEnableForAlways": {
+		"message": "Aktifkan mode 'Selalu Diaktifkan'",
+		"description": ""
+	},
+	"settingsBypassEnableForSystem": {
+		"message": "Aktifkan mode 'Sistem Proksi' (hanya Firefox)",
+		"description": ""
+	},
+	"settingsBypassList": {
+		"message": "Daftar yang dilewatkan:",
+		"description": ""
+	},
+	"settingsBypassListHint": {
+		"message": "(Gunakan baris baru untuk memisahkan entri)",
+		"description": ""
+	},
+	"settingsErrorFailedToSaveBypass": {
+		"message": "Gagal menyimpan pengaturan yang dilewatkan.",
+		"description": ""
+	},
+	"settingsSaveBypassSuccess": {
+		"message": "Berhasil menyimpan daftar yang dilewatkan.",
+		"description": ""
+	},
+	"settingsBypassInvalid": {
+		"message": "Pengaturan yang dilewatkan tidak valid",
+		"description": ""
+	}
+}
