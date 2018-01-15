@@ -85,7 +85,7 @@ const polyfill = {
 	// signal proxy is ready
 	initialize();
 
-
+	
 	function handleMessages(message, sender, sendResponse) {
 
 		if (typeof (message) == "object") {
@@ -184,10 +184,6 @@ const polyfill = {
 						type: activeProxyServer.protocol,
 						host: activeProxyServer.host,
 						port: activeProxyServer.port,
-						proxyDNS: activeProxyServer.proxyDNS,
-						// Note: username and password are not effective for HTTP and HTTPS, for them `webRequest.onAuthRequired` is used
-						username : activeProxyServer.username,
-						password : activeProxyServer.password
 					}];
 
 				case "SOCKS5":

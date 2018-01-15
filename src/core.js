@@ -115,7 +115,7 @@ let settings = {
 				if (sendResponse) {
 
 					let proxyInitData = internal.getDataForProxyScript();
-					
+
 					// send the rules
 					sendResponse(proxyInitData);
 				}
@@ -1003,10 +1003,9 @@ let settings = {
 		startMonitor: function () {
 			if (environment.chrome) {
 				// chrome supports asyncBlocking
-				browser.webRequest.onAuthRequired.addListener(webRequestProxyAuthentication.onAuthRequired,
+				browser.webRequest.onAuthRequired.addListener(webRequestProxyAuthentication.onAuthRequiredChromeAsync,
 					{ urls: ["<all_urls>"] },
-					//["asyncBlocking"]
-					["blocking"]
+					["asyncBlocking"]
 				);
 			} else {
 				browser.webRequest.onAuthRequired.addListener(webRequestProxyAuthentication.onAuthRequired,
@@ -1025,11 +1024,12 @@ let settings = {
 				{ urls: ["<all_urls>"] }
 			);
 		},
-		onAuthRequired: function (requestDetails/*, asyncCallback*/) {
+		onAuthRequiredChromeAsync: function (requestDetails, asyncCallback) {
 			if (!requestDetails.isProxy) {
+				asyncCallback({});
 				return {};
 			}
-			let asyncCallback = null;
+
 			let applyAuthentication = (settings.proxyMode !== proxyModeType.direct) &&
 				(settings.proxyMode !== proxyModeType.systemProxy);
 
@@ -1083,6 +1083,40 @@ let settings = {
 					authCredentials: { username: activeProxy.username, password: activeProxy.password }
 				};
 			}
+		},
+		onAuthRequired: function (requestDetails) {
+			if (!requestDetails.isProxy) {
+				return {};
+			}
+
+			let applyAuthentication = (settings.proxyMode !== proxyModeType.direct) &&
+				(settings.proxyMode !== proxyModeType.systemProxy);
+
+			let activeProxy = settings.activeProxyServer;
+
+			if (applyAuthentication &&
+				activeProxy &&
+				activeProxy.username && activeProxy.password)
+				applyAuthentication = true;
+			else
+				applyAuthentication = false;
+
+			// check if authentication is required
+			if (!applyAuthentication) {
+				return {};
+			}
+
+			// check if authentication is already provided
+			if (webRequestProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+				return { cancel: true };
+			}
+
+			// add this request to pending list
+			webRequestProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
+
+			return {
+				authCredentials: { username: activeProxy.username, password: activeProxy.password }
+			};
 		},
 		onRequestFinished: function (requestDetails) {
 			delete webRequestProxyAuthentication.pendingRequests[requestDetails.requestId];
