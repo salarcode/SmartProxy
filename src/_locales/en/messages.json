@@ -507,6 +507,10 @@
 		"message": "Cancel",
 		"description": ""
 	},
+	"settingsServersSave": {
+		"message": "Save",
+		"description": ""
+	},
 	"settingsServersImport": {
 		"message": "Import",
 		"description": ""
