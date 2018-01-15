@@ -115,7 +115,7 @@ let settings = {
 				if (sendResponse) {
 
 					let proxyInitData = internal.getDataForProxyScript();
-
+					
 					// send the rules
 					sendResponse(proxyInitData);
 				}
@@ -1005,7 +1005,8 @@ let settings = {
 				// chrome supports asyncBlocking
 				browser.webRequest.onAuthRequired.addListener(webRequestProxyAuthentication.onAuthRequired,
 					{ urls: ["<all_urls>"] },
-					["asyncBlocking"]
+					//["asyncBlocking"]
+					["blocking"]
 				);
 			} else {
 				browser.webRequest.onAuthRequired.addListener(webRequestProxyAuthentication.onAuthRequired,
@@ -1024,8 +1025,11 @@ let settings = {
 				{ urls: ["<all_urls>"] }
 			);
 		},
-		onAuthRequired: function (requestDetails, asyncCallback) {
-
+		onAuthRequired: function (requestDetails/*, asyncCallback*/) {
+			if (!requestDetails.isProxy) {
+				return {};
+			}
+			let asyncCallback = null;
 			let applyAuthentication = (settings.proxyMode !== proxyModeType.direct) &&
 				(settings.proxyMode !== proxyModeType.systemProxy);
 
@@ -1871,7 +1875,8 @@ let settings = {
 					backupProxyMode = restoreProxyModeResult.result;
 				}
 				if (backupData["bypass"] != null &&
-					typeof (backupData.bypass) == "string") {
+					typeof (backupData.bypass) == "object" &&
+					Array.isArray(backupData.bypass.bypassList)) {
 
 					let restoreProxyModeResult = restoreBypass(backupData.bypass);
 
@@ -2455,7 +2460,8 @@ let settings = {
 				proxyRules: settings.proxyRules,
 				proxyMode: settings.proxyMode,
 				activeProxyServer: settings.activeProxyServer,
-				useNewReturnFormat: !environment.chrome && (environment.version >= environment.bugFreeVersions.firefoxNewPacScriptReturnData)
+				useNewReturnFormat: !environment.chrome && (environment.version >= environment.bugFreeVersions.firefoxNewPacScriptReturnData),
+				bypass: settings.bypass
 			};
 		},
 		getDataForSettingsUi: function () {
