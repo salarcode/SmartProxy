@@ -260,7 +260,7 @@
 		"description": ""
 	},
 	"settingsFullBackupButtonDesc": {
-		"message": "、创建选项的完整备份（包括代理服务器和规则）。",
+		"message": "创建选项的完整备份（包括代理服务器和规则）。",
 		"description": ""
 	},
 	"settingsRulesBackupButton": {
