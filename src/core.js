@@ -73,7 +73,7 @@ let settings = {
 	const proxyScriptURL = "core-firefox-proxy.js";
 	const proxyScriptExtentionURL = browser.runtime.getURL(proxyScriptURL);
 	let currentTab = null;
-    let currentOptionsSyncSettings = false;
+	let currentOptionsSyncSettings = false;
 
 	// -------------------------
 	function setDebug(isDebug) {
@@ -1433,9 +1433,9 @@ let settings = {
 						} else {
 							// sync is disabled
 							syncedSettings.options.syncSettings = false;
-                        }
+						}
 
-                        currentOptionsSyncSettings = syncedSettings.options.syncSettings;
+						currentOptionsSyncSettings = syncedSettings.options.syncSettings;
 					}
 				} catch (e) {
 					debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
@@ -1475,9 +1475,9 @@ let settings = {
 						} else {
 							// sync is disabled
 							syncedSettings.options.syncSettings = false;
-                        }
+						}
 
-                        currentOptionsSyncSettings = syncedSettings.options.syncSettings;
+						currentOptionsSyncSettings = syncedSettings.options.syncSettings;
 					}
 				} catch (e) {
 					debug.error(`settingsOperation.onGetSyncData error: ${e} \r\n ${data}`);
@@ -1630,11 +1630,11 @@ let settings = {
 
 			});
 		},
-        saveAllSync: function () {
-            if (!settings.options.syncSettings &&
-                !currentOptionsSyncSettings) {
-                return;
-            }
+		saveAllSync: function () {
+			if (!settings.options.syncSettings &&
+				!currentOptionsSyncSettings) {
+				return;
+			}
 
 			// before anything save everything in local
 			settingsOperation.saveAllLocal(true);
@@ -1643,9 +1643,9 @@ let settings = {
 
 			try {
 				polyfill.storageSyncSet(saveObject,
-                    function() {
-                        currentOptionsSyncSettings = settings.options.syncSettings;
-                    },
+					function () {
+						currentOptionsSyncSettings = settings.options.syncSettings;
+					},
 					function (error) {
 						debug.error(`settingsOperation.saveAllSync error: ${error.message} ` + saveObject);
 					});
@@ -1801,7 +1801,7 @@ let settings = {
 						return validateResult;
 					}
 
-				// good
+					// good
 					upcomingServers.push(server);
 				}
 
@@ -1822,7 +1822,7 @@ let settings = {
 						return validateResult;
 					}
 
-				// good
+					// good
 					upcomingRules.push(rule);
 				}
 
@@ -2213,7 +2213,7 @@ let settings = {
 
 				let rule = proxyRules.getRuleBySource(domain);
 
-			// don't add if it is already there
+				// don't add if it is already there
 				if (rule == null)
 					proxyRules.addDomain(domain);
 			}
@@ -2339,11 +2339,11 @@ let settings = {
 			for (let subscription of settings.proxyServerSubscriptions) {
 				if (!subscription.enabled) continue;
 
-			// refresh is not requested
+				// refresh is not requested
 				if (!(subscription.refreshRate > 0))
 					continue;
 
-			// it should be active, don't remove it
+				// it should be active, don't remove it
 				serverExistingNames.push(subscription.name);
 
 				let shouldCreate = false;
