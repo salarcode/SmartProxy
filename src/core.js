@@ -73,6 +73,7 @@ let settings = {
 	const proxyScriptURL = "core-firefox-proxy.js";
 	const proxyScriptExtentionURL = browser.runtime.getURL(proxyScriptURL);
 	let currentTab = null;
+    let currentOptionsSyncSettings = false;
 
 	// -------------------------
 	function setDebug(isDebug) {
@@ -1432,7 +1433,9 @@ let settings = {
 						} else {
 							// sync is disabled
 							syncedSettings.options.syncSettings = false;
-						}
+                        }
+
+                        currentOptionsSyncSettings = syncedSettings.options.syncSettings;
 					}
 				} catch (e) {
 					debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
@@ -1472,7 +1475,9 @@ let settings = {
 						} else {
 							// sync is disabled
 							syncedSettings.options.syncSettings = false;
-						}
+                        }
+
+                        currentOptionsSyncSettings = syncedSettings.options.syncSettings;
 					}
 				} catch (e) {
 					debug.error(`settingsOperation.onGetSyncData error: ${e} \r\n ${data}`);
@@ -1625,10 +1630,11 @@ let settings = {
 
 			});
 		},
-		saveAllSync: function () {
-			if (!settings.options.syncSettings)
-				// only sync when enabled
-				return;
+        saveAllSync: function () {
+            if (!settings.options.syncSettings &&
+                !currentOptionsSyncSettings) {
+                return;
+            }
 
 			// before anything save everything in local
 			settingsOperation.saveAllLocal(true);
@@ -1637,7 +1643,9 @@ let settings = {
 
 			try {
 				polyfill.storageSyncSet(saveObject,
-					null,
+                    function() {
+                        currentOptionsSyncSettings = settings.options.syncSettings;
+                    },
 					function (error) {
 						debug.error(`settingsOperation.saveAllSync error: ${error.message} ` + saveObject);
 					});
