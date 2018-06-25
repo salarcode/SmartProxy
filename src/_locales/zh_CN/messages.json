@@ -24,7 +24,7 @@
 		"description": ""
 	},
 	"popupNoProxy": {
-		"message": "直连 (无代理)",
+		"message": "直接连接",
 		"description": ""
 	},
 	"popupSmartProxy": {
@@ -32,7 +32,7 @@
 		"description": ""
 	},
 	"popupAlwaysEnable": {
-		"message": "一直代理",
+		"message": "始终代理",
 		"description": ""
 	},
 	"popupSystemProxy": {
@@ -300,11 +300,11 @@
 		"description": ""
 	},
 	"settingsImportRulesButton": {
-		"message": "导出规则",
+		"message": "导入规则",
 		"description": ""
 	},
 	"settingsImportRulesTitle": {
-		"message": "导出规则",
+		"message": "导入规则",
 		"description": ""
 	},
 	"settingsImportRulesSelectButton": {
@@ -800,7 +800,7 @@
 		"description": ""
 	},
 	"settingsBypassEnableForAlways": {
-		"message": "在「总是代理」模式中启用",
+		"message": "在「始终代理」模式中启用",
 		"description": ""
 	},
 	"settingsBypassEnableForSystem": {
