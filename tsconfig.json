@@ -1,0 +1,19 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"outDir": "build/dist",
+		"typeRoots": [ "node_modules/@types", "node_modules/web-ext-types" ],
+		"noImplicitAny": false,
+		"noEmitOnError": true,
+		"removeComments": false,
+		"sourceMap": true,
+		"module": "es6",
+		"lib": [ "es6", "dom" ],
+		"strictNullChecks": true,
+		"noUnusedLocals": true
+	},
+	"exclude": [
+		"node_modules",
+		"wwwroot"
+	]
+}

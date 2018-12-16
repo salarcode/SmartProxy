@@ -8,5 +8,8 @@
     "lint": "eslint ./src",
     "test": "npm run lint"
   },
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "web-ext-types": "^3.0.0"
+  }
 }
