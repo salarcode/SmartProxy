@@ -7,6 +7,17 @@
  * [Firefox Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy) [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/)
  * [Chrome Extension](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj) [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/jogcnplbkgkfdakgdenhlpcfhjioidoj.svg)](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj)
 
+#### Upcoming release
+
+Currently I'm rewriting the proxy from grownd up using Typescript and I'm also implementing the *smart features* that was the initial intention of this extension.
+
+* Apply proxy to a certain tab and all resources in it.
+* UI will be based on Bootstrap 4.
+* More proxy server options.
+* More proxy rule options.
+
+It is buggy and is in its early stage and may not even load, but you can find it here: https://github.com/salarcode/SmartProxy/tree/SmartProxy-ts
+
 #### What is SmartProxy
 SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions technology.
 
