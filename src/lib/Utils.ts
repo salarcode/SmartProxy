@@ -1,4 +1,5 @@
-﻿import { browser, jQuery} from "./environment";
+﻿import { browser} from "./Environment";
+import { jQuery } from "./External";
 
 export class Utils {
 	public static removeDuplicates(originalArray: string[], prop: string) {

@@ -40,7 +40,6 @@ export let environment = {
 
 export declare var chrome: any;
 export declare var browser: any;
-export declare var jQuery: any;
 
 // Google Chrome polyfill
 if (typeof browser === "undefined") {

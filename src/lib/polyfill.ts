@@ -105,7 +105,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static runtimeSendMessage(message, success, fail, options, extensionId) {
+	public static runtimeSendMessage(message, success, fail, options, extensionId?) {
 		if (environment.chrome) {
 			if (options != null) {
 				// deleting firefox specific property of sending message to PAC
@@ -130,7 +130,7 @@ export class PolyFill {
 			).then(success, fail);
 		}
 	}
-	public static managementGetSelf(success, fail) {
+	public static managementGetSelf(success, fail?) {
 		if (environment.chrome) {
 			chrome.management.getSelf(
 				response => {
