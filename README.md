@@ -9,7 +9,7 @@
 
 #### Upcoming release
 
-Currently I'm rewriting the proxy from grownd up using Typescript and I'm also implementing the *smart features* that was the initial intention of this extension.
+Currently I'm rewriting the proxy from ground up using Typescript and I'm also implementing the *smart features* that was the initial intention of this extension.
 
 * Apply proxy to a certain tab and all resources in it.
 * UI will be based on Bootstrap 4.
