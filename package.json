@@ -12,7 +12,11 @@
   },
   "scripts": {
     "lint": "eslint ./src",
-    "build": "webpack",
+    "build": "webpack --env.browser=chrome",
+    "build-ff": "webpack --env.browser=firefox",
+    "build-ch": "webpack --env.browser=chrome",
+    "build-ff:watch": "webpack --watch --env.browser=firefox",
+    "build-ch:watch": "webpack --watch --env.browser=chrome",
     "test": "npm run lint"
   },
   "license": "GPL-3.0",

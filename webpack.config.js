@@ -8,43 +8,50 @@ if (process.env.NODE_ENV == null) {
 }
 const ENV = process.env.ENV = process.env.NODE_ENV;
 
-const plugins = [
+let plugins = [
   new CleanWebpackPlugin([
     path.resolve(__dirname, 'build/*'),
   ]),
   new CopyWebpackPlugin([
-    './src/manifest.json',
     { from: './src/_locales', to: '_locales' },
     { from: './src/icons', to: 'icons' },
     { from: './src/ui', to: 'ui', ignore: ['code/*'] },
   ]),
 ];
-module.exports = {
-  mode: ENV,
-  entry: {
-    'core': './src/core/Core.ts',
-    'ui/code/popup': './src/ui/code/popup.ts',
-    'ui/code/settings': './src/ui/code/settings.ts',
-  },
-  // devtool: 'inline-source-map',
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
-      }
-    ]
-  },
-  resolve: {
-    extensions: ['.ts', '.js']
-  },
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'build'),
-  },
-  optimization: {
-    minimize: false
-  },
-  plugins: plugins
+
+module.exports = function (args) {
+
+  let browserType = args["browser"] || "chrome";
+  plugins.push(new CopyWebpackPlugin([{ from: `./src/manifest-${browserType}.json`, to: 'manifest.json' }]));
+
+  return {
+    mode: ENV,
+    entry: {
+      'core': './src/core/Core.ts',
+      'ui/code/popup': './src/ui/code/popup.ts',
+      'ui/code/settings': './src/ui/code/settings.ts',
+    },
+    devtool: '',
+    // devtool: 'inline-source-map',
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/
+        }
+      ]
+    },
+    resolve: {
+      extensions: ['.ts', '.js']
+    },
+    output: {
+      filename: '[name].js',
+      path: path.resolve(__dirname, 'build'),
+    },
+    optimization: {
+      minimize: false
+    },
+    plugins: plugins
+  }
 };

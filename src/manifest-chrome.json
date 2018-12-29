@@ -36,12 +36,12 @@
 		}
 	},
 	"background": {
-		"scripts": [ "core-common.js", "core-utils.js", "core-polyfill.js", "core-chrome-proxy.js", "pako.min.js", "core.js" ]
+		"scripts": [ "core.js" ]
 	},
 	"options_ui": {
 		"page": "ui/settings.html",
 		"open_in_tab": true,
 		"chrome_style": false
 	},
-	"minimum_chrome_version": "58"
+	"minimum_chrome_version": "60"
 }

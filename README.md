@@ -26,24 +26,33 @@ What's more, SmartProxy is inspired by AutoProxy and AutoProxy-ng and that are n
 If you are interested to have SmartProxy in your language or it is not translated completely you can head to https://crowdin.com/project/smartproxy then login with Google or Github and there by clicking your language start translating right away.
 
 #### How to build/test:
-You don't need to build to test the extension, but if you want you should run Travsis.
-To debug and test in Firefox create a copy of "manifest-firefox.json" and name it "manifest.json". For Chrome do the same but use "manifest-chrome.json" to create the copy.
+Requirements
+
+    Node.js
+    Firefox or Chrome browser
+
+Run the app
+
+    npm install
+    npm run build-ff:watch
 
 To install in **Firefox** follow these instructions:
 
 https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Temporary_Installation_in_Firefox
 
-1.	open Firefox
-2.	enter "about:debugging" in the URL bar
-3.	click "Load Temporary Add-on"
-4.	open the extension's directory and select any file inside the extension.
+1.	build the project using `npm run build-ff` command
+2.	open Firefox
+3.	enter "about:debugging" in the URL bar
+4.	click "Load Temporary Add-on"
+5.	open the extension's 'build' directory and select any file inside the extension.
 
 To install in **Google Chrome** follow these instructions:
 
 https://developer.chrome.com/extensions/getstarted#unpacked
 
-1.	Open the Extension Management page by navigating to chrome://extensions.
-2.	The Extension Management page can also be opened by clicking on the Chrome menu, hovering over More Tools then selecting Extensions.
-3.	Enable Developer Mode by clicking the toggle switch next to Developer mode.
-4.	Click the LOAD UNPACKED button and select the extension directory.
+1.	build the project using `npm run build-ch` command
+2.	Open the Extension Management page by navigating to chrome://extensions.
+3.	The Extension Management page can also be opened by clicking on the Chrome menu, hovering over More Tools then selecting Extensions.
+4.	Enable Developer Mode by clicking the toggle switch next to Developer mode.
+5.	Click the LOAD UNPACKED button and select the extension's 'build' directory.
 
