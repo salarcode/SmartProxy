@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <!--
   - This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
-  - Copyright (C) 2017 Salar Khalilzadeh <salar2k@gmail.com>
+  - Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
   -
   - SmartProxy is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -18,8 +18,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title data-localize="settingsTitle">SmartProxy Settings</title>
+	<title>SmartProxy Settings</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/font-awesome.min.css" rel="stylesheet" />
 	<link href="css/common.css" rel="stylesheet" />
@@ -27,115 +26,66 @@
 	<link href="css/jsgrid-theme.min.css" rel="stylesheet" />
 	<link href="css/noty.css" rel="stylesheet" />
 	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/jsgrid.bootstrap.js"></script>
 	<script src="js/noty.min.js"></script>
 	<script src="js-ext/messageBox.js"></script>
-	<script src="../core-common.js"></script>
-	<script src="../core-utils.js"></script>
-	<script src="../core-polyfill.js"></script>
-	<script src="../core-parser.js"></script>
 	<script src="settings.js"></script>
 </head>
 <body>
 	<div class="container p-2 pt-3">
 		<div class="row">
-			<div id="divRestartRequired" style="display: none">
-				<div class="alert alert-danger" role="alert">
-					Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
-					any changes require restart. Please restart Firefox. Sorry for inconvenience.
-				</div>
-			</div>
-
-			<div class="col-sm-4 col-sm-3">
+			<div class="col-sm-4 col-md-3 col-3">
 				<h2 class="slogan">
-
 					<img src="../icons/smartproxy-48.png" />
 					<br />
-					<span data-localize="extensionName">SmartProxy</span>
+					SmartProxy
 				</h2>
 				<br />
-				<ul class="nav nav-pills nav-stacked" role="tablist">
-					<li role="presentation" class="active">
-						<a href="#tab-about" aria-controls="about" role="tab" data-toggle="tab">
-							<i class="fa fa-cog fa-lg text-primary" aria-hidden="true"></i>
-							<span data-localize="settingsTabAbout">About</span>
-						</a>
-					</li>
-					<li role="presentation">
-						<a href="#tab-general" aria-controls="general" role="tab" data-toggle="tab">
-							<i class="fa fa-wrench fa-lg text-success" aria-hidden="true"></i>
-							<span data-localize="settingsTabGeneral">General Options</span>
-						</a>
-					</li>
-					<li role="presentation">
-						<a href="#tab-servers" aria-controls="servers" role="tab" data-toggle="tab">
-							<i class="fa fa-server fa-lg text-secondary" aria-hidden="true"></i>
-							<span data-localize="settingsTabProxyServers">Proxy Servers</span>
-						</a>
-					</li>
-					<li role="presentation">
-						<a href="#tab-rules" aria-controls="rules" role="tab" data-toggle="tab">
-							<i class="fa fa-magic fa-lg text-warning" aria-hidden="true"></i>
-							<span data-localize="settingsTabProxyRules">Proxy Rules</span>
-						</a>
-					</li>
-					<li role="presentation">
-						<a href="#tab-server-subscriptions" aria-controls="proxy-server-subscriptions" role="tab" data-toggle="tab">
-							<i class="fa fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
-							<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
-						</a>
-					</li>
-					<li role="presentation">
-						<a href="#tab-bypass" aria-controls="bypass" role="tab" data-toggle="tab">
-							<i class="fa fa-hand-paper-o fa-lg text-secondary" aria-hidden="true"></i>
-							<span data-localize="settingsTabBypass">Bypass List</span>
-						</a>
-					</li>
-					<li role="presentation">
-						<a href="#tab-backup" aria-controls="backup-restore" role="tab" data-toggle="tab">
-							<i class="fa fa-life-ring fa-lg text-success" aria-hidden="true"></i>
-							<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
-						</a>
-					</li>
-					<li role="presentation" id="divUpdateIsAvailable" style="display: none">
-						<a href="#" target="_blank">
-							<i class="fa fa-star fa-lg text-danger" aria-hidden="true"></i>
-							<span>Update text</span>
-						</a>
-					</li>
-				</ul>
+				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+					<a class="nav-link active" id="tab-general-tab" data-toggle="pill" href="#tab-general" role="tab" aria-controls="tab-general" aria-expanded="true">
+						<i class="fa fa-cog fa-lg text-primary" aria-hidden="true"></i>
+						About
+					</a>
+					<a class="nav-link" id="tab-servers-tab" data-toggle="pill" href="#tab-servers" role="tab" aria-controls="tab-servers" aria-expanded="true">
+						<i class="fa fa-server fa-lg text-secondary" aria-hidden="true"></i>
+
+						Proxy Servers
+					</a>
+					<a class="nav-link" id="tab-rules-tab" data-toggle="pill" href="#tab-rules" role="tab" aria-controls="tab-rules" aria-expanded="true">
+						<i class="fa fa-magic fa-lg text-warning" aria-hidden="true"></i>
+
+						Proxy Rules
+					</a>
+					<a class="nav-link" id="tab-backup-tab" data-toggle="pill" href="#tab-backup" role="tab" aria-controls="tab-backup" aria-expanded="true">
+						<i class="fa fa-life-ring text-success" aria-hidden="true"></i>
+						Backup/ Restore
+					</a>
+				</div>
 			</div>
-			<div class="col-md-9 col-sm-8">
-				<div class="tab-content">
-					<div class="tab-pane active" id="tab-about" role="tabpanel">
-						<h3 data-localize="settingsTabAbout">About</h3>
+			<div class="col-sm-8 col-md-9 col-9 ">
+				<div class="tab-content" id="v-pills-tabContent">
+					<div class="tab-pane fade show active" id="tab-general" role="tabpanel" aria-labelledby="tab-general-tab">
+						<h3>About</h3>
 						<hr class="afshin-line" />
 
-						<div id="divNoServersWarning" class="alert alert-danger alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<strong>
-								<i class="fa fa-info-circle" aria-hidden="true"></i>
-								<span data-localize="settingsErrNoServersTitle">No Servers!</span>
-							</strong>
-							<span data-localize="settingsErrNoServersDescription">Before anything you have to define proxy servers.</span>
+						<div id="divNoServersWarning" class="alert alert-danger alert-dismissible fade show" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<strong><i class="fa fa-info-circle" aria-hidden="true"></i> No Servers!</strong>
+							Before anything you have to define proxy servers.
 						</div>
 
-						<div id="divAlertFirefox" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<div class="alert alert-danger alert-dismissibleX fade show" role="alert">
 							<strong><i class="fa fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
-							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not finalized yet (Smart features are not enabled due the bugs). Please be patient and <a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">report</a> any bugs you encounter and help me to improve this extension. Thanks.
+							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not finalized yet (Smart features are not enabled due the bugs). Please be patient and report any bugs you encounter end help me to improve this extension. Thanks.
 						</div>
-						<div id="divAlertChrome" style="display: none" class="alert alert-danger alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<strong><i class="fa fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
-							This extension is still in development and most of the features are not finalized yet, please be patient and report any bug you encounter.
-						</div>
-						<h4 data-localize="extensionName">
+						<h4>
 							SmartProxy
 						</h4>
-						<p data-localize="settingsTabAboutDescription">
-							Use patterns to automatically define rules for proxify your web experience. With SmartProxy, you don't need to change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.
+						<p>
+							Use patterns to automatically define rules for proxify  your web experience. With SmartProxy, you don't need to change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.
 						</p>
 						<p>
 							What's more, SmartProxy is inspired by AutoProxy and AutoProxy-ng and that are now considered legacy. SmartProxy is completely written from ground up using WebExtensions and provides same and even more functionality than those proxies.
@@ -153,11 +103,11 @@
 						<ul>
 							<li>Sync settings and rules</li>
 							<li>Import rules from other proxy extensions</li>
-						</ul>
-						<br>
+						</ul>			
+						<br>						
 						<h5>And here is the list of to-do features that currently can't be done due immature WebExtensions API</h5>
 						<ul>
-							<li><del>A <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">bug</a> in Firefox preventing communication between SmartProxy components</del></li>
+							<li>A <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">bug</a> in Firefox preventing communication between SmartProxy components</li>
 							<li>Features to enable SmartProxy to be act more smart</li>
 							<li>Authentication for proxy servers</li>
 							<li>Use system proxy mode</li>
@@ -177,326 +127,93 @@
 							<br />
 						</p>
 					</div>
-					<div class="tab-pane" id="tab-general" role="tabpanel">
-						<h3 data-localize="settingsTabGeneral">General Options</h3>
+					<div class="tab-pane fade" id="tab-servers" role="tabpanel" aria-labelledby="tab-servers-tab">
+						<h3>Proxy Servers</h3>
 						<hr class="afshin-line" />
-
-						<h4 data-localize="settingsTabGeneralTitle">
-							General options of the extension:
-						</h4>
-
-						<div>
-							<h3 data-localize="settingsGeneralSyncing">Syncing</h3>
-							<label>
-								<input id="chkSyncSettings" checked type="checkbox" class="browser-style" />
-								<span data-localize="settingsGeneralEnableSyncing">Enable settings syncing</span>
-							</label>
-							<div class="help-block" data-localize="settingsGeneralEnableSyncingDesc">By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.</div>
-						</div>
-						<div class="mt-5"></div>
-						<p class="mt-4">
-							<div class="pull-left">
-								<button id="btnSaveGeneralOptions" class="btn btn-primary">
-									<span data-localize="settingsSaveGeneralOptionsButton">Save Changes</span>
-								</button>
-								<button id="btnRejectGeneralOptions" class="btn btn-default">
-									<span data-localize="settingsRejectGeneralOptionsButton">Reject Changes</span>
-								</button>
-							</div>
-							<div class="clearfix"></div>
-						</p>
-					</div>
-					<div class="tab-pane" id="tab-servers" role="tabpanel">
-						<h3 data-localize="settingsTabProxyServers">Proxy Servers</h3>
-						<hr class="afshin-line" />
-						<h5 data-localize="settingsActiveProxyServer">
+						<h5>
 							Active Proxy Server:
 						</h5>
 						<div class="row mb-3">
-							<div class="col-sm-6">
+							<div class="col-6">
 								<select id="cmbActiveProxyServer" class="form-control custom-select">
 									<option value="0">(Select)</option>
 								</select>
 							</div>
 						</div>
-						<h5 data-localize="settingsTabProxyServersTitle">
+						<h5>
 							Manage your proxy servers:
 						</h5>
-						<p data-localize="settingsTabProxyServersDescription">
+						<p>
 							Here is the list of proxy servers. You can define as many proxy as you want and switch between then from toolbar.
 						</p>
 						<p>
-							<div class="pull-left">
-								<button id="btnAddProxyServer" class="btn btn-info" data-localize="settingsAddServerButton">Add Server</button>
-							</div>
-							<div class="pull-right">
-								<button id="btnImportProxyServerOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportProxyServer" data-localize="settingsImportProxiesButton">
-									Import Proxies
-								</button>
-								<button id="btnExportProxyServerOpen" type="button" class="btn btn-info" data-localize="settingsExportProxiesButton">
-									Export Proxies
-								</button>
-							</div>
-							<div class="clearfix"></div>
+							<button id="btnAddProxyServer" class="btn btn-secondary">Add Server</button>
 						</p>
 						<div id="grdServers"></div>
 
-						<p class="mt-4">
-							<div class="pull-left">
-								<button id="btnSaveProxyServers" class="btn btn-primary">
-									<span data-localize="settingsSaveChangesButton">Save Changes</span>
-								</button>
-								<button id="btnRejectProxyServers" class="btn btn-default">
-									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-								</button>
-							</div>
-							<div class="pull-right">
-								<button id="btnClearProxyServers" class="btn btn-default " title="Clear the servers list">
-									<i class="fa fa-trash text-danger" aria-hidden="true"></i>
-								</button>
-							</div>
-							<div class="clearfix"></div>
+						<p class="mt-3">
+							<button id="btnSaveProxyServers" class="btn btn-primary">Save Changes</button>
+							<button id="btnRejectProxyServers" class="btn btn-secondary">Reject Changes</button>
 						</p>
 					</div>
-					<div class="tab-pane" id="tab-rules" role="tabpanel">
-						<h3 data-localize="settingsTabProxyRules">Proxy Rules</h3>
+					<div class="tab-pane fade" id="tab-rules" role="tabpanel" aria-labelledby="tab-rules-tab">
+						<h3>Proxy Rules</h3>
 						<hr class="afshin-line" />
 
-						<h4 data-localize="settingsTabProxyRulesTitle">
+						<h4>
 							Manage your proxy rules:
 						</h4>
-						<p data-localize="settingsTabProxyRulesDescription">
-							Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />
-							Rules are based on <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" target="_blank">Match patterns</a>.
-						</p>
-
 						<p>
-							<div class="pull-left">
-								<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">Add Rule</button>
-							</div>
-							<div class="pull-right">
-								<button id="btnImportRulesOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportRules" data-localize="settingsImportRulesButton">
-									Import Rules
-								</button>
-							</div>
-							<div class="clearfix"></div>
+							Here is the list if rules that will help SmartProxy to decide whether to enable proxy for a specific domain or not.
+						</p>
+						<p>
+							<button id="btnAddProxyRule" class="btn btn-secondary">Add Rule</button>
 						</p>
 						<div id="grdRules"></div>
 
 						<p class="mt-2">
-							<div class="pull-left">
-								<button id="btnSaveProxyRules" class="btn btn-primary">
-									<span data-localize="settingsSaveChangesButton">Save Changes</span>
-								</button>
-								<button id="btnRejectProxyRules" class="btn btn-default">
-									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-								</button>
-							</div>
-							<div class="pull-right">
-								<button id="btnClearProxyRules" class="btn btn-default " title="Clear all the rules">
-									<i class="fa fa-trash text-danger" aria-hidden="true"></i>
-								</button>
-							</div>
-							<div class="clearfix"></div>
+							<button id="btnSaveProxyRules" class="btn btn-primary">Save Changes</button>
+							<button id="btnRejectProxyRules" class="btn btn-secondary">Reject Changes</button>
 						</p>
 
 					</div>
-					<div class="tab-pane" id="tab-server-subscriptions" role="tabpanel">
-						<h3 data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</h3>
+					<div class="tab-pane fade" id="tab-backup" role="tabpanel" aria-labelledby="tab-backup-tab">
+						<h3>Backup/Restore</h3>
 						<hr class="afshin-line" />
-						<h4 data-localize="settingsTabProxyServerSubscriptionsTitle">
-							Manage proxy server subscriptions:
-						</h4>
-						<p data-localize="settingsTabProxyServerSubscriptionsDescription">
-							Here you can subscribe to proxy lists and switch between the proxies later. Please note that long lists may cause failure in syncing data between devices.
-						</p>
+						<h5>
+							Settings
+						</h5>
 						<p>
-							<div class="pull-left">
-								<button id="btnAddServerSubscription" class="btn btn-info" data-localize="settingsAddServerSubscriptionButton">Subscribe to a list</button>
-							</div>
-							<div class="clearfix"></div>
-						</p>
-						<div id="grdServerSubscriptions"></div>
-
-						<div class="modal fade" id="modalServerSubscription" tabindex="-1" role="dialog" aria-labelledby="modalServerSubscriptionLabel">
-							<div class="modal-dialog" role="document">
-								<form class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<h4 class="modal-title" id="modalServerSubscriptionLabel" data-localize="settingsServerSubscriptionModalTitle">Subscribe to a proxy server list</h4>
-									</div>
-									<div class="modal-body">
-										<div class="form-group">
-											<label for="txtName" data-localize="settingsServerSubscriptionName">Name:</label>
-											<input type="text" class="form-control" id="txtName" placeholder="Name" required>
-										</div>
-										<div class="form-group">
-											<label for="txtUrl" data-localize="settingsServerSubscriptionUrl">Url:</label>
-											<input type="url" class="form-control direction-ltr" id="txtUrl" placeholder="Url" required>
-										</div>
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label for="numRefereshRate" data-localize="settingsServerSubscriptionRefreshRate">Refresh Rate:</label>
-												<input type="number" min="0" class="form-control" id="numRefereshRate" placeholder="Refresh rate in minutes" required>
-												<span data-localize="settingsServerSubscriptionRefreshRateHelp" class="help-block">(in minutes, 0 means no refresh)</span>
-											</div>
-											<div class="form-group col-sm-6">
-												<br />
-												<input type="checkbox" class="" id="chkEnabled" checked>
-												<label for="chkEnabled" data-localize="settingsServerSubscriptionEnabled">Enabled</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label for="cmbServerSubscriptionProtocol" data-localize="settingsServerSubscriptionProtocol">Protocol:</label>
-												<select class="form-control" id="cmbServerSubscriptionProtocol"></select>
-											</div>
-											<div class="form-group col-sm-6">
-												<label for="cmbServerSubscriptionObfuscation" data-localize="settingsServerSubscriptionObfuscation">Obfuscation:</label>
-												<select class="form-control" id="cmbServerSubscriptionObfuscation"></select>
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label for="cmbServerSubscriptionUsername" data-localize="settingsServerSubscriptionUsername">Username:</label>
-												<input type="text" class="form-control" id="cmbServerSubscriptionUsername">
-												<span data-localize="settingsServerSubscriptionAuthenticationHelp" class="help-block">(if the list requires authentication)</span>
-											</div>
-											<div class="form-group col-sm-6">
-												<label for="cmbServerSubscriptionPassword" data-localize="settingsServerSubscriptionPassword">Password:</label>
-												<input type="password" class="form-control" id="cmbServerSubscriptionPassword" />
-											</div>
-										</div>
-									</div>
-									<div class="modal-footer">
-										<div class="pull-right">
-											<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
-											<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">Save</button>
-										</div>
-										<div class="pull-left">
-											<button type="button" id="btnTestServerSubscription" class="btn btn-default" data-localize="settingsServerSubscriptionTestButton">Test</button>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-								</form>
-							</div>
-						</div>
-
-						<p class="mt-2">
-							<div class="pull-left">
-								<button id="btnSaveServerSubscriptionsChanges" class="btn btn-primary">
-									<span data-localize="settingsSaveChangesButton">Save Changes</span>
-								</button>
-								<button id="btnRejectServerSubscriptionsChanges" class="btn btn-default">
-									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-								</button>
-							</div>
-							<div class="pull-right">
-								<button id="btnClearServerSubscriptions" class="btn btn-default " title="Clear all the subscriptions">
-									<i class="fa fa-trash text-danger" aria-hidden="true"></i>
-								</button>
-							</div>
-							<div class="clearfix"></div>
-						</p>
-					</div>
-					<div class="tab-pane" id="tab-bypass" role="tabpanel">
-						<h3 data-localize="settingsTabBypass">Bypass List</h3>
-						<hr class="afshin-line" />
-
-						<p data-localize="settingsTabBypassDescription">
-							The following list is the list of hosts that proxy should not be applied to.
-						</p>
-
-
-						<div class="radio">
-							<label>
-								<input type="checkbox" id="chkEnableBypassForAlwaysEnable" name="chkEnableBypassForAlwaysEnable">
-								<span data-localize="settingsBypassEnableForAlways">Enable for 'Always Enable' mode</span>
-							</label>
-						</div>
-						<div class="radio">
-							<label>
-								<input type="checkbox" id="chkEnableBypassForSystemProxy" name="chkEnableBypassForSystemProxy">
-								<span data-localize="settingsBypassEnableForSystem">Enable for 'System Proxy' mode (Firefox only)</span>
-							</label>
-						</div>
-
-						<div class="form-group">
-							<label for="txtBypassList" data-localize="settingsBypassList">Bypass list:</label>
-							<textarea class="form-control direction-ltr" id="txtBypassList" rows="10"></textarea>
-							<span data-localize="settingsBypassListHint" class="help-block">(Use new line to seperate entries)</span>
-						</div>
-						<p class="mt-2">
-							<div class="pull-left">
-								<button id="btnSaveBypassChanges" class="btn btn-primary">
-									<span data-localize="settingsSaveChangesButton">Save Changes</span>
-								</button>
-								<button id="btnRejectBypass" class="btn btn-default">
-									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-								</button>
-							</div>
-							<div class="clearfix"></div>
-						</p>
-					</div>
-					<div class="tab-pane" id="tab-backup" role="tabpanel">
-						<h3 data-localize="settingsTabBackupRestore">Backup/Restore</h3>
-						<hr class="afshin-line" />
-						<br />
-						<p data-localize="settingsTabBackupRestoreDescription">
 							You can make either full or partial backup of your settings.
 						</p>
 						<p>
-							<button id="btnBackupComplete" class="btn btn-default">
+							<button id="btnBackupComplete" class="btn btn-outline-primary">
 								<i class="fa fa-download" aria-hidden="true"></i>
-								<span data-localize="settingsFullBackupButton">Create full backup</span>
+								Create full backup
 							</button>
-							<span class="custom-control-description" data-localize="settingsFullBackupButtonDesc">
+							<span class="custom-control-description">
 								Make a full backup of the options (including proxy servers and rules).
 							</span>
 						</p>
 						<p>
-							<button id="btnBackupRules" class="btn btn-default">
+							<button id="btnBackupRules" class="btn btn-outline-primary">
 								<i class="fa fa-download" aria-hidden="true"></i>
-								<span data-localize="settingsRulesBackupButton">Create rules backup</span>
+								Create rules backup
 							</button>
-							<span data-localize="settingsRulesBackupButtonDesc">
+							<span class=" ">
 								Make backup of the proxy rules.
 							</span>
 						</p>
-
+						
 						<form id="frmRestoreBackup" style="display: none"></form>
 						<p>
-							<button id="btnRestoreBackup" class="btn btn-default">
+							<button disabledX id="btnRestoreBackup" class="btn btn-outline-primary">
 								<i class="fa fa-upload" aria-hidden="true"></i>
-								<span data-localize="settingsRestoreBackupButton">Restore backup</span>
+								Restore backup
 							</button>
-							<span data-localize="settingsRestoreBackupButtonDesc">
+							<span class=" ">
 								Restore your previously taken backup from a local file
 							</span>
-						</p>
-
-						<br />
-						<hr class="afshin-line">
-						<p data-localize="settingsImportExportProxiesDesc">
-							Import/Export individual list of proxies and rules.
-						</p>
-						<p>
-							<button id="btnImportProxyServerOpenBackup" class="btn btn-default"data-toggle="modal" data-target="#modalImportProxyServer">
-								<i class="fa fa-download" aria-hidden="true"></i>
-								<span data-localize="settingsImportProxiesButtonBackup">Import Proxy Servers</span>
-							</button>
-						</p>
-						<p>
-							<button id="btnExportProxyServerOpenBackup" class="btn btn-default">
-								<i class="fa fa-upload" aria-hidden="true"></i>
-								<span data-localize="settingsExportProxiesButtonBackup">Export Proxy Servers</span>
-							</button>
-						</p>
-						<p>
-							<button id="btnImportRulesOpenBackup" class="btn btn-default" data-toggle="modal" data-target="#modalImportRules">
-								<i class="fa fa-upload" aria-hidden="true"></i>
-								<span data-localize="settingsImportRulesButtonBackup">Import Proxy Rules</span>
-							</button>
 						</p>
 					</div>
 				</div>
@@ -504,198 +221,10 @@
 		</div>
 		<div class="row mt-5">
 			<div class="col">
-				<div class="text-dark text-center text-muted small">
-					<small>
-						Brought to you by Salar Khalilzadeh ,
-						<small id="spanVersion"></small>
-						&nbsp;
-						<a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">Report bugs</a>
-					</small>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade" id="modalModifyRule" tabindex="-1" role="dialog" aria-labelledby="modalModifyRuleLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalModifyRuleLabel" data-localize="settingsRulesModalTitle">Rule Details</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="form-group col-sm-6">
-							<label for="txtRuleSource" data-localize="settingsRulesSourceDomain">Rule Source Domain</label>
-							<input type="text" id="txtRuleSource" class="form-control" />
-							<span class="help-block text-muted small" data-localize="settingsRulesSourceDomainDesc">(e.g. google.com)</span>
-						</div>
-						<div class="form-group col-sm-6">
-							<label for="txtRuleMatchPattern" data-localize="settingsRulesPattern">Match Pattern</label>
-							<input disabled readonly type="text" id="txtRuleMatchPattern" class="form-control" />
-							<span class="help-block text-muted small" data-localize="settingsRulesPatternDesc">(generated automatically)</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-sm-6">
-							<label for="cmdRuleProxyServer" data-localize="settingsRulesProxyServer">Proxy Server</label>
-							<select id="cmdRuleProxyServer" class="form-control custom-select">
-							</select>
-						</div>
-						<div class="form-group col-sm-6">
-							<br />
-							<input type="checkbox" id="chkRuleEnabled" class="" />
-							<label for="chkRuleEnabled" data-localize="settingsRulesEnabled">Enabled</label>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsRulesModalCancel">Cancel</button>
-					<button type="button" id="btnSubmitRule" class="btn btn-primary" data-localize="settingsRulesModalSave">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade" id="modalModifyProxyServer" tabindex="-1" role="dialog" aria-labelledby="modalModifyProxyServerLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalModifyProxyServerLabel" data-localize="settingsServersModalTitle">Proxy Server Details</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="form-group col-sm-12">
-							<label for="txtServerName" data-localize="settingsServersServerName">Server Name</label>
-							<input type="text" id="txtServerName" class="form-control"/>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-sm-6">
-							<label for="txtServerAddress" data-localize="settingsServersSeverAddress">Sever Address</label>
-							<input type="text" id="txtServerAddress" class="form-control" />
-						</div>
-						<div class="form-group col-sm-6">
-							<label for="cmdServerProtocol" data-localize="settingsServersProtocol">Protocol</label>
-							<select id="cmdServerProtocol" class="form-control custom-select">
-								<option value="HTTP">HTTP</option>
-								<option value="HTTPS">HTTPS</option>
-								<option value="SOCKS4">SOCKS4</option>
-								<option value="SOCKS5">SOCKS5</option>
-							</select>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-sm-6">
-							<label for="txtServerPort" data-localize="settingsServersPort">Port</label>
-							<input type="number" id="txtServerPort" class="form-control"/>
-						</div>
-						<div class="form-group col-sm-6">
-							<br/>
-							<input type="checkbox" id="chkServerProxyDNS" class=""/>
-							<label for="chkServerProxyDNS" data-localize="settingsServersProxyDNS">Proxy DNS when using SOCKS v5</label>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-sm-6">
-							<label for="txtServerUsername" data-localize="settingsServersUsername">Username</label>
-							<input type="text" id="txtServerUsername" class="form-control"/>
-						</div>
-						<div class="form-group col-sm-6">
-							<label for="txtServerPassword" data-localize="settingsServersPassword">Password</label>
-							<input type="password" id="txtServerPassword" class="form-control"/>
-						</div>
-					</div>
-					<div class="row">
-
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsServersCancel">Cancel</button>
-					<button type="button" id="btnSubmitProxyServer" class="btn btn-primary" data-localize="settingsServersSave">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade" id="modalImportRules" tabindex="-1" role="dialog" aria-labelledby="modalImportRulesLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalImportRulesLabel" data-localize="settingsImportRulesTitle">Import Rules</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="btnImportRulesSelectFile" data-localize="settingsImportRulesSelectButton">Rule Backup File</label>
-						<input type="file" id="btnImportRulesSelectFile" class="form-control" />
-					</div>
-					<div class="form-group">
-						<label for="cmbImportRulesFormat" data-localize="settingsImportRulesFrom">From</label>
-						<select id="cmbImportRulesFormat" class="form-control custom-select">
-							<!--<option value="">(Please select)</option>-->
-							<option value="autoproxy">AutoProxy</option>
-							<!--<option value="switchy">SwitchyOmega/SwitchySharp</option>-->
-						</select>
-					</div>
-
-					<div class="radio">
-						<label>
-							<input checked type="radio" id="cmbImportRulesOverride_Append" name="cmbImportRulesOverride" />
-							<span data-localize="settingsImportRulesOptionAppend">Append to existing rules</span>
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" id="cmbImportRulesOverride_Replace" name="cmbImportRulesOverride" />
-							<span data-localize="settingsImportRulesOptionOverride">Replace current rules (use with caution)</span>
-						</label>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsImportRulesCancelButton">Cancel</button>
-					<button type="button" id="btnImportRules" class="btn btn-primary" data-localize="settingsImportRulesImportButton">Import</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade" id="modalImportProxyServer" tabindex="-1" role="dialog" aria-labelledby="modalImportProxyServerLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalImportProxyServerLabel" data-localize="settingsImportProxiesTitle">Import Proxy List</h4>
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label>
-							<input checked type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_File" />
-							<span data-localize="settingsImportProxiesSelectFileButton">Proxy list file</span>
-						</label>
-						<input type="file" id="btnImportProxyServerSelectFile" class="form-control" />
-					</div>
-					<div class="form-group">
-						<label>
-							<input type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_Text" />
-							<span data-localize="settingsImportProxiesSelectTextButton">Proxy list text</span>
-						</label>
-						<textarea class="form-control direction-ltr" id="btnImportProxyServerListText" rows="10"></textarea>
-					</div>
-
-					<div class="radio">
-						<label>
-							<input checked type="radio" id="cmbImportProxyServerOverride_Append" name="cmbImportProxyServerOverride" />
-							<span data-localize="settingsImportProxiesOptionAppend">Append to existing proxies</span>
-						</label>
-					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" id="cmbImportProxyServerOverride_Replace" name="cmbImportProxyServerOverride" />
-							<span data-localize="settingsImportProxiesOptionOverride">Replace current proxies (use with caution)</span>
-						</label>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsImportProxiesCancelButton">Cancel</button>
-					<button type="button" id="btnImportProxyServer" class="btn btn-primary" data-localize="settingsImportProxiesImportButton">Import</button>
+				<div class="text-dark text-center text-secondary small">
+					<small> Brought to you by Salar Khalilzadeh ,</small>
+					<small id="spanVersion"></small>
+					
 				</div>
 			</div>
 		</div>

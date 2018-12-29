@@ -1,12 +1,28 @@
-﻿import { browser } from "../lib/environment";
+﻿/*
+ * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
+ * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ *
+ * SmartProxy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * SmartProxy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
+ */
+import { browser } from "../lib/environment";
 import { Debug } from "../lib/Debug";
 import { Settings, ProxyServer } from "../core/Settings";
 import { ProxyModeType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 
 export class ProxyEngineFirefox {
-	static proxyScriptUrlFirefox = "core-firefox-proxy.js";
-	static proxyScriptExtentionUrlFirefox = browser.runtime.getURL("core-firefox-proxy.js");
+	private static proxyScriptUrlFirefox = "core-firefox-proxy.js";
+	public static proxyScriptExtentionUrlFirefox = browser.runtime.getURL("core-firefox-proxy.js");
 
 	/** If Firefox API available, registers proxy */
 	public static register(): boolean {
@@ -107,16 +123,16 @@ export class ProxyEngineFirefox {
 	}
 
 	private static getResultProxyInfo(proxyServer: ProxyServer) {
-		switch (activeProxyServer.protocol) {
+		switch (proxyServer.protocol) {
 			case "SOCKS5":
 				// "socks" refers to the SOCKS5 protocol
 				return {
 					type: "socks",
-					host: activeProxyServer.host,
-					port: activeProxyServer.port,
-					proxyDNS: activeProxyServer.proxyDNS,
-					username: activeProxyServer.username,
-					password: activeProxyServer.password
+					host: proxyServer.host,
+					port: proxyServer.port,
+					proxyDNS: proxyServer.proxyDNS,
+					username: proxyServer.username,
+					password: proxyServer.password
 				};
 
 			default:
@@ -124,10 +140,10 @@ export class ProxyEngineFirefox {
 			case "HTTPS":
 			case "SOCKS4":
 				return {
-					type: activeProxyServer.protocol,
-					host: activeProxyServer.host,
-					port: activeProxyServer.port,
-					proxyDNS: activeProxyServer.proxyDNS
+					type: proxyServer.protocol,
+					host: proxyServer.host,
+					port: proxyServer.port,
+					proxyDNS: proxyServer.proxyDNS
 				};
 		}
 	}

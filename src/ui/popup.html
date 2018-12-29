@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <!--
   - This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
-  - Copyright (C) 2017 Salar Khalilzadeh <salar2k@gmail.com>
+  - Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
   -
   - SmartProxy is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -15,22 +15,18 @@
   - You should have received a copy of the GNU General Public License
   - along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<html>
-<head>
+<html><head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/font-awesome.min.css" rel="stylesheet" />
 	<link href="css/common.css" rel="stylesheet" />
 	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap-popper-fix.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="../core-polyfill.js"></script>
-	<script src="../core-utils.js"></script>
-	<script src="popup.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="code/popup.js"></script>
 </head>
 <body>
-	<div class="container-fluid p-1 popup-menu popup-container">
+	<div class="container-fluid p-0 popup-menu popup-container">
 		<div class="popup-menu-failed p-1" style="display: none">
 			<div class="failed-requests-box">
 				<h5 class="text-muted text-center" data-localize="popupFailedRequestsTitle">Failed Requests List</h5>
@@ -49,13 +45,13 @@
 								</div>
 								<span class="label-danger label failed-request-count" title="Failed Count" style="display: none">0</span>
 								<span class="label-warning label failed-request-root" title="Root" style="display: none">
-									<i class="fa fa-caret-down"></i>
+									<i class="fas fa-caret-down"></i>
 								</span>
 							</div>
 						</div>
 						<div class="panel-footer">
 							<button class="btn btn-success btn-sm" id="btnAddFailedRequests">
-								<i class="fa fa-plus"></i>
+								<i class="fas fa-plus"></i>
 								<span data-localize="popupAddFailedRequests">Add To Rules List</span>
 							</button>
 						</div>
@@ -65,41 +61,38 @@
 			</div>
 		</div>
 		<div class="popup-menu-contents p-1">
-			<div id="divRestartRequired" style="display: none" class="alert alert-danger" role="alert">
-				Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
-				changes require restart.
-				<br />Please restart. Sorry for inconvenience.
+			<div id="divRestartRequired" style="display: none">
+				<div class="alert alert-danger" role="alert">
+					Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
+					changes require restart.
+					<br />Please restart. Sorry for inconvenience.
+				</div>
 			</div>
 			<div id="divUpdateIsAvailable" style="display: none" class="alert alert-success" role="alert">
 				<a href="#" target="_blank">Update text</a>
 			</div>
-			<h5 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h5>
-			<ul id="divProxyMode" class="nav nav-pills nav-stacked">
-				<li>
-					<a data-proxyMode="1" class="nav-link">
-						<i class="fa fa-ban fa-lg text-danger" aria-hidden="true"></i>
-						<span data-localize="popupNoProxy">Direct (No Proxy)</span>
-					</a>
-				</li>
-				<li class="active">
-					<a data-proxyMode="2" class="nav-link">
-						<i class="fa fa-magic fa-lg text-success" aria-hidden="true"></i>
-						<span data-localize="popupSmartProxy">Smart Proxy</span>
-					</a>
-				</li>
-				<li>
-					<a data-proxyMode="3" class="nav-link">
-						<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
-						<span data-localize="popupAlwaysEnable">Always Enable</span>
-					</a>
-				</li>
-				<li class="disabled" id="divProxyModeSystem">
-					<a data-proxyMode="4" class="nav-link disabled">
-						<i class="fa fa-windows fa-lg text-info" aria-hidden="true"></i>
-						<span data-localize="popupSystemProxy">System Proxy</span>
-					</a>
-				</li>
-			</ul>
+			<h6 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h6>
+			<div id="divProxyMode" class="nav flex-column nav-pills interactive">
+				<!-- <a href="javascript:void()" class="nav-link disabled px-5 text-center" data-localize="popupTitle">SmartProxy Activation</a> -->
+				<a href="javascript:void()" data-proxyMode="1" class="nav-link">
+					<i class="fas fa-ban fa-lg text-danger" aria-hidden="true"></i>
+					<span data-localize="popupNoProxy">Direct (No Proxy)</span>
+				</a>
+				<a href="javascript:void()" data-proxyMode="2" class="nav-link active border-0">
+					<i class="fas fa-magic fa-lg text-success" aria-hidden="true"></i>
+					<span data-localize="popupSmartProxy">Smart Proxy</span>
+				</a>
+				<a href="javascript:void()" data-proxyMode="3" class="nav-link">
+					<i class="fas fa-globe fa-lg text-info" aria-hidden="true"></i>
+					<span data-localize="popupAlwaysEnable">Always Enable</span>
+				</a>
+				<a href="javascript:void()" data-proxyMode="4" class="nav-link">
+					<i class="fab fa-windows fa-lg text-info" aria-hidden="true"></i>
+					<span data-localize="popupSystemProxy">System Proxy</span>
+				</a>
+				<!--<div class="dropdown-divider"></div>
+					<a href="#" class="nav-link active">Settings</a>-->
+			</div>
 			<div id="divFailedRequests" style="display: none">
 				<hr class="afshin-line" />
 				<ul class="nav nav-pills nav-stacked direction-ltr">
@@ -107,12 +100,12 @@
 						<a>
 							<div class="row failedrequest-item">
 								<div class="col-xs-10 col-sm-11">
-									<i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>
+									<i class="fas fa-exclamation-triangle text-danger" aria-hidden="true"></i>
 									<span data-localize="popupFailedRequestsMenu">Failed Requests</span>
 								</div>
 								<div class="col-xs-2 col-sm-1">
 									<span id="lblFailedRequestCount" class="label label-warning">0</span>
-									<i class="fa fa-lg fa-angle-double-right text-success" aria-hidden="true"></i>
+									<i class="fas fa-lg fa-angle-double-right text-success" aria-hidden="true"></i>
 								</div>
 							</div>
 						</a>
@@ -122,6 +115,9 @@
 			<div id="divActiveProxy" style="display: none">
 				<hr class="afshin-line" />
 				<h5 class="text-muted px-2" data-localize="popupActiveProxy">Active Proxy:</h5>
+				<div class="nav flex-column nav-pills interactive">
+					<a class="nav-link disabled" data-localize="popupActiveProxy">Active Proxy:</a>
+				</div>
 				<div class="p-2">
 					<select id="cmbActiveProxy" class="custom-select active-proxy-select">
 						<option value="0">No server is defined</option>
@@ -130,19 +126,35 @@
 			</div>
 			<div id="divProxiableContainer" style="display: none">
 				<hr class="afshin-line" />
+				<!-- <div id="divProxiableDomains" class="nav flex-column nav-pills">
+					<a  class="nav-link disabled">Enable proxy on</a>
+					<a id="divProxiableDomainItem"  class="nav-link" style="display: none">
+						<div class="row">
+							<div class="col-9 text-nowrap">
+								<i class="fas fa-globe fa-lg text-info" aria-hidden="true"></i>
+								<span class="proxiable-host-name">-</span>
+							</div>
+							<div class="col-3 text-center">
+								<i class="proxiable-status-icon fas fa-square-o fa-lg" aria-hidden="true"></i>
+								--<i title="Not enabled" class="fas fa-square-o fa-lg" aria-hidden="true"></i>--
+								--<i title="Enabled" class="fas fa-check-square-o" aria-hidden="true"></i>--
+							</div>
+						</div>
+					</a>
+				</div> -->
 				<h5 class="text-muted px-2" data-localize="popupEnableProxyOn">Enable proxy on</h5>
 				<ul id="divProxiableDomains" class="nav nav-pills nav-stacked direction-ltr">
 					<li id="divProxiableDomainItem" style="display: none">
 						<a>
 							<div class="row proxiable-item">
 								<div class="col-xs-10 col-sm-11 text-nowrap">
-									<i class="fa fa-globe fa-lg text-info" aria-hidden="true"></i>
+									<i class="fas fa-globe fa-lg text-info" aria-hidden="true"></i>
 									<span class="proxiable-host-name font-url">-</span>
 								</div>
 								<div class="col-xs-2 col-sm-1 text-right">
-									<i class="proxiable-status-icon fa fa-square-o fa-lg background-white vertical-align-middle" aria-hidden="true"></i>
-									<!--<i title="Not enabled" class="fa fa-square-o fa-lg" aria-hidden="true"></i>-->
-									<!--<i title="Enabled" class="fa fa-check-square-o" aria-hidden="true"></i>-->
+									<i class="proxiable-status-icon fas fa-square-o fa-lg background-white vertical-align-middle" aria-hidden="true"></i>
+									<!--<i title="Not enabled" class="fas fa-square-o fa-lg" aria-hidden="true"></i>-->
+									<!--<i title="Enabled" class="fas fa-check-square-o" aria-hidden="true"></i>-->
 								</div>
 							</div>
 						</a>
@@ -150,21 +162,18 @@
 				</ul>
 			</div>
 			<hr class="afshin-line" />
-			<ul class="nav nav-pills nav-stacked">
-				<li class="" id="openProxiable" style="display: none">
-					<a class="nav-link">
-						<i class="fa fa-search fa-lg text-info" aria-hidden="true"></i>
-						<span data-localize="popupProxyableResources">Proxyable Resources</span>
-					</a>
-				</li>
-				<li class="">
-					<a id="openSettings" class="nav-link">
-						<i class="fa fa-cog fa-lg text-success" aria-hidden="true"></i>
-						<span data-localize="popupSettings">Settings</span>
-					</a>
-				</li>
-			</ul>
+			<div class="nav flex-column nav-pills interactive">
+				<a href="javascript:void()" style="display: noneX" id="openProxiable" class="nav-link">
+					<i class="fas fa-search fa-lg text-info" aria-hidden="true"></i>
+					<span data-localize="popupProxyableResources">Proxyable Resources</span>
+				</a>
+				<a href="javascript:void()" id="openSettings" class="nav-link">
+					<i class="fas fa-cog fa-lg text-success" aria-hidden="true"></i>
+					<span data-localize="popupSettings">Settings</span>
+				</a>
+			</div>
 		</div>
 	</div>
 </body>
+
 </html>

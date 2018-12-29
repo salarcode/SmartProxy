@@ -24,7 +24,11 @@ export enum ProxyModeType {
 	SystemProxy
 }
 
-export enum ProxyRuleType{
+export enum ProxyRuleType {
 	MatchPattern,
 	Regex
+}
+
+export class Messages {
+	public static PacProxySendRules = "PacSendRules";
 }

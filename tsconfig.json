@@ -1,15 +1,16 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
-		"outDir": "build/dist",
 		"typeRoots": [ "node_modules/@types", "node_modules/web-ext-types" ],
+		"outDir": "build-ts",
 		"noImplicitAny": false,
 		"noEmitOnError": true,
 		"removeComments": false,
 		"sourceMap": true,
+		"target": "es3",
 		"module": "es6",
 		"lib": [ "es6", "dom" ],
-		"strictNullChecks": true,
+		"strictNullChecks": false,
 		"noUnusedLocals": true
 	},
 	"exclude": [
