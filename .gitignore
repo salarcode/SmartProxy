@@ -288,3 +288,6 @@ __pycache__/
 *.xsd.cs
 /src/manifest.json
 /build
+/src/manifest.json
+*.map
+*.js
