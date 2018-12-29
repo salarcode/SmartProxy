@@ -38,11 +38,11 @@ export let environment = {
 };
 
 
-export declare var chrome: any;
-export declare var browser: any;
+export var chrome: any = window["chrome"];
+export var browser: any = window["browser"];
 
 // Google Chrome polyfill
-if (typeof browser === "undefined") {
+if (typeof browser === "undefined" || browser == null) {
 	browser = chrome;
 	environment.chrome = true;
 }

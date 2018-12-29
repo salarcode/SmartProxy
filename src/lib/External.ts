@@ -14,6 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-export declare var pako: any;
-export declare var jQuery: any;
 
+export var pako: any = window["pako"];
+export var jQuery: any = window["jQuery"];

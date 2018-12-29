@@ -5,8 +5,8 @@ export class popup {
     private static popupData = null;
 
     public static initialize() {
-        debugger;
-        this.bindEvents();
+
+        this.onDocumentReady(this.bindEvents);
 
         browser.runtime.sendMessage("getDataForPopup")
             .then(function (dataForPopup) {
@@ -20,12 +20,18 @@ export class popup {
                     browser.runtime.sendMessage("getDataForPopup failed! > " + error);
                 });
     }
+
+    private static onDocumentReady(callback:Function){
+        jQuery(document).ready(callback);
+    }
+
     private static bindEvents() {
         jQuery("#openSettings").click(function () {
             browser.runtime.openOptionsPage();
             window.close();
         });
         jQuery("#openProxiable").click(function () {
+            console.log("openProxiable");
             if (!popup.popupData)
                 return;
 
@@ -51,8 +57,5 @@ export class popup {
         // this.populateProxiableDomainList(dataForPopup.proxiableDomains);
     }
 }
-
-if(!jQuery)
-    console.warn("jQuery is not available");
 
 popup.initialize();

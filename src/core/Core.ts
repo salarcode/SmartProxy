@@ -55,7 +55,7 @@ export class Core {
 	}
 
 	static handleMessages(message: string, sender: any, sendResponse: Function) {
-
+		
 		Debug.log("core message> ", message);
 
 		// --------------------
@@ -107,6 +107,6 @@ export class Core {
 		browser.runtime.onMessage.addListener(this.handleMessages);
 	}
 }
-
 // start the application
 Core.initializeApp();
+console.log("Core.ts initializeApp() DONE");
