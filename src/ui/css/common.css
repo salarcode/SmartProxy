@@ -128,17 +128,17 @@ select.active-proxy-select {
     padding: 10px;
 }
 
-.proxiable-item {
+.proxyable-item {
     margin-left: -10px;
     margin-right: -7px;
 }
 
-.rtl .proxiable-item {
+.rtl .proxyable-item {
     margin-right: -8px;
     margin-left: -8px;
 }
 
-.rtl .proxiable-item>div {
+.rtl .proxyable-item>div {
     padding-right: 10px;
     padding-left: 10px;
 }

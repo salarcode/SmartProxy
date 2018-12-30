@@ -55,12 +55,12 @@ export class Core {
 	}
 
 	static handleMessages(message: string, sender: any, sendResponse: Function) {
-		
+
 		Debug.log("core message> ", message);
 
 		// --------------------
 		// handling pac proxy messages
-		if (sender.url == ProxyEngineFirefox.proxyScriptExtentionUrlFirefox) {
+		if (sender.url == ProxyEngineFirefox.proxyScriptExtensionUrlFirefox) {
 			if (message == Messages.PacProxySendRules) {
 
 				if (sendResponse) {
@@ -77,6 +77,22 @@ export class Core {
 		// --------------------
 		switch (message) {
 			case Messages.PacProxySendRules:
+				{
+
+				}
+				break;
+
+			case Messages.PopupGetInitialData:
+				{
+
+				}
+				break;
+			case Messages.PopupChangeProxyMode:
+				{
+
+				}
+				break;
+			case Messages.PopupChangeActiveProxyServer:
 				{
 
 				}

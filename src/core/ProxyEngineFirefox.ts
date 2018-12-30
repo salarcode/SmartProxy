@@ -22,7 +22,7 @@ import { ProxyRules } from "./ProxyRules";
 
 export class ProxyEngineFirefox {
 	private static proxyScriptUrlFirefox = "core-firefox-proxy.js";
-	public static proxyScriptExtentionUrlFirefox = browser.runtime.getURL("core-firefox-proxy.js");
+	public static proxyScriptExtensionUrlFirefox = browser.runtime.getURL("core-firefox-proxy.js");
 
 	/** If Firefox API available, registers proxy */
 	public static register(): boolean {

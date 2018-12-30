@@ -1,4 +1,6 @@
-﻿/*
+﻿import { ProxyServer } from "./Settings";
+
+/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
  * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
  *
@@ -31,4 +33,33 @@ export enum ProxyRuleType {
 
 export class Messages {
 	public static PacProxySendRules = "PacSendRules";
+
+	// Popup messages
+	public static PopupGetInitialData = "Popup_GetInitialData";
+	public static PopupChangeProxyMode = "Popup_ChangeProxyMode";
+	public static PopupChangeActiveProxyServer = "Popup_ChangeActiveProxyServer";
+	public static PopupToggleProxyForHost = "Popup_ToggleProxyForHost";
+	public static PopupAddDomainListToProxyRule = "Popup_AddDomainListToProxyRule";
+
+	// Settings page
+	public static SettingsPageGetInitialData = "SettingsPage_GetInitialData";
+
+	// Web Failed Request Monitor Activity
+	public static WebRequestMonitorFailedActivity = "WebRequestMonitor_FailedActivity";
+
+}
+
+export type PopupInternalDataType = {
+	proxyableDomains: any[],
+	proxyMode: ProxyModeType,
+	hasProxyServers: boolean,
+	proxyServers: ProxyServer[],
+	activeProxyServer: ProxyServer,
+	restartRequired: boolean,
+	currentTabId: number,
+	currentTabIndex: number,
+	proxyServersSubscribed: any[],
+	updateAvailableText: string,
+	updateInfo: any,
+	failedRequests: any
 }

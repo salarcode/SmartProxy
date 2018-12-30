@@ -17,3 +17,4 @@
 
 export var pako: any = window["pako"];
 export var jQuery: any = window["jQuery"];
+export var messageBox: any = window["messageBox"];

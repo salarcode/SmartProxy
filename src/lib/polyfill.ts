@@ -121,7 +121,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static runtimeSendMessage(message, success, fail, options, extensionId?) {
+	public static runtimeSendMessage(message?, success?, fail?, options?, extensionId?) {
 		if (environment.chrome) {
 			if (options != null) {
 				// deleting firefox specific property of sending message to PAC
@@ -245,7 +245,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static runtimeOpenOptionsPage(success, fail) {
+	public static runtimeOpenOptionsPage(success?, fail?) {
 		if (environment.chrome) {
 			chrome.runtime.openOptionsPage(
 				response => {
