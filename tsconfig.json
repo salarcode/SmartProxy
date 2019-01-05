@@ -11,7 +11,7 @@
 		"module": "es6",
 		"lib": [ "es6", "dom" ],
 		"strictNullChecks": false,
-		"noUnusedLocals": true
+		"noUnusedLocals": false
 	},
 	"exclude": [
 		"node_modules",

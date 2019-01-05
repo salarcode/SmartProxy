@@ -20,7 +20,7 @@ export class Debug {
 		this.enabled = true;
 	}
 	public static disable() {
-		this.enabled = true;
+		this.enabled = false;
 	}
 
 	public static log(msg: string, ...args) {

@@ -19,7 +19,10 @@ import { browser, environment } from "../lib/environment";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { ProxyAuthentication } from "./ProxyAuthentication";
 import { Debug } from "../lib/Debug";
-import { Messages } from "./definitions";
+import { Messages, SettingsPageInternalDataType } from "./definitions";
+import { SettingsOperation } from "./SettingsOperation";
+import { ProxyRules } from "./ProxyRules";
+import { ProxyEngine } from "./ProxyEngine";
 
 export class Core {
 
@@ -54,7 +57,7 @@ export class Core {
 		this.registerMessageReader();
 	}
 
-	static handleMessages(message: string, sender: any, sendResponse: Function) {
+	static handleMessages(message: any, sender: any, sendResponse: Function) {
 
 		Debug.log("core message> ", message);
 
@@ -74,19 +77,47 @@ export class Core {
 			return;
 		}
 
+		let isCommand = false;
+		let command: string;
+		if (typeof message == "string")
+			command = message;
+		else {
+			command = message["command"];
+			isCommand = true;
+		}
+
+		if (!isCommand) {
+			switch (message) {
+				case Messages.PopupGetInitialData:
+					{
+
+					}
+					break;
+
+				case Messages.SettingsPageGetInitialData:
+					{
+						// if response method is available
+						if (!sendResponse)
+							return;
+						let dataForSettingsUi = this.getSettingsPageGetInitialData();
+
+						// send the data
+						sendResponse(dataForSettingsUi);
+						return;
+					}
+					break;
+			}
+			return;
+		}
+
 		// --------------------
-		switch (message) {
+		switch (command) {
 			case Messages.PacProxySendRules:
 				{
 
 				}
 				break;
 
-			case Messages.PopupGetInitialData:
-				{
-
-				}
-				break;
 			case Messages.PopupChangeProxyMode:
 				{
 
@@ -97,6 +128,30 @@ export class Core {
 
 				}
 				break;
+			case Messages.PopupAddDomainListToProxyRule:
+				{
+
+				}
+				break;
+			case Messages.SettingsPageSaveOptions:
+				{
+					Settings.current.options = message.options;
+					SettingsOperation.saveOptions();
+					SettingsOperation.saveAllSync();
+
+					// update proxy rules
+					ProxyEngine.updateChromeProxyConfig();
+
+					if (sendResponse) {
+						sendResponse({
+							success: true,
+							// General options saved successfully.
+							message: browser.i18n.getMessage("settingsSaveOptionsSuccess")
+						});
+					}
+					return;
+				}
+				break;
 
 			default:
 				{
@@ -105,6 +160,24 @@ export class Core {
 				break;
 		}
 
+	}
+
+
+	static getSettingsPageGetInitialData(): SettingsPageInternalDataType {
+
+		let dataForSettingsUi: SettingsPageInternalDataType;
+		dataForSettingsUi.settings = Settings.current;
+		dataForSettingsUi.updateAvailableText = null;
+		dataForSettingsUi.updateInfo = null;
+
+		// if (UpdateManager.updateIsAvailable) {
+		// 	// generate update text
+		// 	dataForSettingsUi.updateAvailableText =
+		// 		browser.i18n.getMessage("settingsTabUpdateText").replace("{0}", UpdateManager.updateInfo.versionName);
+		// 	dataForSettingsUi.updateInfo = UpdateManager.updateInfo;
+		// }
+
+		return dataForSettingsUi;
 	}
 
 	/** Registring the PAC proxy script */

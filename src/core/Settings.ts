@@ -127,7 +127,7 @@ export class Settings {
 	}
 }
 
-class SettingsConfig {
+export class SettingsConfig {
 	constructor() {
 		this.options = new GeneralOptions();
 		this.bypass = new BypassOptions();
@@ -144,7 +144,7 @@ class SettingsConfig {
 	public options: GeneralOptions;
 	public bypass: BypassOptions;
 }
-class GeneralOptions {
+export class GeneralOptions {
 	public syncSettings: boolean = false;
 	public detectRequestFailures: boolean = false;
 	public displayFailedOnBadge: boolean = false;
@@ -152,7 +152,7 @@ class GeneralOptions {
 	// TODO: New feature proxyPerOrigin
 	public proxyPerOrigin: boolean = true;
 }
-class BypassOptions {
+export class BypassOptions {
 	public enableForAlways: boolean = false;
 	public enableForSystem: boolean = false;
 	public bypassList: string[] = ["127.0.0.1", "localhost", "::1"];

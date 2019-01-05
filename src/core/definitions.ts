@@ -1,4 +1,4 @@
-﻿import { ProxyServer } from "./Settings";
+﻿import { ProxyServer, SettingsConfig } from "./Settings";
 
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
@@ -43,10 +43,22 @@ export class Messages {
 
 	// Settings page
 	public static SettingsPageGetInitialData = "SettingsPage_GetInitialData";
+	public static SettingsPageSaveOptions = "SettingsPage_SaveOptions";
 
 	// Web Failed Request Monitor Activity
 	public static WebRequestMonitorFailedActivity = "WebRequestMonitor_FailedActivity";
 
+}
+
+export class ResultHolder {
+	public success: boolean;
+	public message: string;
+}
+
+export class ResultHolderGeneric<T> implements ResultHolder {
+	public success: boolean;
+	public message: string;
+	public value: T;
 }
 
 export type PopupInternalDataType = {
@@ -62,4 +74,10 @@ export type PopupInternalDataType = {
 	updateAvailableText: string,
 	updateInfo: any,
 	failedRequests: any
+}
+
+export type SettingsPageInternalDataType = {
+	settings: SettingsConfig,
+	updateAvailableText: string,
+	updateInfo: any;
 }
