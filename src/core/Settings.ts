@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { PolyFill } from "../lib/PolyFill";
-import { ProxyModeType, ProxyRuleType } from "./definitions";
+import { ProxyModeType, ProxyRuleType, ProxyServerForProtocol } from "./definitions";
 import { Debug } from "../lib/Debug";
 import { SettingsOperation } from "./SettingsOperation";
 import { LiteEvent } from "../lib/LiteEvent";
@@ -30,7 +30,7 @@ export class Settings {
 	private static readonly _onInitialized = new LiteEvent<void>();
 
 	// public static get onInitialized() { return this._onInitialized.expose(); }
-	public static readonly onInitialized=Settings._onInitialized;
+	public static readonly onInitialized = Settings._onInitialized;
 
 	public static initialize() {
 		Settings.current = new SettingsConfig();
@@ -165,6 +165,8 @@ class ProxyServerConnectDetails {
 	public username: string;
 	public password: string;
 	public proxyDNS: boolean;
+	/** This proxy is for which protocol */
+	public forProtocol: ProxyServerForProtocol;
 }
 
 export class ProxyServer implements ProxyServerConnectDetails {
@@ -177,6 +179,8 @@ export class ProxyServer implements ProxyServerConnectDetails {
 	public name: string;
 	public failoverTimeout: number;
 	public protocolsServer: ProxyServerConnectDetails[];
+	/** This proxy is for which protocol */
+	public forProtocol: ProxyServerForProtocol;
 }
 
 export class ProxyRule {

@@ -484,7 +484,7 @@
 		"description": ""
 	},
 	"settingsServersProtocol": {
-		"message": "Protocol",
+		"message": "Proxy Protocol",
 		"description": ""
 	},
 	"settingsServersPort": {

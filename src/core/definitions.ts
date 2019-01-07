@@ -31,6 +31,12 @@ export enum ProxyRuleType {
 	Regex
 }
 
+export enum ProxyServerForProtocol {
+	Http,
+	SSL,
+	FTP,
+	SOCKS
+}
 export class Messages {
 	public static PacProxySendRules = "PacSendRules";
 

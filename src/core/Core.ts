@@ -99,7 +99,7 @@ export class Core {
 						// if response method is available
 						if (!sendResponse)
 							return;
-						let dataForSettingsUi = this.getSettingsPageGetInitialData();
+						let dataForSettingsUi = Core.getSettingsPageGetInitialData();
 
 						// send the data
 						sendResponse(dataForSettingsUi);
@@ -165,10 +165,11 @@ export class Core {
 
 	static getSettingsPageGetInitialData(): SettingsPageInternalDataType {
 
-		let dataForSettingsUi: SettingsPageInternalDataType;
-		dataForSettingsUi.settings = Settings.current;
-		dataForSettingsUi.updateAvailableText = null;
-		dataForSettingsUi.updateInfo = null;
+		let dataForSettingsUi: SettingsPageInternalDataType = {
+			settings: Settings.current,
+			updateAvailableText: null,
+			updateInfo: null
+		};
 
 		// if (UpdateManager.updateIsAvailable) {
 		// 	// generate update text

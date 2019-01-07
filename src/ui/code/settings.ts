@@ -1,6 +1,6 @@
 import { CommonUi } from "./CommonUi";
 import { PolyFill } from "../../lib/PolyFill";
-import { Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate } from "../../core/definitions";
+import { Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServerForProtocol } from "../../core/definitions";
 import { messageBox, jQuery } from "../../lib/External";
 import { environment } from "../../lib/environment";
 import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions } from "../../core/Settings";
@@ -270,6 +270,10 @@ export class settingsPage {
         this.grdServers.rows.add(servers);
     }
 
+    private static readServers(): any[] {
+        return this.grdServers.data();
+    }
+
     private static loadRules(rules: any[]) {
         if (!this.grdRules)
             return;
@@ -277,6 +281,9 @@ export class settingsPage {
         this.grdRules.rows.add(rules);
     }
 
+    private static readRules(): any[] {
+        return this.grdRules.data();
+    }
     private static loadServerSubscriptions(rules: any[]) {
         if (!this.grdServerSubscriptions)
             return;
@@ -420,10 +427,111 @@ export class settingsPage {
             jQuery("#divRestartRequired").show();
         }
     }
+
+    private static populateServerModal(modalContainer, server?: ProxyServer) {
+
+        if (server) {
+
+            modalContainer.find("#txtServerName").val(server.name);
+            modalContainer.find("#txtServerAddressHttp").val(server.host);
+            modalContainer.find("#txtServerPortHttp").val(server.port);
+            modalContainer.find("#cmdServerProtocolHttp").val(server.protocol);
+            modalContainer.find("#chkServerProxyDNSHttp").prop('checked', server.proxyDNS);
+            modalContainer.find("#txtServerUsernameHttp").val(server.username);
+            modalContainer.find("#txtServerPasswordHttp").val(server.password);
+
+            if (server.protocolsServer && server.protocolsServer.length > 0) {
+                for (let protocolsServer of server.protocolsServer) {
+                    switch (protocolsServer.forProtocol) {
+                        case ProxyServerForProtocol.Http:
+                            {
+
+                            }
+                            break;
+                        case ProxyServerForProtocol.SSL:
+                            {
+
+                            }
+                            break;
+                        case ProxyServerForProtocol.FTP:
+                            {
+
+                            }
+                            break;
+                        case ProxyServerForProtocol.SOCKS:
+                            {
+
+                            }
+                            break;
+                    }
+                }
+            }
+
+        } else {
+
+            modalContainer.find("#txtServerName").val(this.generateNewServerName());
+
+            modalContainer.find("#txtServerAddressHttp").val("127.0.0.1");
+            modalContainer.find("#txtServerPortHttp").val("");
+            modalContainer.find("#cmdServerProtocolHttp").val("HTTP");
+            modalContainer.find("#chkServerProxyDNSHttp").prop('checked', false);
+            modalContainer.find("#txtServerUsernameHttp").val("");
+            modalContainer.find("#txtServerPasswordHttp").val("");
+
+            modalContainer.find("#txtServerAddressSSL").val("127.0.0.1");
+            modalContainer.find("#txtServerPortSSL").val("");
+            modalContainer.find("#cmdServerProtocolSSL").val("HTTPS");
+            modalContainer.find("#chkServerProxyDNSSSL").prop('checked', false);
+            modalContainer.find("#txtServerUsernameSSL").val("");
+            modalContainer.find("#txtServerPasswordSSL").val("");
+
+            modalContainer.find("#txtServerAddressFTP").val("127.0.0.1");
+            modalContainer.find("#txtServerPortFTP").val("");
+            modalContainer.find("#cmdServerProtocolFTP").val("SOCKS5");
+            modalContainer.find("#chkServerProxyDNSFTP").prop('checked', false);
+            modalContainer.find("#txtServerUsernameFTP").val("");
+            modalContainer.find("#txtServerPasswordFTP").val("");
+
+            modalContainer.find("#txtServerAddressSOCKS").val("127.0.0.1");
+            modalContainer.find("#txtServerPortSOCKS").val("");
+            modalContainer.find("#cmdServerProtocolSOCKS").val("SOCKS5");
+            modalContainer.find("#chkServerProxyDNSSOCKS").prop('checked', false);
+            modalContainer.find("#txtServerUsernameSOCKS").val("");
+            modalContainer.find("#txtServerPasswordSOCKS").val("");
+
+        }
+    }
     //#endregion
 
 
     //#region Reading data ---------------------
+    private static generateNewServerName() {
+        // generates a unique name for proxy server
+        let servers = this.readServers();
+        let serverNo = 1;
+        let result = `Server ${serverNo}`;
+
+        if (servers && servers.length > 0) {
+            let exist;
+
+            serverNo = servers.length + 1;
+            result = `Server ${serverNo}`;
+
+            do {
+                exist = false;
+                for (let i = servers.length - 1; i >= 0; i--) {
+                    if (servers[i].name === result) {
+                        exist = true;
+                        serverNo++;
+                        result = `Server ${serverNo}`;
+                        break;
+                    }
+                }
+            } while (exist)
+        }
+        return result;
+    }
+
     static getGeneralOptions(generalOptions?: GeneralOptions): GeneralOptions {
         if (!generalOptions)
             generalOptions = new GeneralOptions();
@@ -523,8 +631,14 @@ export class settingsPage {
             // settingsUiData.activeProxyServer = server;
         },
         onClickAddProxyServer: function () {
-
             // settingsGrid.serverAdd();
+            let modal = jQuery("#modalModifyProxyServer");
+            modal.data("editing", null);
+
+            settingsPage.populateServerModal(modal, null);
+
+            modal.modal("show");
+            modal.find("#txtServerAddress").focus();
         },
         onClickSubmitProxyServer: function () {
 
