@@ -153,7 +153,7 @@ export class settingsPage {
                     name: "host", title: browser.i18n.getMessage("settingsServersGridColServer"),
                 },
                 {
-                    name: "port", title: browser.i18n.getMessage("settingsServersGridColPort"),
+                    name: "port", type : "num", title: browser.i18n.getMessage("settingsServersGridColPort"),
                 },
                 {
                     "data": null,
@@ -162,7 +162,6 @@ export class settingsPage {
             ],
         });
         settingsPage.grdServers.draw();
-
 
         settingsPage.grdRules = jQuery("#grdRules").DataTable({
             "dom": dataTableCustomDom,
@@ -205,7 +204,7 @@ export class settingsPage {
                     name: "url", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColUrl")
                 },
                 {
-                    name: "totalCount", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColCount")
+                    name: "totalCount", type : "num", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColCount")
                 },
                 {
                     name: "enabled", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColEnabled"),
@@ -271,7 +270,24 @@ export class settingsPage {
     }
 
     private static readServers(): any[] {
-        return this.grdServers.data();
+        return this.grdServers.data().toArray();
+    }
+
+    private static refreshServersGrid() {
+        this.grdServers.draw('full-hold');
+    }
+
+    private static insertNewServerInGrid(newServer: ProxyServer) {
+        try {
+
+            this.grdServers.row
+                .add(newServer)
+                .draw('full-hold');
+
+        } catch (error) {
+            PolyFill.runtimeSendMessage("insertNewServerInGrid failed! > " + error);
+            throw error;
+        }
     }
 
     private static loadRules(rules: any[]) {
@@ -282,8 +298,9 @@ export class settingsPage {
     }
 
     private static readRules(): any[] {
-        return this.grdRules.data();
+        return this.grdRules.data().toArray();
     }
+
     private static loadServerSubscriptions(rules: any[]) {
         if (!this.grdServerSubscriptions)
             return;
@@ -291,7 +308,12 @@ export class settingsPage {
         this.grdServerSubscriptions.rows.add(rules);
     }
 
-    private static loadActiveProxyServer(proxyServers: ProxyServer[], serverSubscriptions: any[]) {
+    private static readServerSubscriptions(): any[] {
+        return this.grdServerSubscriptions.data().toArray();
+    }
+
+    /** Load/Reload the action proxy combobox */
+    private static loadActiveProxyServer(proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
         let activeProxyServer = this.currentSettings.activeProxyServer;
 
         let activeProxyName = "";
@@ -302,11 +324,13 @@ export class settingsPage {
         let cmbActiveProxyServer = jQuery("#cmbActiveProxyServer");
 
         // remove previous items
-        cmbActiveProxyServer.find("option,optgroup").remove();
+        cmbActiveProxyServer.children().remove();
 
         // populate
         this.populateProxyServersToComboBox(cmbActiveProxyServer, activeProxyName, proxyServers, serverSubscriptions);
     }
+
+    //private static 
 
 
     private static loadBypass(bypass: BypassOptions) {
@@ -355,14 +379,14 @@ export class settingsPage {
     }
 
     /** used for ActiveProxy and ... */
-    static populateProxyServersToComboBox(comboBox: any, selectedProxyName: string, proxyServers: ProxyServer[], serverSubscriptions: any[]) {
+    static populateProxyServersToComboBox(comboBox: any, selectedProxyName?: string, proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
         if (!comboBox) return;
         if (!proxyServers)
             // TODO: should we use local or grid data
             proxyServers = [];//settingsGrid.getServers();
         if (!serverSubscriptions)
             // TODO: should we use local or grid data
-            serverSubscriptions = [];//settingsGrid.getServerSubscriptions();
+            serverSubscriptions = settingsPage.readServerSubscriptions();
 
         let hasSelectedItem = false;
 
@@ -428,7 +452,7 @@ export class settingsPage {
         }
     }
 
-    private static populateServerModal(modalContainer, server?: ProxyServer) {
+    private static populateServerModal(modalContainer: any, server?: ProxyServer) {
 
         if (server) {
 
@@ -439,67 +463,30 @@ export class settingsPage {
             modalContainer.find("#chkServerProxyDNSHttp").prop('checked', server.proxyDNS);
             modalContainer.find("#txtServerUsernameHttp").val(server.username);
             modalContainer.find("#txtServerPasswordHttp").val(server.password);
-
-            if (server.protocolsServer && server.protocolsServer.length > 0) {
-                for (let protocolsServer of server.protocolsServer) {
-                    switch (protocolsServer.forProtocol) {
-                        case ProxyServerForProtocol.Http:
-                            {
-
-                            }
-                            break;
-                        case ProxyServerForProtocol.SSL:
-                            {
-
-                            }
-                            break;
-                        case ProxyServerForProtocol.FTP:
-                            {
-
-                            }
-                            break;
-                        case ProxyServerForProtocol.SOCKS:
-                            {
-
-                            }
-                            break;
-                    }
-                }
-            }
-
         } else {
-
             modalContainer.find("#txtServerName").val(this.generateNewServerName());
 
-            modalContainer.find("#txtServerAddressHttp").val("127.0.0.1");
-            modalContainer.find("#txtServerPortHttp").val("");
-            modalContainer.find("#cmdServerProtocolHttp").val("HTTP");
-            modalContainer.find("#chkServerProxyDNSHttp").prop('checked', false);
-            modalContainer.find("#txtServerUsernameHttp").val("");
-            modalContainer.find("#txtServerPasswordHttp").val("");
-
-            modalContainer.find("#txtServerAddressSSL").val("127.0.0.1");
-            modalContainer.find("#txtServerPortSSL").val("");
-            modalContainer.find("#cmdServerProtocolSSL").val("HTTPS");
-            modalContainer.find("#chkServerProxyDNSSSL").prop('checked', false);
-            modalContainer.find("#txtServerUsernameSSL").val("");
-            modalContainer.find("#txtServerPasswordSSL").val("");
-
-            modalContainer.find("#txtServerAddressFTP").val("127.0.0.1");
-            modalContainer.find("#txtServerPortFTP").val("");
-            modalContainer.find("#cmdServerProtocolFTP").val("SOCKS5");
-            modalContainer.find("#chkServerProxyDNSFTP").prop('checked', false);
-            modalContainer.find("#txtServerUsernameFTP").val("");
-            modalContainer.find("#txtServerPasswordFTP").val("");
-
-            modalContainer.find("#txtServerAddressSOCKS").val("127.0.0.1");
-            modalContainer.find("#txtServerPortSOCKS").val("");
-            modalContainer.find("#cmdServerProtocolSOCKS").val("SOCKS5");
-            modalContainer.find("#chkServerProxyDNSSOCKS").prop('checked', false);
-            modalContainer.find("#txtServerUsernameSOCKS").val("");
-            modalContainer.find("#txtServerPasswordSOCKS").val("");
-
+            modalContainer.find("#txtServerAddress").val("127.0.0.1");
+            modalContainer.find("#txtServerPort").val("");
+            modalContainer.find("#cmdServerProtocol").val("HTTP");
+            modalContainer.find("#chkServerProxyDNS").prop('checked', false);
+            modalContainer.find("#txtServerUsername").val("");
+            modalContainer.find("#txtServerPassword").val("");
         }
+    }
+
+    private static readServerModel(modalContainer: any): ProxyServer {
+        let proxy = new ProxyServer();
+
+        proxy.name = modalContainer.find("#txtServerName").val().trim();
+        proxy.host = modalContainer.find("#txtServerAddress").val().trim();
+        proxy.port = modalContainer.find("#txtServerPort").val();
+        proxy.protocol = modalContainer.find("#cmdServerProtocol").val();
+        proxy.username = modalContainer.find("#txtServerUsername").val().trim();
+        proxy.password = modalContainer.find("#txtServerPassword").val().trim();
+        proxy.proxyDNS = modalContainer.find("#chkServerProxyDNS").prop("checked");
+
+        return proxy;
     }
     //#endregion
 
@@ -642,67 +629,63 @@ export class settingsPage {
         },
         onClickSubmitProxyServer: function () {
 
-            // let modal = jQuery("#modalModifyProxyServer");
-            // let editingModel = modal.data("editing");
+            let modal = jQuery("#modalModifyProxyServer");
+            let editingModel = modal.data("editing");
 
-            // let serverInputInfo = settingsGrid.serverReadModel(modal);
+            let serverInputInfo = settingsPage.readServerModel(modal);
+            debugger;
+            if (!serverInputInfo.name) {
+                messageBox.error(browser.i18n.getMessage("settingsServerNameRequired"));
+                return;
+            }
 
-            // serverInputInfo.name = serverInputInfo.name.trim();
-            // serverInputInfo.host = serverInputInfo.host.trim();
-            // serverInputInfo.username = serverInputInfo.username.trim();
-            // serverInputInfo.password = serverInputInfo.password.trim();
+            // ------------------
+            let editingServerName = null;
+            if (editingModel)
+                editingServerName = editingModel.name;
 
-            // if (!serverInputInfo.name) {
-            // 	messageBox.error(browser.i18n.getMessage("settingsServerNameRequired"));
-            // 	return;
-            // }
+            let existingServers = settingsPage.readServers();
+            let serverExists = existingServers.some(server => {
+                return (server.name === serverInputInfo.name && server.name != editingServerName);
+            });
+            if (serverExists) {
+                // A Server with the same name already exists!
+                messageBox.error(browser.i18n.getMessage("settingsServerNameExists"));
+                return;
+            }
 
-            // // ------------------
-            // let editingServerName = null;
-            // if (editingModel)
-            // 	editingServerName = editingModel.name;
+            // ------------------
+            if (!serverInputInfo.host) {
+                messageBox.error(browser.i18n.getMessage("settingsServerServerAddressIsEmpty"));
+                return;
+            }
+            if (!serverInputInfo.port || serverInputInfo.port <= 0) {
+                messageBox.error(browser.i18n.getMessage("settingsServerPortNoInvalid"));
+                return;
+            }
 
-            // let existingServers = settingsGrid.getServers();
-            // let serverExists = existingServers.some(server => {
-            // 	return (server.name === serverInputInfo.name && server.name != editingServerName);
-            // });
-            // if (serverExists) {
-            // 	// A Server with the same name already exists!
-            // 	messageBox.error(browser.i18n.getMessage("settingsServerNameExists"));
-            // 	return;
-            // }
+            if (!serverInputInfo.username && serverInputInfo.password) {
+                messageBox.error(browser.i18n.getMessage("settingsServerAuthenticationInvalid"));
+                return;
+            }
 
-            // // ------------------
-            // if (!serverInputInfo.host) {
-            // 	messageBox.error(browser.i18n.getMessage("settingsServerServerAddressIsEmpty"));
-            // 	return;
-            // }
-            // if (!serverInputInfo.port || serverInputInfo.port <= 0) {
-            // 	messageBox.error(browser.i18n.getMessage("settingsServerPortNoInvalid"));
-            // 	return;
-            // }
+            if (editingModel) {
+                // just copy the values
+                jQuery.extend(editingModel, serverInputInfo);
 
-            // if ((serverInputInfo.username && !serverInputInfo.password) || (!serverInputInfo.username && serverInputInfo.password)) {
-            // 	messageBox.error(browser.i18n.getMessage("settingsServerAuthenticationInvalid"));
-            // 	return;
-            // }
+                settingsPage.refreshServersGrid();
 
-            // if (editingModel) {
-            // 	$.extend(editingModel, serverInputInfo);
+            } else {
 
-            // 	jQuery("#grdServers").jsGrid("refresh");
+                // insert to the grid
+                settingsPage.insertNewServerInGrid(serverInputInfo);
+            }
 
-            // } else {
+            settingsPage.changeTracking.servers = true;
 
-            // 	// insert to the grid
-            // 	jQuery("#grdServers").jsGrid("insertItem", serverInputInfo);
-            // }
+            modal.modal("hide");
 
-            // changeTracking.servers = true;
-
-            // modal.modal("hide");
-
-            // settingsGrid.reloadActiveProxyServer();
+            settingsPage.loadActiveProxyServer();
         },
         onClickSaveProxyServers: function () {
 

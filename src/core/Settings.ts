@@ -165,8 +165,6 @@ class ProxyServerConnectDetails {
 	public username: string;
 	public password: string;
 	public proxyDNS: boolean;
-	/** This proxy is for which protocol */
-	public forProtocol: ProxyServerForProtocol;
 }
 
 export class ProxyServer implements ProxyServerConnectDetails {
@@ -179,8 +177,6 @@ export class ProxyServer implements ProxyServerConnectDetails {
 	public name: string;
 	public failoverTimeout: number;
 	public protocolsServer: ProxyServerConnectDetails[];
-	/** This proxy is for which protocol */
-	public forProtocol: ProxyServerForProtocol;
 }
 
 export class ProxyRule {
