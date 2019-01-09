@@ -88,7 +88,7 @@ window["messageBox"] = {
 					dialog.close();
 				}, { id: 'button1', 'data-status': 'ok' }),
 
-				Noty.button('NO', 'btn btn-error px-3', function () {
+				Noty.button('NO', 'btn btn-secondary px-3', function () {
 					if (cancel)
 						cancel();
 					dialog.close();

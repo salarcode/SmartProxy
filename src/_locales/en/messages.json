@@ -367,6 +367,10 @@
 		"message": "Import",
 		"description": ""
 	},
+	"settingsConfirmRemoveProxyServer": {
+		"message": "Are you sure to remove the selected proxy server?",
+		"description": ""
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Are you sure to remove all the proxy servers?",
 		"description": ""

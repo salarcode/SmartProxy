@@ -144,20 +144,20 @@ export class settingsPage {
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             columns: [
                 {
-                    name: "name", title: browser.i18n.getMessage("settingsServersGridColName")
+                    name: "name", data: "name", title: browser.i18n.getMessage("settingsServersGridColName")
                 },
                 {
-                    name: "protocol", title: browser.i18n.getMessage("settingsServersGridColProtocol"),
+                    name: "protocol", data: "protocol", title: browser.i18n.getMessage("settingsServersGridColProtocol"),
                 },
                 {
-                    name: "host", title: browser.i18n.getMessage("settingsServersGridColServer"),
+                    name: "host", data: "host", title: browser.i18n.getMessage("settingsServersGridColServer"),
                 },
                 {
-                    name: "port", type : "num", title: browser.i18n.getMessage("settingsServersGridColPort"),
+                    name: "port", data: "port", type: "num", title: browser.i18n.getMessage("settingsServersGridColPort"),
                 },
                 {
                     "data": null,
-                    "defaultContent": "<button class='btn btn-sm btn-success' onclick='settingsPage.onServersEditClick(event)'>Edit</button> <button class='btn btn-sm btn-danger' onclick='settingsPage.onServersRemoveClick(event)'><i class='fas fa-times'></button>",
+                    "defaultContent": "<button class='btn btn-sm btn-success' id='btnServersEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>",
                 }
             ],
         });
@@ -171,16 +171,17 @@ export class settingsPage {
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             columns: [
                 {
-                    name: "source", title: browser.i18n.getMessage("settingsRulesGridColSource")
+                    name: "source", data: "source", title: browser.i18n.getMessage("settingsRulesGridColSource")
                 },
                 {
-                    name: "pattern", title: browser.i18n.getMessage("settingsRulesGridColPattern")
+                    name: "pattern", data: "pattern", title: browser.i18n.getMessage("settingsRulesGridColPattern")
                 },
                 {
-                    name: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled")
+                    name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled")
                 },
                 {
-                    name: "proxy", title: browser.i18n.getMessage("settingsRulesGridColProxy"),
+                    name: "proxy", data: "proxy", title: browser.i18n.getMessage("settingsRulesGridColProxy"),
+                    defaultContent: browser.i18n.getMessage("settingsRulesProxyDefault")
                 },
                 {
                     "data": null,
@@ -198,16 +199,16 @@ export class settingsPage {
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             columns: [
                 {
-                    name: "name", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColName")
+                    name: "name", data: "name", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColName")
                 },
                 {
-                    name: "url", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColUrl")
+                    name: "url", data: "url", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColUrl")
                 },
                 {
-                    name: "totalCount", type : "num", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColCount")
+                    name: "totalCount", data: "totalCount", type: "num", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColCount")
                 },
                 {
-                    name: "enabled", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColEnabled"),
+                    name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColEnabled"),
                 },
                 {
                     "data": null,
@@ -273,16 +274,37 @@ export class settingsPage {
         return this.grdServers.data().toArray();
     }
 
+    private static readSelectedServer(): any {
+        return this.grdServers.row().data();
+    }
+
     private static refreshServersGrid() {
+        let currentRow = this.grdServers.row();
+        if (currentRow)
+            settingsPage.refreshServersGridRow(currentRow, true);
+
         this.grdServers.draw('full-hold');
+    }
+
+    private static refreshServersGridRow(row, invalidate?) {
+        if (!row)
+            return;
+        if (invalidate)
+            row.invalidate();
+
+        let rowElement = jQuery(row.node());
+        rowElement.find("#btnServersRemove").on("click", settingsPage.uiEvents.onServersRemoveClick);
+        rowElement.find("#btnServersEdit").on("click", settingsPage.uiEvents.onServersEditClick);
     }
 
     private static insertNewServerInGrid(newServer: ProxyServer) {
         try {
 
-            this.grdServers.row
+            let row = this.grdServers.row
                 .add(newServer)
                 .draw('full-hold');
+
+            settingsPage.refreshServersGridRow(row);
 
         } catch (error) {
             PolyFill.runtimeSendMessage("insertNewServerInGrid failed! > " + error);
@@ -535,17 +557,7 @@ export class settingsPage {
 
     //#region Events --------------------------
 
-    /** Servers Grid */
-    public static onServersEditClick(e) {
-        this.changeTracking.servers = true;
 
-    }
-
-    /** Servers Grid */
-    public static onServersRemoveClick(e) {
-        this.changeTracking.servers = true;
-
-    }
 
     /** Rules Grid */
     public static onRulesEditClick(e) {
@@ -633,7 +645,7 @@ export class settingsPage {
             let editingModel = modal.data("editing");
 
             let serverInputInfo = settingsPage.readServerModel(modal);
-            debugger;
+
             if (!serverInputInfo.name) {
                 messageBox.error(browser.i18n.getMessage("settingsServerNameRequired"));
                 return;
@@ -668,7 +680,7 @@ export class settingsPage {
                 messageBox.error(browser.i18n.getMessage("settingsServerAuthenticationInvalid"));
                 return;
             }
-
+            debugger;
             if (editingModel) {
                 // just copy the values
                 jQuery.extend(editingModel, serverInputInfo);
@@ -686,6 +698,27 @@ export class settingsPage {
             modal.modal("hide");
 
             settingsPage.loadActiveProxyServer();
+        },
+        onServersEditClick: function (e) {
+            let item = settingsPage.readSelectedServer();
+            if (!item)
+                return;
+
+            let modal = jQuery("#modalModifyProxyServer");
+            modal.data("editing", item);
+
+            settingsPage.populateServerModal(modal, item);
+
+            modal.modal("show");
+            modal.find("#txtServerAddress").focus();
+        },
+        onServersRemoveClick: function (e) {
+            messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveProxyServer"),
+                () => {
+                    // TODO:
+                    alert('onServersRemoveClick');
+                    settingsPage.changeTracking.servers = true;
+                });
         },
         onClickSaveProxyServers: function () {
 
