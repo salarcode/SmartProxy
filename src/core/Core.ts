@@ -135,6 +135,8 @@ export class Core {
 				break;
 			case Messages.SettingsPageSaveOptions:
 				{
+					if (!message.options)
+						return;
 					Settings.current.options = message.options;
 					SettingsOperation.saveOptions();
 					SettingsOperation.saveAllSync();
@@ -152,7 +154,12 @@ export class Core {
 					return;
 				}
 				break;
+			case Messages.SettingsPageSaveProxyServers:
+				{
+					var saveData = message.saveData;
 
+				}
+				break;
 			default:
 				{
 

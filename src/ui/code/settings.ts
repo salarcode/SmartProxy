@@ -263,11 +263,17 @@ export class settingsPage {
         });
     }
 
+    //#region Servers tab functions ------------------------------
+
+
     private static loadServers(servers: any[]) {
         if (!this.grdServers)
             return;
         this.grdServers.clear();
-        this.grdServers.rows.add(servers);
+        this.grdServers.rows.add(servers).draw('full-hold');
+
+        //this.refreshServersGrid();
+        // TODO: binding the events for all the rows
     }
 
     private static readServers(): any[] {
@@ -281,6 +287,7 @@ export class settingsPage {
     private static refreshServersGrid() {
         let currentRow = this.grdServers.row();
         if (currentRow)
+            // displaying the possible data change
             settingsPage.refreshServersGridRow(currentRow, true);
 
         this.grdServers.draw('full-hold');
@@ -293,6 +300,11 @@ export class settingsPage {
             row.invalidate();
 
         let rowElement = jQuery(row.node());
+
+        // NOTE: to display update data the row should be invalidated
+        // and invalidated row loosed the event bindings.
+        // so we need to bind the events each time data changes.
+
         rowElement.find("#btnServersRemove").on("click", settingsPage.uiEvents.onServersRemoveClick);
         rowElement.find("#btnServersEdit").on("click", settingsPage.uiEvents.onServersEditClick);
     }
@@ -304,6 +316,7 @@ export class settingsPage {
                 .add(newServer)
                 .draw('full-hold');
 
+            // binding the events
             settingsPage.refreshServersGridRow(row);
 
         } catch (error) {
@@ -312,29 +325,6 @@ export class settingsPage {
         }
     }
 
-    private static loadRules(rules: any[]) {
-        if (!this.grdRules)
-            return;
-        this.grdRules.clear();
-        this.grdRules.rows.add(rules);
-    }
-
-    private static readRules(): any[] {
-        return this.grdRules.data().toArray();
-    }
-
-    private static loadServerSubscriptions(rules: any[]) {
-        if (!this.grdServerSubscriptions)
-            return;
-        this.grdServerSubscriptions.clear();
-        this.grdServerSubscriptions.rows.add(rules);
-    }
-
-    private static readServerSubscriptions(): any[] {
-        return this.grdServerSubscriptions.data().toArray();
-    }
-
-    /** Load/Reload the action proxy combobox */
     private static loadActiveProxyServer(proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
         let activeProxyServer = this.currentSettings.activeProxyServer;
 
@@ -351,6 +341,73 @@ export class settingsPage {
         // populate
         this.populateProxyServersToComboBox(cmbActiveProxyServer, activeProxyName, proxyServers, serverSubscriptions);
     }
+
+    /** find proxy from Servers or Subscriptions */
+    private static findProxyServerByName(name: string) {
+        let proxyServers = settingsPage.readServers();
+        let serverSubscriptions = settingsPage.readServerSubscriptions();
+
+        let proxy = proxyServers.find(item => item.name === name);
+        if (proxy !== undefined) return proxy;
+
+        for (let subscription of serverSubscriptions) {
+            proxy = subscription.proxies.find(item => item.name === name);
+            if (proxy !== undefined) return proxy;
+        }
+        return null;
+    }
+
+    private static exportServersListFormatted(): string {
+        let proxyList = settingsPage.readServers();
+        let result = `[SmartProxy Servers]\r\n`;
+
+        for (let proxy of proxyList) {
+            let proxyExport = `${proxy.host}:${proxy.port} [${proxy.protocol}]`;
+
+            if (proxy.username) {
+                proxyExport += ` [${proxy.name}] [${proxy.username}] [${proxy.password}]`;
+            }
+            else if (proxy.name != `${proxy.host}:${proxy.port}`) {
+                proxyExport += ` [${proxy.name}]`;
+            }
+
+            result += proxyExport + "\r\n";
+        }
+        return result;
+}
+    //#endregion
+
+    //#region Rules tab functions ------------------------------
+
+    private static loadRules(rules: any[]) {
+        if (!this.grdRules)
+            return;
+        this.grdRules.clear();
+        this.grdRules.rows.add(rules);
+    }
+
+    private static readRules(): any[] {
+        return this.grdRules.data().toArray();
+    }
+
+    //#endregion
+
+    //#region ServerSubscriptions tab functions --------------
+
+    private static loadServerSubscriptions(rules: any[]) {
+        if (!this.grdServerSubscriptions)
+            return;
+        this.grdServerSubscriptions.clear();
+        this.grdServerSubscriptions.rows.add(rules);
+    }
+
+    private static readServerSubscriptions(): any[] {
+        return this.grdServerSubscriptions.data().toArray();
+    }
+
+    //#endregion
+
+    /** Load/Reload the action proxy combobox */
 
     //private static 
 
@@ -400,20 +457,18 @@ export class settingsPage {
         }
     }
 
-    /** used for ActiveProxy and ... */
+    /** Used for ActiveProxy and ... */
     static populateProxyServersToComboBox(comboBox: any, selectedProxyName?: string, proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
         if (!comboBox) return;
         if (!proxyServers)
-            // TODO: should we use local or grid data
-            proxyServers = [];//settingsGrid.getServers();
+            proxyServers = settingsPage.readServers();
         if (!serverSubscriptions)
-            // TODO: should we use local or grid data
             serverSubscriptions = settingsPage.readServerSubscriptions();
 
         let hasSelectedItem = false;
 
         // adding select options
-        jQuery.each(proxyServers, function (index: number, proxyServer: ProxyServer) {
+        proxyServers.forEach((proxyServer: ProxyServer) => {
 
             // proxyServer
             let option = jQuery("<option>")
@@ -622,12 +677,13 @@ export class settingsPage {
             messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
         },
         onChangeActiveProxyServer: function () {
-            // let proxyName = jQuery("#cmbActiveProxyServer").val();
+            let proxyName = jQuery("#cmbActiveProxyServer").val();
 
-            // let server = settingsGrid.findProxyServerByName(proxyName);
+            let server = settingsPage.findProxyServerByName(proxyName);
 
-            // // this can be null
-            // settingsUiData.activeProxyServer = server;
+            // this can be null
+            settingsPage.currentSettings.activeProxyServer = server;
+            console.log('onChangeActiveProxyServer > ', server);
         },
         onClickAddProxyServer: function () {
             // settingsGrid.serverAdd();
@@ -680,7 +736,7 @@ export class settingsPage {
                 messageBox.error(browser.i18n.getMessage("settingsServerAuthenticationInvalid"));
                 return;
             }
-            debugger;
+
             if (editingModel) {
                 // just copy the values
                 jQuery.extend(editingModel, serverInputInfo);
@@ -713,75 +769,83 @@ export class settingsPage {
             modal.find("#txtServerAddress").focus();
         },
         onServersRemoveClick: function (e) {
+            var row = settingsPage.grdServers.row();
+            if (!row)
+                return;
+
             messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveProxyServer"),
                 () => {
-                    // TODO:
-                    alert('onServersRemoveClick');
+
+                    // remove then redraw the grid page
+                    row.remove().draw('full-hold');
+
                     settingsPage.changeTracking.servers = true;
+
+                    settingsPage.loadActiveProxyServer();
                 });
         },
         onClickSaveProxyServers: function () {
 
-            // // update the active proxy server data
-            // jQuery("#cmbActiveProxyServer").trigger("change");
-            // let saveData = {
-            // 	proxyServers: settingsGrid.getServers(),
-            // 	activeProxyServer: settingsUiData.activeProxyServer
-            // };
+            // update the active proxy server data
+            jQuery("#cmbActiveProxyServer").trigger("change");
+            let saveData = {
+                proxyServers: settingsPage.readServers(),
+                activeProxyServer: settingsPage.currentSettings.activeProxyServer
+            };
 
-            // polyfill.runtimeSendMessage(
-            // 	{
-            // 		command: "settingsSaveProxyServers",
-            // 		saveData: saveData
-            // 	},
-            // 	function (response) {
-            // 		if (!response) return;
-            // 		if (response.success) {
-            // 			if (response.message)
-            // 				messageBox.success(response.message);
+            PolyFill.runtimeSendMessage(
+                {
+                    command: Messages.SettingsPageSaveProxyServers,
+                    saveData: saveData
+                },
+                (response) => {
+                    if (!response) return;
+                    if (response.success) {
+                        if (response.message)
+                            messageBox.success(response.message);
 
-            // 			settings.displayRestartRequired(response.restartRequired);
+                        settingsPage.populateRestartRequired(response.restartRequired);
 
-            // 			// current server should become equal to saved servers
-            // 			settingsUiData.proxyServers = saveData.proxyServers;
-            // 			settingsUiData.activeProxyServer = saveData.activeProxyServer;
+                        // current server should become equal to saved servers
+                        settingsPage.currentSettings.proxyServers = saveData.proxyServers;
+                        settingsPage.currentSettings.activeProxyServer = saveData.activeProxyServer;
 
-            // 			changeTracking.servers = false;
-            // 			changeTracking.activeProxy = false;
+                        settingsPage.changeTracking.servers = false;
+                        settingsPage.changeTracking.activeProxy = false;
 
-            // 		} else {
-            // 			if (response.message)
-            // 				messageBox.error(response.message);
-            // 		}
-            // 	},
-            // 	function (error) {
-            // 		messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveServers") + " " + error.message);
-            // 	});
+                    } else {
+                        if (response.message)
+                            messageBox.error(response.message);
+                    }
+                },
+                function (error) {
+                    messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveServers") + " " + error.message);
+                });
 
         },
         onClickRejectProxyServers: function () {
-            // // reset the data
-            // settingsUiData.proxyServers = originalSettingsData.proxyServers.slice();
-            // settingsGrid.loadServers(settingsUiData.proxyServers);
-            // settingsGrid.reloadActiveProxyServer();
-            // jQuery("#grdServers").jsGrid("refresh");
+            // reset the data
+            settingsPage.currentSettings.proxyServers = settingsPage.originalSettings.proxyServers.slice();
+            settingsPage.loadServers(settingsPage.currentSettings.proxyServers);
+            settingsPage.loadActiveProxyServer();
+            settingsPage.refreshServersGrid();
 
-            // changeTracking.servers = false;
+            settingsPage.changeTracking.servers = false;
 
-            // // Changes reverted successfully
-            // messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+            // Changes reverted successfully
+            messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
         },
         onClickClearProxyServers: function () {
-            // // Are you sure to remove all the servers?
-            // messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServers"),
-            // 	function () {
-            // 		settingsGrid.loadServers([]);
+            // Are you sure to remove all the servers?
+            messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServers"),
+                function () {
+                    settingsPage.loadServers([]);
 
-            // 		changeTracking.servers = true;
+                    settingsPage.changeTracking.servers = true;
 
-            // 		// All the proxy servers are removed.<br/>You have to save to apply the changes.
-            // 		messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServersSuccess"));
-            // 	});
+                    // All the proxy servers are removed.<br/>You have to save to apply the changes.
+                    messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServersSuccess"));
+                });
         },
         onClickAddProxyRule: function () {
 
@@ -1090,9 +1154,9 @@ export class settingsPage {
             // messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
         },
         onClickExportProxyServerOpenBackup: function () {
-            // let proxyList = settingsGrid.exportProxyListFormatted();
+            let proxyList = settingsPage.exportServersListFormatted();
 
-            // settings.downloadData(proxyList, "SmartProxy-Servers.txt");
+            CommonUi.downloadData(proxyList, "SmartProxy-Servers.txt");
         },
         onClickImportProxyServer: function () {
             // let modalContainer = jQuery("#modalImportProxyServer");

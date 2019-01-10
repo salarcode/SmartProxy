@@ -2,6 +2,15 @@ import { jQuery } from "../../lib/External";
 
 export class CommonUi {
 
+    public static downloadData(data: any, fileName: string) {
+
+        let downloadUrl = "data:application/json;charset=utf-8," + encodeURIComponent(data);
+        let a = jQuery("<a/>")
+            .attr("download", fileName || "")
+            .attr("href", downloadUrl);
+        a[0].dispatchEvent(new MouseEvent("click"));
+    }
+
     public static onDocumentReady(callback: Function) {
         jQuery(document).ready(callback);
     }
