@@ -19,7 +19,7 @@ import { browser, environment } from "../lib/environment";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { ProxyAuthentication } from "./ProxyAuthentication";
 import { Debug } from "../lib/Debug";
-import { Messages, SettingsPageInternalDataType } from "./definitions";
+import { Messages, SettingsPageInternalDataType, ResultHolder } from "./definitions";
 import { SettingsOperation } from "./SettingsOperation";
 import { ProxyRules } from "./ProxyRules";
 import { ProxyEngine } from "./ProxyEngine";
@@ -156,8 +156,30 @@ export class Core {
 				break;
 			case Messages.SettingsPageSaveProxyServers:
 				{
+					debugger;
 					var saveData = message.saveData;
 
+					Settings.current.proxyServers = saveData.proxyServers;
+					Settings.current.activeProxyServer = message.saveData.activeProxyServer;
+
+					SettingsOperation.saveProxyServers();
+					SettingsOperation.saveActiveProxyServer();
+					SettingsOperation.saveAllSync();
+
+					// TODO: notify
+					//ProxyRules.notifyActiveProxyServerChange();
+
+					// update proxy rules
+					// TODO: notify
+					//ProxyRules.updateChromeProxyConfig();
+
+					if (sendResponse) {
+						sendResponse({
+							success: true,
+							message: "Proxy servers saved successfully."
+						});
+					}
+					return;
 				}
 				break;
 			default:

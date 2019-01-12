@@ -1,6 +1,6 @@
 import { CommonUi } from "./CommonUi";
 import { PolyFill } from "../../lib/PolyFill";
-import { Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServerForProtocol } from "../../core/definitions";
+import { Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServerForProtocol, ResultHolder } from "../../core/definitions";
 import { messageBox, jQuery } from "../../lib/External";
 import { environment } from "../../lib/environment";
 import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions } from "../../core/Settings";
@@ -218,9 +218,21 @@ export class settingsPage {
         });
         settingsPage.grdServerSubscriptions.draw();
 
-        settingsPage.loadServers([]);
-        settingsPage.loadRules([]);
-        settingsPage.loadServerSubscriptions([]);
+        if (settingsPage.currentSettings) {
+            if (settingsPage.currentSettings.proxyServers)
+                settingsPage.loadServers(settingsPage.currentSettings.proxyServers);
+
+            if (settingsPage.currentSettings.proxyRules)
+                settingsPage.loadRules(settingsPage.currentSettings.proxyRules);
+
+            if (settingsPage.currentSettings.proxyServerSubscriptions)
+                settingsPage.loadServerSubscriptions(settingsPage.currentSettings.proxyServerSubscriptions);
+        }
+        else {
+            settingsPage.loadServers([]);
+            settingsPage.loadRules([]);
+            settingsPage.loadServerSubscriptions([]);
+        }
 
         jQuery("#tabSettings").on('shown.bs.tab', function (e) {
             // DataTables columns are not adjusted when hidden, needs to be done manually
@@ -272,16 +284,28 @@ export class settingsPage {
         this.grdServers.clear();
         this.grdServers.rows.add(servers).draw('full-hold');
 
-        //this.refreshServersGrid();
-        // TODO: binding the events for all the rows
+        // binding the events for all the rows
+        this.refreshServersGridAllRows();
     }
 
     private static readServers(): any[] {
         return this.grdServers.data().toArray();
     }
 
-    private static readSelectedServer(): any {
-        return this.grdServers.row().data();
+    private static readSelectedServer(e?: any): any {
+        var dataItem = this.grdServers.row({ selected: true }).data();
+
+        if (!dataItem && e && e.target)
+            dataItem = this.grdServers.row(jQuery(e.target).parents('tr')).data();
+
+        return dataItem;
+    }
+
+    private static readSelectedServerRow(e: any): any {
+        if (e && e.target)
+            return this.grdServers.row(jQuery(e.target).parents('tr'));
+
+        return null;
     }
 
     private static refreshServersGrid() {
@@ -307,6 +331,16 @@ export class settingsPage {
 
         rowElement.find("#btnServersRemove").on("click", settingsPage.uiEvents.onServersRemoveClick);
         rowElement.find("#btnServersEdit").on("click", settingsPage.uiEvents.onServersEditClick);
+    }
+
+    private static refreshServersGridAllRows() {
+        var nodes = this.grdServers.rows().nodes();
+        for (let index = 0; index < nodes.length; index++) {
+            const rowElement = jQuery(nodes[index]);
+
+            rowElement.find("#btnServersRemove").on("click", settingsPage.uiEvents.onServersRemoveClick);
+            rowElement.find("#btnServersEdit").on("click", settingsPage.uiEvents.onServersEditClick);
+        }
     }
 
     private static insertNewServerInGrid(newServer: ProxyServer) {
@@ -374,7 +408,7 @@ export class settingsPage {
             result += proxyExport + "\r\n";
         }
         return result;
-}
+    }
     //#endregion
 
     //#region Rules tab functions ------------------------------
@@ -648,7 +682,7 @@ export class settingsPage {
                     command: Messages.SettingsPageSaveOptions,
                     options: generalOptions
                 },
-                function (response) {
+                function (response: ResultHolder) {
                     if (!response) return;
                     if (response.success) {
                         if (response.message)
@@ -656,7 +690,6 @@ export class settingsPage {
 
                         settingsPage.currentSettings.options = generalOptions;
                         settingsPage.changeTracking.options = false;
-                        settingsPage.populateRestartRequired(response.restartRequired);
                     } else {
                         if (response.message)
                             messageBox.error(response.message);
@@ -683,6 +716,8 @@ export class settingsPage {
 
             // this can be null
             settingsPage.currentSettings.activeProxyServer = server;
+
+            // TODO: remove log
             console.log('onChangeActiveProxyServer > ', server);
         },
         onClickAddProxyServer: function () {
@@ -756,7 +791,7 @@ export class settingsPage {
             settingsPage.loadActiveProxyServer();
         },
         onServersEditClick: function (e) {
-            let item = settingsPage.readSelectedServer();
+            let item = settingsPage.readSelectedServer(e);
             if (!item)
                 return;
 
@@ -769,7 +804,7 @@ export class settingsPage {
             modal.find("#txtServerAddress").focus();
         },
         onServersRemoveClick: function (e) {
-            var row = settingsPage.grdServers.row();
+            var row = settingsPage.readSelectedServerRow(e);
             if (!row)
                 return;
 
@@ -798,13 +833,11 @@ export class settingsPage {
                     command: Messages.SettingsPageSaveProxyServers,
                     saveData: saveData
                 },
-                (response) => {
+                (response: ResultHolder) => {
                     if (!response) return;
                     if (response.success) {
                         if (response.message)
                             messageBox.success(response.message);
-
-                        settingsPage.populateRestartRequired(response.restartRequired);
 
                         // current server should become equal to saved servers
                         settingsPage.currentSettings.proxyServers = saveData.proxyServers;
@@ -840,6 +873,7 @@ export class settingsPage {
             messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServers"),
                 function () {
                     settingsPage.loadServers([]);
+                    settingsPage.loadActiveProxyServer();
 
                     settingsPage.changeTracking.servers = true;
 
@@ -941,7 +975,7 @@ export class settingsPage {
             // 		command: "settingsSaveProxyRules",
             // 		proxyRules: rules
             // 	},
-            // 	function (response) {
+            // 	function (response: ResultHolder) {
             // 		if (!response) return;
             // 		if (response.success) {
             // 			if (response.message)
@@ -997,7 +1031,7 @@ export class settingsPage {
             // 		command: "settingsSaveBypass",
             // 		bypass: settingsUiData.bypass
             // 	},
-            // 	function (response) {
+            // 	function (response: ResultHolder) {
             // 		if (!response) return;
             // 		if (response.success) {
             // 			if (response.message)
@@ -1048,7 +1082,7 @@ export class settingsPage {
             // 			command: "restoreSettings",
             // 			fileData: fileData
             // 		},
-            // 		function (response) {
+            // 		function (response: ResultHolder) {
 
             // 			if (response.success) {
             // 				if (response.message) {
@@ -1119,7 +1153,7 @@ export class settingsPage {
             // 		command: "settingsSaveProxySubscriptions",
             // 		proxyServerSubscriptions: proxyServerSubscriptions
             // 	},
-            // 	function (response) {
+            // 	function (response: ResultHolder) {
             // 		if (!response) return;
             // 		if (response.success) {
             // 			if (response.message)
@@ -1190,7 +1224,7 @@ export class settingsPage {
             // proxyImporter.importText(text, file,
             // 	append,
             // 	proxyServers,
-            // 	function (response) {
+            // 	function (response: ResultHolder) {
             // 		if (!response) return;
 
             // 		if (response.success) {
@@ -1249,7 +1283,7 @@ export class settingsPage {
             // 		importFunction(selectFile,
             // 			append,
             // 			proxyRules,
-            // 			function (response) {
+            // 			function (response: ResultHolder) {
             // 				if (!response) return;
 
             // 				if (response.success) {

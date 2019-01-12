@@ -37,7 +37,10 @@
 		}
 	},
 	"background": {
-		"scripts": [ "core.js" ]
+		"scripts": [
+			"ui/js/pako.min.js",
+			"core.js"
+		]
 	},
 	"options_ui": {
 		"page": "ui/settings.html",

@@ -496,7 +496,7 @@
 		"description": ""
 	},
 	"settingsServersProxyDNS": {
-		"message": "Proxy DNS when using SOCKS v5",
+		"message": "Proxy DNS when using SOCKS 5",
 		"description": ""
 	},
 	"settingsServersUsername": {

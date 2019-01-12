@@ -16,7 +16,6 @@
   - along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <html>
-
 <head>
 	<meta charset="utf-8">
 	<title>SmartProxy Settings</title>
@@ -30,9 +29,9 @@
 	<script src="js/datatables.min.js"></script>
 	<script src="js/noty.min.js"></script>
 	<script src="js/messageBox.js"></script>
+	<script src="js/pako.min.js"></script>
 	<script src="code/settings.js"></script>
 </head>
-
 <body>
 	<div class="container p-2 pt-3">
 		<div class="row">
@@ -549,12 +548,9 @@
 						</div>
 						<div class="form-group col-sm-6">
 							<br />
-							<!-- <input type="checkbox" id="chkServerProxyDNS" class="" />
-							<label for="chkServerProxyDNS" data-localize="settingsServersProxyDNS">Proxy DNS when using SOCKS v5</label> -->
-
 							<div class="custom-control custom-checkbox">
 								<input type="checkbox" class="custom-control-input" id="chkServerProxyDNS">
-								<label class="custom-control-label" for="chkServerProxyDNS">Proxy DNS when using SOCKS v5</label>
+								<label class="custom-control-label" for="chkServerProxyDNS" data-localize="settingsServersProxyDNS">Proxy DNS when using SOCKS 5</label>
 							</div>
 						</div>
 					</div>

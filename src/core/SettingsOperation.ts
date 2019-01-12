@@ -236,7 +236,7 @@ export class SettingsOperation {
 		splitIntoChunks(compressResultStr, saveObject);
 
 		function splitIntoChunks(str: any, outputObject: any);
-		function splitIntoChunks(str, outputObject) {
+		function splitIntoChunks(str: any, outputObject: any) {
 			let length = environment.storageQuota.syncQuotaBytesPerItem();
 			if (length > 0) {
 
