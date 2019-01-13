@@ -1,9 +1,10 @@
 import { CommonUi } from "./CommonUi";
 import { PolyFill } from "../../lib/PolyFill";
-import { Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServerForProtocol, ResultHolder } from "../../core/definitions";
+import { Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServerForProtocol, ResultHolder, ProxyRuleType } from "../../core/definitions";
 import { messageBox, jQuery } from "../../lib/External";
 import { environment } from "../../lib/environment";
-import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions } from "../../core/Settings";
+import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions, ProxyRule } from "../../core/Settings";
+import { Utils } from "../../lib/Utils";
 
 export class settingsPage {
 
@@ -89,6 +90,10 @@ export class settingsPage {
         jQuery("#btnImportProxyServer").click(settingsPage.uiEvents.onClickImportProxyServer);
 
         // rules
+        jQuery("#cmdRuleType").change(settingsPage.uiEvents.onChangeRuleType);
+
+        jQuery("#chkRuleGeneratePattern").change(settingsPage.uiEvents.onChangeRuleGeneratePattern);
+
         jQuery("#btnSubmitRule").click(settingsPage.uiEvents.onClickSubmitProxyRule);
 
         jQuery("#btnImportRules").click(settingsPage.uiEvents.onClickImportRules);
@@ -171,10 +176,13 @@ export class settingsPage {
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             columns: [
                 {
-                    name: "source", data: "source", title: browser.i18n.getMessage("settingsRulesGridColSource")
+                    name: "ruleType", data: "ruleTypeName", title: browser.i18n.getMessage("settingsRulesGridColRuleType")
                 },
                 {
-                    name: "pattern", data: "pattern", title: browser.i18n.getMessage("settingsRulesGridColPattern")
+                    name: "sourceDomain", data: "sourceDomain", title: browser.i18n.getMessage("settingsRulesGridColSource")
+                },
+                {
+                    name: "rule", data: "rule", title: browser.i18n.getMessage("settingsRulesGridColRule")
                 },
                 {
                     name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled")
@@ -184,8 +192,9 @@ export class settingsPage {
                     defaultContent: browser.i18n.getMessage("settingsRulesProxyDefault")
                 },
                 {
+                    width: "70px",
                     "data": null,
-                    "defaultContent": "<button class='btn btn-sm btn-success' onclick='settingsPage.onRulesEditClick(event)'>Edit</button> <button class='btn btn-sm btn-danger' onclick='settingsPage.onRulesRemoveClick(event)'><i class='fas fa-times'></button>",
+                    "defaultContent": "<button class='btn btn-sm btn-success' id='btnRulesEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnRulesRemove'><i class='fas fa-times'></button>",
                 }
             ],
         });
@@ -424,6 +433,73 @@ export class settingsPage {
         return this.grdRules.data().toArray();
     }
 
+    private static readSelectedRule(e?: any): any {
+        var dataItem = this.grdRules.row({ selected: true }).data();
+
+        if (!dataItem && e && e.target)
+            dataItem = this.grdRules.row(jQuery(e.target).parents('tr')).data();
+
+        return dataItem;
+    }
+
+    private static readSelectedRuleRow(e: any): any {
+        if (e && e.target)
+            return this.grdRules.row(jQuery(e.target).parents('tr'));
+
+        return null;
+    }
+
+    private static refreshRulesGrid() {
+        let currentRow = this.grdRules.row();
+        if (currentRow)
+            // displaying the possible data change
+            settingsPage.refreshRulesGridRow(currentRow, true);
+
+        this.grdRules.draw('full-hold');
+    }
+
+    private static refreshRulesGridRow(row, invalidate?) {
+        if (!row)
+            return;
+        if (invalidate)
+            row.invalidate();
+
+        let rowElement = jQuery(row.node());
+
+        // NOTE: to display update data the row should be invalidated
+        // and invalidated row loosed the event bindings.
+        // so we need to bind the events each time data changes.
+
+        rowElement.find("#btnRulesRemove").on("click", settingsPage.uiEvents.onRulesRemoveClick);
+        rowElement.find("#btnRulesEdit").on("click", settingsPage.uiEvents.onRulesEditClick);
+    }
+
+    private static refreshRulesGridAllRows() {
+        var nodes = this.grdRules.rows().nodes();
+        for (let index = 0; index < nodes.length; index++) {
+            const rowElement = jQuery(nodes[index]);
+
+            rowElement.find("#btnRulesRemove").on("click", settingsPage.uiEvents.onRulesRemoveClick);
+            rowElement.find("#btnRulesEdit").on("click", settingsPage.uiEvents.onRulesEditClick);
+        }
+    }
+
+    private static insertNewRuleInGrid(newRule: ProxyRule) {
+        try {
+
+            let row = this.grdRules.row
+                .add(newRule)
+                .draw('full-hold');
+
+            // binding the events
+            settingsPage.refreshRulesGridRow(row);
+
+        } catch (error) {
+            PolyFill.runtimeSendMessage("insertNewRuleInGrid failed! > " + error);
+            throw error;
+        }
+    }
+
     //#endregion
 
     //#region ServerSubscriptions tab functions --------------
@@ -599,6 +675,103 @@ export class settingsPage {
 
         return proxy;
     }
+
+    private static populateRuleModal(modalContainer: any, proxyRule?: ProxyRule) {
+        // populate servers
+        let cmdRuleProxyServer = modalContainer.find("#cmdRuleProxyServer");
+        cmdRuleProxyServer.empty();
+
+        // the default value which is empty string
+        jQuery("<option>")
+            .attr("value", "")
+            // [General]
+            .text(browser.i18n.getMessage("settingsRulesProxyDefault"))
+            .appendTo(cmdRuleProxyServer);
+
+        if (proxyRule) {
+
+            modalContainer.find("#chkRuleGeneratePattern").prop('checked', proxyRule.autoGeneratePattern);
+            modalContainer.find("#cmdRuleType").val(proxyRule.ruleType);
+
+            modalContainer.find("#txtRuleSource").val(proxyRule.sourceDomain);
+            modalContainer.find("#txtRuleMatchPattern").val(proxyRule.rulePattern);
+            modalContainer.find("#txtRuleUrlRegex").val(proxyRule.ruleRegex);
+            modalContainer.find("#txtRuleUrlExact").val(proxyRule.ruleExact);
+            modalContainer.find("#chkRuleEnabled").prop('checked', proxyRule.enabled);
+
+            let proxyServerName = null;
+            if (proxyRule.proxy)
+                proxyServerName = proxyRule.proxy.name;
+
+            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, proxyServerName);
+
+        } else {
+
+            modalContainer.find("#chkRuleGeneratePattern").prop('checked', true);
+            modalContainer.find("#cmdRuleType").val(ProxyRuleType.MatchPattern);
+
+            modalContainer.find("#txtRuleSource").val("");
+            modalContainer.find("#txtRuleMatchPattern").val("");
+            modalContainer.find("#txtRuleUrlRegex").val("");
+            modalContainer.find("#txtRuleUrlExact").val("");
+            modalContainer.find("#chkRuleEnabled").prop('checked', true);
+
+            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, null);
+        }
+
+        settingsPage.updateProxyRuleModal();
+    }
+
+    private static updateProxyRuleModal() {
+        let autoPattern = jQuery("#chkRuleGeneratePattern").prop('checked');
+        if (autoPattern) {
+            jQuery("#txtRuleMatchPattern").attr('disabled', 'disabled');
+        }
+        else {
+            jQuery("#txtRuleMatchPattern").removeAttr('disabled');
+        }
+
+        let ruleType = jQuery("#cmdRuleType").val();
+
+        if (ruleType == ProxyRuleType.MatchPattern) {
+            jQuery("#divRuleMatchPattern").show();
+            jQuery("#divRuleGeneratePattern").show();
+            jQuery("#divRuleUrlRegex").hide();
+            jQuery("#divRuleUrlExact").hide();
+        }
+        else if (ruleType == ProxyRuleType.Regex) {
+            jQuery("#divRuleMatchPattern").hide();
+            jQuery("#divRuleGeneratePattern").hide();
+            jQuery("#divRuleUrlRegex").show();
+            jQuery("#divRuleUrlExact").hide();
+        }
+        else {
+            jQuery("#divRuleMatchPattern").hide();
+            jQuery("#divRuleGeneratePattern").hide();
+            jQuery("#divRuleUrlRegex").hide();
+            jQuery("#divRuleUrlExact").show();
+        }
+    }
+
+    private static readProxyRuleModel(modalContainer: any): ProxyRule {
+        let selectedProxyName = modalContainer.find("#cmdRuleProxyServer").val();
+        let selectedProxy = null;
+
+        if (selectedProxyName)
+            selectedProxy = settingsPage.findProxyServerByName(selectedProxyName);
+
+        let ruleInfo = new ProxyRule();
+        ruleInfo.autoGeneratePattern = modalContainer.find("#chkRuleGeneratePattern").prop('checked');
+        ruleInfo.ruleType = modalContainer.find("#cmdRuleType").val();
+        ruleInfo.sourceDomain = modalContainer.find("#txtRuleSource").val();
+        ruleInfo.rulePattern = modalContainer.find("#txtRuleMatchPattern").val();
+        ruleInfo.ruleRegex = modalContainer.find("#txtRuleUrlRegex").val();
+        ruleInfo.ruleExact = modalContainer.find("#txtRuleUrlExact").val();
+        ruleInfo.proxy = selectedProxy;
+        ruleInfo.enabled = modalContainer.find("#chkRuleEnabled").prop("checked");
+        return ruleInfo;
+    }
+
     //#endregion
 
 
@@ -645,20 +818,6 @@ export class settingsPage {
 
 
     //#region Events --------------------------
-
-
-
-    /** Rules Grid */
-    public static onRulesEditClick(e) {
-        this.changeTracking.rules = true;
-
-    }
-
-    /** Rules Grid */
-    public static onRulesRemoveClick(e) {
-        this.changeTracking.rules = true;
-
-    }
 
     /** Rules Grid */
     public static onSubscriptionsEditClick(e) {
@@ -716,9 +875,6 @@ export class settingsPage {
 
             // this can be null
             settingsPage.currentSettings.activeProxyServer = server;
-
-            // TODO: remove log
-            console.log('onChangeActiveProxyServer > ', server);
         },
         onClickAddProxyServer: function () {
             // settingsGrid.serverAdd();
@@ -882,89 +1038,159 @@ export class settingsPage {
                 });
         },
         onClickAddProxyRule: function () {
+            let modal = jQuery("#modalModifyRule");
+            modal.data("editing", null);
 
-            // settingsGrid.proxyRuleAdd();
+            // update form
+            settingsPage.populateRuleModal(modal, null);
+
+            modal.modal("show");
+            modal.find("#txtRuleSource").focus();
+        },
+        onChangeRuleGeneratePattern: function () {
+            settingsPage.updateProxyRuleModal();
+        },
+        onChangeRuleType: function () {
+            settingsPage.updateProxyRuleModal();
         },
         onClickSubmitProxyRule: function () {
 
-            // let modal = jQuery("#modalModifyRule");
-            // let editingModel = modal.data("editing");
+            let modal = jQuery("#modalModifyRule");
+            let editingModel = modal.data("editing");
 
-            // let ruleInfo = settingsGrid.proxyRuleReadModel(modal);
+            let ruleInfo = settingsPage.readProxyRuleModel(modal);
 
-            // let source = ruleInfo.source;
-            // if (!source) {
-            // 	// Please specify the source of the rule!
-            // 	messageBox.error(browser.i18n.getMessage("settingsRuleSourceRequired"));
-            // 	return;
-            // }
+            let source = ruleInfo.sourceDomain;
+            if (!source) {
+                // Please specify the source of the rule!
+                messageBox.error(browser.i18n.getMessage("settingsRuleSourceRequired"));
+                return;
+            }
 
-            // if (!utils.isValidHost(source)) {
-            // 	// source is invalid, source name should be something like 'google.com'
-            // 	messageBox.error(browser.i18n.getMessage("settingsRuleSourceInvalid"));
-            // 	return;
-            // }
+            if (!Utils.isValidHost(source)) {
+                // source is invalid, source name should be something like 'google.com'
+                messageBox.error(browser.i18n.getMessage("settingsRuleSourceInvalid"));
+                return;
+            }
 
-            // if (utils.urlHasSchema(source)) {
-            // 	let extractedHost = utils.extractHostFromUrl(source);
-            // 	if (extractedHost == null || !utils.isValidHost(extractedHost)) {
+            if (Utils.urlHasSchema(source)) {
+                let extractedHost = Utils.extractHostFromUrl(source);
+                if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
 
-            // 		// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
-            // 		messageBox.error(
-            // 			browser.i18n.getMessage("settingsRuleHostInvalid")
-            // 			.replace("{0}", extractedHost)
-            // 		);
-            // 		return;
-            // 	}
-            // } else {
-            // 	// this extraction is to remove paths from rules, e.g. google.com/test/
+                    // `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+                    messageBox.error(
+                        browser.i18n.getMessage("settingsRuleHostInvalid")
+                            .replace("{0}", extractedHost)
+                    );
+                    return;
+                }
+            } else {
+                // this extraction is to remove paths from rules, e.g. google.com/test/
 
-            // 	let extractedHost = utils.extractHostFromUrl("http://" + source);
-            // 	if (extractedHost == null || !utils.isValidHost(extractedHost)) {
+                let extractedHost = Utils.extractHostFromUrl("http://" + source);
+                if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
 
-            // 		// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
-            // 		messageBox.error(
-            // 			browser.i18n.getMessage("settingsRuleHostInvalid")
-            // 			.replace("{0}", extractedHost)
-            // 		);
-            // 		return;
-            // 	}
-            // }
+                    // `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+                    messageBox.error(
+                        browser.i18n.getMessage("settingsRuleHostInvalid")
+                            .replace("{0}", extractedHost)
+                    );
+                    return;
+                }
+            }
 
-            // // the pattern
-            // // TODO: Feature #41 Allow entering/modifying custom pattern for rules 
-            // ruleInfo.pattern = utils.hostToMatchPattern(source);
+            if (ruleInfo.ruleType == ProxyRuleType.MatchPattern) {
+
+                if (ruleInfo.autoGeneratePattern) {
+                    // the pattern
+                    // TODO: Feature #41 Allow entering/modifying custom pattern for rules 
+                    ruleInfo.rulePattern = Utils.hostToMatchPattern(source);
+                }
+            }
+            else if (ruleInfo.ruleType == ProxyRuleType.Regex) {
+                try {
+
+                    new RegExp(ruleInfo.ruleExact);
+
+                } catch (error) {
+                    // Regex rule '{0}' is not valid
+                    messageBox.error(
+                        browser.i18n.getMessage("AAAAAAAAAAAAAAAAAAAAA").replace("{0}", ruleInfo.ruleExact)
+                    );
+                    return;
+                }
+            }
+            else {
+                try {
+
+                    new URL(ruleInfo.ruleExact);
+
+                } catch (error) {
+                    // Url '{0}' is not valid
+                    messageBox.error(
+                        browser.i18n.getMessage("AAAAAAAAAAAAAAAAAAAAA").replace("{0}", ruleInfo.ruleExact)
+                    );
+                    return;
+                }
+            }
+
+            // ------------------
+            let editingSource = null;
+            if (editingModel)
+                editingSource = editingModel.sourceDomain;
+
+            let existingRules = settingsPage.readRules();
+            let ruleExists = existingRules.some(rule => {
+                return (rule.sourceDomain === ruleInfo.sourceDomain && rule.sourceDomain != editingSource);
+            });
+            if (ruleExists) {
+                // A Rule with the same source already exists!
+                messageBox.error(browser.i18n.getMessage("settingsRuleSourceAlreadyExists"));
+                return;
+            }
+
+            if (editingModel) {
+                jQuery.extend(editingModel, ruleInfo);
 
 
-            // // ------------------
-            // let editingSource = null;
-            // if (editingModel)
-            // 	editingSource = editingModel.source;
+                settingsPage.refreshRulesGrid();
 
-            // let existingRules = settingsGrid.getRules();
-            // let ruleExists = existingRules.some(rule => {
-            // 	return (rule.source === ruleInfo.source && rule.source != editingSource);
-            // });
-            // if (ruleExists) {
-            // 	// A Rule with the same source already exists!
-            // 	messageBox.error(browser.i18n.getMessage("settingsRuleSourceAlreadyExists"));
-            // 	return;
-            // }
+            } else {
 
-            // if (editingModel) {
-            // 	$.extend(editingModel, ruleInfo);
+                // insert to the grid
+                settingsPage.insertNewRuleInGrid(ruleInfo);
+            }
 
-            // 	jQuery("#grdRules").jsGrid("refresh");
+            settingsPage.changeTracking.rules = true;
 
-            // } else {
+            modal.modal("hide");
+        },
+        onRulesEditClick: function (e) {
+            let item = settingsPage.readSelectedRule(e);
+            if (!item)
+                return;
 
-            // 	// insert to the grid
-            // 	jQuery("#grdRules").jsGrid("insertItem", ruleInfo);
-            // }
+            let modal = jQuery("#modalModifyRule");
+            modal.data("editing", item);
 
-            // changeTracking.rules = true;
+            settingsPage.populateRuleModal(modal, item);
 
-            // modal.modal("hide");
+            modal.modal("show");
+            modal.find("#txtRuleSource").focus();
+        },
+        onRulesRemoveClick: function (e) {
+            var row = settingsPage.readSelectedRuleRow(e);
+            if (!row)
+                return;
+
+            messageBox.confirm(browser.i18n.getMessage("AAAAAAAAAAAAAAAAAA"),
+                () => {
+
+                    // remove then redraw the grid page
+                    row.remove().draw('full-hold');
+
+                    settingsPage.changeTracking.rules = true;
+                });
         },
         onClickSaveProxyRules: function () {
 

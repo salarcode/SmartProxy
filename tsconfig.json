@@ -7,7 +7,7 @@
 		"noEmitOnError": true,
 		"removeComments": false,
 		"sourceMap": true,
-		"target": "es3",
+		"target": "es6",
 		"module": "es6",
 		"lib": [ "es6", "dom" ],
 		"strictNullChecks": false,

@@ -28,7 +28,8 @@ export enum ProxyModeType {
 
 export enum ProxyRuleType {
 	MatchPattern,
-	Regex
+	Regex,
+	Exact
 }
 
 export enum ProxyServerForProtocol {

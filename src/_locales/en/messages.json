@@ -520,15 +520,15 @@
 		"description": ""
 	},
 	"settingsRuleSourceRequired": {
-		"message": "Please specify the source of the rule!",
+		"message": "Please specify the source domain of the rule!",
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "source is invalid, source name should be something like 'google.com'",
+		"message": "source domain is invalid, source domain should be something like 'google.com'",
 		"description": ""
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'source' is not valid '{0}'",
+		"message": "'source domain' is not valid '{0}'",
 		"description": ""
 	},
 	"settingsRuleSourceAlreadyExists": {
@@ -543,12 +543,16 @@
 		"message": "No rule is defined",
 		"description": ""
 	},
+	"settingsRulesGridColRuleType": {
+		"message": "Rule Type",
+		"description": ""
+	},
 	"settingsRulesGridColSource": {
 		"message": "Source",
 		"description": ""
 	},
-	"settingsRulesGridColPattern": {
-		"message": "Pattern",
+	"settingsRulesGridColRule": {
+		"message": "Rule",
 		"description": ""
 	},
 	"settingsRulesGridColEnabled": {

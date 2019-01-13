@@ -167,25 +167,39 @@ class ProxyServerConnectDetails {
 	public proxyDNS: boolean;
 }
 
-export class ProxyServer implements ProxyServerConnectDetails {
-	public host: string;
-	public port: number;
-	public protocol: string;
-	public username: string;
-	public password: string;
-	public proxyDNS: boolean;
+export class ProxyServer extends ProxyServerConnectDetails {
 	public name: string;
 	public failoverTimeout: number;
 	public protocolsServer: ProxyServerConnectDetails[];
 }
 
 export class ProxyRule {
-	public rulePattern: string;
+	public ruleType: ProxyRuleType;
 	public sourceDomain: string;
+	public autoGeneratePattern: boolean;
+	public rulePattern: string;
+	public ruleRegex: string;
+	public ruleExact: string;
 	public proxy: ProxyServer;
 	public enabled: boolean;
-	// TODO: New feature ruleType
-	public ruleType: ProxyRuleType;
+
+	get ruleTypeName(): string {
+		return ProxyRuleType[this.ruleType];
+	}
+
+	get rule(): string {
+		switch (this.ruleType) {
+			case ProxyRuleType.MatchPattern:
+				return this.rulePattern;
+				
+			case ProxyRuleType.Regex:
+				return this.ruleRegex;
+
+			case ProxyRuleType.Exact:
+				return this.ruleExact;
+		}
+		return "";
+	}
 }
 
 class ProxyServerSubscription {

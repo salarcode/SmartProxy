@@ -16,6 +16,7 @@
   - along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<title>SmartProxy Settings</title>
@@ -32,6 +33,7 @@
 	<script src="js/pako.min.js"></script>
 	<script src="code/settings.js"></script>
 </head>
+
 <body>
 	<div class="container p-2 pt-3">
 		<div class="row">
@@ -328,74 +330,6 @@
 							<div class="clearfix"></div>
 						</p>
 
-						<div class="modal fade" id="modalServerSubscription" tabindex="-1" role="dialog" aria-labelledby="modalServerSubscriptionLabel">
-							<!----------modal Server Subscription----------->
-							<div class="modal-dialog" role="document">
-								<form class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<h4 class="modal-title" id="modalServerSubscriptionLabel" data-localize="settingsServerSubscriptionModalTitle">Subscribe
-											to a proxy server list</h4>
-									</div>
-									<div class="modal-body">
-										<div class="form-group">
-											<label for="txtName" data-localize="settingsServerSubscriptionName">Name:</label>
-											<input type="text" class="form-control" id="txtName" placeholder="Name" required>
-										</div>
-										<div class="form-group">
-											<label for="txtUrl" data-localize="settingsServerSubscriptionUrl">Url:</label>
-											<input type="url" class="form-control direction-ltr" id="txtUrl" placeholder="Url" checked required>
-										</div>
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label for="numRefereshRate" data-localize="settingsServerSubscriptionRefreshRate">Refresh Rate:</label>
-												<input type="number" min="0" class="form-control" id="numRefereshRate" placeholder="Refresh rate in minutes"
-												 required>
-												<span data-localize="settingsServerSubscriptionRefreshRateHelp" class="help-block">(in minutes, 0 means no
-													refresh)</span>
-											</div>
-											<div class="form-group col-sm-6">
-												<br />
-												<input type="checkbox" class="" id="chkEnabled" checked>
-												<label for="chkEnabled" data-localize="settingsServerSubscriptionEnabled">Enabled</label>
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label for="cmbServerSubscriptionProtocol" data-localize="settingsServerSubscriptionProtocol">Protocol:</label>
-												<select class="form-control" id="cmbServerSubscriptionProtocol"></select>
-											</div>
-											<div class="form-group col-sm-6">
-												<label for="cmbServerSubscriptionObfuscation" data-localize="settingsServerSubscriptionObfuscation">Obfuscation:</label>
-												<select class="form-control" id="cmbServerSubscriptionObfuscation"></select>
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label for="cmbServerSubscriptionUsername" data-localize="settingsServerSubscriptionUsername">Username:</label>
-												<input type="text" class="form-control" id="cmbServerSubscriptionUsername">
-												<span data-localize="settingsServerSubscriptionAuthenticationHelp" class="help-block">(if the list requires
-													authentication)</span>
-											</div>
-											<div class="form-group col-sm-6">
-												<label for="cmbServerSubscriptionPassword" data-localize="settingsServerSubscriptionPassword">Password:</label>
-												<input type="password" class="form-control" id="cmbServerSubscriptionPassword" />
-											</div>
-										</div>
-									</div>
-									<div class="modal-footer">
-										<div class="pull-right">
-											<button type="button" class="btn btn-outline-secondary" data-dismiss="modal" data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
-											<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">Save</button>
-										</div>
-										<div class="pull-left">
-											<button type="button" id="btnTestServerSubscription" class="btn btn-outline-secondary" data-localize="settingsServerSubscriptionTestButton">Test</button>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-								</form>
-							</div>
-						</div>
 					</div>
 					<div class="tab-pane fade" id="tab-bypass" role="tabpanel" aria-labelledby="tab-bypass-tab">
 						<!----------Bypass List----------->
@@ -510,6 +444,7 @@
 	</div>
 	<!-- Modals -->
 	<div class="modal fade" id="modalModifyProxyServer" tabindex="-1" role="dialog">
+		<!-- Proxy Server -->
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -550,7 +485,8 @@
 							<br />
 							<div class="custom-control custom-checkbox">
 								<input type="checkbox" class="custom-control-input" id="chkServerProxyDNS">
-								<label class="custom-control-label" for="chkServerProxyDNS" data-localize="settingsServersProxyDNS">Proxy DNS when using SOCKS 5</label>
+								<label class="custom-control-label" for="chkServerProxyDNS" data-localize="settingsServersProxyDNS">Proxy DNS
+									when using SOCKS 5</label>
 							</div>
 						</div>
 					</div>
@@ -577,7 +513,79 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="modal fade" id="modalModifyRule" tabindex="-1" role="dialog" aria-labelledby="modalModifyRuleLabel">
+		<!-- Proxy Rule -->
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalModifyRuleLabel" data-localize="settingsRulesModalTitle">Rule Details</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="txtRuleMatchPattern" data-localize="AAAAAAAAAAAAA">Rule Type</label>
+							<select id="cmdRuleType" class="form-control custom-select">
+								<option value="0">Url wildcard (Match Pattern)</option>
+								<option value="1">Url regex</option>
+								<option value="2">Exact</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="txtRuleSource" data-localize="settingsRulesSourceDomain">Rule Source Domain</label>
+							<input type="text" id="txtRuleSource" class="form-control" />
+							<span class="help-block text-muted small" data-localize="settingsRulesSourceDomainDesc">(e.g. google.com)</span>
+						</div>
+						<div class="form-group col-sm-6" id="divRuleGeneratePattern">
+							<br />
+							<div class="custom-control custom-checkbox">
+								<input checked type="checkbox" class="custom-control-input" id="chkRuleGeneratePattern">
+								<label class="custom-control-label" for="chkRuleGeneratePattern" data-localize="AAAAAAAAAAAAAAAA">
+									Generate pattern automatically</label>
+							</div>
+						</div>
+					</div>
+					<div class="row" id="divRuleMatchPattern">
+						<div class="form-group col-sm-12">
+							<label for="txtRuleMatchPattern" data-localize="settingsRulesPattern">Match Pattern</label>
+							<input disabled type="text" id="txtRuleMatchPattern" class="form-control" />
+						</div>
+					</div>
+					<div class="row" id="divRuleUrlRegex">
+						<div class="form-group col-sm-12">
+							<label for="txtRuleUrlRegex" data-localize="AAAAAAAAAAAAAAAA">Url Regex</label>
+							<input type="text" id="txtRuleUrlRegex" class="form-control" />
+						</div>
+					</div>
+					<div class="row" id="divRuleUrlExact">
+						<div class="form-group col-sm-12">
+							<label for="txtRuleUrlExact" data-localize="AAAAAAAAAAAAAAAA">Exact Url</label>
+							<input type="url" id="txtRuleUrlExact" class="form-control" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="cmdRuleProxyServer" data-localize="settingsRulesProxyServer">Proxy Server</label>
+							<select id="cmdRuleProxyServer" class="form-control custom-select"></select>
+						</div>
+						<div class="form-group col-sm-6">
+							<br />
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="chkRuleEnabled">
+								<label class="custom-control-label" for="chkRuleEnabled" data-localize="settingsRulesEnabled">Enabled</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" data-localize="settingsRulesModalCancel">Cancel</button>
+					<button type="button" id="btnSubmitRule" class="btn btn-primary" data-localize="settingsRulesModalSave">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalModifyProxyServerLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -597,6 +605,75 @@
 					<button type="button" id="btnSubmitProxyServer" class="btn btn-primary" data-localize="settingsServersSave">Save</button>
 				</div>
 			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="modalServerSubscription" tabindex="-1" role="dialog" aria-labelledby="modalServerSubscriptionLabel">
+		<!----------modal Server Subscription----------->
+		<div class="modal-dialog" role="document">
+			<form class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="modalServerSubscriptionLabel" data-localize="settingsServerSubscriptionModalTitle">Subscribe
+						to a proxy server list</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="txtName" data-localize="settingsServerSubscriptionName">Name:</label>
+						<input type="text" class="form-control" id="txtName" placeholder="Name" required>
+					</div>
+					<div class="form-group">
+						<label for="txtUrl" data-localize="settingsServerSubscriptionUrl">Url:</label>
+						<input type="url" class="form-control direction-ltr" id="txtUrl" placeholder="Url" checked required>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="numRefereshRate" data-localize="settingsServerSubscriptionRefreshRate">Refresh Rate:</label>
+							<input type="number" min="0" class="form-control" id="numRefereshRate" placeholder="Refresh rate in minutes"
+							 required>
+							<span data-localize="settingsServerSubscriptionRefreshRateHelp" class="help-block">(in minutes, 0 means no
+								refresh)</span>
+						</div>
+						<div class="form-group col-sm-6">
+							<br />
+							<input type="checkbox" class="" id="chkEnabled" checked>
+							<label for="chkEnabled" data-localize="settingsServerSubscriptionEnabled">Enabled</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="cmbServerSubscriptionProtocol" data-localize="settingsServerSubscriptionProtocol">Protocol:</label>
+							<select class="form-control" id="cmbServerSubscriptionProtocol"></select>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="cmbServerSubscriptionObfuscation" data-localize="settingsServerSubscriptionObfuscation">Obfuscation:</label>
+							<select class="form-control" id="cmbServerSubscriptionObfuscation"></select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="cmbServerSubscriptionUsername" data-localize="settingsServerSubscriptionUsername">Username:</label>
+							<input type="text" class="form-control" id="cmbServerSubscriptionUsername">
+							<span data-localize="settingsServerSubscriptionAuthenticationHelp" class="help-block">(if the list requires
+								authentication)</span>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="cmbServerSubscriptionPassword" data-localize="settingsServerSubscriptionPassword">Password:</label>
+							<input type="password" class="form-control" id="cmbServerSubscriptionPassword" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="pull-right">
+						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal" data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
+						<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">Save</button>
+					</div>
+					<div class="pull-left">
+						<button type="button" id="btnTestServerSubscription" class="btn btn-outline-secondary" data-localize="settingsServerSubscriptionTestButton">Test</button>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</form>
 		</div>
 	</div>
 </body>
