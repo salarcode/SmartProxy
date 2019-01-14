@@ -5,6 +5,7 @@ import { messageBox, jQuery } from "../../lib/External";
 import { environment } from "../../lib/environment";
 import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions, ProxyRule } from "../../core/Settings";
 import { Utils } from "../../lib/Utils";
+import { ProxyImporter } from "../../lib/ProxyImporter";
 
 export class settingsPage {
 
@@ -1027,7 +1028,6 @@ export class settingsPage {
             settingsPage.currentSettings.proxyServers = settingsPage.originalSettings.proxyServers.slice();
             settingsPage.loadServers(settingsPage.currentSettings.proxyServers);
             settingsPage.loadActiveProxyServer();
-            settingsPage.refreshServersGrid();
 
             settingsPage.changeTracking.servers = false;
 
@@ -1428,64 +1428,65 @@ export class settingsPage {
             CommonUi.downloadData(proxyList, "SmartProxy-Servers.txt");
         },
         onClickImportProxyServer: function () {
-            // let modalContainer = jQuery("#modalImportProxyServer");
-            // let append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
-            // let file, text;
+            let modalContainer = jQuery("#modalImportProxyServer");
+            let append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
+            let file, text;
 
-            // if (modalContainer.find("#rbtnImportProxyServer_File").prop("checked")) {
-            // 	// file should be selected
+            if (modalContainer.find("#rbtnImportProxyServer_File").prop("checked")) {
+                // file should be selected
 
-            // 	let selectFileElement = modalContainer.find("#btnImportProxyServerSelectFile")[0];
+                let selectFileElement = modalContainer.find("#btnImportProxyServerSelectFile")[0];
 
-            // 	if (selectFileElement.files.length == 0) {
-            // 		// Please select a proxy list file
-            // 		messageBox.error(browser.i18n.getMessage("settingsImportProxiesFileNotSelected"));
-            // 		return;
-            // 	}
-            // 	file = selectFileElement.files[0];
+                if (selectFileElement.files.length == 0) {
+                    // Please select a proxy list file
+                    messageBox.error(browser.i18n.getMessage("settingsImportProxiesFileNotSelected"));
+                    return;
+                }
+                file = selectFileElement.files[0];
 
-            // } else {
-            // 	let proxyServerListText = modalContainer.find("#btnImportProxyServerListText").val().trim();
-            // 	if (proxyServerListText == "") {
-            // 		// Please enter proxy list
-            // 		messageBox.error(browser.i18n.getMessage("settingsImportProxyListTextIsEmpty"));
-            // 		return;
-            // 	}
-            // 	text = proxyServerListText;
-            // }
+            } else {
+                let proxyServerListText = modalContainer.find("#btnImportProxyServerListText").val().trim();
+                if (proxyServerListText == "") {
+                    // Please enter proxy list
+                    messageBox.error(browser.i18n.getMessage("settingsImportProxyListTextIsEmpty"));
+                    return;
+                }
+                text = proxyServerListText;
+            }
 
-            // let proxyServers = settingsGrid.getServers();
+            let proxyServers = settingsPage.readServers();
 
-            // proxyImporter.importText(text, file,
-            // 	append,
-            // 	proxyServers,
-            // 	function (response: ResultHolder) {
-            // 		if (!response) return;
+            ProxyImporter.importText(text, file,
+                append,
+                proxyServers,
+                function (response) {
+                    if (!response) return;
 
-            // 		if (response.success) {
-            // 			if (response.message)
-            // 				messageBox.info(response.message);
+                    if (response.success) {
+                        if (response.message)
+                            messageBox.info(response.message);
 
-            // 			// empty the input
-            // 			modalContainer.find("#btnImportProxyServerSelectFile")[0].value = "";
-            // 			modalContainer.find("#btnImportProxyServerListText").val("");
+                        // empty the input
+                        modalContainer.find("#btnImportProxyServerSelectFile")[0].value = "";
+                        modalContainer.find("#btnImportProxyServerListText").val("");
 
-            // 			let servers = response.result;
-            // 			settingsGrid.loadServers(servers);
-
-            // 			// close the window
-            // 			modalContainer.modal("hide");
-            // 		} else {
-            // 			if (response.message)
-            // 				messageBox.error(response.message);
-            // 		}
-            // 	},
-            // 	function (error) {
-            // 		let message = "";
-            // 		if (error && error.message)
-            // 			message = error.message;
-            // 		messageBox.error(browser.i18n.getMessage("settingsImportProxyServersFailed") + " " + message);
-            // 	});
+                        let servers = response.result;
+                        settingsPage.loadServers(servers);
+                        settingsPage.loadActiveProxyServer();
+            
+                        // close the window
+                        modalContainer.modal("hide");
+                    } else {
+                        if (response.message)
+                            messageBox.error(response.message);
+                    }
+                },
+                function (error) {
+                    let message = "";
+                    if (error && error.message)
+                        message = error.message;
+                    messageBox.error(browser.i18n.getMessage("settingsImportProxyServersFailed") + " " + message);
+                });
 
         },
         onClickImportRules: function () {
