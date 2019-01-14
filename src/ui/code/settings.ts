@@ -6,6 +6,7 @@ import { environment } from "../../lib/environment";
 import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions, ProxyRule } from "../../core/Settings";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
+import { RuleImporter } from "../../lib/RuleImporter";
 
 export class settingsPage {
 
@@ -1473,7 +1474,7 @@ export class settingsPage {
                         let servers = response.result;
                         settingsPage.loadServers(servers);
                         settingsPage.loadActiveProxyServer();
-            
+
                         // close the window
                         modalContainer.modal("hide");
                     } else {
@@ -1490,61 +1491,61 @@ export class settingsPage {
 
         },
         onClickImportRules: function () {
-            // 	let modalContainer = jQuery("#modalImportRules");
-            // 	let selectFileElement = modalContainer.find("#btnImportRulesSelectFile")[0];
+            let modalContainer = jQuery("#modalImportRules");
+            let selectFileElement = modalContainer.find("#btnImportRulesSelectFile")[0];
 
-            // 	if (selectFileElement.files.length == 0) {
-            // 		// Please select a rules file
-            // 		messageBox.error(browser.i18n.getMessage("settingsRulesFileNotSelected"));
-            // 		return;
-            // 	}
+            if (selectFileElement.files.length == 0) {
+                // Please select a rules file
+                messageBox.error(browser.i18n.getMessage("settingsRulesFileNotSelected"));
+                return;
+            }
 
-            // 	let selectFile = selectFileElement.files[0];
+            let selectFile = selectFileElement.files[0];
 
-            // 	let append = modalContainer.find("#cmbImportRulesOverride_Append").prop("checked");
-            // 	let sourceType = modalContainer.find("#cmbImportRulesFormat").val();
+            let append = modalContainer.find("#cmbImportRulesOverride_Append").prop("checked");
+            let sourceType = modalContainer.find("#cmbImportRulesFormat").val();
 
-            // 	let proxyRules = settingsGrid.getRules();
+            let proxyRules = settingsPage.readRules();
 
-            // 	let importFunction;
-            // 	if (sourceType == "autoproxy") {
-            // 		importFunction = ruleImporter.importAutoProxy;
-            // 	} else if (sourceType == "switchy") {
-            // 		importFunction = ruleImporter.importSwitchyRules;
-            // 	} else {
-            // 		messageBox.warning(browser.i18n.getMessage("settingsSourceTypeNotSelected"));
-            // 	}
+            let importFunction: Function;
+            if (sourceType == "autoproxy") {
+                importFunction = RuleImporter.importAutoProxy;
+            } else if (sourceType == "switchy") {
+                importFunction = RuleImporter.importSwitchyRules;
+            } else {
+                messageBox.warning(browser.i18n.getMessage("settingsSourceTypeNotSelected"));
+                return;
+            }
 
-            // 	if (importFunction)
-            // 		importFunction(selectFile,
-            // 			append,
-            // 			proxyRules,
-            // 			function (response: ResultHolder) {
-            // 				if (!response) return;
+            importFunction(selectFile,
+                append,
+                proxyRules,
+                function (response) {
+                    if (!response) return;
 
-            // 				if (response.success) {
-            // 					if (response.message)
-            // 						messageBox.info(response.message);
+                    if (response.success) {
+                        if (response.message)
+                            messageBox.info(response.message);
 
-            // 					// empty the file input
-            // 					selectFileElement.value = "";
+                        // empty the file input
+                        selectFileElement.value = "";
 
-            // 					let rules = response.result;
-            // 					settingsGrid.loadRules(rules);
+                        let rules = response.result;
+                        settingsPage.loadRules(rules);
 
-            // 					// close the window
-            // 					modalContainer.modal("hide");
-            // 				} else {
-            // 					if (response.message)
-            // 						messageBox.error(response.message);
-            // 				}
-            // 			},
-            // 			function (error) {
-            // 				let message = "";
-            // 				if (error && error.message)
-            // 					message = error.message;
-            // 				messageBox.error(browser.i18n.getMessage("settingsImportRulesFailed") + " " + message);
-            // 			});
+                        // close the window
+                        modalContainer.modal("hide");
+                    } else {
+                        if (response.message)
+                            messageBox.error(response.message);
+                    }
+                },
+                function (error) {
+                    let message = "";
+                    if (error && error.message)
+                        message = error.message;
+                    messageBox.error(browser.i18n.getMessage("settingsImportRulesFailed") + " " + message);
+                });
         }
     };
 

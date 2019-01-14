@@ -607,7 +607,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="modalServerSubscription" tabindex="-1" role="dialog" aria-labelledby="modalServerSubscriptionLabel">
 		<!----------modal Server Subscription----------->
 		<div class="modal-dialog" role="document">
@@ -682,7 +682,8 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="modalImportProxyServerLabel" data-localize="settingsImportProxiesTitle">Import Proxy List</h4>
+					<h4 class="modal-title" id="modalImportProxyServerLabel" data-localize="settingsImportProxiesTitle">Import Proxy
+						List</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
@@ -721,6 +722,48 @@
 			</div>
 		</div>
 	</div>
-</body>
 
+	<div class="modal fade" id="modalImportRules" tabindex="-1" role="dialog" aria-labelledby="modalImportRulesLabel">
+		<!-- ----------Modal Import Rules Label-------------  -->
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalImportRulesLabel" data-localize="settingsImportRulesTitle">Import Rules</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="btnImportRulesSelectFile" data-localize="settingsImportRulesSelectButton">Rule Backup File</label>
+						<input type="file" id="btnImportRulesSelectFile" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="cmbImportRulesFormat" data-localize="settingsImportRulesFrom">From</label>
+						<select id="cmbImportRulesFormat" class="form-control custom-select">
+							<!--<option value="">(Please select)</option>-->
+							<option value="autoproxy">AutoProxy</option>
+							<!--<option value="switchy">SwitchyOmega/SwitchySharp</option>-->
+						</select>
+					</div>
+
+					<div class="radio">
+						<label>
+							<input checked type="radio" id="cmbImportRulesOverride_Append" name="cmbImportRulesOverride" />
+							<span data-localize="settingsImportRulesOptionAppend">Append to existing rules</span>
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" id="cmbImportRulesOverride_Replace" name="cmbImportRulesOverride" />
+							<span data-localize="settingsImportRulesOptionOverride">Replace current rules (use with caution)</span>
+						</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" data-localize="settingsImportRulesCancelButton">Cancel</button>
+					<button type="button" id="btnImportRules" class="btn btn-primary" data-localize="settingsImportRulesImportButton">Import</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

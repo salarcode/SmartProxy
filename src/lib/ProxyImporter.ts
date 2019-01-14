@@ -1,4 +1,5 @@
 import { Utils } from "./Utils";
+import { ProxyRule, ProxyServer } from "../core/Settings";
 
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
@@ -55,7 +56,7 @@ export const ProxyImporter = {
 		let xhr = new XMLHttpRequest();
 		xhr.open("GET", serverDetail.url);
 
-		if (serverDetail.username && serverDetail.password) {
+		if (serverDetail.username) {
 			let pass = atob(serverDetail.password);
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(serverDetail.username + ":" + pass));
 		}
@@ -103,7 +104,7 @@ export const ProxyImporter = {
 			}
 
 			let importedProxies = Utils.removeDuplicatesFunc(parsedProxies,
-				function (item1, item2) {
+				function (item1: ProxyServer, item2: ProxyServer) {
 					return item1.host == item2.host &&
 						item1.port == item2.port &&
 						item1.username == item2.username &&
@@ -168,12 +169,10 @@ export const ProxyImporter = {
 		}
 
 	},
-	parseText: function (proxyListText, options) {
+	parseText: function (proxyListText, options): ProxyServer[] {
 		///<summary>Parses the proxy</summary>
 		if (!proxyListText || typeof (proxyListText) !== "string") return null;
 
-		// ip:port [protocol] [name] [username] [password]
-		//const proxyRegex__OLD = /(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)(?::+|[\t\s,]+)(\d{2,5})(?:[\t\s]+\[(\w+)\][\t\s]+\[([\w\s]+)\](?:[\t\s]+\[(.+)\][\t\s]+\[(.+)\])?)?/i;
 		// ip or host:port [protocol] [name] [username] [password]
 		const proxyRegex = /((?:[A-Za-z0-9-]+\.)+[A-Za-z0-9]{1,6})(?:(?::+|[\t\s,]+)(\d{2,5}))?(?:[\t\s]+\[(\w+)\][\t\s]+\[([\w\s\:\.-]+)\](?:[\t\s]+\[(.+)\][\t\s]+\[(.+)\])?)?/i;
 
@@ -189,7 +188,7 @@ export const ProxyImporter = {
 		}
 
 		let proxyListLines = proxyListText.split(/(\r|\n)/);
-		let parsedProxies = [];
+		let parsedProxies: ProxyServer[] = [];
 
 		let defaultProxyProtocol = "HTTP";
 		if (options && options.proxyProtocol)
@@ -214,14 +213,16 @@ export const ProxyImporter = {
 			else
 				protocol = protocol.toUpperCase();
 
-			parsedProxies.push({
-				name: name || `${ip}:${port}`,
-				host: ip,
-				port: port,
-				protocol: protocol,
-				username: username,
-				password: password
-			});
+			let item = new ProxyServer();
+
+			item.name = name || `${ip}:${port}`;
+			item.host = ip;
+			item.port = parseInt(port);
+			item.protocol = protocol;
+			item.username = username;
+			item.password = password;
+
+			parsedProxies.push(item);
 		}
 
 		return parsedProxies;
