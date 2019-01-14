@@ -52,6 +52,7 @@ export class Messages {
 	public static SettingsPageGetInitialData = "SettingsPage_GetInitialData";
 	public static SettingsPageSaveOptions = "SettingsPage_SaveOptions";
 	public static SettingsPageSaveProxyServers = "SettingsPage_SaveProxyServers";
+	public static SettingsPageSaveProxyRules = "SettingsPage_SaveProxyRules";
 
 	// Web Failed Request Monitor Activity
 	public static WebRequestMonitorFailedActivity = "WebRequestMonitor_FailedActivity";

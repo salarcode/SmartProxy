@@ -302,10 +302,12 @@ export class settingsPage {
     }
 
     private static readSelectedServer(e?: any): any {
-        var dataItem = this.grdServers.row({ selected: true }).data();
+        let dataItem;
 
-        if (!dataItem && e && e.target)
+        if (e && e.target)
             dataItem = this.grdServers.row(jQuery(e.target).parents('tr')).data();
+        else
+            dataItem = this.grdServers.row({ selected: true }).data();
 
         return dataItem;
     }
@@ -422,11 +424,17 @@ export class settingsPage {
 
     //#region Rules tab functions ------------------------------
 
-    private static loadRules(rules: any[]) {
+    private static loadRules(rules: ProxyRule[]) {
         if (!this.grdRules)
             return;
         this.grdRules.clear();
-        this.grdRules.rows.add(rules);
+
+        // prototype needed
+        let fixedRules = ProxyRule.assignArray(rules);
+        this.grdRules.rows.add(fixedRules).draw('full-hold');
+
+        // binding the events for all the rows
+        this.refreshRulesGridAllRows();
     }
 
     private static readRules(): any[] {
@@ -434,10 +442,12 @@ export class settingsPage {
     }
 
     private static readSelectedRule(e?: any): any {
-        var dataItem = this.grdRules.row({ selected: true }).data();
+        let dataItem;
 
-        if (!dataItem && e && e.target)
+        if (e && e.target)
             dataItem = this.grdRules.row(jQuery(e.target).parents('tr')).data();
+        else
+            dataItem = this.grdRules.row({ selected: true }).data();
 
         return dataItem;
     }
@@ -1183,7 +1193,7 @@ export class settingsPage {
             if (!row)
                 return;
 
-            messageBox.confirm(browser.i18n.getMessage("AAAAAAAAAAAAAAAAAA"),
+            messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveProxyRule"),
                 () => {
 
                     // remove then redraw the grid page
@@ -1194,57 +1204,56 @@ export class settingsPage {
         },
         onClickSaveProxyRules: function () {
 
-            // let rules = settingsGrid.getRules();
+            let rules = settingsPage.readRules();
 
-            // polyfill.runtimeSendMessage(
-            // 	{
-            // 		command: "settingsSaveProxyRules",
-            // 		proxyRules: rules
-            // 	},
-            // 	function (response: ResultHolder) {
-            // 		if (!response) return;
-            // 		if (response.success) {
-            // 			if (response.message)
-            // 				messageBox.success(response.message);
+            PolyFill.runtimeSendMessage(
+                {
+                    command: Messages.SettingsPageSaveProxyRules,
+                    proxyRules: rules
+                },
+                function (response: ResultHolder) {
+                    if (!response) return;
+                    if (response.success) {
+                        if (response.message)
+                            messageBox.success(response.message);
 
-            // 			settings.displayRestartRequired(response.restartRequired);
+                        // current rules should become equal to saved rules
+                        settingsPage.currentSettings.proxyRules = rules;
 
-            // 			// current rules should become equal to saved rules
-            // 			settingsUiData.proxyRules = rules;
+                        settingsPage.changeTracking.rules = false;
 
-            // 			changeTracking.rules = false;
-
-            // 		} else {
-            // 			if (response.message)
-            // 				messageBox.error(response.message);
-            // 		}
-            // 	},
-            // 	function (error) {
-            // 		messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveRules") + " " + error.message);
-            // 	});
+                    } else {
+                        if (response.message)
+                            messageBox.error(response.message);
+                    }
+                },
+                function (error) {
+                    messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveRules") + " " + error.message);
+                });
         },
         onClickRejectProxyRules: function () {
-            // // reset the data
-            // settingsUiData.proxyRules = originalSettingsData.proxyRules.slice();
-            // settingsGrid.loadRules(settingsUiData.proxyRules);
-            // jQuery("#grdRules").jsGrid("refresh");
+            // reset the data
+            settingsPage.currentSettings.proxyRules = settingsPage.originalSettings.proxyRules.slice();
+            settingsPage.loadRules(settingsPage.currentSettings.proxyRules);
+            settingsPage.refreshRulesGrid();
 
-            // changeTracking.rules = false;
+            settingsPage.changeTracking.rules = false;
 
-            // // Changes reverted successfully
-            // messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+            // Changes reverted successfully
+            messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
         },
         onClickClearProxyRules: function () {
-            // // Are you sure to remove all the rules?
-            // messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllRules"),
-            // 	function () {
-            // 		settingsGrid.loadRules([]);
+            // Are you sure to remove all the rules?
+            messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllRules"),
+                function () {
+                    debugger;
+                    settingsPage.loadRules([]);
 
-            // 		changeTracking.rules = true;
+                    settingsPage.changeTracking.rules = true;
 
-            // 		// All rules are removed.<br/>You have to save to apply the changes.
-            // 		messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
-            // 	});
+                    // All rules are removed.<br/>You have to save to apply the changes.
+                    messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
+                });
         },
         onClickSaveBypassChanges: function () {
             // let bypassList = settingsGrid.getBypassList();

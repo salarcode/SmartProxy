@@ -407,6 +407,10 @@
 		"message": "Changes reverted successfully.",
 		"description": ""
 	},
+	"settingsConfirmRemoveProxyRule": {
+		"message": "Are you sure to remove the selected rule?",
+		"description": ""
+	},
 	"settingsRemoveAllRules": {
 		"message": "Are you sure to remove all the rules?",
 		"description": ""

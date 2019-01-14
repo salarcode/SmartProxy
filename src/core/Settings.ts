@@ -146,11 +146,15 @@ export class SettingsConfig {
 }
 export class GeneralOptions {
 	public syncSettings: boolean = false;
+	public syncProxyMode: boolean = true;
+	public syncActiveProxy: boolean = true;
 	public detectRequestFailures: boolean = false;
 	public displayFailedOnBadge: boolean = false;
-	public displayAppliedProxyOnBadge: boolean = false;
+	public displayAppliedProxyOnBadge_Doubt: boolean = false;
 	// TODO: New feature proxyPerOrigin
 	public proxyPerOrigin: boolean = true;
+	public enableShortcuts: boolean = true;
+	public shortcutNotification: boolean = true;
 }
 export class BypassOptions {
 	public enableForAlways: boolean = false;
@@ -191,7 +195,7 @@ export class ProxyRule {
 		switch (this.ruleType) {
 			case ProxyRuleType.MatchPattern:
 				return this.rulePattern;
-				
+
 			case ProxyRuleType.Regex:
 				return this.ruleRegex;
 
@@ -199,6 +203,21 @@ export class ProxyRule {
 				return this.ruleExact;
 		}
 		return "";
+	}
+	public static assignArray(rules: any[]): ProxyRule[] {
+		if (!rules || !rules.length)
+			return [];
+		let result: ProxyRule[] = [];
+
+		for (let index = 0; index < rules.length; index++) {
+			const r = rules[index];
+			let rule = new ProxyRule();
+
+			Object.assign(rule, r);
+			result.push(rule);
+		}
+
+		return result;
 	}
 }
 

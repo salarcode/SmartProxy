@@ -181,7 +181,33 @@ export class Core {
 					}
 					return;
 				}
-				break;
+
+			case Messages.SettingsPageSaveProxyRules:
+				{
+					Settings.current.proxyRules = message.proxyRules;
+					SettingsOperation.saveRules();
+					SettingsOperation.saveAllSync();
+
+					// ProxyRules.notifyProxyRulesChange();
+
+					// // update proxy rules
+					// ProxyRules.updateChromeProxyConfig();
+
+					// // update active proxy tab status
+					// updateTabDataProxyInfo();
+					// internal.setBrowserActionStatus();
+
+					if (sendResponse) {
+						sendResponse({
+							success: true,
+							// Proxy rules saved successfully.
+							message: browser.i18n.getMessage("settingsSaveProxyRulesSuccess"),
+						});
+					}
+
+					return;
+				}
+
 			default:
 				{
 
