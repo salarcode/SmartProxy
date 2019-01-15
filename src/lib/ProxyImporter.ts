@@ -28,7 +28,6 @@ export const ProxyImporter = {
 		function ajaxSuccess(response) {
 			if (!response)
 				if (fail) fail();
-
 			ProxyImporter.importText(response,
 				null,
 				false,

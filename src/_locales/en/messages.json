@@ -735,6 +735,10 @@
 		"message": "Testing...",
 		"description": ""
 	},
+	"settingsConfirmRemoveServerSubscription": {
+		"message": "Are you sure to remove the selected subscription?",
+		"description": ""
+	},	
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Are you sure to remove all the proxy server subscriptions?",
 		"description": ""

@@ -175,7 +175,8 @@
 								<input id="chkSyncSettings" checked type="checkbox" class="browser-style" />
 								<span data-localize="settingsGeneralEnableSyncing">Enable settings syncing</span>
 							</label>
-							<div class="help-block" data-localize="settingsGeneralEnableSyncingDesc">By enabling syncing, your all settings
+							<div class="form-text text-muted" data-localize="settingsGeneralEnableSyncingDesc">By enabling syncing, your all
+								settings
 								including rules, servers and subscriptions will be avaialble across all browsers.</div>
 						</div>
 						<div class="mt-5"></div>
@@ -354,7 +355,7 @@
 						<div class="form-group">
 							<label for="txtBypassList" data-localize="settingsBypassList">Bypass list:</label>
 							<textarea class="form-control direction-ltr" id="txtBypassList" rows="10"></textarea>
-							<span data-localize="settingsBypassListHint" class="help-block">(Use new line to seperate entries)</span>
+							<span data-localize="settingsBypassListHint" class="form-text text-muted">(Use new line to seperate entries)</span>
 						</div>
 						<p class="mt-2">
 							<div class="pull-left">
@@ -536,7 +537,7 @@
 						<div class="form-group col-sm-6">
 							<label for="txtRuleSource" data-localize="settingsRulesSourceDomain">Rule Source Domain</label>
 							<input type="text" id="txtRuleSource" class="form-control" />
-							<span class="help-block text-muted small" data-localize="settingsRulesSourceDomainDesc">(e.g. google.com)</span>
+							<span class="form-text text-muted small" data-localize="settingsRulesSourceDomainDesc">(e.g. google.com)</span>
 						</div>
 						<div class="form-group col-sm-6" id="divRuleGeneratePattern">
 							<br />
@@ -613,9 +614,9 @@
 		<div class="modal-dialog" role="document">
 			<form class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h4 class="modal-title" id="modalServerSubscriptionLabel" data-localize="settingsServerSubscriptionModalTitle">Subscribe
 						to a proxy server list</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
@@ -628,10 +629,11 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-sm-6">
-							<label for="numRefereshRate" data-localize="settingsServerSubscriptionRefreshRate">Refresh Rate:</label>
-							<input type="number" min="0" class="form-control" id="numRefereshRate" placeholder="Refresh rate in minutes"
+							<label for="numRefreshRate" data-localize="settingsServerSubscriptionRefreshRate">Refresh Rate:</label>
+							<input type="number" min="0" class="form-control" id="numRefreshRate" placeholder="Refresh rate in minutes"
 							 required>
-							<span data-localize="settingsServerSubscriptionRefreshRateHelp" class="help-block">(in minutes, 0 means no
+							<span data-localize="settingsServerSubscriptionRefreshRateHelp" class="form-text text-muted">(in minutes, 0
+								means no
 								refresh)</span>
 						</div>
 						<div class="form-group col-sm-6">
@@ -654,7 +656,8 @@
 						<div class="form-group col-sm-6">
 							<label for="cmbServerSubscriptionUsername" data-localize="settingsServerSubscriptionUsername">Username:</label>
 							<input type="text" class="form-control" id="cmbServerSubscriptionUsername">
-							<span data-localize="settingsServerSubscriptionAuthenticationHelp" class="help-block">(if the list requires
+							<span data-localize="settingsServerSubscriptionAuthenticationHelp" class="form-text text-muted">(if the list
+								requires
 								authentication)</span>
 						</div>
 						<div class="form-group col-sm-6">
@@ -664,12 +667,15 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<div class="pull-right">
-						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal" data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
-						<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">Save</button>
-					</div>
-					<div class="pull-left">
-						<button type="button" id="btnTestServerSubscription" class="btn btn-outline-secondary" data-localize="settingsServerSubscriptionTestButton">Test</button>
+					<div class="fullwidth">
+						<div class="float-left">
+							<button type="button" id="btnTestServerSubscription" class="btn btn-secondary" data-localize="settingsServerSubscriptionTestButton">Test</button>
+						</div>
+						<div class="float-right">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
+							<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">
+								Save </button>
+						</div>
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -766,4 +772,5 @@
 		</div>
 	</div>
 </body>
+
 </html>

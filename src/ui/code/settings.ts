@@ -3,7 +3,7 @@ import { PolyFill } from "../../lib/PolyFill";
 import { Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServerForProtocol, ResultHolder, ProxyRuleType } from "../../core/definitions";
 import { messageBox, jQuery } from "../../lib/External";
 import { environment } from "../../lib/environment";
-import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions, ProxyRule } from "../../core/Settings";
+import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions, ProxyRule, ProxyServerSubscription } from "../../core/Settings";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
@@ -121,15 +121,11 @@ export class settingsPage {
         jQuery("#btnRestoreBackup").click(settingsPage.uiEvents.onClickRestoreBackup);
 
         // proxy server subscriptions
-        jQuery("#btnAddServerSubscription").click(function () {
-            //settingsGrid.serverSubscriptionsAdd();
-        });
-        jQuery("#btnSaveServerSubscription").click(function () {
-            //settingsGrid.serverSubscriptionsSave();
-        });
-        jQuery("#btnTestServerSubscription").click(function () {
-            //settingsGrid.serverSubscriptionsTest(true);
-        });
+        jQuery("#btnAddServerSubscription").click(settingsPage.uiEvents.onClickAddServerSubscription);
+
+        jQuery("#btnSaveServerSubscription").click(settingsPage.uiEvents.onClickSaveServerSubscription);
+
+        jQuery("#btnTestServerSubscription").click(settingsPage.uiEvents.onClickTestServerSubscription);
 
         jQuery("#btnClearServerSubscriptions").click(settingsPage.uiEvents.onClickClearServerSubscriptions);
 
@@ -223,7 +219,7 @@ export class settingsPage {
                 },
                 {
                     "data": null,
-                    "defaultContent": "<button class='btn btn-sm btn-success' onclick='settingsPage.onSubscriptionsEditClick(event)'>Edit</button> <button class='btn btn-sm btn-danger' onclick='settingsPage.onSubscriptionsRemoveClick(event)'><i class='fas fa-times'></button>",
+                    "defaultContent": "<button class='btn btn-sm btn-success' id='btnSubscriptionsEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnSubscriptionsRemove'><i class='fas fa-times'></button>",
                 }
             ],
         });
@@ -516,23 +512,92 @@ export class settingsPage {
 
     //#region ServerSubscriptions tab functions --------------
 
-    private static loadServerSubscriptions(rules: any[]) {
+    private static loadServerSubscriptions(subscriptions: any[]) {
+        debugger;
         if (!this.grdServerSubscriptions)
             return;
         this.grdServerSubscriptions.clear();
-        this.grdServerSubscriptions.rows.add(rules);
+        this.grdServerSubscriptions.rows.add(subscriptions).draw('full-hold');
+
+        // binding the events for all the rows
+        this.refreshServerSubscriptionsGridAllRows();
     }
 
     private static readServerSubscriptions(): any[] {
         return this.grdServerSubscriptions.data().toArray();
     }
 
+    private static readSelectedServerSubscription(e?: any): any {
+        let dataItem;
+
+        if (e && e.target)
+            dataItem = this.grdServerSubscriptions.row(jQuery(e.target).parents('tr')).data();
+        else
+            dataItem = this.grdServerSubscriptions.row({ selected: true }).data();
+
+        return dataItem;
+    }
+
+    private static readSelectedServerSubscriptionRow(e: any): any {
+        if (e && e.target)
+            return this.grdServerSubscriptions.row(jQuery(e.target).parents('tr'));
+
+        return null;
+    }
+
+    private static refreshServerSubscriptionsGrid() {
+        let currentRow = this.grdServerSubscriptions.row();
+        if (currentRow)
+            // displaying the possible data change
+            settingsPage.refreshServerSubscriptionsGridRow(currentRow, true);
+
+        this.grdServerSubscriptions.draw('full-hold');
+    }
+
+    private static refreshServerSubscriptionsGridRow(row, invalidate?) {
+        if (!row)
+            return;
+        if (invalidate)
+            row.invalidate();
+
+        let rowElement = jQuery(row.node());
+
+        // NOTE: to display update data the row should be invalidated
+        // and invalidated row loosed the event bindings.
+        // so we need to bind the events each time data changes.
+
+        rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
+        rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
+    }
+
+    private static refreshServerSubscriptionsGridAllRows() {
+        var nodes = this.grdServerSubscriptions.rows().nodes();
+        for (let index = 0; index < nodes.length; index++) {
+            const rowElement = jQuery(nodes[index]);
+
+            rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
+            rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
+        }
+    }
+
+    private static insertNewServerSubscriptionInGrid(newSubscription: ProxyServerSubscription) {
+        try {
+
+            let row = this.grdServerSubscriptions.row
+                .add(newSubscription)
+                .draw('full-hold');
+
+            // binding the events
+            settingsPage.refreshServerSubscriptionsGridRow(row);
+
+        } catch (error) {
+            PolyFill.runtimeSendMessage("insertNewServerSubscriptionInGrid failed! > " + error);
+            throw error;
+        }
+    }
     //#endregion
 
     /** Load/Reload the action proxy combobox */
-
-    //private static 
-
 
     private static loadBypass(bypass: BypassOptions) {
         if (!bypass)
@@ -784,11 +849,55 @@ export class settingsPage {
         return ruleInfo;
     }
 
+    private static populateServerSubscriptionsModal(modalContainer: any, subscription?: ProxyServerSubscription) {
+        if (subscription) {
+            modalContainer.find("#txtName").val(subscription.name);
+            modalContainer.find("#txtUrl").val(subscription.url);
+            modalContainer.find("#numRefreshRate").val(subscription.refreshRate);
+            modalContainer.find("#chkEnabled").prop('checked', subscription.enabled);
+            modalContainer.find("#cmbServerSubscriptionProtocol").val(subscription.proxyProtocol);
+            modalContainer.find("#cmbServerSubscriptionObfuscation").val(subscription.obfuscation);
+            modalContainer.find("#cmbServerSubscriptionUsername").val(subscription.username);
+            if (subscription.password != null)
+                // from BASE64
+                modalContainer.find("#cmbServerSubscriptionPassword").val(atob(subscription.password));
+            else
+                modalContainer.find("#cmbServerSubscriptionPassword").val("");
+
+        } else {
+
+            modalContainer.find("#txtName").val(settingsPage.generateNewSubscriptionName());
+            modalContainer.find("#txtUrl").val("");
+            modalContainer.find("#numRefreshRate").val(0);
+            modalContainer.find("#chkEnabled").prop('checked', true);
+            modalContainer.find("#cmbServerSubscriptionProtocol")[0].selectedIndex = 0;
+            modalContainer.find("#cmbServerSubscriptionObfuscation")[0].selectedIndex = 0;
+            modalContainer.find("#cmbServerSubscriptionUsername").val("");
+            modalContainer.find("#cmbServerSubscriptionPassword").val("");
+        }
+    }
+
+    private static readServerSubscriptionModel(modalContainer: any): ProxyServerSubscription {
+        let subscription = new ProxyServerSubscription();
+
+        subscription.name = modalContainer.find("#txtName").val();
+        subscription.url = modalContainer.find("#txtUrl").val();
+        subscription.enabled = modalContainer.find("#chkEnabled").prop('checked');
+        subscription.proxyProtocol = modalContainer.find("#cmbServerSubscriptionProtocol").val();
+        subscription.refreshRate = modalContainer.find("#numRefreshRate").val() || 0;
+        subscription.obfuscation = modalContainer.find("#cmbServerSubscriptionObfuscation").val();
+        subscription.username = modalContainer.find("#cmbServerSubscriptionUsername").val();
+        // BASE 64 string
+        subscription.password = btoa(modalContainer.find("#cmbServerSubscriptionPassword").val());
+        subscription.totalCount = 0;
+
+        return subscription;
+    }
     //#endregion
 
 
     //#region Reading data ---------------------
-    private static generateNewServerName() {
+    private static generateNewServerName(): string {
         // generates a unique name for proxy server
         let servers = this.readServers();
         let serverNo = 1;
@@ -815,6 +924,34 @@ export class settingsPage {
         return result;
     }
 
+    private static generateNewSubscriptionName(): string {
+        // generates a unique name for list subscription
+        let subscriptions = settingsPage.readServerSubscriptions();
+        let itemNo = 1;
+        let result = `Subscription ${itemNo}`;
+
+        if (subscriptions && subscriptions.length > 0) {
+            let exist;
+
+            itemNo = subscriptions.length + 1;
+            result = `Subscription ${itemNo}`;
+
+            do {
+                exist = false;
+                for (let i = subscriptions.length - 1; i >= 0; i--) {
+                    if (subscriptions[i].name === result) {
+                        exist = true;
+                        itemNo++;
+                        result = `Subscription ${itemNo}`;
+                        break;
+                    }
+                }
+            } while (exist)
+        }
+
+        return result;
+    }
+
     static getGeneralOptions(generalOptions?: GeneralOptions): GeneralOptions {
         if (!generalOptions)
             generalOptions = new GeneralOptions();
@@ -830,20 +967,6 @@ export class settingsPage {
 
 
     //#region Events --------------------------
-
-    /** Rules Grid */
-    public static onSubscriptionsEditClick(e) {
-        this.changeTracking.serverSubscriptions = true;
-
-    }
-
-    /** Rules Grid */
-    public static onSubscriptionsRemoveClick(e) {
-        this.changeTracking.serverSubscriptions = true;
-
-    }
-
-    // ------------------
     private static uiEvents = {
         onClickSaveGeneralOptions: function () {
             let generalOptions = settingsPage.getGeneralOptions();
@@ -1163,7 +1286,6 @@ export class settingsPage {
             if (editingModel) {
                 jQuery.extend(editingModel, ruleInfo);
 
-
                 settingsPage.refreshRulesGrid();
 
             } else {
@@ -1256,6 +1378,229 @@ export class settingsPage {
                     messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
                 });
         },
+        onClickAddServerSubscription: function () {
+            let modal = jQuery("#modalServerSubscription");
+            modal.data("editing", null);
+
+            // empty the form
+            settingsPage.populateServerSubscriptionsModal(modal, null);
+
+            modal.modal("show");
+
+            function focusUrl() {
+                modal.off("shown.bs.modal", focusUrl);
+                modal.find("#txtUrl").focus();
+            }
+
+            modal.on("shown.bs.modal", focusUrl);
+        },
+        onServerSubscriptionEditClick: function (e) {
+
+            let item = settingsPage.readSelectedServerSubscription(e);
+            if (!item)
+                return;
+
+            let modal = jQuery("#modalServerSubscription");
+            modal.data("editing", item);
+
+            settingsPage.populateServerSubscriptionsModal(modal, item);
+
+            modal.modal("show");
+        },
+        onServerSubscriptionRemoveClick: function (e) {
+            var row = settingsPage.readSelectedServerSubscriptionRow(e);
+            if (!row)
+                return;
+
+            messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveServerSubscription"),
+                () => {
+                    // remove then redraw the grid page
+                    row.remove().draw('full-hold');
+
+                    settingsPage.changeTracking.serverSubscriptions = true;
+                });
+        },
+        onClickSaveServerSubscription: function () {
+            let modal = jQuery("#modalServerSubscription");
+
+
+            if (!modal.find("form")[0].checkValidity()) {
+                // Please fill the required fields in the right format
+                messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionIncompleteForm"));
+                return;
+            }
+            let subscriptionModel = settingsPage.readServerSubscriptionModel(modal);
+            if (!subscriptionModel) {
+                messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionInvalidForm"));
+                return;
+            }
+
+            let subscriptionsList = settingsPage.readServerSubscriptions();
+            let editingSubscription = modal.data("editing");
+            let editingName = "";
+            if (editingSubscription)
+                editingName = editingSubscription.name;
+
+            // let editingSubscription = null;
+
+            if (editingSubscription) {
+                let nameIsDuplicate = false;
+                for (let item of subscriptionsList) {
+                    // if (item.name === editingName) {
+                    //     editingSubscription = item;
+                    // }
+
+                    if (item.name == subscriptionModel.name && subscriptionModel.name != editingName) {
+                        nameIsDuplicate = true;
+                    }
+                }
+                if (subscriptionModel.name != editingName)
+                    // check for duplicate
+                    if (nameIsDuplicate) {
+                        // The entered name is already used, please enter another name.
+                        messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionDuplicateName"));
+                        return;
+                    }
+            }
+
+            // Saving...
+            jQuery("#btnSaveServerSubscription").attr("data-loading-text", browser.i18n.getMessage("settingsServerSubscriptionSavingButton"));
+            jQuery("#btnSaveServerSubscription").button("loading");
+
+            ProxyImporter.readFromServer(subscriptionModel,
+                function (response) {
+                    jQuery("#btnSaveServerSubscription").button('reset');
+
+                    if (response.success) {
+                        let count = response.result.length;
+
+                        subscriptionModel.proxies = response.result;
+                        subscriptionModel.totalCount = count;
+
+                        if (editingSubscription) {
+                            
+                            // updating the model
+                            jQuery.extend(editingSubscription, subscriptionModel);
+
+                            settingsPage.refreshServerSubscriptionsGrid();
+
+                            // The subscription is updated with {0} proxies in it. <br/>Don't forget to save the changes.
+                            messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionSaveUpdated").replace("{0}", count));
+                        } else {
+
+                            // insert to the grid
+                            settingsPage.insertNewServerSubscriptionInGrid(subscriptionModel);
+
+                            // The subscription is added with {0} proxies in it. <br/>Don't forget to save the changes.
+                            messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionSaveAdded").replace("{0}", count));
+                        }
+
+                        settingsPage.changeTracking.serverSubscriptions = true;
+                        settingsPage.loadActiveProxyServer();
+
+                        // close the window
+                        modal.modal("hide");
+
+                    } else {
+                        messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
+                    }
+                },
+                function () {
+                    messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
+                    jQuery("#btnSaveServerSubscription").button('reset');
+                });
+        },
+        onClickTestServerSubscription: function () {
+            let modal = jQuery("#modalServerSubscription");
+
+            if (!modal.find("form")[0].checkValidity()) {
+                // Please fill the required fields in the right format
+                messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionIncompleteForm"));
+                return;
+            }
+
+            let subscriptionModel = settingsPage.readServerSubscriptionModel(modal);
+
+            if (!subscriptionModel) {
+                messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionInvalidForm"));
+                return;
+            }
+
+            // Testing...
+            jQuery("#btnTestServerSubscription").attr("data-loading-text", browser.i18n.getMessage("settingsServerSubscriptionTestingButton"));
+            jQuery("#btnTestServerSubscription").button("loading");
+
+            ProxyImporter.readFromServer(subscriptionModel,
+                function (response) {
+
+                    jQuery("#btnTestServerSubscription").button('reset');
+
+                    if (response.success) {
+                        let count = response.result.length;
+
+                        messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionTestSuccess").replace("{0}", count));
+                    } else {
+                        messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
+                    }
+                },
+                function () {
+                    messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
+                    jQuery("#btnTestServerSubscription").button('reset');
+                });
+        },
+        onClickSaveServerSubscriptionsChanges: function () {
+            let proxyServerSubscriptions = settingsPage.readServerSubscriptions();
+            debugger;
+            PolyFill.runtimeSendMessage(
+                {
+                    command: Messages.SettingsPageSaveProxySubscriptions,
+                    proxyServerSubscriptions: proxyServerSubscriptions
+                },
+                function (response) {
+                    if (!response) return;
+                    if (response.success) {
+                        if (response.message)
+                            messageBox.success(response.message);
+
+                        // current list should become equal to saved list
+                        settingsPage.currentSettings.proxyServerSubscriptions = proxyServerSubscriptions;
+
+                        settingsPage.changeTracking.serverSubscriptions = false;
+
+                    } else {
+                        if (response.message)
+                            messageBox.error(response.message);
+                    }
+                },
+                function (error) {
+                    messageBox.error(browser.i18n.getMessage("settingsFailedToSaveProxySubscriptions") + " " + error.message);
+                });
+        },
+        onClickRejectServerSubscriptionsChanges: function () {
+            // reset the data
+            settingsPage.currentSettings.proxyServerSubscriptions = settingsPage.originalSettings.proxyServerSubscriptions.slice();
+            settingsPage.loadServerSubscriptions(settingsPage.currentSettings.proxyServerSubscriptions);
+            settingsPage.loadActiveProxyServer();
+
+            settingsPage.changeTracking.serverSubscriptions = false;
+
+            // Changes reverted successfully
+            messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+        },
+        onClickClearServerSubscriptions: function () {
+
+            // Are you sure to remove all the proxy server subscriptions?
+            messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServerSubscriptions"),
+                function () {
+                    settingsPage.loadServerSubscriptions([]);
+                    settingsPage.loadActiveProxyServer();
+
+                    settingsPage.changeTracking.serverSubscriptions = true;
+
+                    // All the proxy server subscriptions are removed.<br/>You have to save to apply the changes.
+                    messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServerSubscriptionsSuccess"));
+                });
+        },
         onClickSaveBypassChanges: function () {
             // let bypassList = settingsGrid.getBypassList();
             // settingsUiData.bypass.bypassList = bypassList;
@@ -1292,133 +1637,6 @@ export class settingsPage {
             // settingsGrid.loadBypass(settingsUiData.bypass);
 
             // changeTracking.bypass = false;
-
-            // // Changes reverted successfully
-            // messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
-        },
-        onClickBackupComplete: function () {
-
-            // let data = JSON.stringify(settingsUiData);
-            // settings.downloadData(data, "SmartProxy-FullBackup.json");
-        },
-        onClickBackupRules: function () {
-            // let data = JSON.stringify(
-            // 	{
-            // 		proxyRules: settingsUiData.proxyRules
-            // 	}
-            // );
-            // settings.downloadData(data, "SmartProxy-RulesBackup.json");
-        },
-        onClickRestoreBackup: function () {
-
-            // function callRestoreSettings(fileData) {
-
-            // 	polyfill.runtimeSendMessage(
-            // 		{
-            // 			command: "restoreSettings",
-            // 			fileData: fileData
-            // 		},
-            // 		function (response: ResultHolder) {
-
-            // 			if (response.success) {
-            // 				if (response.message) {
-            // 					messageBox.success(response.message,
-            // 						false,
-            // 						function () {
-            // 							// reload the current settings page
-            // 							document.location.reload();
-            // 						});
-            // 				} else {
-            // 					// reload the current settings page
-            // 					document.location.reload();
-            // 				}
-            // 			} else {
-            // 				if (response.message) {
-            // 					messageBox.error(response.message);
-            // 				}
-            // 			}
-            // 		},
-            // 		function (error) {
-            // 			// There was an error in restoring the backup
-            // 			messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFailed"));
-            // 			polyfill.runtimeSendMessage("restoreSettings failed with> " + error.message);
-            // 		});
-            // }
-
-            // settings.selectFileOnTheFly(jQuery("#frmRestoreBackup")[0],
-            // 	"retore-file",
-            // 	function (inputElement, files) {
-            // 		let file = files[0];
-
-            // 		let reader = new FileReader();
-            // 		reader.onerror = function (event) {
-            // 			// Failed to read the selected file
-            // 			messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFileError"));
-            // 		};
-            // 		reader.onload = function (event) {
-            // 			let textFile = event.target;
-            // 			let fileText = textFile.result;
-
-            // 			callRestoreSettings(fileText);
-            // 		};
-            // 		reader.readAsText(file);
-            // 	},
-            // 	"application/json");
-
-
-        },
-        onClickClearServerSubscriptions: function () {
-
-            // // Are you sure to remove all the proxy server subscriptions?
-            // messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServerSubscriptions"),
-            // 	function () {
-            // 		settingsGrid.loadServerSubscriptions([]);
-            // 		settingsGrid.reloadActiveProxyServer();
-
-            // 		changeTracking.serverSubscriptions = true;
-
-            // 		// All the proxy server subscriptions are removed.<br/>You have to save to apply the changes.
-            // 		messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServerSubscriptionsSuccess"));
-            // 	});
-        },
-        onClickSaveServerSubscriptionsChanges: function () {
-            // let proxyServerSubscriptions = settingsGrid.getServerSubscriptions();
-
-            // polyfill.runtimeSendMessage(
-            // 	{
-            // 		command: "settingsSaveProxySubscriptions",
-            // 		proxyServerSubscriptions: proxyServerSubscriptions
-            // 	},
-            // 	function (response: ResultHolder) {
-            // 		if (!response) return;
-            // 		if (response.success) {
-            // 			if (response.message)
-            // 				messageBox.success(response.message);
-
-            // 			settings.displayRestartRequired(response.restartRequired);
-
-            // 			// current list should become equal to saved list
-            // 			settingsUiData.proxyServerSubscriptions = proxyServerSubscriptions;
-
-            // 		} else {
-            // 			if (response.message)
-            // 				messageBox.error(response.message);
-            // 		}
-            // 	},
-            // 	function (error) {
-            // 		messageBox.error(browser.i18n.getMessage("settingsFailedToSaveProxySubscriptions") + " " + error.message);
-            // 	});
-
-            // changeTracking.serverSubscriptions = false;
-        },
-        onClickRejectServerSubscriptionsChanges: function () {
-            // // reset the data
-            // settingsUiData.proxyServerSubscriptions = originalSettingsData.proxyServerSubscriptions.slice();
-            // settingsGrid.loadServerSubscriptions(settingsUiData.proxyServerSubscriptions);
-            // jQuery("#grdServerSubscriptions").jsGrid("refresh");
-            // settingsGrid.reloadActiveProxyServer();
-
-            // changeTracking.serverSubscriptions = false;
 
             // // Changes reverted successfully
             // messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
@@ -1546,7 +1764,78 @@ export class settingsPage {
                         message = error.message;
                     messageBox.error(browser.i18n.getMessage("settingsImportRulesFailed") + " " + message);
                 });
-        }
+        },
+        onClickBackupComplete: function () {
+
+            let data = JSON.stringify(settingsPage.currentSettings);
+            CommonUi.downloadData(data, "SmartProxy-FullBackup.json");
+        },
+        onClickBackupRules: function () {
+            let data = JSON.stringify(
+                {
+                    proxyRules: settingsPage.currentSettings.proxyRules
+                }
+            );
+            CommonUi.downloadData(data, "SmartProxy-RulesBackup.json");
+        },
+        onClickRestoreBackup: function () {
+
+            // function callRestoreSettings(fileData) {
+
+            // 	polyfill.runtimeSendMessage(
+            // 		{
+            // 			command: "restoreSettings",
+            // 			fileData: fileData
+            // 		},
+            // 		function (response: ResultHolder) {
+
+            // 			if (response.success) {
+            // 				if (response.message) {
+            // 					messageBox.success(response.message,
+            // 						false,
+            // 						function () {
+            // 							// reload the current settings page
+            // 							document.location.reload();
+            // 						});
+            // 				} else {
+            // 					// reload the current settings page
+            // 					document.location.reload();
+            // 				}
+            // 			} else {
+            // 				if (response.message) {
+            // 					messageBox.error(response.message);
+            // 				}
+            // 			}
+            // 		},
+            // 		function (error) {
+            // 			// There was an error in restoring the backup
+            // 			messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFailed"));
+            // 			polyfill.runtimeSendMessage("restoreSettings failed with> " + error.message);
+            // 		});
+            // }
+
+            // settings.selectFileOnTheFly(jQuery("#frmRestoreBackup")[0],
+            // 	"retore-file",
+            // 	function (inputElement, files) {
+            // 		let file = files[0];
+
+            // 		let reader = new FileReader();
+            // 		reader.onerror = function (event) {
+            // 			// Failed to read the selected file
+            // 			messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFileError"));
+            // 		};
+            // 		reader.onload = function (event) {
+            // 			let textFile = event.target;
+            // 			let fileText = textFile.result;
+
+            // 			callRestoreSettings(fileText);
+            // 		};
+            // 		reader.readAsText(file);
+            // 	},
+            // 	"application/json");
+
+
+        },
     };
 
     //#endregion

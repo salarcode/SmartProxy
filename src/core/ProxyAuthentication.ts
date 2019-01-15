@@ -65,7 +65,7 @@ export class ProxyAuthentication {
         }
 
         if (applyAuthentication &&
-            activeProxy.username && activeProxy.password)
+            activeProxy.username)
             applyAuthentication = true;
         else
             applyAuthentication = false;
@@ -134,7 +134,7 @@ export class ProxyAuthentication {
         
         if (applyAuthentication &&
             activeProxy &&
-            activeProxy.username && activeProxy.password)
+            activeProxy.username)
             applyAuthentication = true;
         else
             applyAuthentication = false;

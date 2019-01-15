@@ -221,7 +221,7 @@ export class ProxyRule {
 	}
 }
 
-class ProxyServerSubscription {
+export class ProxyServerSubscription {
 	public name: string;
 	public url: string;
 	public enabled: boolean = false;

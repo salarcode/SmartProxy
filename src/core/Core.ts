@@ -156,7 +156,8 @@ export class Core {
 				break;
 			case Messages.SettingsPageSaveProxyServers:
 				{
-					debugger;
+					if (!message.saveData)
+						return;
 					var saveData = message.saveData;
 
 					Settings.current.proxyServers = saveData.proxyServers;
@@ -184,6 +185,8 @@ export class Core {
 
 			case Messages.SettingsPageSaveProxyRules:
 				{
+					if (!message.proxyRules)
+						return;
 					Settings.current.proxyRules = message.proxyRules;
 					SettingsOperation.saveRules();
 					SettingsOperation.saveAllSync();
@@ -205,6 +208,33 @@ export class Core {
 						});
 					}
 
+					return;
+				}
+			case Messages.SettingsPageSaveProxySubscriptions:
+				{
+					debugger;
+					if (!message.proxyServerSubscriptions)
+						return;
+					Settings.current.proxyServerSubscriptions = message.proxyServerSubscriptions;
+					SettingsOperation.saveProxyServerSubscriptions();
+					SettingsOperation.saveAllSync();
+
+					// // update the timers
+					// timerManagement.updateSubscriptions();
+
+					// // it is possible that active proxy is changed
+					// proxyRules.notifyActiveProxyServerChange();
+
+					// // update proxy rules
+					// proxyRules.updateChromeProxyConfig();
+
+					if (sendResponse) {
+						sendResponse({
+							success: true,
+							// Proxy server subscriptions saved successfully.
+							message: browser.i18n.getMessage("settingsSaveProxyServerSubscriptionsSuccess")
+						});
+					}
 					return;
 				}
 
