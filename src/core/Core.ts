@@ -212,7 +212,6 @@ export class Core {
 				}
 			case Messages.SettingsPageSaveProxySubscriptions:
 				{
-					debugger;
 					if (!message.proxyServerSubscriptions)
 						return;
 					Settings.current.proxyServerSubscriptions = message.proxyServerSubscriptions;
@@ -237,7 +236,39 @@ export class Core {
 					}
 					return;
 				}
+			case Messages.SettingsPageSaveBypass:
+				{
+					if (!message.bypass)
+						return;
+					Settings.current.bypass = message.bypass;
+					SettingsOperation.saveBypass();
+					SettingsOperation.saveAllSync();
 
+					// proxyRules.notifyBypassChanged();
+
+					// // update proxy rules
+					// proxyRules.updateChromeProxyConfig();
+
+					if (sendResponse) {
+						sendResponse({
+							success: true,
+							// Proxy server subscriptions saved successfully.
+							message: browser.i18n.getMessage("settingsSaveBypassSuccess")
+						});
+					} return;
+				}
+			case Messages.SettingsPageRestoreSettings:
+				{
+					if (!message.fileData)
+						return;
+					let fileData = message.fileData;
+					let result = SettingsOperation.restoreSettings(fileData);
+
+					if (sendResponse) {
+						sendResponse(result);
+					}
+					return;
+				}
 			default:
 				{
 

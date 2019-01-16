@@ -15,6 +15,29 @@ export class CommonUi {
         jQuery(document).ready(callback);
     }
 
+    public static selectFileOnTheFly(form: HTMLElement, inputName: string, onFileSelected: Function, acceptFormat?) {
+        ///<summary>Select a file from a detached file input</summary>
+        let fileContainer = jQuery(`<div style='display: none'><input style='display: none' type=file accept='${acceptFormat || ""}' class='' name='${inputName}'/></div>`);
+        let fileInput = fileContainer.find("input");
+
+        form = jQuery(form);
+        form.append(fileContainer);
+
+        function onFile(evt) {
+            fileContainer.remove();
+
+            let files = evt.target.files;
+            if (!files.length)
+                return;
+
+            if (onFileSelected) {
+                onFileSelected(fileInput, files);
+            }
+        }
+        fileInput.on("change", onFile);
+        fileInput.trigger("click");
+    }
+
     //** localize the ui */
     public static localizeHtmlPage() {
 

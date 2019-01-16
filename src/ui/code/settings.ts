@@ -23,7 +23,8 @@ export class settingsPage {
         rules: false,
         servers: false,
         activeProxy: false,
-        serverSubscriptions: false
+        serverSubscriptions: false,
+        bypass: false
     };
 
     public static initialize() {
@@ -513,7 +514,6 @@ export class settingsPage {
     //#region ServerSubscriptions tab functions --------------
 
     private static loadServerSubscriptions(subscriptions: any[]) {
-        debugger;
         if (!this.grdServerSubscriptions)
             return;
         this.grdServerSubscriptions.clear();
@@ -597,7 +597,9 @@ export class settingsPage {
     }
     //#endregion
 
-    /** Load/Reload the action proxy combobox */
+    private static readBypassList() {
+        return jQuery("#txtBypassList").val().split(/[\r\n]+/);
+    }
 
     private static loadBypass(bypass: BypassOptions) {
         if (!bypass)
@@ -952,7 +954,7 @@ export class settingsPage {
         return result;
     }
 
-    static getGeneralOptions(generalOptions?: GeneralOptions): GeneralOptions {
+    static readGeneralOptions(generalOptions?: GeneralOptions): GeneralOptions {
         if (!generalOptions)
             generalOptions = new GeneralOptions();
         let divGeneral = jQuery("#tab-general");
@@ -963,13 +965,24 @@ export class settingsPage {
 
         return generalOptions;
     }
+
+    private static readBypassOptionsModel(): BypassOptions {
+        let bypass = new BypassOptions();
+        let divBypass = jQuery("#tab-bypass");
+
+        bypass.bypassList = settingsPage.readBypassList();
+        bypass.enableForAlways = divBypass.find("#chkEnableBypassForAlwaysEnable").prop("checked");
+        bypass.enableForSystem = divBypass.find("#chkEnableBypassForSystemProxy").prop("checked");
+
+        return bypass;
+    }
     //#endregion
 
 
     //#region Events --------------------------
     private static uiEvents = {
         onClickSaveGeneralOptions: function () {
-            let generalOptions = settingsPage.getGeneralOptions();
+            let generalOptions = settingsPage.readGeneralOptions();
 
             PolyFill.runtimeSendMessage(
                 {
@@ -1369,7 +1382,6 @@ export class settingsPage {
             // Are you sure to remove all the rules?
             messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllRules"),
                 function () {
-                    debugger;
                     settingsPage.loadRules([]);
 
                     settingsPage.changeTracking.rules = true;
@@ -1478,7 +1490,7 @@ export class settingsPage {
                         subscriptionModel.totalCount = count;
 
                         if (editingSubscription) {
-                            
+
                             // updating the model
                             jQuery.extend(editingSubscription, subscriptionModel);
 
@@ -1550,7 +1562,7 @@ export class settingsPage {
         },
         onClickSaveServerSubscriptionsChanges: function () {
             let proxyServerSubscriptions = settingsPage.readServerSubscriptions();
-            debugger;
+
             PolyFill.runtimeSendMessage(
                 {
                     command: Messages.SettingsPageSaveProxySubscriptions,
@@ -1602,44 +1614,40 @@ export class settingsPage {
                 });
         },
         onClickSaveBypassChanges: function () {
-            // let bypassList = settingsGrid.getBypassList();
-            // settingsUiData.bypass.bypassList = bypassList;
-            // settingsUiData.bypass.enableForAlways = jQuery("#chkEnableBypassForAlwaysEnable").prop("checked");
-            // settingsUiData.bypass.enableForSystem = jQuery("#chkEnableBypassForSystemProxy").prop("checked");
+            let bypassOptions = settingsPage.readBypassOptionsModel();
 
-            // polyfill.runtimeSendMessage(
-            // 	{
-            // 		command: "settingsSaveBypass",
-            // 		bypass: settingsUiData.bypass
-            // 	},
-            // 	function (response: ResultHolder) {
-            // 		if (!response) return;
-            // 		if (response.success) {
-            // 			if (response.message)
-            // 				messageBox.success(response.message);
+            PolyFill.runtimeSendMessage(
+                {
+                    command: Messages.SettingsPageSaveBypass,
+                    bypass: bypassOptions
+                },
+                function (response: ResultHolder) {
+                    if (!response) return;
+                    if (response.success) {
+                        if (response.message)
+                            messageBox.success(response.message);
 
-            // 			settings.displayRestartRequired(response.restartRequired);
+                        settingsPage.currentSettings.bypass = bypassOptions;
+                        settingsPage.changeTracking.bypass = false;
 
-            // 			changeTracking.rules = false;
-
-            // 		} else {
-            // 			if (response.message)
-            // 				messageBox.error(response.message);
-            // 		}
-            // 	},
-            // 	function (error) {
-            // 		messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveBypass") + " " + error.message);
-            // 	});
+                    } else {
+                        if (response.message)
+                            messageBox.error(response.message);
+                    }
+                },
+                function (error) {
+                    messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveBypass") + " " + error.message);
+                });
         },
         onClickRejectBypass: function () {
-            // // reset the data
-            // settingsUiData.bypass = jQuery.extend({}, originalSettingsData.bypass);
-            // settingsGrid.loadBypass(settingsUiData.bypass);
+            // reset the data
+            settingsPage.currentSettings.bypass = jQuery.extend({}, settingsPage.originalSettings.bypass);
+            settingsPage.loadBypass(settingsPage.currentSettings.bypass);
 
-            // changeTracking.bypass = false;
+            settingsPage.changeTracking.bypass = false;
 
-            // // Changes reverted successfully
-            // messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+            // Changes reverted successfully
+            messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
         },
         onClickExportProxyServerOpenBackup: function () {
             let proxyList = settingsPage.exportServersListFormatted();
@@ -1780,61 +1788,59 @@ export class settingsPage {
         },
         onClickRestoreBackup: function () {
 
-            // function callRestoreSettings(fileData) {
+            function callRestoreSettings(fileData) {
 
-            // 	polyfill.runtimeSendMessage(
-            // 		{
-            // 			command: "restoreSettings",
-            // 			fileData: fileData
-            // 		},
-            // 		function (response: ResultHolder) {
+                PolyFill.runtimeSendMessage(
+                    {
+                        command: Messages.SettingsPageRestoreSettings,
+                        fileData: fileData
+                    },
+                    function (response: ResultHolder) {
 
-            // 			if (response.success) {
-            // 				if (response.message) {
-            // 					messageBox.success(response.message,
-            // 						false,
-            // 						function () {
-            // 							// reload the current settings page
-            // 							document.location.reload();
-            // 						});
-            // 				} else {
-            // 					// reload the current settings page
-            // 					document.location.reload();
-            // 				}
-            // 			} else {
-            // 				if (response.message) {
-            // 					messageBox.error(response.message);
-            // 				}
-            // 			}
-            // 		},
-            // 		function (error) {
-            // 			// There was an error in restoring the backup
-            // 			messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFailed"));
-            // 			polyfill.runtimeSendMessage("restoreSettings failed with> " + error.message);
-            // 		});
-            // }
+                        if (response.success) {
+                            if (response.message) {
+                                messageBox.success(response.message,
+                                    false,
+                                    function () {
+                                        // reload the current settings page
+                                        document.location.reload();
+                                    });
+                            } else {
+                                // reload the current settings page
+                                document.location.reload();
+                            }
+                        } else {
+                            if (response.message) {
+                                messageBox.error(response.message);
+                            }
+                        }
+                    },
+                    function (error) {
+                        // There was an error in restoring the backup
+                        messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFailed"));
+                        PolyFill.runtimeSendMessage("restoreSettings failed with> " + error.message);
+                    });
+            }
 
-            // settings.selectFileOnTheFly(jQuery("#frmRestoreBackup")[0],
-            // 	"retore-file",
-            // 	function (inputElement, files) {
-            // 		let file = files[0];
+            CommonUi.selectFileOnTheFly(jQuery("#frmRestoreBackup")[0],
+                "restore-file",
+                function (inputElement, files) {
+                    let file = files[0];
 
-            // 		let reader = new FileReader();
-            // 		reader.onerror = function (event) {
-            // 			// Failed to read the selected file
-            // 			messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFileError"));
-            // 		};
-            // 		reader.onload = function (event) {
-            // 			let textFile = event.target;
-            // 			let fileText = textFile.result;
+                    let reader = new FileReader();
+                    reader.onerror = function (event) {
+                        // Failed to read the selected file
+                        messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFileError"));
+                    };
+                    reader.onload = function (event) {
+                        //let textFile = event.target;
+                        let fileText = reader.result;
 
-            // 			callRestoreSettings(fileText);
-            // 		};
-            // 		reader.readAsText(file);
-            // 	},
-            // 	"application/json");
-
-
+                        callRestoreSettings(fileText);
+                    };
+                    reader.readAsText(file);
+                },
+                "application/json");
         },
     };
 
