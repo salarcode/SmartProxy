@@ -1,4 +1,5 @@
 import { jQuery } from "../../lib/External";
+import { browser } from "../../lib/environment";
 
 export class CommonUi {
 

@@ -1,6 +1,3 @@
-import { Utils } from "./Utils";
-import { ProxyRule, ProxyServer } from "../core/Settings";
-
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
  * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
@@ -17,14 +14,19 @@ import { ProxyRule, ProxyServer } from "../core/Settings";
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { Utils } from "./Utils";
+import { ProxyRule, ProxyServer } from "../core/Settings";
+import { browser } from "./environment";
+
 export const ProxyImporter = {
-	readFromServer: function (serverDetail, success, fail) {
+	readFromServer(serverDetail, success, fail) {
 		if (!serverDetail || !serverDetail.url) {
 			if (fail) fail();
 			return;
 		}
 		if (!success) throw "onSuccess callback is mandatory";
 
+		function ajaxSuccess(response: any);
 		function ajaxSuccess(response) {
 			if (!response)
 				if (fail) fail();
@@ -32,7 +34,7 @@ export const ProxyImporter = {
 				null,
 				false,
 				null,
-				function (importResult) {
+				importResult => {
 					if (!importResult.success) {
 						if (fail)
 							fail(importResult);
@@ -41,7 +43,7 @@ export const ProxyImporter = {
 					if (success)
 						success(importResult);
 				},
-				function (error) {
+				error => {
 					if (fail)
 						fail(error);
 				},
@@ -60,7 +62,7 @@ export const ProxyImporter = {
 			xhr.setRequestHeader("Authorization", "Basic " + btoa(serverDetail.username + ":" + pass));
 		}
 
-		xhr.onload = function () {
+		xhr.onload = () => {
 			if (xhr.status === 200) {
 				ajaxSuccess(xhr.responseText);
 			}
@@ -70,7 +72,7 @@ export const ProxyImporter = {
 		};
 		xhr.send();
 	},
-	importText: function (text, file, append, currentProxies, success, fail?, options?) {
+	importText(text, file, append, currentProxies, success, fail?, options?) {
 		if (!file && !text) {
 			if (fail) fail();
 			return;
@@ -80,10 +82,10 @@ export const ProxyImporter = {
 			doImport(text);
 		else {
 			let reader = new FileReader();
-			reader.onerror = function (event) {
+			reader.onerror = event => {
 				if (fail) fail(event);
 			};
-			reader.onload = function (event) {
+			reader.onload = event => {
 				//let textFile = event.target;
 				let fileText = reader.result;
 
@@ -103,12 +105,10 @@ export const ProxyImporter = {
 			}
 
 			let importedProxies = Utils.removeDuplicatesFunc(parsedProxies,
-				function (item1: ProxyServer, item2: ProxyServer) {
-					return item1.host == item2.host &&
-						item1.port == item2.port &&
-						item1.username == item2.username &&
-						item1.password == item2.password;
-				});
+				(item1: ProxyServer, item2: ProxyServer) => item1.host == item2.host &&
+				item1.port == item2.port &&
+				item1.username == item2.username &&
+				item1.password == item2.password);
 
 
 			// proxies are ready
@@ -168,7 +168,7 @@ export const ProxyImporter = {
 		}
 
 	},
-	parseText: function (proxyListText, options): ProxyServer[] {
+	parseText: (proxyListText, options): ProxyServer[] => {
 		///<summary>Parses the proxy</summary>
 		if (!proxyListText || typeof (proxyListText) !== "string") return null;
 
