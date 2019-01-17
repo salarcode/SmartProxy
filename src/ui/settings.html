@@ -176,8 +176,7 @@
 								<span data-localize="settingsGeneralEnableSyncing">Enable settings syncing</span>
 							</label>
 							<div class="form-text text-muted" data-localize="settingsGeneralEnableSyncingDesc">By enabling syncing, your all
-								settings
-								including rules, servers and subscriptions will be avaialble across all browsers.</div>
+								settings including rules, servers and subscriptions will be avaialble across all browsers.</div>
 						</div>
 						<div class="mt-5"></div>
 						<p class="mt-4">
@@ -258,7 +257,7 @@
 							Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or
 							not.<br />
 							Rules are based on <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" target="_blank">Match
-								patterns</a>.
+								patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.
 						</p>
 						<p>
 							<div class="float-left">
@@ -438,7 +437,6 @@
 				<div class="text-dark text-center text-secondary small">
 					<small> Brought to you by Salar Khalilzadeh ,</small>
 					<small id="spanVersion"></small>
-
 				</div>
 			</div>
 		</div>
@@ -505,8 +503,6 @@
 				<div class="modal-footer">
 					<!-- <button type="button" class="btn btn-primary">Save changes</button>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-
-
 					<button type="button" class="btn btn-secondary" data-dismiss="modal" data-localize="settingsServersCancel">Cancel</button>
 					<button type="button" class="btn btn-primary" id="btnSubmitProxyServer" data-localize="settingsServersSave">Save
 						Changes</button>
@@ -525,7 +521,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="form-group col-sm-6">
-							<label for="txtRuleMatchPattern" data-localize="AAAAAAAAAAAAA">Rule Type</label>
+							<label for="txtRuleMatchPattern" data-localize="settingsRulesRuleType">Rule Type</label>
 							<select id="cmdRuleType" class="form-control custom-select">
 								<option value="0">Url wildcard (Match Pattern)</option>
 								<option value="1">Url regex</option>
@@ -543,7 +539,7 @@
 							<br />
 							<div class="custom-control custom-checkbox">
 								<input checked type="checkbox" class="custom-control-input" id="chkRuleGeneratePattern">
-								<label class="custom-control-label" for="chkRuleGeneratePattern" data-localize="AAAAAAAAAAAAAAAA">
+								<label class="custom-control-label" for="chkRuleGeneratePattern" data-localize="settingsRulesGeneratePattern">
 									Generate pattern automatically</label>
 							</div>
 						</div>
@@ -556,13 +552,13 @@
 					</div>
 					<div class="row" id="divRuleUrlRegex">
 						<div class="form-group col-sm-12">
-							<label for="txtRuleUrlRegex" data-localize="AAAAAAAAAAAAAAAA">Url Regex</label>
+							<label for="txtRuleUrlRegex" data-localize="settingsRulesRegex">Url Regex</label>
 							<input type="text" id="txtRuleUrlRegex" class="form-control" />
 						</div>
 					</div>
 					<div class="row" id="divRuleUrlExact">
 						<div class="form-group col-sm-12">
-							<label for="txtRuleUrlExact" data-localize="AAAAAAAAAAAAAAAA">Exact Url</label>
+							<label for="txtRuleUrlExact" data-localize="settingsRulesExactUrl">Exact Url</label>
 							<input type="url" id="txtRuleUrlExact" class="form-control" />
 						</div>
 					</div>
@@ -570,6 +566,8 @@
 						<div class="form-group col-sm-6">
 							<label for="cmdRuleProxyServer" data-localize="settingsRulesProxyServer">Proxy Server</label>
 							<select id="cmdRuleProxyServer" class="form-control custom-select"></select>
+							<span class="form-text text-muted small" data-localize="settingsRulesProxyServerNotAuth">(Servers with
+								authentication not supported)</span>
 						</div>
 						<div class="form-group col-sm-6">
 							<br />
@@ -583,27 +581,6 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal" data-localize="settingsRulesModalCancel">Cancel</button>
 					<button type="button" id="btnSubmitRule" class="btn btn-primary" data-localize="settingsRulesModalSave">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalModifyProxyServerLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="modalModifyProxyServerLabel" data-localize="settingsServersModalTitle">Proxy Server
-						Details</h4>
-				</div>
-				<div class="modal-body">
-
-					<div class="row">
-
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" data-localize="settingsServersCancel">Cancel</button>
-					<button type="button" id="btnSubmitProxyServer" class="btn btn-primary" data-localize="settingsServersSave">Save</button>
 				</div>
 			</div>
 		</div>
@@ -633,8 +610,7 @@
 							<input type="number" min="0" class="form-control" id="numRefreshRate" placeholder="Refresh rate in minutes"
 							 required>
 							<span data-localize="settingsServerSubscriptionRefreshRateHelp" class="form-text text-muted">(in minutes, 0
-								means no
-								refresh)</span>
+								means no refresh)</span>
 						</div>
 						<div class="form-group col-sm-6">
 							<br />
@@ -657,8 +633,7 @@
 							<label for="cmbServerSubscriptionUsername" data-localize="settingsServerSubscriptionUsername">Username:</label>
 							<input type="text" class="form-control" id="cmbServerSubscriptionUsername">
 							<span data-localize="settingsServerSubscriptionAuthenticationHelp" class="form-text text-muted">(if the list
-								requires
-								authentication)</span>
+								requires authentication)</span>
 						</div>
 						<div class="form-group col-sm-6">
 							<label for="cmbServerSubscriptionPassword" data-localize="settingsServerSubscriptionPassword">Password:</label>
@@ -673,8 +648,8 @@
 						</div>
 						<div class="float-right">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal" data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
-							<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">
-								Save </button>
+							<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">Save
+							</button>
 						</div>
 					</div>
 					<div class="clearfix"></div>

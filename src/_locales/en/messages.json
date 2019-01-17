@@ -200,7 +200,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a>.",
+		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.",
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
@@ -543,6 +543,14 @@
 		"message": "Host name '{0}' is invalid, host name should be something like 'google.com'",
 		"description": ""
 	},
+	"settingsRuleRegexInvalid": {
+		"message": "Regex rule '{0}' is not valid",
+		"description": ""
+	},
+	"settingsRuleExactUrlInvalid": {
+		"message": "Url '{0}' is not valid",
+		"description": ""
+	},
 	"settingsRulesGridNoDataContent": {
 		"message": "No rule is defined",
 		"description": ""
@@ -579,6 +587,10 @@
 		"message": "Rule Details",
 		"description": ""
 	},
+	"settingsRulesRuleType": {
+		"message": "Rule Type",
+		"description": ""
+	},
 	"settingsRulesSourceDomain": {
 		"message": "Rule Source Domain",
 		"description": ""
@@ -591,12 +603,24 @@
 		"message": "Match Pattern",
 		"description": ""
 	},
-	"settingsRulesPatternDesc": {
-		"message": "(generated automatically)",
+	"settingsRulesGeneratePattern": {
+		"message": "Generate pattern automatically",
+		"description": ""
+	},
+	"settingsRulesRegex": {
+		"message": "Url Regex",
+		"description": ""
+	},
+	"settingsRulesExactUrl": {
+		"message": "Exact Url",
 		"description": ""
 	},
 	"settingsRulesProxyServer": {
 		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsRulesProxyServerNotAuth": {
+		"message": "(Servers with authentication not supported)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {
@@ -738,7 +762,7 @@
 	"settingsConfirmRemoveServerSubscription": {
 		"message": "Are you sure to remove the selected subscription?",
 		"description": ""
-	},	
+	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Are you sure to remove all the proxy server subscriptions?",
 		"description": ""

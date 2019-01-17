@@ -148,7 +148,8 @@ export class GeneralOptions {
 	public syncSettings: boolean = false;
 	public syncProxyMode: boolean = true;
 	public syncActiveProxy: boolean = true;
-	public detectRequestFailures: boolean = false;
+	public detectRequestFailures: boolean = true;
+	public ignoreRequestFailuresForDomains: string[];
 	public displayFailedOnBadge: boolean = false;
 	public displayAppliedProxyOnBadge_Doubt: boolean = false;
 	// TODO: New feature proxyPerOrigin
@@ -192,7 +193,8 @@ export class ProxyRule {
 	}
 
 	get rule(): string {
-		switch (this.ruleType) {
+		// why ruleType is string? converting to int
+		switch (+this.ruleType) {
 			case ProxyRuleType.MatchPattern:
 				return this.rulePattern;
 

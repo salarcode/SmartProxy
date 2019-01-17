@@ -310,7 +310,7 @@ export class settingsPage {
     }
 
     /** Used for ActiveProxy and ... */
-    private static populateProxyServersToComboBox(comboBox: any, selectedProxyName?: string, proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
+    private static populateProxyServersToComboBox(comboBox: any, selectedProxyName?: string, proxyServers?: ProxyServer[], serverSubscriptions?: any[], dontIncludeAuthServers?: boolean) {
         if (!comboBox) return;
         if (!proxyServers)
             proxyServers = settingsPage.readServers();
@@ -321,6 +321,10 @@ export class settingsPage {
 
         // adding select options
         proxyServers.forEach((proxyServer: ProxyServer) => {
+
+            if (dontIncludeAuthServers && proxyServer.username)
+                // exit loop
+                return;
 
             // proxyServer
             let option = jQuery("<option>")
@@ -347,7 +351,13 @@ export class settingsPage {
             for (let subscription of serverSubscriptions) {
                 if (!subscription.enabled || !subscription.proxies) continue;
 
+
                 for (let proxyServer of subscription.proxies) {
+
+                    if (dontIncludeAuthServers && proxyServer.username)
+                        // exit loop
+                        return;
+
                     let option = jQuery("<option>")
                         .attr("value", proxyServer.name)
                         .text(proxyServer.name)
@@ -380,12 +390,12 @@ export class settingsPage {
         if (server) {
 
             modalContainer.find("#txtServerName").val(server.name);
-            modalContainer.find("#txtServerAddressHttp").val(server.host);
-            modalContainer.find("#txtServerPortHttp").val(server.port);
-            modalContainer.find("#cmdServerProtocolHttp").val(server.protocol);
-            modalContainer.find("#chkServerProxyDNSHttp").prop('checked', server.proxyDNS);
-            modalContainer.find("#txtServerUsernameHttp").val(server.username);
-            modalContainer.find("#txtServerPasswordHttp").val(server.password);
+            modalContainer.find("#txtServerAddress").val(server.host);
+            modalContainer.find("#txtServerPort").val(server.port);
+            modalContainer.find("#cmdServerProtocol").val(server.protocol);
+            modalContainer.find("#chkServerProxyDNS").prop('checked', server.proxyDNS);
+            modalContainer.find("#txtServerUsername").val(server.username);
+            modalContainer.find("#txtServerPassword").val(server.password);
         } else {
             modalContainer.find("#txtServerName").val(this.generateNewServerName());
 
@@ -439,7 +449,7 @@ export class settingsPage {
             if (proxyRule.proxy)
                 proxyServerName = proxyRule.proxy.name;
 
-            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, proxyServerName);
+            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, proxyServerName, null, null, true);
 
         } else {
 
@@ -452,7 +462,7 @@ export class settingsPage {
             modalContainer.find("#txtRuleUrlExact").val("");
             modalContainer.find("#chkRuleEnabled").prop('checked', true);
 
-            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, null);
+            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, null, null, null, true);
         }
 
         settingsPage.updateProxyRuleModal();
@@ -498,7 +508,7 @@ export class settingsPage {
 
         let ruleInfo = new ProxyRule();
         ruleInfo.autoGeneratePattern = modalContainer.find("#chkRuleGeneratePattern").prop('checked');
-        ruleInfo.ruleType = modalContainer.find("#cmdRuleType").val();
+        ruleInfo.ruleType = parseInt(modalContainer.find("#cmdRuleType").val());
         ruleInfo.sourceDomain = modalContainer.find("#txtRuleSource").val();
         ruleInfo.rulePattern = modalContainer.find("#txtRuleMatchPattern").val();
         ruleInfo.ruleRegex = modalContainer.find("#txtRuleUrlRegex").val();
@@ -1039,7 +1049,7 @@ export class settingsPage {
             let item = settingsPage.readSelectedServer(e);
             if (!item)
                 return;
-
+            debugger;
             let modal = jQuery("#modalModifyProxyServer");
             modal.data("editing", item);
 
@@ -1203,7 +1213,7 @@ export class settingsPage {
                 } catch (error) {
                     // Regex rule '{0}' is not valid
                     messageBox.error(
-                        browser.i18n.getMessage("AAAAAAAAAAAAAAAAAAAAA").replace("{0}", ruleInfo.ruleExact)
+						browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleExact)
                     );
                     return;
                 }
@@ -1216,7 +1226,7 @@ export class settingsPage {
                 } catch (error) {
                     // Url '{0}' is not valid
                     messageBox.error(
-                        browser.i18n.getMessage("AAAAAAAAAAAAAAAAAAAAA").replace("{0}", ruleInfo.ruleExact)
+						browser.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleInfo.ruleExact)
                     );
                     return;
                 }

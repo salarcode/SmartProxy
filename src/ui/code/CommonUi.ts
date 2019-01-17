@@ -16,7 +16,7 @@ export class CommonUi {
         jQuery(document).ready(callback);
     }
 
-    public static selectFileOnTheFly(form: HTMLElement, inputName: string, onFileSelected: Function, acceptFormat?) {
+    public static selectFileOnTheFly(form: HTMLElement, inputName: string, onFileSelected: Function, acceptFormat?: string) {
         ///<summary>Select a file from a detached file input</summary>
         let fileContainer = jQuery(`<div style='display: none'><input style='display: none' type=file accept='${acceptFormat || ""}' class='' name='${inputName}'/></div>`);
         let fileInput = fileContainer.find("input");
