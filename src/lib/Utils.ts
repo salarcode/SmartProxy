@@ -111,15 +111,15 @@ export class Utils {
 		catch (e) { return null; }
 	}
 
-	public static extractSubdomainsFromUrl(url: string): string[] {
+	public static extractSubdomainListFromUrl(url: string): string[] {
 		let host = Utils.extractHostFromUrl(url);
 		if (host === null)
 			return [];
 
-		return Utils.extractSubdomainsFromHost(host);
+		return Utils.extractSubdomainListFromHost(host);
 	}
 
-	public static extractSubdomainsFromHost(host: string): string[] {
+	public static extractSubdomainListFromHost(host: string): string[] {
 		let parts = host.split(".");
 		if (parts.length <= 2)
 			return [host];

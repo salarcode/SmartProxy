@@ -23,6 +23,9 @@ import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyMod
 import { SettingsOperation } from "./SettingsOperation";
 import { ProxyEngine } from "./ProxyEngine";
 import { PolyFill } from "../lib/PolyFill";
+import { TabManager, TabDataType } from "./TabManager";
+import { Utils } from "../lib/Utils";
+import { UpdateManager } from "./UpdateManager";
 
 export class Core {
 
@@ -41,8 +44,8 @@ export class Core {
 			//// update the timers
 			//timerManagement.updateSubscriptions();
 
-			//// check for updates, only in unlisted version
-			//updateManager.readUpdateInfo();
+			// check for updates, only in unlisted version
+			UpdateManager.readUpdateInfo();
 
 			//// handle synced settings changes
 			//browser.storage.onChanged.addListener(settingsOperation.syncOnChanged);
@@ -54,6 +57,9 @@ export class Core {
 
 		// start handling messages
 		Core.registerMessageReader();
+
+		// tracking active tab
+		TabManager.initializeTracking();
 	}
 
 	static handleMessages(message: any, sender: any, sendResponse: Function) {
@@ -143,7 +149,7 @@ export class Core {
 					Core.setBrowserActionStatus();
 					return;
 				}
-				
+
 			case Messages.PopupChangeActiveProxyServer:
 				{
 
@@ -174,7 +180,7 @@ export class Core {
 					}
 					return;
 				}
-				
+
 			case Messages.SettingsPageSaveProxyServers:
 				{
 					if (!message.saveData)
@@ -304,12 +310,12 @@ export class Core {
 			updateInfo: null
 		};
 
-		// if (UpdateManager.updateIsAvailable) {
-		// 	// generate update text
-		// 	dataForSettingsUi.updateAvailableText =
-		// 		browser.i18n.getMessage("settingsTabUpdateText").replace("{0}", UpdateManager.updateInfo.versionName);
-		// 	dataForSettingsUi.updateInfo = UpdateManager.updateInfo;
-		// }
+		if (UpdateManager.updateIsAvailable) {
+			// generate update text
+			dataForSettingsUi.updateAvailableText =
+				browser.i18n.getMessage("settingsTabUpdateText").replace("{0}", UpdateManager.updateInfo.versionName);
+			dataForSettingsUi.updateInfo = UpdateManager.updateInfo;
+		}
 
 		return dataForSettingsUi;
 	}
@@ -328,58 +334,54 @@ export class Core {
 		dataForPopup.updateInfo = null;
 		dataForPopup.failedRequests = null;
 
-		// if (updateManager.updateIsAvailable) {
-		// 	// generate update text
-		// 	dataForPopup.updateAvailableText =
-		// 		browser.i18n.getMessage("popupUpdateText").replace("{0}", updateManager.updateInfo.versionName);
-		// 	dataForPopup.updateInfo = updateManager.updateInfo;
-		// }
+		if (UpdateManager.updateIsAvailable) {
+			// generate update text
+			dataForPopup.updateAvailableText =
+				browser.i18n.getMessage("popupUpdateText").replace("{0}", UpdateManager.updateInfo.versionName);
+			dataForPopup.updateInfo = UpdateManager.updateInfo;
+		}
 
-		// if (currentTab == null)
-		// 	return dataForPopup;
+		let currentTabData = TabManager.getCurrentTab();
+		if (currentTabData == null)
+			return dataForPopup;
 
-		// let tabId = currentTab.id;
-		// let tabData = loggedRequests[tabId];
-		// if (tabData == null)
-		// 	return dataForPopup;
+		// tab info
+		dataForPopup.currentTabId = currentTabData.tabId;
+		dataForPopup.currentTabIndex = currentTabData.index;
 
-		// // tab info
-		// dataForPopup.currentTabId = currentTab.id;
-		// dataForPopup.currentTabIndex = currentTab.index;
+		// failed requests
+		//TODO: dataForPopup.failedRequests = convertFailedRequestsToArray(currentTabData.failedRequests);
 
-		// // failed requests
-		// dataForPopup.failedRequests = convertFailedRequestsToArray(tabData.failedRequests);
+		// get the host name from url
+		let urlHost = Utils.extractHostFromUrl(currentTabData.url);
 
-		// // get the host name from url
-		// let urlHost = utils.extractHostFromUrl(tabData.url);
+		// current url should be valid
+		if (!Utils.isValidHost(urlHost))
+			return dataForPopup;
 
-		// // current url should be valid
-		// if (!Utils.isValidHost(urlHost))
-		// 	return dataForPopup;
+		// extract list of domain and subdomain
+		let proxyableDomainList = Utils.extractSubdomainListFromHost(urlHost);
 
-		// // extract list of domain and subdomains
-		// let proxiableDomainList = Utils.extractSubdomainsFromHost(urlHost);
-
-		// if (!proxiableDomainList || !proxiableDomainList.length)
-		// 	return dataForPopup;
+		if (!proxyableDomainList || !proxyableDomainList.length)
+			return dataForPopup;
 
 		// // check if there are rules for the domains
-		// if (proxiableDomainList.length == 1) {
+		// if (proxyableDomainList.length == 1) {
 
-		// 	let testResult = ProxyRules.testSingleRule(proxiableDomainList[0]);
+		// 	let testResult = ProxyRules.testSingleRule(proxyableDomainList[0]);
 		// 	let ruleIsForThisHost = false;
 
 		// 	if (testResult.match) {
 		// 		// check to see if the matched rule is for this host or not!
 		// 		// sources are same
-		// 		if (testResult.source == proxiableDomainList[0]) {
+		// 		if (testResult.source == proxyableDomainList[0]) {
 		// 			ruleIsForThisHost = true;
 		// 		}
 		// 	}
 
 		// 	// add the domain
-		// 	dataForPopup.proxiableDomains.push({
-		// 		domain: proxiableDomainList[0],
+		// 	dataForPopup.proxyableDomainList.push({
+		// 		domain: proxyableDomainList[0],
 		// 		pattern: testResult.pattern /* only if match */,
 		// 		hasMatchingRule: testResult.match,
 		// 		ruleIsForThisHost: ruleIsForThisHost
@@ -387,7 +389,7 @@ export class Core {
 
 		// } else {
 
-		// 	let multiTestResultList = ProxyRules.testMultipleRule(proxiableDomainList);
+		// 	let multiTestResultList = ProxyRules.testMultipleRule(proxyableDomainList);
 
 		// 	for (let i = 0; i < multiTestResultList.length; i++) {
 		// 		let result = multiTestResultList[i];
@@ -395,13 +397,13 @@ export class Core {
 		// 		let ruleIsForThisHost = false;
 		// 		if (result.match) {
 		// 			// check to see if the matched rule is for this host or not!
-		// 			if (result.source == proxiableDomainList[i]) {
+		// 			if (result.source == proxyableDomainList[i]) {
 		// 				ruleIsForThisHost = true;
 		// 			}
 		// 		}
 
 		// 		// add the domain
-		// 		dataForPopup.proxiableDomains.push({
+		// 		dataForPopup.proxyableDomainList.push({
 		// 			domain: result.domain,
 		// 			pattern: result.pattern /* only if match */,
 		// 			hasMatchingRule: result.match,
@@ -412,7 +414,7 @@ export class Core {
 		return dataForPopup;
 	}
 
-	static setBrowserActionStatus(tabData?) {
+	static setBrowserActionStatus(tabData?: TabDataType) {
 		let extensionName = browser.i18n.getMessage("extensionName");
 		let proxyTitle = "";
 
@@ -471,50 +473,42 @@ export class Core {
 
 		// TODO: Because of bug #40 do not add additional 
 
-		// if (currentTab != null || tabData != null) {
-		// 	let tabId;
+		if (tabData == null)
+			tabData = TabManager.getCurrentTab();
 
-		// 	if (tabData) {
-		// 		tabId = tabData.tabId;
-		// 	}
-		// 	else if (currentTab) {
-		// 		tabId = currentTab.id;
-		// 		tabData = loggedRequests[tabId];
-		// 	}
 
-		// 	if (tabData) {
-		// 		let failedCount = failedRequestsNotProxifiedCount(tabData.failedRequests);
+		// if (tabData) {
+		// 	let failedCount = failedRequestsNotProxifiedCount(tabData.failedRequests);
 
-		// 		if (failedCount > 0) {
-		// 			browser.browserAction.setBadgeBackgroundColor({ color: "#f0ad4e" });
-		// 			browser.browserAction.setBadgeText({
-		// 				text: failedCount.toString(),
-		// 				tabId: tabId
-		// 			});
-		// 		} else {
-		// 			browser.browserAction.setBadgeText({
-		// 				text: "",
-		// 				tabId: tabId
-		// 			});
-		// 		}
-
-		// 		if (tabData.proxified) {
-		// 			proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySource}`;
-		// 		} else {
-		// 			proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
-		// 		}
-
+		// 	if (failedCount > 0) {
+		// 		browser.browserAction.setBadgeBackgroundColor({ color: "#f0ad4e" });
+		// 		browser.browserAction.setBadgeText({
+		// 			text: failedCount.toString(),
+		// 			tabId: tabData.tabId
+		// 		});
 		// 	} else {
 		// 		browser.browserAction.setBadgeText({
 		// 			text: "",
-		// 			tabId: tabId
+		// 			tabId: tabData.tabId
 		// 		});
 		// 	}
+
+		// 	if (tabData.proxified) {
+		// 		proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySource}`;
+		// 	} else {
+		// 		proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
+		// 	}
+
+		// } else {
+		// 	browser.browserAction.setBadgeText({
+		// 		text: "",
+		// 		tabId: tabData.tabId
+		// 	});
 		// }
 
-		// if (Settings.current.activeProxyServer) {
-		// 	proxyTitle += `\r\nProxy server: ${Settings.current.activeProxyServer.host} : ${Settings.current.activeProxyServer.port}`;
-		// }
+		if (Settings.current.activeProxyServer) {
+			proxyTitle += `\r\nProxy server: ${Settings.current.activeProxyServer.host} : ${Settings.current.activeProxyServer.port}`;
+		}
 
 		browser.browserAction.setTitle({ title: proxyTitle });
 	}

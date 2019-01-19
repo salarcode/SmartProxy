@@ -17,6 +17,7 @@
 import { Debug } from "../lib/Debug";
 import { ProxyRule } from "./Settings";
 import { ProxyRuleType } from "./definitions";
+import { Utils } from "../lib/Utils";
 
 export class ProxyRules {
 
@@ -44,7 +45,7 @@ export class ProxyRules {
 
 				case ProxyRuleType.MatchPattern:
 					{
-						let regex = this.matchPatternToRegExp(rule.rulePattern);
+						let regex = Utils.matchPatternToRegExp(rule.rulePattern);
 						if (regex == null)
 							continue;
 						newCompiled.regex = regex;
@@ -97,40 +98,6 @@ export class ProxyRules {
 			Debug.warn(`findMatchForUrl failed for ${url}`, e);
 		}
 		return null;
-	}
-
-	private static matchPatternToRegExp(pattern: string): RegExp {
-		// Source: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns
-		// Modified by Salar Khalilzadeh
-		/**
-		 * Transforms a valid match pattern into a regular expression
-		 * which matches all URLs included by that pattern.
-		 *
-		 * @param  {string}  pattern  The pattern to transform.
-		 * @return {RegExp}           The pattern's equivalent as a RegExp.
-		 * @throws {TypeError}        If the pattern is not a valid MatchPattern
-		 */
-
-		// matches all valid match patterns (except '<all_urls>')
-		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
-
-		if (pattern === '<all_urls>') {
-			//return (/^(?:https?|file|ftp|app):\/\//);
-			return null;
-		}
-		const match = matchPattern.exec(pattern);
-		if (!match) {
-			//throw new TypeError(`"${pattern}" is not a valid MatchPattern`);
-			return null;
-		}
-		const [, scheme, host, path,] = match;
-
-		return new RegExp('^(?:'
-			+ (scheme === '*' ? 'https?' : escape(scheme)) + ':\\/\\/'
-			+ (host === '*' ? "[^\\/]*" : escape(host).replace(/^\*\./g, '(?:[^\\/]+)?'))
-			+ (path ? (path == '*' ? '(?:\\/.*)?' : ('\\/' + escape(path).replace(/\*/g, '.*'))) : '\\/?')
-			+ ')$');
 	}
 }
 
