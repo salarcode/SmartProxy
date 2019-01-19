@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-let messageBox = {
+window["messageBox"] = {
 	error: function (title, timeout, onClose) {
 		//alert(title);
 		new Noty({
@@ -88,7 +88,7 @@ let messageBox = {
 					dialog.close();
 				}, { id: 'button1', 'data-status': 'ok' }),
 
-				Noty.button('NO', 'btn btn-error px-3', function () {
+				Noty.button('NO', 'btn btn-secondary px-3', function () {
 					if (cancel)
 						cancel();
 					dialog.close();

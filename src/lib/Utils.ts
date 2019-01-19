@@ -1,6 +1,6 @@
-/*
+﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2017 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,32 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-const utils = {
-	removeDuplicates: function (originalArray, prop) {
-		///<reference path="https://stackoverflow.com/a/36744732/322446"/>
+import { browser} from "./environment";
+import { jQuery } from "./External";
+
+export class Utils {
+	public static removeDuplicates(originalArray: string[], prop: string) {
+		//<reference path="https://stackoverflow.com/a/36744732/322446"/>
 		return originalArray.filter(
 			(thing, index, self) => self.findIndex((t) => {
 				return t[prop] === thing[prop];
 			}) === index);
-	},
-	removeDuplicatesFunc: function (originalArray, areEqualFunc) {
-		///<reference path="https://stackoverflow.com/a/36744732/322446"/>
+	}
+
+	public static removeDuplicatesFunc(originalArray: any[], areEqualFunc: Function) {
+		//<reference path="https://stackoverflow.com/a/36744732/322446"/>
 		return originalArray.filter(
 			(thing, index, self) => self.findIndex((t) => {
 				return areEqualFunc(t, thing);
 			}) === index);
-	},
-	strStartsWith: function (str, prefix) {
+	}
+
+	public static strStartsWith(str, prefix) {
 		return str.substr(0, prefix.length) === prefix;
-	},
-	chunkString: function (str, length) {
-		///<summmary></summmary>
+	}
+
+	public static chunkString(str: string, length: number) {
 		let index = 0;
 		let endIndex = length;
 		if (endIndex > str.length)
 			endIndex = str.length;
 
-		let result = [];
+		let result = new Array<string>();
 		for (; ;) {
 			result.push(str.slice(index, endIndex));
 
@@ -54,37 +59,43 @@ const utils = {
 		}
 
 		return result;
-	},
-	b64EncodeUnicode: function (str) {
+	}
+
+	public static b64EncodeUnicode(str: string): string {
 		// first we use encodeURIComponent to get percent-encoded UTF-8,
 		// then we convert the percent encodings into raw bytes which
 		// can be fed into btoa.
 		return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-			function toSolidBytes(match, p1) {
-				return String.fromCharCode("0x" + p1);
-			}));
-	},
-	b64DecodeUnicode: function (str) {
+			(match, p1: number) => String.fromCharCode(p1)));
+	}
+
+	public static b64DecodeUnicode(str: string): string {
 		// Going backwards: from bytestream, to percent-encoding, to original string.
-		return decodeURIComponent(atob(str).split("").map(function (c) {
-			return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-		}).join(""));
-	},
-	isValidHost: function (host) {
+		return decodeURIComponent(atob(str)
+			.split("")
+			.map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+			.join(""));
+	}
+
+	public static isValidHost(host: string) {
 		return (host && host.indexOf("about:") === -1);
-	},
-	isValidUrl: function (url) {
+	}
+
+	public static isValidUrl(url: string) {
 		try { new URL(url); return true; }
 		catch (e) { return false; }
-	},
-	urlHasSchema: function (url) { // note: this will accept like http:/example.org/ in Chrome and Firefox
+	}
+
+	public static urlHasSchema(url): boolean { // note: this will accept like http:/example.org/ in Chrome and Firefox
 		if (!url)
 			return false;
 		if (url.indexOf(":/") > -1)
 			return true;
 		return false;
-	},
-	extractHostFromUrl: function (url) {
+	}
+
+
+	public static extractHostFromUrl(url: string): string | null {
 		try {
 			const u = new URL(url);
 			const skip = ["moz-extension:", "chrome-extension:", "about:", "chrome:", "opera:"];
@@ -98,16 +109,17 @@ const utils = {
 			return host;
 		}
 		catch (e) { return null; }
-	},
-	extractSubdomainsFromUrl: function (url) {
-		let host = utils.extractHostFromUrl(url);
+	}
+
+	public static extractSubdomainsFromUrl(url: string): string[] {
+		let host = Utils.extractHostFromUrl(url);
 		if (host === null)
 			return [];
 
-		return utils.extractSubdomainsFromHost(host);
-	},
-	extractSubdomainsFromHost: function (host) {
-		///<summary></summary>
+		return Utils.extractSubdomainsFromHost(host);
+	}
+
+	public static extractSubdomainsFromHost(host: string): string[] {
 		let parts = host.split(".");
 		if (parts.length <= 2)
 			return [host];
@@ -118,7 +130,7 @@ const utils = {
 		if (parts.length <= 2)
 			return [parts.join(".")];
 
-		let result = [];
+		let result = new Array<string>();
 		for (let i = 0; i < parts.length; i++) {
 			if (i == parts.length - 1)
 				break;
@@ -130,16 +142,18 @@ const utils = {
 
 		result.reverse();
 		return result;
-	},
-	hostToMatchPattern: function (host) {
+	}
+
+	public static hostToMatchPattern(host: string): string {
 
 		// only convert to match pattern if it is just host address like 'google.com'
 		if (host.indexOf(":") > -1)
 			return host;
 
 		return `*://*.${host}/*`;
-	},
-	matchPatternToRegExp: function (pattern) {
+	}
+
+	public static matchPatternToRegExp(pattern: string): RegExp | null {
 		// Source: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns
 		// Modified by Salar Khalilzadeh
 		/**
@@ -172,29 +186,28 @@ const utils = {
 			+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
 			+ ")$");
 	}
-}
 
+	public static localizeHtmlPage() {
 
-function localizeHtmlPage() {
-	///<summary></summary>
-	function replace_i18n(obj, tag) {
-		let msg = browser.i18n.getMessage(tag.trim());
+		function replace_i18n(obj, tag) {
+			let msg = browser.i18n.getMessage(tag.trim());
 
-		if (msg && msg != tag) obj.innerHTML = msg;
-	}
+			if (msg && msg != tag) obj.innerHTML = msg;
+		}
 
-	// page direction
-	let dir = browser.i18n.getMessage("uiDirection");
-	if (dir) {
-		$(document.body).addClass(dir).css("direction", dir);
-	}
+		// page direction
+		let dir = browser.i18n.getMessage("uiDirection");
+		if (dir) {
+			jQuery(document.body).addClass(dir).css("direction", dir);
+		}
 
-	// Localize using data-localize tags
-	let data = document.querySelectorAll("[data-localize]");
+		// Localize using data-localize tags
+		let data = window.document.querySelectorAll<HTMLElement>("[data-localize]");
 
-	for (let obj of data) {
-		let tag = obj.dataset["localize"];
+		data.forEach(obj => {
+			let tag = obj.dataset["localize"];
 
-		replace_i18n(obj, tag);
+			replace_i18n(obj, tag);
+		});
 	}
 }

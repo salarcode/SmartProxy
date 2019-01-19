@@ -23,6 +23,7 @@
 		"storage",
 		"unlimitedStorage"
 	],
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 	"browser_action": {
 		"browser_style": true,
 		"default_title": "__MSG_extensionName__",
@@ -36,7 +37,10 @@
 		}
 	},
 	"background": {
-		"scripts": [ "core-common.js", "core-utils.js", "core-polyfill.js", "pako.min.js", "core.js" ]
+		"scripts": [
+			"ui/js/pako.min.js",
+			"core.js"
+		]
 	},
 	"options_ui": {
 		"page": "ui/settings.html",

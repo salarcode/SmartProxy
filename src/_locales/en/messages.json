@@ -200,7 +200,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a>.",
+		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.",
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
@@ -367,6 +367,10 @@
 		"message": "Import",
 		"description": ""
 	},
+	"settingsConfirmRemoveProxyServer": {
+		"message": "Are you sure to remove the selected proxy server?",
+		"description": ""
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Are you sure to remove all the proxy servers?",
 		"description": ""
@@ -401,6 +405,10 @@
 	},
 	"settingsChangesReverted": {
 		"message": "Changes reverted successfully.",
+		"description": ""
+	},
+	"settingsConfirmRemoveProxyRule": {
+		"message": "Are you sure to remove the selected rule?",
 		"description": ""
 	},
 	"settingsRemoveAllRules": {
@@ -484,7 +492,7 @@
 		"description": ""
 	},
 	"settingsServersProtocol": {
-		"message": "Protocol",
+		"message": "Proxy Protocol",
 		"description": ""
 	},
 	"settingsServersPort": {
@@ -492,7 +500,7 @@
 		"description": ""
 	},
 	"settingsServersProxyDNS": {
-		"message": "Proxy DNS when using SOCKS v5",
+		"message": "Proxy DNS when using SOCKS 5",
 		"description": ""
 	},
 	"settingsServersUsername": {
@@ -516,15 +524,15 @@
 		"description": ""
 	},
 	"settingsRuleSourceRequired": {
-		"message": "Please specify the source of the rule!",
+		"message": "Please specify the source domain of the rule!",
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "source is invalid, source name should be something like 'google.com'",
+		"message": "source domain is invalid, source domain should be something like 'google.com'",
 		"description": ""
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'source' is not valid '{0}'",
+		"message": "'source domain' is not valid '{0}'",
 		"description": ""
 	},
 	"settingsRuleSourceAlreadyExists": {
@@ -535,16 +543,28 @@
 		"message": "Host name '{0}' is invalid, host name should be something like 'google.com'",
 		"description": ""
 	},
+	"settingsRuleRegexInvalid": {
+		"message": "Regex rule '{0}' is not valid",
+		"description": ""
+	},
+	"settingsRuleExactUrlInvalid": {
+		"message": "Url '{0}' is not valid",
+		"description": ""
+	},
 	"settingsRulesGridNoDataContent": {
 		"message": "No rule is defined",
+		"description": ""
+	},
+	"settingsRulesGridColRuleType": {
+		"message": "Rule Type",
 		"description": ""
 	},
 	"settingsRulesGridColSource": {
 		"message": "Source",
 		"description": ""
 	},
-	"settingsRulesGridColPattern": {
-		"message": "Pattern",
+	"settingsRulesGridColRule": {
+		"message": "Rule",
 		"description": ""
 	},
 	"settingsRulesGridColEnabled": {
@@ -567,6 +587,10 @@
 		"message": "Rule Details",
 		"description": ""
 	},
+	"settingsRulesRuleType": {
+		"message": "Rule Type",
+		"description": ""
+	},
 	"settingsRulesSourceDomain": {
 		"message": "Rule Source Domain",
 		"description": ""
@@ -579,12 +603,24 @@
 		"message": "Match Pattern",
 		"description": ""
 	},
-	"settingsRulesPatternDesc": {
-		"message": "(generated automatically)",
+	"settingsRulesGeneratePattern": {
+		"message": "Generate pattern automatically",
+		"description": ""
+	},
+	"settingsRulesRegex": {
+		"message": "Url Regex",
+		"description": ""
+	},
+	"settingsRulesExactUrl": {
+		"message": "Exact Url",
 		"description": ""
 	},
 	"settingsRulesProxyServer": {
 		"message": "Proxy Server",
+		"description": ""
+	},
+	"settingsRulesProxyServerNotAuth": {
+		"message": "(Servers with authentication not supported)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {
@@ -721,6 +757,10 @@
 	},
 	"settingsServerSubscriptionTestingButton": {
 		"message": "Testing...",
+		"description": ""
+	},
+	"settingsConfirmRemoveServerSubscription": {
+		"message": "Are you sure to remove the selected subscription?",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
