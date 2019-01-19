@@ -32,7 +32,7 @@ export class settingsPage {
         CommonUi.onDocumentReady(this.bindEvents);
         CommonUi.onDocumentReady(this.initializeGrids);
         CommonUi.onDocumentReady(this.initializeUi);
-
+        
         PolyFill.runtimeSendMessage(Messages.SettingsPageGetInitialData,
             (dataForSettings: SettingsPageInternalDataType) => {
                 if (!dataForSettings)
@@ -1213,7 +1213,7 @@ export class settingsPage {
                 } catch (error) {
                     // Regex rule '{0}' is not valid
                     messageBox.error(
-						browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleExact)
+                        browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleExact)
                     );
                     return;
                 }
@@ -1226,7 +1226,7 @@ export class settingsPage {
                 } catch (error) {
                     // Url '{0}' is not valid
                     messageBox.error(
-						browser.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleInfo.ruleExact)
+                        browser.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleInfo.ruleExact)
                     );
                     return;
                 }

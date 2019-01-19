@@ -36,6 +36,9 @@ What's more, SmartProxy is inspired by AutoProxy and AutoProxy-ng and that are n
 #### How to translate
 If you are interested to have SmartProxy in your language or it is not translated completely you can head to https://crowdin.com/project/smartproxy then login with Google or Github and there by clicking your language start translating right away.
 
+#### Stable version
+Please note that current branch is rewritten using typescript and is still in development. To access to stable version which is javascript based version, please refer to [version 0.7 branch](https://github.com/salarcode/SmartProxy/tree/SmartPorxy-v0.7-archived).
+
 #### How to build/test:
 Requirements
 

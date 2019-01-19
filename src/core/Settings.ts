@@ -27,10 +27,7 @@ export class Settings {
 	/** TODO: specify the type */
 	public static currentOptionsSyncSettings: any;
 
-	private static readonly _onInitialized = new LiteEvent<void>();
-
-	// public static get onInitialized() { return this._onInitialized.expose(); }
-	public static readonly onInitialized = Settings._onInitialized;
+	public static onInitialized: Function = null;
 
 	public static initialize() {
 		Settings.current = new SettingsConfig();
@@ -56,7 +53,6 @@ export class Settings {
 	}
 
 	private static onInitializeGetSyncData(data: any) {
-
 		try {
 			let syncedSettings = SettingsOperation.decodeSyncData(data);
 
@@ -76,13 +72,15 @@ export class Settings {
 					syncedSettings.options.syncSettings = false;
 				}
 
-				this.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
+				Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
 
-				this._onInitialized.trigger();
 			}
 		} catch (e) {
 			Debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
 		}
+
+		if (Settings.onInitialized)
+			Settings.onInitialized();
 	}
 
 	private static onInitializeGetSyncError(error) {

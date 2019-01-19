@@ -18,6 +18,9 @@
 html {
     font-size: 14px;
 }
+html.popup{
+    font-size: 13px;
+}
 
 .slogan {
     font-weight: bold;

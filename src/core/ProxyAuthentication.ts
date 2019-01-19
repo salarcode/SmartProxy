@@ -24,24 +24,24 @@ export class ProxyAuthentication {
     public static startMonitor() {
         if (environment.chrome) {
             // chrome supports asyncBlocking
-            browser.webRequest.onAuthRequired.addListener(this.onAuthRequiredChromeAsync,
+            browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
                 { urls: ["<all_urls>"] },
                 ["asyncBlocking"]
             );
         } else {
-            browser.webRequest.onAuthRequired.addListener(this.onAuthRequired,
+            browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
                 { urls: ["<all_urls>"] },
                 ["blocking"]
             );
 
         }
         browser.webRequest.onCompleted.addListener(
-            this.onRequestFinished,
+            ProxyAuthentication.onRequestFinished,
             { urls: ["<all_urls>"] }
         );
 
         browser.webRequest.onErrorOccurred.addListener(
-            this.onRequestFinished,
+            ProxyAuthentication.onRequestFinished,
             { urls: ["<all_urls>"] }
         );
     }
@@ -85,14 +85,14 @@ export class ProxyAuthentication {
             }
 
             // check if authentication is already provided
-            if (this.pendingRequests[requestDetails.requestId]) {
+            if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
 
                 asyncCallback({ cancel: true });
                 return { cancel: true };
             }
 
             // add this request to pending list
-            this.pendingRequests[requestDetails.requestId] = true;
+            ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
             asyncCallback({
                 authCredentials: { username: activeProxy.username, password: activeProxy.password }
@@ -104,12 +104,12 @@ export class ProxyAuthentication {
             }
 
             // check if authentication is already provided
-            if (this.pendingRequests[requestDetails.requestId]) {
+            if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
                 return { cancel: true };
             }
 
             // add this request to pending list
-            this.pendingRequests[requestDetails.requestId] = true;
+            ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
             return {
                 authCredentials: { username: activeProxy.username, password: activeProxy.password }
@@ -145,18 +145,18 @@ export class ProxyAuthentication {
         }
 
         // check if authentication is already provided
-        if (this.pendingRequests[requestDetails.requestId]) {
+        if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
             return { cancel: true };
         }
 
         // add this request to pending list
-        this.pendingRequests[requestDetails.requestId] = true;
+        ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
         return {
             authCredentials: { username: activeProxy.username, password: activeProxy.password }
         };
     }
     private static onRequestFinished(requestDetails) {
-        delete this.pendingRequests[requestDetails.requestId];
+        delete ProxyAuthentication.pendingRequests[requestDetails.requestId];
     }
 }

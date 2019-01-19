@@ -73,19 +73,18 @@ export class ResultHolderGeneric<T> implements ResultHolder {
 	public value: T;
 }
 
-export type PopupInternalDataType = {
-	proxyableDomains: any[],
-	proxyMode: ProxyModeType,
-	hasProxyServers: boolean,
-	proxyServers: ProxyServer[],
-	activeProxyServer: ProxyServer,
-	restartRequired: boolean,
-	currentTabId: number,
-	currentTabIndex: number,
-	proxyServersSubscribed: any[],
-	updateAvailableText: string,
-	updateInfo: any,
-	failedRequests: any
+export class PopupInternalDataType {
+	public proxyableDomains: any[];
+	public proxyMode: ProxyModeType;
+	public hasProxyServers: boolean;
+	public proxyServers: ProxyServer[];
+	public activeProxyServer: ProxyServer;
+	public currentTabId: number;
+	public currentTabIndex: number;
+	public proxyServersSubscribed: any[];
+	public updateAvailableText: string;
+	public updateInfo: any;
+	public failedRequests: any;
 }
 
 export type SettingsPageInternalDataType = {

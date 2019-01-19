@@ -30,12 +30,12 @@ export class ProxyEngineFirefox {
 
 			// onRequest is Used for HTTP and HTTPS protocols only
 			// Smart features are available here only
-			browser.proxy.onRequest.addListener(this.handleProxyRequest, { urls: ["<all_urls>"] });
+			browser.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest, { urls: ["<all_urls>"] });
 
 			// PAC script is used for Ftp and other protocols
-			browser.proxy.register(this.proxyScriptUrlFirefox);
+			browser.proxy.register(ProxyEngineFirefox.proxyScriptUrlFirefox);
 
-			browser.proxy.onError.addListener(this.onProxyError);
+			browser.proxy.onError.addListener(ProxyEngineFirefox.onProxyError);
 
 			return true;
 		}
@@ -71,7 +71,7 @@ export class ProxyEngineFirefox {
 			​searchParams: URLSearchParams {  }
 			​username: ""
 		 */
-		var settings = Settings.current;
+		let settings = Settings.current;
 
 		if (!requestDetails.url ||
 			settings.proxyMode == ProxyModeType.Direct)
@@ -94,7 +94,7 @@ export class ProxyEngineFirefox {
 					return { type: "direct" };
 			}
 
-			return this.getResultProxyInfo(settings.activeProxyServer);
+			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 		}
 
 		if (settings.options.proxyPerOrigin &&
@@ -104,18 +104,24 @@ export class ProxyEngineFirefox {
 			// var tabProxyRule = TabsManager.isTabProxifiedRule(requestDetails.tabId);
 			// if (tabProxyRule) {
 			// 	if (matchedRule.proxy)
-			// 		return this.getResultProxyInfo(matchedRule.proxy);
+			// 		return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
 
-			// 	return this.getResultProxyInfo(settings.activeProxyServer);
+			// 	return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 			// }
 		}
+``
+		let matchedRule = ProxyRules.findMatchForUrl(requestDetails.url);
 
-		var matchedRule = ProxyRules.findMatchForUrl(requestDetails.url);
+		
+		// TODO: remove this
+		console.log("DEL: findMatchForUrl> ",matchedRule, requestDetails.url);
+
+
 		if (matchedRule) {
 			if (matchedRule.proxy)
-				return this.getResultProxyInfo(matchedRule.proxy);
+				return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
 
-			return this.getResultProxyInfo(settings.activeProxyServer);
+			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 		}
 
 		// nothing matched

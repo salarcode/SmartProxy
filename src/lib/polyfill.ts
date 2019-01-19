@@ -36,7 +36,7 @@ export class PolyFill {
 				return browser.proxy.onProxyError;
 		}
 	}
-	public static tabsGet(tabId, success, fail) {
+	public static tabsGet(tabId, success?, fail?) {
 		if (environment.chrome) {
 			chrome.tabs.get(tabId,
 				tabInfo => {
@@ -54,7 +54,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static tabsRemove(tabIds, success, fail) {
+	public static tabsRemove(tabIds, success?, fail?) {
 		if (environment.chrome) {
 			chrome.tabs.remove(tabIds,
 				tabInfo => {
@@ -73,7 +73,7 @@ export class PolyFill {
 		}
 	}
 
-	public static tabsReload(tabId, success, fail, reloadProperties) {
+	public static tabsReload(tabId, success?, fail?, reloadProperties?) {
 		if (environment.chrome) {
 			chrome.tabs.reload(tabId, reloadProperties,
 				tabInfo => {
@@ -89,7 +89,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static tabsQuery(queryInfo, success, fail) {
+	public static tabsQuery(queryInfo, success?, fail?) {
 		if (environment.chrome) {
 			chrome.tabs.query(queryInfo,
 				tabs => {
@@ -105,7 +105,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static tabsCreate(createProperties, success, fail) {
+	public static tabsCreate(createProperties, success?, fail?) {
 		if (environment.chrome) {
 			chrome.tabs.create(createProperties,
 				tabInfo => {
@@ -121,7 +121,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static runtimeSendMessage(message?, success?, fail?, options?, extensionId?) {
+	public static runtimeSendMessage(message, success?, fail?, options?, extensionId?) {
 		if (environment.chrome) {
 			if (options != null) {
 				// deleting firefox specific property of sending message to PAC
@@ -162,7 +162,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static storageLocalGet(keys, success, fail) {
+	public static storageLocalGet(keys, success?, fail?) {
 		if (environment.chrome) {
 			chrome.storage.local.get(keys,
 				response => {
@@ -178,7 +178,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static storageLocalSet(items, success, fail) {
+	public static storageLocalSet(items, success?, fail?) {
 		if (environment.chrome) {
 			chrome.storage.local.set(items,
 				response => {
@@ -194,7 +194,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static storageSyncGet(keys, success, fail) {
+	public static storageSyncGet(keys, success?, fail?) {
 		if (environment.chrome) {
 			chrome.storage.sync.get(keys,
 				response => {
@@ -210,7 +210,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static storageSyncSet(items, success, fail) {
+	public static storageSyncSet(items, success?, fail?) {
 		if (environment.chrome) {
 			chrome.storage.sync.set(items,
 				response => {
@@ -226,7 +226,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static runtimeGetBrowserInfo(success, fail) {
+	public static runtimeGetBrowserInfo(success, fail?) {
 		if (environment.chrome) {
 			// No implemented in chrome yet!
 			if (fail) fail({ message: "getBrowserInfo is not implemented" });
@@ -261,7 +261,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static browserActionSetIcon(details, success, fail) {
+	public static browserActionSetIcon(details, success?, fail?) {
 		if (environment.chrome) {
 			chrome.browserAction.setIcon(details,
 				response => {
