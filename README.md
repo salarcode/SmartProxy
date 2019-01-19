@@ -13,10 +13,7 @@ Currently I'm rewriting the proxy from ground up using Typescript and I'm also i
 
 * Apply proxy to a certain tab and all resources in it.
 * UI will be based on Bootstrap 4.
-* More proxy server options.
 * More proxy rule options.
-
-It is buggy and is in its early stage and may not even load, but you can find it here: https://github.com/salarcode/SmartProxy/tree/SmartProxy-ts
 
 #### What is SmartProxy
 SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions technology.
