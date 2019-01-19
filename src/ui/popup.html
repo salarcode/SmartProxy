@@ -15,7 +15,7 @@
   - You should have received a copy of the GNU General Public License
   - along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<html><head>
+<html class="popup"><head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -61,32 +61,25 @@
 			</div>
 		</div>
 		<div class="popup-menu-contents p-1">
-			<div id="divRestartRequired" style="display: none">
-				<div class="alert alert-danger" role="alert">
-					Due a <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">Firefox bug</a>,
-					changes require restart.
-					<br />Please restart. Sorry for inconvenience.
-				</div>
-			</div>
 			<div id="divUpdateIsAvailable" style="display: none" class="alert alert-success" role="alert">
 				<a href="#" target="_blank">Update text</a>
 			</div>
 			<h6 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h6>
 			<div id="divProxyMode" class="nav flex-column nav-pills interactive">
 				<!-- <a href="#" class="nav-link disabled px-5 text-center" data-localize="popupTitle">SmartProxy Activation</a> -->
-				<a href="#" data-proxyMode="1" class="nav-link">
+				<a href="#" data-proxyMode="0" class="nav-link">
 					<i class="fas fa-ban fa-lg text-danger" aria-hidden="true"></i>
 					<span data-localize="popupNoProxy">Direct (No Proxy)</span>
 				</a>
-				<a href="#" data-proxyMode="2" class="nav-link active border-0">
+				<a href="#" data-proxyMode="1" class="nav-link active">
 					<i class="fas fa-magic fa-lg text-success" aria-hidden="true"></i>
 					<span data-localize="popupSmartProxy">Smart Proxy</span>
 				</a>
-				<a href="#" data-proxyMode="3" class="nav-link">
+				<a href="#" data-proxyMode="2" class="nav-link">
 					<i class="fas fa-globe fa-lg text-info" aria-hidden="true"></i>
 					<span data-localize="popupAlwaysEnable">Always Enable</span>
 				</a>
-				<a href="#" data-proxyMode="4" class="nav-link">
+				<a href="#" data-proxyMode="3" class="nav-link">
 					<i class="fab fa-windows fa-lg text-info" aria-hidden="true"></i>
 					<span data-localize="popupSystemProxy">System Proxy</span>
 				</a>

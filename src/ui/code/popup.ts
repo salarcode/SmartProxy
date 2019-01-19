@@ -93,18 +93,11 @@ export class popup {
 
     private static populateDataForPopup(dataForPopup: PopupInternalDataType) {
 
-        this.populateRestartRequired(dataForPopup);
         this.populateUpdateAvailable(dataForPopup);
         this.populateProxyMode(dataForPopup.proxyMode);
         this.populateActiveProxy(dataForPopup);
         this.populateProxyableDomainList(dataForPopup.proxyableDomains);
         this.populateFailedRequests(dataForPopup.failedRequests);
-    }
-
-    private static populateRestartRequired(dataForPopup: PopupInternalDataType) {
-        if (dataForPopup.restartRequired) {
-            jQuery("#divRestartRequired").show();
-        }
     }
 
     private static populateUpdateAvailable(dataForPopup: PopupInternalDataType) {
@@ -117,17 +110,16 @@ export class popup {
     }
 
     private static populateProxyMode(proxyMode: ProxyModeType) {
-        debugger;
         let divProxyMode = jQuery("#divProxyMode");
         divProxyMode.find("li.disabled a").css("cursor", "default");
 
         divProxyMode.find(".nav-link").removeClass("active");
-        divProxyMode.find("li").removeClass("active");
+        //divProxyMode.find("li").removeClass("active");
 
         divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
             .addClass("active")
             .parent("li")
-            .addClass("active");
+            //.addClass("active");
 
         divProxyMode.find(".nav-link:not(.disabled)")
             .on("click", popup.onProxyModeClick);
@@ -346,11 +338,6 @@ export class popup {
             {
                 command: Messages.PopupChangeActiveProxyServer,
                 name: value
-            },
-            response => {
-	            if (!response) return;
-	            popup.popupData.restartRequired = response.restartRequired;
-	            popup.populateRestartRequired(popup.popupData);
             });
     }
 

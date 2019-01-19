@@ -19,25 +19,24 @@ import { browser, environment } from "../lib/environment";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { ProxyAuthentication } from "./ProxyAuthentication";
 import { Debug } from "../lib/Debug";
-import { Messages, SettingsPageInternalDataType, ResultHolder } from "./definitions";
+import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyModeType } from "./definitions";
 import { SettingsOperation } from "./SettingsOperation";
-import { ProxyRules } from "./ProxyRules";
 import { ProxyEngine } from "./ProxyEngine";
+import { PolyFill } from "../lib/PolyFill";
 
 export class Core {
-
 
 	/** Start the application */
 	public static initializeApp() {
 
-		Settings.onInitialized.on(() => {
+		Settings.onInitialized = (() => {
 			// on settings read success
 
 			// register the proxy when config is ready
-			this.registerProxy();
+			ProxyEngine.registerEngine();
 
-			//// set the title
-			//internal.setBrowserActionStatus();
+			// set the title
+			Core.setBrowserActionStatus();
 
 			//// update the timers
 			//timerManagement.updateSubscriptions();
@@ -54,7 +53,7 @@ export class Core {
 		ProxyAuthentication.startMonitor();
 
 		// start handling messages
-		this.registerMessageReader();
+		Core.registerMessageReader();
 	}
 
 	static handleMessages(message: any, sender: any, sendResponse: Function) {
@@ -66,13 +65,13 @@ export class Core {
 		if (sender.url == ProxyEngineFirefox.proxyScriptExtensionUrlFirefox) {
 			if (message == Messages.PacProxySendRules) {
 
-				if (sendResponse) {
+				if (!sendResponse)
+					return;
 
-					// let proxyInitData = internal.getDataForProxyScript();
+				let pacScriptInitData = Core.getDataForProxyScript();
 
-					// // send the rules
-					// sendResponse(proxyInitData);
-				}
+				// send the rules
+				sendResponse(pacScriptInitData);
 			}
 			return;
 		}
@@ -90,7 +89,14 @@ export class Core {
 			switch (message) {
 				case Messages.PopupGetInitialData:
 					{
+						if (!sendResponse)
+							return;
 
+						let dataForPopup = Core.getPopupInitialData();
+
+						// send the data
+						sendResponse(dataForPopup);
+						return;
 					}
 					break;
 
@@ -99,7 +105,7 @@ export class Core {
 						// if response method is available
 						if (!sendResponse)
 							return;
-						let dataForSettingsUi = Core.getSettingsPageGetInitialData();
+						let dataForSettingsUi = Core.getSettingsPageInitialData();
 
 						// send the data
 						sendResponse(dataForSettingsUi);
@@ -120,9 +126,24 @@ export class Core {
 
 			case Messages.PopupChangeProxyMode:
 				{
+					if (message.proxyMode === null ||
+						message.proxyMode === undefined)
+						return;
 
+					Settings.current.proxyMode = message.proxyMode;
+
+					// save the changes
+					SettingsOperation.saveProxyMode();
+					SettingsOperation.saveAllSync();
+
+					// send it to the proxy server
+					ProxyEngine.notifyProxyModeChanged();
+
+					// update active proxy tab status
+					Core.setBrowserActionStatus();
+					return;
 				}
-				break;
+				
 			case Messages.PopupChangeActiveProxyServer:
 				{
 
@@ -142,7 +163,7 @@ export class Core {
 					SettingsOperation.saveAllSync();
 
 					// update proxy rules
-					ProxyEngine.updateChromeProxyConfig();
+					ProxyEngine.notifySettingsOptionsChanged();
 
 					if (sendResponse) {
 						sendResponse({
@@ -153,7 +174,7 @@ export class Core {
 					}
 					return;
 				}
-				break;
+				
 			case Messages.SettingsPageSaveProxyServers:
 				{
 					if (!message.saveData)
@@ -167,12 +188,8 @@ export class Core {
 					SettingsOperation.saveActiveProxyServer();
 					SettingsOperation.saveAllSync();
 
-					// TODO: notify
-					//ProxyRules.notifyActiveProxyServerChange();
-
-					// update proxy rules
-					// TODO: notify
-					//ProxyRules.updateChromeProxyConfig();
+					// notify
+					ProxyEngine.notifyActiveProxyServerChanged();
 
 					if (sendResponse) {
 						sendResponse({
@@ -191,14 +208,11 @@ export class Core {
 					SettingsOperation.saveRules();
 					SettingsOperation.saveAllSync();
 
-					// ProxyRules.notifyProxyRulesChange();
-
-					// // update proxy rules
-					// ProxyRules.updateChromeProxyConfig();
+					ProxyEngine.notifyProxyRulesChanged();
 
 					// // update active proxy tab status
 					// updateTabDataProxyInfo();
-					// internal.setBrowserActionStatus();
+					Core.setBrowserActionStatus();
 
 					if (sendResponse) {
 						sendResponse({
@@ -221,11 +235,8 @@ export class Core {
 					// // update the timers
 					// timerManagement.updateSubscriptions();
 
-					// // it is possible that active proxy is changed
-					// proxyRules.notifyActiveProxyServerChange();
-
-					// // update proxy rules
-					// proxyRules.updateChromeProxyConfig();
+					// it is possible that active proxy is changed
+					ProxyEngine.notifyActiveProxyServerChanged();
 
 					if (sendResponse) {
 						sendResponse({
@@ -244,10 +255,7 @@ export class Core {
 					SettingsOperation.saveBypass();
 					SettingsOperation.saveAllSync();
 
-					// proxyRules.notifyBypassChanged();
-
-					// // update proxy rules
-					// proxyRules.updateChromeProxyConfig();
+					ProxyEngine.notifyBypassChanged();
 
 					if (sendResponse) {
 						sendResponse({
@@ -278,8 +286,17 @@ export class Core {
 
 	}
 
+	static getDataForProxyScript() {
+		return {
+			proxyRules: Settings.current.proxyRules,
+			proxyMode: Settings.current.proxyMode,
+			activeProxyServer: Settings.current.activeProxyServer,
+			useNewReturnFormat: !environment.chrome && (environment.version >= environment.bugFreeVersions.firefoxNewPacScriptReturnData),
+			bypass: Settings.current.bypass
+		};
+	}
 
-	static getSettingsPageGetInitialData(): SettingsPageInternalDataType {
+	static getSettingsPageInitialData(): SettingsPageInternalDataType {
 
 		let dataForSettingsUi: SettingsPageInternalDataType = {
 			settings: Settings.current,
@@ -297,20 +314,214 @@ export class Core {
 		return dataForSettingsUi;
 	}
 
-	/** Registring the PAC proxy script */
-	static registerProxy() {
+	static getPopupInitialData(): PopupInternalDataType {
+		let dataForPopup = new PopupInternalDataType();
+		//dataForPopup.proxiableDomains = [];
+		dataForPopup.proxyMode = Settings.current.proxyMode;
+		dataForPopup.hasProxyServers = Settings.current.proxyServers.length > 0;
+		dataForPopup.proxyServers = Settings.current.proxyServers;
+		dataForPopup.activeProxyServer = Settings.current.activeProxyServer;
+		dataForPopup.currentTabId = null;
+		dataForPopup.currentTabIndex = null;
+		//dataForPopup.proxyServersSubscribed = internal.getAllSubscribedProxyServers();
+		dataForPopup.updateAvailableText = null;
+		dataForPopup.updateInfo = null;
+		dataForPopup.failedRequests = null;
 
-		if (environment.chrome) {
+		// if (updateManager.updateIsAvailable) {
+		// 	// generate update text
+		// 	dataForPopup.updateAvailableText =
+		// 		browser.i18n.getMessage("popupUpdateText").replace("{0}", updateManager.updateInfo.versionName);
+		// 	dataForPopup.updateInfo = updateManager.updateInfo;
+		// }
 
+		// if (currentTab == null)
+		// 	return dataForPopup;
+
+		// let tabId = currentTab.id;
+		// let tabData = loggedRequests[tabId];
+		// if (tabData == null)
+		// 	return dataForPopup;
+
+		// // tab info
+		// dataForPopup.currentTabId = currentTab.id;
+		// dataForPopup.currentTabIndex = currentTab.index;
+
+		// // failed requests
+		// dataForPopup.failedRequests = convertFailedRequestsToArray(tabData.failedRequests);
+
+		// // get the host name from url
+		// let urlHost = utils.extractHostFromUrl(tabData.url);
+
+		// // current url should be valid
+		// if (!Utils.isValidHost(urlHost))
+		// 	return dataForPopup;
+
+		// // extract list of domain and subdomains
+		// let proxiableDomainList = Utils.extractSubdomainsFromHost(urlHost);
+
+		// if (!proxiableDomainList || !proxiableDomainList.length)
+		// 	return dataForPopup;
+
+		// // check if there are rules for the domains
+		// if (proxiableDomainList.length == 1) {
+
+		// 	let testResult = ProxyRules.testSingleRule(proxiableDomainList[0]);
+		// 	let ruleIsForThisHost = false;
+
+		// 	if (testResult.match) {
+		// 		// check to see if the matched rule is for this host or not!
+		// 		// sources are same
+		// 		if (testResult.source == proxiableDomainList[0]) {
+		// 			ruleIsForThisHost = true;
+		// 		}
+		// 	}
+
+		// 	// add the domain
+		// 	dataForPopup.proxiableDomains.push({
+		// 		domain: proxiableDomainList[0],
+		// 		pattern: testResult.pattern /* only if match */,
+		// 		hasMatchingRule: testResult.match,
+		// 		ruleIsForThisHost: ruleIsForThisHost
+		// 	});
+
+		// } else {
+
+		// 	let multiTestResultList = ProxyRules.testMultipleRule(proxiableDomainList);
+
+		// 	for (let i = 0; i < multiTestResultList.length; i++) {
+		// 		let result = multiTestResultList[i];
+
+		// 		let ruleIsForThisHost = false;
+		// 		if (result.match) {
+		// 			// check to see if the matched rule is for this host or not!
+		// 			if (result.source == proxiableDomainList[i]) {
+		// 				ruleIsForThisHost = true;
+		// 			}
+		// 		}
+
+		// 		// add the domain
+		// 		dataForPopup.proxiableDomains.push({
+		// 			domain: result.domain,
+		// 			pattern: result.pattern /* only if match */,
+		// 			hasMatchingRule: result.match,
+		// 			ruleIsForThisHost: ruleIsForThisHost
+		// 		});
+		// 	}
+		// }
+		return dataForPopup;
+	}
+
+	static setBrowserActionStatus(tabData?) {
+		let extensionName = browser.i18n.getMessage("extensionName");
+		let proxyTitle = "";
+
+		switch (Settings.current.proxyMode) {
+
+			case ProxyModeType.Direct:
+
+				proxyTitle = `${extensionName} : ${browser.i18n.getMessage("popupNoProxy")}`;
+				PolyFill.browserActionSetIcon({
+					path: {
+						16: "icons/proxymode-disabled-16.png",
+						32: "icons/proxymode-disabled-32.png",
+						48: "icons/proxymode-disabled-48.png"
+					}
+				});
+				break;
+
+			case ProxyModeType.Always:
+
+				proxyTitle = `${extensionName} : ${browser.i18n.getMessage("popupAlwaysEnable")}`;
+				PolyFill.browserActionSetIcon({
+					path: {
+						16: "icons/proxymode-always-16.png",
+						32: "icons/proxymode-always-32.png",
+						48: "icons/proxymode-always-48.png"
+					}
+				});
+				break;
+
+			case ProxyModeType.SystemProxy:
+
+				proxyTitle = `${extensionName} : ${browser.i18n.getMessage("popupSystemProxy")}`;
+				PolyFill.browserActionSetIcon({
+					path: {
+						16: "icons/proxymode-system-16.png",
+						32: "icons/proxymode-system-32.png",
+						48: "icons/proxymode-system-48.png"
+					}
+				});
+				break;
+
+			case ProxyModeType.SmartProxy:
+			default:
+
+				proxyTitle = `${extensionName} : ${browser.i18n.getMessage("popupSmartProxy")}`;
+				PolyFill.browserActionSetIcon({
+					path: {
+						16: "icons/smartproxy-16.png",
+						24: "icons/smartproxy-24.png",
+						48: "icons/smartproxy-48.png",
+						96: "icons/smartproxy-96.png"
+					}
+				});
+				break;
 		}
-		else {
-			ProxyEngineFirefox.register();
-		}
+
+		// TODO: Because of bug #40 do not add additional 
+
+		// if (currentTab != null || tabData != null) {
+		// 	let tabId;
+
+		// 	if (tabData) {
+		// 		tabId = tabData.tabId;
+		// 	}
+		// 	else if (currentTab) {
+		// 		tabId = currentTab.id;
+		// 		tabData = loggedRequests[tabId];
+		// 	}
+
+		// 	if (tabData) {
+		// 		let failedCount = failedRequestsNotProxifiedCount(tabData.failedRequests);
+
+		// 		if (failedCount > 0) {
+		// 			browser.browserAction.setBadgeBackgroundColor({ color: "#f0ad4e" });
+		// 			browser.browserAction.setBadgeText({
+		// 				text: failedCount.toString(),
+		// 				tabId: tabId
+		// 			});
+		// 		} else {
+		// 			browser.browserAction.setBadgeText({
+		// 				text: "",
+		// 				tabId: tabId
+		// 			});
+		// 		}
+
+		// 		if (tabData.proxified) {
+		// 			proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySource}`;
+		// 		} else {
+		// 			proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
+		// 		}
+
+		// 	} else {
+		// 		browser.browserAction.setBadgeText({
+		// 			text: "",
+		// 			tabId: tabId
+		// 		});
+		// 	}
+		// }
+
+		// if (Settings.current.activeProxyServer) {
+		// 	proxyTitle += `\r\nProxy server: ${Settings.current.activeProxyServer.host} : ${Settings.current.activeProxyServer.port}`;
+		// }
+
+		browser.browserAction.setTitle({ title: proxyTitle });
 	}
 
 	static registerMessageReader() {
 		// start handling messages
-		browser.runtime.onMessage.addListener(this.handleMessages);
+		browser.runtime.onMessage.addListener(Core.handleMessages);
 	}
 }
 // start the application
