@@ -26,6 +26,7 @@ import { PolyFill } from "../lib/PolyFill";
 import { TabManager, TabDataType } from "./TabManager";
 import { Utils } from "../lib/Utils";
 import { UpdateManager } from "./UpdateManager";
+import { ProxyRules } from "./ProxyRules";
 
 export class Core {
 
@@ -155,6 +156,25 @@ export class Core {
 
 				}
 				break;
+
+			case Messages.PopupToggleProxyForHost:
+				{
+					if (!message.host)
+						return;
+
+					let host = message.host;
+					//TODO: proxyRules.toggleByDomain(domain);
+
+					// notify the proxy script
+					ProxyEngine.notifyProxyRulesChanged();
+
+					// update active proxy tab status
+					//updateTabDataProxyInfo();
+
+					Core.setBrowserActionStatus();
+				}
+				break;
+
 			case Messages.PopupAddDomainListToProxyRule:
 				{
 
@@ -322,7 +342,7 @@ export class Core {
 
 	static getPopupInitialData(): PopupInternalDataType {
 		let dataForPopup = new PopupInternalDataType();
-		//dataForPopup.proxiableDomains = [];
+		dataForPopup.proxyableDomains = [];
 		dataForPopup.proxyMode = Settings.current.proxyMode;
 		dataForPopup.hasProxyServers = Settings.current.proxyServers.length > 0;
 		dataForPopup.proxyServers = Settings.current.proxyServers;
@@ -355,6 +375,9 @@ export class Core {
 		// get the host name from url
 		let urlHost = Utils.extractHostFromUrl(currentTabData.url);
 
+		//// TODO: REVERT THIS
+		//urlHost = "test.blog.smartproxy-salarcode.com.au";
+
 		// current url should be valid
 		if (!Utils.isValidHost(urlHost))
 			return dataForPopup;
@@ -365,52 +388,45 @@ export class Core {
 		if (!proxyableDomainList || !proxyableDomainList.length)
 			return dataForPopup;
 
-		// // check if there are rules for the domains
-		// if (proxyableDomainList.length == 1) {
+		// check if there are rules for the domains
+		if (proxyableDomainList.length == 1) {
 
-		// 	let testResult = ProxyRules.testSingleRule(proxyableDomainList[0]);
-		// 	let ruleIsForThisHost = false;
+			let testResult = ProxyRules.testSingleRule(proxyableDomainList[0]);
+			let ruleIsForThisHost = testResult.match;
 
-		// 	if (testResult.match) {
-		// 		// check to see if the matched rule is for this host or not!
-		// 		// sources are same
-		// 		if (testResult.source == proxyableDomainList[0]) {
-		// 			ruleIsForThisHost = true;
-		// 		}
-		// 	}
+			// add the domain
+			dataForPopup.proxyableDomains.push({
+				domain: proxyableDomainList[0],
+				//TODO: pattern: testResult.pattern /* only if match */,
+				hasMatchingRule: testResult.match,
+				ruleIsForThisHost: ruleIsForThisHost
+			});
 
-		// 	// add the domain
-		// 	dataForPopup.proxyableDomainList.push({
-		// 		domain: proxyableDomainList[0],
-		// 		pattern: testResult.pattern /* only if match */,
-		// 		hasMatchingRule: testResult.match,
-		// 		ruleIsForThisHost: ruleIsForThisHost
-		// 	});
+		} else {
 
-		// } else {
+			let multiTestResultList = ProxyRules.testMultipleRule(proxyableDomainList);
 
-		// 	let multiTestResultList = ProxyRules.testMultipleRule(proxyableDomainList);
+			for (let i = 0; i < multiTestResultList.length; i++) {
+				let result = multiTestResultList[i];
 
-		// 	for (let i = 0; i < multiTestResultList.length; i++) {
-		// 		let result = multiTestResultList[i];
+				// TODO: ruleIsForThisHost needs tweaking
+				let ruleIsForThisHost = result.match;
+				// if (result.match) {
+				// 	// check to see if the matched rule is for this host or not!
+				// 	if (result.source == proxyableDomainList[i]) {
+				// 		ruleIsForThisHost = true;
+				// 	}
+				// }
 
-		// 		let ruleIsForThisHost = false;
-		// 		if (result.match) {
-		// 			// check to see if the matched rule is for this host or not!
-		// 			if (result.source == proxyableDomainList[i]) {
-		// 				ruleIsForThisHost = true;
-		// 			}
-		// 		}
-
-		// 		// add the domain
-		// 		dataForPopup.proxyableDomainList.push({
-		// 			domain: result.domain,
-		// 			pattern: result.pattern /* only if match */,
-		// 			hasMatchingRule: result.match,
-		// 			ruleIsForThisHost: ruleIsForThisHost
-		// 		});
-		// 	}
-		// }
+				// add the domain
+				dataForPopup.proxyableDomains.push({
+					domain: result.domain,
+					//pattern: result.pattern /* only if match */,
+					hasMatchingRule: result.match,
+					ruleIsForThisHost: ruleIsForThisHost
+				});
+			}
+		}
 		return dataForPopup;
 	}
 

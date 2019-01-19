@@ -99,6 +99,78 @@ export class ProxyRules {
 		}
 		return null;
 	}
+
+	public static testSingleRule(domain: string) {
+		// the url should be complete
+		if (domain.indexOf(":") == -1)
+			domain = "http://" + domain;
+		domain = domain.toLowerCase();
+
+		for (let rule of ProxyRules.compiledRulesList) {
+
+			if (rule.ruleType == ProxyRuleType.Exact) {
+				if (domain == rule.ruleExact)
+					return {
+						match: true,
+						rule: rule
+					};
+			}
+			else if (rule.regex.test(domain))
+				return {
+					match: true,
+					rule: rule
+				};
+		}
+		return {
+			match: false,
+			rule: null
+		}
+	}
+
+	public static testMultipleRule(domainList: string[]) {
+		let result = [];
+
+		for (const domain of domainList) {
+			let url = domain;
+
+			// the url should be complete
+			if (url.indexOf(":") == -1)
+				url = "http://" + url;
+
+			let matchFound = false;
+
+			for (const rule of ProxyRules.compiledRulesList) {
+
+				if (rule.ruleType == ProxyRuleType.Exact) {
+					if (url == rule.ruleExact)
+						result.push({
+							match: true,
+							domain: domain
+						});
+				}
+				else if (rule.regex.test(url)) {
+					result.push({
+						domain: domain,
+						// pattern: rule.pattern,
+						// source: rule.source,
+						match: true
+					});
+					matchFound = true;
+					break;
+				}
+			}
+
+			// no matching rule found
+			if (!matchFound) {
+				result.push({
+					domain: domain,
+					match: false
+				});
+			}
+		}
+
+		return result;
+	}
 }
 
 class CompiledRule extends ProxyRule {

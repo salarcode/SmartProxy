@@ -15,7 +15,9 @@
   - You should have received a copy of the GNU General Public License
   - along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<html class="popup"><head>
+<html class="popup">
+
+<head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
@@ -25,6 +27,7 @@
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="code/popup.js"></script>
 </head>
+
 <body>
 	<div class="container-fluid p-0 popup-menu popup-container">
 		<div class="popup-menu-failed p-1" style="display: none">
@@ -76,11 +79,11 @@
 					<span data-localize="popupSmartProxy">Smart Proxy</span>
 				</a>
 				<a href="#" data-proxyMode="2" class="nav-link">
-					<i class="fas fa-globe fa-lg text-info" aria-hidden="true"></i>
+					<i class="fas fa-globe-americas fa-lg text-primary" aria-hidden="true"></i>
 					<span data-localize="popupAlwaysEnable">Always Enable</span>
 				</a>
 				<a href="#" data-proxyMode="3" class="nav-link">
-					<i class="fab fa-windows fa-lg text-info" aria-hidden="true"></i>
+					<i class="fab fa-windows fa-lg text-primary" aria-hidden="true"></i>
 					<span data-localize="popupSystemProxy">System Proxy</span>
 				</a>
 				<!--<div class="dropdown-divider"></div>
@@ -107,10 +110,10 @@
 			</div>
 			<div id="divActiveProxy" style="display: none">
 				<hr class="afshin-line" />
-				<h5 class="text-muted px-2" data-localize="popupActiveProxy">Active Proxy:</h5>
-				<div class="nav flex-column nav-pills interactive">
+				<h6 class="text-muted px-2" data-localize="popupActiveProxy">Active Proxy:</h6>
+				<!-- <div class="nav flex-column nav-pills interactive">
 					<a class="nav-link disabled" data-localize="popupActiveProxy">Active Proxy:</a>
-				</div>
+				</div> -->
 				<div class="p-2">
 					<select id="cmbActiveProxy" class="custom-select active-proxy-select">
 						<option value="0">No server is defined</option>
@@ -119,35 +122,21 @@
 			</div>
 			<div id="divProxyableContainer" style="display: none">
 				<hr class="afshin-line" />
-				<!-- <div id="divProxyableDomains" class="nav flex-column nav-pills">
-					<a  class="nav-link disabled">Enable proxy on</a>
-					<a id="divProxyableDomainItem"  class="nav-link" style="display: none">
-						<div class="row">
-							<div class="col-9 text-nowrap">
-								<i class="fas fa-globe fa-lg text-info" aria-hidden="true"></i>
-								<span class="proxyable-host-name">-</span>
-							</div>
-							<div class="col-3 text-center">
-								<i class="proxyable-status-icon fas fa-square-o fa-lg" aria-hidden="true"></i>
-								--<i title="Not enabled" class="fas fa-square-o fa-lg" aria-hidden="true"></i>--
-								--<i title="Enabled" class="fas fa-check-square-o" aria-hidden="true"></i>--
-							</div>
-						</div>
-					</a>
-				</div> -->
-				<h5 class="text-muted px-2" data-localize="popupEnableProxyOn">Enable proxy on</h5>
-				<ul id="divProxyableDomains" class="nav nav-pills nav-stacked direction-ltr">
+				<h6 class="text-muted px-2" data-localize="popupEnableProxyOn">Enable proxy on</h6>
+				<ul id="divProxyableDomains" class="nav flex-column nav-pills interactive direction-ltr">
 					<li id="divProxyableDomainItem" style="display: none">
-						<a>
+						<a class="nav-link">
 							<div class="row proxyable-item">
-								<div class="col-xs-10 col-sm-11 text-nowrap">
-									<i class="fas fa-globe fa-lg text-info" aria-hidden="true"></i>
+								<div class="col-10 text-nowrap">
+									<i class="fas fa-globe-americas fa-lg text-primary"></i>
 									<span class="proxyable-host-name font-url">-</span>
 								</div>
-								<div class="col-xs-2 col-sm-1 text-right">
-									<i class="proxyable-status-icon fas fa-square-o fa-lg background-white vertical-align-middle" aria-hidden="true"></i>
-									<!--<i title="Not enabled" class="fas fa-square-o fa-lg" aria-hidden="true"></i>-->
-									<!--<i title="Enabled" class="fas fa-check-square-o" aria-hidden="true"></i>-->
+								<div class="col-2 text-center p-0 pl-1">
+									<i class="far fa-square fa-lg background-white"></i>
+									<!-- <i class="proxyable-status-icon fas fa-square-o fa-lg background-white vertical-align-middle" aria-hidden="true"></i> -->
+
+									<!--<i title="Not enabled" class="far fa-check-square fa-lg" aria-hidden="true"></i>-->
+									<!--<i title="Enabled" class="far fa-check-square fa-lg" aria-hidden="true"></i>-->
 								</div>
 							</div>
 						</a>

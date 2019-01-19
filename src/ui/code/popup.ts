@@ -1,6 +1,6 @@
 import { browser, environment } from "../../lib/environment";
 import { jQuery } from "../../lib/External";
-import { Messages, PopupInternalDataType, ProxyModeType } from "../../core/definitions";
+import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 
@@ -9,34 +9,34 @@ export class popup {
 
     public static initialize() {
 
-        this.onDocumentReady(this.bindEvents);
+        popup.onDocumentReady(popup.bindEvents);
 
         PolyFill.runtimeSendMessage(Messages.PopupGetInitialData,
             (dataForPopup: PopupInternalDataType) => {
 
-	            if (dataForPopup != null) {
-		            popup.popupData = dataForPopup;
-		            popup.populateDataForPopup(dataForPopup);
-	            }
+                if (dataForPopup != null) {
+                    popup.popupData = dataForPopup;
+                    popup.populateDataForPopup(dataForPopup);
+                }
             },
             error => {
-	            PolyFill.runtimeSendMessage("PopupGetInitialData failed! > " + error);
+                PolyFill.runtimeSendMessage("PopupGetInitialData failed! > " + error);
             });
 
         // start handling messages
-        browser.runtime.onMessage.addListener(this.handleMessages);
+        browser.runtime.onMessage.addListener(popup.handleMessages);
 
-        this.onDocumentReady(CommonUi.localizeHtmlPage);
+        popup.onDocumentReady(CommonUi.localizeHtmlPage);
     }
 
     private static handleMessages(message: string, sender: any, sendResponse: Function) {
-
-        let sourceTabId = this.popupData.currentTabId;
 
         if (typeof (message) == "object") {
 
             if (message["command"] === Messages.WebRequestMonitorFailedActivity &&
                 message["tabId"] != null) {
+
+                let sourceTabId = popup.popupData.currentTabId;
 
                 let tabId = message["tabId"];
                 if (tabId != sourceTabId) {
@@ -46,7 +46,7 @@ export class popup {
                 let failedRequests: any[] = message["failedRequests"];
 
                 // display the failed requests
-                this.populateFailedRequests(failedRequests);
+                popup.populateFailedRequests(failedRequests);
 
                 // Chrome requires a response
                 if (sendResponse)
@@ -66,26 +66,26 @@ export class popup {
 
     private static bindEvents() {
         jQuery("#openSettings").click(() => {
-	        PolyFill.runtimeOpenOptionsPage();
-	        window.close();
+            PolyFill.runtimeOpenOptionsPage();
+            window.close();
         });
         jQuery("#openProxyable").click(() => {
-	        if (!popup.popupData)
-		        return;
+            if (!popup.popupData)
+                return;
 
-	        var sourceTabId = popup.popupData.currentTabId;
-	        browser.tabs.create(
-		        {
-			        active: true,
-			        //openerTabId: null,
-			        url: browser.extension.getURL(`ui/proxyable.html?id=${sourceTabId}`)
-		        }
-	        );
-	        window.close();
+            var sourceTabId = popup.popupData.currentTabId;
+            browser.tabs.create(
+                {
+                    active: true,
+                    //openerTabId: null,
+                    url: browser.extension.getURL(`ui/proxyable.html?id=${sourceTabId}`)
+                }
+            );
+            window.close();
         });
 
         jQuery("#divFailedRequests a").click(() => {
-	        jQuery(".popup-menu-failed").toggle();
+            jQuery(".popup-menu-failed").toggle();
         });
 
         jQuery("#btnAddFailedRequests").click(popup.onAddFailedRequestsClick);
@@ -93,11 +93,11 @@ export class popup {
 
     private static populateDataForPopup(dataForPopup: PopupInternalDataType) {
 
-        this.populateUpdateAvailable(dataForPopup);
-        this.populateProxyMode(dataForPopup.proxyMode);
-        this.populateActiveProxy(dataForPopup);
-        this.populateProxyableDomainList(dataForPopup.proxyableDomains);
-        this.populateFailedRequests(dataForPopup.failedRequests);
+        popup.populateUpdateAvailable(dataForPopup);
+        popup.populateProxyMode(dataForPopup.proxyMode);
+        popup.populateActiveProxy(dataForPopup);
+        popup.populateProxyableDomainList(dataForPopup.proxyableDomains);
+        popup.populateFailedRequests(dataForPopup.failedRequests);
     }
 
     private static populateUpdateAvailable(dataForPopup: PopupInternalDataType) {
@@ -119,7 +119,7 @@ export class popup {
         divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
             .addClass("active")
             .parent("li")
-            //.addClass("active");
+        //.addClass("active");
 
         divProxyMode.find(".nav-link:not(.disabled)")
             .on("click", popup.onProxyModeClick);
@@ -151,13 +151,13 @@ export class popup {
             // display select options
             jQuery.each(dataForPopup.proxyServers, (index, proxyServer) => {
 
-	            // proxyServer
-	            let $option = jQuery("<option>")
-		            .attr("value", proxyServer.name)
-		            .text(proxyServer.name)
-		            .appendTo(cmbActiveProxy);
+                // proxyServer
+                let $option = jQuery("<option>")
+                    .attr("value", proxyServer.name)
+                    .text(proxyServer.name)
+                    .appendTo(cmbActiveProxy);
 
-	            $option.prop("selected", (proxyServer.name === activeProxyName));
+                $option.prop("selected", (proxyServer.name === activeProxyName));
             });
 
             if (dataForPopup.proxyServersSubscribed.length > 0) {
@@ -167,13 +167,13 @@ export class popup {
                     .appendTo(cmbActiveProxy);
 
                 dataForPopup.proxyServersSubscribed.forEach(proxyServer => {
-	                // proxyServer
-	                let $option = jQuery("<option>")
-		                .attr("value", proxyServer.name)
-		                .text(proxyServer.name)
-		                .appendTo(subscriptionGroup);
+                    // proxyServer
+                    let $option = jQuery("<option>")
+                        .attr("value", proxyServer.name)
+                        .text(proxyServer.name)
+                        .appendTo(subscriptionGroup);
 
-	                $option.prop("selected", (proxyServer.name === activeProxyName));
+                    $option.prop("selected", (proxyServer.name === activeProxyName));
                 });
             }
 
@@ -185,7 +185,7 @@ export class popup {
         }
     }
 
-    private static populateProxyableDomainList(proxyableDomainList: any[]) {
+    private static populateProxyableDomainList(proxyableDomainList: ProxyableDomainType[]) {
         if (!proxyableDomainList || !proxyableDomainList.length) return;
 
         var divProxyableContainer = jQuery("#divProxyableContainer");
@@ -199,7 +199,7 @@ export class popup {
         jQuery("#openProxyable").show();
 
         for (let i = 0; i < proxyableDomainList.length; i++) {
-            let domainResult: any = proxyableDomainList[i];
+            let domainResult = proxyableDomainList[i];
             let domain = domainResult.domain;
             let ruleIsForThisHost = domainResult.ruleIsForThisHost;
 
@@ -249,8 +249,8 @@ export class popup {
             // save checked domains, preventing check change on refresh
             let domainsStatus = {};
             failedRequestsItemsContainer.find(".request-box input:checkbox").each((index, e) => {
-	            var element = jQuery(e);
-	            domainsStatus[element.attr("data-domain")] = element.prop("checked");
+                var element = jQuery(e);
+                domainsStatus[element.attr("data-domain")] = element.prop("checked");
             });
 
             // remove previous items
@@ -371,10 +371,10 @@ export class popup {
         let domainList: any[] = [];
 
         jQuery(".failed-request-container .request-box input:checked").each((index, e) => {
-	        let element = jQuery(e);
-	        let domain = element.attr("data-domain");
-	        if (domain)
-		        domainList.push(domain);
+            let element = jQuery(e);
+            let domain = element.attr("data-domain");
+            if (domain)
+                domainList.push(domain);
         });
 
         if (domainList.length)
@@ -390,12 +390,12 @@ export class popup {
                         tabId: popup.popupData.currentTabId
                     },
                     response => {
-	                    if (!response) return;
-	                    if (response.failedRequests) {
+                        if (!response) return;
+                        if (response.failedRequests) {
 
-		                    // display the failed requests
-		                    popup.populateFailedRequests(response.failedRequests);
-	                    }
+                            // display the failed requests
+                            popup.populateFailedRequests(response.failedRequests);
+                        }
                     });
 
                 // close the menu

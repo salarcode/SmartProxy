@@ -74,7 +74,7 @@ export class ResultHolderGeneric<T> implements ResultHolder {
 }
 
 export class PopupInternalDataType {
-	public proxyableDomains: any[];
+	public proxyableDomains: ProxyableDomainType[];
 	public proxyMode: ProxyModeType;
 	public hasProxyServers: boolean;
 	public proxyServers: ProxyServer[];
@@ -85,6 +85,12 @@ export class PopupInternalDataType {
 	public updateAvailableText: string;
 	public updateInfo: any;
 	public failedRequests: any;
+}
+
+export type ProxyableDomainType = {
+	domain: string,
+	hasMatchingRule: boolean,
+	ruleIsForThisHost: boolean
 }
 
 export type SettingsPageInternalDataType = {

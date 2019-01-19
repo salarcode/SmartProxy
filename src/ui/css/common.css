@@ -18,10 +18,13 @@
 html {
     font-size: 14px;
 }
-html.popup{
+
+html.popup {
     font-size: 13px;
 }
-
+html.popup body {
+    min-width: 210px;
+}
 .slogan {
     font-weight: bold;
     color: navy;
@@ -69,18 +72,21 @@ hr.afshin-line {
     background: linear-gradient(to right, rgba(165, 165, 165, 0.45) 0%, rgba(0, 0, 0, 0) 130%);
 }
 
-.background-white {
-    background-color: white;
-}
+
 
 .vertical-align-middle {
     vertical-align: middle;
 }
 
+*/
+
+.background-white {
+    background-color: white;
+}
+
 .nav li {
     cursor: pointer;
 }
-*/
 
 .nav-pills.flex-column>a.active .fa,
 .nav-pills.flex-column>a.active .fas,
@@ -135,8 +141,9 @@ select.active-proxy-select {
     margin-bottom: 5px;
     padding: 10px;
 }
+*/
 
-.proxyable-item {
+/* .proxyable-item {
     margin-left: -10px;
     margin-right: -7px;
 }
@@ -149,8 +156,9 @@ select.active-proxy-select {
 .rtl .proxyable-item>div {
     padding-right: 10px;
     padding-left: 10px;
-}
+} */
 
+/* 
 .failedrequest-item {
     margin-left: 0;
     margin-right: 0;
