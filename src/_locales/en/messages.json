@@ -543,6 +543,10 @@
 		"message": "Host name '{0}' is invalid, host name should be something like 'google.com'",
 		"description": ""
 	},
+	"settingsRuleRegexNotMatchDomain": {
+		"message": "Regex rule does not match the source domain '{0}'",
+		"description": ""
+	},
 	"settingsRuleRegexInvalid": {
 		"message": "Regex rule '{0}' is not valid",
 		"description": ""

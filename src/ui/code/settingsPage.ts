@@ -32,7 +32,7 @@ export class settingsPage {
         CommonUi.onDocumentReady(this.bindEvents);
         CommonUi.onDocumentReady(this.initializeGrids);
         CommonUi.onDocumentReady(this.initializeUi);
-        
+
         PolyFill.runtimeSendMessage(Messages.SettingsPageGetInitialData,
             (dataForSettings: SettingsPageInternalDataType) => {
                 if (!dataForSettings)
@@ -1208,12 +1208,20 @@ export class settingsPage {
             else if (ruleInfo.ruleType == ProxyRuleType.Regex) {
                 try {
 
-                    new RegExp(ruleInfo.ruleExact);
+                    let regex = new RegExp(ruleInfo.ruleRegex);
+
+                    if (!regex.test(ruleInfo.sourceDomain)) {
+                        // Regex rule does not match the source domain '{0}'
+                        messageBox.error(
+                            browser.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", ruleInfo.sourceDomain)
+                        );
+                        return;
+                    }
 
                 } catch (error) {
                     // Regex rule '{0}' is not valid
                     messageBox.error(
-                        browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleExact)
+                        browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
                     );
                     return;
                 }
