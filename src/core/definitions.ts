@@ -27,8 +27,10 @@ export enum ProxyModeType {
 }
 
 export enum ProxyRuleType {
-	MatchPattern,
-	Regex,
+	MatchPatternHost,
+	MatchPatternUrl,
+	RegexHost,
+	RegexUrl,
 	Exact
 }
 
@@ -45,7 +47,7 @@ export class Messages {
 	public static PopupGetInitialData = "Popup_GetInitialData";
 	public static PopupChangeProxyMode = "Popup_ChangeProxyMode";
 	public static PopupChangeActiveProxyServer = "Popup_ChangeActiveProxyServer";
-	public static PopupToggleProxyForHost = "Popup_ToggleProxyForHost";
+	public static PopupToggleProxyForDomain = "Popup_ToggleProxyForDomain";
 	public static PopupAddDomainListToProxyRule = "Popup_AddDomainListToProxyRule";
 
 	// Settings page

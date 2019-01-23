@@ -201,7 +201,6 @@ export class popup {
         for (let i = 0; i < proxyableDomainList.length; i++) {
             let domainResult = proxyableDomainList[i];
             let domain = domainResult.domain;
-            let ruleIsForThisHost = domainResult.ruleIsForThisHost;
 
             let item = divProxyableDomainItem.clone();
             item.show()
@@ -215,16 +214,17 @@ export class popup {
 
             var itemIcon = item.find(".proxyable-status-icon");
             if (domainResult.hasMatchingRule) {
-                itemIcon.removeClass("fa-square-o")
-                    .addClass("fa-check-square-o");
+                itemIcon.removeClass("fa-square")
+                    .addClass("fa-check-square");
 
                 // if the matching rule is not for this host
-                if (!ruleIsForThisHost) {
-                    item.addClass("disabled");
+                if (!domainResult.ruleIsForThisHost) {
+                    item.find(".nav-link").addClass("disabled")
+                        .attr("title", `Enabled by other domains`);
                 }
             } else {
-                itemIcon.removeClass("fa-check-square-o")
-                    .addClass("fa-square-o");
+                itemIcon.removeClass("fa-check-square")
+                    .addClass("fa-square");
             }
 
             item.on("click", popup.onProxyableDomainClick);
@@ -342,23 +342,23 @@ export class popup {
     }
 
     private static onProxyableDomainClick() {
-        let domainResult: any = jQuery(this).data("domainResult");
-        let host = domainResult.domain;
+        let domainResult: ProxyableDomainType = jQuery(this).data("domainResult");
+        let domain = domainResult.domain;
         let hasMatchingRule = domainResult.hasMatchingRule;
         let ruleIsForThisHost = domainResult.ruleIsForThisHost;
 
 
         if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
-            PolyFill.runtimeSendMessage(`proxyable-host-name: ${host}`);
+            PolyFill.runtimeSendMessage(`proxyable-host-name: ${domain}`);
 
             PolyFill.runtimeSendMessage({
-                command: Messages.PopupToggleProxyForHost,
-                host: host
+                command: Messages.PopupToggleProxyForDomain,
+                domain: domain
             });
 
             window.close();
         } else {
-            PolyFill.runtimeSendMessage(`rule is not for this host: ${host}`);
+            PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
         }
 
         //jQuery(this).find(".proxyable-status-icon")

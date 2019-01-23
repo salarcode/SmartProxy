@@ -157,13 +157,16 @@ export class Core {
 				}
 				break;
 
-			case Messages.PopupToggleProxyForHost:
+			case Messages.PopupToggleProxyForDomain:
 				{
-					if (!message.host)
+					if (!message.domain)
 						return;
 
-					let host = message.host;
-					//TODO: proxyRules.toggleByDomain(domain);
+					let domain = message.domain;
+					ProxyRules.toggleRuleByDomain(domain);
+
+					SettingsOperation.saveRules();
+					SettingsOperation.saveAllSync();
 
 					// notify the proxy script
 					ProxyEngine.notifyProxyRulesChanged();
@@ -349,7 +352,7 @@ export class Core {
 		dataForPopup.activeProxyServer = Settings.current.activeProxyServer;
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
-		//dataForPopup.proxyServersSubscribed = internal.getAllSubscribedProxyServers();
+		//TODO: dataForPopup.proxyServersSubscribed = internal.getAllSubscribedProxyServers();
 		dataForPopup.updateAvailableText = null;
 		dataForPopup.updateInfo = null;
 		dataForPopup.failedRequests = null;
@@ -364,7 +367,6 @@ export class Core {
 		let currentTabData = TabManager.getCurrentTab();
 		if (currentTabData == null)
 			return dataForPopup;
-
 		// tab info
 		dataForPopup.currentTabId = currentTabData.tabId;
 		dataForPopup.currentTabIndex = currentTabData.index;
@@ -390,14 +392,20 @@ export class Core {
 
 		// check if there are rules for the domains
 		if (proxyableDomainList.length == 1) {
-
-			let testResult = ProxyRules.testSingleRule(proxyableDomainList[0]);
+			let proxyableDomain = proxyableDomainList[0];
+			let testResult = ProxyRules.testSingleRule(proxyableDomain);
 			let ruleIsForThisHost = testResult.match;
 
+			if (testResult.match) {
+				// check to see if the matched rule is for this host or not!
+				// sources are same
+				if (testResult.rule.sourceDomain == proxyableDomain) {
+					ruleIsForThisHost = true;
+				}
+			}
 			// add the domain
 			dataForPopup.proxyableDomains.push({
-				domain: proxyableDomainList[0],
-				//TODO: pattern: testResult.pattern /* only if match */,
+				domain: proxyableDomain,
 				hasMatchingRule: testResult.match,
 				ruleIsForThisHost: ruleIsForThisHost
 			});
@@ -409,19 +417,17 @@ export class Core {
 			for (let i = 0; i < multiTestResultList.length; i++) {
 				let result = multiTestResultList[i];
 
-				// TODO: ruleIsForThisHost needs tweaking
-				let ruleIsForThisHost = result.match;
-				// if (result.match) {
-				// 	// check to see if the matched rule is for this host or not!
-				// 	if (result.source == proxyableDomainList[i]) {
-				// 		ruleIsForThisHost = true;
-				// 	}
-				// }
+				let ruleIsForThisHost = false;
+				if (result.match) {
+					// check to see if the matched rule is for this host or not!
+					if (result.sourceDomain == proxyableDomainList[i]) {
+						ruleIsForThisHost = true;
+					}
+				}
 
 				// add the domain
 				dataForPopup.proxyableDomains.push({
 					domain: result.domain,
-					//pattern: result.pattern /* only if match */,
 					hasMatchingRule: result.match,
 					ruleIsForThisHost: ruleIsForThisHost
 				});

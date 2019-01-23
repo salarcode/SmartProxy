@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser} from "./environment";
+import { browser } from "./environment";
 import { jQuery } from "./External";
 
 export class Utils {
@@ -89,7 +89,7 @@ export class Utils {
 	public static urlHasSchema(url): boolean { // note: this will accept like http:/example.org/ in Chrome and Firefox
 		if (!url)
 			return false;
-		if (url.indexOf(":/") > -1)
+		if (url.includes(":/"))
 			return true;
 		return false;
 	}
@@ -144,16 +144,18 @@ export class Utils {
 		return result;
 	}
 
-	public static hostToMatchPattern(host: string): string {
+	public static hostToMatchPattern(host: string, completeUrl: boolean = true): string {
 
 		// only convert to match pattern if it is just host address like 'google.com'
 		if (host.indexOf(":") > -1)
 			return host;
 
-		return `*://*.${host}/*`;
+		if (completeUrl)
+			return `*://*.${host}/*`;
+		return `*.${host}/*`;
 	}
 
-	public static matchPatternToRegExp(pattern: string): RegExp | null {
+	public static matchPatternToRegExp(pattern: string, completeUrl = true): RegExp | null {
 		// Source: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns
 		// Modified by Salar Khalilzadeh
 		/**
@@ -167,12 +169,20 @@ export class Utils {
 
 		// matches all valid match patterns (except '<all_urls>')
 		// and extracts [ , scheme, host, path, ]
-		const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
+		let matchPattern: RegExp;
+		matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
 
 		if (pattern === "<all_urls>") {
 			//return (/^(?:https?|file|ftp|app):\/\//);
 			return null;
 		}
+		if (!completeUrl) {
+			if (!pattern.includes("://")) {
+				pattern = "http://" + pattern;
+			}
+		}
+
+
 		const match = matchPattern.exec(pattern);
 		if (!match) {
 			//throw new TypeError(`"${pattern}" is not a valid MatchPattern`);
@@ -180,11 +190,20 @@ export class Utils {
 		}
 		const [, scheme, host, path,] = match;
 
-		return new RegExp("^(?:"
-			+ (scheme === "*" ? "https?" : escape(scheme)) + ":\\/\\/"
-			+ (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:[^\\/]+)?"))
-			+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
-			+ ")$");
+		if (completeUrl) {
+			return new RegExp("^(?:"
+				+ (scheme === "*" ? "https?" : escape(scheme)) + ":\\/\\/"
+				+ (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:[^\\/]+)?"))
+				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
+				+ ")$");
+		}
+		else {
+			return new RegExp("^(?:"
+				//+ (scheme === "*" ? "https?" : escape(scheme)) + ":\\/\\/"
+				+ (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:[^\\/]+)?"))
+				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
+				+ ")$");
+		}
 	}
 
 	public static localizeHtmlPage() {

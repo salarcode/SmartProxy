@@ -547,6 +547,10 @@
 		"message": "Regex rule does not match the source domain '{0}'",
 		"description": ""
 	},
+	"settingsRuleDoesntIncludeDomain": {
+		"message": "The rule does not match the source domain '{0}'",
+		"description": ""
+	},
 	"settingsRuleRegexInvalid": {
 		"message": "Regex rule '{0}' is not valid",
 		"description": ""

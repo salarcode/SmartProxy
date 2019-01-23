@@ -15,13 +15,64 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Debug } from "../lib/Debug";
-import { ProxyRule } from "./Settings";
+import { ProxyRule, Settings } from "./Settings";
 import { ProxyRuleType } from "./definitions";
 import { Utils } from "../lib/Utils";
+import { ProxyEngine } from "./ProxyEngine";
 
 export class ProxyRules {
 
 	static compiledRulesList: CompiledRule[] = [];
+
+	public static toggleRuleByDomain(domain: string) {
+
+		// the domain should be the source
+		let rule = ProxyRules.getRuleBySource(domain);
+
+		if (rule == null) {
+			if (!Utils.isValidHost(domain))
+				// this is an extra check!
+				return;
+
+			ProxyRules.addRuleByDomain(domain);
+		} else {
+			ProxyRules.removeRule(rule);
+		}
+	}
+
+	private static getRuleBySource(sourceDomain: string): ProxyRule {
+		///<summary>Finds the defined rule for the host</summary>
+		return Settings.current.proxyRules.find(rule => rule.sourceDomain == sourceDomain);
+	}
+
+	private static addRuleByDomain(domain: string) {
+
+		let domainPattern = Utils.hostToMatchPattern(domain, false);
+
+		let rule = new ProxyRule();
+		rule.ruleType = ProxyRuleType.MatchPatternHost;
+		rule.rulePattern = domainPattern;
+		rule.autoGeneratePattern = true;
+		rule.sourceDomain = domain;
+		rule.enabled = true;
+		rule.proxy = null;
+
+		// add and save it
+		ProxyRules.addRule(rule);
+
+		return rule;
+	}
+
+	private static addRule(rule: ProxyRule) {
+		Settings.current.proxyRules.push(rule);
+	}
+
+	private static removeRule(rule: ProxyRule) {
+		let itemIndex = Settings.current.proxyRules.indexOf(rule);
+		if (itemIndex > -1) {
+			Settings.current.proxyRules.splice(itemIndex, 1);
+		}
+	}
 
 	public static compileRules(proxyRules: ProxyRule[]) {
 		if (!proxyRules)
@@ -43,16 +94,26 @@ export class ProxyRules {
 					newCompiled.ruleExact = newCompiled.ruleExact.toLowerCase();
 					break;
 
-				case ProxyRuleType.MatchPattern:
+				case ProxyRuleType.MatchPatternHost:
 					{
-						let regex = Utils.matchPatternToRegExp(rule.rulePattern);
+						let regex = Utils.matchPatternToRegExp(rule.rulePattern, false);
 						if (regex == null)
 							continue;
 						newCompiled.regex = regex;
 					}
 					break;
 
-				case ProxyRuleType.Regex:
+				case ProxyRuleType.MatchPatternUrl:
+					{
+						let regex = Utils.matchPatternToRegExp(rule.rulePattern, true);
+						if (regex == null)
+							continue;
+						newCompiled.regex = regex;
+					}
+					break;
+
+				case ProxyRuleType.RegexHost:
+				case ProxyRuleType.RegexUrl:
 					{
 						// TODO: is this simple construction good enough? is ^(?:)$ needed?
 						newCompiled.regex = new RegExp(rule.ruleRegex);
@@ -77,21 +138,35 @@ export class ProxyRules {
 	public static findMatchForUrl(url: string): ProxyRule | null {
 		//var host = new URL(url).host;
 		let lowerCaseUrl: string;
+		let host: string;
 
 		try {
-			for (let i = 0; i < this.compiledRulesList.length; i++) {
-				let compiled = this.compiledRulesList[i];
+			for (let rule of ProxyRules.compiledRulesList) {
 
-				if (compiled.ruleType == ProxyRuleType.Exact) {
-					if (lowerCaseUrl == null)
-						lowerCaseUrl = url.toLowerCase();
+				switch (rule.ruleType) {
+					case ProxyRuleType.Exact:
+						if (lowerCaseUrl == null)
+							lowerCaseUrl = url.toLowerCase();
 
-					if (lowerCaseUrl == compiled.ruleExact)
-						return compiled;
-				}
-				else {
-					if (compiled.regex.test(url))
-						return compiled;
+						if (lowerCaseUrl == rule.ruleExact)
+							return rule;
+						break;
+
+					case ProxyRuleType.MatchPatternHost:
+					case ProxyRuleType.RegexHost:
+						if (host == null)
+							host = new URL(url).host.toLowerCase();
+
+						if (rule.regex.test(host))
+							return rule;
+						break;
+
+					case ProxyRuleType.MatchPatternUrl:
+					case ProxyRuleType.RegexUrl:
+
+						if (rule.regex.test(url))
+							return rule;
+						break;
 				}
 			}
 		} catch (e) {
@@ -102,24 +177,41 @@ export class ProxyRules {
 
 	public static testSingleRule(domain: string) {
 		// the url should be complete
-		if (domain.indexOf(":") == -1)
+		if (!domain.includes(":/"))
 			domain = "http://" + domain;
-		domain = domain.toLowerCase();
+		var domainHost = new URL(domain).host.toLowerCase();
 
 		for (let rule of ProxyRules.compiledRulesList) {
 
-			if (rule.ruleType == ProxyRuleType.Exact) {
-				if (domain == rule.ruleExact)
-					return {
-						match: true,
-						rule: rule
-					};
+			switch (rule.ruleType) {
+				case ProxyRuleType.Exact:
+					if (domain == rule.ruleExact)
+						return {
+							match: true,
+							rule: rule
+						};
+					break;
+
+				case ProxyRuleType.MatchPatternHost:
+				case ProxyRuleType.RegexHost:
+
+					if (rule.regex.test(domainHost))
+						return {
+							match: true,
+							rule: rule
+						};
+					break;
+
+				case ProxyRuleType.MatchPatternUrl:
+				case ProxyRuleType.RegexUrl:
+
+					if (rule.regex.test(domain))
+						return {
+							match: true,
+							rule: rule
+						};
+					break;
 			}
-			else if (rule.regex.test(domain))
-				return {
-					match: true,
-					rule: rule
-				};
 		}
 		return {
 			match: false,
@@ -134,29 +226,51 @@ export class ProxyRules {
 			let url = domain;
 
 			// the url should be complete
-			if (url.indexOf(":") == -1)
+			if (!url.includes(":/"))
 				url = "http://" + url;
+			var domainHost = new URL(url).host.toLowerCase();
 
 			let matchFound = false;
 
 			for (const rule of ProxyRules.compiledRulesList) {
 
-				if (rule.ruleType == ProxyRuleType.Exact) {
-					if (url == rule.ruleExact)
-						result.push({
-							match: true,
-							domain: domain
-						});
-				}
-				else if (rule.regex.test(url)) {
-					result.push({
-						domain: domain,
-						// pattern: rule.pattern,
-						// source: rule.source,
-						match: true
-					});
-					matchFound = true;
-					break;
+				switch (rule.ruleType) {
+					case ProxyRuleType.Exact:
+						if (url == rule.ruleExact) {
+							result.push({
+								match: true,
+								domain: domain,
+								sourceDomain: rule.sourceDomain
+							});
+							matchFound = true;
+						}
+						break;
+
+					case ProxyRuleType.MatchPatternHost:
+					case ProxyRuleType.RegexHost:
+
+						if (rule.regex.test(domainHost)) {
+							result.push({
+								domain: domain,
+								match: true,
+								sourceDomain: rule.sourceDomain
+							});
+							matchFound = true;
+						}
+						break;
+
+					case ProxyRuleType.MatchPatternUrl:
+					case ProxyRuleType.RegexUrl:
+
+						if (rule.regex.test(url)) {
+							result.push({
+								domain: domain,
+								match: true,
+								sourceDomain: rule.sourceDomain
+							});
+							matchFound = true;
+						}
+						break;
 				}
 			}
 
@@ -164,7 +278,8 @@ export class ProxyRules {
 			if (!matchFound) {
 				result.push({
 					domain: domain,
-					match: false
+					match: false,
+					sourceDomain: null
 				});
 			}
 		}

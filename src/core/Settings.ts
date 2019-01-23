@@ -193,10 +193,12 @@ export class ProxyRule {
 	get rule(): string {
 		// why ruleType is string? converting to int
 		switch (+this.ruleType) {
-			case ProxyRuleType.MatchPattern:
+			case ProxyRuleType.MatchPatternHost:
+			case ProxyRuleType.MatchPatternUrl:
 				return this.rulePattern;
 
-			case ProxyRuleType.Regex:
+			case ProxyRuleType.RegexHost:
+			case ProxyRuleType.RegexUrl:
 				return this.ruleRegex;
 
 			case ProxyRuleType.Exact:
