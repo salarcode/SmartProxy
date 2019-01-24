@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Settings } from "./Settings";
+import { Settings, ProxyServer } from "./Settings";
 import { browser, environment } from "../lib/environment";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { ProxyAuthentication } from "./ProxyAuthentication";
@@ -42,25 +42,25 @@ export class Core {
 			// set the title
 			Core.setBrowserActionStatus();
 
-			//// update the timers
+			//TODO: // update the timers
 			//timerManagement.updateSubscriptions();
 
 			// check for updates, only in unlisted version
 			UpdateManager.readUpdateInfo();
-
-			//// handle synced settings changes
-			//browser.storage.onChanged.addListener(settingsOperation.syncOnChanged);
 		});
 		Settings.initialize();
-
-		// start proxy authentication request check
-		ProxyAuthentication.startMonitor();
 
 		// start handling messages
 		Core.registerMessageReader();
 
 		// tracking active tab
 		TabManager.initializeTracking();
+
+		// TODO: // register the request logger
+		// requestLogger.startLogger();
+
+		// start proxy authentication request check
+		ProxyAuthentication.startMonitor();
 	}
 
 	static handleMessages(message: any, sender: any, sendResponse: Function) {
@@ -153,9 +153,38 @@ export class Core {
 
 			case Messages.PopupChangeActiveProxyServer:
 				{
+					if (!message.name)
+						return;
 
+					let proxyName = message.name;
+
+					let proxy = Core.findProxyServerByName(proxyName);
+					if (proxy != null) {
+
+						Settings.current.activeProxyServer = proxy;
+						SettingsOperation.saveActiveProxyServer();
+						SettingsOperation.saveAllSync();
+
+						// send it to the proxy server
+						ProxyEngine.notifyActiveProxyServerChanged();
+
+						// update active proxy tab status
+						Core.setBrowserActionStatus();
+
+						if (sendResponse) {
+							sendResponse({
+								success: true
+							});
+						}
+					} else {
+						if (sendResponse) {
+							sendResponse({
+								success: false
+							});
+						}
+					}
+					return;
 				}
-				break;
 
 			case Messages.PopupToggleProxyForDomain:
 				{
@@ -172,11 +201,12 @@ export class Core {
 					ProxyEngine.notifyProxyRulesChanged();
 
 					// update active proxy tab status
-					//updateTabDataProxyInfo();
+					//TODO: updateTabDataProxyInfo();
 
 					Core.setBrowserActionStatus();
+
+					return;
 				}
-				break;
 
 			case Messages.PopupAddDomainListToProxyRule:
 				{
@@ -352,7 +382,7 @@ export class Core {
 		dataForPopup.activeProxyServer = Settings.current.activeProxyServer;
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
-		//TODO: dataForPopup.proxyServersSubscribed = internal.getAllSubscribedProxyServers();
+		dataForPopup.proxyServersSubscribed = Core.getAllSubscribedProxyServers();
 		dataForPopup.updateAvailableText = null;
 		dataForPopup.updateInfo = null;
 		dataForPopup.failedRequests = null;
@@ -436,6 +466,34 @@ export class Core {
 		return dataForPopup;
 	}
 
+	// TODO: is this a good place for this function
+	static findProxyServerByName(name: string): ProxyServer {
+		let proxy = Settings.current.proxyServers.find(item => item.name === name);
+		if (proxy !== undefined) return proxy;
+
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			proxy = subscription.proxies.find(item => item.name === name);
+			if (proxy !== undefined) return proxy;
+		}
+
+		return null;
+	}
+
+	// TODO: is this a good place for this function
+	static getAllSubscribedProxyServers(): any[] {
+
+		if (!Settings.current.proxyServerSubscriptions || !Settings.current.proxyServerSubscriptions.length)
+			return [];
+		let result = [];
+
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			if (subscription.enabled) {
+				result = result.concat(subscription.proxies);
+			}
+		}
+		return result;
+	}
+
 	static setBrowserActionStatus(tabData?: TabDataType) {
 		let extensionName = browser.i18n.getMessage("extensionName");
 		let proxyTitle = "";
@@ -499,6 +557,7 @@ export class Core {
 			tabData = TabManager.getCurrentTab();
 
 
+		// TODO: Failed requests
 		// if (tabData) {
 		// 	let failedCount = failedRequestsNotProxifiedCount(tabData.failedRequests);
 
