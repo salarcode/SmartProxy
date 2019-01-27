@@ -29,6 +29,7 @@ module.exports = function (args) {
     entry: {
       'core': './src/core/Core.ts',
       'ui/code/popup': './src/ui/code/popup.ts',
+      'ui/code/proxyable': './src/ui/code/proxyable.ts',
       'ui/code/settingsPage': './src/ui/code/settingsPage.ts',
     },
     devtool: '',

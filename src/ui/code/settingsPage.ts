@@ -650,7 +650,7 @@ export class settingsPage {
         this.grdServers.draw('full-hold');
     }
 
-    private static refreshServersGridRow(row, invalidate?) {
+    private static refreshServersGridRow(row: any, invalidate?: boolean) {
         if (!row)
             return;
         if (invalidate)

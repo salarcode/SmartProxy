@@ -23,17 +23,15 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/font-awesome.min.css" rel="stylesheet" />
 	<link href="css/common.css" rel="stylesheet" />
-	<link href="css/jsgrid.min.css" rel="stylesheet" />
-	<link href="css/jsgrid-theme.min.css" rel="stylesheet" />
+	<link href="css/datatables.min.css" rel="stylesheet" />
 	<link href="css/noty.css" rel="stylesheet" />
 	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jsgrid.bootstrap.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/datatables.min.js"></script>
 	<script src="js/noty.min.js"></script>
-	<script src="js-ext/messageBox.js"></script>
-	<script src="../core-utils.js"></script>
-	<script src="../core-polyfill.js"></script>
-	<script src="proxyable.js"></script>
+	<script src="js/messageBox.js"></script>
+	<script src="js/pako.min.js"></script>
+	<script src="code/proxyable.js"></script>
 </head>
 <body>
 	<div class="container p-2 pt-3">
@@ -54,7 +52,7 @@
 		</p>
 		<div class="row">
 			<div class="col-sm-12">
-				<div id="grdProxyable" class="jsgrid-font-smaller"></div>
+				<table id="grdProxyable" class="table table-striped table-bordered table-hover"></table>
 			</div>
 		</div>
 		<br />

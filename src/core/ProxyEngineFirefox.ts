@@ -112,9 +112,6 @@ export class ProxyEngineFirefox {
 		
 		let matchedRule = ProxyRules.findMatchForUrl(requestDetails.url);
 
-		// TODO: remove this
-		//console.log("DEL: findMatchForUrl> ", matchedRule, requestDetails.url);
-
 		if (matchedRule) {
 			if (matchedRule.proxy)
 				return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);

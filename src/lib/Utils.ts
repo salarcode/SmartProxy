@@ -78,15 +78,30 @@ export class Utils {
 	}
 
 	public static isValidHost(host: string) {
-		return (host && host.indexOf("about:") === -1);
+		if (host) {
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
+			if (skip.indexOf(host) >= 0)
+				return false;
+
+			return true;
+		}
+		return false;
 	}
 
 	public static isValidUrl(url: string) {
-		try { new URL(url); return true; }
+		try {
+			const u = new URL(url);
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
+			if (skip.indexOf(u.protocol) >= 0)
+				return false;
+
+			return true;
+		}
 		catch (e) { return false; }
 	}
 
-	public static urlHasSchema(url): boolean { // note: this will accept like http:/example.org/ in Chrome and Firefox
+	public static urlHasSchema(url: string): boolean {
+		// note: this will accept like http:/example.org/ in Chrome and Firefox
 		if (!url)
 			return false;
 		if (url.includes(":/"))
@@ -98,7 +113,7 @@ export class Utils {
 	public static extractHostFromUrl(url: string): string | null {
 		try {
 			const u = new URL(url);
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "chrome:", "opera:"];
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
 			if (skip.indexOf(u.protocol) >= 0)
 				return null;
 			let host = u.host;

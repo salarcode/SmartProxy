@@ -19,7 +19,7 @@ import { browser, environment } from "../lib/environment";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { ProxyAuthentication } from "./ProxyAuthentication";
 import { Debug } from "../lib/Debug";
-import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyModeType } from "./definitions";
+import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyModeType, ProxyableInternalDataType } from "./definitions";
 import { SettingsOperation } from "./SettingsOperation";
 import { ProxyEngine } from "./ProxyEngine";
 import { PolyFill } from "../lib/PolyFill";
@@ -27,6 +27,7 @@ import { TabManager, TabDataType } from "./TabManager";
 import { Utils } from "../lib/Utils";
 import { UpdateManager } from "./UpdateManager";
 import { ProxyRules } from "./ProxyRules";
+import { TabRequestLogger } from "./TabRequestLogger";
 
 export class Core {
 
@@ -56,8 +57,8 @@ export class Core {
 		// tracking active tab
 		TabManager.initializeTracking();
 
-		// TODO: // register the request logger
-		// requestLogger.startLogger();
+		// register the request logger
+		TabRequestLogger.startTracking();
 
 		// start proxy authentication request check
 		ProxyAuthentication.startMonitor();
@@ -125,6 +126,33 @@ export class Core {
 
 		// --------------------
 		switch (command) {
+			case Messages.ProxyableGetInitialData:
+				{
+					if (message.tabId === null)
+						return;
+					let tabId = message.tabId;
+
+					let dataForProxyable = Core.getProxyableInitialData(tabId);
+
+					if (dataForProxyable)
+						TabRequestLogger.addToProxyableLogIdList(tabId);
+
+					// send the data
+					sendResponse(dataForProxyable);
+					return;
+				}
+				break;
+
+			case Messages.ProxyableRemoveProxyableLog:
+				{
+					if (message.tabId === null)
+						return;
+					let tabId = message.tabId;
+
+					TabRequestLogger.removeFromProxyableLogIdList(tabId);
+				}
+				break;
+
 			case Messages.PacProxySendRules:
 				{
 
@@ -336,6 +364,53 @@ export class Core {
 					}
 					return;
 				}
+			case Messages.ProxyableToggleProxyableDomain:
+				{
+					if (!message.enableByDomain &&
+						!message.removeBySource)
+						return;
+					let enableDomain = message.enableByDomain;
+					let removeDomain = message.removeBySource;
+					let tabId = message.tabId;
+					let ruleResult;
+
+					if (enableDomain)
+						ruleResult = ProxyRules.enableByDomain(enableDomain);
+					else
+						ruleResult = ProxyRules.removeBySource(removeDomain);
+
+					let result = {
+						success: ruleResult.success,
+						message: ruleResult.message,
+						requests: null
+					};
+
+
+					if (ruleResult.success) {
+						SettingsOperation.saveRules();
+						SettingsOperation.saveAllSync();
+
+						// notify the proxy script
+						ProxyEngine.notifyProxyRulesChanged();
+
+						// rules are compiled now, update the requests
+						let dataForProxyable = Core.getProxyableInitialData(tabId);
+						if (dataForProxyable) {
+							result.requests = dataForProxyable.requests;
+						}
+					}
+
+					// send the responses
+					if (result && sendResponse) {
+						sendResponse(result);
+					}
+
+					// // update active proxy tab status
+					// updateTabDataProxyInfo();
+
+					Core.setBrowserActionStatus();
+					return;
+				}
 			default:
 				{
 
@@ -464,6 +539,23 @@ export class Core {
 			}
 		}
 		return dataForPopup;
+	}
+
+	static getProxyableInitialData(tabId: number): ProxyableInternalDataType {
+
+		let tabData = TabManager.getOrSetTab(tabId, false);
+		if (tabData == null)
+			return null;
+
+		let result = new ProxyableInternalDataType();
+
+		result.url = tabData.url;
+		result.requests = null;
+
+		if (tabData.requests && tabData.requests.size > 0) {
+			result.requests = TabRequestLogger.getProxyableDataForUrlList(tabData.requests);
+		}
+		return result;
 	}
 
 	// TODO: is this a good place for this function

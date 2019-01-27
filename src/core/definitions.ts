@@ -62,6 +62,15 @@ export class Messages {
 	// Web Failed Request Monitor Activity
 	public static WebRequestMonitorFailedActivity = "WebRequestMonitor_FailedActivity";
 
+	// Request Logger
+	public static ProxyableRequestLog = "Proxyable_RequestLog";
+	public static ProxyableOriginTabRemoved = "Proxyable_OriginTabRemoved";
+
+	// Proxyable Resources
+	public static ProxyableGetInitialData = "Proxyable_GetInitialData";
+	public static ProxyableRemoveProxyableLog = "Proxyable_RemoveProxyableLog";
+	public static ProxyableToggleProxyableDomain = "Proxyable_ToggleProxyableDomain";
+
 }
 
 export class ResultHolder {
@@ -99,4 +108,16 @@ export type SettingsPageInternalDataType = {
 	settings: SettingsConfig,
 	updateAvailableText: string,
 	updateInfo: any;
+}
+
+export class ProxyableInternalDataType {
+	url: string;
+	requests: ProxyableDataType[];
+}
+
+export class ProxyableDataType {
+	public url: string;
+	public enabled: boolean;
+	public sourceDomain: string;
+	public rule: string;
 }

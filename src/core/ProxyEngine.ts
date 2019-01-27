@@ -43,6 +43,9 @@ export class ProxyEngine {
     public static notifyProxyRulesChanged() {
 
         this.notifyCompileRules();
+
+        // update proxy rules
+        this.updateChromeProxyConfig();
     }
 
     private static notifyCompileRules(sendMessage: boolean = true) {

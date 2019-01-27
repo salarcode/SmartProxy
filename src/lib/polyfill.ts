@@ -139,11 +139,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.runtime.sendMessage(
+			let promise = browser.runtime.sendMessage(
 				extensionId,
 				message,
 				options
-			).then(success, fail);
+			)
+			if (success || fail)
+				promise.then(success, fail);
 		}
 	}
 	public static managementGetSelf(success, fail?) {

@@ -1,4 +1,5 @@
 import { PolyFill } from "../lib/PolyFill";
+import { LiteEvent } from "../lib/LiteEvent";
 
 export class TabManager {
 
@@ -6,9 +7,12 @@ export class TabManager {
 
     private static currentTab: TabDataType;
 
-    public static onTabRemoved: Function;
+    private static readonly onTabRemoved = new LiteEvent<TabDataType>();
+    private static readonly onTabUpdated = new LiteEvent<TabDataType>();
 
-    public static onTabUpdated: Function;
+    public static get TabRemoved() { return this.onTabRemoved.expose(); }
+    public static get TabUpdated() { return this.onTabUpdated.expose(); }
+
 
     public static initializeTracking() {
         // listen to tab switching
@@ -28,8 +32,18 @@ export class TabManager {
         TabManager.updateActiveTab();
     }
 
-    public static getTab(tabId: number): TabDataType {
-        return TabManager.tabs[tabId];
+    /** Gets tab or adds it */
+    public static getOrSetTab(tabId: number, loadTabData = true): TabDataType {
+        let tabData = TabManager.tabs[tabId];
+
+        if (tabData == null) {
+            tabData = new TabDataType(tabId);
+            TabManager.tabs[tabId] = tabData;
+
+            if (loadTabData)
+                TabManager.loadTabData(tabData);
+        }
+        return tabData;
     }
 
     public static getCurrentTab(): TabDataType {
@@ -40,20 +54,9 @@ export class TabManager {
         if (!tabInfo) return null;
 
         let tabId = tabInfo.id;
-        if (!tabData)
-            tabData = TabManager.tabs[tabId];
-
-        if (!tabData)
-            tabData = Object.assign(new TabDataType(), {
-                tabId: tabId,
-                created: new Date(),
-                updated: new Date(),
-                requests: new Set(),
-                url: "",
-                incognito: false,
-                failedRequests: new Map(),
-                proxified: false
-            });
+        if (!tabData) {
+            tabData = TabManager.getOrSetTab(tabId, false);
+        }
 
         // check proxy rule
         if (tabData.url != tabInfo.url ||
@@ -73,8 +76,7 @@ export class TabManager {
         // saving the tab in the storage
         TabManager.tabs[tabId] = tabData;
 
-        if (TabManager.onTabUpdated)
-            TabManager.onTabUpdated(tabData);
+        TabManager.onTabUpdated.trigger(tabData);
 
         return tabData;
     }
@@ -96,6 +98,16 @@ export class TabManager {
             });
     }
 
+    private static loadTabData(tabData: TabDataType) {
+
+        PolyFill.tabsGet(tabData.tabId,
+            function (tabInfo) {
+
+                // save tab log info
+                TabManager.updateTabData(tabData, tabInfo);
+            });
+    }
+
     static handleTabRemoved(tabId) {
         let tabData = TabManager.tabs[tabId];
         if (tabData == null)
@@ -103,8 +115,7 @@ export class TabManager {
 
         delete TabManager.tabs[tabId];
 
-        if (TabManager.onTabUpdated)
-            TabManager.onTabRemoved(tabData);
+        TabManager.onTabRemoved.trigger(tabData);
 
         tabData.cleanup();
 
@@ -139,18 +150,32 @@ export class TabManager {
         if (shouldReset) {
             // reload the tab data
 
-            if (tabData)
+            if (tabData) {
+                TabManager.onTabUpdated.trigger(tabData);
                 tabData.cleanup();
+            }
             delete TabManager.tabs[tabId];
         }
     }
 }
 
 export class TabDataType {
+
+    constructor(tabId: number) {
+        this.tabId = tabId;
+        this.created = new Date();
+        this.updated = new Date();
+        this.requests = new Set();
+        this.url = "";
+        this.incognito = false;
+        this.failedRequests = new Map();
+        this.proxified = false;
+    }
+
     public tabId: number;
     public created: Date;
     public updated: Date;
-    public requests: Set<object>;
+    public requests: Set<string>;
     public url: string;
     public incognito: boolean;
     public failedRequests: Map<object, object>;
@@ -164,34 +189,3 @@ export class TabDataType {
             this.failedRequests.clear();
     }
 }
-
-class RequestTracker {
-
-    public static startTracking() {
-        browser.webRequest.onBeforeRequest.addListener(
-            RequestTracker.logRequest,
-            { urls: ["<all_urls>"] }
-        );
-        // browser.tabs.onRemoved.addListener(RequestTracker.handleTabRemoved);
-        // browser.tabs.onUpdated.addListener(RequestTracker.handleTabUpdated);
-    }
-
-    static logRequest(requestDetails) {
-        let tabId = requestDetails.tabId;
-        if (!(tabId > -1))
-            // only requests from tabs are logged
-            return;
-
-
-    }
-
-    static handleTabRemoved(tabId) {
-
-    }
-
-    static handleTabUpdated(tabId, changeInfo, tabInfo) {
-
-    }
-
-}
-

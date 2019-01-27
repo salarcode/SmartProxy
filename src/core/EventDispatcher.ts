@@ -17,8 +17,8 @@ export class PacScriptEventDispatcher {
                 proxyMode: Settings.current.proxyMode
             },
             null,
-            function (error) {
-                Debug.error("notifyProxyModeChange failed with ", error);
+            error => {
+	            Debug.error("notifyProxyModeChange failed with ", error);
             },
             {
                 toProxyScript: true
@@ -37,8 +37,8 @@ export class PacScriptEventDispatcher {
                 proxyRules: Settings.current.proxyRules
             },
             null,
-            function (error) {
-                Debug.error("notifyProxyRulesChange failed with ", error);
+            error => {
+	            Debug.error("notifyProxyRulesChange failed with ", error);
             },
             {
                 toProxyScript: true
@@ -57,8 +57,8 @@ export class PacScriptEventDispatcher {
                 bypass: Settings.current.bypass
             },
             null,
-            function (error) {
-                Debug.error("notifyBypassChanged failed with ", error);
+            error => {
+	            Debug.error("notifyBypassChanged failed with ", error);
             },
             {
                 toProxyScript: true
@@ -77,8 +77,8 @@ export class PacScriptEventDispatcher {
                 activeProxyServer: Settings.current.activeProxyServer
             },
             null,
-            function (error) {
-                Debug.error("notifyActiveProxyServerChange failed with ", error);
+            error => {
+	            Debug.error("notifyActiveProxyServerChange failed with ", error);
             },
             {
                 toProxyScript: true

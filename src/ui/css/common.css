@@ -22,9 +22,11 @@ html {
 html.popup {
     font-size: 13px;
 }
+
 html.popup body {
     min-width: 210px;
 }
+
 .slogan {
     font-weight: bold;
     color: navy;
@@ -52,6 +54,14 @@ html.popup body {
 
 .fullwidth {
     width: 100%;
+}
+
+.wordwrap-anywhere {
+    word-wrap: anywhere;
+}
+
+.whitespace-nowrap {
+    white-space: nowrap;
 }
 
 input[type=file].form-control {
@@ -275,3 +285,8 @@ select.active-proxy-select {
     padding-bottom: 0.375rem;
     font-size: 75%;
 } */
+
+.subdomains-list.subdomains-list {
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}

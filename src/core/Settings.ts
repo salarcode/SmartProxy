@@ -35,6 +35,9 @@ export class Settings {
 		PolyFill.storageLocalGet(null,
 			Settings.onInitializeGetLocalData,
 			Settings.onInitializeGetLocalError);
+			
+		// handle synced settings changes
+		browser.storage.onChanged.addListener(SettingsOperation.syncOnChanged);
 	}
 
 
