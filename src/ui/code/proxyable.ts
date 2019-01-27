@@ -162,7 +162,7 @@ export class proxyable {
                         if (!url)
                             return "";
                         if (row.enabled) {
-                            return `<button id='btnDisable' data-domain="${row.sourceDomain}" class="btn btn-sm btn-outline-danger">
+                            return `<button id='btnDisable' data-domain="${row.sourceDomain}" class="btn btn-sm btn-danger whitespace-nowrap">
                                     <i class="fa fa-times" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableDisableButton")}</button>`;
                         }
                         else {
