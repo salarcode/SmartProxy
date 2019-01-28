@@ -19,144 +19,144 @@ import { Settings } from "./Settings";
 import { ProxyModeType } from "./definitions";
 
 export class ProxyAuthentication {
-    static pendingRequests = {};
+	private static pendingRequests = {};
 
-    public static startMonitor() {
-        if (environment.chrome) {
-            // chrome supports asyncBlocking
-            browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
-                { urls: ["<all_urls>"] },
-                ["asyncBlocking"]
-            );
-        } else {
-            browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
-                { urls: ["<all_urls>"] },
-                ["blocking"]
-            );
+	public static startMonitor() {
+		if (environment.chrome) {
+			// chrome supports asyncBlocking
+			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+				{ urls: ["<all_urls>"] },
+				["asyncBlocking"]
+			);
+		} else {
+			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
+				{ urls: ["<all_urls>"] },
+				["blocking"]
+			);
 
-        }
-        browser.webRequest.onCompleted.addListener(
-            ProxyAuthentication.onRequestFinished,
-            { urls: ["<all_urls>"] }
-        );
+		}
+		browser.webRequest.onCompleted.addListener(
+			ProxyAuthentication.onRequestFinished,
+			{ urls: ["<all_urls>"] }
+		);
 
-        browser.webRequest.onErrorOccurred.addListener(
-            ProxyAuthentication.onRequestFinished,
-            { urls: ["<all_urls>"] }
-        );
-    }
+		browser.webRequest.onErrorOccurred.addListener(
+			ProxyAuthentication.onRequestFinished,
+			{ urls: ["<all_urls>"] }
+		);
+	}
 
-    private static onAuthRequiredChromeAsync(requestDetails, asyncCallback): any {
-        if (!requestDetails.isProxy) {
-            asyncCallback({});
-            return {};
-        }
-        let settings = Settings.current;
+	private static onAuthRequiredChromeAsync(requestDetails, asyncCallback): any {
+		if (!requestDetails.isProxy) {
+			asyncCallback({});
+			return {};
+		}
+		let settings = Settings.current;
 
-        let applyAuthentication = (settings.proxyMode !== ProxyModeType.Direct) &&
-            (settings.proxyMode !== ProxyModeType.SystemProxy);
+		let applyAuthentication = (settings.proxyMode !== ProxyModeType.Direct) &&
+			(settings.proxyMode !== ProxyModeType.SystemProxy);
 
-        let activeProxy = settings.activeProxyServer;
+		let activeProxy = settings.activeProxyServer;
 
-        if (!activeProxy) {
-            if (asyncCallback)
-                asyncCallback({});
-            return {};
-        }
+		if (!activeProxy) {
+			if (asyncCallback)
+				asyncCallback({});
+			return {};
+		}
 
-        if (applyAuthentication &&
-            activeProxy.username)
-            applyAuthentication = true;
-        else
-            applyAuthentication = false;
+		if (applyAuthentication &&
+			activeProxy.username)
+			applyAuthentication = true;
+		else
+			applyAuthentication = false;
 
-        // TODO:
-        // TODO: find a way to proxy authentication for proxy selected in the rule
-        // TODO:
+		// TODO:
+		// TODO: find a way to proxy authentication for proxy selected in the rule
+		// TODO:
 
-        if (asyncCallback) {
-            // this is chrome
+		if (asyncCallback) {
+			// this is chrome
 
-            // check if authentication is required
-            if (!applyAuthentication) {
+			// check if authentication is required
+			if (!applyAuthentication) {
 
-                asyncCallback({});
-                return {};
-            }
+				asyncCallback({});
+				return {};
+			}
 
-            // check if authentication is already provided
-            if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+			// check if authentication is already provided
+			if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
 
-                asyncCallback({ cancel: true });
-                return { cancel: true };
-            }
+				asyncCallback({ cancel: true });
+				return { cancel: true };
+			}
 
-            // add this request to pending list
-            ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
+			// add this request to pending list
+			ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
-            asyncCallback({
-                authCredentials: { username: activeProxy.username, password: activeProxy.password }
-            });
-        } else {
-            // check if authentication is required
-            if (!applyAuthentication) {
-                return {};
-            }
+			asyncCallback({
+				authCredentials: { username: activeProxy.username, password: activeProxy.password }
+			});
+		} else {
+			// check if authentication is required
+			if (!applyAuthentication) {
+				return {};
+			}
 
-            // check if authentication is already provided
-            if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
-                return { cancel: true };
-            }
+			// check if authentication is already provided
+			if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+				return { cancel: true };
+			}
 
-            // add this request to pending list
-            ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
+			// add this request to pending list
+			ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
-            return {
-                authCredentials: { username: activeProxy.username, password: activeProxy.password }
-            };
-        }
-    }
+			return {
+				authCredentials: { username: activeProxy.username, password: activeProxy.password }
+			};
+		}
+	}
 
-    private static onAuthRequired(requestDetails): any {
-        if (!requestDetails.isProxy) {
-            return {};
-        }
-        let settings = Settings.current;
+	private static onAuthRequired(requestDetails): any {
+		if (!requestDetails.isProxy) {
+			return {};
+		}
+		let settings = Settings.current;
 
-        let applyAuthentication = (settings.proxyMode !== ProxyModeType.Direct) &&
-            (settings.proxyMode !== ProxyModeType.SystemProxy);
+		let applyAuthentication = (settings.proxyMode !== ProxyModeType.Direct) &&
+			(settings.proxyMode !== ProxyModeType.SystemProxy);
 
-        let activeProxy = settings.activeProxyServer;
+		let activeProxy = settings.activeProxyServer;
 
-        if (!activeProxy) {
-            return {};
-        }
-        
-        if (applyAuthentication &&
-            activeProxy &&
-            activeProxy.username)
-            applyAuthentication = true;
-        else
-            applyAuthentication = false;
+		if (!activeProxy) {
+			return {};
+		}
 
-        // check if authentication is required
-        if (!applyAuthentication) {
-            return {};
-        }
+		if (applyAuthentication &&
+			activeProxy &&
+			activeProxy.username)
+			applyAuthentication = true;
+		else
+			applyAuthentication = false;
 
-        // check if authentication is already provided
-        if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
-            return { cancel: true };
-        }
+		// check if authentication is required
+		if (!applyAuthentication) {
+			return {};
+		}
 
-        // add this request to pending list
-        ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
+		// check if authentication is already provided
+		if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+			return { cancel: true };
+		}
 
-        return {
-            authCredentials: { username: activeProxy.username, password: activeProxy.password }
-        };
-    }
-    private static onRequestFinished(requestDetails) {
-        delete ProxyAuthentication.pendingRequests[requestDetails.requestId];
-    }
+		// add this request to pending list
+		ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
+
+		return {
+			authCredentials: { username: activeProxy.username, password: activeProxy.password }
+		};
+	}
+	private static onRequestFinished(requestDetails) {
+		delete ProxyAuthentication.pendingRequests[requestDetails.requestId];
+	}
 }

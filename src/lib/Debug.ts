@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 export class Debug {
-	static enabled: boolean = true;
+	private static enabled: boolean = true;
 	public static enable() {
 		this.enabled = true;
 	}

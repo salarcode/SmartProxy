@@ -21,7 +21,7 @@ import { Utils } from "../lib/Utils";
 
 export class ProxyRules {
 
-	static compiledRulesList: CompiledRule[] = [];
+	private static compiledRulesList: CompiledRule[] = [];
 
 	public static toggleRuleByDomain(domain: string) {
 

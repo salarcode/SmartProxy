@@ -109,7 +109,7 @@ export class ProxyEngineFirefox {
 			// 	return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 			// }
 		}
-		
+
 		let matchedRule = ProxyRules.findMatchForUrl(requestDetails.url);
 
 		if (matchedRule) {

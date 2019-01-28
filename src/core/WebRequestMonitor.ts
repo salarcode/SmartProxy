@@ -18,212 +18,212 @@ import { Debug } from "../lib/Debug";
 import { Utils } from "../lib/Utils";
 
 export class WebRequestMonitor {
-    static isMonitoring = false;
-    static monitorCallback: Function = null;
-    static requestTimeoutTime: 5000;
-    static timer = null;
-    static requests = {};
-    static debugInfo = false;
+	private static isMonitoring = false;
+	private static monitorCallback: Function = null;
+	private static requestTimeoutTime: 5000;
+	private static timer = null;
+	private static requests = {};
+	private static debugInfo = false;
 
-    public static startMonitor(callback: Function) {
+	public static startMonitor(callback: Function) {
 
-        if (WebRequestMonitor.isMonitoring)
-            return;
+		if (WebRequestMonitor.isMonitoring)
+			return;
 
-        browser.webRequest.onBeforeRequest.addListener(WebRequestMonitor.events.onBeforeRequest,
-            { urls: ["<all_urls>"] }
-        );
-        browser.webRequest.onHeadersReceived.addListener(WebRequestMonitor.events.onHeadersReceived,
-            { urls: ["<all_urls>"] }
-        );
-        browser.webRequest.onBeforeRedirect.addListener(WebRequestMonitor.events.onBeforeRedirect,
-            { urls: ["<all_urls>"] }
-        );
-        browser.webRequest.onErrorOccurred.addListener(WebRequestMonitor.events.onErrorOccurred,
-            { urls: ["<all_urls>"] }
-        );
-        browser.webRequest.onCompleted.addListener(WebRequestMonitor.events.onCompleted,
-            { urls: ["<all_urls>"] }
-        );
-        WebRequestMonitor.monitorCallback = callback;
-        WebRequestMonitor.isMonitoring = true;
-    }
+		browser.webRequest.onBeforeRequest.addListener(WebRequestMonitor.events.onBeforeRequest,
+			{ urls: ["<all_urls>"] }
+		);
+		browser.webRequest.onHeadersReceived.addListener(WebRequestMonitor.events.onHeadersReceived,
+			{ urls: ["<all_urls>"] }
+		);
+		browser.webRequest.onBeforeRedirect.addListener(WebRequestMonitor.events.onBeforeRedirect,
+			{ urls: ["<all_urls>"] }
+		);
+		browser.webRequest.onErrorOccurred.addListener(WebRequestMonitor.events.onErrorOccurred,
+			{ urls: ["<all_urls>"] }
+		);
+		browser.webRequest.onCompleted.addListener(WebRequestMonitor.events.onCompleted,
+			{ urls: ["<all_urls>"] }
+		);
+		WebRequestMonitor.monitorCallback = callback;
+		WebRequestMonitor.isMonitoring = true;
+	}
 
-    static timerTick() {
+	private static timerTick() {
 
-        let now = Date.now();
-        let reqIds = Object.keys(WebRequestMonitor.requests);
-        let requestTimeoutTime = WebRequestMonitor.requestTimeoutTime;
+		let now = Date.now();
+		let reqIds = Object.keys(WebRequestMonitor.requests);
+		let requestTimeoutTime = WebRequestMonitor.requestTimeoutTime;
 
-        for (let i = reqIds.length - 1; i >= 0; i--) {
-            let reqId = reqIds[i];
+		for (let i = reqIds.length - 1; i >= 0; i--) {
+			let reqId = reqIds[i];
 
-            if (reqId === undefined)
-                continue;
+			if (reqId === undefined)
+				continue;
 
-            // get the request info
-            let req = WebRequestMonitor.requests[reqId];
-            if (!req) continue;
+			// get the request info
+			let req = WebRequestMonitor.requests[reqId];
+			if (!req) continue;
 
-            if (now - req._startTime < requestTimeoutTime) {
-                continue;
-            } else {
-                req._isTimedOut = true;
+			if (now - req._startTime < requestTimeoutTime) {
+				continue;
+			} else {
+				req._isTimedOut = true;
 
-                // callback request-timeout
-                WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestTimeout, req);
+				// callback request-timeout
+				WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestTimeout, req);
 
-                if (WebRequestMonitor.debugInfo)
-                    WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestTimeout], req);
-            }
-        }
-    }
+				if (WebRequestMonitor.debugInfo)
+					WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestTimeout], req);
+			}
+		}
+	}
 
-    static raiseCallback(...args) {
-        if (WebRequestMonitor.monitorCallback)
-            WebRequestMonitor.monitorCallback.apply(this, arguments);
-    }
+	private static raiseCallback(...args) {
+		if (WebRequestMonitor.monitorCallback)
+			WebRequestMonitor.monitorCallback.apply(this, arguments);
+	}
 
-    static logMessage(message, requestDetails, additional?) {
-        Debug.log(`${requestDetails.tabId}-${requestDetails.requestId}>`, message, requestDetails.url, additional || "");
-    }
+	private static logMessage(message, requestDetails, additional?) {
+		Debug.log(`${requestDetails.tabId}-${requestDetails.requestId}>`, message, requestDetails.url, additional || "");
+	}
 
-    static events = {
-        onBeforeRequest: function (requestDetails) {
-            if (requestDetails.tabId < 0) {
-                return;
-            }
+	private static events = {
+		onBeforeRequest: function (requestDetails) {
+			if (requestDetails.tabId < 0) {
+				return;
+			}
 
-            let reqInfo = requestDetails;
-            reqInfo._startTime = new Date();
-            reqInfo._isHealthy = false;
+			let reqInfo = requestDetails;
+			reqInfo._startTime = new Date();
+			reqInfo._isHealthy = false;
 
-            // add to requests
-            WebRequestMonitor.requests[requestDetails.requestId] = requestDetails;
+			// add to requests
+			WebRequestMonitor.requests[requestDetails.requestId] = requestDetails;
 
-            if (!WebRequestMonitor.timer) {
-                WebRequestMonitor.timer = setInterval(WebRequestMonitor.timerTick, 1500);
-            }
+			if (!WebRequestMonitor.timer) {
+				WebRequestMonitor.timer = setInterval(WebRequestMonitor.timerTick, 1500);
+			}
 
-            // callback request-start
-            WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestStart, requestDetails);
+			// callback request-start
+			WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestStart, requestDetails);
 
-            if (WebRequestMonitor.debugInfo)
-                WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestStart], requestDetails);
+			if (WebRequestMonitor.debugInfo)
+				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestStart], requestDetails);
 
-        },
-        onHeadersReceived: function (requestDetails) {
-            let req = WebRequestMonitor.requests[requestDetails.requestId];
-            if (!req)
-                return;
+		},
+		onHeadersReceived: function (requestDetails) {
+			let req = WebRequestMonitor.requests[requestDetails.requestId];
+			if (!req)
+				return;
 
-            req._isHealthy = true;
+			req._isHealthy = true;
 
-            if (req._isTimedOut) {
-                // call the callbacks indicating the request is healthy
-                // callback request-revert-from-timeout
-                WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestRevertTimeout, requestDetails);
+			if (req._isTimedOut) {
+				// call the callbacks indicating the request is healthy
+				// callback request-revert-from-timeout
+				WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestRevertTimeout, requestDetails);
 
-                if (WebRequestMonitor.debugInfo)
-                    WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestRevertTimeout], requestDetails);
-            }
-        },
-        onBeforeRedirect: function (requestDetails) {
-            let url = requestDetails.redirectUrl;
-            if (!url)
-                return;
+				if (WebRequestMonitor.debugInfo)
+					WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestRevertTimeout], requestDetails);
+			}
+		},
+		onBeforeRedirect: function (requestDetails) {
+			let url = requestDetails.redirectUrl;
+			if (!url)
+				return;
 
-            // callback request-revert-from-timeout
-            WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestRedirected, requestDetails);
+			// callback request-revert-from-timeout
+			WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestRedirected, requestDetails);
 
-            if (WebRequestMonitor.debugInfo)
-                WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestRedirected], requestDetails, "to> " + requestDetails.redirectUrl);
+			if (WebRequestMonitor.debugInfo)
+				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestRedirected], requestDetails, "to> " + requestDetails.redirectUrl);
 
-            // because 'requestId' doesn't change for redirects
-            // the request is basically is still the same
-            // note that 'request-start' will happen after redirect
+			// because 'requestId' doesn't change for redirects
+			// the request is basically is still the same
+			// note that 'request-start' will happen after redirect
 
-            if (Utils.isUrlLocal(url)) {
-                // request is completed when redirecting to local pages
-                WebRequestMonitor.events.onCompleted(requestDetails);
-            }
-        },
-        onCompleted: function (requestDetails) {
-            if (requestDetails.tabId < 0) {
-                return;
-            }
+			if (Utils.isUrlLocal(url)) {
+				// request is completed when redirecting to local pages
+				WebRequestMonitor.events.onCompleted(requestDetails);
+			}
+		},
+		onCompleted: function (requestDetails) {
+			if (requestDetails.tabId < 0) {
+				return;
+			}
 
-            delete WebRequestMonitor.requests[requestDetails.requestId];
+			delete WebRequestMonitor.requests[requestDetails.requestId];
 
-            // callback request-complete
-            WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestComplete, requestDetails);
+			// callback request-complete
+			WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestComplete, requestDetails);
 
-            if (WebRequestMonitor.debugInfo)
-                WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestComplete], requestDetails);
-        },
-        onErrorOccurred: function (requestDetails) {
+			if (WebRequestMonitor.debugInfo)
+				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestComplete], requestDetails);
+		},
+		onErrorOccurred: function (requestDetails) {
 
-            let req = WebRequestMonitor.requests[requestDetails.requestId];
-            delete WebRequestMonitor.requests[requestDetails.requestId];
+			let req = WebRequestMonitor.requests[requestDetails.requestId];
+			delete WebRequestMonitor.requests[requestDetails.requestId];
 
-            if (!req)
-                return;
+			if (!req)
+				return;
 
-            if (requestDetails.tabId < 0) {
-                return;
-            }
-            if (requestDetails.error === "net::ERR_INCOMPLETE_CHUNKED_ENCODING") {
-                return;
-            }
-            if (requestDetails.error.indexOf("BLOCKED") >= 0) {
-                return;
-            }
-            if (requestDetails.error.indexOf("net::ERR_FILE_") === 0) {
-                return;
-            }
-            if (requestDetails.error.indexOf("NS_ERROR_ABORT") === 0) {
-                return;
-            }
-            let checkUrl: string = requestDetails.url.toLowerCase();
-            if (checkUrl.startsWith("file:") ||
-                checkUrl.startsWith("chrome:") ||
-                checkUrl.startsWith("about:") ||
-                checkUrl.startsWith("data:") ||
-                checkUrl.startsWith("moz-")) {
-                return;
-            }
-            if (checkUrl.includes("://127.0.0.1")) {
-                return;
-            }
+			if (requestDetails.tabId < 0) {
+				return;
+			}
+			if (requestDetails.error === "net::ERR_INCOMPLETE_CHUNKED_ENCODING") {
+				return;
+			}
+			if (requestDetails.error.indexOf("BLOCKED") >= 0) {
+				return;
+			}
+			if (requestDetails.error.indexOf("net::ERR_FILE_") === 0) {
+				return;
+			}
+			if (requestDetails.error.indexOf("NS_ERROR_ABORT") === 0) {
+				return;
+			}
+			let checkUrl: string = requestDetails.url.toLowerCase();
+			if (checkUrl.startsWith("file:") ||
+				checkUrl.startsWith("chrome:") ||
+				checkUrl.startsWith("about:") ||
+				checkUrl.startsWith("data:") ||
+				checkUrl.startsWith("moz-")) {
+				return;
+			}
+			if (checkUrl.includes("://127.0.0.1")) {
+				return;
+			}
 
-            if (requestDetails.error === "net::ERR_ABORTED") {
-                if (req.timeoutCalled && !req.noTimeout) {
+			if (requestDetails.error === "net::ERR_ABORTED") {
+				if (req.timeoutCalled && !req.noTimeout) {
 
-                    // callback request-timeout-aborted
-                    WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestTimeoutAborted, requestDetails);
+					// callback request-timeout-aborted
+					WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestTimeoutAborted, requestDetails);
 
-                    if (WebRequestMonitor.debugInfo)
-                        WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestTimeoutAborted], requestDetails);
+					if (WebRequestMonitor.debugInfo)
+						WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestTimeoutAborted], requestDetails);
 
-                }
-                return;
-            }
+				}
+				return;
+			}
 
-            // callback request-error
-            WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestError, requestDetails);
+			// callback request-error
+			WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestError, requestDetails);
 
-            if (WebRequestMonitor.debugInfo)
-                WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestError], requestDetails);
-        }
-    }
+			if (WebRequestMonitor.debugInfo)
+				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestError], requestDetails);
+		}
+	}
 }
 
 export enum RequestMonitorEvent {
-    RequestStart,
-    RequestTimeout,
-    RequestRevertTimeout,
-    RequestRedirected,
-    RequestComplete,
-    RequestTimeoutAborted,
-    RequestError,
+	RequestStart,
+	RequestTimeout,
+	RequestRevertTimeout,
+	RequestRedirected,
+	RequestComplete,
+	RequestTimeoutAborted,
+	RequestError,
 }

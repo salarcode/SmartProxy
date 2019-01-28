@@ -15,11 +15,11 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Utils } from "./Utils";
-import { ProxyRule, ProxyServer } from "../core/Settings";
+import { ProxyServer, ProxyServerSubscription } from "../core/Settings";
 import { browser } from "./environment";
 
 export const ProxyImporter = {
-	readFromServer(serverDetail, success, fail) {
+	readFromServer(serverDetail: ProxyServerSubscription, success?: Function, fail?: Function) {
 		if (!serverDetail || !serverDetail.url) {
 			if (fail) fail();
 			return;
@@ -106,9 +106,9 @@ export const ProxyImporter = {
 
 			let importedProxies = Utils.removeDuplicatesFunc(parsedProxies,
 				(item1: ProxyServer, item2: ProxyServer) => item1.host == item2.host &&
-				item1.port == item2.port &&
-				item1.username == item2.username &&
-				item1.password == item2.password);
+					item1.port == item2.port &&
+					item1.username == item2.username &&
+					item1.password == item2.password);
 
 
 			// proxies are ready

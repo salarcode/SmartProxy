@@ -29,6 +29,7 @@ import { UpdateManager } from "./UpdateManager";
 import { ProxyRules } from "./ProxyRules";
 import { TabRequestLogger } from "./TabRequestLogger";
 import { WebFailedRequestMonitor } from "./WebFailedRequestMonitor";
+import { SubscriptionUpdater } from "./SubscriptionUpdater";
 
 export class Core {
 
@@ -44,8 +45,8 @@ export class Core {
 			// set the title
 			Core.setBrowserActionStatus();
 
-			//TODO: // update the timers
-			//timerManagement.updateSubscriptions();
+			// update the timers
+			SubscriptionUpdater.updateSubscriptions();
 
 			// check for updates, only in unlisted version
 			UpdateManager.readUpdateInfo();
@@ -69,7 +70,7 @@ export class Core {
 		ProxyAuthentication.startMonitor();
 	}
 
-	static handleMessages(message: any, sender: any, sendResponse: Function) {
+	private static handleMessages(message: any, sender: any, sendResponse: Function) {
 
 		Debug.log("core message> ", message);
 
@@ -349,8 +350,8 @@ export class Core {
 					SettingsOperation.saveProxyServerSubscriptions();
 					SettingsOperation.saveAllSync();
 
-					// // update the timers
-					// timerManagement.updateSubscriptions();
+					// update the timers
+					SubscriptionUpdater.updateSubscriptions();
 
 					// it is possible that active proxy is changed
 					ProxyEngine.notifyActiveProxyServerChanged();
@@ -453,7 +454,7 @@ export class Core {
 			sendResponse(null);
 	}
 
-	static getDataForProxyScript() {
+	private static getDataForProxyScript() {
 		return {
 			proxyRules: Settings.current.proxyRules,
 			proxyMode: Settings.current.proxyMode,
@@ -463,7 +464,7 @@ export class Core {
 		};
 	}
 
-	static getSettingsPageInitialData(): SettingsPageInternalDataType {
+	private static getSettingsPageInitialData(): SettingsPageInternalDataType {
 
 		let dataForSettingsUi: SettingsPageInternalDataType = {
 			settings: Settings.current,
@@ -481,7 +482,7 @@ export class Core {
 		return dataForSettingsUi;
 	}
 
-	static getPopupInitialData(): PopupInternalDataType {
+	private static getPopupInitialData(): PopupInternalDataType {
 		let dataForPopup = new PopupInternalDataType();
 		dataForPopup.proxyableDomains = [];
 		dataForPopup.proxyMode = Settings.current.proxyMode;
@@ -572,7 +573,7 @@ export class Core {
 		return dataForPopup;
 	}
 
-	static getProxyableInitialData(tabId: number): ProxyableInternalDataType {
+	private static getProxyableInitialData(tabId: number): ProxyableInternalDataType {
 
 		let tabData = TabManager.getOrSetTab(tabId, false);
 		if (tabData == null)
@@ -590,7 +591,7 @@ export class Core {
 	}
 
 	// TODO: is this a good place for this function
-	static findProxyServerByName(name: string): ProxyServer {
+	private static findProxyServerByName(name: string): ProxyServer {
 		let proxy = Settings.current.proxyServers.find(item => item.name === name);
 		if (proxy !== undefined) return proxy;
 
@@ -603,7 +604,7 @@ export class Core {
 	}
 
 	// TODO: is this a good place for this function
-	static getAllSubscribedProxyServers(): any[] {
+	private static getAllSubscribedProxyServers(): any[] {
 
 		if (!Settings.current.proxyServerSubscriptions || !Settings.current.proxyServerSubscriptions.length)
 			return [];
@@ -617,7 +618,7 @@ export class Core {
 		return result;
 	}
 
-	static setBrowserActionStatus(tabData?: TabDataType) {
+	public static setBrowserActionStatus(tabData?: TabDataType) {
 		let extensionName = browser.i18n.getMessage("extensionName");
 		let proxyTitle = "";
 
@@ -717,13 +718,13 @@ export class Core {
 		browser.browserAction.setTitle({ title: proxyTitle });
 	}
 
-	static onTabUpdatedUpdateActionStatus(tabData: TabDataType) {
+	private static onTabUpdatedUpdateActionStatus(tabData: TabDataType) {
 
 		//TODO: updateTabDataProxyInfo(tabData);
 		Core.setBrowserActionStatus(tabData);
 	}
 
-	static registerMessageReader() {
+	private static registerMessageReader() {
 		// start handling messages
 		browser.runtime.onMessage.addListener(Core.handleMessages);
 	}

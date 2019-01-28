@@ -109,7 +109,7 @@ export class SettingsOperation {
 			// TODO: don't replace current settings directly
 			Settings.current = migrateFromOldVersion(data);
 
-			SettingsOperation.setDefaultSettings(Settings.current );
+			SettingsOperation.setDefaultSettings(Settings.current);
 
 			// read all the synced data along with synced ones
 			PolyFill.storageSyncGet(null,
@@ -185,7 +185,7 @@ export class SettingsOperation {
 			}
 			if (shouldMigrate) {
 
-				let newProxyRules =  [];
+				let newProxyRules = [];
 				// for (let oldRule of data.proxyRules) {
 				// 	// newProxyRules.push(
 				// 	// 	new  {

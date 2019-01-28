@@ -59,7 +59,7 @@ export class WebFailedRequestMonitor {
         return failedRequests;
     }
 
-    static requestMonitorCallback(eventType: RequestMonitorEvent, requestDetails: any) {
+    private static requestMonitorCallback(eventType: RequestMonitorEvent, requestDetails: any) {
         let tabId = requestDetails.tabId;
         let tabData = TabManager.getOrSetTab(tabId, false);
 
@@ -203,7 +203,7 @@ export class WebFailedRequestMonitor {
                                 failedRequests.set(requestHost, failedInfo);
                             }
 
-	                        if (shouldNotify) {
+                            if (shouldNotify) {
                                 // send message to the tab
                                 // only on the first hit
                                 WebFailedRequestMonitor.sendWebFailedRequestNotification(
@@ -251,7 +251,7 @@ export class WebFailedRequestMonitor {
         }
     }
 
-    static sendWebFailedRequestNotification(tabId: string, failedInfo: FailedRequestType, failedRequests: Map<string, FailedRequestType>) {
+    private static sendWebFailedRequestNotification(tabId: string, failedInfo: FailedRequestType, failedRequests: Map<string, FailedRequestType>) {
         PolyFill.runtimeSendMessage(
             {
                 command: Messages.WebFailedRequestNotification,
