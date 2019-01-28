@@ -1213,8 +1213,7 @@ export class settingsPage {
                 }
 
                 if (ruleInfo.autoGeneratePattern) {
-                    // the pattern
-                    // TODO: Feature #41 Allow entering/modifying custom pattern for rules 
+                    // Feature #41 Allow entering/modifying custom pattern for rules 
                     ruleInfo.rulePattern = Utils.hostToMatchPattern(sourceDomain, false);
                 }
             }
@@ -1229,8 +1228,7 @@ export class settingsPage {
                 }
 
                 if (ruleInfo.autoGeneratePattern) {
-                    // the pattern
-                    // TODO: Feature #41 Allow entering/modifying custom pattern for rules 
+                    // Feature #41 Allow entering/modifying custom pattern for rules 
                     ruleInfo.rulePattern = Utils.hostToMatchPattern(sourceDomain, true);
                 }
             }

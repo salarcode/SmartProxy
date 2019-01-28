@@ -50,7 +50,7 @@ export class TabRequestLogger {
         }
 
         if (Utils.isValidUrl(requestDetails.url)) {
-            let tabData = TabManager.getOrSetTab(tabId);
+            let tabData = TabManager.getOrSetTab(tabId, false);
             tabData.requests.add(requestDetails.url);
 
             TabRequestLogger.notifyProxyableLogRequest(requestDetails.url, tabId);

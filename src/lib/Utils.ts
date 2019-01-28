@@ -70,14 +70,14 @@ export class Utils {
 	}
 
 	public static b64DecodeUnicode(str: string): string {
-		// Going backwards: from bytestream, to percent-encoding, to original string.
+		// Going backwards: from byte-stream, to percent-encoding, to original string.
 		return decodeURIComponent(atob(str)
 			.split("")
 			.map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
 			.join(""));
 	}
 
-	public static isValidHost(host: string) {
+	public static isValidHost(host: string): boolean {
 		if (host) {
 			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
 			if (skip.indexOf(host) >= 0)
@@ -88,7 +88,7 @@ export class Utils {
 		return false;
 	}
 
-	public static isValidUrl(url: string) {
+	public static isValidUrl(url: string): boolean {
 		try {
 			const u = new URL(url);
 			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
@@ -96,6 +96,18 @@ export class Utils {
 				return false;
 
 			return true;
+		}
+		catch (e) { return false; }
+	}
+
+	public static isUrlLocal(url: string): boolean {
+		try {
+			const u = new URL(url);
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
+			if (skip.indexOf(u.protocol) >= 0)
+				return true;
+
+			return false;
 		}
 		catch (e) { return false; }
 	}

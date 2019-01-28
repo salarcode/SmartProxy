@@ -1,5 +1,22 @@
+/*
+ * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
+ * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ *
+ * SmartProxy is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * SmartProxy is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
+ */
 import { PolyFill } from "../lib/PolyFill";
 import { LiteEvent } from "../lib/LiteEvent";
+import { FailedRequestType } from "./definitions";
 
 export class TabManager {
 
@@ -15,13 +32,14 @@ export class TabManager {
 
 
     public static initializeTracking() {
+
         // listen to tab switching
         browser.tabs.onActivated.addListener(TabManager.updateActiveTab);
 
-        // listen to tab URL changes
-        browser.tabs.onUpdated.addListener(TabManager.updateActiveTab);
         // update tab status
         browser.tabs.onUpdated.addListener(TabManager.handleTabUpdated);
+        // listen to tab URL changes
+        browser.tabs.onUpdated.addListener(TabManager.updateActiveTab);
 
         browser.tabs.onRemoved.addListener(TabManager.handleTabRemoved);
 
@@ -33,12 +51,14 @@ export class TabManager {
     }
 
     /** Gets tab or adds it */
-    public static getOrSetTab(tabId: number, loadTabData = true): TabDataType {
+    public static getOrSetTab(tabId: number, loadTabData = true, initialUrl: string = null): TabDataType {
         let tabData = TabManager.tabs[tabId];
 
         if (tabData == null) {
             tabData = new TabDataType(tabId);
             TabManager.tabs[tabId] = tabData;
+            if (initialUrl)
+                tabData.url = initialUrl;
 
             if (loadTabData)
                 TabManager.loadTabData(tabData);
@@ -62,10 +82,7 @@ export class TabManager {
         if (tabData.url != tabInfo.url ||
             tabData.proxified == null) {
 
-            tabData.url = tabInfo.url;
-
-            //TODO: updateTabDataProxyInfo(tabData);
-            //internal.setBrowserActionStatus(tabData);
+	        tabData.url = tabInfo.url;
         }
 
         tabData.updated = new Date();
@@ -101,14 +118,14 @@ export class TabManager {
     private static loadTabData(tabData: TabDataType) {
 
         PolyFill.tabsGet(tabData.tabId,
-            function (tabInfo) {
+            tabInfo => {
 
                 // save tab log info
                 TabManager.updateTabData(tabData, tabInfo);
             });
     }
 
-    static handleTabRemoved(tabId) {
+    static handleTabRemoved(tabId: number) {
         let tabData = TabManager.tabs[tabId];
         if (tabData == null)
             return;
@@ -126,15 +143,14 @@ export class TabManager {
         // requestLogger.removeFromPorxyableLogIdList(tabId);
     }
 
-    static handleTabUpdated(tabId, changeInfo, tabInfo) {
+    static handleTabUpdated(tabId: number, changeInfo: any, tabInfo: any) {
         // only if url of the page is changed
-        // TODO: history changes? # tags?
 
-        let tabData = TabManager.tabs[tabId];
-        let shouldReset = false;
-
+	    let tabData = TabManager.tabs[tabId];
+        let shouldResetSoft = false;
+        let shouldResetHard = false;
         if (changeInfo["status"] === "loading") {
-            shouldReset = true;
+            shouldResetHard = true;
         }
         else if (changeInfo["url"]) {
 
@@ -142,12 +158,22 @@ export class TabManager {
                 // only if url is changed
                 changeInfo.url != tabData.url) {
 
-                // reset
-                shouldReset = true;
+	            // reset
+                shouldResetSoft = true;
             }
         }
 
-        if (shouldReset) {
+        if (shouldResetSoft) {
+            // reload the tab data
+
+	        if (tabData) {
+                // reload tab data
+                TabManager.loadTabData(tabData);
+
+                TabManager.onTabUpdated.trigger(tabData);
+            }
+        }
+        else if (shouldResetHard) {
             // reload the tab data
 
             if (tabData) {
@@ -168,7 +194,7 @@ export class TabDataType {
         this.requests = new Set();
         this.url = "";
         this.incognito = false;
-        this.failedRequests = new Map();
+        this.failedRequests = new Map<string, FailedRequestType>();
         this.proxified = false;
     }
 
@@ -178,7 +204,7 @@ export class TabDataType {
     public requests: Set<string>;
     public url: string;
     public incognito: boolean;
-    public failedRequests: Map<object, object>;
+    public failedRequests: Map<string, FailedRequestType>;
     public proxified: boolean | null;
     public index: number;
 

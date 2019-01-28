@@ -18,7 +18,6 @@ import { Debug } from "../lib/Debug";
 import { ProxyRule, Settings } from "./Settings";
 import { ProxyRuleType } from "./definitions";
 import { Utils } from "../lib/Utils";
-import { ProxyEngine } from "./ProxyEngine";
 
 export class ProxyRules {
 
@@ -39,7 +38,18 @@ export class ProxyRules {
 			ProxyRules.removeRule(rule);
 		}
 	}
-	public static enableByDomain(domain: string) {
+	public static enableByDomainList(domainList: string[]) {
+		if (!domainList || !domainList.length)
+			return;
+		for (let domain of domainList) {
+			ProxyRules.enableByDomain(domain);
+		}
+	}
+	public static enableByDomain(domain: string): {
+		success: boolean,
+		message: string,
+		rule: ProxyRule
+	} {
 
 		// current url should be valid
 		if (!Utils.isValidHost(domain))
@@ -71,7 +81,11 @@ export class ProxyRules {
 		};
 	}
 
-	public static removeBySource(source) {
+	public static removeBySource(source: string): {
+		success: boolean,
+		message: string,
+		rule: ProxyRule
+	} {
 
 		// get the rule for the source
 		let rule: ProxyRule = ProxyRules.getRuleBySource(source);
@@ -92,13 +106,12 @@ export class ProxyRules {
 		};
 	}
 
-
+	/** >Finds the defined rule for the host */
 	private static getRuleBySource(sourceDomain: string): ProxyRule {
-		///<summary>Finds the defined rule for the host</summary>
 		return Settings.current.proxyRules.find(rule => rule.sourceDomain == sourceDomain);
 	}
 
-	private static addRuleByDomain(domain: string) {
+	private static addRuleByDomain(domain: string): ProxyRule {
 
 		let domainPattern = Utils.hostToMatchPattern(domain, false);
 
@@ -234,7 +247,10 @@ export class ProxyRules {
 		return null;
 	}
 
-	public static testSingleRule(domain: string): any {
+	public static testSingleRule(domain: string): {
+		match: boolean,
+		rule: ProxyRule
+	} {
 		// the url should be complete
 		let url = domain;
 		if (!url.includes(":/"))
@@ -290,7 +306,12 @@ export class ProxyRules {
 		}
 	}
 
-	public static testMultipleRule(domainList: string[]): any[] {
+	public static testMultipleRule(domainList: string[]): {
+		match: boolean,
+		domain: string,
+		sourceDomain: string,
+		ruleText: string
+	}[] {
 		let result = [];
 
 		for (const domain of domainList) {

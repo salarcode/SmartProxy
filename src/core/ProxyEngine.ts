@@ -8,7 +8,7 @@ export class ProxyEngine {
 
     public static registerEngine() {
         if (environment.chrome) {
-
+            throw "Chrome proxy not implemented";
         }
         else {
             ProxyEngineFirefox.register();

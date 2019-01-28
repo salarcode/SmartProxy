@@ -25,6 +25,8 @@
 	<link href="css/common.css" rel="stylesheet" />
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/noty.min.js"></script>
+	<script src="js/messageBox.js"></script>
 	<script src="code/popup.js"></script>
 </head>
 
@@ -36,23 +38,28 @@
 				<p data-localize="popupFailedRequestsDesc">
 					These are the domains that are either timed-out or failed.
 					<br />
-					If you beleive that these domains are blocked, here you can add them to proxy rules list.
+					If you believe that these domains are blocked, here you can add them to proxy rules list.
 				</p>
 				<div>
-					<div class="panel panel-default">
-						<div class="panel-body failed-request-container">
+					<div class="card">
+						<div class="card-body failed-request-container">
 							<div class="request-box failed-request-template">
 								<div class="request-name">
-									<input type="checkbox" class="browser-style" checked />
-									<a href="" target="_blank">sample.com</a>
+									<label>
+										<input type="checkbox" class="browser-style" checked />
+										<span>sample.com</span>
+									</label>
+									<a href="" target="_blank"> <i class="fas fa-sm fa-external-link-alt"></i> </a>
 								</div>
-								<span class="label-danger label failed-request-count" title="Failed Count" style="display: none">0</span>
-								<span class="label-warning label failed-request-root" title="Root" style="display: none">
-									<i class="fas fa-caret-down"></i>
-								</span>
+								<div class="badge-container">
+									<span class="badge badge-danger failed-request-count" title="Failed Count" style="display: none">0</span>
+									<span class="badge badge-warning failed-request-root" title="Root" style="display: none">
+										<i class="fas fa-caret-down"></i>
+									</span>
+								</div>
 							</div>
 						</div>
-						<div class="panel-footer">
+						<div class="card-footer">
 							<button class="btn btn-success btn-sm" id="btnAddFailedRequests">
 								<i class="fas fa-plus"></i>
 								<span data-localize="popupAddFailedRequests">Add To Rules List</span>
@@ -91,16 +98,16 @@
 			</div>
 			<div id="divFailedRequests" style="display: none">
 				<hr class="afshin-line" />
-				<ul class="nav nav-pills nav-stacked direction-ltr">
+				<ul class="nav flex-column nav-pills interactive direction-ltrXXX">
 					<li>
-						<a>
-							<div class="row failedrequest-item">
-								<div class="col-xs-10 col-sm-11">
+						<a href="#" class="nav-link">
+							<div class="row failedrequest-itemXXXX">
+								<div class="col-9 text-nowrap">
 									<i class="fas fa-exclamation-triangle text-danger" aria-hidden="true"></i>
 									<span data-localize="popupFailedRequestsMenu">Failed Requests</span>
 								</div>
-								<div class="col-xs-2 col-sm-1">
-									<span id="lblFailedRequestCount" class="label label-warning">0</span>
+								<div class="col-3 text-center p-0 pl-1">
+									<span id="lblFailedRequestCount" class="badge badge-pill badge-warning">0</span>
 									<i class="fas fa-lg fa-angle-double-right text-success" aria-hidden="true"></i>
 								</div>
 							</div>

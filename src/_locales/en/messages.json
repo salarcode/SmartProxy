@@ -72,7 +72,7 @@
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "These are the domains that are either timed-out or failed.<br />If you beleive that these domains are blocked, here you can add them to proxy rules list.",
+		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list.",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
@@ -836,7 +836,7 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "Test was successfull. The list returned {0} proxies.",
+		"message": "Test was successful. The list returned {0} proxies.",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestFailed": {
@@ -860,11 +860,11 @@
 		"description": ""
 	},
 	"settingsBypassListHint": {
-		"message": "(Use new line to seperate entries)",
+		"message": "(Use new line to separate entries)",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveBypass": {
-		"message": "Failed to save bypas settings.",
+		"message": "Failed to save bypass settings.",
 		"description": ""
 	},
 	"settingsSaveBypassSuccess": {

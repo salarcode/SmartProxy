@@ -28,6 +28,7 @@ import { Utils } from "../lib/Utils";
 import { UpdateManager } from "./UpdateManager";
 import { ProxyRules } from "./ProxyRules";
 import { TabRequestLogger } from "./TabRequestLogger";
+import { WebFailedRequestMonitor } from "./WebFailedRequestMonitor";
 
 export class Core {
 
@@ -56,9 +57,13 @@ export class Core {
 
 		// tracking active tab
 		TabManager.initializeTracking();
+		TabManager.TabUpdated.on(Core.onTabUpdatedUpdateActionStatus);
 
-		// register the request logger
+		// register the request logger used for Proxyable Resources
 		TabRequestLogger.startTracking();
+
+		// Monitoring failed requests
+		WebFailedRequestMonitor.startMonitor();
 
 		// start proxy authentication request check
 		ProxyAuthentication.startMonitor();
@@ -99,7 +104,6 @@ export class Core {
 					{
 						if (!sendResponse)
 							return;
-
 						let dataForPopup = Core.getPopupInitialData();
 
 						// send the data
@@ -238,9 +242,35 @@ export class Core {
 
 			case Messages.PopupAddDomainListToProxyRule:
 				{
+					if (!message.domainList)
+						return;
 
+					let domainList = message.domainList;
+					let tabId = message.tabId;
+
+					ProxyRules.enableByDomainList(domainList);
+
+					let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
+
+					// notify the proxy script
+					ProxyEngine.notifyProxyRulesChanged();
+
+					SettingsOperation.saveRules();
+					SettingsOperation.saveAllSync();
+
+					// update active proxy tab status
+					// TODO: updateTabDataProxyInfo();
+					Core.setBrowserActionStatus();
+
+					// send the responses
+					if (updatedFailedRequests != null && sendResponse) {
+						sendResponse({
+							failedRequests: updatedFailedRequests
+						});
+					}
+					return;
 				}
-				break;
+
 			case Messages.SettingsPageSaveOptions:
 				{
 					if (!message.options)
@@ -418,6 +448,9 @@ export class Core {
 				break;
 		}
 
+		// Chrome requires a response
+		if (sendResponse)
+			sendResponse(null);
 	}
 
 	static getDataForProxyScript() {
@@ -472,18 +505,16 @@ export class Core {
 		let currentTabData = TabManager.getCurrentTab();
 		if (currentTabData == null)
 			return dataForPopup;
+
 		// tab info
 		dataForPopup.currentTabId = currentTabData.tabId;
 		dataForPopup.currentTabIndex = currentTabData.index;
 
 		// failed requests
-		//TODO: dataForPopup.failedRequests = convertFailedRequestsToArray(currentTabData.failedRequests);
+		dataForPopup.failedRequests = WebFailedRequestMonitor.convertFailedRequestsToArray(currentTabData.failedRequests);
 
 		// get the host name from url
 		let urlHost = Utils.extractHostFromUrl(currentTabData.url);
-
-		//// TODO: REVERT THIS
-		//urlHost = "test.blog.smartproxy-salarcode.com.au";
 
 		// current url should be valid
 		if (!Utils.isValidHost(urlHost))
@@ -649,41 +680,47 @@ export class Core {
 			tabData = TabManager.getCurrentTab();
 
 
-		// TODO: Failed requests
-		// if (tabData) {
-		// 	let failedCount = failedRequestsNotProxifiedCount(tabData.failedRequests);
+		if (tabData) {
+			let failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);
 
-		// 	if (failedCount > 0) {
-		// 		browser.browserAction.setBadgeBackgroundColor({ color: "#f0ad4e" });
-		// 		browser.browserAction.setBadgeText({
-		// 			text: failedCount.toString(),
-		// 			tabId: tabData.tabId
-		// 		});
-		// 	} else {
-		// 		browser.browserAction.setBadgeText({
-		// 			text: "",
-		// 			tabId: tabData.tabId
-		// 		});
-		// 	}
+			if (failedCount > 0) {
+				browser.browserAction.setBadgeBackgroundColor({ color: "#f0ad4e" });
+				browser.browserAction.setBadgeText({
+					text: failedCount.toString(),
+					tabId: tabData.tabId
+				});
+			} else {
+				browser.browserAction.setBadgeText({
+					text: "",
+					tabId: tabData.tabId
+				});
+			}
 
-		// 	if (tabData.proxified) {
-		// 		proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySource}`;
-		// 	} else {
-		// 		proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
-		// 	}
+			//TODO: Failed requests
+			// if (tabData.proxified) {
+			// 	proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySource}`;
+			// } else {
+			// 	proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
+			// }
 
-		// } else {
-		// 	browser.browserAction.setBadgeText({
-		// 		text: "",
-		// 		tabId: tabData.tabId
-		// 	});
-		// }
+		} else {
+			browser.browserAction.setBadgeText({
+				text: "",
+				tabId: tabData.tabId
+			});
+		}
 
 		if (Settings.current.activeProxyServer) {
 			proxyTitle += `\r\nProxy server: ${Settings.current.activeProxyServer.host} : ${Settings.current.activeProxyServer.port}`;
 		}
 
 		browser.browserAction.setTitle({ title: proxyTitle });
+	}
+
+	static onTabUpdatedUpdateActionStatus(tabData: TabDataType) {
+
+		//TODO: updateTabDataProxyInfo(tabData);
+		Core.setBrowserActionStatus(tabData);
 	}
 
 	static registerMessageReader() {

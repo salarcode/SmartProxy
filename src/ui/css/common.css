@@ -104,6 +104,15 @@ hr.afshin-line {
     color: white !important;
 }
 
+.nav-pills.interactive .nav-link:hover {
+    background-color: whitesmoke;
+}
+
+.nav-pills.interactive .nav-link.active:hover {
+    background-color: #006ce0;
+    ;
+}
+
 /*
 select.active-proxy-select {
     width: 100%;
@@ -119,6 +128,18 @@ select.active-proxy-select {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+*/
+
+.subdomains-list.subdomains-list {
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+/* ============================== */
+
+/* popup menu styles */
+
+/* ------------------------------ */
 
 .popup-container {
     display: table;
@@ -138,7 +159,7 @@ select.active-proxy-select {
     min-width: 250px;
 }
 
-.popup-menu {
+/* .popup-menu {
     font-size: .85em;
     min-width: 200px;
 }
@@ -150,8 +171,7 @@ select.active-proxy-select {
 .popup-menu .alert {
     margin-bottom: 5px;
     padding: 10px;
-}
-*/
+} */
 
 /* .proxyable-item {
     margin-left: -10px;
@@ -182,7 +202,6 @@ select.active-proxy-select {
 
 .popup-menu-failed {} */
 
-/* 
 .popup-menu-failed .failed-requests-box {
     background: white;
     -ms-border-radius: 5px;
@@ -204,13 +223,12 @@ select.active-proxy-select {
 .failed-requests-box .request-box.request-box-dependant {
     margin-top: 6px;
     margin-left: -8px;
-} */
+}
 
-/* 
 .failed-requests-box .request-box .request-name {
     display: inline-block;
     max-width: 250px;
-    margin-right: 25px;
+    margin-rightXXXX: 25px;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: middle;
@@ -222,23 +240,18 @@ select.active-proxy-select {
     padding: 0;
 }
 
-.failed-requests-box .request-box .label {
+.failed-requests-box .request-box .request-name .fas {
+    margin: 0 5px
+}
+
+.failed-requests-box .request-box .badge-container {
     display: inline-block;
-    float: right;
     position: absolute;
     right: 0;
+    top: 4px;
 }
 
- */
-
-.nav-pills.interactive .nav-link:hover {
-    background-color: whitesmoke;
-}
-
-.nav-pills.interactive .nav-link.active:hover {
-    background-color: #006ce0;
-    ;
-}
+/* */
 
 /* Bootstrap 4 styles*/
 
@@ -285,8 +298,3 @@ select.active-proxy-select {
     padding-bottom: 0.375rem;
     font-size: 75%;
 } */
-
-.subdomains-list.subdomains-list {
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-}

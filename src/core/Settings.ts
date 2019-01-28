@@ -18,7 +18,6 @@ import { PolyFill } from "../lib/PolyFill";
 import { ProxyModeType, ProxyRuleType, ProxyServerForProtocol } from "./definitions";
 import { Debug } from "../lib/Debug";
 import { SettingsOperation } from "./SettingsOperation";
-import { LiteEvent } from "../lib/LiteEvent";
 
 export class Settings {
 
@@ -139,7 +138,6 @@ export class SettingsConfig {
 	public proxyServers: ProxyServer[] = [];
 	public proxyMode: ProxyModeType = ProxyModeType.Direct;
 
-	// TODO: can this accept null?
 	public activeProxyServer: ProxyServer | null;
 	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
 	public options: GeneralOptions;

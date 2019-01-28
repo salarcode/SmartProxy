@@ -59,9 +59,6 @@ export class Messages {
 	public static SettingsPageSaveBypass = "SettingsPage_SaveBypass";
 	public static SettingsPageRestoreSettings = "SettingsPage_RestoreSettings";
 
-	// Web Failed Request Monitor Activity
-	public static WebRequestMonitorFailedActivity = "WebRequestMonitor_FailedActivity";
-
 	// Request Logger
 	public static ProxyableRequestLog = "Proxyable_RequestLog";
 	public static ProxyableOriginTabRemoved = "Proxyable_OriginTabRemoved";
@@ -71,6 +68,8 @@ export class Messages {
 	public static ProxyableRemoveProxyableLog = "Proxyable_RemoveProxyableLog";
 	public static ProxyableToggleProxyableDomain = "Proxyable_ToggleProxyableDomain";
 
+	// WebFailedRequest
+	public static WebFailedRequestNotification = "WebFailedRequest_Notification";
 }
 
 export class ResultHolder {
@@ -95,7 +94,16 @@ export class PopupInternalDataType {
 	public proxyServersSubscribed: any[];
 	public updateAvailableText: string;
 	public updateInfo: any;
-	public failedRequests: any;
+	public failedRequests: FailedRequestType[];
+}
+
+export class FailedRequestType {
+	hasRule: boolean;
+	url: string;
+	domain: string;
+	hitCount: number;
+	ruleIsForThisHost: boolean;
+	isRootHost: boolean;
 }
 
 export type ProxyableDomainType = {

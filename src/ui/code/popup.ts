@@ -1,6 +1,6 @@
 import { browser, environment } from "../../lib/environment";
-import { jQuery } from "../../lib/External";
-import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType } from "../../core/definitions";
+import { jQuery, messageBox } from "../../lib/External";
+import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 
@@ -33,8 +33,9 @@ export class popup {
 
         if (typeof (message) == "object") {
 
-            if (message["command"] === Messages.WebRequestMonitorFailedActivity &&
-                message["tabId"] != null) {
+            if (message["command"] === Messages.WebFailedRequestNotification) {
+                if (message["tabId"] == null)
+                    return;
 
                 let sourceTabId = popup.popupData.currentTabId;
 
@@ -43,7 +44,7 @@ export class popup {
                     return;
                 }
 
-                let failedRequests: any[] = message["failedRequests"];
+                let failedRequests: FailedRequestType[] = message["failedRequests"];
 
                 // display the failed requests
                 popup.populateFailedRequests(failedRequests);
@@ -233,7 +234,7 @@ export class popup {
         }
     }
 
-    private static populateFailedRequests(failedRequests: any[]) {
+    private static populateFailedRequests(failedRequests: FailedRequestType[]) {
 
         var divFailedRequests = jQuery("#divFailedRequests");
 
@@ -256,6 +257,15 @@ export class popup {
             // remove previous items
             failedRequestsItemsContainer.find(".request-box:not(.failed-request-template)").remove();
 
+            // Order by parent domain
+            failedRequests = failedRequests.sort((a, b) => {
+                if ("." + a.domain.includes(b.domain))
+                    return -1;
+                if ("." + b.domain.includes(a.domain))
+                    return 1;
+                return 0;
+            });
+
             for (let i = 0; i < failedRequests.length; i++) {
                 let request = failedRequests[i];
 
@@ -263,25 +273,23 @@ export class popup {
                     // don't add if the request has rule
                     continue;
 
-
                 let newItem = failedRequestsItemTemplate.clone();
-                let newItemLink = newItem.find(".request-name a");
-                newItemLink.attr("href", request.url);
-                newItemLink.text(request.domain);
+                newItem.find(".request-name a").attr("href", request.url);
+                newItem.find(".request-name label>span").text(request.domain);
 
                 let newItemCheckbox = newItem.find("input");
                 newItemCheckbox.attr("data-domain", request.domain);
 
-                if (request.isMain) {
+                if (request.isRootHost) {
                     failedRequestCount += request.hitCount;
 
-                    newItem.find(".failed-request-count").text(request.hitCount).show();
                     newItemCheckbox.prop("checked", false);
                 } else {
                     newItem.find(".failed-request-root").show();
                     newItemCheckbox.prop("checked", true);
                     newItem.addClass("request-box-dependant");
                 }
+                newItem.find(".failed-request-count").text(request.hitCount).show();
 
                 // set previous status, preventing check change on refresh
                 let previousStatus = domainsStatus[request.domain];
@@ -360,15 +368,10 @@ export class popup {
         } else {
             PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
         }
-
-        //jQuery(this).find(".proxyable-status-icon")
-        //	.removeClass("fa-square-o")
-        //	.removeClass("fa-check-square-o")
-        //	.addClass("fa-check-square-o");
     }
 
     private static onAddFailedRequestsClick() {
-        let domainList: any[] = [];
+        let domainList: string[] = [];
 
         jQuery(".failed-request-container .request-box input:checked").each((index, e) => {
             let element = jQuery(e);
@@ -398,8 +401,7 @@ export class popup {
                         }
                     });
 
-                // close the menu
-                jQuery(".popup-menu-failed").hide();
+                window.close();
             }
     }
     //#endregion

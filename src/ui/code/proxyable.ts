@@ -115,7 +115,6 @@ export class proxyable {
     }
 
     private static bindEvents() {
-        // TODO: this doesn't work
         window.onbeforeunload = proxyable.stopListeningToLogger;
 
         jQuery("#btnClose").click(function () {
