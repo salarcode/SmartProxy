@@ -120,7 +120,7 @@ export class Settings {
 		}
 		config.product = "SmartProxy";
 
-		PolyFill.managementGetSelf(function (info) {
+		PolyFill.managementGetSelf(info => {
 			config.version = info.version;
 		}, null);
 

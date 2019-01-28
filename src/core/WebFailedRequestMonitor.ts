@@ -48,12 +48,12 @@ export class WebFailedRequestMonitor {
         }
 
         // rechecking the failed requests
-        failedRequests.forEach(function (request, key, map) {
-            let testResult = ProxyRules.testSingleRule(request.domain);
+        failedRequests.forEach((request, key, map) => {
+	        let testResult = ProxyRules.testSingleRule(request.domain);
 
-            if (testResult.match) {
-                failedRequests.delete(request.domain);
-            }
+	        if (testResult.match) {
+		        failedRequests.delete(request.domain);
+	        }
         });
 
         return failedRequests;
@@ -266,8 +266,8 @@ export class WebFailedRequestMonitor {
 
         let result: FailedRequestType[] = [];
 
-        failedRequests.forEach(function (value, key, map) {
-            result.push(value);
+        failedRequests.forEach((value, key, map) => {
+	        result.push(value);
         });
 
         return result;
@@ -277,12 +277,12 @@ export class WebFailedRequestMonitor {
     public static failedRequestsNotProxifiedCount(failedRequests: Map<string, FailedRequestType>): number {
         let failedCount = 0;
 
-        failedRequests.forEach(function (request, key, map) {
-            if (request.hasRule)
-                return;
+        failedRequests.forEach((request, key, map) => {
+	        if (request.hasRule)
+		        return;
 
-            if (request.isRootHost)
-                failedCount += request.hitCount;
+	        if (request.isRootHost)
+		        failedCount += request.hitCount;
         });
 
         return failedCount;

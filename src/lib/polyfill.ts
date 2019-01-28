@@ -281,7 +281,7 @@ export class PolyFill {
 	}
 }
 
-PolyFill.runtimeGetBrowserInfo(function (response) {
+PolyFill.runtimeGetBrowserInfo(response => {
 	environment.version = parseInt(response.version) || 1.0;
 	environment.name = response.name;
 });

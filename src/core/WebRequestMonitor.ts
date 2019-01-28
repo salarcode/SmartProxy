@@ -89,7 +89,7 @@ export class WebRequestMonitor {
 	}
 
 	private static events = {
-		onBeforeRequest: function (requestDetails) {
+		onBeforeRequest(requestDetails) {
 			if (requestDetails.tabId < 0) {
 				return;
 			}
@@ -112,7 +112,7 @@ export class WebRequestMonitor {
 				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestStart], requestDetails);
 
 		},
-		onHeadersReceived: function (requestDetails) {
+		onHeadersReceived(requestDetails) {
 			let req = WebRequestMonitor.requests[requestDetails.requestId];
 			if (!req)
 				return;
@@ -128,7 +128,7 @@ export class WebRequestMonitor {
 					WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestRevertTimeout], requestDetails);
 			}
 		},
-		onBeforeRedirect: function (requestDetails) {
+		onBeforeRedirect(requestDetails) {
 			let url = requestDetails.redirectUrl;
 			if (!url)
 				return;
@@ -148,7 +148,7 @@ export class WebRequestMonitor {
 				WebRequestMonitor.events.onCompleted(requestDetails);
 			}
 		},
-		onCompleted: function (requestDetails) {
+		onCompleted(requestDetails) {
 			if (requestDetails.tabId < 0) {
 				return;
 			}
@@ -161,7 +161,7 @@ export class WebRequestMonitor {
 			if (WebRequestMonitor.debugInfo)
 				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestComplete], requestDetails);
 		},
-		onErrorOccurred: function (requestDetails) {
+		onErrorOccurred(requestDetails) {
 
 			let req = WebRequestMonitor.requests[requestDetails.requestId];
 			delete WebRequestMonitor.requests[requestDetails.requestId];

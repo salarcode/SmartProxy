@@ -24,7 +24,7 @@ export class CommonUi {
         form = jQuery(form);
         form.append(fileContainer);
 
-        function onFile(evt) {
+	    function onFile(evt) {
             fileContainer.remove();
 
             let files = evt.target.files;
@@ -42,7 +42,7 @@ export class CommonUi {
     //** localize the ui */
     public static localizeHtmlPage() {
 
-        function replace_i18n(obj, tag) {
+	    function replace_i18n(obj, tag) {
             let msg = browser.i18n.getMessage(tag.trim());
 
             if (msg && msg != tag) obj.innerHTML = msg;

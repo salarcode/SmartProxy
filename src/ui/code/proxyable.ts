@@ -48,7 +48,7 @@ export class proxyable {
 
 		// read own tab id
 		PolyFill.tabsQuery({ active: true, currentWindow: true },
-			function (tabs) {
+			tabs => {
 				if (!tabs || !tabs[0])
 					return;
 
@@ -117,11 +117,11 @@ export class proxyable {
 	private static bindEvents() {
 		window.onbeforeunload = proxyable.stopListeningToLogger;
 
-		jQuery("#btnClose").click(function () {
+		jQuery("#btnClose").click(() => {
 			proxyable.closeSelf();
 		});
 
-		jQuery("#btnReload").click(function () {
+		jQuery("#btnReload").click(() => {
 			//proxyableGrid.clearLogData();
 			PolyFill.tabsReload(proxyable.sourceTabId);
 		});
@@ -156,7 +156,7 @@ export class proxyable {
 				},
 				{
 					name: "enabled",
-					render: function (data, type, row: ProxyableDataType): string {
+					render: (data, type, row: ProxyableDataType): string => {
 						let url = row.url;
 						if (!url)
 							return "";
@@ -297,7 +297,7 @@ export class proxyable {
 		let gridRow: ProxyableDataType = proxyable.grdProxyable.row(element.parents('tr'));
 
 		messageBox.confirm(`${browser.i18n.getMessage("proxyableCreateRuleConfirm")} <b>'${domain}'</b>?`,
-			function () {
+			() => {
 				proxyable.toggleProxyableRequest(domain, null, gridRow);
 			});
 	}
@@ -311,7 +311,7 @@ export class proxyable {
 		let gridRow: ProxyableDataType = proxyable.grdProxyable.row(element.parents('tr'));
 
 		messageBox.confirm(`${browser.i18n.getMessage("proxyableDeleteRuleConfirm")} <b>'${domain}'</b>?`,
-			function () {
+			() => {
 				proxyable.toggleProxyableRequest(null, domain, gridRow);
 			});
 	}
@@ -325,7 +325,7 @@ export class proxyable {
 				removeBySource: removeBySource,
 				tabId: proxyable.sourceTabId
 			},
-			function (response) {
+			response => {
 				if (!response)
 					return;
 
