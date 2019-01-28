@@ -234,8 +234,7 @@ export class Core {
 					ProxyEngine.notifyProxyRulesChanged();
 
 					// update active proxy tab status
-					//TODO: updateTabDataProxyInfo();
-
+					Core.updateTabDataProxyInfo();
 					Core.setBrowserActionStatus();
 
 					return;
@@ -260,7 +259,7 @@ export class Core {
 					SettingsOperation.saveAllSync();
 
 					// update active proxy tab status
-					// TODO: updateTabDataProxyInfo();
+					Core.updateTabDataProxyInfo();
 					Core.setBrowserActionStatus();
 
 					// send the responses
@@ -328,8 +327,8 @@ export class Core {
 
 					ProxyEngine.notifyProxyRulesChanged();
 
-					// // update active proxy tab status
-					// updateTabDataProxyInfo();
+					// update active proxy tab status
+					Core.updateTabDataProxyInfo();
 					Core.setBrowserActionStatus();
 
 					if (sendResponse) {
@@ -436,8 +435,8 @@ export class Core {
 						sendResponse(result);
 					}
 
-					// // update active proxy tab status
-					// updateTabDataProxyInfo();
+					// update active proxy tab status
+					Core.updateTabDataProxyInfo();
 
 					Core.setBrowserActionStatus();
 					return;
@@ -675,7 +674,7 @@ export class Core {
 				break;
 		}
 
-		// TODO: Because of bug #40 do not add additional 
+		// TODO: Because of bug #40 do not add additional in overflow menu
 
 		if (tabData == null)
 			tabData = TabManager.getCurrentTab();
@@ -697,12 +696,11 @@ export class Core {
 				});
 			}
 
-			//TODO: Failed requests
-			// if (tabData.proxified) {
-			// 	proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySource}`;
-			// } else {
-			// 	proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
-			// }
+			if (tabData.proxified) {
+				proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySourceDomain}`;
+			} else {
+				proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
+			}
 
 		} else {
 			browser.browserAction.setBadgeText({
@@ -718,9 +716,30 @@ export class Core {
 		browser.browserAction.setTitle({ title: proxyTitle });
 	}
 
+	private static updateTabDataProxyInfo(tabData?: TabDataType) {
+		if (!tabData) {
+			tabData = TabManager.getCurrentTab();
+			if (!tabData)
+				return;
+		}
+
+		if (!tabData.url)
+			return;
+
+		let proxyResult = ProxyRules.testSingleRule(tabData.url);
+
+		if (proxyResult.match) {
+			tabData.proxified = true;
+			tabData.proxySourceDomain = proxyResult.rule.sourceDomain;
+		} else {
+			tabData.proxified = false;
+			tabData.proxySourceDomain = null;
+		}
+	}
 	private static onTabUpdatedUpdateActionStatus(tabData: TabDataType) {
 
-		//TODO: updateTabDataProxyInfo(tabData);
+		// update active proxy tab status
+		Core.updateTabDataProxyInfo();
 		Core.setBrowserActionStatus(tabData);
 	}
 

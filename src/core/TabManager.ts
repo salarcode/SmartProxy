@@ -186,7 +186,6 @@ export class TabManager {
 }
 
 export class TabDataType {
-
 	constructor(tabId: number) {
 		this.tabId = tabId;
 		this.created = new Date();
@@ -205,8 +204,9 @@ export class TabDataType {
 	public url: string;
 	public incognito: boolean;
 	public failedRequests: Map<string, FailedRequestType>;
-	public proxified: boolean | null;
 	public index: number;
+	public proxified: boolean | null;
+	public proxySourceDomain: string;
 
 	public cleanup() {
 		if (this.requests)
