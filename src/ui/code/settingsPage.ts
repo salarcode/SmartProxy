@@ -1306,35 +1306,33 @@ export class settingsPage {
                 }
             }
             ruleInfo.sourceDomain = sourceDomain;
-            debugger;
+            
             if (ruleInfo.ruleType == ProxyRuleType.MatchPatternHost) {
-
-                if (!ruleInfo.rulePattern.includes(sourceDomain)) {
-                    // The rule does not match the source domain '{0}'
-                    messageBox.error(
-                        browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", sourceDomain)
-                    );
-                    return;
-                }
 
                 if (ruleInfo.autoGeneratePattern) {
                     // Feature #41 Allow entering/modifying custom pattern for rules 
                     ruleInfo.rulePattern = Utils.hostToMatchPattern(sourceDomain, false);
                 }
-            }
-            else if (ruleInfo.ruleType == ProxyRuleType.MatchPatternUrl) {
-
-                if (!ruleInfo.rulePattern.includes(sourceDomain)) {
+                else if (!ruleInfo.rulePattern.includes(sourceDomain)) {
                     // The rule does not match the source domain '{0}'
                     messageBox.error(
                         browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", sourceDomain)
                     );
                     return;
                 }
+            }
+            else if (ruleInfo.ruleType == ProxyRuleType.MatchPatternUrl) {
 
                 if (ruleInfo.autoGeneratePattern) {
                     // Feature #41 Allow entering/modifying custom pattern for rules 
                     ruleInfo.rulePattern = Utils.hostToMatchPattern(sourceDomain, true);
+                }
+                else if (!ruleInfo.rulePattern.includes(sourceDomain)) {
+                    // The rule does not match the source domain '{0}'
+                    messageBox.error(
+                        browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", sourceDomain)
+                    );
+                    return;
                 }
             }
             else if (ruleInfo.ruleType == ProxyRuleType.RegexHost) {
