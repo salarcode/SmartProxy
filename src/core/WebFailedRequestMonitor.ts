@@ -21,6 +21,7 @@ import { ProxyRules } from "./ProxyRules";
 import { Utils } from "../lib/Utils";
 import { TabManager } from "./TabManager";
 import { Messages, FailedRequestType } from "./definitions";
+import { Settings } from "./Settings";
 
 export class WebFailedRequestMonitor {
 
@@ -49,17 +50,21 @@ export class WebFailedRequestMonitor {
 
         // rechecking the failed requests
         failedRequests.forEach((request, key, map) => {
-	        let testResult = ProxyRules.testSingleRule(request.domain);
+            let testResult = ProxyRules.testSingleRule(request.domain);
 
-	        if (testResult.match) {
-		        failedRequests.delete(request.domain);
-	        }
+            if (testResult.match) {
+                failedRequests.delete(request.domain);
+            }
         });
 
         return failedRequests;
     }
 
     private static requestMonitorCallback(eventType: RequestMonitorEvent, requestDetails: any) {
+
+        if (!Settings.current.options.detectRequestFailures)
+            return;
+
         let tabId = requestDetails.tabId;
         let tabData = TabManager.getOrSetTab(tabId, false);
 
@@ -68,6 +73,13 @@ export class WebFailedRequestMonitor {
 
         let requestId = requestDetails.requestId;
         let requestUrl = requestDetails.url;
+
+        let ignoreRequestFailuresForDomains = Settings.current.options.ignoreRequestFailuresForDomains;
+        if (ignoreRequestFailuresForDomains && ignoreRequestFailuresForDomains.length) {
+            // TODO:
+            //return;
+        }
+
         let requestHost = Utils.extractHostFromUrl(requestUrl);
 
         let failedRequests = tabData.failedRequests || (tabData.failedRequests = new Map<string, FailedRequestType>());
@@ -267,7 +279,7 @@ export class WebFailedRequestMonitor {
         let result: FailedRequestType[] = [];
 
         failedRequests.forEach((value, key, map) => {
-	        result.push(value);
+            result.push(value);
         });
 
         return result;
@@ -278,11 +290,11 @@ export class WebFailedRequestMonitor {
         let failedCount = 0;
 
         failedRequests.forEach((request, key, map) => {
-	        if (request.hasRule)
-		        return;
+            if (request.hasRule)
+                return;
 
-	        if (request.isRootHost)
-		        failedCount += request.hitCount;
+            if (request.isRootHost)
+                failedCount += request.hitCount;
         });
 
         return failedCount;

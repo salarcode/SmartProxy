@@ -91,6 +91,14 @@ export class settingsPage {
 
         jQuery("#btnRejectGeneralOptions").click(settingsPage.uiEvents.onClickRejectGeneralOptions);
 
+        jQuery("#chkSyncSettings").change(settingsPage.uiEvents.onSyncSettingsChanged);
+
+        jQuery("#btnIgnoreRequestFailuresForDomains").click(settingsPage.uiEvents.onClickIgnoreRequestFailuresForDomains);
+
+        jQuery("#btnSubmitIgnoreRequestDomains").click(settingsPage.uiEvents.onClickSubmitIgnoreRequestDomains);
+
+        jQuery("#btnViewShortcuts").click(settingsPage.uiEvents.onClickViewShortcuts);
+
         // proxy servers
         jQuery("#cmbActiveProxyServer").on("change", settingsPage.uiEvents.onChangeActiveProxyServer);
 
@@ -269,11 +277,13 @@ export class settingsPage {
     private static initializeUi() {
         if (environment.chrome) {
             jQuery("#divAlertChrome").show();
+            jQuery("#ff-only").show();
 
             // not supported by Chrome
             jQuery("#chkEnableBypassForSystemProxy").attr("disabled", "disabled");
         } else {
             jQuery("#divAlertFirefox").show();
+            jQuery("#ff-only").hide();
         }
 
         // the default values
@@ -584,12 +594,45 @@ export class settingsPage {
 
     //#region General tab functions --------------
 
+    private static populateIgnoreRequestFailuresModal(modalContainer: any, domains?: string[]) {
+        if (domains && Array.isArray(domains)) {
+            modalContainer.find("#txtRequestFailuresIgnoredDomains").val(domains.join("\n"));
+        }
+        else {
+            modalContainer.find("#txtRequestFailuresIgnoredDomains").val();
+        }
+    }
+
+    private static readIgnoreRequestFailuresModal(modalContainer: any): string[] {
+        return modalContainer.find("#txtRequestFailuresIgnoredDomains").val().split(/[\r\n]+/);
+    }
+
     private static loadGeneralOptions(options: GeneralOptions) {
         if (!options)
             return;
         let divGeneral = jQuery("#tab-general");
 
         divGeneral.find("#chkSyncSettings").prop("checked", options.syncSettings || false);
+        divGeneral.find("#chkProxyPerOrigin").prop("checked", options.proxyPerOrigin || false);
+
+        divGeneral.find("#chkSyncSettings").prop("checked", options.proxyPerOrigin || false);
+        divGeneral.find("#chkSyncProxyMode").prop("checked", options.syncProxyMode || false);
+        divGeneral.find("#chkSyncActiveProxy").prop("checked", options.syncActiveProxy || false);
+
+        divGeneral.find("#chkDetectRequestFailures").prop("checked", options.detectRequestFailures || false);
+        divGeneral.find("#chkDisplayFailedOnBadge").prop("checked", options.displayFailedOnBadge || false);
+
+        divGeneral.find("#chkEnableShortcuts").prop("checked", options.enableShortcuts || false);
+        divGeneral.find("#chkShortcutNotification").prop("checked", options.shortcutNotification || false);
+        divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked", options.displayAppliedProxyOnBadge || false);
+
+        // this is needed to enabled/disable syn check boxes based on settings
+        settingsPage.uiEvents.onSyncSettingsChanged();
+
+        if (environment.chrome) {
+            divGeneral.find("#chkProxyPerOrigin").attr("disabled", "disabled")
+                .parents("label").attr("disabled", "disabled");
+        }
     }
 
     private static readGeneralOptions(generalOptions?: GeneralOptions): GeneralOptions {
@@ -597,9 +640,18 @@ export class settingsPage {
             generalOptions = new GeneralOptions();
         let divGeneral = jQuery("#tab-general");
 
-        generalOptions.syncSettings = divGeneral.find("#chkSyncSettings").prop("checked");
+        generalOptions.proxyPerOrigin = divGeneral.find("#chkProxyPerOrigin").prop("checked");
 
-        // TODO: complete other options
+        generalOptions.syncSettings = divGeneral.find("#chkSyncSettings").prop("checked");
+        generalOptions.syncProxyMode = divGeneral.find("#chkSyncProxyMode").prop("checked");
+        generalOptions.syncActiveProxy = divGeneral.find("#chkSyncActiveProxy").prop("checked");
+
+        generalOptions.detectRequestFailures = divGeneral.find("#chkDetectRequestFailures").prop("checked");
+        generalOptions.displayFailedOnBadge = divGeneral.find("#chkDisplayFailedOnBadge").prop("checked");
+
+        generalOptions.enableShortcuts = divGeneral.find("#chkEnableShortcuts").prop("checked");
+        generalOptions.shortcutNotification = divGeneral.find("#chkShortcutNotification").prop("checked");
+        generalOptions.displayAppliedProxyOnBadge = divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked");
 
         return generalOptions;
     }
@@ -985,6 +1037,43 @@ export class settingsPage {
             // Changes reverted successfully
             messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
         },
+        onSyncSettingsChanged() {
+            // reset the data
+            var checked = jQuery("#chkSyncSettings").prop("checked")
+            if (checked) {
+                jQuery("#chkSyncProxyMode").removeAttr("disabled");
+                jQuery("#chkSyncActiveProxy").removeAttr("disabled");
+            }
+            else {
+                jQuery("#chkSyncProxyMode").attr("disabled", "disabled");
+                jQuery("#chkSyncActiveProxy").attr("disabled", "disabled");
+            }
+        },
+        onClickIgnoreRequestFailuresForDomains() {
+
+            let modal = jQuery("#modalIgnoreRequestFailures");
+            modal.data("editing", null);
+
+            settingsPage.populateIgnoreRequestFailuresModal(modal,
+                settingsPage.currentSettings.options.ignoreRequestFailuresForDomains);
+
+            modal.modal("show");
+            modal.find("#txtRequestFailuresIgnoredDomains").focus();
+        },
+        onClickSubmitIgnoreRequestDomains() {
+            let modal = jQuery("#modalIgnoreRequestFailures");
+
+            let domainList = settingsPage.readIgnoreRequestFailuresModal(modal);
+            settingsPage.currentSettings.options.ignoreRequestFailuresForDomains = domainList;
+
+            settingsPage.changeTracking.options = true;
+
+            modal.modal("hide");
+        },
+        onClickViewShortcuts() {
+            let modal = jQuery("#modalShortcuts");
+            modal.modal("show");
+        },
         onChangeActiveProxyServer() {
             let proxyName = jQuery("#cmbActiveProxyServer").val();
 
@@ -994,7 +1083,7 @@ export class settingsPage {
             settingsPage.currentSettings.activeProxyServer = server;
         },
         onClickAddProxyServer() {
-            // settingsGrid.serverAdd();
+
             let modal = jQuery("#modalModifyProxyServer");
             modal.data("editing", null);
 

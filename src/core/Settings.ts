@@ -149,8 +149,8 @@ export class GeneralOptions {
 	public syncActiveProxy: boolean = true;
 	public detectRequestFailures: boolean = true;
 	public ignoreRequestFailuresForDomains: string[];
-	public displayFailedOnBadge: boolean = false;
-	public displayAppliedProxyOnBadge_Doubt: boolean = false;
+	public displayFailedOnBadge: boolean = true;
+	public displayAppliedProxyOnBadge: boolean = true;
 	// TODO: New feature proxyPerOrigin
 	public proxyPerOrigin: boolean = true;
 	public enableShortcuts: boolean = true;

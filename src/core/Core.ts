@@ -681,7 +681,10 @@ export class Core {
 
 
 		if (tabData) {
-			let failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);
+			let failedCount = 0;
+
+			if (Settings.current.options.displayFailedOnBadge)
+				failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);
 
 			if (failedCount > 0) {
 				browser.browserAction.setBadgeBackgroundColor({ color: "#f0ad4e" });
@@ -696,10 +699,12 @@ export class Core {
 				});
 			}
 
-			if (tabData.proxified) {
-				proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySourceDomain}`;
-			} else {
-				proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
+			if (Settings.current.options.displayAppliedProxyOnBadge) {
+				if (tabData.proxified) {
+					proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySourceDomain}`;
+				} else {
+					proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
+				}
 			}
 
 		} else {

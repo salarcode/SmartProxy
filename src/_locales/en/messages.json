@@ -183,8 +183,140 @@
 		"message": "Use patterns to automatically define rules for proxify your web experience. With SmartProxy, you don't need to change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.",
 		"description": ""
 	},
-	"settingsTabGeneralTitle": {
-		"message": "General options of the extension:",
+	"settingsGeneralSmartFeatures": {
+		"message": "Smart Features",
+		"description": ""
+	},
+	"settingsGeneralSmartFeaturesNoChrome": {
+		"message": "<strong>Firefox only!</strong> Unfortunately this feature is not supported by Chrome.</span>",
+		"description": ""
+	},
+	"settingsGeneralProxyPerOrigin": {
+		"message": "Enable proxy per tab/origin",
+		"description": ""
+	},
+	"settingsGeneralProxyPerOriginDesc": {
+		"message": "If one of the rules matched the origin/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
+		"description": ""
+	},
+	"settingsGeneralProxyPerOriginEnabled": {
+		"message": "Proxy per tab/origin enabled",
+		"description": ""
+	},
+	"settingsGeneralProxyPerOriginDisabled": {
+		"message": "Proxy per tab/origin disabled",
+		"description": ""
+	},
+	"settingsGeneralSyncing": {
+		"message": "Syncing",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncing": {
+		"message": "Enable settings syncing",
+		"description": ""
+	},
+	"settingsGeneralEnableSyncingDesc": {
+		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.",
+		"description": ""
+	},
+	"settingsSaveGeneralOptionsButton": {
+		"message": "Save Changes",
+		"description": ""
+	},
+	"settingsRejectGeneralOptionsButton": {
+		"message": "Reject Changes",
+		"description": ""
+	},
+	"settingsGeneralSyncProxyMode": {
+		"message": "Enable syncing proxy-mode",
+		"description": ""
+	},
+	"settingsGeneralSyncProxyModeDesc": {
+		"message": "Check if you want the proxy activation mode to be synced.",
+		"description": ""
+	},
+	"settingsGeneralSyncActiveProxy": {
+		"message": "Enable syncing active proxy",
+		"description": ""
+	},
+	"settingsGeneralSyncActiveProxyDesc": {
+		"message": "Check if you want the selected proxy server to be synced",
+		"description": ""
+	},
+	"settingsGeneralErrorDetection": {
+		"message": "Error Detection",
+		"description": ""
+	},
+	"settingsGeneralDetectFailures": {
+		"message": "Detect request failures",
+		"description": ""
+	},
+	"settingsGeneralDetectFailuresDesc": {
+		"message": "Request failures detection will help you identify the domains that needs proxy.",
+		"description": ""
+	},
+	"settingsGeneralSelectIgnoredDomains": {
+		"message": "Select Domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresForDomains": {
+		"message": "Ignore failure detection for these domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
+		"message": "Enter domain list you wish to disable failure detection.",
+		"description": ""
+	},
+	"settingsGeneralDisplayFailedOnBadge": {
+		"message": "Display failed requests count on toolabr icon badge",
+		"description": ""
+	},
+	"settingsGeneralOtherSettings": {
+		"message": "Other Settings",
+		"description": ""
+	},
+	"settingsGeneralEnableShortcuts": {
+		"message": "Enable Shortcuts",
+		"description": ""
+	},
+	"settingsGeneralEnableShortcutsDesc": {
+		"message": "You can configure shortcuts from browser addon settings page.",
+		"description": ""
+	},
+	"settingsGeneralViewShortcuts": {
+		"message": "View shortcuts",
+		"description": ""
+	},
+	"settingsGeneralShortcutNotification": {
+		"message": "Enable shortcut notification",
+		"description": ""
+	},
+	"settingsGeneralDisplayAppliedProxyOnBadge": {
+		"message": "Display applied proxy on badge",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresTitle": {
+		"message": "Ignore Request Failures For Domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoredDomains": {
+		"message": "Ignored domain list:",
+		"description": ""
+	},
+	"settingsGeneralCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsGeneralSaveChanges": {
+		"message": "Save Changes",
+		"description": ""
+	},
+	"settingsGeneralKeyboardShortcutsTitle": {
+		"message": "Keyboard shortcuts",
+		"description": ""
+	},
+	"settingsGeneralCloseButton": {
+		"message": "Close",
 		"description": ""
 	},
 	"settingsTabProxyServersTitle": {
@@ -217,26 +349,6 @@
 	},
 	"settingsErrNoServersDescription": {
 		"message": "Before anything you have to define proxy servers.",
-		"description": ""
-	},
-	"settingsGeneralSyncing": {
-		"message": "Syncing",
-		"description": ""
-	},
-	"settingsGeneralEnableSyncing": {
-		"message": "Enable settings syncing",
-		"description": ""
-	},
-	"settingsGeneralEnableSyncingDesc": {
-		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.",
-		"description": ""
-	},
-	"settingsSaveGeneralOptionsButton": {
-		"message": "Save Changes",
-		"description": ""
-	},
-	"settingsRejectGeneralOptionsButton": {
-		"message": "Reject Changes",
 		"description": ""
 	},
 	"settingsActiveProxyServer": {

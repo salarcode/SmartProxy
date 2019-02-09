@@ -113,6 +113,11 @@ hr.afshin-line {
     ;
 }
 
+.form-text.text-muted {
+    margin-top: 0.1rem;
+    margin-bottom: 0.25rem;
+}
+
 /*
 select.active-proxy-select {
     width: 100%;
