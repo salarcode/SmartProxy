@@ -17,6 +17,7 @@
 import { PolyFill } from "../lib/PolyFill";
 import { LiteEvent } from "../lib/LiteEvent";
 import { FailedRequestType } from "./definitions";
+import { ProxyServer } from "./Settings";
 
 export class TabManager {
 
@@ -48,13 +49,14 @@ export class TabManager {
 
 		// read the active tab
 		TabManager.updateActiveTab();
+
 	}
 
 	/** Gets tab or adds it */
 	public static getOrSetTab(tabId: number, loadTabData = true, initialUrl: string = null): TabDataType {
 		let tabData = TabManager.tabs[tabId];
-
 		if (tabData == null) {
+			console.log("getOrSetTab-null", tabId, document);
 			tabData = new TabDataType(tabId);
 			TabManager.tabs[tabId] = tabData;
 			if (initialUrl)
@@ -64,6 +66,11 @@ export class TabManager {
 				TabManager.loadTabData(tabData);
 		}
 		return tabData;
+	}
+
+	/** Get tab only */
+	public static getTab(tabId: number): TabDataType {
+		return TabManager.tabs[tabId];
 	}
 
 	public static getCurrentTab(): TabDataType {
@@ -77,14 +84,6 @@ export class TabManager {
 		if (!tabData) {
 			tabData = TabManager.getOrSetTab(tabId, false);
 		}
-
-		// check proxy rule
-		if (tabData.url != tabInfo.url ||
-			tabData.proxified == null) {
-
-			tabData.url = tabInfo.url;
-		}
-
 		tabData.updated = new Date();
 		tabData.incognito = tabInfo.incognito;
 		tabData.url = tabInfo.url;
@@ -135,12 +134,6 @@ export class TabManager {
 		TabManager.onTabRemoved.trigger(tabData);
 
 		tabData.cleanup();
-
-		//// send notification first
-		// TODO: requestLogger.notifyProxyableOriginTabRemoved(tabId);
-
-		// // then remove the tab from the notification list
-		// requestLogger.removeFromPorxyableLogIdList(tabId);
 	}
 
 	private static handleTabUpdated(tabId: number, changeInfo: any, tabInfo: any) {
@@ -152,7 +145,7 @@ export class TabManager {
 		if (changeInfo["status"] === "loading") {
 			shouldResetHard = true;
 		}
-		else if (changeInfo["url"]) {
+		if (changeInfo["url"]) {
 
 			if (tabData != null &&
 				// only if url is changed
@@ -163,25 +156,28 @@ export class TabManager {
 			}
 		}
 
+		let callOnUpdate = false;
+
+		if (shouldResetHard) {
+			// reload the tab data
+
+			if (tabData) {
+				callOnUpdate = true;
+				tabData.cleanup();
+			}
+		}
 		if (shouldResetSoft) {
 			// reload the tab data
 
 			if (tabData) {
 				// reload tab data
 				TabManager.loadTabData(tabData);
-
-				TabManager.onTabUpdated.trigger(tabData);
+				callOnUpdate = true;
 			}
 		}
-		else if (shouldResetHard) {
-			// reload the tab data
 
-			if (tabData) {
-				TabManager.onTabUpdated.trigger(tabData);
-				tabData.cleanup();
-			}
-			delete TabManager.tabs[tabId];
-		}
+		if (callOnUpdate)
+			TabManager.onTabUpdated.trigger(tabData);
 	}
 }
 
@@ -205,8 +201,9 @@ export class TabDataType {
 	public incognito: boolean;
 	public failedRequests: Map<string, FailedRequestType>;
 	public index: number;
-	public proxified: boolean | null;
+	public proxified: boolean;
 	public proxySourceDomain: string;
+	public proxyServerFromRule: ProxyServer;
 
 	public cleanup() {
 		if (this.requests)

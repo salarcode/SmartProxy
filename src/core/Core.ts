@@ -234,7 +234,6 @@ export class Core {
 					ProxyEngine.notifyProxyRulesChanged();
 
 					// update active proxy tab status
-					Core.updateTabDataProxyInfo();
 					Core.setBrowserActionStatus();
 
 					return;
@@ -259,7 +258,6 @@ export class Core {
 					SettingsOperation.saveAllSync();
 
 					// update active proxy tab status
-					Core.updateTabDataProxyInfo();
 					Core.setBrowserActionStatus();
 
 					// send the responses
@@ -328,7 +326,6 @@ export class Core {
 					ProxyEngine.notifyProxyRulesChanged();
 
 					// update active proxy tab status
-					Core.updateTabDataProxyInfo();
 					Core.setBrowserActionStatus();
 
 					if (sendResponse) {
@@ -434,9 +431,6 @@ export class Core {
 					if (result && sendResponse) {
 						sendResponse(result);
 					}
-
-					// update active proxy tab status
-					Core.updateTabDataProxyInfo();
 
 					Core.setBrowserActionStatus();
 					return;
@@ -721,30 +715,9 @@ export class Core {
 		browser.browserAction.setTitle({ title: proxyTitle });
 	}
 
-	private static updateTabDataProxyInfo(tabData?: TabDataType) {
-		if (!tabData) {
-			tabData = TabManager.getCurrentTab();
-			if (!tabData)
-				return;
-		}
-
-		if (!tabData.url)
-			return;
-
-		let proxyResult = ProxyRules.testSingleRule(tabData.url);
-
-		if (proxyResult.match) {
-			tabData.proxified = true;
-			tabData.proxySourceDomain = proxyResult.rule.sourceDomain;
-		} else {
-			tabData.proxified = false;
-			tabData.proxySourceDomain = null;
-		}
-	}
 	private static onTabUpdatedUpdateActionStatus(tabData: TabDataType) {
 
 		// update active proxy tab status
-		Core.updateTabDataProxyInfo();
 		Core.setBrowserActionStatus(tabData);
 	}
 

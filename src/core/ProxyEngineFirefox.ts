@@ -16,9 +16,10 @@
  */
 import { browser } from "../lib/environment";
 import { Debug } from "../lib/Debug";
-import { Settings, ProxyServer } from "../core/Settings";
+import { Settings, ProxyServer, ProxyRule } from "../core/Settings";
 import { ProxyModeType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
+import { TabManager } from "./TabManager";
 
 export class ProxyEngineFirefox {
 	private static proxyScriptUrlFirefox = "core-firefox-proxy.js";
@@ -100,19 +101,24 @@ export class ProxyEngineFirefox {
 		if (settings.options.proxyPerOrigin &&
 			requestDetails.tabId > -1) {
 
-			// TODO: Reading the active tab proxy status
-			// var tabProxyRule = TabsManager.isTabProxifiedRule(requestDetails.tabId);
-			// if (tabProxyRule) {
-			// 	if (matchedRule.proxy)
-			// 		return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
+			let tabData = TabManager.getTab(requestDetails.tabId);
+			if (tabData != null && tabData.proxified) {
 
-			// 	return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
-			// }
+				if (tabData.proxyServerFromRule)
+					return ProxyEngineFirefox.getResultProxyInfo(tabData.proxyServerFromRule);
+
+				return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
+			}
 		}
 
 		let matchedRule = ProxyRules.findMatchForUrl(requestDetails.url);
-
 		if (matchedRule) {
+
+			if (requestDetails.tabId > -1) {
+				// storing the proxy & rule in tab
+				ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule);
+			}
+
 			if (matchedRule.proxy)
 				return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
 
@@ -121,6 +127,31 @@ export class ProxyEngineFirefox {
 
 		// nothing matched
 		return { type: "direct" };
+	}
+
+	private static storeTabProxyDetail(requestDetails, matchedRule: ProxyRule) {
+		// check if this is the top level request
+		if (requestDetails.type !== "main_frame") {
+			return;
+		}
+
+		// tab is new, we need to create it
+		let tabData = TabManager.getOrSetTab(requestDetails.tabId, true, requestDetails.url);
+		if (tabData == null) {
+			// never
+			return;
+		}
+
+		// only the top-level
+		if (requestDetails.url === tabData.url) {
+
+			tabData.proxified = true;
+			tabData.proxySourceDomain = matchedRule.sourceDomain;
+			if (matchedRule.proxy)
+				tabData.proxyServerFromRule = matchedRule.proxy;
+			else
+				tabData.proxyServerFromRule = null;
+		}
 	}
 
 	private static getResultProxyInfo(proxyServer: ProxyServer) {

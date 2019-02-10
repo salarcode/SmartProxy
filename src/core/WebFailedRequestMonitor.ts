@@ -36,7 +36,7 @@ export class WebFailedRequestMonitor {
         if (!domainList || !domainList.length)
             return null;
 
-        let tabData = TabManager.getOrSetTab(tabId, false);
+        let tabData = TabManager.getTab(tabId);
 
         if (!tabData)
             return null;
