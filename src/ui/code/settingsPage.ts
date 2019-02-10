@@ -647,6 +647,7 @@ export class settingsPage {
         generalOptions.syncActiveProxy = divGeneral.find("#chkSyncActiveProxy").prop("checked");
 
         generalOptions.detectRequestFailures = divGeneral.find("#chkDetectRequestFailures").prop("checked");
+        generalOptions.ignoreRequestFailuresForDomains = settingsPage.currentSettings.options.ignoreRequestFailuresForDomains;
         generalOptions.displayFailedOnBadge = divGeneral.find("#chkDisplayFailedOnBadge").prop("checked");
 
         generalOptions.enableShortcuts = divGeneral.find("#chkEnableShortcuts").prop("checked");
@@ -1306,7 +1307,7 @@ export class settingsPage {
                 }
             }
             ruleInfo.sourceDomain = sourceDomain;
-            
+
             if (ruleInfo.ruleType == ProxyRuleType.MatchPatternHost) {
 
                 if (ruleInfo.autoGeneratePattern) {

@@ -103,6 +103,7 @@ export class FailedRequestType {
 	hitCount: number;
 	ruleIsForThisHost: boolean;
 	isRootHost: boolean;
+	ignored: boolean;
 }
 
 export type ProxyableDomainType = {

@@ -285,7 +285,7 @@ export class popup {
             for (let i = 0; i < failedRequests.length; i++) {
                 let request = failedRequests[i];
 
-                if (request.hasRule)
+                if (request.hasRule || request.ignored)
                     // don't add if the request has rule
                     continue;
 

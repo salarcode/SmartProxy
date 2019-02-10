@@ -58,7 +58,7 @@ export class SettingsOperation {
 	}
 
 	public static readSyncedSettings(success) {
-		// gettin synced data
+		// getting synced data
 		PolyFill.storageSyncGet(null,
 			onGetSyncData,
 			onGetSyncError);

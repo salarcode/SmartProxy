@@ -198,6 +198,8 @@ export class WebFailedRequestMonitor {
                                     failedInfo.ruleIsForThisHost = ruleIsForThisHost;
                                     failedInfo.isRootHost = requestHost == result.domain;
 
+                                    WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, result.domain);
+
                                     // add to the list
                                     failedRequests.set(result.domain, failedInfo);
                                     if (!result.match)
@@ -210,6 +212,8 @@ export class WebFailedRequestMonitor {
                                 failedInfo.domain = requestHost;
                                 failedInfo.hitCount = 1;
                                 failedInfo.hasRule = true;
+
+                                WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, requestHost);
 
                                 // add to the list
                                 failedRequests.set(requestHost, failedInfo);
@@ -242,11 +246,13 @@ export class WebFailedRequestMonitor {
                                 failedInfo.hasRule = true;
                             }
 
+                            WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, requestHost);
+
                             // add to the list
                             failedRequests.set(requestHost, failedInfo);
 
                             // send only if there is no rule
-                            if (!failedInfo.hasRule) {
+                            if (!failedInfo.hasRule && !failedInfo.ignored) {
                                 // send message to the tab
                                 // only on the first hit
                                 WebFailedRequestMonitor.sendWebFailedRequestNotification(
@@ -263,7 +269,17 @@ export class WebFailedRequestMonitor {
         }
     }
 
-    private static sendWebFailedRequestNotification(tabId: string, failedInfo: FailedRequestType, failedRequests: Map<string, FailedRequestType>) {
+    private static checkIfFailureIgnored(failedInfo: FailedRequestType, requestHost: string) {
+
+        let ignoredDomains = Settings.current.options.ignoreRequestFailuresForDomains;
+        if (ignoredDomains && ignoredDomains.length) {
+
+            if (ignoredDomains.indexOf(requestHost) !== -1)
+                failedInfo.ignored = true;
+        }
+    }
+
+    private static sendWebFailedRequestNotification(tabId: number, failedInfo: FailedRequestType, failedRequests: Map<string, FailedRequestType>) {
         PolyFill.runtimeSendMessage(
             {
                 command: Messages.WebFailedRequestNotification,
@@ -290,7 +306,7 @@ export class WebFailedRequestMonitor {
         let failedCount = 0;
 
         failedRequests.forEach((request, key, map) => {
-            if (request.hasRule)
+            if (request.hasRule || request.ignored)
                 return;
 
             if (request.isRootHost)
