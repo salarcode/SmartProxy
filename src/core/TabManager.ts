@@ -56,7 +56,6 @@ export class TabManager {
 	public static getOrSetTab(tabId: number, loadTabData = true, initialUrl: string = null): TabDataType {
 		let tabData = TabManager.tabs[tabId];
 		if (tabData == null) {
-			console.log("getOrSetTab-null", tabId, document);
 			tabData = new TabDataType(tabId);
 			TabManager.tabs[tabId] = tabData;
 			if (initialUrl)
