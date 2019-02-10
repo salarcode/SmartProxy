@@ -23,7 +23,7 @@ export class SubscriptionUpdater {
     private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
     private static rulesSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
     public static updateSubscriptions() {
-        debugger;
+
         // -------------------------
         // Proxy Server Subscriptions
         let serverExistingNames: string[] = [];

@@ -77,7 +77,7 @@ export class Core {
 		// --------------------
 		// handling pac proxy messages
 		if (sender.url == ProxyEngineFirefox.proxyScriptExtensionUrlFirefox) {
-			if (message == Messages.PacProxySendRules) {
+			if (message == Messages.PacScriptGetInitialData) {
 
 				if (!sendResponse)
 					return;
@@ -155,12 +155,6 @@ export class Core {
 					let tabId = message.tabId;
 
 					TabRequestLogger.removeFromProxyableLogIdList(tabId);
-				}
-				break;
-
-			case Messages.PacProxySendRules:
-				{
-
 				}
 				break;
 
@@ -452,7 +446,6 @@ export class Core {
 			proxyRules: Settings.current.proxyRules,
 			proxyMode: Settings.current.proxyMode,
 			activeProxyServer: Settings.current.activeProxyServer,
-			useNewReturnFormat: !environment.chrome && (environment.version >= environment.bugFreeVersions.firefoxNewPacScriptReturnData),
 			bypass: Settings.current.bypass
 		};
 	}

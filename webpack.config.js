@@ -13,6 +13,7 @@ let plugins = [
     path.resolve(__dirname, 'build/*'),
   ]),
   new CopyWebpackPlugin([
+    { from: './src/core/ProxyEngineFirefoxPac.js', to: 'core-engine-ff-pac.js' },
     { from: './src/_locales', to: '_locales' },
     { from: './src/icons', to: 'icons' },
     { from: './src/ui', to: 'ui', ignore: ['code/*'] },

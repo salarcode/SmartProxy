@@ -40,7 +40,7 @@ export enum ProxyServerForProtocol {
 	SOCKS
 }
 export class Messages {
-	public static PacProxySendRules = "PacSendRules";
+	public static PacScriptGetInitialData = "PacScript_GetInitialData";
 
 	// Popup messages
 	public static PopupGetInitialData = "Popup_GetInitialData";

@@ -22,14 +22,14 @@ import { ProxyRules } from "./ProxyRules";
 import { TabManager } from "./TabManager";
 
 export class ProxyEngineFirefox {
-	private static proxyScriptUrlFirefox = "core-firefox-proxy.js";
-	public static proxyScriptExtensionUrlFirefox = browser.runtime.getURL("core-firefox-proxy.js");
+	private static proxyScriptUrlFirefox = "core-engine-ff-pac.js";
+	public static proxyScriptExtensionUrlFirefox = browser.runtime.getURL("core-engine-ff-pac.js");
 
 	/** If Firefox API available, registers proxy */
 	public static register(): boolean {
 		if (browser["proxy"] && browser.proxy["onRequest"]) {
 
-			// onRequest is Used for HTTP and HTTPS protocols only
+			// onRequest is Used for HTTP and HTTPS protocols only (WSS included), source: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/RequestFilter
 			// Smart features are available here only
 			browser.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest, { urls: ["<all_urls>"] });
 
@@ -76,14 +76,14 @@ export class ProxyEngineFirefox {
 
 		if (!requestDetails.url ||
 			settings.proxyMode == ProxyModeType.Direct)
-			return { type: "direct" };
+			return [{ type: "direct" }];
 
 		if (settings.proxyMode == ProxyModeType.SystemProxy)
 			// system proxy mode is not handled here
-			return { type: "direct" };
+			return [{ type: "direct" }];
 
 		if (!settings.activeProxyServer)
-			return { type: "direct" };
+			return [{ type: "direct" }];
 
 		if (settings.proxyMode == ProxyModeType.Always) {
 			// should bypass this host?
@@ -92,7 +92,7 @@ export class ProxyEngineFirefox {
 				let host = new URL(requestDetails.url).host.toLowerCase();
 
 				if (settings.bypass.bypassList.indexOf(host) !== -1)
-					return { type: "direct" };
+					return [{ type: "direct" }];
 			}
 
 			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
@@ -126,7 +126,7 @@ export class ProxyEngineFirefox {
 		}
 
 		// nothing matched
-		return { type: "direct" };
+		return [{ type: "direct" }];
 	}
 
 	private static storeTabProxyDetail(requestDetails, matchedRule: ProxyRule) {
@@ -158,25 +158,25 @@ export class ProxyEngineFirefox {
 		switch (proxyServer.protocol) {
 			case "SOCKS5":
 				// "socks" refers to the SOCKS5 protocol
-				return {
+				return [{
 					type: "socks",
 					host: proxyServer.host,
 					port: proxyServer.port,
 					proxyDNS: proxyServer.proxyDNS,
 					username: proxyServer.username,
 					password: proxyServer.password
-				};
+				}];
 
 			default:
 			case "HTTP":
 			case "HTTPS":
 			case "SOCKS4":
-				return {
+				return [{
 					type: proxyServer.protocol,
 					host: proxyServer.host,
 					port: proxyServer.port,
 					proxyDNS: proxyServer.proxyDNS
-				};
+				}];
 		}
 	}
 

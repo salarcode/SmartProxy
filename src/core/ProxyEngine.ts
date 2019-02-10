@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { PacScriptEventDispatcher } from "./EventDispatcher";
+import { PacScriptEventDispatcher } from "./PacScriptEventDispatcher";
 import { ProxyRules } from "./ProxyRules";
 import { Settings } from "./Settings";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
-import { environment } from "../lib/environment";
+import { environment, browser } from "../lib/environment";
 
 export class ProxyEngine {
 
