@@ -405,17 +405,15 @@ export class SettingsOperation {
 			});
 	}
 	public static saveProxyMode() {
-		// internal.setBrowserActionStatus();
+		if (Settings.current.options.syncSettings)
+			// don't save in local when sync enabled
+			return;
 
-		// if (Settings.current.options.syncSettings)
-		// 	// don't save in local when sync enabled
-		// 	return;
-
-		// PolyFill.storageLocalSet({ proxyMode: Settings.current.proxyMode },
-		// 	null,
-		// 	error => {
-		// 		Debug.error(`SettingsOperation.saveProxyMode error: ${error.message}`);
-		// 	});
+		PolyFill.storageLocalSet({ proxyMode: Settings.current.proxyMode },
+			null,
+			error => {
+				Debug.error(`SettingsOperation.saveProxyMode error: ${error.message}`);
+			});
 	}
 	public static validateProxyServer(server) {
 		if (server.port <= 0 || server.port >= 65535) {
