@@ -164,7 +164,8 @@ export class Core {
 						message.proxyMode === undefined)
 						return;
 
-					Settings.current.proxyMode = message.proxyMode;
+					// converting to int
+					Settings.current.proxyMode = +message.proxyMode;
 
 					// save the changes
 					SettingsOperation.saveProxyMode();
@@ -607,7 +608,6 @@ export class Core {
 	public static setBrowserActionStatus(tabData?: TabDataType) {
 		let extensionName = browser.i18n.getMessage("extensionName");
 		let proxyTitle = "";
-
 		switch (Settings.current.proxyMode) {
 
 			case ProxyModeType.Direct:
