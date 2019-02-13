@@ -23,6 +23,10 @@ export class ProxyRules {
 
 	private static compiledRulesList: CompiledRule[] = [];
 
+	public static getCompiledRulesList(): CompiledRule[] {
+		return ProxyRules.compiledRulesList;
+	}
+
 	public static toggleRuleByDomain(domain: string) {
 
 		// the domain should be the source
@@ -393,6 +397,6 @@ export class ProxyRules {
 	}
 }
 
-class CompiledRule extends ProxyRule {
+export class CompiledRule extends ProxyRule {
 	regex: RegExp;
 }

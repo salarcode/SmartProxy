@@ -16,6 +16,7 @@
  */
 import { Debug } from "../lib/Debug";
 import { Utils } from "../lib/Utils";
+import { browser } from "../lib/environment";
 
 export class WebRequestMonitor {
 	private static isMonitoring = false;

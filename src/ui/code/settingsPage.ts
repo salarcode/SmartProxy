@@ -277,13 +277,13 @@ export class settingsPage {
     private static initializeUi() {
         if (environment.chrome) {
             jQuery("#divAlertChrome").show();
-            jQuery("#ff-only").show();
+            jQuery(".ff-only").show();
 
             // not supported by Chrome
             jQuery("#chkEnableBypassForSystemProxy").attr("disabled", "disabled");
         } else {
             jQuery("#divAlertFirefox").show();
-            jQuery("#ff-only").hide();
+            jQuery(".ff-only").hide();
         }
 
         // the default values

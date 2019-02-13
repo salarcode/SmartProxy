@@ -19,12 +19,13 @@ import { ProxyRules } from "./ProxyRules";
 import { Settings } from "./Settings";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { environment, browser } from "../lib/environment";
+import { ProxyEngineChrome } from "./ProxyEngineChrome";
 
 export class ProxyEngine {
 
     public static registerEngine() {
         if (environment.chrome) {
-            throw "Chrome proxy not implemented";
+            this.updateChromeProxyConfig();
         }
         else {
             ProxyEngineFirefox.register();
@@ -87,7 +88,10 @@ export class ProxyEngine {
 
 
     public static updateChromeProxyConfig() {
-        // ProxyRules.updateChromeProxyConfig()
+        if (!environment.chrome)
+            return;
+
+        ProxyEngineChrome.updateChromeProxyConfig();
     }
 
 

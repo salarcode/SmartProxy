@@ -15,6 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Debug } from "../lib/Debug";
+import { browser } from "../lib/environment";
 
 export class UpdateManager {
     private static updateInfoUrl: "https://raw.githubusercontent.com/salarcode/SmartProxy/master/updateinfo.json";

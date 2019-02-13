@@ -99,6 +99,7 @@ hr.afshin-line {
 }
 
 .nav-pills.flex-column>a.active .fa,
+.nav-pills.flex-column>a.active .fab,
 .nav-pills.flex-column>a.active .fas,
 .nav-pills.flex-column>a.active .far {
     color: white !important;

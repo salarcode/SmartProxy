@@ -18,6 +18,7 @@ import { PolyFill } from "../lib/PolyFill";
 import { ProxyModeType, ProxyRuleType, ProxyServerForProtocol } from "./definitions";
 import { Debug } from "../lib/Debug";
 import { SettingsOperation } from "./SettingsOperation";
+import { browser } from "../lib/environment";
 
 export class Settings {
 
