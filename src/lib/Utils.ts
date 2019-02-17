@@ -66,7 +66,7 @@ export class Utils {
 		// then we convert the percent encodings into raw bytes which
 		// can be fed into btoa.
 		return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-			(match, p1: number) => String.fromCharCode(p1)));
+			(match, p1: number) => String.fromCharCode(+('0x' + p1))));
 	}
 
 	public static b64DecodeUnicode(str: string): string {
