@@ -29,6 +29,7 @@ export class ProxyEngine {
         }
         else {
             ProxyEngineFirefox.register();
+            this.updateFirefoxProxyConfig();
         }
 
         this.notifyCompileRules(false);
@@ -37,6 +38,7 @@ export class ProxyEngine {
     public static notifySettingsOptionsChanged() {
 
         // update proxy rules
+        this.updateFirefoxProxyConfig();
         this.updateChromeProxyConfig();
     }
 
@@ -45,6 +47,7 @@ export class ProxyEngine {
         PacScriptEventDispatcher.notifyProxyModeChange();
 
         // update proxy rules
+        this.updateFirefoxProxyConfig();
         this.updateChromeProxyConfig();
     }
 
@@ -54,6 +57,7 @@ export class ProxyEngine {
         PacScriptEventDispatcher.notifyActiveProxyServerChange();
 
         // update proxy rules
+        this.updateFirefoxProxyConfig();
         this.updateChromeProxyConfig();
     }
 
@@ -63,6 +67,7 @@ export class ProxyEngine {
 
         // update proxy rules
         this.updateChromeProxyConfig();
+        this.updateFirefoxProxyConfig();
     }
 
     private static notifyCompileRules(sendMessage: boolean = true) {
@@ -72,6 +77,7 @@ export class ProxyEngine {
 
         // update proxy rules
         this.updateChromeProxyConfig();
+        this.updateFirefoxProxyConfig();
 
         // TODO: is this only in firefox
         // update proxy rules
@@ -84,6 +90,7 @@ export class ProxyEngine {
 
         // update proxy rules
         this.updateChromeProxyConfig();
+        this.updateFirefoxProxyConfig();
     }
 
 
@@ -94,5 +101,10 @@ export class ProxyEngine {
         ProxyEngineChrome.updateChromeProxyConfig();
     }
 
+    public static updateFirefoxProxyConfig() {
+        if (environment.chrome)
+            return;
 
+        ProxyEngineFirefox.updateFirefoxProxyConfig();
+    }
 }

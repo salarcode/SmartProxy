@@ -17,9 +17,10 @@
 import { browser } from "../lib/environment";
 import { Debug } from "../lib/Debug";
 import { Settings, ProxyServer, ProxyRule } from "../core/Settings";
-import { ProxyModeType } from "./definitions";
+import { ProxyModeType, BrowserProxySettingsType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { TabManager } from "./TabManager";
+import { PolyFill } from "../lib/PolyFill";
 
 export class ProxyEngineFirefox {
 	private static proxyScriptUrlFirefox = "core-engine-ff-pac.js";
@@ -42,6 +43,35 @@ export class ProxyEngineFirefox {
 		}
 		return false;
 	}
+
+	public static updateFirefoxProxyConfig() {
+		let settings = Settings.current;
+		let proxySettings = {
+			proxyType: BrowserProxySettingsType.system,
+			proxyDNS: true
+		};
+
+		switch (settings.proxyMode) {
+			case ProxyModeType.Direct:
+				proxySettings.proxyType = BrowserProxySettingsType.none;
+				break;
+			case ProxyModeType.SmartProxy:
+			case ProxyModeType.Always:
+			case ProxyModeType.SystemProxy:
+				proxySettings.proxyType = BrowserProxySettingsType.system;
+				break;
+		}
+
+		PolyFill.browserSetProxySettings(
+			{
+				value: proxySettings
+			},
+			null,
+			function (error) {
+				Debug.log("updateFirefoxProxyConfig failed to set proxy settings", proxySettings, error);
+			});
+	}
+
 
 	private static handleProxyRequest(requestDetails) {
 		/* requestDetails->

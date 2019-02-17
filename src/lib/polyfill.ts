@@ -279,6 +279,40 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
+	public static browserGetProxySettings(success?, fail?) {
+		if (environment.chrome) {
+			chrome.proxy.settings.get(
+				response => {
+					let error = PolyFill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			// doc: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/types/BrowserSetting/get
+			browser.proxy.settings.get({})
+				.then(success, fail);
+		}
+	}
+	public static browserSetProxySettings(details, success?, fail?) {
+		if (environment.chrome) {
+			chrome.proxy.settings.set(details,
+				response => {
+					let error = PolyFill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			// doc: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/types/BrowserSetting/set
+			browser.proxy.settings.set(details)
+				.then(success, fail);
+		}
+	}
 }
 
 PolyFill.runtimeGetBrowserInfo(response => {

@@ -25,6 +25,14 @@ export enum ProxyModeType {
 	SystemProxy
 }
 
+export class BrowserProxySettingsType {
+	public static none = "none";
+	public static autoDetect = "autoDetect";
+	public static system = "system";
+	public static manual = "manual";
+	public static autoConfig = "autoConfig";
+};
+
 export enum ProxyRuleType {
 	MatchPatternHost,
 	MatchPatternUrl,
