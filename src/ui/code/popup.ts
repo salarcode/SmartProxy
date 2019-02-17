@@ -345,7 +345,9 @@ export class popup {
             proxyMode: selectedProxyMode
         });
 
-        if (!popup.popupData.hasProxyServers) {
+        if (selectedProxyMode != ProxyModeType.Direct &&
+            selectedProxyMode != ProxyModeType.SystemProxy &&
+            !popup.popupData.hasProxyServers) {
             // open the settings page
             PolyFill.runtimeOpenOptionsPage();
         }
