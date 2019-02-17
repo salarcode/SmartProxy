@@ -24,6 +24,19 @@ export class ProxyEngineChrome {
                 });
             return;
         }
+        else if (Settings.current.proxyMode == ProxyModeType.Direct) {
+            let config = {
+                mode: "direct"
+            };
+            chrome.proxy.settings.set(
+                { value: config, scope: "regular" },
+                function () {
+                    if (chrome.runtime.lastError) {
+                        Debug.error("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
+                    }
+                });
+            return;
+        }
 
         // generate PAC script specific to Chrome
         let pacScript = this.generateChromePacScript();
@@ -177,7 +190,7 @@ function FindProxyForURL(url, host) {
         let compiledRulesAsStringArray = [];
         for (let index = 0; index < compiledRules.length; index++) {
             let rule = compiledRules[index];
-            
+
             if (rule.proxy) {
                 compiledRulesAsStringArray.push(`{regex:${rule.regex.toString()},ruleType:${rule.ruleType},proxy:"${this.convertActiveProxyServer(rule.proxy)}"}`);
             } else {
