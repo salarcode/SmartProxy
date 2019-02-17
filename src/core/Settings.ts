@@ -66,9 +66,9 @@ export class Settings {
 				if (syncedSettings.options.syncSettings) {
 
 					// use synced settings
-					//settings = migrateFromOldVersion(syncedSettings);
+					Settings.setDefaultSettings(syncedSettings);
+					Settings.migrateFromOldVersion(syncedSettings);
 					Settings.current = syncedSettings;
-					Settings.setDefaultSettings(Settings.current);
 
 				} else {
 					// sync is disabled
@@ -94,24 +94,17 @@ export class Settings {
 		if (config["proxyRules"] == null || !Array.isArray(config.proxyRules)) {
 			config.proxyRules = [];
 		}
-		if (config["proxyMode"] == null) {
-			config.proxyMode = 1;
-		}
 		if (config["proxyServers"] == null || !Array.isArray(config.proxyServers)) {
 			config.proxyServers = [];
 		}
-		if (config["proxyServerSubscriptions"] == null || !Array.isArray(config.proxyServerSubscriptions)) {
-			config.proxyServerSubscriptions = [];
+		if (config["proxyMode"] == null) {
+			config.proxyMode = ProxyModeType.Direct;
 		}
 		if (config["activeProxyServer"] == null) {
 			config.activeProxyServer = null;
 		}
-		if (config["bypass"] == null) {
-			config.bypass = {
-				enableForAlways: false,
-				enableForSystem: false,
-				bypassList: ["127.0.0.1", "localhost", "::1"]
-			};
+		if (config["proxyServerSubscriptions"] == null || !Array.isArray(config.proxyServerSubscriptions)) {
+			config.proxyServerSubscriptions = [];
 		}
 		if (config["options"] == null) {
 			config.options = new GeneralOptions();
@@ -124,7 +117,32 @@ export class Settings {
 		PolyFill.managementGetSelf(info => {
 			config.version = info.version;
 		}, null);
+	}
 
+	private static migrateFromOldVersion(config: SettingsConfig) {
+		if (!config)
+			return;
+		if (config.proxyRules && config.proxyRules.length > 0) {
+
+			// check if pattern property exists
+			if (config.proxyRules[0]["pattern"]) {
+				let oldRules = config.proxyRules;
+				let newRules: ProxyRule[] = [];
+
+				for (const oldRule of oldRules) {
+					let newRule = new ProxyRule();
+					newRule.rulePattern = oldRule["pattern"];
+					newRule.sourceDomain = oldRule["source"];
+					newRule.enabled = oldRule.enabled;
+					newRule.proxy = oldRule.proxy;
+					newRule.ruleType = ProxyRuleType.MatchPatternUrl;
+
+					newRules.push(newRule);
+				}
+
+				config.proxyRules = newRules;
+			}
+		}
 	}
 }
 
@@ -159,6 +177,8 @@ export class GeneralOptions {
 }
 export class BypassOptions {
 	public enableForAlways: boolean = false;
+
+	// TODO: Remove enable for system
 	public enableForSystem: boolean = false;
 	public bypassList: string[] = ["127.0.0.1", "localhost", "::1"];
 }
