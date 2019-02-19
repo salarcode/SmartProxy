@@ -152,10 +152,10 @@ export class SettingsOperation {
 			// force to save changes to local
 			SettingsOperation.saveAllLocal(true);
 
-			// ProxyEngine.notifyProxyRulesChanged();
-			// ProxyEngine.notifyActiveProxyServerChanged();
-			// ProxyEngine.notifyProxyModeChanged();
-			// ProxyEngine.notifyBypassChanged();
+			ProxyEngine.notifyProxyRulesChanged();
+			ProxyEngine.notifyActiveProxyServerChanged();
+			ProxyEngine.notifyProxyModeChanged();
+			ProxyEngine.notifyBypassChanged();
 		});
 	}
 	public static saveAllSync() {
