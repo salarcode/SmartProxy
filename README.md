@@ -15,9 +15,9 @@ Please test it and report issues.
 * Apply proxy to a certain tab and all resources in it.
 * UI will be based on Bootstrap 4.
 * More proxy rule options.
-* [Complete list of changes here](https://github.com/salarcode/SmartProxy/milestone/6)
+* [Complete list of changes here](https://github.com/salarcode/SmartProxy/milestone/6?closed=1)
 
-**[:star: Download Version 0.8 Beta 1 For Firefox](https://github.com/salarcode/SmartProxy/tree/v0.8-beta1)**
+**[:star: Download Version 0.8 Beta 1 For Firefox](https://github.com/salarcode/SmartProxy/releases/tag/v0.8-beta1)**
 
 #### What is SmartProxy
 SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions technology.
