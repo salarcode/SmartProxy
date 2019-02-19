@@ -16,13 +16,12 @@
  */
 import { CommonUi } from "./CommonUi";
 import { PolyFill } from "../../lib/PolyFill";
-import { Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServerForProtocol, ResultHolder, ProxyRuleType } from "../../core/definitions";
 import { messageBox, jQuery } from "../../lib/External";
 import { environment, browser } from "../../lib/environment";
-import { SettingsConfig, ProxyServer, BypassOptions, GeneralOptions, ProxyRule, ProxyServerSubscription } from "../../core/Settings";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
+import { SettingsConfig, Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, BypassOptions, ResultHolder } from "../../core/definitions";
 
 export class settingsPage {
 
@@ -1157,7 +1156,7 @@ export class settingsPage {
             let item = settingsPage.readSelectedServer(e);
             if (!item)
                 return;
-            debugger;
+			
             let modal = jQuery("#modalModifyProxyServer");
             modal.data("editing", item);
 

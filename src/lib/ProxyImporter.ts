@@ -15,8 +15,8 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Utils } from "./Utils";
-import { ProxyServer, ProxyServerSubscription } from "../core/Settings";
 import { browser } from "./environment";
+import { ProxyServerSubscription, ProxyServer } from "../core/definitions";
 
 export const ProxyImporter = {
 	readFromServer(serverDetail: ProxyServerSubscription, success?: Function, fail?: Function) {

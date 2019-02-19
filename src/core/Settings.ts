@@ -15,17 +15,17 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { PolyFill } from "../lib/PolyFill";
-import { ProxyModeType, ProxyRuleType, ProxyServerForProtocol } from "./definitions";
+import { ProxyModeType, ProxyRuleType, proxyServerProtocols, ProxyServer, GeneralOptions, BypassOptions, SettingsConfig, ProxyRule } from "./definitions";
 import { Debug } from "../lib/Debug";
 import { SettingsOperation } from "./SettingsOperation";
 import { browser } from "../lib/environment";
+import { Utils } from "../lib/Utils";
 
 export class Settings {
 
 	public static current: SettingsConfig;
 
-	/** TODO: specify the type */
-	public static currentOptionsSyncSettings: any;
+	public static currentOptionsSyncSettings: boolean = true;
 
 	public static onInitialized: Function = null;
 
@@ -42,8 +42,9 @@ export class Settings {
 
 
 	private static onInitializeGetLocalData(data: any) {
+		Settings.setDefaultSettings(data);
+		Settings.migrateFromOldVersion(data);
 		Settings.current = data;
-		Settings.setDefaultSettings(Settings.current);
 
 		// read all the synced data along with synced ones
 		PolyFill.storageSyncGet(null,
@@ -57,7 +58,7 @@ export class Settings {
 
 	private static onInitializeGetSyncData(data: any) {
 		try {
-			let syncedSettings = SettingsOperation.decodeSyncData(data);
+			let syncedSettings = Utils.decodeSyncData(data);
 
 			// only if sync settings is enabled
 			if (syncedSettings &&
@@ -76,7 +77,6 @@ export class Settings {
 				}
 
 				Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
-
 			}
 		} catch (e) {
 			Debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
@@ -90,7 +90,7 @@ export class Settings {
 		Debug.error(`settingsOperation.readSyncedSettings error: ${error.message}`);
 	}
 
-	private static setDefaultSettings(config: SettingsConfig) {
+	public static setDefaultSettings(config: SettingsConfig) {
 		if (config["proxyRules"] == null || !Array.isArray(config.proxyRules)) {
 			config.proxyRules = [];
 		}
@@ -119,7 +119,7 @@ export class Settings {
 		}, null);
 	}
 
-	private static migrateFromOldVersion(config: SettingsConfig) {
+	public static migrateFromOldVersion(config: SettingsConfig) {
 		if (!config)
 			return;
 		if (config.proxyRules && config.proxyRules.length > 0) {
@@ -144,126 +144,49 @@ export class Settings {
 			}
 		}
 	}
-}
 
-export class SettingsConfig {
-	constructor() {
-		this.options = new GeneralOptions();
-		this.bypass = new BypassOptions();
-	}
-	public product: string = "SmartProxy";
-	public version: string = "";
-	public proxyRules: ProxyRule[] = [];
-	public proxyServers: ProxyServer[] = [];
-	public proxyMode: ProxyModeType = ProxyModeType.Direct;
-
-	public activeProxyServer: ProxyServer | null;
-	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
-	public options: GeneralOptions;
-	public bypass: BypassOptions;
-}
-export class GeneralOptions {
-	public syncSettings: boolean = false;
-	public syncProxyMode: boolean = true;
-	public syncActiveProxy: boolean = true;
-	public detectRequestFailures: boolean = true;
-	public ignoreRequestFailuresForDomains: string[];
-	public displayFailedOnBadge: boolean = true;
-	public displayAppliedProxyOnBadge: boolean = true;
-	// TODO: New feature proxyPerOrigin
-	public proxyPerOrigin: boolean = true;
-	public enableShortcuts: boolean = true;
-	public shortcutNotification: boolean = true;
-}
-export class BypassOptions {
-	public enableForAlways: boolean = false;
-
-	// TODO: Remove enable for system
-	public enableForSystem: boolean = false;
-	public bypassList: string[] = ["127.0.0.1", "localhost", "::1"];
-}
-
-class ProxyServerConnectDetails {
-	public host: string;
-	public port: number;
-	public protocol: string;
-	public username: string;
-	public password: string;
-	public proxyDNS: boolean;
-}
-
-export class ProxyServer extends ProxyServerConnectDetails {
-	public name: string;
-	public failoverTimeout: number;
-	public protocolsServer: ProxyServerConnectDetails[];
-}
-
-export class ProxyRule {
-	public ruleType: ProxyRuleType;
-	public sourceDomain: string;
-	public autoGeneratePattern: boolean;
-	public rulePattern: string;
-	public ruleRegex: string;
-	public ruleExact: string;
-	public proxy: ProxyServer;
-	public enabled: boolean;
-
-	get ruleTypeName(): string {
-		return ProxyRuleType[this.ruleType];
-	}
-
-	get rule(): string {
-		// why ruleType is string? converting to int
-		switch (+this.ruleType) {
-			case ProxyRuleType.MatchPatternHost:
-			case ProxyRuleType.MatchPatternUrl:
-				return this.rulePattern;
-
-			case ProxyRuleType.RegexHost:
-			case ProxyRuleType.RegexUrl:
-				return this.ruleRegex;
-
-			case ProxyRuleType.Exact:
-				return this.ruleExact;
-		}
-		return "";
-	}
-	public static assignArray(rules: any[]): ProxyRule[] {
-		if (!rules || !rules.length)
-			return [];
-		let result: ProxyRule[] = [];
-
-		for (let index = 0; index < rules.length; index++) {
-			const r = rules[index];
-			let rule = new ProxyRule();
-
-			Object.assign(rule, r);
-			result.push(rule);
+	
+	public static validateProxyServer(server: ProxyServer): {
+		success: boolean, exist?: boolean, message?: string,
+		result?: any
+	} {
+		if (server.port <= 0 || server.port >= 65535) {
+			return {
+				success: false,
+				message: browser.i18n.getMessage("settingsServerPortInvalid").replace("{0}", `${server.host}:${server.port}`)
+			};
 		}
 
-		return result;
+		if (!server.host || !Utils.isValidHost(server.host)) {
+			return {
+				success: false,
+				message: browser.i18n.getMessage("settingsServerHostInvalid").replace("{0}", `${server.host}:${server.port}`)
+			};
+		}
+
+		if (!server.name) {
+			return { success: false, message: browser.i18n.getMessage("settingsServerNameRequired") };
+		} else {
+
+			const currentServers = Settings.current.proxyServers;
+
+			for (let srv of currentServers) {
+				if (srv.name == server.name) {
+					return { success: false, exist: true, message: `Server name ${server.name} already exists` };
+				}
+			}
+		}
+
+		if (!server.protocol) {
+			server.protocol = "HTTP";
+		} else {
+			if (proxyServerProtocols.indexOf(server.protocol) == -1) {
+				// not valid protocol, resetting
+				server.protocol = "HTTP";
+			}
+		}
+
+		return { success: true };
 	}
 }
 
-export class ProxyServerSubscription {
-	public name: string;
-	public url: string;
-	public enabled: boolean = false;
-
-	// same as proxyServerProtocols
-	public proxyProtocol: null;
-
-	// in minutes
-	public refreshRate: number = 0;
-
-	// types stored in proxyServerSubscriptionObfuscate
-	public obfuscation: string;
-
-	// number of proxies in the list
-	public totalCount: number = 0;
-
-	public username: string;
-	public password: string;
-	// the loaded proxies
-	public proxies: any[];
-}

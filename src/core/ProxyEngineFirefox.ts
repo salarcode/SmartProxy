@@ -16,11 +16,11 @@
  */
 import { browser } from "../lib/environment";
 import { Debug } from "../lib/Debug";
-import { Settings, ProxyServer, ProxyRule } from "../core/Settings";
-import { ProxyModeType, BrowserProxySettingsType } from "./definitions";
+import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { TabManager } from "./TabManager";
 import { PolyFill } from "../lib/PolyFill";
+import { Settings } from "./Settings";
 
 export class ProxyEngineFirefox {
 	private static proxyScriptUrlFirefox = "core-engine-ff-pac.js";

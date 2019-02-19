@@ -14,10 +14,73 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser } from "./environment";
-import { jQuery } from "./External";
-
+import { browser, environment } from "./environment";
+import { jQuery, pako } from "./External";
+import { SettingsConfig } from "../core/definitions";
 export class Utils {
+
+	public static encodeSyncData(inputObject: SettingsConfig) {
+		let settingStr = JSON.stringify(inputObject);
+
+		// encode string to utf8
+		let enc = new TextEncoder();
+		let settingArray = enc.encode(settingStr);
+
+		// compress
+		let compressResultStr = pako.deflateRaw(settingArray, { to: "string" });
+		compressResultStr = Utils.b64EncodeUnicode(compressResultStr);
+
+		let saveObject = {};
+
+		// some browsers have limitation on data size per item
+		// so we have split the data into chunks saved in a object
+		splitIntoChunks(compressResultStr, saveObject);
+
+		function splitIntoChunks(str: any, outputObject: any) {
+			let length = environment.storageQuota.syncQuotaBytesPerItem();
+			if (length > 0) {
+
+				let chunks = Utils.chunkString(str, length);
+				outputObject.chunkLength = chunks.length;
+
+				for (let index = 0; index < chunks.length; index++) {
+					outputObject["c" + index] = chunks[index];
+				}
+
+			} else {
+				outputObject.c0 = str;
+				outputObject.chunkLength = 1;
+			}
+		}
+
+		return saveObject;
+	}
+
+	public static decodeSyncData(inputObject: any): SettingsConfig {
+		if (!inputObject || !inputObject.chunkLength)
+			return null;
+
+		// joining the chunks
+		let chunks = [];
+		for (let index = 0; index < inputObject.chunkLength; index++) {
+			chunks.push(inputObject["c" + index]);
+		}
+		let compressResultStr = chunks.join("");
+
+		// convert from base64 string
+		compressResultStr = Utils.b64DecodeUnicode(compressResultStr);
+
+		// decompress
+		let settingArray = pako.inflateRaw(compressResultStr);
+
+		// decode array to string
+		let dec = new TextDecoder();
+		let settingStr = dec.decode(settingArray);
+
+		// parse the JSON
+		return JSON.parse(settingStr);
+	}
+	
 	public static removeDuplicates(originalArray: string[], prop: string) {
 		//<reference path="https://stackoverflow.com/a/36744732/322446"/>
 		return originalArray.filter(

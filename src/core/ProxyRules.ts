@@ -15,8 +15,8 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Debug } from "../lib/Debug";
-import { ProxyRule, Settings } from "./Settings";
-import { ProxyRuleType } from "./definitions";
+import { Settings } from "./Settings";
+import { ProxyRuleType, CompiledRule, ProxyRule } from "./definitions";
 import { Utils } from "../lib/Utils";
 
 export class ProxyRules {
@@ -395,8 +395,30 @@ export class ProxyRules {
 
 		return result;
 	}
-}
 
-export class CompiledRule extends ProxyRule {
-	regex: RegExp;
+	public static validateRule(rule: ProxyRule): {
+		success: boolean, exist?: boolean, message?: string,
+		result?: any
+	} {
+		// 	proxyRules: [{ rule: "rule", host: "host", enabled: false }],
+		if (!rule.sourceDomain) {
+			// Rule 'source' is empty
+			return { success: false, message: browser.i18n.getMessage("settingsRuleSourceIsEmpty") };
+		} else {
+
+			if (!Utils.isValidHost(rule.sourceDomain)) {
+				// 'source' is not valid '${rule.source}
+				return { success: false, message: browser.i18n.getMessage("settingsRuleSourceInvalidFormat").replace("{0}", rule.sourceDomain) };
+			}
+		}
+
+		if (!rule.rule)
+			// Rule doesn't have pattern defined
+			return { success: false, message: browser.i18n.getMessage("AAAAAAAAAAAAAA") };
+
+		if (rule["enabled"] == null)
+			rule.enabled = true;
+
+		return { success: true };
+	}
 }

@@ -16,8 +16,7 @@
  */
 import { PolyFill } from "../lib/PolyFill";
 import { LiteEvent } from "../lib/LiteEvent";
-import { FailedRequestType } from "./definitions";
-import { ProxyServer } from "./Settings";
+import { FailedRequestType, ProxyServer } from "./definitions";
 import { browser } from "../lib/environment";
 
 export class TabManager {

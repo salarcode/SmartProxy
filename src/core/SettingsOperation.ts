@@ -19,97 +19,59 @@ import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { pako } from "../lib/External";
 import { Utils } from "../lib/Utils";
-import { environment, browser } from "../lib/environment";
-import { proxyServerProtocols } from "./definitions";
+import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions } from "./definitions";
+import { ProxyEngine } from "./ProxyEngine";
+import { ProxyRules } from "./ProxyRules";
 
 export class SettingsOperation {
-	public static setDefaultSettings(settingObj) {
-
-		if (settingObj["proxyRules"] == null || !Array.isArray(settingObj.proxyRules)) {
-			settingObj.proxyRules = [];
-		}
-		if (settingObj["proxyMode"] == null) {
-			settingObj.proxyMode = 1;
-		}
-		if (settingObj["proxyServers"] == null || !Array.isArray(settingObj.proxyServers)) {
-			settingObj.proxyServers = [];
-		}
-		if (settingObj["proxyServerSubscriptions"] == null || !Array.isArray(settingObj.proxyServerSubscriptions)) {
-			settingObj.proxyServerSubscriptions = [];
-		}
-		if (settingObj["activeProxyServer"] == null) {
-			settingObj.activeProxyServer = null;
-		}
-		if (settingObj["bypass"] == null) {
-			settingObj.bypass = {
-				enableForAlways: false,
-				enableForSystem: false,
-				bypassList: ["127.0.0.1", "localhost", "::1"]
-			};
-		}
-		if (settingObj["options"] == null) {
-			settingObj.options = {};
-		}
-		settingObj.product = "SmartProxy";
-
-		PolyFill.managementGetSelf(info => {
-			settingObj.version = info.version;
-		});
-	}
-
-	public static readSyncedSettings(success) {
+	public static readSyncedSettings(success: Function) {
 		// getting synced data
 		PolyFill.storageSyncGet(null,
 			onGetSyncData,
 			onGetSyncError);
 
-		function onGetSyncData(data: any);
-		function onGetSyncData(data) {
+		function onGetSyncData(data: any) {
 
 			try {
-				let syncedSettings = SettingsOperation.decodeSyncData(data);
+				let syncedSettings = Utils.decodeSyncData(data);
 
 				// only if sync settings is enabled
 				if (syncedSettings &&
-					syncedSettings.current.options) {
+					syncedSettings.options) {
 
-					if (syncedSettings.current.options.syncSettings) {
-
+					if (syncedSettings.options.syncSettings) {
+						Settings.setDefaultSettings(syncedSettings);
+						Settings.migrateFromOldVersion(syncedSettings);
 						// use synced settings
-						//settings = migrateFromOldVersion(syncedSettings);
-
-						// TODO: don't replace current settings directly
 						Settings.current = syncedSettings;
-						SettingsOperation.setDefaultSettings(Settings.current);
 
 					} else {
 						// sync is disabled
-						syncedSettings.current.options.syncSettings = false;
+						syncedSettings.options.syncSettings = false;
 					}
 
-					// TODO: don't replace current settings directly
-					Settings.currentOptionsSyncSettings = syncedSettings.current.options.syncSettings;
+					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
+
+					if (success)
+						success();
 				}
 			} catch (e) {
 				Debug.error(`SettingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
 			}
 		}
 
-		function onGetSyncError(error: any);
-		function onGetSyncError(error) {
+		function onGetSyncError(error: any) {
 			Debug.error(`SettingsOperation.readSyncedSettings error: ${error.message}`);
 		}
 	}
 
-	public static initialize(success) {
+	public static initialize(success: Function) {
 		///<summary>The initialization method</summary>
-		function onGetLocalData(data: any);
-		function onGetLocalData(data) {
+		function onGetLocalData(data: any) {
 			// all the settings
-			// TODO: don't replace current settings directly
-			Settings.current = migrateFromOldVersion(data);
-
-			SettingsOperation.setDefaultSettings(Settings.current);
+			Settings.setDefaultSettings(data);
+			Settings.migrateFromOldVersion(data);
+			Settings.current = data;
 
 			// read all the synced data along with synced ones
 			PolyFill.storageSyncGet(null,
@@ -117,30 +79,28 @@ export class SettingsOperation {
 				onGetSyncError);
 		}
 
-		function onGetSyncData(data: any);
-		function onGetSyncData(data) {
+		function onGetSyncData(data: any) {
 
 			try {
-				let syncedSettings = SettingsOperation.decodeSyncData(data);
+				let syncedSettings = Utils.decodeSyncData(data);
 
 				// only if sync settings is enabled
 				if (syncedSettings &&
-					syncedSettings.current.options) {
+					syncedSettings.options) {
 
-					if (syncedSettings.current.options.syncSettings) {
+					if (syncedSettings.options.syncSettings) {
 
 						// use synced settings
-						// TODO: don't replace current settings directly
-						Settings.current = migrateFromOldVersion(syncedSettings);
-						SettingsOperation.setDefaultSettings(Settings.current);
+						Settings.setDefaultSettings(syncedSettings);
+						Settings.migrateFromOldVersion(syncedSettings);
+						Settings.current = syncedSettings;
 
 					} else {
 						// sync is disabled
-						syncedSettings.current.options.syncSettings = false;
+						syncedSettings.options.syncSettings = false;
 					}
 
-					// TODO: don't replace current settings directly
-					Settings.currentOptionsSyncSettings = syncedSettings.current.options.syncSettings;
+					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
 				}
 			} catch (e) {
 				Debug.error(`SettingsOperation.onGetSyncData error: ${e} \r\n ${data}`);
@@ -151,13 +111,11 @@ export class SettingsOperation {
 			}
 		}
 
-		function onGetLocalError(error: any);
-		function onGetLocalError(error) {
+		function onGetLocalError(error: any) {
 			Debug.error(`SettingsOperation.initialize error: ${error.message}`);
 		}
 
-		function onGetSyncError(error: any);
-		function onGetSyncError(error) {
+		function onGetSyncError(error: any) {
 			Debug.error(`SettingsOperation.initialize error: ${error.message}`);
 
 			// local settings should be used
@@ -165,47 +123,12 @@ export class SettingsOperation {
 				success();
 			}
 		}
-
-		function migrateFromOldVersion(data: any);
-		function migrateFromOldVersion(data) {
-			///<summary>Temporary migration for old version of this addon in Firefox. This method will be removed in the future</summary>
-			if (!data) return data;
-			let shouldMigrate = false;
-
-			if (data.proxyRules &&
-				data.proxyRules.length > 0) {
-
-				let rule = data.proxyRules[0];
-
-				// the old properties
-				if (rule.hasOwnProperty("rule") ||
-					!rule.hasOwnProperty("proxy")) {
-					shouldMigrate = true;
-				}
-			}
-			if (shouldMigrate) {
-
-				let newProxyRules = [];
-				// for (let oldRule of data.proxyRules) {
-				// 	// newProxyRules.push(
-				// 	// 	new  {
-				// 	// 		pattern: oldRule.rule || oldRule.pattern,
-				// 	// 		source: oldRule.host || oldRule.source,
-				// 	// 		enabled: oldRule.enabled,
-				// 	// 		proxy: oldRule.proxy
-				// 	// 	});
-				// }
-				data.proxyRules = newProxyRules;
-			}
-			return data;
-		}
-
 		PolyFill.storageLocalGet(null,
 			onGetLocalData,
 			onGetLocalError);
 
 	}
-	public static findProxyServerByName(name) {
+	public static findProxyServerByName(name: string) {
 		let proxy = Settings.current.proxyServers.find(item => item.name === name);
 		if (proxy !== undefined) return proxy;
 
@@ -217,70 +140,7 @@ export class SettingsOperation {
 		return null;
 	}
 
-	public static encodeSyncData(inputObject) {
-
-		let settingStr = JSON.stringify(inputObject);
-
-		// encode string to utf8
-		let enc = new TextEncoder();
-		let settingArray = enc.encode(settingStr);
-
-		// compress
-		let compressResultStr = pako.deflateRaw(settingArray, { to: "string" });
-		compressResultStr = Utils.b64EncodeUnicode(compressResultStr);
-
-		let saveObject = {};
-
-		// some browsers have limitation on data size per item
-		// so we have split the data into chunks saved in a object
-		splitIntoChunks(compressResultStr, saveObject);
-
-		function splitIntoChunks(str: any, outputObject: any);
-		function splitIntoChunks(str: any, outputObject: any) {
-			let length = environment.storageQuota.syncQuotaBytesPerItem();
-			if (length > 0) {
-
-				let chunks = Utils.chunkString(str, length);
-				outputObject.chunkLength = chunks.length;
-
-				for (let index = 0; index < chunks.length; index++) {
-					outputObject["c" + index] = chunks[index];
-				}
-
-			} else {
-				outputObject.c0 = str;
-				outputObject.chunkLength = 1;
-			}
-		}
-
-		return saveObject;
-	}
-
-	public static decodeSyncData(inputObject) {
-		if (!inputObject || !inputObject.chunkLength)
-			return null;
-
-		// joining the chunks
-		let chunks = [];
-		for (let index = 0; index < inputObject.chunkLength; index++) {
-			chunks.push(inputObject["c" + index]);
-		}
-		let compressResultStr = chunks.join("");
-
-		// convert from base64 string
-		compressResultStr = Utils.b64DecodeUnicode(compressResultStr);
-
-		// decompress
-		let settingArray = pako.inflateRaw(compressResultStr);
-
-		// decode array to string
-		let dec = new TextDecoder();
-		let settingStr = dec.decode(settingArray);
-
-		// parse the JSON
-		return JSON.parse(settingStr);
-	}
-	public static syncOnChanged(changes, area) {
+	public static syncOnChanged(changes: any, area: string) {
 		if (area !== "sync") return;
 
 		Debug.log("syncOnChanged ", area, changes);
@@ -292,14 +152,10 @@ export class SettingsOperation {
 			// force to save changes to local
 			SettingsOperation.saveAllLocal(true);
 
-			// ProxyRules.notifyProxyRulesChange();
-			// ProxyRules.notifyActiveProxyServerChange();
-			// ProxyRules.notifyProxyModeChange();
-			// ProxyRules.notifyBypassChanged();
-
-			// // update proxy rules
-			// ProxyRules.updateChromeProxyConfig();
-
+			// ProxyEngine.notifyProxyRulesChanged();
+			// ProxyEngine.notifyActiveProxyServerChanged();
+			// ProxyEngine.notifyProxyModeChanged();
+			// ProxyEngine.notifyBypassChanged();
 		});
 	}
 	public static saveAllSync() {
@@ -311,12 +167,12 @@ export class SettingsOperation {
 		// before anything save everything in local
 		SettingsOperation.saveAllLocal(true);
 
-		let saveObject = SettingsOperation.encodeSyncData(Settings.current);
+		let saveObject = Utils.encodeSyncData(Settings.current);
 
 		try {
 			PolyFill.storageSyncSet(saveObject,
 				() => {
-					// TODO: don't replace current settings directly
+
 					Settings.currentOptionsSyncSettings = Settings.current.options.syncSettings;
 				},
 				error => {
@@ -327,7 +183,7 @@ export class SettingsOperation {
 			Debug.error(`SettingsOperation.saveAllSync error: ${e}`);
 		}
 	}
-	public static saveAllLocal(forceSave) {
+	public static saveAllLocal(forceSave: boolean = false) {
 		if (!forceSave && Settings.current.options.syncSettings)
 			// don't save in local when sync enabled
 			return;
@@ -415,248 +271,252 @@ export class SettingsOperation {
 				Debug.error(`SettingsOperation.saveProxyMode error: ${error.message}`);
 			});
 	}
-	public static validateProxyServer(server) {
-		if (server.port <= 0 || server.port >= 65535) {
-			return {
-				success: false,
-				message: browser.i18n.getMessage("settingsServerPortInvalid").replace("{0}", `${server.host}:${server.port}`)
-			};
-		}
 
-		if (!server.host || !Utils.isValidHost(server.host)) {
-			return {
-				success: false,
-				message: browser.i18n.getMessage("settingsServerHostInvalid").replace("{0}", `${server.host}:${server.port}`)
-			};
-		}
+	public static restoreSettings(fileData: string) {
+		if (fileData == null)
+			return { success: false, message: "Invalid data" };
 
-		if (!server.name) {
-			return { success: false, message: browser.i18n.getMessage("settingsServerNameRequired") };
-		} else {
+		function restoreServers(backupServers: any[]) {
+			let upcomingServers: ProxyServer[] = [];
+			for (let backServer of backupServers) {
 
-			//const currentServers = Settings.current.proxyServers;
+				let newServer = new ProxyServer();
+				newServer.CopyFrom(backServer);
 
-			//for (let cserver of currentServers) {
-			//	if (cserver.name == server.name) {
-			//		return { success: false, exist: true, message: `Server name ${server.name} already exists` };
-			//	}
-			//}
-		}
+				let validateResult = Settings.validateProxyServer(newServer);
+				if (!validateResult.success) {
+					// if validation failed
 
-		if (!server.protocol) {
-			server.protocol = "HTTP";
-		} else {
-			if (proxyServerProtocols.indexOf(server.protocol) == -1) {
-				// not valid protocol, resetting
-				server.protocol = "HTTP";
+					if (validateResult.exist) {
+						continue;
+					}
+					// not exist, then failed
+					return validateResult;
+				}
+
+				// good
+				upcomingServers.push(newServer);
 			}
+
+			return { success: true, result: upcomingServers };
 		}
 
-		return { success: true };
-	}
-	public static restoreSettings(fileData) {
-		// if (fileData == null)
-		// 	return { success: false, message: "Invalid data" };
+		function restoreRules(backupRules: any[]) {
+			let upcomingRules: ProxyRule[] = [];
+			for (let backRule of backupRules) {
 
-		// function restoreServers(backupServers: any);
-		// function restoreServers(backupServers) {
-		// 	let upcomingServers = [];
-		// 	for (let server of backupServers) {
-		// 		let validateResult = SettingsOperation.validateProxyServer(server);
-		// 		if (!validateResult.success) {
-		// 			// if validation failed
+				let newRule = new ProxyRule();
+				newRule.CopyFrom(backRule);
 
-		// 			//if (validateResult.exist) {
-		// 			//	continue;
-		// 			//}
-		// 			// not exist, then failed
-		// 			return validateResult;
-		// 		}
+				let validateResult = ProxyRules.validateRule(newRule);
+				if (!validateResult.success) {
+					// if validation failed
+					// not exist, then failed
+					return validateResult;
+				}
 
-		// 		// good
-		// 		upcomingServers.push(server);
-		// 	}
+				// good
+				upcomingRules.push(newRule);
+			}
 
-		// 	return { success: true, result: upcomingServers };
-		// }
+			return { success: true, result: upcomingRules };
+		}
 
-		// function restoreRules(backupRules: any);
-		// function restoreRules(backupRules) {
-		// 	// let upcomingRules = [];
-		// 	// for (let rule of backupRules) {
-		// 	// 	let validateResult = ProxyRules.validateRule(rule);
-		// 	// 	if (!validateResult.success) {
-		// 	// 		// if validation failed
+		function restoreActiveServer(backupActiveProxyServer: any) {
 
-		// 	// 		//if (validateResult.exist) {
-		// 	// 		//	continue;
-		// 	// 		//}
-		// 	// 		// not exist, then failed
-		// 	// 		return validateResult;
-		// 	// 	}
+			let newActiveServer = new ProxyServer();
+			newActiveServer.CopyFrom(backupActiveProxyServer);
 
-		// 	// 	// good
-		// 	// 	upcomingRules.push(rule);
-		// 	// }
+			let validateResult = Settings.validateProxyServer(newActiveServer);
+			if (!validateResult.success &&
+				!validateResult.exist) {
+				// if validation failed
 
-		// 	// return { success: true, result: upcomingRules };
-		// }
+				// not exist, then failed
+				return validateResult;
+			}
+			return { success: true, result: newActiveServer };
+		}
 
-		// function restoreActiveServer(backupActiveProxyServer: any);
-		// function restoreActiveServer(backupActiveProxyServer) {
+		function restoreProxyMode(backupProxyMode: any) {
 
-		// 	let validateResult = SettingsOperation.validateProxyServer(backupActiveProxyServer);
-		// 	if (!validateResult.success) {
-		// 		// if validation failed
+			if (backupProxyMode == null ||
+				backupProxyMode <= 0) {
+				return { success: false, message: browser.i18n.getMessage("settingsProxyModeInvalid") };
+			}
+			return { success: true, result: backupProxyMode };
+		}
 
-		// 		//if (validateResult.exist) {
-		// 		//	continue;
-		// 		//}
-		// 		// not exist, then failed
-		// 		return validateResult;
-		// 	}
-		// 	return { success: true, result: backupActiveProxyServer };
-		// }
+		function restoreBypass(backupBypass: any) {
 
-		// function restoreProxyMode(backupProxyMode: any);
-		// function restoreProxyMode(backupProxyMode) {
+			if (backupBypass == null ||
+				(backupBypass.bypassList == null && !Array.isArray(backupBypass.bypassList))) {
+				return { success: false, message: browser.i18n.getMessage("settingsBypassInvalid") };
+			}
 
-		// 	if (backupProxyMode == null ||
-		// 		backupProxyMode <= 0) {
-		// 		return { success: false, message: browser.i18n.getMessage("settingsProxyModeInvalid") };
-		// 	}
-		// 	return { success: true, result: backupProxyMode };
-		// }
+			let newByPass = new BypassOptions();
+			newByPass.CopyFrom(backupBypass);
 
-		// function restoreBypass(backupBypass: any);
-		// function restoreBypass(backupBypass) {
+			backupBypass.enableForAlways = backupBypass.enableForAlways || false;
+			backupBypass.enableForSystem = backupBypass.enableForSystem || false;
 
-		// 	if (backupBypass == null ||
-		// 		backupBypass.bypassList == null ||
-		// 		!Array.isArray(backupBypass.bypassList)) {
-		// 		return { success: false, message: browser.i18n.getMessage("settingsBypassInvalid") };
-		// 	}
-		// 	backupBypass.enableForAlways = backupBypass.enableForAlways || false;
-		// 	backupBypass.enableForSystem = backupBypass.enableForSystem || false;
+			return { success: true, result: backupBypass };
+		}
 
-		// 	return { success: true, result: backupBypass };
-		// }
+		function restoreOptions(backupOptions: any) {
 
-		// try {
-		// 	let backupData = JSON.parse(fileData);
-		// 	let backupServers;
-		// 	let backupRules;
-		// 	let backupActiveServer;
-		// 	let backupProxyMode;
-		// 	let backupBypass;
+			if (backupOptions == null ||
+				(backupOptions.ignoreRequestFailuresForDomains && !Array.isArray(backupOptions.ignoreRequestFailuresForDomains))) {
+				return { success: false, message: browser.i18n.getMessage("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") };
+			}
 
-		// 	if (backupData["proxyServers"] != null &&
-		// 		Array.isArray(backupData.proxyServers)) {
+			let newOptions = new GeneralOptions();
+			newOptions.CopyFrom(backupOptions);
 
-		// 		let restoreServersResult = restoreServers(backupData.proxyServers);
+			return { success: true, result: newOptions };
+		}
 
-		// 		if (!restoreServersResult.success)
-		// 			return restoreServersResult;
+		try {
+			let backupData = JSON.parse(fileData);
+			let backupOptions: GeneralOptions;
+			let backupServers: ProxyServer[];
+			let backupRules: ProxyRule[];
+			let backupActiveServer: ProxyServer;
+			let backupProxyMode: ProxyModeType;
+			let backupBypass: BypassOptions;
 
-		// 		backupServers = restoreServersResult.result;
-		// 	}
+			// -----------------------------------
+			if (backupData["options"] != null &&
+				typeof (backupData.options) == "object") {
 
-		// 	if (backupData["proxyRules"] != null &&
-		// 		Array.isArray(backupData.proxyRules)) {
+				let restoreOptionsResult = restoreOptions(backupData.options);
 
-		// 		let restoreRulesResult = restoreRules(backupData.proxyRules);
+				if (!restoreOptionsResult.success)
+					return restoreOptionsResult;
 
-		// 		if (!restoreRulesResult.success)
-		// 			return restoreRulesResult;
+				backupOptions = restoreOptionsResult.result;
+			}
 
-		// 		backupRules = restoreRulesResult.result;
-		// 	}
+			// -----------------------------------
+			if (backupData["proxyServers"] != null &&
+				Array.isArray(backupData.proxyServers)) {
 
-		// 	if (backupData["activeProxyServer"] != null &&
-		// 		typeof (backupData.activeProxyServer) == "object") {
+				let restoreServersResult = restoreServers(backupData.proxyServers);
 
-		// 		let restoreActiveServerResult = restoreActiveServer(backupData.activeProxyServer);
+				if (!restoreServersResult.success)
+					return restoreServersResult;
 
-		// 		if (!restoreActiveServerResult.success)
-		// 			return restoreActiveServerResult;
+				backupServers = restoreServersResult.result;
+			}
 
-		// 		backupActiveServer = restoreActiveServerResult.result;
-		// 	}
+			// -----------------------------------
+			if (backupData["proxyRules"] != null &&
+				Array.isArray(backupData.proxyRules)) {
 
-		// 	if (backupData["proxyMode"] != null &&
-		// 		typeof (backupData.proxyMode) == "string") {
+				let restoreRulesResult = restoreRules(backupData.proxyRules);
 
-		// 		let restoreProxyModeResult = restoreProxyMode(backupData.proxyMode);
+				if (!restoreRulesResult.success)
+					return restoreRulesResult;
 
-		// 		if (!restoreProxyModeResult.success)
-		// 			return restoreProxyModeResult;
+				backupRules = restoreRulesResult.result;
+			}
 
-		// 		backupProxyMode = restoreProxyModeResult.result;
-		// 	}
-		// 	if (backupData["bypass"] != null &&
-		// 		typeof (backupData.bypass) == "object" &&
-		// 		Array.isArray(backupData.bypass.bypassList)) {
+			// -----------------------------------
+			if (backupData["activeProxyServer"] != null &&
+				typeof (backupData.activeProxyServer) == "object") {
 
-		// 		let restoreProxyModeResult = restoreBypass(backupData.bypass);
+				let restoreActiveServerResult = restoreActiveServer(backupData.activeProxyServer);
 
-		// 		if (!restoreProxyModeResult.success)
-		// 			return restoreProxyModeResult;
+				if (!restoreActiveServerResult.success)
+					return restoreActiveServerResult;
 
-		// 		backupBypass = restoreProxyModeResult.result;
-		// 	}
+				backupActiveServer = restoreActiveServerResult.result;
+			}
 
-		// 	// everything is fine so far
-		// 	// so start restoring
-		// 	if (backupServers != null) {
-		// 		Settings.current.proxyServers = backupServers;
+			// -----------------------------------
+			if (backupData["proxyMode"] != null &&
+				typeof (backupData.proxyMode) == "string") {
 
-		// 		SettingsOperation.saveProxyServers();
+				let restoreProxyModeResult = restoreProxyMode(backupData.proxyMode);
 
-		// 	}
+				if (!restoreProxyModeResult.success)
+					return restoreProxyModeResult;
 
-		// 	if (backupRules != null) {
+				backupProxyMode = restoreProxyModeResult.result;
+			}
 
-		// 		Settings.current.proxyRules = backupRules;
+			// -----------------------------------
+			if (backupData["bypass"] != null &&
+				typeof (backupData.bypass) == "object" &&
+				Array.isArray(backupData.bypass.bypassList)) {
 
-		// 		SettingsOperation.saveRules();
-		// 		ProxyRules.notifyProxyRulesChange();
-		// 	}
+				let restoreProxyModeResult = restoreBypass(backupData.bypass);
 
-		// 	if (backupActiveServer != null) {
+				if (!restoreProxyModeResult.success)
+					return restoreProxyModeResult;
 
-		// 		Settings.current.activeProxyServer = backupActiveServer;
+				backupBypass = restoreProxyModeResult.result;
+			}
 
-		// 		SettingsOperation.saveActiveProxyServer();
-		// 		ProxyRules.notifyActiveProxyServerChange();
-		// 	}
+			// everything is fine so far
+			// so start restoring
+			if (backupOptions != null) {
+				Settings.current.options = backupOptions;
 
-		// 	if (backupProxyMode != null) {
+				SettingsOperation.saveOptions();
+				ProxyEngine.notifySettingsOptionsChanged();
+			}
 
-		// 		Settings.current.proxyMode = backupProxyMode;
+			if (backupServers != null) {
+				Settings.current.proxyServers = backupServers;
 
-		// 		SettingsOperation.saveProxyMode();
-		// 		ProxyRules.notifyProxyModeChange();
-		// 	}
+				SettingsOperation.saveProxyServers();
+			}
 
-		// 	if (backupBypass != null) {
+			if (backupRules != null) {
 
-		// 		Settings.current.bypass = backupBypass;
+				Settings.current.proxyRules = backupRules;
 
-		// 		SettingsOperation.saveBypass();
-		// 		ProxyRules.notifyBypassChanged();
-		// 	}
+				SettingsOperation.saveRules();
+				ProxyEngine.notifyProxyRulesChanged();
+			}
 
-		// 	// save synced if needed
-		// 	SettingsOperation.saveAllSync();
+			if (backupActiveServer != null) {
 
-		// 	// update proxy rules
-		// 	ProxyRules.updateChromeProxyConfig();
+				Settings.current.activeProxyServer = backupActiveServer;
 
-		// 	return { success: true, message: browser.i18n.getMessage("settingsRestoreSettingsSuccess") }
+				SettingsOperation.saveActiveProxyServer();
+				ProxyEngine.notifyActiveProxyServerChanged();
+			}
+
+			if (backupProxyMode != null) {
+
+				Settings.current.proxyMode = backupProxyMode;
+
+				SettingsOperation.saveProxyMode();
+				ProxyEngine.notifyProxyModeChanged();
+			}
+
+			if (backupBypass != null) {
+
+				Settings.current.bypass = backupBypass;
+
+				SettingsOperation.saveBypass();
+				ProxyEngine.notifyBypassChanged();
+			}
+
+			// save synced if needed
+			SettingsOperation.saveAllSync();
+
+			// update proxy rules
+			ProxyEngine.updateChromeProxyConfig();
+			ProxyEngine.updateFirefoxProxyConfig();
+
+			return { success: true, message: browser.i18n.getMessage("settingsRestoreSettingsSuccess") }
 
 
-		// } catch (e) {
-		// 	return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
-		// }
+		} catch (e) {
+			return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
+		}
 	}
 }

@@ -1,4 +1,6 @@
-﻿/*
+﻿import { Settings } from "./Settings";
+
+/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
  * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
  *
@@ -14,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { ProxyServer, SettingsConfig } from "./Settings";
 export const proxyServerProtocols = ["HTTP", "HTTPS", "SOCKS4", "SOCKS5"];
 export const proxyServerSubscriptionObfuscate = ["None", "Base64"];
 
@@ -136,4 +137,197 @@ export class ProxyableDataType {
 	public enabled: boolean;
 	public sourceDomain: string;
 	public rule: string;
+}
+
+export class SettingsConfig {
+	constructor() {
+		this.options = new GeneralOptions();
+		this.bypass = new BypassOptions();
+	}
+	public product: string = "SmartProxy";
+	public version: string = "";
+	public proxyRules: ProxyRule[] = [];
+	public proxyServers: ProxyServer[] = [];
+	public proxyMode: ProxyModeType = ProxyModeType.Direct;
+
+	public activeProxyServer: ProxyServer | null;
+	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
+	public options: GeneralOptions;
+	public bypass: BypassOptions;
+}
+export class GeneralOptions implements Cloneable {
+	public syncSettings: boolean = false;
+	public syncProxyMode: boolean = true;
+	public syncActiveProxy: boolean = true;
+	public detectRequestFailures: boolean = true;
+	public ignoreRequestFailuresForDomains: string[];
+	public displayFailedOnBadge: boolean = true;
+	public displayAppliedProxyOnBadge: boolean = true;
+	// TODO: New feature proxyPerOrigin
+	public proxyPerOrigin: boolean = true;
+	public enableShortcuts: boolean = true;
+	public shortcutNotification: boolean = true;
+
+	CopyFrom(source: any) {
+		this.syncSettings = source["syncSettings"] == true ? true : false;
+		this.syncProxyMode = source["syncProxyMode"] == true ? true : false;
+		this.syncActiveProxy = source["syncActiveProxy"] == true ? true : false;
+		this.detectRequestFailures = source["detectRequestFailures"] == true ? true : false;
+		this.ignoreRequestFailuresForDomains = source["ignoreRequestFailuresForDomains"] || [];
+		this.displayFailedOnBadge = source["displayFailedOnBadge"] == true ? true : false;
+		this.displayAppliedProxyOnBadge = source["displayAppliedProxyOnBadge"] == true ? true : false;
+		this.proxyPerOrigin = source["proxyPerOrigin"] == true ? true : false;
+		this.enableShortcuts = source["enableShortcuts"] == true ? true : false;
+		this.shortcutNotification = source["shortcutNotification"] == true ? true : false;
+	}
+}
+export class BypassOptions implements Cloneable {
+	public enableForAlways: boolean = false;
+
+	// TODO: Remove enable for system
+	public enableForSystem: boolean = false;
+	public bypassList: string[] = ["127.0.0.1", "localhost", "::1"];
+
+	CopyFrom(source: any) {
+		this.enableForAlways = source["enableForAlways"] == true ? true : false;
+		this.enableForSystem = source["enableForSystem"] == true ? true : false;
+		this.bypassList = source["bypassList"] || [];
+	}
+}
+
+interface Cloneable {
+	CopyFrom(source: any);
+}
+
+class ProxyServerConnectDetails {
+	public host: string;
+	public port: number;
+	public protocol: string;
+	public username: string;
+	public password: string;
+	public proxyDNS: boolean;
+}
+
+export class ProxyServer extends ProxyServerConnectDetails implements Cloneable {
+	public name: string;
+	public failoverTimeout: number;
+	// TODO: needed?
+	public protocolsServer: ProxyServerConnectDetails[];
+
+	CopyFrom(source: any) {
+		this.name = source["name"];
+		this.host = source["host"];
+		this.port = (+source["port"]);
+		this.protocol = source["protocol"];
+		this.username = source["username"];
+		this.password = source["password"];
+		this.proxyDNS = source["proxyDNS"] == true ? true : false;
+		this.failoverTimeout = source["failoverTimeout"] > 0 ? source["failoverTimeout"] : null;
+
+		// TODO: should be set?
+		this.protocolsServer = null;
+
+		if (!this.protocol) {
+			this.protocol = "HTTP";
+		}
+	}
+}
+
+export class ProxyRule implements Cloneable {
+	public ruleType: ProxyRuleType;
+	public sourceDomain: string;
+	public autoGeneratePattern: boolean;
+	public rulePattern: string;
+	public ruleRegex: string;
+	public ruleExact: string;
+	public proxy: ProxyServer;
+	public enabled: boolean;
+
+	get ruleTypeName(): string {
+		return ProxyRuleType[this.ruleType];
+	}
+
+	get rule(): string {
+		// why ruleType is string? converting to int
+		switch (+this.ruleType) {
+			case ProxyRuleType.MatchPatternHost:
+			case ProxyRuleType.MatchPatternUrl:
+				return this.rulePattern;
+
+			case ProxyRuleType.RegexHost:
+			case ProxyRuleType.RegexUrl:
+				return this.ruleRegex;
+
+			case ProxyRuleType.Exact:
+				return this.ruleExact;
+		}
+		return "";
+	}
+	public static assignArray(rules: any[]): ProxyRule[] {
+		if (!rules || !rules.length)
+			return [];
+		let result: ProxyRule[] = [];
+
+		for (let index = 0; index < rules.length; index++) {
+			const r = rules[index];
+			let rule = new ProxyRule();
+
+			Object.assign(rule, r);
+			result.push(rule);
+		}
+
+		return result;
+	}
+
+	CopyFrom(source: any) {
+		this.ruleType = source["ruleType"] || ProxyRuleType.MatchPatternHost;
+		this.sourceDomain = source["sourceDomain"];
+		this.autoGeneratePattern = source["autoGeneratePattern"] == true ? true : false;
+		this.rulePattern = source["rulePattern"];
+		this.ruleRegex = source["ruleRegex"];
+		this.ruleExact = source["ruleExact"];
+		this.proxy = source["proxy"];
+		this.enabled = source["enabled"] == true ? true : false;
+
+		if (this.proxy) {
+			if (!Settings.validateProxyServer(this.proxy).success) {
+				this.proxy = null;
+			}
+		}
+
+		// supporting old version
+		if (source["pattern"]) {
+			this.rulePattern = source["pattern"];
+			this.ruleType = ProxyRuleType.MatchPatternUrl;
+			this.sourceDomain = source["source"];
+			this.autoGeneratePattern = false;
+		}
+	}
+}
+
+export class CompiledRule extends ProxyRule {
+	regex: RegExp;
+}
+
+export class ProxyServerSubscription {
+	public name: string;
+	public url: string;
+	public enabled: boolean = false;
+
+	// same as proxyServerProtocols
+	public proxyProtocol: null;
+
+	// in minutes
+	public refreshRate: number = 0;
+
+	// types stored in proxyServerSubscriptionObfuscate
+	public obfuscation: string;
+
+	// number of proxies in the list
+	public totalCount: number = 0;
+
+	public username: string;
+	public password: string;
+	// the loaded proxies
+	public proxies: any[];
 }

@@ -14,12 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Settings, ProxyServer } from "./Settings";
-import { browser, environment } from "../lib/environment";
+import { browser } from "../lib/environment";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { ProxyAuthentication } from "./ProxyAuthentication";
 import { Debug } from "../lib/Debug";
-import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyModeType, ProxyableInternalDataType } from "./definitions";
 import { SettingsOperation } from "./SettingsOperation";
 import { ProxyEngine } from "./ProxyEngine";
 import { PolyFill } from "../lib/PolyFill";
@@ -30,6 +28,8 @@ import { ProxyRules } from "./ProxyRules";
 import { TabRequestLogger } from "./TabRequestLogger";
 import { WebFailedRequestMonitor } from "./WebFailedRequestMonitor";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
+import { Settings } from "./Settings";
+import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyableInternalDataType, ProxyServer, ProxyModeType } from "./definitions";
 
 export class Core {
 

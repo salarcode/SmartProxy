@@ -1,8 +1,8 @@
-import { Settings, ProxyServer } from "./Settings";
-import { ProxyModeType } from "./definitions";
+import { ProxyModeType, ProxyServer, CompiledRule } from "./definitions";
 import { chrome } from "../lib/environment";
 import { Debug } from "../lib/Debug";
-import { ProxyRules, CompiledRule } from "./ProxyRules";
+import { Settings } from "./Settings";
+import { ProxyRules } from "./ProxyRules";
 
 export class ProxyEngineChrome {
 
