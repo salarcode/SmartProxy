@@ -169,16 +169,26 @@ export class GeneralOptions implements Cloneable {
 	public shortcutNotification: boolean = true;
 
 	CopyFrom(source: any) {
-		this.syncSettings = source["syncSettings"] == true ? true : false;
-		this.syncProxyMode = source["syncProxyMode"] == true ? true : false;
-		this.syncActiveProxy = source["syncActiveProxy"] == true ? true : false;
-		this.detectRequestFailures = source["detectRequestFailures"] == true ? true : false;
-		this.ignoreRequestFailuresForDomains = source["ignoreRequestFailuresForDomains"] || [];
-		this.displayFailedOnBadge = source["displayFailedOnBadge"] == true ? true : false;
-		this.displayAppliedProxyOnBadge = source["displayAppliedProxyOnBadge"] == true ? true : false;
-		this.proxyPerOrigin = source["proxyPerOrigin"] == true ? true : false;
-		this.enableShortcuts = source["enableShortcuts"] == true ? true : false;
-		this.shortcutNotification = source["shortcutNotification"] == true ? true : false;
+		if (source["syncSettings"] != null)
+			this.syncSettings = source["syncSettings"] == true ? true : false;
+		if (source["syncProxyMode"] != null)
+			this.syncProxyMode = source["syncProxyMode"] == true ? true : false;
+		if (source["syncActiveProxy"] != null)
+			this.syncActiveProxy = source["syncActiveProxy"] == true ? true : false;
+		if (source["detectRequestFailures"] != null)
+			this.detectRequestFailures = source["detectRequestFailures"] == true ? true : false;
+		if (source["ignoreRequestFailuresForDomains"] != null)
+			this.ignoreRequestFailuresForDomains = source["ignoreRequestFailuresForDomains"] || [];
+		if (source["displayFailedOnBadge"] != null)
+			this.displayFailedOnBadge = source["displayFailedOnBadge"] == true ? true : false;
+		if (source["displayAppliedProxyOnBadge"] != null)
+			this.displayAppliedProxyOnBadge = source["displayAppliedProxyOnBadge"] == true ? true : false;
+		if (source["proxyPerOrigin"] != null)
+			this.proxyPerOrigin = source["proxyPerOrigin"] == true ? true : false;
+		if (source["enableShortcuts"] != null)
+			this.enableShortcuts = source["enableShortcuts"] == true ? true : false;
+		if (source["shortcutNotification"] != null)
+			this.shortcutNotification = source["shortcutNotification"] == true ? true : false;
 	}
 }
 export class BypassOptions implements Cloneable {
@@ -189,9 +199,12 @@ export class BypassOptions implements Cloneable {
 	public bypassList: string[] = ["127.0.0.1", "localhost", "::1"];
 
 	CopyFrom(source: any) {
-		this.enableForAlways = source["enableForAlways"] == true ? true : false;
-		this.enableForSystem = source["enableForSystem"] == true ? true : false;
-		this.bypassList = source["bypassList"] || [];
+		if (source["enableForAlways"] != null)
+			this.enableForAlways = source["enableForAlways"] == true ? true : false;
+		if (source["enableForSystem"] != null)
+			this.enableForSystem = source["enableForSystem"] == true ? true : false;
+		if (source["bypassList"] != null)
+			this.bypassList = source["bypassList"] || [];
 	}
 }
 
@@ -221,7 +234,8 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 		this.protocol = source["protocol"];
 		this.username = source["username"];
 		this.password = source["password"];
-		this.proxyDNS = source["proxyDNS"] == true ? true : false;
+		if (source["proxyDNS"] != null)
+			this.proxyDNS = source["proxyDNS"] == true ? true : false;
 		this.failoverTimeout = source["failoverTimeout"] > 0 ? source["failoverTimeout"] : null;
 
 		// TODO: should be set?
@@ -241,7 +255,7 @@ export class ProxyRule implements Cloneable {
 	public ruleRegex: string;
 	public ruleExact: string;
 	public proxy: ProxyServer;
-	public enabled: boolean;
+	public enabled: boolean = true;
 
 	get ruleTypeName(): string {
 		return ProxyRuleType[this.ruleType];
@@ -287,7 +301,8 @@ export class ProxyRule implements Cloneable {
 		this.ruleRegex = source["ruleRegex"];
 		this.ruleExact = source["ruleExact"];
 		this.proxy = source["proxy"];
-		this.enabled = source["enabled"] == true ? true : false;
+		if (source["enabled"] != null)
+			this.enabled = source["enabled"] == true ? true : false;
 
 		if (this.proxy) {
 			if (!Settings.validateProxyServer(this.proxy).success) {
