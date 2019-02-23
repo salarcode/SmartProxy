@@ -292,14 +292,14 @@ export class Utils {
 		if (completeUrl) {
 			return new RegExp("^(?:"
 				+ (scheme === "*" ? "https?" : escape(scheme)) + ":\\/\\/"
-				+ (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:[^\\/]+)?"))
+                + (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:(?:[^\\/]+)\\.|(?:[^\\/]+){0})"))
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
 				+ ")$");
 		}
 		else {
 			return new RegExp("^(?:"
 				//+ (scheme === "*" ? "https?" : escape(scheme)) + ":\\/\\/"
-				+ (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:[^\\/]+)?"))
+                + (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:(?:[^\\/]+)\\.|(?:[^\\/]+){0})"))
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
 				+ ")$");
 		}
