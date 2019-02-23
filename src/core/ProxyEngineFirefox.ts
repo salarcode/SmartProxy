@@ -53,10 +53,10 @@ export class ProxyEngineFirefox {
 
 		switch (settings.proxyMode) {
 			case ProxyModeType.Direct:
-				proxySettings.proxyType = BrowserProxySettingsType.none;
-				break;
 			case ProxyModeType.SmartProxy:
 			case ProxyModeType.Always:
+				proxySettings.proxyType = BrowserProxySettingsType.none;
+				break;
 			case ProxyModeType.SystemProxy:
 				proxySettings.proxyType = BrowserProxySettingsType.system;
 				break;
