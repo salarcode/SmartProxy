@@ -1900,20 +1900,17 @@ export class settingsPage {
         },
         onClickRestoreBackup() {
 
-            function callRestoreSettings(fileData: any);
             function callRestoreSettings(fileData) {
-
                 PolyFill.runtimeSendMessage(
                     {
                         command: Messages.SettingsPageRestoreSettings,
                         fileData: fileData
                     },
                     (response: ResultHolder) => {
-
                         if (response.success) {
                             if (response.message) {
                                 messageBox.success(response.message,
-                                    false,
+                                    500,
                                     () => {
                                         // reload the current settings page
                                         document.location.reload();
