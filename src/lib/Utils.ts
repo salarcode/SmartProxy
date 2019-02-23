@@ -269,7 +269,7 @@ export class Utils {
 		// matches all valid match patterns (except '<all_urls>')
 		// and extracts [ , scheme, host, path, ]
 		let matchPattern: RegExp;
-		matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/([^/]+|)\/?(.*))$/i);
+		matchPattern = (/^(?:(\*|http|https|file|ftp|app|wss):\/\/([^/]+|)\/?(.*))$/i);
 
 		if (pattern === "<all_urls>") {
 			//return (/^(?:https?|file|ftp|app):\/\//);
@@ -291,14 +291,13 @@ export class Utils {
 
 		if (completeUrl) {
 			return new RegExp("^(?:"
-				+ (scheme === "*" ? "https?" : escape(scheme)) + ":\\/\\/"
+				+ (scheme === "*" ? "(?:https?|ftp|wss)" : escape(scheme)) + ":\\/\\/"
                 + (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:(?:[^\\/]+)\\.|(?:[^\\/]+){0})"))
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
 				+ ")$");
 		}
 		else {
 			return new RegExp("^(?:"
-				//+ (scheme === "*" ? "https?" : escape(scheme)) + ":\\/\\/"
                 + (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:(?:[^\\/]+)\\.|(?:[^\\/]+){0})"))
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
 				+ ")$");
