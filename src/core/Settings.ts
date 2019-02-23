@@ -145,7 +145,21 @@ export class Settings {
 		}
 	}
 
-	
+	/** In local options if sync is disabled for these particular options, don't update them from sync server */
+	public static revertSyncOptions(syncedConfig: SettingsConfig) {
+		let settings = Settings.current;
+
+		syncedConfig.options.syncActiveProxy = settings.options.syncActiveProxy;
+		syncedConfig.options.syncProxyMode = settings.options.syncProxyMode;
+
+		if (!settings.options.syncActiveProxy) {
+			syncedConfig.activeProxyServer = settings.activeProxyServer;
+		}
+		if (!settings.options.syncProxyMode) {
+			syncedConfig.proxyMode = settings.proxyMode;
+		}
+	}
+
 	public static validateProxyServer(server: ProxyServer): {
 		success: boolean, exist?: boolean, message?: string,
 		result?: any

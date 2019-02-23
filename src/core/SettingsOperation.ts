@@ -42,6 +42,7 @@ export class SettingsOperation {
 					if (syncedSettings.options.syncSettings) {
 						Settings.setDefaultSettings(syncedSettings);
 						Settings.migrateFromOldVersion(syncedSettings);
+						Settings.revertSyncOptions(syncedSettings);
 						// use synced settings
 						Settings.current = syncedSettings;
 
@@ -93,6 +94,7 @@ export class SettingsOperation {
 						// use synced settings
 						Settings.setDefaultSettings(syncedSettings);
 						Settings.migrateFromOldVersion(syncedSettings);
+						Settings.revertSyncOptions(syncedSettings);
 						Settings.current = syncedSettings;
 
 					} else {
