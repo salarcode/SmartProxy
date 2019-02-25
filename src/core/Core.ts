@@ -29,7 +29,8 @@ import { TabRequestLogger } from "./TabRequestLogger";
 import { WebFailedRequestMonitor } from "./WebFailedRequestMonitor";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
 import { Settings } from "./Settings";
-import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyableInternalDataType, ProxyServer, ProxyModeType } from "./definitions";
+import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyableInternalDataType, ProxyServer, ProxyModeType, ResultHolderGeneric } from "./definitions";
+import { KeyboardShortcuts } from "./KeyboardShortcuts";
 
 export class Core {
 
@@ -68,6 +69,9 @@ export class Core {
 
 		// start proxy authentication request check
 		ProxyAuthentication.startMonitor();
+
+		// listen to shortcut events
+		KeyboardShortcuts.startMonitor();
 	}
 
 	private static handleMessages(message: any, sender: any, sendResponse: Function) {
@@ -164,18 +168,8 @@ export class Core {
 						message.proxyMode === undefined)
 						return;
 
-					// converting to int
-					Settings.current.proxyMode = +message.proxyMode;
+					Core.ChangeProxyMode(+message.proxyMode);
 
-					// save the changes
-					SettingsOperation.saveProxyMode();
-					SettingsOperation.saveAllSync();
-
-					// send it to the proxy server
-					ProxyEngine.notifyProxyModeChanged();
-
-					// update active proxy tab status
-					Core.setBrowserActionStatus();
 					return;
 				}
 
@@ -189,15 +183,7 @@ export class Core {
 					let proxy = Core.findProxyServerByName(proxyName);
 					if (proxy != null) {
 
-						Settings.current.activeProxyServer = proxy;
-						SettingsOperation.saveActiveProxyServer();
-						SettingsOperation.saveAllSync();
-
-						// send it to the proxy server
-						ProxyEngine.notifyActiveProxyServerChanged();
-
-						// update active proxy tab status
-						Core.setBrowserActionStatus();
+						Core.ChangeActiveProxy(proxy);
 
 						if (sendResponse) {
 							sendResponse({
@@ -442,6 +428,88 @@ export class Core {
 			sendResponse(null);
 	}
 
+	public static ChangeProxyMode(proxyMode: ProxyModeType) {
+
+		// converting to int
+		Settings.current.proxyMode = proxyMode;
+
+		// save the changes
+		SettingsOperation.saveProxyMode();
+		SettingsOperation.saveAllSync();
+
+		// send it to the proxy server
+		ProxyEngine.notifyProxyModeChanged();
+
+		// update active proxy tab status
+		Core.setBrowserActionStatus();
+	}
+
+	public static ChangeActiveProxy(proxy: ProxyServer) {
+		Settings.current.activeProxyServer = proxy;
+		SettingsOperation.saveActiveProxyServer();
+		SettingsOperation.saveAllSync();
+
+		// send it to the proxy server
+		ProxyEngine.notifyActiveProxyServerChanged();
+
+		// update active proxy tab status
+		Core.setBrowserActionStatus();
+	}
+
+	
+	public static CycleToNextProxyServer(): ResultHolderGeneric<ProxyServer> {
+		let settings = Settings.current;
+		let activeServer = settings.activeProxyServer;
+		let resultProxy: ProxyServer;
+
+		if (!activeServer) {
+			resultProxy = SettingsOperation.getFirstProxyServer();
+		}
+
+		if (!resultProxy && activeServer)
+			resultProxy = SettingsOperation.findNextProxyServerByCurrentProxyName(activeServer.name);
+
+		if (resultProxy) {
+			Core.ChangeActiveProxy(resultProxy);
+
+			let result = new ResultHolderGeneric<ProxyServer>();
+			result.success = true;
+			result.value = resultProxy;
+			return result;
+		}
+
+		let result = new ResultHolderGeneric<ProxyServer>();
+		result.success = false;
+		result.message = browser.i18n.getMessage("notificationNoNextProxyServer");
+		return result;
+	}
+
+	public static CycleToPreviousProxyServer(): ResultHolderGeneric<ProxyServer> {
+		let settings = Settings.current;
+		let activeServer = settings.activeProxyServer;
+		let resultProxy: ProxyServer;
+
+		if (!activeServer) {
+			resultProxy = SettingsOperation.getFirstProxyServer();
+		}
+
+		if (!resultProxy && activeServer)
+			resultProxy = SettingsOperation.findPreviousProxyServerByCurrentProxyName(activeServer.name);
+
+		if (resultProxy) {
+			Core.ChangeActiveProxy(resultProxy);
+
+			let result = new ResultHolderGeneric<ProxyServer>();
+			result.success = true;
+			result.value = resultProxy;
+			return result;
+		}
+
+		let result = new ResultHolderGeneric<ProxyServer>();
+		result.success = false;
+		result.message = browser.i18n.getMessage("notificationNoPreviousProxyServer");
+		return result;
+	}
 	private static getDataForProxyScript() {
 		return {
 			proxyRules: Settings.current.proxyRules,

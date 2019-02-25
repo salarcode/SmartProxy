@@ -1072,7 +1072,17 @@ export class settingsPage {
         },
         onClickViewShortcuts() {
             let modal = jQuery("#modalShortcuts");
-            modal.modal("show");
+
+            PolyFill.browserCommandsGetAll((commands:any[]) => {
+                let content = `<dl>`;
+                for (const cmd of commands) {
+                    content +=`<dt>${cmd.description}</dt><dd>${browser.i18n.getMessage("settingsGeneralViewShortcutKeys")} : <span class='text-primary'>${cmd.shortcut}</span></dd>`;
+                }
+                content += `</dl>`;
+                modal.find('.modal-body').html(content);
+
+                modal.modal("show");
+            });
         },
         onChangeActiveProxyServer() {
             let proxyName = jQuery("#cmbActiveProxyServer").val();
@@ -1156,7 +1166,7 @@ export class settingsPage {
             let item = settingsPage.readSelectedServer(e);
             if (!item)
                 return;
-			
+
             let modal = jQuery("#modalModifyProxyServer");
             modal.data("editing", item);
 

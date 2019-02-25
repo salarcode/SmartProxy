@@ -313,6 +313,38 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
+	public static browserCommandsGetAll(success?, fail?) {
+		if (environment.chrome) {
+			chrome.commands.getAll(
+				response => {
+					let error = PolyFill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			browser.commands.getAll()
+				.then(success, fail);
+		}
+	}
+	public static browserNotificationsCreate(notificationId, options, success?, fail?) {
+		if (environment.chrome) {
+			chrome.notifications.create(notificationId, options,
+				response => {
+					let error = PolyFill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			browser.notifications.create(notificationId, options)
+				.then(success, fail);
+		}
+	}
 }
 
 PolyFill.runtimeGetBrowserInfo(response => {

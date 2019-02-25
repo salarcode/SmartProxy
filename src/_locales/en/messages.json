@@ -291,6 +291,10 @@
 		"message": "Enable shortcut notification",
 		"description": ""
 	},
+	"settingsGeneralViewShortcutKeys": {
+		"message": "Shortcut Keys",
+		"description": ""
+	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
 		"message": "Display applied proxy on badge",
 		"description": ""
@@ -985,6 +989,26 @@
 	},
 	"settingsBypassInvalid": {
 		"message": "Invalid bypass settings",
+		"description": ""
+	},
+	"notificationNoNextProxyServer": {
+		"message": "There is no further next proxy server",
+		"description": ""
+	},
+	"notificationNoPreviousProxyServer": {
+		"message": "There is no further previous proxy server",
+		"description": ""
+	},
+	"notificationShortcutTitle": {
+		"message": "SmartProxy shortcut notification",
+		"description": ""
+	},
+	"notificationShortcutProxyModeMessage": {
+		"message": "Proxy mode changed to {0}",
+		"description": ""
+	},
+	"notificationShortcutProxyServerChanged": {
+		"message": "Proxy serer changed to {0}",
 		"description": ""
 	}
 }

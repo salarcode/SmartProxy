@@ -21,7 +21,8 @@
 		"webRequest",
 		"webRequestBlocking",
 		"storage",
-		"unlimitedStorage"
+		"unlimitedStorage",
+		"notifications"
 	],
 	"browser_action": {
 		"browser_style": true,
@@ -45,6 +46,44 @@
 		"page": "ui/settings.html",
 		"open_in_tab": true,
 		"browser_style": false
+	},
+	"commands": {
+		"next-proxy-server": {
+			"suggested_key": { 
+				"default": "Ctrl+Shift+Period"
+			},
+			"description": "Switch to next proxy server as the active proxy"
+		},
+		"previous-proxy-server": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+Comma"
+			},
+			"description": "Switch to the next previous server as the active proxy"
+		},
+		"proxy-mode-none": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+1"
+			},
+			"description": "Switch to 'No Proxy' mode"
+		},
+		"proxy-mode-smart": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+2"
+			},
+			"description": "Switch to 'Smart Proxy' mode"
+		},
+		"proxy-mode-always": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+3"
+			},
+			"description": "Switch to 'Always Enabled' mode"
+		},
+		"proxy-mode-system": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+4"
+			},
+			"description": "Switch to 'System' mode"
+		}
 	},
 	"applications": {
 		"gecko": {

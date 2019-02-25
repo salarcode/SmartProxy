@@ -19,9 +19,10 @@ import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { pako } from "../lib/External";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions } from "./definitions";
+import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions, ResultHolderGeneric } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
+import { Core } from "./Core";
 
 export class SettingsOperation {
 	public static readSyncedSettings(success: Function) {
@@ -130,7 +131,7 @@ export class SettingsOperation {
 			onGetLocalError);
 
 	}
-	public static findProxyServerByName(name: string) {
+	public static findProxyServerByName(name: string): ProxyServer {
 		let proxy = Settings.current.proxyServers.find(item => item.name === name);
 		if (proxy !== undefined) return proxy;
 
@@ -141,6 +142,57 @@ export class SettingsOperation {
 
 		return null;
 	}
+
+	public static getFirstProxyServer(): ProxyServer {
+		let settings = Settings.current;
+
+		if (settings.proxyServers && settings.proxyServers.length) {
+			return settings.proxyServers[0];
+		}
+		if (settings.proxyServerSubscriptions)
+			for (const subscription of settings.proxyServerSubscriptions) {
+				if (subscription.proxies && subscription.proxies.length) {
+					return subscription.proxies[0];
+				}
+			}
+		return null;
+	}
+
+	public static findNextProxyServerByCurrentProxyName(currentProxyName: string): ProxyServer {
+		let settings = Settings.current;
+
+		let proxyIndex = settings.proxyServers.findIndex(item => item.name === currentProxyName);
+		if (proxyIndex > -1 && proxyIndex + 1 < settings.proxyServers.length) {
+			return settings.proxyServers[proxyIndex + 1];
+		}
+
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			proxyIndex = subscription.proxies.findIndex(item => item.name === currentProxyName);
+			if (proxyIndex > -1 && proxyIndex + 1 < subscription.proxies.length) {
+				return subscription.proxies[proxyIndex + 1];
+			}
+		}
+		return null;
+	}
+
+	public static findPreviousProxyServerByCurrentProxyName(currentProxyName: string): ProxyServer {
+		let settings = Settings.current;
+
+		let proxyIndex = settings.proxyServers.findIndex(item => item.name === currentProxyName);
+		if (proxyIndex > 0) {
+			return settings.proxyServers[proxyIndex - 1];
+		}
+
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			proxyIndex = subscription.proxies.findIndex(item => item.name === currentProxyName);
+			if (proxyIndex > 0) {
+				return subscription.proxies[proxyIndex - 1];
+			}
+		}
+		return null;
+	}
+
+
 
 	public static syncOnChanged(changes: any, area: string) {
 		if (area !== "sync") return;

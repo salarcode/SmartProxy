@@ -80,6 +80,15 @@ export class Messages {
 	public static WebFailedRequestNotification = "WebFailedRequest_Notification";
 }
 
+export class ShortcutCommands {
+	public static NextProxyServer = "next-proxy-server";
+	public static PreviousProxyServer = "previous-proxy-server";
+	public static ProxyModeNone = "proxy-mode-none";
+	public static ProxyModeSmart = "proxy-mode-smart";
+	public static ProxyModeAlways = "proxy-mode-always";
+	public static ProxyModeSystem = "proxy-mode-system";
+}
+
 export class ResultHolder {
 	public success: boolean;
 	public message: string;
