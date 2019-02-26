@@ -143,6 +143,20 @@ export class SettingsOperation {
 		return null;
 	}
 
+	public static getAllSubscribedProxyServers(): any[] {
+
+		if (!Settings.current.proxyServerSubscriptions || !Settings.current.proxyServerSubscriptions.length)
+			return [];
+		let result = [];
+
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			if (subscription.enabled) {
+				result = result.concat(subscription.proxies);
+			}
+		}
+		return result;
+	}
+	
 	public static getFirstProxyServer(): ProxyServer {
 		let settings = Settings.current;
 

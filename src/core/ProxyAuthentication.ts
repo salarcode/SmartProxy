@@ -70,9 +70,7 @@ export class ProxyAuthentication {
 		else
 			applyAuthentication = false;
 
-		// TODO:
 		// TODO: find a way to proxy authentication for proxy selected in the rule
-		// TODO:
 
 		if (asyncCallback) {
 			// this is chrome

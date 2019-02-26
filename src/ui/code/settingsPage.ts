@@ -277,9 +277,6 @@ export class settingsPage {
         if (environment.chrome) {
             jQuery("#divAlertChrome").show();
             jQuery(".ff-only").show();
-
-            // not supported by Chrome
-            jQuery("#chkEnableBypassForSystemProxy").attr("disabled", "disabled");
         } else {
             jQuery("#divAlertFirefox").show();
             jQuery(".ff-only").hide();
@@ -978,7 +975,6 @@ export class settingsPage {
             return;
 
         jQuery("#chkEnableBypassForAlwaysEnable").prop("checked", bypass.enableForAlways);
-        jQuery("#chkEnableBypassForSystemProxy").prop("checked", bypass.enableForSystem);
         if (bypass.bypassList && Array.isArray(bypass.bypassList)) {
             jQuery("#txtBypassList").val(bypass.bypassList.join("\n"));
         }
@@ -994,7 +990,6 @@ export class settingsPage {
 
         bypass.bypassList = settingsPage.readBypassList();
         bypass.enableForAlways = divBypass.find("#chkEnableBypassForAlwaysEnable").prop("checked");
-        bypass.enableForSystem = divBypass.find("#chkEnableBypassForSystemProxy").prop("checked");
 
         return bypass;
     }

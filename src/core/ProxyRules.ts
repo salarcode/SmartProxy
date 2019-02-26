@@ -185,7 +185,7 @@ export class ProxyRules {
 				case ProxyRuleType.RegexHost:
 				case ProxyRuleType.RegexUrl:
 					{
-						// TODO: is this simple construction good enough? is ^(?:)$ needed?
+						// This simple construction is good enough. This ^(?:)$ is not needed?
 						newCompiled.regex = new RegExp(rule.ruleRegex);
 					}
 					break;
@@ -199,9 +199,6 @@ export class ProxyRules {
 
 		// apply the new rules
 		ProxyRules.compiledRulesList = compiledList;
-
-		// TODO: remove this
-		console.log("DEL: compileRules> ", compiledList);
 	}
 
 

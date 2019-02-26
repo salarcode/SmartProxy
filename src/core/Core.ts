@@ -180,7 +180,7 @@ export class Core {
 
 					let proxyName = message.name;
 
-					let proxy = Core.findProxyServerByName(proxyName);
+					let proxy = SettingsOperation.findProxyServerByName(proxyName);
 					if (proxy != null) {
 
 						Core.ChangeActiveProxy(proxy);
@@ -546,7 +546,7 @@ export class Core {
 		dataForPopup.activeProxyServer = Settings.current.activeProxyServer;
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
-		dataForPopup.proxyServersSubscribed = Core.getAllSubscribedProxyServers();
+		dataForPopup.proxyServersSubscribed = SettingsOperation.getAllSubscribedProxyServers();
 		dataForPopup.updateAvailableText = null;
 		dataForPopup.updateInfo = null;
 		dataForPopup.failedRequests = null;
@@ -641,34 +641,6 @@ export class Core {
 
 		if (tabData.requests && tabData.requests.size > 0) {
 			result.requests = TabRequestLogger.getProxyableDataForUrlList(tabData.requests);
-		}
-		return result;
-	}
-
-	// TODO: is this a good place for this function
-	private static findProxyServerByName(name: string): ProxyServer {
-		let proxy = Settings.current.proxyServers.find(item => item.name === name);
-		if (proxy !== undefined) return proxy;
-
-		for (let subscription of Settings.current.proxyServerSubscriptions) {
-			proxy = subscription.proxies.find(item => item.name === name);
-			if (proxy !== undefined) return proxy;
-		}
-
-		return null;
-	}
-
-	// TODO: is this a good place for this function
-	private static getAllSubscribedProxyServers(): any[] {
-
-		if (!Settings.current.proxyServerSubscriptions || !Settings.current.proxyServerSubscriptions.length)
-			return [];
-		let result = [];
-
-		for (let subscription of Settings.current.proxyServerSubscriptions) {
-			if (subscription.enabled) {
-				result = result.concat(subscription.proxies);
-			}
 		}
 		return result;
 	}

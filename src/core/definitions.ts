@@ -172,7 +172,6 @@ export class GeneralOptions implements Cloneable {
 	public ignoreRequestFailuresForDomains: string[];
 	public displayFailedOnBadge: boolean = true;
 	public displayAppliedProxyOnBadge: boolean = true;
-	// TODO: New feature proxyPerOrigin
 	public proxyPerOrigin: boolean = true;
 	public enableShortcuts: boolean = true;
 	public shortcutNotification: boolean = true;
@@ -202,16 +201,11 @@ export class GeneralOptions implements Cloneable {
 }
 export class BypassOptions implements Cloneable {
 	public enableForAlways: boolean = false;
-
-	// TODO: Remove enable for system
-	public enableForSystem: boolean = false;
 	public bypassList: string[] = ["127.0.0.1", "localhost", "::1"];
 
 	CopyFrom(source: any) {
 		if (source["enableForAlways"] != null)
 			this.enableForAlways = source["enableForAlways"] == true ? true : false;
-		if (source["enableForSystem"] != null)
-			this.enableForSystem = source["enableForSystem"] == true ? true : false;
 		if (source["bypassList"] != null)
 			this.bypassList = source["bypassList"] || [];
 	}
@@ -233,8 +227,6 @@ class ProxyServerConnectDetails {
 export class ProxyServer extends ProxyServerConnectDetails implements Cloneable {
 	public name: string;
 	public failoverTimeout: number;
-	// TODO: needed?
-	public protocolsServer: ProxyServerConnectDetails[];
 
 	CopyFrom(source: any) {
 		this.name = source["name"];
@@ -246,9 +238,6 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 		if (source["proxyDNS"] != null)
 			this.proxyDNS = source["proxyDNS"] == true ? true : false;
 		this.failoverTimeout = source["failoverTimeout"] > 0 ? source["failoverTimeout"] : null;
-
-		// TODO: should be set?
-		this.protocolsServer = null;
 
 		if (!this.protocol) {
 			this.protocol = "HTTP";

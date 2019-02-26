@@ -967,10 +967,6 @@
 		"message": "Enable for 'Always Enable' mode",
 		"description": ""
 	},
-	"settingsBypassEnableForSystem": {
-		"message": "Enable for 'System Proxy' mode (Firefox only)",
-		"description": ""
-	},
 	"settingsBypassList": {
 		"message": "Bypass list:",
 		"description": ""

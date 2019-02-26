@@ -79,7 +79,7 @@ export class ProxyEngine {
         this.updateChromeProxyConfig();
         this.updateFirefoxProxyConfig();
 
-        // TODO: is this only in firefox
+        // TODO: is this only in firefox?
         // update proxy rules
         ProxyRules.compileRules(Settings.current.proxyRules);
     }
