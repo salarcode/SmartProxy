@@ -17,7 +17,7 @@ Please test it and report issues.
 * More proxy rule options.
 * [Complete list of changes here](https://github.com/salarcode/SmartProxy/milestone/6?closed=1)
 
-**[:star: Download Version 0.8 Beta 1 For Firefox](https://github.com/salarcode/SmartProxy/releases/tag/v0.8-beta1)**
+**[:star: Download Version 0.8 Beta 2 For Firefox](https://github.com/salarcode/SmartProxy/releases/tag/v0.8-beta2)**
 
 #### What is SmartProxy
 SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions technology.
