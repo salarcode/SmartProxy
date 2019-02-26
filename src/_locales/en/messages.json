@@ -180,7 +180,7 @@
 		"description": ""
 	},
 	"settingsTabAboutDescription": {
-		"message": "Use patterns to automatically define rules for proxify your web experience. With SmartProxy, you don't need to change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.",
+		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.",
 		"description": ""
 	},
 	"settingsGeneralSmartFeatures": {

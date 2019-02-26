@@ -101,63 +101,42 @@
 							</strong>
 							<span data-localize="settingsErrNoServersDescription">Before anything you have to define proxy servers.</span>
 						</div>
-
-						<div class="alert alert-danger alert-dismissibleX fade show" role="alert">
-							<strong><i class="fas fa-warning" aria-hidden="true"></i> Unstablity warning!</strong>
-							Firefox WebExtensions development, which this extension rely on, is undergoing and most of the features are not
-							finalized yet (Smart features are not enabled due the bugs). Please be patient and report any bugs you encounter
-							end help me to improve this extension. Thanks.
-						</div>
-						<h4 data-localize="extensionName">
+						<h2 class="text-primary font-weight-bold" data-localize="extensionName">
 							SmartProxy
-						</h4>
+						</h2>
 						<p data-localize="settingsTabAboutDescription">
-							Use patterns to automatically define rules for proxify your web experience. With SmartProxy, you don't need to
-							change your proxy manually and turn it on and off. You can add your desired website to the proxy rules list with
-							just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that
-							website will be transferred though the proxy, without you doing anything.
+							Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution.
+							With SmartProxy you don't need to change your proxy manually or turn it on and off.
+							All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click.
+							After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.
 						</p>
 						<p>
-							What's more, SmartProxy is inspired by AutoProxy and AutoProxy-ng and that are now considered legacy. SmartProxy
-							is completely written from ground up using WebExtensions and provides same and even more functionality than
-							those proxies.
+							SmartProxy brings a handful of features to users from beginner one to advanced one which some is listed here:
 						</p>
 						<ul>
+							<li>Just enable proxy for one site on a tab and everything there will have proxy enabled automatically. This feature is called proxy-per-tab</li>
 							<li>Automatically detect when to enable or disable proxy to certain websites based on rule patterns</li>
 							<li>Easily switch between many proxy servers as your active proxy server setting</li>
-							<li>Easily with one click add current site to your proxy list</li>
-							<li>View current website items and requests and decide whether to proxify them with one click</li>
-							<li>Easily switch between proxy modes and enable proxy for all domains</li>
+							<li>Switch on proxy for current site you are on it with one click</li>
+							<li>View current website items and requests and decide whether to enable proxy for them with one click</li>
+							<li>Easily switch between proxy modes or enable proxy for all domains</li>
 							<li>Backup/Restore settings and rules</li>
 						</ul>
 						<br />
-						<h5>Here is the list of upcoming features</h5>
-						<ul>
-							<li>Sync settings and rules</li>
-							<li>Import rules from other proxy extensions</li>
-						</ul>
-						<br>
-						<h5>And here is the list of to-do features that currently can't be done due immature WebExtensions API</h5>
-						<ul>
-							<li><del>A <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1389718" target="_blank">bug</a> in Firefox
-									preventing communication between SmartProxy components</del></li>
-							<li>Features to enable SmartProxy to be act more smart</li>
-							<li>Authentication for proxy servers</li>
-							<li>Use system proxy mode</li>
-						</ul>
-						<p>I will do my best to implement these features as soon as the APIs are ready.</p>
-						<br />
-						<h5>And please note that:</h5>
+						<h3>Please note that:</h3>
 						<p>
-							<i class="fas fa-info-circle" aria-hidden="true"></i>
-							SmartProxy does not provide any type of proxy or network services.
-							<br />
-							<i class="fas fa-eye-slash" aria-hidden="true"></i>
-							SmartProxy does not track you.
-							<br />
-							<i class="fas fa-eye-slash" aria-hidden="true"></i>
-							SmartProxy does not use or insert ads into pages or any other places.
-							<br />
+							<div class="text-info">
+								<i class="fas fa-info-circle" aria-hidden="true"></i>
+								SmartProxy does not provide any type of proxy servers.
+							</div>
+							<div class="text-danger">
+								<i class="fas fa-eye-slash" aria-hidden="true"></i>
+								SmartProxy does not track you in any way.
+							</div>
+							<div class="text-warning">
+								<i class="fas fa-eye-slash" aria-hidden="true"></i>
+								SmartProxy is completely ad free in any way.
+							</div>							
 						</p>
 					</div>
 					<div class="tab-pane fade" id="tab-general" role="tabpanel" aria-labelledby="tab-general-tab">
@@ -464,7 +443,7 @@
 							You can make either full or partial backup of your settings.
 						</p>
 						<p>
-							<button id="btnBackupComplete" class="btn btn-outline-secondary">
+							<button id="btnBackupComplete" class="btn btn-outline-secondary backup-buttons">
 								<i class="fas fa-download" aria-hidden="true"></i>
 								<span data-localize="settingsFullBackupButton">Create full backup</span>
 							</button>
@@ -473,7 +452,7 @@
 							</span>
 						</p>
 						<p>
-							<button id="btnBackupRules" class="btn btn-outline-secondary">
+							<button id="btnBackupRules" class="btn btn-outline-secondary backup-buttons">
 								<i class="fas fa-download" aria-hidden="true"></i>
 								<span data-localize="settingsRulesBackupButton">Create rules backup</span>
 							</button>
@@ -484,7 +463,7 @@
 
 						<form id="frmRestoreBackup" style="display: none"></form>
 						<p>
-							<button id="btnRestoreBackup" class="btn btn-outline-secondary">
+							<button id="btnRestoreBackup" class="btn btn-outline-secondary backup-buttons">
 								<i class="fas fa-upload" aria-hidden="true"></i>
 								<span data-localize="settingsRestoreBackupButton">Restore backup</span>
 							</button>
@@ -499,19 +478,19 @@
 							Import/Export individual list of proxies and rules.
 						</p>
 						<p>
-							<button id="btnImportProxyServerOpenBackup" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalImportProxyServer">
+							<button id="btnImportProxyServerOpenBackup" class="btn btn-outline-secondary backup-buttons" data-toggle="modal" data-target="#modalImportProxyServer">
 								<i class="fas fa-download" aria-hidden="true"></i>
 								<span data-localize="settingsImportProxiesButtonBackup">Import Proxy Servers</span>
 							</button>
 						</p>
 						<p>
-							<button id="btnExportProxyServerOpenBackup" class="btn btn-outline-secondary">
+							<button id="btnExportProxyServerOpenBackup" class="btn btn-outline-secondary backup-buttons">
 								<i class="fas fa-upload" aria-hidden="true"></i>
 								<span data-localize="settingsExportProxiesButtonBackup">Export Proxy Servers</span>
 							</button>
 						</p>
 						<p>
-							<button id="btnImportRulesOpenBackup" class="btn btn-outline-secondary" data-toggle="modal" data-target="#modalImportRules">
+							<button id="btnImportRulesOpenBackup" class="btn btn-outline-secondary backup-buttons" data-toggle="modal" data-target="#modalImportRules">
 								<i class="fas fa-upload" aria-hidden="true"></i>
 								<span data-localize="settingsImportRulesButtonBackup">Import Proxy Rules</span>
 							</button>

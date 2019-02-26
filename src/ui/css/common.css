@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2017 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -16,7 +16,7 @@
  */
 
 html {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 html.popup {
@@ -67,28 +67,9 @@ html.popup body {
 input[type=file].form-control {
     height: auto;
 }
-
-/* 
 input:invalid {
     border: rgba(255, 0, 0, 0.5) 1px solid;
 }
-
-hr.afshin-line {
-    margin-top: 6px;
-    margin-bottom: 10px;
-    border: 0;
-    height: 1px;
-    background-color: silver;
-    background: linear-gradient(to right, rgba(165, 165, 165, 0.45) 0%, rgba(0, 0, 0, 0) 130%);
-}
-
-
-
-.vertical-align-middle {
-    vertical-align: middle;
-}
-
-*/
 
 .background-white {
     background-color: white;
@@ -119,26 +100,17 @@ hr.afshin-line {
     margin-bottom: 0.25rem;
 }
 
-/*
-select.active-proxy-select {
-    width: 100%;
-}
-
-.jsgrid.jsgrid-font-smaller .jsgrid-cell {
-    font-size: smaller;
-    text-overflow: ellipsis;
-}
-
-.jsgrid-cell-one-liner {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-*/
-
 .subdomains-list.subdomains-list {
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+/* ============================== */
+/* Settings page styles */
+/* ------------------------------ */
+
+.backup-buttons{
+    min-width: 180px;
 }
 
 /* ============================== */
@@ -164,50 +136,6 @@ select.active-proxy-select {
     border-right: solid 1px silver;
     min-width: 250px;
 }
-
-/* .popup-menu {
-    font-size: .85em;
-    min-width: 200px;
-}
-
-.popup-menu .nav-pills>li>a {
-    padding: 7px 5px;
-}
-
-.popup-menu .alert {
-    margin-bottom: 5px;
-    padding: 10px;
-} */
-
-/* .proxyable-item {
-    margin-left: -10px;
-    margin-right: -7px;
-}
-
-.rtl .proxyable-item {
-    margin-right: -8px;
-    margin-left: -8px;
-}
-
-.rtl .proxyable-item>div {
-    padding-right: 10px;
-    padding-left: 10px;
-} */
-
-/* 
-.failedrequest-item {
-    margin-left: 0;
-    margin-right: 0;
-    white-space: nowrap;
-}
-
-.failedrequest-item>div {
-    padding-left: 0;
-    padding-right: 0;
-}
-
-.popup-menu-failed {} */
-
 .popup-menu-failed .failed-requests-box {
     background: white;
     -ms-border-radius: 5px;
@@ -256,51 +184,3 @@ select.active-proxy-select {
     right: 0;
     top: 4px;
 }
-
-/* */
-
-/* Bootstrap 4 styles*/
-
-/* 
-.custom-select {
-    display: inline-block;
-    max-width: 100%;
-    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-    line-height: 1.25;
-    color: #495057;
-    vertical-align: middle;
-    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
-    background-size: 8px 10px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-} */
-
-/* 
-.custom-select:focus {
-    border-color: #80bdff;
-    outline: none;
-}
-
-.custom-select:focus::-ms-value {
-    color: #495057;
-    background-color: #fff;
-}
-
-.custom-select:disabled {
-    color: #868e96;
-    background-color: #e9ecef;
-}
-
-.custom-select::-ms-expand {
-    opacity: 0;
-}
-
-.custom-select-sm {
-    height: calc(1.8125rem + 2px);
-    padding-top: 0.375rem;
-    padding-bottom: 0.375rem;
-    font-size: 75%;
-} */
