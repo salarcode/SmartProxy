@@ -21,7 +21,7 @@ import { environment, browser } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, BypassOptions, ResultHolder } from "../../core/definitions";
+import { SettingsConfig, Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, BypassOptions, ResultHolder, proxyServerSubscriptionFormat } from "../../core/definitions";
 
 export class settingsPage {
 
@@ -288,6 +288,8 @@ export class settingsPage {
         // the default values
         let cmbServerSubscriptionObfuscation = jQuery("#cmbServerSubscriptionObfuscation");
 
+        let cmbServerSubscriptionFormat = jQuery("#cmbServerSubscriptionFormat");
+
         jQuery("<option>").attr("value", "")
             // (Auto detect with HTTP fallback)
             .text(browser.i18n.getMessage("settingsServerSubscriptionProtocolDefault"))
@@ -302,6 +304,12 @@ export class settingsPage {
             jQuery("<option>").attr("value", item)
                 .text(item)
                 .appendTo(cmbServerSubscriptionObfuscation);
+        });
+
+        proxyServerSubscriptionFormat.forEach((item, index) => {
+            jQuery("<option>").attr("value", index)
+                .text(item)
+                .appendTo(cmbServerSubscriptionFormat);
         });
     }
 
@@ -550,6 +558,7 @@ export class settingsPage {
             modalContainer.find("#chkEnabled").prop('checked', subscription.enabled);
             modalContainer.find("#cmbServerSubscriptionProtocol").val(subscription.proxyProtocol);
             modalContainer.find("#cmbServerSubscriptionObfuscation").val(subscription.obfuscation);
+            modalContainer.find("#cmbServerSubscriptionFormat").val(subscription.format);
             modalContainer.find("#cmbServerSubscriptionUsername").val(subscription.username);
             if (subscription.password != null)
                 // from BASE64
@@ -565,6 +574,7 @@ export class settingsPage {
             modalContainer.find("#chkEnabled").prop('checked', true);
             modalContainer.find("#cmbServerSubscriptionProtocol")[0].selectedIndex = 0;
             modalContainer.find("#cmbServerSubscriptionObfuscation")[0].selectedIndex = 0;
+            modalContainer.find("#cmbServerSubscriptionFormat")[0].selectedIndex = 0;
             modalContainer.find("#cmbServerSubscriptionUsername").val("");
             modalContainer.find("#cmbServerSubscriptionPassword").val("");
         }
@@ -577,8 +587,9 @@ export class settingsPage {
         subscription.url = modalContainer.find("#txtUrl").val();
         subscription.enabled = modalContainer.find("#chkEnabled").prop('checked');
         subscription.proxyProtocol = modalContainer.find("#cmbServerSubscriptionProtocol").val();
-        subscription.refreshRate = modalContainer.find("#numRefreshRate").val() || 0;
+        subscription.refreshRate = +(modalContainer.find("#numRefreshRate").val() || 0);
         subscription.obfuscation = modalContainer.find("#cmbServerSubscriptionObfuscation").val();
+        subscription.format = +modalContainer.find("#cmbServerSubscriptionFormat").val();
         subscription.username = modalContainer.find("#cmbServerSubscriptionUsername").val();
         // BASE 64 string
         subscription.password = btoa(modalContainer.find("#cmbServerSubscriptionPassword").val());

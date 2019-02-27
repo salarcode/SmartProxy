@@ -18,6 +18,7 @@
  */
 export const proxyServerProtocols = ["HTTP", "HTTPS", "SOCKS4", "SOCKS5"];
 export const proxyServerSubscriptionObfuscate = ["None", "Base64"];
+export const proxyServerSubscriptionFormat = ["PlainText", "JSON"];
 
 export enum ProxyModeType {
 	Direct,
@@ -322,6 +323,10 @@ export class CompiledRule extends ProxyRule {
 	regex: RegExp;
 }
 
+export enum ProxyServerSubscriptionFormat{
+	PlainText,
+	Json
+}
 export class ProxyServerSubscription {
 	public name: string;
 	public url: string;
@@ -335,6 +340,8 @@ export class ProxyServerSubscription {
 
 	// types stored in proxyServerSubscriptionObfuscate
 	public obfuscation: string;
+	
+	public format: ProxyServerSubscriptionFormat;
 
 	// number of proxies in the list
 	public totalCount: number = 0;

@@ -180,7 +180,7 @@ export class Settings {
 
 		if (!server.name) {
 			return { success: false, message: browser.i18n.getMessage("settingsServerNameRequired") };
-		} else {
+		} else if (Settings.current) {
 
 			const currentServers = Settings.current.proxyServers;
 
@@ -194,6 +194,7 @@ export class Settings {
 		if (!server.protocol) {
 			server.protocol = "HTTP";
 		} else {
+			server.protocol = server.protocol.toUpperCase();
 			if (proxyServerProtocols.indexOf(server.protocol) == -1) {
 				// not valid protocol, resetting
 				server.protocol = "HTTP";

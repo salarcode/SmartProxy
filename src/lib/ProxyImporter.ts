@@ -16,7 +16,9 @@
  */
 import { Utils } from "./Utils";
 import { browser } from "./environment";
-import { ProxyServerSubscription, ProxyServer } from "../core/definitions";
+import { ProxyServerSubscription, ProxyServer, ProxyServerSubscriptionFormat } from "../core/definitions";
+import { Debug } from "./Debug";
+import { Settings } from "../core/Settings";
 
 export const ProxyImporter = {
 	readFromServer(serverDetail: ProxyServerSubscription, success?: Function, fail?: Function) {
@@ -26,7 +28,6 @@ export const ProxyImporter = {
 		}
 		if (!success) throw "onSuccess callback is mandatory";
 
-		function ajaxSuccess(response: any);
 		function ajaxSuccess(response) {
 			if (!response)
 				if (fail) fail();
@@ -47,11 +48,7 @@ export const ProxyImporter = {
 					if (fail)
 						fail(error);
 				},
-				{
-					// options
-					proxyProtocol: serverDetail.proxyProtocol,
-					obfuscation: serverDetail.obfuscation
-				});
+				serverDetail);
 		}
 
 		let xhr = new XMLHttpRequest();
@@ -72,14 +69,15 @@ export const ProxyImporter = {
 		};
 		xhr.send();
 	},
-	importText(text, file, append, currentProxies, success, fail?, options?) {
+	importText(text: string, file, append: boolean, currentProxies: any[], success, fail?, options?: ProxyServerSubscription) {
 		if (!file && !text) {
 			if (fail) fail();
 			return;
 		}
 
-		if (text)
-			doImport(text);
+		if (text) {
+			doImport(text, options);
+		}
 		else {
 			let reader = new FileReader();
 			reader.onerror = event => {
@@ -89,15 +87,20 @@ export const ProxyImporter = {
 				//let textFile = event.target;
 				let fileText = reader.result;
 
-				doImport(fileText);
+				doImport(fileText, options);
 			};
 			reader.readAsText(file);
 		}
 
 
-		function doImport(text: string | ArrayBuffer) {
+		function doImport(text: string | ArrayBuffer, options?: ProxyServerSubscription) {
 
-			let parsedProxies = ProxyImporter.parseText(text, options);
+			let parsedProxies: ProxyServer[];
+
+			if (options && options.format == ProxyServerSubscriptionFormat.Json)
+				parsedProxies = ProxyImporter.parseJson(text, options);
+			else
+				parsedProxies = ProxyImporter.parseText(text, options);
 
 			if (parsedProxies == null) {
 				if (fail) fail();
@@ -168,7 +171,7 @@ export const ProxyImporter = {
 		}
 
 	},
-	parseText: (proxyListText, options): ProxyServer[] => {
+	parseText: (proxyListText, options?): ProxyServer[] => {
 		///<summary>Parses the proxy</summary>
 		if (!proxyListText || typeof (proxyListText) !== "string") return null;
 
@@ -225,5 +228,50 @@ export const ProxyImporter = {
 		}
 
 		return parsedProxies;
+	},
+	parseJson: (proxyListText, options?): ProxyServer[] => {
+
+		if (options && options.obfuscation) {
+			try {
+				if (options.obfuscation.toLowerCase() == "base64") {
+					// decode base64
+					proxyListText = atob(proxyListText);
+				}
+			} catch (e) {
+				return null;
+			}
+		}
+
+		let resultProxies: ProxyServer[] = [];
+		try {
+			let proxyJsonList = JSON.parse(proxyListText);
+			if (!proxyJsonList)
+				return null;
+
+			if (!Array.isArray(proxyJsonList))
+				proxyJsonList = [proxyJsonList];
+
+			for (const proxy of proxyJsonList) {
+				let item = new ProxyServer();
+
+				item.name = proxy["name"] || ((proxy["country"] ? `${proxy["country"]} - ` : '') + `${proxy["ip"]}:${proxy["port"]}`);
+				item.host = proxy["ip"];
+				item.port = parseInt(proxy["port"]);
+				item.protocol = proxy["protocol"];
+				item.username = proxy["username"];
+				item.password = proxy["password"];
+
+				if (!Settings.validateProxyServer(item))
+					continue;
+
+				resultProxies.push(item);
+			}
+
+			return resultProxies;
+
+		} catch (error) {
+			Debug.log("ProxyImporter.parseJson failed", error, proxyListText);
+			return null;
+		}
 	}
 }

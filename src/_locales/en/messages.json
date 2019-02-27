@@ -851,6 +851,10 @@
 		"message": "Obfuscation:",
 		"description": ""
 	},
+	"settingsServerSubscriptionFormat": {
+		"message": "Format:",
+		"description": ""
+	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Username:",
 		"description": ""
