@@ -15,7 +15,7 @@
     "build": "webpack --env.browser=chrome",
     "build-ff": "webpack --env.browser=firefox",
     "build-ch": "webpack --env.browser=chrome",
-	"build-ff-unlisted": "webpack --env.browser=firefox-unlisted",
+    "build-ff-unlisted": "webpack --env.browser=firefox-unlisted",
     "build-ff:watch": "webpack --watch --env.browser=firefox",
     "build-ch:watch": "webpack --watch --env.browser=chrome",
     "test": "npm run lint"
