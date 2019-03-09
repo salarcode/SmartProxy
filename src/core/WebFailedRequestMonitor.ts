@@ -107,13 +107,6 @@ export class WebFailedRequestMonitor {
 
             case RequestMonitorEvent.RequestRedirected:
                 {
-                    // here we check that the redirected location is in black-listed urls or not
-                    // if it is black-listed then it should be considered to be added to filter suggestions
-                    // BUG No #37: https://github.com/salarcode/SmartProxy/issues/37
-
-                    // TODO: Implement in vFuture BUG #37
-                    let redirectUrl = requestDetails.redirectUrl;
-
                     let failedInfo = failedRequests.get(requestHost);
                     if (!failedInfo) {
 
