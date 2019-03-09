@@ -8,31 +8,31 @@
 		"description": ""
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy 将根据可定制的模式自动启用/禁用您访问的网站的代理。",
+		"message": "Smart Proxy 将基于用户设定的规则自动决定是否在访问时使用代理。",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "目前使用的规则：",
+		"message": "正在使用的规则:",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "目前使用的规则：无",
+		"message": "正在使用的规则：无",
 		"description": ""
 	},
 	"popupTitle": {
-		"message": "SmartProxy 模式",
+		"message": "SmartProxy 模式：",
 		"description": ""
 	},
 	"popupNoProxy": {
-		"message": "直接连接",
+		"message": "直连（无代理）",
 		"description": ""
 	},
 	"popupSmartProxy": {
-		"message": "智能代理",
+		"message": "智能判断",
 		"description": ""
 	},
 	"popupAlwaysEnable": {
-		"message": "始终代理",
+		"message": "总是启用",
 		"description": ""
 	},
 	"popupSystemProxy": {
@@ -44,7 +44,7 @@
 		"description": ""
 	},
 	"popupEnableProxyOn": {
-		"message": "启用代理",
+		"message": "以下页面使用代理",
 		"description": ""
 	},
 	"popupProxyableResources": {
@@ -60,7 +60,7 @@
 		"description": ""
 	},
 	"popupUpdateText": {
-		"message": "更新 {0} 可用",
+		"message": "新版本 {0} 可用",
 		"description": ""
 	},
 	"popupFailedRequestsMenu": {
@@ -68,19 +68,19 @@
 		"description": ""
 	},
 	"popupFailedRequestsTitle": {
-		"message": "加载失败的列表",
+		"message": "本页加载失败的域名",
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "这些是超时或失败的域名。<br />如果您认为这些域名被阻止，可将其添加到代理规则列表",
+		"message": "These are the domains that are either timed-out or failed.<br \/>If you believe that these domains are blocked, here you can add them to proxy rules list.",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
-		"message": "添加所选域名到规则列表？",
+		"message": "添加选中的域名到代理规则？",
 		"description": ""
 	},
 	"popupAddFailedRequests": {
-		"message": "添加到规则列表",
+		"message": "添加到代理规则",
 		"description": ""
 	},
 	"proxyableTitle": {
@@ -88,11 +88,11 @@
 		"description": ""
 	},
 	"proxyableHeader": {
-		"message": "此页面上可代理元素",
+		"message": "该页面上可代理的项目",
 		"description": ""
 	},
 	"proxyableReload": {
-		"message": "重载",
+		"message": "重新载入",
 		"description": ""
 	},
 	"proxyableClose": {
@@ -100,7 +100,7 @@
 		"description": ""
 	},
 	"proxyableHeaderDesc": {
-		"message": "以下是从此页面使用或调用的资源列表，使用此列表将这些资源添加到代理启用规则。<br />如果您在这里没有看到任何内容，请重新加载页面以查看资源。",
+		"message": "以下为当前页面在使用或可供调用的资源列表。该列表用于向代理激活判定规则添加条目。<br \/>如果此处为空，请重新载入页面以刷新资源。",
 		"description": ""
 	},
 	"proxyableErrNoSourceTab": {
@@ -108,7 +108,7 @@
 		"description": ""
 	},
 	"proxyableCreateRuleConfirm": {
-		"message": "您确定要对所选域名创建规则",
+		"message": "你确定对选定的域名添加规则？",
 		"description": ""
 	},
 	"proxyableDisableButton": {
@@ -120,11 +120,11 @@
 		"description": ""
 	},
 	"proxyableEnableButtonDomain": {
-		"message": "已启用的域名: ",
+		"message": "已启用的域名：",
 		"description": ""
 	},
 	"proxyableDeleteRuleConfirm": {
-		"message": "您确定要删除下列已选规则：",
+		"message": "你确定希望删除以下域名的规则：",
 		"description": ""
 	},
 	"proxyableGridNoDataContent": {
@@ -132,7 +132,7 @@
 		"description": ""
 	},
 	"proxyableGridColUrl": {
-		"message": "请求 Url",
+		"message": "请求 URL",
 		"description": ""
 	},
 	"proxyableGridColEnabled": {
@@ -152,7 +152,7 @@
 		"description": ""
 	},
 	"settingsTabGeneral": {
-		"message": "通用选项",
+		"message": "常规",
 		"description": ""
 	},
 	"settingsTabProxyServers": {
@@ -168,55 +168,43 @@
 		"description": ""
 	},
 	"settingsTabBypass": {
-		"message": "排除列表",
+		"message": "跳过列表",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
-		"message": "备份/恢复",
+		"message": "备份\/还原",
 		"description": ""
 	},
 	"settingsTabUpdateText": {
-		"message": "更新至 {0}",
+		"message": "更新至版本 {0}",
 		"description": ""
 	},
 	"settingsTabAboutDescription": {
-		"message": "SmartProxy 使用自动模式定义是否启用代理，可以让您无需手动更改代理并将其打开和关闭，您可以一键将所需的网站添加到代理规则列表中，在之后访问添加有规则的网站时 SmartProxy 可自动启用代理。",
+		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.",
 		"description": ""
 	},
-	"settingsTabGeneralTitle": {
-		"message": "扩展的通用设置",
+	"settingsGeneralSmartFeatures": {
+		"message": "Smart Features",
 		"description": ""
 	},
-	"settingsTabProxyServersTitle": {
-		"message": "管理您的代理服务器：",
+	"settingsGeneralSmartFeaturesNoChrome": {
+		"message": "<strong>Firefox only!<\/strong> Unfortunately this feature is not supported by Chrome.<\/span>",
 		"description": ""
 	},
-	"settingsTabProxyServersDescription": {
-		"message": "此处为代理服务器列表，您可以根据需要定义多个代理，然后从工具栏切换。",
+	"settingsGeneralProxyPerOrigin": {
+		"message": "Enable proxy per tab\/origin",
 		"description": ""
 	},
-	"settingsTabProxyRulesTitle": {
-		"message": "管理您的代理规则：",
+	"settingsGeneralProxyPerOriginDesc": {
+		"message": "If one of the rules matched the origin\/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
 		"description": ""
 	},
-	"settingsTabProxyRulesDescription": {
-		"message": "此处为 SmartProxy 的规则列表，用于判断是否为特定域名启用代理。<br />规则基于 <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>匹配模式</a>.",
+	"settingsGeneralProxyPerOriginEnabled": {
+		"message": "Proxy per tab\/origin enabled",
 		"description": ""
 	},
-	"settingsTabBypassDescription": {
-		"message": "以下列表是不应该应用代理的主机列表。",
-		"description": ""
-	},
-	"settingsTabBackupRestoreDescription": {
-		"message": "您可以对设置进行完整或部分备份。",
-		"description": ""
-	},
-	"settingsErrNoServersTitle": {
-		"message": "没有服务器!",
-		"description": ""
-	},
-	"settingsErrNoServersDescription": {
-		"message": "在开始前必须含有代理服务器。",
+	"settingsGeneralProxyPerOriginDisabled": {
+		"message": "Proxy per tab\/origin disabled",
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
@@ -224,11 +212,11 @@
 		"description": ""
 	},
 	"settingsGeneralEnableSyncing": {
-		"message": "启用设置同步",
+		"message": "开启选项同步",
 		"description": ""
 	},
 	"settingsGeneralEnableSyncingDesc": {
-		"message": "通过启用同步功能，您的所有设置（包括规则，服务器和订阅）都可以在所有浏览器中使用。",
+		"message": "如果选择同步，你所有的设置（代理规则、代理服务器设置，订阅的代理服务器）将被同步到所有浏览器。",
 		"description": ""
 	},
 	"settingsSaveGeneralOptionsButton": {
@@ -239,8 +227,136 @@
 		"message": "放弃更改",
 		"description": ""
 	},
+	"settingsGeneralSyncProxyMode": {
+		"message": "Enable syncing proxy-mode",
+		"description": ""
+	},
+	"settingsGeneralSyncProxyModeDesc": {
+		"message": "Check if you want the proxy activation mode to be synced.",
+		"description": ""
+	},
+	"settingsGeneralSyncActiveProxy": {
+		"message": "Enable syncing active proxy",
+		"description": ""
+	},
+	"settingsGeneralSyncActiveProxyDesc": {
+		"message": "Check if you want the selected proxy server to be synced",
+		"description": ""
+	},
+	"settingsGeneralErrorDetection": {
+		"message": "Error Detection",
+		"description": ""
+	},
+	"settingsGeneralDetectFailures": {
+		"message": "Detect request failures",
+		"description": ""
+	},
+	"settingsGeneralDetectFailuresDesc": {
+		"message": "Request failures detection will help you identify the domains that needs proxy.",
+		"description": ""
+	},
+	"settingsGeneralSelectIgnoredDomains": {
+		"message": "Select Domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresForDomains": {
+		"message": "Ignore failure detection for these domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
+		"message": "Enter domain list you wish to disable failure detection.",
+		"description": ""
+	},
+	"settingsGeneralDisplayFailedOnBadge": {
+		"message": "Display failed requests count on toolabr icon badge",
+		"description": ""
+	},
+	"settingsGeneralOtherSettings": {
+		"message": "Other Settings",
+		"description": ""
+	},
+	"settingsGeneralEnableShortcuts": {
+		"message": "Enable Shortcuts",
+		"description": ""
+	},
+	"settingsGeneralEnableShortcutsDesc": {
+		"message": "You can configure shortcuts from browser addon settings page.",
+		"description": ""
+	},
+	"settingsGeneralViewShortcuts": {
+		"message": "View shortcuts",
+		"description": ""
+	},
+	"settingsGeneralShortcutNotification": {
+		"message": "Enable shortcut notification",
+		"description": ""
+	},
+	"settingsGeneralViewShortcutKeys": {
+		"message": "Shortcut Keys",
+		"description": ""
+	},
+	"settingsGeneralDisplayAppliedProxyOnBadge": {
+		"message": "Display applied proxy on badge",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresTitle": {
+		"message": "Ignore Request Failures For Domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoredDomains": {
+		"message": "Ignored domain list:",
+		"description": ""
+	},
+	"settingsGeneralCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsGeneralSaveChanges": {
+		"message": "Save Changes",
+		"description": ""
+	},
+	"settingsGeneralKeyboardShortcutsTitle": {
+		"message": "Keyboard shortcuts",
+		"description": ""
+	},
+	"settingsGeneralCloseButton": {
+		"message": "Close",
+		"description": ""
+	},
+	"settingsTabProxyServersTitle": {
+		"message": "管理您的代理服务器：",
+		"description": ""
+	},
+	"settingsTabProxyServersDescription": {
+		"message": "此处为代理服务器列表。可定义任意数量的代理，通过工具栏按钮即可切换。",
+		"description": ""
+	},
+	"settingsTabProxyRulesTitle": {
+		"message": "管理您的代理规则：",
+		"description": ""
+	},
+	"settingsTabProxyRulesDescription": {
+		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br \/>Rules are based on <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>Match patterns<\/a> and <a href='https:\/\/en.wikipedia.org\/wiki\/Regular_expression' target='_blank'>Regular expressions<\/a>.",
+		"description": ""
+	},
+	"settingsTabBypassDescription": {
+		"message": "下列名单是不应使用代理的主机列表。",
+		"description": ""
+	},
+	"settingsTabBackupRestoreDescription": {
+		"message": "您可以备份您的部分或全部设置。",
+		"description": ""
+	},
+	"settingsErrNoServersTitle": {
+		"message": "没有服务器！",
+		"description": ""
+	},
+	"settingsErrNoServersDescription": {
+		"message": "您必须先定义代理服务器。",
+		"description": ""
+	},
 	"settingsActiveProxyServer": {
-		"message": "启用代理服务器：",
+		"message": "激活的代理服务器：",
 		"description": ""
 	},
 	"settingsAddServerButton": {
@@ -260,7 +376,7 @@
 		"description": ""
 	},
 	"settingsFullBackupButtonDesc": {
-		"message": "创建选项的完整备份（包括代理服务器和规则）。",
+		"message": "完整备份你的偏好设置（包含代理服务器与规则）",
 		"description": ""
 	},
 	"settingsRulesBackupButton": {
@@ -268,27 +384,27 @@
 		"description": ""
 	},
 	"settingsRulesBackupButtonDesc": {
-		"message": "创建代理规则备份。",
+		"message": "备份你的代理规则",
 		"description": ""
 	},
 	"settingsRestoreBackupButton": {
-		"message": "恢复备份",
+		"message": "从备份还原",
 		"description": ""
 	},
 	"settingsRestoreBackupButtonDesc": {
-		"message": "从本地文件恢复先前备份",
+		"message": "从本地备份文件还原",
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "导入/导出一个代理和规则列表。",
+		"message": "导入\/导出代理服务器和规则",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
-		"message": "导入代理服务器",
+		"message": "导入代理服务器设置",
 		"description": ""
 	},
 	"settingsExportProxiesButtonBackup": {
-		"message": "导出代理服务器",
+		"message": "导出代理服务器设置",
 		"description": ""
 	},
 	"settingsImportRulesButtonBackup": {
@@ -312,15 +428,15 @@
 		"description": ""
 	},
 	"settingsImportRulesFrom": {
-		"message": "导入规则格式",
+		"message": "规则导入来源",
 		"description": ""
 	},
 	"settingsImportRulesOptionAppend": {
-		"message": "添加到现有规则",
+		"message": "添加到当前规则",
 		"description": ""
 	},
 	"settingsImportRulesOptionOverride": {
-		"message": "替换当前规则（请谨慎操作）",
+		"message": "替换当前规则（谨慎操作）",
 		"description": ""
 	},
 	"settingsImportRulesCancelButton": {
@@ -344,7 +460,7 @@
 		"description": ""
 	},
 	"settingsImportProxiesSelectFileButton": {
-		"message": "代理列表文件",
+		"message": "导出代理列表",
 		"description": ""
 	},
 	"settingsImportProxiesSelectTextButton": {
@@ -352,11 +468,11 @@
 		"description": ""
 	},
 	"settingsImportProxiesOptionAppend": {
-		"message": "添加到现有代理",
+		"message": "增量添加到代理列表",
 		"description": ""
 	},
 	"settingsImportProxiesOptionOverride": {
-		"message": "替换当前代理（请谨慎操作）",
+		"message": "覆盖当前列表（谨慎操作）",
 		"description": ""
 	},
 	"settingsImportProxiesCancelButton": {
@@ -367,12 +483,16 @@
 		"message": "导入",
 		"description": ""
 	},
+	"settingsConfirmRemoveProxyServer": {
+		"message": "Are you sure to remove the selected proxy server?",
+		"description": ""
+	},
 	"settingsRemoveAllProxyServers": {
-		"message": "确定删除所有代理服务器吗？",
+		"message": "你确定移除所有代理服务器？",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "所有代理服务器已删除。<br/>请记得保存修改。",
+		"message": "所有代理服务器已移除。<br\/>你必须保存才能应用更改。",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
@@ -388,7 +508,7 @@
 		"description": ""
 	},
 	"importerImportProxySuccess": {
-		"message": "总共 {1} 中有 {0} 条代理已添加。<br>请记得保存修改。",
+		"message": "总计导入 ${parsedRuleList.length} 个代理服务器当中的 ${importedRuleList.length} 个。<br>请注意保存更改。",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveServers": {
@@ -400,15 +520,19 @@
 		"description": ""
 	},
 	"settingsChangesReverted": {
-		"message": "更改恢复成功。",
+		"message": "成功回滚更改。",
+		"description": ""
+	},
+	"settingsConfirmRemoveProxyRule": {
+		"message": "Are you sure to remove the selected rule?",
 		"description": ""
 	},
 	"settingsRemoveAllRules": {
-		"message": "确定删除所有规则吗？",
+		"message": "确定移除所有规则？",
 		"description": ""
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "所有规则已删除。<br/>请保存以应用更改。",
+		"message": "所有规则已移除。<br\/>你必须保存以应用更改。",
 		"description": ""
 	},
 	"settingsRestoreBackupFailed": {
@@ -416,7 +540,7 @@
 		"description": ""
 	},
 	"settingsRestoreBackupFileError": {
-		"message": "读取所选文件失败",
+		"message": "无法读取选定的文件",
 		"description": ""
 	},
 	"settingsRulesFileNotSelected": {
@@ -424,7 +548,7 @@
 		"description": ""
 	},
 	"settingsSourceTypeNotSelected": {
-		"message": "请选择格式",
+		"message": "请选择来源类型",
 		"description": ""
 	},
 	"settingsImportRulesFailed": {
@@ -432,11 +556,11 @@
 		"description": ""
 	},
 	"settingsServerNameRequired": {
-		"message": "请设置服务器名称!",
+		"message": "请指定服务器名称！",
 		"description": ""
 	},
 	"settingsServerNameExists": {
-		"message": "具有相同名称的服务器已存在！",
+		"message": "已有重名的服务器！",
 		"description": ""
 	},
 	"settingsServerServerAddressIsEmpty": {
@@ -444,15 +568,15 @@
 		"description": ""
 	},
 	"settingsServerPortNoInvalid": {
-		"message": "请输入有效的端口号",
+		"message": "请输入合法的端口地址（1-65535）",
 		"description": ""
 	},
 	"settingsServerAuthenticationInvalid": {
-		"message": "认证需要使用用户名和密码",
+		"message": "需要用户名和密码来进行身份验证",
 		"description": ""
 	},
 	"settingsServersGridNoDataContent": {
-		"message": "没有服务器",
+		"message": "没有已定义的服务器",
 		"description": ""
 	},
 	"settingsServersGridColName": {
@@ -484,7 +608,7 @@
 		"description": ""
 	},
 	"settingsServersProtocol": {
-		"message": "协议",
+		"message": "Proxy Protocol",
 		"description": ""
 	},
 	"settingsServersPort": {
@@ -492,7 +616,7 @@
 		"description": ""
 	},
 	"settingsServersProxyDNS": {
-		"message": "使用 SOCKS v5 代理 DNS",
+		"message": "Proxy DNS when using SOCKS 5",
 		"description": ""
 	},
 	"settingsServersUsername": {
@@ -508,7 +632,7 @@
 		"description": ""
 	},
 	"settingsServersSave": {
-		"message": "保存",
+		"message": "Save",
 		"description": ""
 	},
 	"settingsServersImport": {
@@ -516,35 +640,59 @@
 		"description": ""
 	},
 	"settingsRuleSourceRequired": {
-		"message": "请指定规则来源！",
+		"message": "Please specify the source domain of the rule!",
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "地址无效, 地址应该类似于「google.com」",
+		"message": "source domain is invalid, source domain should be something like 'google.com'",
 		"description": ""
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "「地址」是无效的「{0}」",
+		"message": "'source domain' is not valid '{0}'",
 		"description": ""
 	},
 	"settingsRuleSourceAlreadyExists": {
-		"message": "具有相同地址的规则已经存在！",
+		"message": "已有相同设定的规则！",
 		"description": ""
 	},
 	"settingsRuleHostInvalid": {
-		"message": "地址 '{0}' 无效, 地址应该类似于「google.com」",
+		"message": "主机名 '{0}' 无效，主机名应类似于 'google.com'",
+		"description": ""
+	},
+	"settingsRuleRegexNotMatchDomain": {
+		"message": "Regex rule does not match the source domain '{0}'",
+		"description": ""
+	},
+	"settingsRuleDoesntIncludeDomain": {
+		"message": "The rule does not match the source domain '{0}'",
+		"description": ""
+	},
+	"settingsRuleRegexInvalid": {
+		"message": "Regex rule '{0}' is not valid",
+		"description": ""
+	},
+	"settingsRuleExactUrlInvalid": {
+		"message": "Url '{0}' is not valid",
+		"description": ""
+	},
+	"settingsRuleUrlInvalid": {
+		"message": "Url '{0}' is not valid",
 		"description": ""
 	},
 	"settingsRulesGridNoDataContent": {
-		"message": "没有规则",
+		"message": "没有已定义的规则",
+		"description": ""
+	},
+	"settingsRulesGridColRuleType": {
+		"message": "Rule Type",
 		"description": ""
 	},
 	"settingsRulesGridColSource": {
-		"message": "地址",
+		"message": "设定",
 		"description": ""
 	},
-	"settingsRulesGridColPattern": {
-		"message": "模式",
+	"settingsRulesGridColRule": {
+		"message": "Rule",
 		"description": ""
 	},
 	"settingsRulesGridColEnabled": {
@@ -560,35 +708,51 @@
 		"description": ""
 	},
 	"settingsSaveProxyRulesSuccess": {
-		"message": "代理规则保存成功。",
+		"message": "成功保存代理规则。",
 		"description": ""
 	},
 	"settingsRulesModalTitle": {
 		"message": "规则详情",
 		"description": ""
 	},
+	"settingsRulesRuleType": {
+		"message": "Rule Type",
+		"description": ""
+	},
 	"settingsRulesSourceDomain": {
-		"message": "代理域名",
+		"message": "要代理的域名",
 		"description": ""
 	},
 	"settingsRulesSourceDomainDesc": {
-		"message": "（比如 google.com）",
+		"message": "（比如：google.com）",
 		"description": ""
 	},
 	"settingsRulesPattern": {
 		"message": "匹配模式",
 		"description": ""
 	},
-	"settingsRulesPatternDesc": {
-		"message": "(自动生成)",
+	"settingsRulesGeneratePattern": {
+		"message": "Generate pattern automatically",
+		"description": ""
+	},
+	"settingsRulesRegex": {
+		"message": "Url Regex",
+		"description": ""
+	},
+	"settingsRulesExactUrl": {
+		"message": "Exact Url",
 		"description": ""
 	},
 	"settingsRulesProxyServer": {
 		"message": "代理服务器",
 		"description": ""
 	},
+	"settingsRulesProxyServerNotAuth": {
+		"message": "(Servers with authentication not supported)",
+		"description": ""
+	},
 	"settingsRulesEnabled": {
-		"message": "启用",
+		"message": "开启",
 		"description": ""
 	},
 	"settingsRulesModalCancel": {
@@ -600,11 +764,11 @@
 		"description": ""
 	},
 	"settingsServerPortInvalid": {
-		"message": "服务器端口「{0}」无效",
+		"message": "服务器端口 '{0}' 无效",
 		"description": ""
 	},
 	"settingsServerHostInvalid": {
-		"message": "服务器地址「{0}」无效",
+		"message": "服务器主机名 '{0}' 无效",
 		"description": ""
 	},
 	"settingsProxyModeInvalid": {
@@ -612,11 +776,11 @@
 		"description": ""
 	},
 	"settingsRestoreSettingsSuccess": {
-		"message": "重置设置成功",
+		"message": "成功还原设置",
 		"description": ""
 	},
 	"settingsRestoreSettingsFailed": {
-		"message": "重置设置失败",
+		"message": "还原设置时出错",
 		"description": ""
 	},
 	"settingsEnableByDomainInvalid": {
@@ -624,19 +788,39 @@
 		"description": ""
 	},
 	"settingsEnableByDomainExists": {
-		"message": "该域名的规则已存在",
+		"message": "该域名的规则已经存在",
 		"description": ""
 	},
 	"settingsNoRuleFoundForDomain": {
-		"message": "找不到任何匹配的规则「{0}」",
+		"message": "没有对域名 '{0}' 的规则",
 		"description": ""
 	},
 	"settingsRuleSourceIsEmpty": {
-		"message": "规则「来源」为空",
+		"message": "规则 '设定' 为空",
 		"description": ""
 	},
 	"importerImportSuccess": {
-		"message": "总共 {1} 中有 {0} 条规则已添加。<br>请记得保存修改。",
+		"message": "{0} \/ {1} 条规则已添加。<br>注意保存更改。",
+		"description": ""
+	},
+	"settingsAddMultipleRulesButton": {
+		"message": "Add Multiple Rules",
+		"description": ""
+	},
+	"settingsAddMultipleRuleTitle": {
+		"message": "Add Multiple Rules",
+		"description": ""
+	},
+	"settingsMultipleRuleList": {
+		"message": "Host\/Rule list:",
+		"description": ""
+	},
+	"settingsMultipleRuleInvalidHost": {
+		"message": "Host name '{0}' is invalid",
+		"description": ""
+	},
+	"settingsMultipleRuleNoNewRuleAdded": {
+		"message": "No new rule is added",
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
@@ -644,15 +828,15 @@
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptionsDescription": {
-		"message": "在此订阅代理服务器列表并在稍后用于切换代理，请注意列表过长可能会导致多设备同步数据失败。",
+		"message": "此处可以订阅代理列表并在稍后用于切换代理。请注意在不同设备间同步长列表时可能失败。",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveGeneral": {
-		"message": "通用选项保存失败",
+		"message": "保存选项失败",
 		"description": ""
 	},
 	"settingsSaveOptionsSuccess": {
-		"message": "通用选项保存成功。",
+		"message": "保存成功",
 		"description": ""
 	},
 	"settingsAddServerSubscriptionButton": {
@@ -664,11 +848,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionName": {
-		"message": "名称",
+		"message": "名称：",
 		"description": ""
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "地址：",
+		"message": "URL：",
 		"description": ""
 	},
 	"settingsServerSubscriptionRefreshRate": {
@@ -676,7 +860,7 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionRefreshRateHelp": {
-		"message": "（分钟，0表示不刷新）",
+		"message": "（分钟，0 表示不刷新）",
 		"description": ""
 	},
 	"settingsServerSubscriptionEnabled": {
@@ -691,6 +875,10 @@
 		"message": "混淆：",
 		"description": ""
 	},
+	"settingsServerSubscriptionFormat": {
+		"message": "Format:",
+		"description": ""
+	},
 	"settingsServerSubscriptionUsername": {
 		"message": "用户名：",
 		"description": ""
@@ -700,7 +888,7 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionAuthenticationHelp": {
-		"message": "（如果列表需要认证）",
+		"message": "（访问列表如需验证身份请填入）",
 		"description": ""
 	},
 	"settingsServerSubscriptionCancelButton": {
@@ -712,7 +900,7 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionSavingButton": {
-		"message": "保存中...",
+		"message": "正在保存...",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestButton": {
@@ -720,23 +908,27 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionTestingButton": {
-		"message": "测试中...",
+		"message": "正在测试…",
+		"description": ""
+	},
+	"settingsConfirmRemoveServerSubscription": {
+		"message": "Are you sure to remove the selected subscription?",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
-		"message": "确定删除所有代理服务器订阅吗？",
+		"message": "你希望移除所有代理服务器订阅？",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "所有代理服务器订阅都已删除。<br/>请保存以应用更改。",
+		"message": "所有代理服务器订阅已移除。<br\/>你必须保存以应用更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
-		"message": "(使用 HTTP 自动检测)",
+		"message": "（自动检测与回退到 HTTP 代理）",
 		"description": ""
 	},
 	"settingsInitializeFailed": {
-		"message": "读取配置失败。请关闭设置页面并重试。",
+		"message": "读取设置失败。请关闭设置页然后重试。",
 		"description": ""
 	},
 	"settingsActiveProxyServerSubscriptions": {
@@ -752,11 +944,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "地址",
+		"message": "URL",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColCount": {
-		"message": "数量",
+		"message": "计数",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColEnabled": {
@@ -764,31 +956,31 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionIncompleteForm": {
-		"message": "请以正确的格式填写必填字段",
+		"message": "请使用正确格式在必要的区域填入信息。",
 		"description": ""
 	},
 	"settingsServerSubscriptionInvalidForm": {
-		"message": "代理服务器订阅信息无效",
+		"message": "无效的代理服务器订阅信息",
 		"description": ""
 	},
 	"settingsServerSubscriptionDuplicateName": {
-		"message": "输入的名称已被使用，请输入其他名称。",
+		"message": "该名称已被使用，请换一个。",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "订阅更新 {0} 个代理。 <br/>请记得保存修改。",
+		"message": "订阅已更新，包含 {0} 个代理。<br\/>请注意保存更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "订阅新增 {0} 个代理。 <br/>请记得保存修改。",
+		"message": "订阅已添加，包含 {0} 个代理。<br\/>请注意保存更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {
-		"message": "获取代理失败",
+		"message": "无法拉取代理",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "测试成功。返回 {0} 个代理。",
+		"message": "Test was successful. The list returned {0} proxies.",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestFailed": {
@@ -796,35 +988,51 @@
 		"description": ""
 	},
 	"settingsSaveProxyServerSubscriptionsSuccess": {
-		"message": "代理服务器订阅保存成功。",
+		"message": "代理服务器订阅成功。",
 		"description": ""
 	},
 	"settingsBypassEnableForAlways": {
-		"message": "在「始终代理」模式中启用",
-		"description": ""
-	},
-	"settingsBypassEnableForSystem": {
-		"message": "在「系统代理」模式中启用（仅 Firefox）",
+		"message": "为“总是启用”模式启用",
 		"description": ""
 	},
 	"settingsBypassList": {
-		"message": "排除列表：",
+		"message": "跳过列表：",
 		"description": ""
 	},
 	"settingsBypassListHint": {
-		"message": "(每行一条)",
+		"message": "(Use new line to separate entries)",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveBypass": {
-		"message": "排除设置保存失败。",
+		"message": "Failed to save bypass settings.",
 		"description": ""
 	},
 	"settingsSaveBypassSuccess": {
-		"message": "排除设置保存成功。",
+		"message": "跳过列表保存成功。",
 		"description": ""
 	},
 	"settingsBypassInvalid": {
-		"message": "无效的设置",
+		"message": "无效的跳过设置",
+		"description": ""
+	},
+	"notificationNoNextProxyServer": {
+		"message": "There is no further next proxy server",
+		"description": ""
+	},
+	"notificationNoPreviousProxyServer": {
+		"message": "There is no further previous proxy server",
+		"description": ""
+	},
+	"notificationShortcutTitle": {
+		"message": "SmartProxy shortcut notification",
+		"description": ""
+	},
+	"notificationShortcutProxyModeMessage": {
+		"message": "Proxy mode changed to {0}",
+		"description": ""
+	},
+	"notificationShortcutProxyServerChanged": {
+		"message": "Proxy server changed to {0}",
 		"description": ""
 	}
 }

@@ -72,7 +72,7 @@
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "Bunlar, zaman aşımına uğramış veya başarısız olan alanlardır. <br \/> Bu alanların engellendiğine inanıyorsanız, buradan proxy kuralları listesine ekleyebilirsiniz.",
+		"message": "These are the domains that are either timed-out or failed.<br \/>If you believe that these domains are blocked, here you can add them to proxy rules list.",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
@@ -180,43 +180,31 @@
 		"description": ""
 	},
 	"settingsTabAboutDescription": {
-		"message": "Web deneyiminizi proksi- yon haline getirmek için kuralları otomatik olarak tanımlamak için kalıpları kullanın. SmartProxy ile, vekilinizi manuel olarak değiştirmeniz ve açmanız ve kapatmanız gerekmez. İstediğiniz web sitesini tek bir tıklama ile proxy kuralları listesine ekleyebilirsiniz. Bundan sonra, belirli bir web sitesini ziyaret ettiğinizde, SmartProxy hareket edecek ve bir şey yapmadan o web sitesine ait tüm veriler proxy üzerinden aktarılıyor.",
+		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything.",
 		"description": ""
 	},
-	"settingsTabGeneralTitle": {
-		"message": "Uzantının genel seçenekleri:",
+	"settingsGeneralSmartFeatures": {
+		"message": "Smart Features",
 		"description": ""
 	},
-	"settingsTabProxyServersTitle": {
-		"message": "Proxy sunucularınızı yönetin:",
+	"settingsGeneralSmartFeaturesNoChrome": {
+		"message": "<strong>Firefox only!<\/strong> Unfortunately this feature is not supported by Chrome.<\/span>",
 		"description": ""
 	},
-	"settingsTabProxyServersDescription": {
-		"message": "Proxy sunucularının listesi aşağıdadır. İstediğiniz kadar vekil olarak tanımlayabilir ve o zaman arasında araç çubuğundan geçebilirsiniz.",
+	"settingsGeneralProxyPerOrigin": {
+		"message": "Enable proxy per tab\/origin",
 		"description": ""
 	},
-	"settingsTabProxyRulesTitle": {
-		"message": "Proxy kurallarınızı yönetin:",
+	"settingsGeneralProxyPerOriginDesc": {
+		"message": "If one of the rules matched the origin\/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
 		"description": ""
 	},
-	"settingsTabProxyRulesDescription": {
-		"message": "<br \/> <br \/> Kurallar, SmartProxy'nin belirli bir alan adı için proxy'yi etkinleştirip etkinleştirmemesine karar vermesine izin verecek kuralların listesi. <A href = 'https: \/\/developer.mozilla.org\/en-US\/ Eklentiler \/ WebGörünümleri \/ Eşleme_oturkları 'target =' _ blank '> Eşleme kalıpları <\/a>.",
+	"settingsGeneralProxyPerOriginEnabled": {
+		"message": "Proxy per tab\/origin enabled",
 		"description": ""
 	},
-	"settingsTabBypassDescription": {
-		"message": "Aşağıdaki liste, proxy'nin uygulanması gereken ana makinelerin listesidür.",
-		"description": ""
-	},
-	"settingsTabBackupRestoreDescription": {
-		"message": "Ayarlarınızın tam veya kısmen yedeklenmesini sağlayabilirsiniz.",
-		"description": ""
-	},
-	"settingsErrNoServersTitle": {
-		"message": "Sunucu yok!",
-		"description": ""
-	},
-	"settingsErrNoServersDescription": {
-		"message": "Daha önce bir şey proxy sunucularını tanımlamak zorunda.",
+	"settingsGeneralProxyPerOriginDisabled": {
+		"message": "Proxy per tab\/origin disabled",
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
@@ -237,6 +225,134 @@
 	},
 	"settingsRejectGeneralOptionsButton": {
 		"message": "Değişiklikleri Reddet",
+		"description": ""
+	},
+	"settingsGeneralSyncProxyMode": {
+		"message": "Enable syncing proxy-mode",
+		"description": ""
+	},
+	"settingsGeneralSyncProxyModeDesc": {
+		"message": "Check if you want the proxy activation mode to be synced.",
+		"description": ""
+	},
+	"settingsGeneralSyncActiveProxy": {
+		"message": "Enable syncing active proxy",
+		"description": ""
+	},
+	"settingsGeneralSyncActiveProxyDesc": {
+		"message": "Check if you want the selected proxy server to be synced",
+		"description": ""
+	},
+	"settingsGeneralErrorDetection": {
+		"message": "Error Detection",
+		"description": ""
+	},
+	"settingsGeneralDetectFailures": {
+		"message": "Detect request failures",
+		"description": ""
+	},
+	"settingsGeneralDetectFailuresDesc": {
+		"message": "Request failures detection will help you identify the domains that needs proxy.",
+		"description": ""
+	},
+	"settingsGeneralSelectIgnoredDomains": {
+		"message": "Select Domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresForDomains": {
+		"message": "Ignore failure detection for these domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
+		"message": "Enter domain list you wish to disable failure detection.",
+		"description": ""
+	},
+	"settingsGeneralDisplayFailedOnBadge": {
+		"message": "Display failed requests count on toolabr icon badge",
+		"description": ""
+	},
+	"settingsGeneralOtherSettings": {
+		"message": "Other Settings",
+		"description": ""
+	},
+	"settingsGeneralEnableShortcuts": {
+		"message": "Enable Shortcuts",
+		"description": ""
+	},
+	"settingsGeneralEnableShortcutsDesc": {
+		"message": "You can configure shortcuts from browser addon settings page.",
+		"description": ""
+	},
+	"settingsGeneralViewShortcuts": {
+		"message": "View shortcuts",
+		"description": ""
+	},
+	"settingsGeneralShortcutNotification": {
+		"message": "Enable shortcut notification",
+		"description": ""
+	},
+	"settingsGeneralViewShortcutKeys": {
+		"message": "Shortcut Keys",
+		"description": ""
+	},
+	"settingsGeneralDisplayAppliedProxyOnBadge": {
+		"message": "Display applied proxy on badge",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresTitle": {
+		"message": "Ignore Request Failures For Domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoredDomains": {
+		"message": "Ignored domain list:",
+		"description": ""
+	},
+	"settingsGeneralCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsGeneralSaveChanges": {
+		"message": "Save Changes",
+		"description": ""
+	},
+	"settingsGeneralKeyboardShortcutsTitle": {
+		"message": "Keyboard shortcuts",
+		"description": ""
+	},
+	"settingsGeneralCloseButton": {
+		"message": "Close",
+		"description": ""
+	},
+	"settingsTabProxyServersTitle": {
+		"message": "Proxy sunucularınızı yönetin:",
+		"description": ""
+	},
+	"settingsTabProxyServersDescription": {
+		"message": "Proxy sunucularının listesi aşağıdadır. İstediğiniz kadar vekil olarak tanımlayabilir ve o zaman arasında araç çubuğundan geçebilirsiniz.",
+		"description": ""
+	},
+	"settingsTabProxyRulesTitle": {
+		"message": "Proxy kurallarınızı yönetin:",
+		"description": ""
+	},
+	"settingsTabProxyRulesDescription": {
+		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br \/>Rules are based on <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>Match patterns<\/a> and <a href='https:\/\/en.wikipedia.org\/wiki\/Regular_expression' target='_blank'>Regular expressions<\/a>.",
+		"description": ""
+	},
+	"settingsTabBypassDescription": {
+		"message": "Aşağıdaki liste, proxy'nin uygulanması gereken ana makinelerin listesidür.",
+		"description": ""
+	},
+	"settingsTabBackupRestoreDescription": {
+		"message": "Ayarlarınızın tam veya kısmen yedeklenmesini sağlayabilirsiniz.",
+		"description": ""
+	},
+	"settingsErrNoServersTitle": {
+		"message": "Sunucu yok!",
+		"description": ""
+	},
+	"settingsErrNoServersDescription": {
+		"message": "Daha önce bir şey proxy sunucularını tanımlamak zorunda.",
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
@@ -367,6 +483,10 @@
 		"message": "İçe aktar",
 		"description": ""
 	},
+	"settingsConfirmRemoveProxyServer": {
+		"message": "Are you sure to remove the selected proxy server?",
+		"description": ""
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Tüm proxy sunucularını kaldırdığınızdan emin misiniz?",
 		"description": ""
@@ -401,6 +521,10 @@
 	},
 	"settingsChangesReverted": {
 		"message": "Değişiklikler başarıyla geri döndü.",
+		"description": ""
+	},
+	"settingsConfirmRemoveProxyRule": {
+		"message": "Are you sure to remove the selected rule?",
 		"description": ""
 	},
 	"settingsRemoveAllRules": {
@@ -484,7 +608,7 @@
 		"description": ""
 	},
 	"settingsServersProtocol": {
-		"message": "Protokol",
+		"message": "Proxy Protocol",
 		"description": ""
 	},
 	"settingsServersPort": {
@@ -492,7 +616,7 @@
 		"description": ""
 	},
 	"settingsServersProxyDNS": {
-		"message": "SOCKS v5 kullanırken proxy DNS",
+		"message": "Proxy DNS when using SOCKS 5",
 		"description": ""
 	},
 	"settingsServersUsername": {
@@ -507,20 +631,24 @@
 		"message": "İptal",
 		"description": ""
 	},
+	"settingsServersSave": {
+		"message": "Save",
+		"description": ""
+	},
 	"settingsServersImport": {
 		"message": "İçe aktar",
 		"description": ""
 	},
 	"settingsRuleSourceRequired": {
-		"message": "Lütfen kuralın kaynağını belirtin!",
+		"message": "Please specify the source domain of the rule!",
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "kaynak geçersiz, kaynak adı 'google.com' gibi olmalıdır.",
+		"message": "source domain is invalid, source domain should be something like 'google.com'",
 		"description": ""
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'kaynak' geçerli değil '{0}'",
+		"message": "'source domain' is not valid '{0}'",
 		"description": ""
 	},
 	"settingsRuleSourceAlreadyExists": {
@@ -531,16 +659,40 @@
 		"message": "'{0}' ana makine adı geçersiz, ana bilgisayar adı 'google.com' gibi olmalıdır",
 		"description": ""
 	},
+	"settingsRuleRegexNotMatchDomain": {
+		"message": "Regex rule does not match the source domain '{0}'",
+		"description": ""
+	},
+	"settingsRuleDoesntIncludeDomain": {
+		"message": "The rule does not match the source domain '{0}'",
+		"description": ""
+	},
+	"settingsRuleRegexInvalid": {
+		"message": "Regex rule '{0}' is not valid",
+		"description": ""
+	},
+	"settingsRuleExactUrlInvalid": {
+		"message": "Url '{0}' is not valid",
+		"description": ""
+	},
+	"settingsRuleUrlInvalid": {
+		"message": "Url '{0}' is not valid",
+		"description": ""
+	},
 	"settingsRulesGridNoDataContent": {
 		"message": "Hiçbir kural tanımlanmadı",
+		"description": ""
+	},
+	"settingsRulesGridColRuleType": {
+		"message": "Rule Type",
 		"description": ""
 	},
 	"settingsRulesGridColSource": {
 		"message": "Kaynak",
 		"description": ""
 	},
-	"settingsRulesGridColPattern": {
-		"message": "Şekil",
+	"settingsRulesGridColRule": {
+		"message": "Rule",
 		"description": ""
 	},
 	"settingsRulesGridColEnabled": {
@@ -563,6 +715,10 @@
 		"message": "Kural Detayları",
 		"description": ""
 	},
+	"settingsRulesRuleType": {
+		"message": "Rule Type",
+		"description": ""
+	},
 	"settingsRulesSourceDomain": {
 		"message": "Kural Kaynağı Alan Adı",
 		"description": ""
@@ -575,12 +731,24 @@
 		"message": "Maç Desen",
 		"description": ""
 	},
-	"settingsRulesPatternDesc": {
-		"message": "(otomatik olarak oluşturulur)",
+	"settingsRulesGeneratePattern": {
+		"message": "Generate pattern automatically",
+		"description": ""
+	},
+	"settingsRulesRegex": {
+		"message": "Url Regex",
+		"description": ""
+	},
+	"settingsRulesExactUrl": {
+		"message": "Exact Url",
 		"description": ""
 	},
 	"settingsRulesProxyServer": {
 		"message": "Proxy sunucu",
+		"description": ""
+	},
+	"settingsRulesProxyServerNotAuth": {
+		"message": "(Servers with authentication not supported)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {
@@ -635,6 +803,26 @@
 		"message": "{1} vekilin tamamı {0} dışarı aktarılıyor. <br> Değişiklikleri kaydetmeyi unutma.",
 		"description": ""
 	},
+	"settingsAddMultipleRulesButton": {
+		"message": "Add Multiple Rules",
+		"description": ""
+	},
+	"settingsAddMultipleRuleTitle": {
+		"message": "Add Multiple Rules",
+		"description": ""
+	},
+	"settingsMultipleRuleList": {
+		"message": "Host\/Rule list:",
+		"description": ""
+	},
+	"settingsMultipleRuleInvalidHost": {
+		"message": "Host name '{0}' is invalid",
+		"description": ""
+	},
+	"settingsMultipleRuleNoNewRuleAdded": {
+		"message": "No new rule is added",
+		"description": ""
+	},
 	"settingsTabProxyServerSubscriptionsTitle": {
 		"message": "Proxy sunucu abonelikleri yönet:",
 		"description": ""
@@ -687,6 +875,10 @@
 		"message": "Gizleme:",
 		"description": ""
 	},
+	"settingsServerSubscriptionFormat": {
+		"message": "Format:",
+		"description": ""
+	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Kullanıcı adı:",
 		"description": ""
@@ -717,6 +909,10 @@
 	},
 	"settingsServerSubscriptionTestingButton": {
 		"message": "Deneniyor...",
+		"description": ""
+	},
+	"settingsConfirmRemoveServerSubscription": {
+		"message": "Are you sure to remove the selected subscription?",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
@@ -784,7 +980,7 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "Test başarılı oldu. Liste, {0} vekil döndürdü.",
+		"message": "Test was successful. The list returned {0} proxies.",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestFailed": {
@@ -799,20 +995,16 @@
 		"message": "'Daima Etkinleştir' modu için etkinleştir",
 		"description": ""
 	},
-	"settingsBypassEnableForSystem": {
-		"message": "'Sistem Proxy' modu için etkinleştir (yalnızca Firefox)",
-		"description": ""
-	},
 	"settingsBypassList": {
 		"message": "Bypass listesi:",
 		"description": ""
 	},
 	"settingsBypassListHint": {
-		"message": "(Girişleri ayırmak için yeni satır kullanın)",
+		"message": "(Use new line to separate entries)",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveBypass": {
-		"message": "Bypas ayarları kaydedilemedi.",
+		"message": "Failed to save bypass settings.",
 		"description": ""
 	},
 	"settingsSaveBypassSuccess": {
@@ -821,6 +1013,26 @@
 	},
 	"settingsBypassInvalid": {
 		"message": "Geçersiz bypass ayarları",
+		"description": ""
+	},
+	"notificationNoNextProxyServer": {
+		"message": "There is no further next proxy server",
+		"description": ""
+	},
+	"notificationNoPreviousProxyServer": {
+		"message": "There is no further previous proxy server",
+		"description": ""
+	},
+	"notificationShortcutTitle": {
+		"message": "SmartProxy shortcut notification",
+		"description": ""
+	},
+	"notificationShortcutProxyModeMessage": {
+		"message": "Proxy mode changed to {0}",
+		"description": ""
+	},
+	"notificationShortcutProxyServerChanged": {
+		"message": "Proxy server changed to {0}",
 		"description": ""
 	}
 }
