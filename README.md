@@ -32,6 +32,7 @@ What's more, SmartProxy is inspired by AutoProxy and AutoProxy-ng and that are n
 - Easily with one click add current site to your proxy list
 - View current website items and requests and decide whether to proxify them with one click
 - Easily switch between proxy modes and enable proxy for all domains
+- Proxy API is supported through subscriptions
 - Backup/Restore settings and rules
 
 #### How to translate

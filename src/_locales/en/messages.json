@@ -675,6 +675,10 @@
 		"message": "Url '{0}' is not valid",
 		"description": ""
 	},
+	"settingsRuleUrlInvalid": {
+		"message": "Url '{0}' is not valid",
+		"description": ""
+	},
 	"settingsRulesGridNoDataContent": {
 		"message": "No rule is defined",
 		"description": ""
@@ -797,6 +801,26 @@
 	},
 	"importerImportSuccess": {
 		"message": "Total {0} out of {1} rules are appended.<br>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsAddMultipleRulesButton": {
+		"message": "Add Multiple Rules",
+		"description": ""
+	},
+	"settingsAddMultipleRuleTitle": {
+		"message": "Add Multiple Rules",
+		"description": ""
+	},
+	"settingsMultipleRuleList": {
+		"message": "Host/Rule list:",
+		"description": ""
+	},
+	"settingsMultipleRuleInvalidHost": {
+		"message": "Host name '{0}' is invalid",
+		"description": ""
+	},
+	"settingsMultipleRuleNoNewRuleAdded": {
+		"message": "No new rule is added",
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
@@ -1008,7 +1032,7 @@
 		"description": ""
 	},
 	"notificationShortcutProxyServerChanged": {
-		"message": "Proxy serer changed to {0}",
+		"message": "Proxy server changed to {0}",
 		"description": ""
 	}
 }

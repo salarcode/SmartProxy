@@ -126,6 +126,10 @@ export class settingsPage {
 
         jQuery("#btnAddProxyRule").click(settingsPage.uiEvents.onClickAddProxyRule);
 
+        jQuery("#btnAddProxyMultipleRule").click(settingsPage.uiEvents.onClickAddProxyMultipleRule);
+
+        jQuery("#btnSubmitMultipleRule").click(settingsPage.uiEvents.onClickSubmitMultipleRule);
+
         jQuery("#btnSaveProxyRules").click(settingsPage.uiEvents.onClickSaveProxyRules);
 
         jQuery("#btnRejectProxyRules").click(settingsPage.uiEvents.onClickRejectProxyRules);
@@ -891,6 +895,26 @@ export class settingsPage {
         }
     }
 
+    private static insertNewRuleListInGrid(newRuleList: ProxyRule[]) {
+        try {
+
+            let lastRow;
+            for (const rule of newRuleList) {
+                lastRow = this.grdRules.row
+                    .add(rule);
+            }
+            if (lastRow) {
+                lastRow.draw('full-hold');
+
+                // binding the events
+                settingsPage.refreshRulesGridAllRows();
+            }
+        } catch (error) {
+            PolyFill.runtimeSendMessage("insertNewRuleInGrid failed! > " + error);
+            throw error;
+        }
+    }
+
     //#endregion
 
     //#region ServerSubscriptions tab functions --------------
@@ -1079,10 +1103,10 @@ export class settingsPage {
         onClickViewShortcuts() {
             let modal = jQuery("#modalShortcuts");
 
-            PolyFill.browserCommandsGetAll((commands:any[]) => {
+            PolyFill.browserCommandsGetAll((commands: any[]) => {
                 let content = `<dl>`;
                 for (const cmd of commands) {
-                    content +=`<dt>${cmd.description}</dt><dd>${browser.i18n.getMessage("settingsGeneralViewShortcutKeys")} : <span class='text-primary'>${cmd.shortcut}</span></dd>`;
+                    content += `<dt>${cmd.description}</dt><dd>${browser.i18n.getMessage("settingsGeneralViewShortcutKeys")} : <span class='text-primary'>${cmd.shortcut}</span></dd>`;
                 }
                 content += `</dl>`;
                 modal.find('.modal-body').html(content);
@@ -1258,6 +1282,102 @@ export class settingsPage {
                     messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServersSuccess"));
                 });
         },
+        onClickAddProxyMultipleRule() {
+            let modal = jQuery("#modalAddMultipleRules");
+            modal.data("editing", null);
+
+            // update form
+            modal.find("#cmdMultipleRuleType").val(0);
+            modal.find("#txtMultipleRuleList").val("");
+
+            modal.modal("show");
+            modal.find("#txtMultipleRuleList").focus();
+        },
+        onClickSubmitMultipleRule() {
+            let modal = jQuery("#modalAddMultipleRules");
+
+            let ruleType = +modal.find("#cmdMultipleRuleType").val();
+            let rulesStr = modal.find("#txtMultipleRuleList").val();
+
+            let ruleList = rulesStr.split(/[\r\n]+/);
+            let resultRuleList: ProxyRule[] = [];
+
+            let existingRules = settingsPage.readRules();
+            for (let ruleLine of ruleList) {
+                if (!ruleLine)
+                    continue;
+                ruleLine = ruleLine.trim().toLowerCase();
+                let domain: string;
+                let newRule = new ProxyRule();
+
+                if (ruleType == ProxyRuleType.Exact) {
+                    if (!Utils.isValidUrl(ruleLine)) {
+                        messageBox.error(
+                            browser.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleLine)
+                        );
+                        return;
+                    }
+                    newRule.ruleExact = ruleLine;
+                    domain = Utils.extractHostFromUrl(ruleLine);
+                }
+                else if (ruleType == ProxyRuleType.MatchPatternHost) {
+
+                    if (!Utils.urlHasSchema(ruleLine))
+                        ruleLine = "http://" + ruleLine;
+
+                    domain = Utils.extractHostFromUrl(ruleLine);
+
+                    if (!Utils.isValidHost(domain)) {
+                        messageBox.error(browser.i18n.getMessage("settingsMultipleRuleInvalidHost").replace("{0}", domain));
+                        return;
+                    }
+
+                    domain = Utils.extractHostFromUrl(ruleLine);
+                    newRule.rulePattern = Utils.hostToMatchPattern(domain, false);
+                }
+                else if (ruleType == ProxyRuleType.MatchPatternUrl) {
+
+                    if (!Utils.isValidUrl(ruleLine)) {
+                        messageBox.error(browser.i18n.getMessage("settingsRuleUrlInvalid"));
+                        return;
+                    }
+
+                    domain = Utils.extractHostFromUrl(ruleLine);
+                    newRule.rulePattern = Utils.hostToMatchPattern(ruleLine, true);
+                }
+                else {
+                    // not supported
+                    continue;
+                }
+
+                let ruleExists = existingRules.some(rule => {
+                    return (rule.sourceDomain === domain);
+                });
+
+                if (ruleExists)
+                    continue;
+
+                newRule.autoGeneratePattern = true;
+                newRule.enabled = true;
+                newRule.proxy = null;
+                newRule.sourceDomain = domain;
+                newRule.ruleType = ruleType;
+
+                resultRuleList.push(newRule);
+            }
+
+            if (!resultRuleList.length) {
+                messageBox.error(browser.i18n.getMessage("settingsMultipleRuleNoNewRuleAdded"));
+                return;
+            }
+
+            // insert to the grid
+            settingsPage.insertNewRuleListInGrid(resultRuleList);
+
+            settingsPage.changeTracking.rules = true;
+
+            modal.modal("hide");
+        },
         onClickAddProxyRule() {
             let modal = jQuery("#modalModifyRule");
             modal.data("editing", null);
@@ -1396,12 +1516,7 @@ export class settingsPage {
                 }
             }
             else {
-                try {
-
-                    new URL(ruleInfo.ruleExact);
-
-                } catch (error) {
-                    // Url '{0}' is not valid
+                if (!Utils.isValidUrl(ruleInfo.ruleExact)) {
                     messageBox.error(
                         browser.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleInfo.ruleExact)
                     );
