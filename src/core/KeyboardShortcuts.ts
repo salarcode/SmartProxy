@@ -1,6 +1,5 @@
 import { browser, environment } from "../lib/environment";
 import { ShortcutCommands, Messages, ProxyModeType } from "./definitions";
-import { SettingsOperation } from "./SettingsOperation";
 import { Core } from "./Core";
 import { Settings } from "./Settings";
 import { PolyFill } from "../lib/PolyFill";

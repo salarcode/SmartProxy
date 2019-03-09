@@ -86,7 +86,7 @@ export class Settings {
 			Settings.onInitialized();
 	}
 
-	private static onInitializeGetSyncError(error) {
+	private static onInitializeGetSyncError(error: Error) {
 		Debug.error(`settingsOperation.readSyncedSettings error: ${error.message}`);
 	}
 
@@ -114,7 +114,7 @@ export class Settings {
 		}
 		config.product = "SmartProxy";
 
-		PolyFill.managementGetSelf(info => {
+		PolyFill.managementGetSelf((info: any) => {
 			config.version = info.version;
 		}, null);
 	}
@@ -125,8 +125,9 @@ export class Settings {
 		if (config.proxyRules && config.proxyRules.length > 0) {
 
 			// check if pattern property exists
-			if (config.proxyRules[0]["pattern"]) {
-				let oldRules = config.proxyRules;
+			let oldRules: any[] = config.proxyRules;
+
+			if (oldRules[0]["pattern"]) {
 				let newRules: ProxyRule[] = [];
 
 				for (const oldRule of oldRules) {

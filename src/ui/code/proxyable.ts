@@ -58,13 +58,13 @@ export class proxyable {
 				proxyable.proxyableData = dataForProxyable;
 				proxyable.populateDataForProxyable(dataForProxyable);
 			},
-			error => {
+			(error: Error) => {
 				PolyFill.runtimeSendMessage("ProxyableGetInitialData failed! > " + error);
 			});
 
 		// read own tab id
 		PolyFill.tabsQuery({ active: true, currentWindow: true },
-			tabs => {
+			(tabs: any[]) => {
 				if (!tabs || !tabs[0])
 					return;
 
@@ -157,13 +157,13 @@ export class proxyable {
 			columns: [
 				{
 					name: "url", data: "url", title: browser.i18n.getMessage("proxyableGridColUrl"),
-					render: function (data, type, row: ProxyableDataType): string {
+					render: function (data: any, type: any, row: ProxyableDataType): string {
 						return `<a class='wordwrap-anywhere' href="${data}" target="_blank">${data}</a>`;
 					},
 				},
 				{
 					name: "enabled", data: "enabled", title: browser.i18n.getMessage("proxyableGridColEnabled"),
-					render: function (data, type, row: ProxyableDataType): string {
+					render: function (data: any, type: any, row: ProxyableDataType): string {
 						return `<input type='checkbox' disabled ${row.enabled ? 'checked' : ''} />`
 					}
 				},
@@ -172,7 +172,7 @@ export class proxyable {
 				},
 				{
 					name: "enabled",
-					render: (data, type, row: ProxyableDataType): string => {
+					render: (data: any, type: any, row: ProxyableDataType): string => {
 						let url = row.url;
 						if (!url)
 							return "";
@@ -341,7 +341,7 @@ export class proxyable {
 				removeBySource: removeBySource,
 				tabId: proxyable.sourceTabId
 			},
-			response => {
+			(response: any) => {
 				if (!response)
 					return;
 

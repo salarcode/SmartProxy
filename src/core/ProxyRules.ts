@@ -385,7 +385,8 @@ export class ProxyRules {
 				result.push({
 					domain: domain,
 					match: false,
-					sourceDomain: null
+					sourceDomain: null,
+					ruleText: null
 				});
 			}
 		}

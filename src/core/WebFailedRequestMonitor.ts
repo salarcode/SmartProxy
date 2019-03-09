@@ -71,7 +71,6 @@ export class WebFailedRequestMonitor {
         if (!tabData)
             return;
 
-        let requestId = requestDetails.requestId;
         let requestUrl = requestDetails.url;
 
         let ignoreRequestFailuresForDomains = Settings.current.options.ignoreRequestFailuresForDomains;

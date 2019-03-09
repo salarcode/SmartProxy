@@ -67,13 +67,13 @@ export class ProxyEngineFirefox {
 				value: proxySettings
 			},
 			null,
-			function (error) {
+			function (error: Error) {
 				Debug.log("updateFirefoxProxyConfig failed to set proxy settings", proxySettings, error);
 			});
 	}
 
 
-	private static handleProxyRequest(requestDetails) {
+	private static handleProxyRequest(requestDetails: any) {
 		/* requestDetails->
 			documentUrl: "http://socialshare.ir/admin/media-promote"
 			frameAncestors: undefined
@@ -159,7 +159,7 @@ export class ProxyEngineFirefox {
 		return [{ type: "direct" }];
 	}
 
-	private static storeTabProxyDetail(requestDetails, matchedRule: ProxyRule) {
+	private static storeTabProxyDetail(requestDetails: any, matchedRule: ProxyRule) {
 		// check if this is the top level request
 		if (requestDetails.type !== "main_frame") {
 			return;
@@ -210,7 +210,7 @@ export class ProxyEngineFirefox {
 		}
 	}
 
-	private static onProxyError(error) {
+	private static onProxyError(error: Error) {
 		Debug.error(`Proxy error: ${error.message}`, error);
 	}
 }

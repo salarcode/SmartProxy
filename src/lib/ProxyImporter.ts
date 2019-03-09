@@ -28,14 +28,14 @@ export const ProxyImporter = {
 		}
 		if (!success) throw "onSuccess callback is mandatory";
 
-		function ajaxSuccess(response) {
+		function ajaxSuccess(response: any) {
 			if (!response)
 				if (fail) fail();
 			ProxyImporter.importText(response,
 				null,
 				false,
 				null,
-				importResult => {
+				(importResult: any) => {
 					if (!importResult.success) {
 						if (fail)
 							fail(importResult);
@@ -44,7 +44,7 @@ export const ProxyImporter = {
 					if (success)
 						success(importResult);
 				},
-				error => {
+				(error: Error) => {
 					if (fail)
 						fail(error);
 				},
@@ -69,14 +69,14 @@ export const ProxyImporter = {
 		};
 		xhr.send();
 	},
-	importText(text: string, file, append: boolean, currentProxies: any[], success, fail?, options?: ProxyServerSubscription) {
+	importText(text: string | ArrayBuffer, file: any, append: boolean, currentProxies: any[], success: Function, fail?: Function, options?: ProxyServerSubscription) {
 		if (!file && !text) {
 			if (fail) fail();
 			return;
 		}
 
 		if (text) {
-			doImport(text, options);
+			doImport(text as string, options);
 		}
 		else {
 			let reader = new FileReader();
@@ -87,13 +87,13 @@ export const ProxyImporter = {
 				//let textFile = event.target;
 				let fileText = reader.result;
 
-				doImport(fileText, options);
+				doImport(fileText as string, options);
 			};
 			reader.readAsText(file);
 		}
 
 
-		function doImport(text: string | ArrayBuffer, options?: ProxyServerSubscription) {
+		function doImport(text: string, options?: ProxyServerSubscription) {
 
 			let parsedProxies: ProxyServer[];
 
@@ -171,7 +171,7 @@ export const ProxyImporter = {
 		}
 
 	},
-	parseText: (proxyListText, options?): ProxyServer[] => {
+	parseText: (proxyListText: string, options?: any): ProxyServer[] => {
 		///<summary>Parses the proxy</summary>
 		if (!proxyListText || typeof (proxyListText) !== "string") return null;
 
@@ -229,7 +229,7 @@ export const ProxyImporter = {
 
 		return parsedProxies;
 	},
-	parseJson: (proxyListText, options?): ProxyServer[] => {
+	parseJson: (proxyListText: string, options?: any): ProxyServer[] => {
 
 		if (options && options.obfuscation) {
 			try {

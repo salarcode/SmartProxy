@@ -15,8 +15,8 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { browser, environment } from "../../lib/environment";
-import { jQuery, messageBox } from "../../lib/External";
-import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType } from "../../core/definitions";
+import { jQuery } from "../../lib/External";
+import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType, ProxyServer } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 
@@ -35,7 +35,7 @@ export class popup {
                     popup.populateDataForPopup(dataForPopup);
                 }
             },
-            error => {
+            (error: Error) => {
                 PolyFill.runtimeSendMessage("PopupGetInitialData failed! > " + error);
             });
 
@@ -166,7 +166,7 @@ export class popup {
             }
 
             // display select options
-            jQuery.each(dataForPopup.proxyServers, (index, proxyServer) => {
+            jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
 
                 // proxyServer
                 let $option = jQuery("<option>")
@@ -264,8 +264,8 @@ export class popup {
             failedRequestsItemTemplate.hide();
 
             // save checked domains, preventing check change on refresh
-            let domainsStatus = {};
-            failedRequestsItemsContainer.find(".request-box input:checkbox").each((index, e) => {
+            let domainsStatus: { [index: string]: any } = {};
+            failedRequestsItemsContainer.find(".request-box input:checkbox").each((index: number, e: any) => {
                 var element = jQuery(e);
                 domainsStatus[element.attr("data-domain")] = element.prop("checked");
             });
@@ -391,7 +391,7 @@ export class popup {
     private static onAddFailedRequestsClick() {
         let domainList: string[] = [];
 
-        jQuery(".failed-request-container .request-box input:checked").each((index, e) => {
+        jQuery(".failed-request-container .request-box input:checked").each((index: number, e: any) => {
             let element = jQuery(e);
             let domain = element.attr("data-domain");
             if (domain)
@@ -410,7 +410,7 @@ export class popup {
                         domainList: domainList,
                         tabId: popup.popupData.currentTabId
                     },
-                    response => {
+                    (response: any) => {
                         if (!response) return;
                         if (response.failedRequests) {
 

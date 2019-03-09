@@ -21,7 +21,7 @@ import { SettingsOperation } from "./SettingsOperation";
 
 export class SubscriptionUpdater {
     private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
-    private static rulesSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
+    // private static rulesSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
     public static updateSubscriptions() {
 
         // -------------------------
@@ -108,7 +108,7 @@ export class SubscriptionUpdater {
         }
 
         ProxyImporter.readFromServer(subscription,
-            function (response) {
+            function (response: any) {
                 if (!response) return;
 
                 if (response.success) {
@@ -124,7 +124,7 @@ export class SubscriptionUpdater {
                     Debug.warn("Failed to read proxy server subscription: " + subscriptionName);
                 }
             },
-            function (error) {
+            function (error: Error) {
                 Debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, error);
             });
     }
@@ -151,14 +151,14 @@ export class SubscriptionUpdater {
         return SubscriptionUpdater._getSubscriptionTimer(SubscriptionUpdater.serverSubscriptionTimers, name);
     }
 
-    private static getRulesSubscriptionTimersTimer(name: string)
-        : {
-            timer: SubscriptionTimerType,
-            index: number
-        } {
-        // TODO: Merge to a function
-        return SubscriptionUpdater._getSubscriptionTimer(SubscriptionUpdater.rulesSubscriptionTimers, name);
-    }
+    // private static getRulesSubscriptionTimersTimer(name: string)
+    //     : {
+    //         timer: SubscriptionTimerType,
+    //         index: number
+    //     } {
+    //     // TODO: Merge to a function
+    //     return SubscriptionUpdater._getSubscriptionTimer(SubscriptionUpdater.rulesSubscriptionTimers, name);
+    // }
 }
 
 type SubscriptionTimerType = { id: number, name: string, refreshRate: number };

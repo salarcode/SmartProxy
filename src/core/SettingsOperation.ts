@@ -17,12 +17,10 @@
 import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
-import { pako } from "../lib/External";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions, ResultHolderGeneric } from "./definitions";
+import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
-import { Core } from "./Core";
 
 export class SettingsOperation {
 	public static readSyncedSettings(success: Function) {
@@ -147,7 +145,7 @@ export class SettingsOperation {
 
 		if (!Settings.current.proxyServerSubscriptions || !Settings.current.proxyServerSubscriptions.length)
 			return [];
-		let result = [];
+		let result: any[] = [];
 
 		for (let subscription of Settings.current.proxyServerSubscriptions) {
 			if (subscription.enabled) {
@@ -156,7 +154,7 @@ export class SettingsOperation {
 		}
 		return result;
 	}
-	
+
 	public static getFirstProxyServer(): ProxyServer {
 		let settings = Settings.current;
 
@@ -243,7 +241,7 @@ export class SettingsOperation {
 
 					Settings.currentOptionsSyncSettings = Settings.current.options.syncSettings;
 				},
-				error => {
+				(error: Error) => {
 					Debug.error(`SettingsOperation.saveAllSync error: ${error.message} ` + saveObject);
 				});
 
@@ -258,7 +256,7 @@ export class SettingsOperation {
 
 		PolyFill.storageLocalSet(Settings.current,
 			null,
-			error => {
+			(error: Error) => {
 				Debug.error(`SettingsOperation.saveAllLocal error: ${error.message}`);
 			});
 	}
@@ -269,7 +267,7 @@ export class SettingsOperation {
 
 		PolyFill.storageLocalSet({ options: Settings.current.options },
 			null,
-			error => {
+			(error: Error) => {
 				Debug.error(`SettingsOperation.saveOptions error: ${error.message}`);
 			});
 	}
@@ -280,7 +278,7 @@ export class SettingsOperation {
 
 		PolyFill.storageLocalSet({ proxyRules: Settings.current.proxyRules },
 			null,
-			error => {
+			(error: Error) => {
 				Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
 			});
 	}
@@ -291,7 +289,7 @@ export class SettingsOperation {
 
 		PolyFill.storageLocalSet({ proxyServers: Settings.current.proxyServers },
 			null,
-			error => {
+			(error: Error) => {
 				Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
 			});
 	}
@@ -302,7 +300,7 @@ export class SettingsOperation {
 
 		PolyFill.storageLocalSet({ proxyServerSubscriptions: Settings.current.proxyServerSubscriptions },
 			null,
-			error => {
+			(error: Error) => {
 				Debug.error(`SettingsOperation.proxyServerSubscriptions error: ${error.message}`);
 			});
 	}
@@ -313,7 +311,7 @@ export class SettingsOperation {
 
 		PolyFill.storageLocalSet({ bypass: Settings.current.bypass },
 			null,
-			error => {
+			(error: Error) => {
 				Debug.error(`SettingsOperation.bypass error: ${error.message}`);
 			});
 	}
@@ -324,7 +322,7 @@ export class SettingsOperation {
 
 		PolyFill.storageLocalSet({ activeProxyServer: Settings.current.activeProxyServer },
 			null,
-			error => {
+			(error: Error) => {
 				Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
 			});
 	}
@@ -335,7 +333,7 @@ export class SettingsOperation {
 
 		PolyFill.storageLocalSet({ proxyMode: Settings.current.proxyMode },
 			null,
-			error => {
+			(error: Error) => {
 				Debug.error(`SettingsOperation.saveProxyMode error: ${error.message}`);
 			});
 	}

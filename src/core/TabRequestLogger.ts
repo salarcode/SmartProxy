@@ -94,7 +94,7 @@ export class TabRequestLogger {
 				logInfo: proxyableData
 			},
 			null,
-			error => {
+			(error: Error) =>  {
 				// no more logging for this tab
 				TabRequestLogger.removeFromProxyableLogIdList(tabId);
 
@@ -115,7 +115,7 @@ export class TabRequestLogger {
 				tabId: tabId
 			},
 			null,
-			error => {
+			(error: Error) =>  {
 				Debug.error("notifyProxyableOriginTabRemoved failed for ", tabId, error);
 			});
 	}

@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser, environment } from "./environment";
-import { jQuery, pako } from "./External";
+import { environment } from "./environment";
+import { pako } from "./External";
 import { SettingsConfig } from "../core/definitions";
 export class Utils {
 
@@ -80,8 +80,8 @@ export class Utils {
 		// parse the JSON
 		return JSON.parse(settingStr);
 	}
-	
-	public static removeDuplicates(originalArray: string[], prop: string) {
+
+	public static removeDuplicates(originalArray: any[], prop: any) {
 		//<reference path="https://stackoverflow.com/a/36744732/322446"/>
 		return originalArray.filter(
 			(thing, index, self) => self.findIndex((t) => {
@@ -97,7 +97,7 @@ export class Utils {
 			}) === index);
 	}
 
-	public static strStartsWith(str, prefix) {
+	public static strStartsWith(str: string, prefix: string) {
 		return str.substr(0, prefix.length) === prefix;
 	}
 
@@ -303,30 +303,6 @@ export class Utils {
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
 				+ ")$");
 		}
-	}
-
-	public static localizeHtmlPage() {
-
-		function replace_i18n(obj, tag) {
-			let msg = browser.i18n.getMessage(tag.trim());
-
-			if (msg && msg != tag) obj.innerHTML = msg;
-		}
-
-		// page direction
-		let dir = browser.i18n.getMessage("uiDirection");
-		if (dir) {
-			jQuery(document.body).addClass(dir).css("direction", dir);
-		}
-
-		// Localize using data-localize tags
-		let data = window.document.querySelectorAll<HTMLElement>("[data-localize]");
-
-		data.forEach(obj => {
-			let tag = obj.dataset["localize"];
-
-			replace_i18n(obj, tag);
-		});
 	}
 
 	private static readonly IgnoreDomainExtensions: string[] = [

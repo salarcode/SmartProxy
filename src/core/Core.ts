@@ -390,7 +390,7 @@ export class Core {
 					let result = {
 						success: ruleResult.success,
 						message: ruleResult.message,
-						requests: null
+						requests: null as any[]
 					};
 
 
@@ -456,7 +456,7 @@ export class Core {
 		Core.setBrowserActionStatus();
 	}
 
-	
+
 	public static CycleToNextProxyServer(): ResultHolderGeneric<ProxyServer> {
 		let settings = Settings.current;
 		let activeServer = settings.activeProxyServer;

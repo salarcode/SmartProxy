@@ -55,7 +55,7 @@ export class settingsPage {
 
                 settingsPage.populateDataForSettings(dataForSettings);
             },
-            error => {
+            (error: Error) => {
                 PolyFill.runtimeSendMessage("SettingsPageGetInitialData failed! > " + error);
                 messageBox.error(browser.i18n.getMessage("settingsInitializeFailed"));
             });
@@ -269,7 +269,7 @@ export class settingsPage {
             settingsPage.loadServerSubscriptions([]);
         }
 
-        jQuery("#tabSettings").on('shown.bs.tab', e => {
+        jQuery("#tabSettings").on('shown.bs.tab', (e: any) => {
             // DataTables columns are not adjusted when hidden, needs to be done manually
             settingsPage.grdServers.columns.adjust().draw();
             settingsPage.grdRules.columns.adjust().draw();
@@ -781,7 +781,7 @@ export class settingsPage {
         if (proxy !== undefined) return proxy;
 
         for (let subscription of serverSubscriptions) {
-            proxy = subscription.proxies.find(item => item.name === name);
+            proxy = subscription.proxies.find((item: any) => item.name === name);
             if (proxy !== undefined) return proxy;
         }
         return null;
@@ -853,7 +853,7 @@ export class settingsPage {
         this.grdRules.draw('full-hold');
     }
 
-    private static refreshRulesGridRow(row, invalidate?) {
+    private static refreshRulesGridRow(row: any, invalidate?: any) {
         if (!row)
             return;
         if (invalidate)
@@ -960,7 +960,7 @@ export class settingsPage {
         this.grdServerSubscriptions.draw('full-hold');
     }
 
-    private static refreshServerSubscriptionsGridRow(row, invalidate?) {
+    private static refreshServerSubscriptionsGridRow(row: any, invalidate?: any) {
         if (!row)
             return;
         if (invalidate)
@@ -1053,7 +1053,7 @@ export class settingsPage {
                             messageBox.error(response.message);
                     }
                 },
-                error => {
+                (error: Error) => {
                     messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveGeneral") + " " + error.message);
                 });
         },
@@ -1145,7 +1145,7 @@ export class settingsPage {
             }
 
             // ------------------
-            let editingServerName = null;
+            let editingServerName: string = null;
             if (editingModel)
                 editingServerName = editingModel.name;
 
@@ -1192,7 +1192,7 @@ export class settingsPage {
 
             settingsPage.loadActiveProxyServer();
         },
-        onServersEditClick(e) {
+        onServersEditClick(e: any) {
             let item = settingsPage.readSelectedServer(e);
             if (!item)
                 return;
@@ -1205,7 +1205,7 @@ export class settingsPage {
             modal.modal("show");
             modal.find("#txtServerAddress").focus();
         },
-        onServersRemoveClick(e) {
+        onServersRemoveClick(e: any) {
             var row = settingsPage.readSelectedServerRow(e);
             if (!row)
                 return;
@@ -1253,7 +1253,7 @@ export class settingsPage {
                             messageBox.error(response.message);
                     }
                 },
-                error => {
+                (error: Error) => {
                     messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveServers") + " " + error.message);
                 });
 
@@ -1525,7 +1525,7 @@ export class settingsPage {
             }
 
             // ------------------
-            let editingSource = null;
+            let editingSource: string = null;
             if (editingModel)
                 editingSource = editingModel.sourceDomain;
 
@@ -1554,7 +1554,7 @@ export class settingsPage {
 
             modal.modal("hide");
         },
-        onRulesEditClick(e) {
+        onRulesEditClick(e: any) {
             let item = settingsPage.readSelectedRule(e);
             if (!item)
                 return;
@@ -1567,7 +1567,7 @@ export class settingsPage {
             modal.modal("show");
             modal.find("#txtRuleSource").focus();
         },
-        onRulesRemoveClick(e) {
+        onRulesRemoveClick(e: any) {
             var row = settingsPage.readSelectedRuleRow(e);
             if (!row)
                 return;
@@ -1606,7 +1606,7 @@ export class settingsPage {
                             messageBox.error(response.message);
                     }
                 },
-                error => {
+                (error: Error) => {
                     messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveRules") + " " + error.message);
                 });
         },
@@ -1649,7 +1649,7 @@ export class settingsPage {
 
             modal.on("shown.bs.modal", focusUrl);
         },
-        onServerSubscriptionEditClick(e) {
+        onServerSubscriptionEditClick(e: any) {
 
             let item = settingsPage.readSelectedServerSubscription(e);
             if (!item)
@@ -1662,7 +1662,7 @@ export class settingsPage {
 
             modal.modal("show");
         },
-        onServerSubscriptionRemoveClick(e) {
+        onServerSubscriptionRemoveClick(e: any) {
             var row = settingsPage.readSelectedServerSubscriptionRow(e);
             if (!row)
                 return;
@@ -1723,7 +1723,7 @@ export class settingsPage {
             jQuery("#btnSaveServerSubscription").button("loading");
 
             ProxyImporter.readFromServer(subscriptionModel,
-                response => {
+                (response: any) => {
                     jQuery("#btnSaveServerSubscription").button('reset');
 
                     if (response.success) {
@@ -1786,7 +1786,7 @@ export class settingsPage {
             jQuery("#btnTestServerSubscription").button("loading");
 
             ProxyImporter.readFromServer(subscriptionModel,
-                response => {
+                (response: any) => {
 
                     jQuery("#btnTestServerSubscription").button('reset');
 
@@ -1811,7 +1811,7 @@ export class settingsPage {
                     command: Messages.SettingsPageSaveProxySubscriptions,
                     proxyServerSubscriptions: proxyServerSubscriptions
                 },
-                response => {
+                (response: any) => {
                     if (!response) return;
                     if (response.success) {
                         if (response.message)
@@ -1827,7 +1827,7 @@ export class settingsPage {
                             messageBox.error(response.message);
                     }
                 },
-                error => {
+                (error: Error) => {
                     messageBox.error(browser.i18n.getMessage("settingsFailedToSaveProxySubscriptions") + " " + error.message);
                 });
         },
@@ -1878,7 +1878,7 @@ export class settingsPage {
                             messageBox.error(response.message);
                     }
                 },
-                error => {
+                (error: Error) => {
                     messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveBypass") + " " + error.message);
                 });
         },
@@ -1929,7 +1929,7 @@ export class settingsPage {
             ProxyImporter.importText(text, file,
                 append,
                 proxyServers,
-                response => {
+                (response: any) => {
                     if (!response) return;
 
                     if (response.success) {
@@ -1951,7 +1951,7 @@ export class settingsPage {
                             messageBox.error(response.message);
                     }
                 },
-                error => {
+                (error: Error) => {
                     let message = "";
                     if (error && error.message)
                         message = error.message;
@@ -1989,7 +1989,7 @@ export class settingsPage {
             importFunction(selectFile,
                 append,
                 proxyRules,
-                response => {
+                (response: any) => {
                     if (!response) return;
 
                     if (response.success) {
@@ -2009,7 +2009,7 @@ export class settingsPage {
                             messageBox.error(response.message);
                     }
                 },
-                error => {
+                (error: Error) => {
                     let message = "";
                     if (error && error.message)
                         message = error.message;
@@ -2031,7 +2031,7 @@ export class settingsPage {
         },
         onClickRestoreBackup() {
 
-            function callRestoreSettings(fileData) {
+            function callRestoreSettings(fileData: any) {
                 PolyFill.runtimeSendMessage(
                     {
                         command: Messages.SettingsPageRestoreSettings,
@@ -2056,7 +2056,7 @@ export class settingsPage {
                             }
                         }
                     },
-                    error => {
+                    (error: Error) => {
                         // There was an error in restoring the backup
                         messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFailed"));
                         PolyFill.runtimeSendMessage("restoreSettings failed with> " + error.message);
@@ -2065,7 +2065,7 @@ export class settingsPage {
 
             CommonUi.selectFileOnTheFly(jQuery("#frmRestoreBackup")[0],
                 "restore-file",
-                (inputElement, files) => {
+                (inputElement: any, files: any[]) => {
                     let file = files[0];
 
                     let reader = new FileReader();

@@ -23,22 +23,22 @@ export class Debug {
 		this.enabled = false;
 	}
 
-	public static log(msg: string, ...args) {
+	public static log(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		window.console.log.apply(null, arguments);
 	}
 
-	public static error(msg: string, ...args) {
+	public static error(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		window.console.error.apply(null, arguments);
 	}
 
-	public static info(msg: string, ...args) {
+	public static info(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		window.console.info.apply(null, arguments);
 	}
 
-	public static warn(msg: string, ...args) {
+	public static warn(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		window.console.warn.apply(null, arguments);
 	}

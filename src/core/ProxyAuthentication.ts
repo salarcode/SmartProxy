@@ -19,7 +19,7 @@ import { Settings } from "./Settings";
 import { ProxyModeType } from "./definitions";
 
 export class ProxyAuthentication {
-	private static pendingRequests = {};
+	private static pendingRequests: { [index: string]: any } = {};
 
 	public static startMonitor() {
 		if (environment.chrome) {
@@ -46,7 +46,7 @@ export class ProxyAuthentication {
 		);
 	}
 
-	private static onAuthRequiredChromeAsync(requestDetails, asyncCallback): any {
+	private static onAuthRequiredChromeAsync(requestDetails: any, asyncCallback: Function): any {
 		if (!requestDetails.isProxy) {
 			asyncCallback({});
 			return {};
@@ -115,7 +115,7 @@ export class ProxyAuthentication {
 		}
 	}
 
-	private static onAuthRequired(requestDetails): any {
+	private static onAuthRequired(requestDetails: any): any {
 		if (!requestDetails.isProxy) {
 			return {};
 		}
@@ -154,7 +154,7 @@ export class ProxyAuthentication {
 			authCredentials: { username: activeProxy.username, password: activeProxy.password }
 		};
 	}
-	private static onRequestFinished(requestDetails) {
+	private static onRequestFinished(requestDetails: any) {
 		delete ProxyAuthentication.pendingRequests[requestDetails.requestId];
 	}
 }

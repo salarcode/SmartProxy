@@ -213,7 +213,7 @@ export class BypassOptions implements Cloneable {
 }
 
 interface Cloneable {
-	CopyFrom(source: any);
+	CopyFrom(source: any): void;
 }
 
 class ProxyServerConnectDetails {
@@ -323,7 +323,7 @@ export class CompiledRule extends ProxyRule {
 	regex: RegExp;
 }
 
-export enum ProxyServerSubscriptionFormat{
+export enum ProxyServerSubscriptionFormat {
 	PlainText,
 	Json
 }
@@ -340,7 +340,7 @@ export class ProxyServerSubscription {
 
 	// types stored in proxyServerSubscriptionObfuscate
 	public obfuscation: string;
-	
+
 	public format: ProxyServerSubscriptionFormat;
 
 	// number of proxies in the list

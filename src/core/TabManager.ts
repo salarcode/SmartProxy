@@ -21,7 +21,7 @@ import { browser } from "../lib/environment";
 
 export class TabManager {
 
-	private static tabs = {};
+	private static tabs: { [index: string]: TabDataType } = {};
 
 	private static currentTab: TabDataType;
 
@@ -116,7 +116,7 @@ export class TabManager {
 	private static loadTabData(tabData: TabDataType) {
 
 		PolyFill.tabsGet(tabData.tabId,
-			tabInfo => {
+			(tabInfo: any) => {
 
 				// save tab log info
 				TabManager.updateTabData(tabData, tabInfo);

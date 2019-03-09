@@ -22,8 +22,8 @@ export class WebRequestMonitor {
 	private static isMonitoring = false;
 	private static monitorCallback: Function = null;
 	private static requestTimeoutTime: 5000;
-	private static timer = null;
-	private static requests = {};
+	private static timer: any = null;
+	private static requests: { [index: string]: any } = {};
 	private static debugInfo = false;
 
 	public static startMonitor(callback: Function) {
@@ -80,17 +80,17 @@ export class WebRequestMonitor {
 		}
 	}
 
-	private static raiseCallback(...args) {
+	private static raiseCallback(...args: any) {
 		if (WebRequestMonitor.monitorCallback)
 			WebRequestMonitor.monitorCallback.apply(this, arguments);
 	}
 
-	private static logMessage(message, requestDetails, additional?) {
+	private static logMessage(message: any, requestDetails: any, additional?: any) {
 		Debug.log(`${requestDetails.tabId}-${requestDetails.requestId}>`, message, requestDetails.url, additional || "");
 	}
 
 	private static events = {
-		onBeforeRequest(requestDetails) {
+		onBeforeRequest(requestDetails: any) {
 			if (requestDetails.tabId < 0) {
 				return;
 			}
@@ -113,7 +113,7 @@ export class WebRequestMonitor {
 				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestStart], requestDetails);
 
 		},
-		onHeadersReceived(requestDetails) {
+		onHeadersReceived(requestDetails: any) {
 			let req = WebRequestMonitor.requests[requestDetails.requestId];
 			if (!req)
 				return;
@@ -129,7 +129,7 @@ export class WebRequestMonitor {
 					WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestRevertTimeout], requestDetails);
 			}
 		},
-		onBeforeRedirect(requestDetails) {
+		onBeforeRedirect(requestDetails: any) {
 			let url = requestDetails.redirectUrl;
 			if (!url)
 				return;
@@ -149,7 +149,7 @@ export class WebRequestMonitor {
 				WebRequestMonitor.events.onCompleted(requestDetails);
 			}
 		},
-		onCompleted(requestDetails) {
+		onCompleted(requestDetails: any) {
 			if (requestDetails.tabId < 0) {
 				return;
 			}
@@ -162,7 +162,7 @@ export class WebRequestMonitor {
 			if (WebRequestMonitor.debugInfo)
 				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestComplete], requestDetails);
 		},
-		onErrorOccurred(requestDetails) {
+		onErrorOccurred(requestDetails: any) {
 
 			let req = WebRequestMonitor.requests[requestDetails.requestId];
 			delete WebRequestMonitor.requests[requestDetails.requestId];

@@ -36,10 +36,10 @@ export class PolyFill {
 				return browser.proxy.onProxyError;
 		}
 	}
-	public static tabsGet(tabId, success?, fail?) {
+	public static tabsGet(tabId: number, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.tabs.get(tabId,
-				tabInfo => {
+				(tabInfo: any) => {
 					const error = PolyFill.lastError();
 					if (error) {
 						if (fail)
@@ -54,10 +54,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static tabsRemove(tabIds, success?, fail?) {
+	public static tabsRemove(tabIds: number | number[], success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.tabs.remove(tabIds,
-				tabInfo => {
+				(tabInfo: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail)
@@ -73,10 +73,10 @@ export class PolyFill {
 		}
 	}
 
-	public static tabsReload(tabId, success?, fail?, reloadProperties?) {
+	public static tabsReload(tabId: number, success?: Function, fail?: Function, reloadProperties?: any) {
 		if (environment.chrome) {
 			chrome.tabs.reload(tabId, reloadProperties,
-				tabInfo => {
+				(tabInfo: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -89,10 +89,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static tabsQuery(queryInfo, success?, fail?) {
+	public static tabsQuery(queryInfo: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.tabs.query(queryInfo,
-				tabs => {
+				(tabs: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -105,10 +105,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static tabsCreate(createProperties, success?, fail?) {
+	public static tabsCreate(createProperties: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.tabs.create(createProperties,
-				tabInfo => {
+				(tabInfo: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -121,7 +121,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static runtimeSendMessage(message, success?, fail?, options?, extensionId?) {
+	public static runtimeSendMessage(message: any, success?: Function, fail?: Function, options?: any, extensionId?: string) {
 		if (environment.chrome) {
 			if (options != null) {
 				// deleting firefox specific property of sending message to PAC
@@ -130,7 +130,7 @@ export class PolyFill {
 			chrome.runtime.sendMessage(extensionId,
 				message,
 				options,
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -148,10 +148,10 @@ export class PolyFill {
 				promise.then(success, fail);
 		}
 	}
-	public static managementGetSelf(success, fail?) {
+	public static managementGetSelf(success: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.management.getSelf(
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -164,10 +164,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static storageLocalGet(keys, success?, fail?) {
+	public static storageLocalGet(keys: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.storage.local.get(keys,
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -180,10 +180,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static storageLocalSet(items, success?, fail?) {
+	public static storageLocalSet(items: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.storage.local.set(items,
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -196,10 +196,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static storageSyncGet(keys, success?, fail?) {
+	public static storageSyncGet(keys: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.storage.sync.get(keys,
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -212,10 +212,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static storageSyncSet(items, success?, fail?) {
+	public static storageSyncSet(items: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.storage.sync.set(items,
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -228,7 +228,7 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static runtimeGetBrowserInfo(success, fail?) {
+	public static runtimeGetBrowserInfo(success: Function, fail?: Function) {
 		if (environment.chrome) {
 			// No implemented in chrome yet!
 			if (fail) fail({ message: "getBrowserInfo is not implemented" });
@@ -247,10 +247,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static runtimeOpenOptionsPage(success?, fail?) {
+	public static runtimeOpenOptionsPage(success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.runtime.openOptionsPage(
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -263,10 +263,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static browserActionSetIcon(details, success?, fail?) {
+	public static browserActionSetIcon(details: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.browserAction.setIcon(details,
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -279,10 +279,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static browserGetProxySettings(success?, fail?) {
+	public static browserGetProxySettings(success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.proxy.settings.get(
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -296,10 +296,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static browserSetProxySettings(details, success?, fail?) {
+	public static browserSetProxySettings(details: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.proxy.settings.set(details,
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -313,10 +313,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static browserCommandsGetAll(success?, fail?) {
+	public static browserCommandsGetAll(success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.commands.getAll(
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -329,10 +329,10 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static browserNotificationsCreate(notificationId, options, success?, fail?) {
+	public static browserNotificationsCreate(notificationId: string, options: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.notifications.create(notificationId, options,
-				response => {
+				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
 						if (fail) fail(error);
@@ -347,7 +347,7 @@ export class PolyFill {
 	}
 }
 
-PolyFill.runtimeGetBrowserInfo(response => {
+PolyFill.runtimeGetBrowserInfo((response: any) => {
 	environment.version = parseInt(response.version) || 1.0;
 	environment.name = response.name;
 });
