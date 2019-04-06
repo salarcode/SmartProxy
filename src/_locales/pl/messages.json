@@ -268,7 +268,7 @@
 		"description": ""
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "Display failed requests count on toolabr icon badge",
+		"message": "Display failed requests count on toolbar icon badge",
 		"description": ""
 	},
 	"settingsGeneralOtherSettings": {
@@ -644,7 +644,7 @@
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "source domain is invalid, source domain should be something like 'google.com'",
+		"message": "Source domain is invalid, source domain should be something like 'google.com'",
 		"description": ""
 	},
 	"settingsRuleSourceInvalidFormat": {
