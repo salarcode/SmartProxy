@@ -1,6 +1,6 @@
 {
 	"name": "__MSG_extensionName__",
-	"version": "0.7.9.9",
+	"version": "0.8",
 	"manifest_version": 2,
 	"author": "Salar Khalilzadeh",
 	"description": "__MSG_extensionDescription__",
