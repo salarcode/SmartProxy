@@ -48,6 +48,8 @@ export class SettingsOperation {
 					} else {
 						// sync is disabled
 						syncedSettings.options.syncSettings = false;
+						Settings.setDefaultSettings(syncedSettings);
+						Settings.migrateFromOldVersion(syncedSettings);
 					}
 
 					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
@@ -99,6 +101,8 @@ export class SettingsOperation {
 					} else {
 						// sync is disabled
 						syncedSettings.options.syncSettings = false;
+						Settings.setDefaultSettings(syncedSettings);
+						Settings.migrateFromOldVersion(syncedSettings);
 					}
 
 					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;

@@ -623,10 +623,9 @@ export class settingsPage {
             return;
         let divGeneral = jQuery("#tab-general");
 
-        divGeneral.find("#chkSyncSettings").prop("checked", options.syncSettings || false);
         divGeneral.find("#chkProxyPerOrigin").prop("checked", options.proxyPerOrigin || false);
 
-        divGeneral.find("#chkSyncSettings").prop("checked", options.proxyPerOrigin || false);
+        divGeneral.find("#chkSyncSettings").prop("checked", options.syncSettings || false);
         divGeneral.find("#chkSyncProxyMode").prop("checked", options.syncProxyMode || false);
         divGeneral.find("#chkSyncActiveProxy").prop("checked", options.syncActiveProxy || false);
 
