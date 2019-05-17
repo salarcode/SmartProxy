@@ -61,6 +61,7 @@ export class settingsPage {
             });
 
         CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
+        CommonUi.onDocumentReady(settingsPage.resizableMenu);
     }
 
     private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
@@ -172,6 +173,7 @@ export class settingsPage {
             paging: true,
             select: true,
             scrollY: 300,
+            responsive: true,
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             columns: [
                 {
@@ -192,6 +194,13 @@ export class settingsPage {
                 }
             ],
         });
+        settingsPage.grdServers.on('responsive-display',
+            function (e, dataTable, row, showHide, update) {
+                let rowChild = row.child();
+                if (showHide && rowChild && rowChild.length)
+                    settingsPage.refreshServersGridRowElement(rowChild[0]);
+            }
+        );
         settingsPage.grdServers.draw();
 
         settingsPage.grdRules = jQuery("#grdRules").DataTable({
@@ -199,6 +208,7 @@ export class settingsPage {
             paging: true,
             select: true,
             scrollY: 300,
+            responsive: true,
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             columns: [
                 {
@@ -224,6 +234,13 @@ export class settingsPage {
                 }
             ],
         });
+        settingsPage.grdRules.on('responsive-display',
+            function (e, dataTable, row, showHide, update) {
+                let rowChild = row.child();
+                if (showHide && rowChild && rowChild.length)
+                    settingsPage.refreshRulesGridRowElement(rowChild[0]);
+            }
+        );
         settingsPage.grdRules.draw();
 
         settingsPage.grdServerSubscriptions = jQuery("#grdServerSubscriptions").DataTable({
@@ -231,6 +248,7 @@ export class settingsPage {
             paging: true,
             select: true,
             scrollY: 300,
+            responsive: true,
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             columns: [
                 {
@@ -251,6 +269,13 @@ export class settingsPage {
                 }
             ],
         });
+        settingsPage.grdServerSubscriptions.on('responsive-display',
+            function (e, dataTable, row, showHide, update) {
+                let rowChild = row.child();
+                if (showHide && rowChild && rowChild.length)
+                    settingsPage.refreshServerSubscriptionsGridRowElement(rowChild[0]);
+            }
+        );
         settingsPage.grdServerSubscriptions.draw();
 
         if (settingsPage.currentSettings) {
@@ -315,6 +340,25 @@ export class settingsPage {
                 .text(item)
                 .appendTo(cmbServerSubscriptionFormat);
         });
+    }
+
+    private static resizableMenu() {
+
+        var alterMenuCss = function () {
+            var ww = document.body.clientWidth;
+            // sm = 576px
+            if (ww < 576) {
+                jQuery('#tabSettings').removeClass('flex-column');
+            } else if (ww >= 576) {
+                jQuery('#tabSettings').addClass('flex-column');
+            };
+        };
+        jQuery(window).resize(function () {
+            alterMenuCss();
+        });
+
+        //Fire it when the page first loads:
+        alterMenuCss();
     }
 
     //#region Populate UI ----------------------
@@ -705,8 +749,13 @@ export class settingsPage {
     private static readSelectedServer(e?: any): any {
         let dataItem;
 
-        if (e && e.target)
-            dataItem = this.grdServers.row(jQuery(e.target).parents('tr')).data();
+        if (e && e.target) {
+            let rowElement = jQuery(e.target).parents('tr');
+            if (rowElement.hasClass('child'))
+                dataItem = this.grdServers.row({ selected: true }).data();
+            else
+                dataItem = this.grdServers.row(rowElement).data();
+        }
         else
             dataItem = this.grdServers.row({ selected: true }).data();
 
@@ -714,8 +763,13 @@ export class settingsPage {
     }
 
     private static readSelectedServerRow(e: any): any {
-        if (e && e.target)
-            return this.grdServers.row(jQuery(e.target).parents('tr'));
+        if (e && e.target) {
+            let rowElement = jQuery(e.target).parents('tr');
+            if (rowElement.hasClass('child'))
+                return this.grdServers.row({ selected: true });
+            else
+                return this.grdServers.row(rowElement);
+        }
 
         return null;
     }
@@ -740,6 +794,15 @@ export class settingsPage {
         // NOTE: to display update data the row should be invalidated
         // and invalidated row loosed the event bindings.
         // so we need to bind the events each time data changes.
+
+        rowElement.find("#btnServersRemove").on("click", settingsPage.uiEvents.onServersRemoveClick);
+        rowElement.find("#btnServersEdit").on("click", settingsPage.uiEvents.onServersEditClick);
+    }
+
+    private static refreshServersGridRowElement(rowElement: any, invalidate?: boolean) {
+        if (!rowElement)
+            return;
+        rowElement = jQuery(rowElement);
 
         rowElement.find("#btnServersRemove").on("click", settingsPage.uiEvents.onServersRemoveClick);
         rowElement.find("#btnServersEdit").on("click", settingsPage.uiEvents.onServersEditClick);
@@ -828,8 +891,13 @@ export class settingsPage {
     private static readSelectedRule(e?: any): any {
         let dataItem;
 
-        if (e && e.target)
-            dataItem = this.grdRules.row(jQuery(e.target).parents('tr')).data();
+        if (e && e.target) {
+            let rowElement = jQuery(e.target).parents('tr');
+            if (rowElement.hasClass('child'))
+                dataItem = this.grdRules.row({ selected: true }).data();
+            else
+                dataItem = this.grdRules.row(rowElement).data();
+        }
         else
             dataItem = this.grdRules.row({ selected: true }).data();
 
@@ -837,8 +905,13 @@ export class settingsPage {
     }
 
     private static readSelectedRuleRow(e: any): any {
-        if (e && e.target)
-            return this.grdRules.row(jQuery(e.target).parents('tr'));
+        if (e && e.target) {
+            let rowElement = jQuery(e.target).parents('tr');
+            if (rowElement.hasClass('child'))
+                return this.grdRules.row({ selected: true });
+            else
+                return this.grdRules.row(rowElement);
+        }
 
         return null;
     }
@@ -863,6 +936,16 @@ export class settingsPage {
         // NOTE: to display update data the row should be invalidated
         // and invalidated row loosed the event bindings.
         // so we need to bind the events each time data changes.
+
+        rowElement.find("#btnRulesRemove").on("click", settingsPage.uiEvents.onRulesRemoveClick);
+        rowElement.find("#btnRulesEdit").on("click", settingsPage.uiEvents.onRulesEditClick);
+    }
+
+    private static refreshRulesGridRowElement(rowElement: any) {
+        if (!rowElement)
+            return;
+
+        rowElement = jQuery(rowElement);
 
         rowElement.find("#btnRulesRemove").on("click", settingsPage.uiEvents.onRulesRemoveClick);
         rowElement.find("#btnRulesEdit").on("click", settingsPage.uiEvents.onRulesEditClick);
@@ -935,8 +1018,13 @@ export class settingsPage {
     private static readSelectedServerSubscription(e?: any): any {
         let dataItem;
 
-        if (e && e.target)
-            dataItem = this.grdServerSubscriptions.row(jQuery(e.target).parents('tr')).data();
+        if (e && e.target) {
+            let rowElement = jQuery(e.target).parents('tr');
+            if (rowElement.hasClass('child'))
+                dataItem = this.grdServerSubscriptions.row({ selected: true }).data();
+            else
+                dataItem = this.grdServerSubscriptions.row(rowElement).data();
+        }
         else
             dataItem = this.grdServerSubscriptions.row({ selected: true }).data();
 
@@ -944,8 +1032,13 @@ export class settingsPage {
     }
 
     private static readSelectedServerSubscriptionRow(e: any): any {
-        if (e && e.target)
-            return this.grdServerSubscriptions.row(jQuery(e.target).parents('tr'));
+        if (e && e.target) {
+            let rowElement = jQuery(e.target).parents('tr');
+            if (rowElement.hasClass('child'))
+                return this.grdServerSubscriptions.row({ selected: true });
+            else
+                return this.grdServerSubscriptions.row(rowElement);
+        }
 
         return null;
     }
@@ -970,6 +1063,16 @@ export class settingsPage {
         // NOTE: to display update data the row should be invalidated
         // and invalidated row loosed the event bindings.
         // so we need to bind the events each time data changes.
+
+        rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
+        rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
+    }
+
+    private static refreshServerSubscriptionsGridRowElement(rowElement: any, invalidate?: any) {
+        if (!rowElement)
+            return;
+
+        rowElement = jQuery(rowElement);
 
         rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
         rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
@@ -1099,7 +1202,7 @@ export class settingsPage {
 
             modal.modal("hide");
         },
-        onClickViewShortcuts() {
+        onClickViewShortcuts(): boolean {
             let modal = jQuery("#modalShortcuts");
 
             PolyFill.browserCommandsGetAll((commands: any[]) => {
@@ -1112,6 +1215,7 @@ export class settingsPage {
 
                 modal.modal("show");
             });
+            return false;
         },
         onChangeActiveProxyServer() {
             let proxyName = jQuery("#cmbActiveProxyServer").val();

@@ -67,6 +67,7 @@ html.popup body {
 input[type=file].form-control {
     height: auto;
 }
+
 input:invalid {
     border: rgba(255, 0, 0, 0.5) 1px solid;
 }
@@ -79,10 +80,10 @@ input:invalid {
     cursor: pointer;
 }
 
-.nav-pills.flex-column>a.active .fa,
-.nav-pills.flex-column>a.active .fab,
-.nav-pills.flex-column>a.active .fas,
-.nav-pills.flex-column>a.active .far {
+.nav-pills>a.active .fa,
+.nav-pills>a.active .fab,
+.nav-pills>a.active .fas,
+.nav-pills>a.active .far {
     color: white !important;
 }
 
@@ -109,8 +110,25 @@ input:invalid {
 /* Settings page styles */
 /* ------------------------------ */
 
-.backup-buttons{
+@media (max-width: 576px) {
+    .container>.row {
+        /* Mobile fix on bootstrap */
+        margin: 0 auto;
+    }
+
+    .container>.row>div {
+        /* Mobile fix on bootstrap */
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+.backup-buttons {
     min-width: 180px;
+}
+
+#tabSettings .nav-link {
+    min-width: 160px;
 }
 
 /* ============================== */
@@ -136,6 +154,7 @@ input:invalid {
     border-right: solid 1px silver;
     min-width: 250px;
 }
+
 .popup-menu-failed .failed-requests-box {
     background: white;
     -ms-border-radius: 5px;

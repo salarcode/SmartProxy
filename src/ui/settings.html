@@ -19,6 +19,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>SmartProxy Settings</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet" />
 	<link href="css/font-awesome.min.css" rel="stylesheet" />
@@ -37,57 +38,58 @@
 <body>
 	<div class="container p-2 pt-3">
 		<div class="row">
-			<div class="col-sm-4 col-md-3 col-3">
+			<div class="col-sm-4 col-md-4 col-lg-3">
 				<h2 class="slogan">
 					<img src="../icons/smartproxy-48.png" />
-					<br />
+					<br class="d-none d-md-inline-block" />
 					SmartProxy
 				</h2>
-				<br />
+				<br class="d-none d-md-inline-block" />
 				<div class="nav flex-column nav-pills interactive" id="tabSettings" role="tablist">
 					<a class="nav-link active" id="tab-about-tab" data-toggle="pill" href="#tab-about" role="tab" aria-controls="tab-about"
-					 aria-expanded="true">
+					   aria-expanded="true">
 						<i class="fas fa-cog fa-lg text-primary" aria-hidden="true"></i>
 						<span data-localize="settingsTabAbout">About</span>
 					</a>
 					<a class="nav-link" id="tab-general-tab" data-toggle="pill" href="#tab-general" role="tab" aria-controls="tab-general"
-					 aria-expanded="true">
+					   aria-expanded="true">
 						<i class="fas fa-wrench fa-lg text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabGeneral">General Options</span>
 					</a>
 					<a class="nav-link" id="tab-servers-tab" data-toggle="pill" href="#tab-servers" role="tab" aria-controls="tab-servers"
-					 aria-expanded="true">
+					   aria-expanded="true">
 						<i class="fas fa-server fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServers">Proxy Servers</span>
 					</a>
 					<a class="nav-link" id="tab-rules-tab" data-toggle="pill" href="#tab-rules" role="tab" aria-controls="tab-rules"
-					 aria-expanded="true">
+					   aria-expanded="true">
 						<i class="fas fa-magic fa-lg text-warning" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyRules">Proxy Rules</span>
 					</a>
 					<a class="nav-link" id="tab-server-subscriptions-tab" data-toggle="pill" href="#tab-server-subscriptions" role="tab"
-					 aria-controls="tab-server-subscriptions" aria-expanded="true">
+					   aria-controls="tab-server-subscriptions" aria-expanded="true">
 						<i class="fas fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
 					</a>
 					<a class="nav-link" id="tab-bypass-tab" data-toggle="pill" href="#tab-bypass" role="tab" aria-controls="tab-bypass"
-					 aria-expanded="true">
+					   aria-expanded="true">
 						<i class="far fa-hand-paper fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabBypass">Bypass List</span>
 					</a>
 					<a class="nav-link" id="tab-backup-tab" data-toggle="pill" href="#tab-backup" role="tab" aria-controls="tab-backup"
-					 aria-expanded="true">
+					   aria-expanded="true">
 						<i class="fas fa-life-ring text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
 					</a>
 					<a class="nav-link" id="divUpdateIsAvailable" style="display: none" data-toggle="pill" href="#tab-update" role="tab"
-					 aria-controls="tab-update" aria-expanded="true">
+					   aria-controls="tab-update" aria-expanded="true">
 						<i class="fas fa-star fa-lg text-danger" aria-hidden="true"></i>
 						<span>Update text</span>
 					</a>
 				</div>
 			</div>
-			<div class="col-sm-8 col-md-9 col-9 ">
+			<hr class="afshin-line d-sm-none fullwidth" />
+			<div class="col-sm-8 col-md-8 col-lg-9">
 				<div class="tab-content" id="tabSettingsContent">
 					<div class="tab-pane fade show active" id="tab-about" role="tabpanel" aria-labelledby="tab-about-tab">
 						<!----------About----------->
@@ -136,7 +138,7 @@
 							<div class="text-warning">
 								<i class="fas fa-eye-slash" aria-hidden="true"></i>
 								SmartProxy is completely ad free in any way.
-							</div>							
+							</div>
 						</p>
 					</div>
 					<div class="tab-pane fade" id="tab-general" role="tabpanel" aria-labelledby="tab-general-tab">
@@ -154,16 +156,18 @@
 									certain proxy.
 									Also this eliminates the need to have a rule for every single domain.
 									Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other
-									domains individually. </div>
+									domains individually.
+								</div>
 							</label>
 							<div class="ff-only alert alert-warning alert-dismissible fade show" role="alert" style="display:none">
 								<span data-localize="settingsGeneralSmartFeaturesNoChrome">
-									<strong>Firefox only!</strong> Unfortunately this feature is not supported by Chrome.</span>
+									<strong>Firefox only!</strong> Unfortunately this feature is not supported by Chrome.
+								</span>
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-							<div class="card-group" style="width: 35rem;">
+							<div class="card-group" style="max-width: 35rem;">
 								<div class="card">
 									<img class="card-img-top pl-3 pr-3" src="img/proxy-per-origin-enabled.png" alt="Card image cap">
 									<div class="card-body">
@@ -186,7 +190,8 @@
 								<span data-localize="settingsGeneralEnableSyncing">Enable settings syncing</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralEnableSyncingDesc">
 									By enabling syncing, your all settings including rules, servers and subscriptions will be available across all
-									browsers.</div>
+									browsers.
+								</div>
 							</label>
 							<br>
 							<label class="ml-4">
@@ -291,7 +296,7 @@
 							</div>
 							<div class="float-right">
 								<button id="btnImportProxyServerOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportProxyServer"
-								 data-localize="settingsImportProxiesButton">
+										data-localize="settingsImportProxiesButton">
 									Import Proxies
 								</button>
 								<button id="btnExportProxyServerOpen" type="button" class="btn btn-info" data-localize="settingsExportProxiesButton">
@@ -329,20 +334,22 @@
 						<p data-localize="settingsTabProxyRulesDescription">
 							Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or
 							not.<br />
-							Rules are based on <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" target="_blank">Match
-								patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.
+							Rules are based on <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns" target="_blank">
+								Match
+								patterns
+							</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.
 						</p>
 						<p>
 							<div class="float-left">
 								<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">Add Rule</button>
 								<button id="btnAddProxyMultipleRule" type="button" class="btn btn-info" data-localize="settingsAddMultipleRulesButton"
-									data-target="#modalAddMultipleRules">
+										data-target="#modalAddMultipleRules">
 									Add Multiple Rules
 								</button>
 							</div>
 							<div class="float-right">
 								<button id="btnImportRulesOpen" type="button" class="btn btn-info" data-toggle="modal" data-target="#modalImportRules"
-								 data-localize="settingsImportRulesButton">
+										data-localize="settingsImportRulesButton">
 									Import Rules
 								</button>
 							</div>
@@ -383,8 +390,10 @@
 						</p>
 						<p>
 							<div class="float-left">
-								<button id="btnAddServerSubscription" class="btn btn-info" data-localize="settingsAddServerSubscriptionButton">Subscribe
-									to a list</button>
+								<button id="btnAddServerSubscription" class="btn btn-info" data-localize="settingsAddServerSubscriptionButton">
+									Subscribe
+									to a list
+								</button>
 							</div>
 							<div class="clearfix"></div>
 						</p>
