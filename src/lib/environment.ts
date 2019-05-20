@@ -18,6 +18,10 @@ export let environment = {
 	chrome: false,
 	name: "general",
 	version: 1.0,
+	mobile: false,
+	notSupported: {
+		setProxySettings: false
+	},
 	bugFreeVersions: {
 		firefoxToProxyScript: 56,
 		firefoxConfirmInPopupWorks: 57,
@@ -45,4 +49,14 @@ export var browser: any = window["browser"];
 if (typeof browser === "undefined" || browser == null) {
 	browser = chrome;
 	environment.chrome = true;
+}
+if (!browser["windows"]) {
+	environment.mobile = true;
+}
+else {
+	if (browser.runtime["getBrowserInfo"])
+		browser.runtime.getBrowserInfo().then(details => {
+			if (details.name == "Fennec")
+				environment.mobile = true;
+		});
 }

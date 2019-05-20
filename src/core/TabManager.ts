@@ -45,7 +45,8 @@ export class TabManager {
 		browser.tabs.onRemoved.addListener(TabManager.handleTabRemoved);
 
 		// listen for window switching
-		browser.windows.onFocusChanged.addListener(TabManager.updateActiveTab);
+		if(browser["windows"])
+			browser.windows.onFocusChanged.addListener(TabManager.updateActiveTab);
 
 		// read the active tab
 		TabManager.updateActiveTab();

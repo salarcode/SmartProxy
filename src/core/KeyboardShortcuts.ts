@@ -7,7 +7,8 @@ import { PolyFill } from "../lib/PolyFill";
 export class KeyboardShortcuts {
 
     public static startMonitor() {
-        browser.commands.onCommand.addListener(KeyboardShortcuts.handleCommand);
+        if (browser["commands"])
+            browser.commands.onCommand.addListener(KeyboardShortcuts.handleCommand);
     }
 
     private static handleCommand(command: string) {

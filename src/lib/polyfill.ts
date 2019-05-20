@@ -54,6 +54,24 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
+	public static tabsGetCurrent(success?: Function, fail?: Function) {
+		if (environment.chrome) {
+			chrome.tabs.getCurrent(
+				(tabInfo: any) => {
+					const error = PolyFill.lastError();
+					if (error) {
+						if (fail)
+							fail(error);
+					} else {
+						if (success)
+							success(tabInfo);
+					}
+				});
+		} else {
+			browser.tabs.getCurrent()
+				.then(success, fail);
+		}
+	}
 	public static tabsRemove(tabIds: number | number[], success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			chrome.tabs.remove(tabIds,
@@ -275,8 +293,43 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.browserAction.setIcon(details)
-				.then(success, fail);
+			if (browser.browserAction["setIcon"])
+				browser.browserAction.setIcon(details)
+					.then(success, fail);
+		}
+	}
+	public static browserActionSetBadgeText(details: any, success?: Function, fail?: Function) {
+		if (environment.chrome) {
+			chrome.browserAction.setBadgeText(details,
+				(response: any) => {
+					let error = PolyFill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			if (browser.browserAction["setBadgeText"])
+				browser.browserAction.setBadgeText(details)
+					.then(success, fail);
+		}
+	}
+	public static browserActionSetBadgeBackgroundColor(details: any, success?: Function, fail?: Function) {
+		if (environment.chrome) {
+			chrome.browserAction.setBadgeBackgroundColor(details,
+				(response: any) => {
+					let error = PolyFill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			if (browser.browserAction["setBadgeBackgroundColor"])
+				browser.browserAction.setBadgeBackgroundColor(details)
+					.then(success, fail);
 		}
 	}
 	public static browserGetProxySettings(success?: Function, fail?: Function) {
@@ -325,8 +378,9 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.commands.getAll()
-				.then(success, fail);
+			if (browser["commands"])
+				browser.commands.getAll()
+					.then(success, fail);
 		}
 	}
 	public static browserNotificationsCreate(notificationId: string, options: any, success?: Function, fail?: Function) {

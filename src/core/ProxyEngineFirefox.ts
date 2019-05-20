@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser } from "../lib/environment";
+import { browser, environment } from "../lib/environment";
 import { Debug } from "../lib/Debug";
 import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
@@ -69,6 +69,11 @@ export class ProxyEngineFirefox {
 			null,
 			function (error: Error) {
 				Debug.log("updateFirefoxProxyConfig failed to set proxy settings", proxySettings, error);
+				if(error && error["message"] &&
+					error.message.includes("not supported"))
+				{
+					environment.notSupported.setProxySettings = true;
+				}
 			});
 	}
 

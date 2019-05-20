@@ -84,7 +84,7 @@ export class popup {
     private static bindEvents() {
         jQuery("#openSettings").click(() => {
             PolyFill.runtimeOpenOptionsPage();
-            window.close();
+            popup.closeSelf();
         });
         jQuery("#openProxyable").click(() => {
             if (!popup.popupData)
@@ -98,7 +98,7 @@ export class popup {
                     url: browser.extension.getURL(`ui/proxyable.html?id=${sourceTabId}`)
                 }
             );
-            window.close();
+            popup.closeSelf();
         });
 
         jQuery("#divFailedRequests a").click(() => {
@@ -111,6 +111,7 @@ export class popup {
     private static populateDataForPopup(dataForPopup: PopupInternalDataType) {
 
         popup.populateUpdateAvailable(dataForPopup);
+        popup.populateUnsupportedFeatures(dataForPopup);
         popup.populateProxyMode(dataForPopup.proxyMode);
         popup.populateActiveProxy(dataForPopup);
         popup.populateProxyableDomainList(dataForPopup.proxyableDomains);
@@ -126,17 +127,21 @@ export class popup {
         }
     }
 
+    private static populateUnsupportedFeatures(dataForPopup: PopupInternalDataType) {
+        if (dataForPopup.notSupportedSetProxySettings) {
+            jQuery("#linkSystemProxy").hide();
+        }
+    }
+
     private static populateProxyMode(proxyMode: ProxyModeType) {
         let divProxyMode = jQuery("#divProxyMode");
         divProxyMode.find("li.disabled a").css("cursor", "default");
 
         divProxyMode.find(".nav-link").removeClass("active");
-        //divProxyMode.find("li").removeClass("active");
 
         divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
             .addClass("active")
-            .parent("li")
-        //.addClass("active");
+            .parent("li");
 
         divProxyMode.find(".nav-link:not(.disabled)")
             .on("click", popup.onProxyModeClick);
@@ -351,7 +356,7 @@ export class popup {
             // open the settings page
             PolyFill.runtimeOpenOptionsPage();
         }
-        window.close();
+        popup.closeSelf();
     }
 
     private static onActiveProxyChange() {
@@ -382,7 +387,7 @@ export class popup {
                 domain: domain
             });
 
-            window.close();
+            popup.closeSelf();
         } else {
             PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
         }
@@ -419,8 +424,19 @@ export class popup {
                         }
                     });
 
-                window.close();
+                popup.closeSelf();
             }
+    }
+
+    private static closeSelf() {
+        if (!environment.mobile) {
+            window.close();
+        }
+        else {
+            PolyFill.tabsGetCurrent(details => {
+                return PolyFill.tabsRemove(details.id);
+            });
+        }
     }
     //#endregion
 }

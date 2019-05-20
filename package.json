@@ -14,9 +14,11 @@
     "lint": "eslint ./src",
     "build": "webpack --env.browser=chrome",
     "build-ff": "webpack --env.browser=firefox",
+    "build-ff-mobile": "webpack --env.browser=firefox-mobile",
     "build-ch": "webpack --env.browser=chrome",
     "build-ff-unlisted": "webpack --env.browser=firefox-unlisted",
     "build-ff:watch": "webpack --watch --env.browser=firefox",
+    "build-ff-mobile:watch": "webpack --watch --env.browser=firefox-mobile",
     "build-ch:watch": "webpack --watch --env.browser=chrome",
     "test": "npm run lint"
   },

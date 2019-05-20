@@ -44,6 +44,8 @@ export class settingsPage {
 
     public static initialize() {
 
+        CommonUi.onDocumentReady(settingsPage.resizableMenu);
+        
         CommonUi.onDocumentReady(this.bindEvents);
         CommonUi.onDocumentReady(this.initializeGrids);
         CommonUi.onDocumentReady(this.initializeUi);
@@ -61,7 +63,6 @@ export class settingsPage {
             });
 
         CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
-        CommonUi.onDocumentReady(settingsPage.resizableMenu);
     }
 
     private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {

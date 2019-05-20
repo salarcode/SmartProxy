@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser } from "../lib/environment";
+import { browser, environment } from "../lib/environment";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { ProxyAuthentication } from "./ProxyAuthentication";
 import { Debug } from "../lib/Debug";
@@ -550,6 +550,7 @@ export class Core {
 		dataForPopup.updateAvailableText = null;
 		dataForPopup.updateInfo = null;
 		dataForPopup.failedRequests = null;
+		dataForPopup.notSupportedSetProxySettings = environment.notSupported.setProxySettings;
 
 		if (UpdateManager.updateIsAvailable) {
 			// generate update text
@@ -714,19 +715,20 @@ export class Core {
 				failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);
 
 			if (failedCount > 0) {
-				browser.browserAction.setBadgeBackgroundColor({ color: "#f0ad4e" });
-				browser.browserAction.setBadgeText({
+				PolyFill.browserActionSetBadgeBackgroundColor({ color: "#f0ad4e" });
+				PolyFill.browserActionSetBadgeText({
 					text: failedCount.toString(),
 					tabId: tabData.tabId
 				});
 			} else {
-				browser.browserAction.setBadgeText({
+				PolyFill.browserActionSetBadgeText({
 					text: "",
 					tabId: tabData.tabId
 				});
 			}
 
-			if (Settings.current.options.displayAppliedProxyOnBadge) {
+			if (Settings.current.options.displayAppliedProxyOnBadge &&
+				!environment.mobile) {
 				if (tabData.proxified) {
 					proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySourceDomain}`;
 				} else {
@@ -735,7 +737,7 @@ export class Core {
 			}
 
 		} else {
-			browser.browserAction.setBadgeText({
+			PolyFill.browserActionSetBadgeText({
 				text: "",
 				tabId: tabData.tabId
 			});

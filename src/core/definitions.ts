@@ -113,6 +113,7 @@ export class PopupInternalDataType {
 	public updateAvailableText: string;
 	public updateInfo: any;
 	public failedRequests: FailedRequestType[];
+	public notSupportedSetProxySettings: boolean;
 }
 
 export class FailedRequestType {
