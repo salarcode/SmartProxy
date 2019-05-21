@@ -168,7 +168,7 @@
 		"description": ""
 	},
 	"settingsTabBypass": {
-		"message": "Vaciar la lista",
+		"message": "Lista de exclusion",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -804,7 +804,7 @@
 		"description": ""
 	},
 	"settingsBypassList": {
-		"message": "Vaciar la lista:",
+		"message": "Lista de exclusiones:",
 		"description": ""
 	},
 	"settingsBypassListHint": {
@@ -816,11 +816,11 @@
 		"description": ""
 	},
 	"settingsSaveBypassSuccess": {
-		"message": "La lista del proxy fue guardada exitosamente.",
+		"message": "La lista de exclusion del proxy fue guardada exitosamente.",
 		"description": ""
 	},
 	"settingsBypassInvalid": {
-		"message": "Configuración de bypass no válido",
+		"message": "Configuración de exclusión no válida",
 		"description": ""
 	}
 }
