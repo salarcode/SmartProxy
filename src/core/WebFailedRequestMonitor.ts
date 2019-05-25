@@ -22,12 +22,25 @@ import { Utils } from "../lib/Utils";
 import { TabManager } from "./TabManager";
 import { Messages, FailedRequestType } from "./definitions";
 import { Settings } from "./Settings";
+import { Debug } from "../lib/Debug";
 
 export class WebFailedRequestMonitor {
 
     public static startMonitor() {
         // start the request monitor for failures
         WebRequestMonitor.startMonitor(WebFailedRequestMonitor.requestMonitorCallback);
+    }
+
+    private static notifyFailedRequestNotification: boolean = true;
+
+    public static enableFailedRequestNotification() {
+        WebFailedRequestMonitor.notifyFailedRequestNotification = true;
+        Debug.log("FailedRequestNotification is Enabled");
+    }
+
+    public static disableFailedRequestNotification() {
+        WebFailedRequestMonitor.notifyFailedRequestNotification = false;
+        Debug.log("FailedRequestNotification is Disabled");
     }
 
     public static removeDomainsFromTabFailedRequests(tabId: number, domainList: string[]) {
@@ -45,7 +58,7 @@ export class WebFailedRequestMonitor {
         if (!failedRequests) return null;
 
         for (let domain of domainList) {
-            failedRequests.delete(domain);
+            WebFailedRequestMonitor.deleteFailedRequests(failedRequests, domain);
         }
 
         // rechecking the failed requests
@@ -53,7 +66,7 @@ export class WebFailedRequestMonitor {
             let testResult = ProxyRules.testSingleRule(request.domain);
 
             if (testResult.match) {
-                failedRequests.delete(request.domain);
+                WebFailedRequestMonitor.deleteFailedRequests(failedRequests, request.domain);
             }
         });
 
@@ -88,7 +101,7 @@ export class WebFailedRequestMonitor {
             case RequestMonitorEvent.RequestRevertTimeout:
                 {
                     // remove the log
-                    var removed = failedRequests.delete(requestHost);
+                    let removed = WebFailedRequestMonitor.deleteFailedRequests(failedRequests, requestHost);
 
                     if (removed) {
                         // if there was an entry
@@ -272,12 +285,22 @@ export class WebFailedRequestMonitor {
     }
 
     private static sendWebFailedRequestNotification(tabId: number, failedInfo: FailedRequestType, failedRequests: Map<string, FailedRequestType>) {
+        if (!WebFailedRequestMonitor.notifyFailedRequestNotification)
+            return;
+
         PolyFill.runtimeSendMessage(
             {
                 command: Messages.WebFailedRequestNotification,
                 tabId: tabId,
                 failedRequests: WebFailedRequestMonitor.convertFailedRequestsToArray(failedRequests),
                 failedInfo: failedInfo
+            },
+            null,
+            error => {
+                if (error && error["message"] &&
+                    error.message.includes("Could not establish connection")) {
+                    WebFailedRequestMonitor.disableFailedRequestNotification();
+                }
             });
     }
 
@@ -306,6 +329,38 @@ export class WebFailedRequestMonitor {
         });
 
         return failedCount;
+    }
+
+    /** Remove the domain from failed list. Also removed the parent if parent doesn't any other subdomain. */
+    private static deleteFailedRequests(failedRequests: Map<string, FailedRequestType>, requestHost: string): boolean {
+
+        if (requestHost == null)
+            return false;
+
+        let isRemoved = failedRequests.delete(requestHost);
+
+        let subDomains = Utils.extractSubdomainListFromHost(requestHost);
+        subDomains.reverse();
+
+        subDomains.forEach((subDomain, index) => {
+
+            let domainHasSubDomain = false;
+            failedRequests.forEach((request, requestDomainKey, map) => {
+                if (domainHasSubDomain)
+                    return;
+                if (requestDomainKey.endsWith("." + subDomain)) {
+                    domainHasSubDomain = true;
+                }
+            });
+
+            if (domainHasSubDomain) 
+                return;
+
+            let removed = failedRequests.delete(subDomain);
+            isRemoved = removed || isRemoved;
+        });
+
+        return isRemoved;
     }
 
 }

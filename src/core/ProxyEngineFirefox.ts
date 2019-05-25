@@ -35,7 +35,8 @@ export class ProxyEngineFirefox {
 			browser.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest, { urls: ["<all_urls>"] });
 
 			// PAC script is used for Ftp and other protocols
-			browser.proxy.register(ProxyEngineFirefox.proxyScriptUrlFirefox);
+			if (browser.proxy["register"])
+				browser.proxy.register(ProxyEngineFirefox.proxyScriptUrlFirefox);
 
 			browser.proxy.onError.addListener(ProxyEngineFirefox.onProxyError);
 
@@ -47,8 +48,7 @@ export class ProxyEngineFirefox {
 	public static updateFirefoxProxyConfig() {
 		let settings = Settings.current;
 		let proxySettings = {
-			proxyType: BrowserProxySettingsType.system,
-			proxyDNS: true
+			proxyType: BrowserProxySettingsType.system
 		};
 
 		switch (settings.proxyMode) {
@@ -69,9 +69,8 @@ export class ProxyEngineFirefox {
 			null,
 			function (error: Error) {
 				Debug.log("updateFirefoxProxyConfig failed to set proxy settings", proxySettings, error);
-				if(error && error["message"] &&
-					error.message.includes("not supported"))
-				{
+				if (error && error["message"] &&
+					error.message.includes("not supported")) {
 					environment.notSupported.setProxySettings = true;
 				}
 			});

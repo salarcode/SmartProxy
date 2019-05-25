@@ -37,6 +37,9 @@ export class Core {
 	/** Start the application */
 	public static initializeApp() {
 
+		// uncomment for debugging
+		Debug.disable();
+
 		Settings.onInitialized = (() => {
 			// on settings read success
 
@@ -110,6 +113,7 @@ export class Core {
 						if (!sendResponse)
 							return;
 						let dataForPopup = Core.getPopupInitialData();
+						WebFailedRequestMonitor.enableFailedRequestNotification();
 
 						// send the data
 						sendResponse(dataForPopup);

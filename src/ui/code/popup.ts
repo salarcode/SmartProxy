@@ -281,9 +281,9 @@ export class popup {
             // Order by parent domain
             failedRequests = failedRequests.sort((a, b) => {
                 if ("." + a.domain.includes(b.domain))
-                    return -1;
-                if ("." + b.domain.includes(a.domain))
                     return 1;
+                if ("." + b.domain.includes(a.domain))
+                    return -1;
                 return 0;
             });
 
