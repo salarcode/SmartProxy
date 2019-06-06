@@ -32,19 +32,19 @@ export class WebRequestMonitor {
 			return;
 
 		browser.webRequest.onBeforeRequest.addListener(WebRequestMonitor.events.onBeforeRequest,
-			{ urls: ["<all_urls>"] }
+			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
 		);
 		browser.webRequest.onHeadersReceived.addListener(WebRequestMonitor.events.onHeadersReceived,
-			{ urls: ["<all_urls>"] }
+			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
 		);
 		browser.webRequest.onBeforeRedirect.addListener(WebRequestMonitor.events.onBeforeRedirect,
-			{ urls: ["<all_urls>"] }
+			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
 		);
 		browser.webRequest.onErrorOccurred.addListener(WebRequestMonitor.events.onErrorOccurred,
-			{ urls: ["<all_urls>"] }
+			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
 		);
 		browser.webRequest.onCompleted.addListener(WebRequestMonitor.events.onCompleted,
-			{ urls: ["<all_urls>"] }
+			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
 		);
 		WebRequestMonitor.monitorCallback = callback;
 		WebRequestMonitor.isMonitoring = true;
@@ -118,7 +118,7 @@ export class WebRequestMonitor {
 			if (!req)
 				return;
 
-			req._isHealthy = true;
+				req._isHealthy = true;
 
 			if (req._isTimedOut) {
 				// call the callbacks indicating the request is healthy

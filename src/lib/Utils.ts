@@ -210,6 +210,8 @@ export class Utils {
 	}
 
 	public static extractSubdomainListFromHost(host: string): string[] {
+		if (!host)
+			return null;
 		let parts = host.split(".");
 		if (parts.length <= 2)
 			return [host];

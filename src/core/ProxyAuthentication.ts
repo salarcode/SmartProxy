@@ -25,24 +25,24 @@ export class ProxyAuthentication {
 		if (environment.chrome) {
 			// chrome supports asyncBlocking
 			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
-				{ urls: ["<all_urls>"] },
+				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] },
 				["asyncBlocking"]
 			);
 		} else {
 			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
-				{ urls: ["<all_urls>"] },
+				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] },
 				["blocking"]
 			);
 
 		}
 		browser.webRequest.onCompleted.addListener(
 			ProxyAuthentication.onRequestFinished,
-			{ urls: ["<all_urls>"] }
+			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
 		);
 
 		browser.webRequest.onErrorOccurred.addListener(
 			ProxyAuthentication.onRequestFinished,
-			{ urls: ["<all_urls>"] }
+			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
 		);
 	}
 

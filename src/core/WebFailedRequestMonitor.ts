@@ -340,26 +340,27 @@ export class WebFailedRequestMonitor {
         let isRemoved = failedRequests.delete(requestHost);
 
         let subDomains = Utils.extractSubdomainListFromHost(requestHost);
-        subDomains.reverse();
+        if (subDomains && subDomains.length) {
+            subDomains.reverse();
 
-        subDomains.forEach((subDomain, index) => {
+            subDomains.forEach((subDomain, index) => {
 
-            let domainHasSubDomain = false;
-            failedRequests.forEach((request, requestDomainKey, map) => {
+                let domainHasSubDomain = false;
+                failedRequests.forEach((request, requestDomainKey, map) => {
+                    if (domainHasSubDomain)
+                        return;
+                    if (requestDomainKey.endsWith("." + subDomain)) {
+                        domainHasSubDomain = true;
+                    }
+                });
+
                 if (domainHasSubDomain)
                     return;
-                if (requestDomainKey.endsWith("." + subDomain)) {
-                    domainHasSubDomain = true;
-                }
+
+                let removed = failedRequests.delete(subDomain);
+                isRemoved = removed || isRemoved;
             });
-
-            if (domainHasSubDomain) 
-                return;
-
-            let removed = failedRequests.delete(subDomain);
-            isRemoved = removed || isRemoved;
-        });
-
+        }
         return isRemoved;
     }
 

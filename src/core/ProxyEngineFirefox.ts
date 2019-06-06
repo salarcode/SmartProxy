@@ -32,7 +32,8 @@ export class ProxyEngineFirefox {
 
 			// onRequest is Used for HTTP and HTTPS protocols only (WSS included), source: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/RequestFilter
 			// Smart features are available here only
-			browser.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest, { urls: ["<all_urls>"] });
+			browser.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest,
+				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] });
 
 			// PAC script is used for Ftp and other protocols
 			if (browser.proxy["register"])

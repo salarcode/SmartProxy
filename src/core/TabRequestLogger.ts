@@ -29,7 +29,7 @@ export class TabRequestLogger {
 	public static startTracking() {
 		browser.webRequest.onBeforeRequest.addListener(
 			TabRequestLogger.logRequest,
-			{ urls: ["<all_urls>"] }
+			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
 		);
 
 		TabManager.TabRemoved.on(TabRequestLogger.handleTabRemoved);
