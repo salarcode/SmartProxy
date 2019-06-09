@@ -306,10 +306,12 @@ export class settingsPage {
     private static initializeUi() {
         if (environment.chrome) {
             jQuery("#divAlertChrome").show();
-            jQuery(".ff-only").show();
+            jQuery(".firefox-only").hide();
+            jQuery(".chrome-only").show();
         } else {
             jQuery("#divAlertFirefox").show();
-            jQuery(".ff-only").hide();
+            jQuery(".firefox-only").show();
+            jQuery(".chrome-only").hide();
         }
 
         // the default values
