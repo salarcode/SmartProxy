@@ -39,7 +39,9 @@ html.popup body {
 .rtl {
     font-family: Tahoma, sans-serif;
 }
-
+body.rtl {
+    text-align: right;
+}
 .rtl .jsgrid-align-left {
     direction: ltr;
 }
@@ -47,7 +49,13 @@ html.popup body {
 .rtl .nav {
     padding-right: 0;
 }
-
+.rtl .modal-footer > :not(:first-child) {
+    margin-left: 0;
+    margin-right: .25rem;
+}
+.rtl .modal-header .close {
+    margin: -1rem auto -1rem -1rem;
+}
 .direction-ltr {
     direction: ltr;
 }

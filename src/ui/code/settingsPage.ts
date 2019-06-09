@@ -44,6 +44,7 @@ export class settingsPage {
 
     public static initialize() {
 
+        CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
         CommonUi.onDocumentReady(settingsPage.resizableMenu);
         
         CommonUi.onDocumentReady(this.bindEvents);
@@ -62,7 +63,6 @@ export class settingsPage {
                 messageBox.error(browser.i18n.getMessage("settingsInitializeFailed"));
             });
 
-        CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
     }
 
     private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
