@@ -83,6 +83,14 @@
 		"message": "Agregar a la lista de reglas",
 		"description": ""
 	},
+	"popupNotAllowedSetProxySettingsChrome": {
+		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>Learn how<\/a>.",
+		"description": ""
+	},
+	"popupNotAllowedSetProxySettingsFirefox": {
+		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https:\/\/support.mozilla.org\/en-US\/kb\/extensions-private-browsing'>Learn how<\/a>.",
+		"description": ""
+	},
 	"proxyableTitle": {
 		"message": "Recursos del Proxy",
 		"description": ""
@@ -168,7 +176,7 @@
 		"description": ""
 	},
 	"settingsTabBypass": {
-		"message": "Lista de exclusion",
+		"message": "Vaciar la lista",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -183,40 +191,28 @@
 		"message": "Usa patrones para automáticamente definir reglas para Proxificar tu experiencia web. Con Proxy inteligente, no necesitas cambiar manualmente el Proxy y encenderlo y apagarlo. Puedes agregar tus sitios web deseados a la lista de las reglas del Proxy con sólo un click. Luego de eso, cuando visites ese sitio web específico, Proxy Inteligente actuará y toda tu data para el sitio web será transferida por el proxy, sin hacer nada.",
 		"description": ""
 	},
-	"settingsTabGeneralTitle": {
-		"message": "Opciones generales de la extensión:",
+	"settingsGeneralSmartFeatures": {
+		"message": "Smart Features",
 		"description": ""
 	},
-	"settingsTabProxyServersTitle": {
-		"message": "Manejar tus servidores Proxy:",
+	"settingsGeneralSmartFeaturesNoChrome": {
+		"message": "<strong>Firefox only!<\/strong> Unfortunately this feature is not supported by Chrome.<\/span>",
 		"description": ""
 	},
-	"settingsTabProxyServersDescription": {
-		"message": "Aquí está la lista de los servidores Proxy. Puedes definir tantos Proxy como quieras y cambiar entre ellos desde la barra de herramientas.",
+	"settingsGeneralProxyPerOrigin": {
+		"message": "Enable proxy per tab\/origin",
 		"description": ""
 	},
-	"settingsTabProxyRulesTitle": {
-		"message": "Administrar tus reglas de Proxy:",
+	"settingsGeneralProxyPerOriginDesc": {
+		"message": "If one of the rules matched the origin\/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
 		"description": ""
 	},
-	"settingsTabProxyRulesDescription": {
-		"message": "Aquí está la lista de reglas que permitirán al Proxy inteligente, decidir habilitarse para un sitio específico o no.<br \/>Reglas basadas en <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'> coinciden con patrones<\/a>.",
+	"settingsGeneralProxyPerOriginEnabled": {
+		"message": "Proxy per tab\/origin enabled",
 		"description": ""
 	},
-	"settingsTabBypassDescription": {
-		"message": "La siguiente es la lista de anfitriones en los que el Proxy no debe ser aplicado.",
-		"description": ""
-	},
-	"settingsTabBackupRestoreDescription": {
-		"message": "Puedes hacer un respaldo completo o parcial de tus configuraciones.",
-		"description": ""
-	},
-	"settingsErrNoServersTitle": {
-		"message": "¡No hay servidores!",
-		"description": ""
-	},
-	"settingsErrNoServersDescription": {
-		"message": "Antes que nada, debes definir los servidores Proxy.",
+	"settingsGeneralProxyPerOriginDisabled": {
+		"message": "Proxy per tab\/origin disabled",
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
@@ -237,6 +233,134 @@
 	},
 	"settingsRejectGeneralOptionsButton": {
 		"message": "Rechazar Cambios",
+		"description": ""
+	},
+	"settingsGeneralSyncProxyMode": {
+		"message": "Enable syncing proxy-mode",
+		"description": ""
+	},
+	"settingsGeneralSyncProxyModeDesc": {
+		"message": "Check if you want the proxy activation mode to be synced.",
+		"description": ""
+	},
+	"settingsGeneralSyncActiveProxy": {
+		"message": "Enable syncing active proxy",
+		"description": ""
+	},
+	"settingsGeneralSyncActiveProxyDesc": {
+		"message": "Check if you want the selected proxy server to be synced",
+		"description": ""
+	},
+	"settingsGeneralErrorDetection": {
+		"message": "Error Detection",
+		"description": ""
+	},
+	"settingsGeneralDetectFailures": {
+		"message": "Detect request failures",
+		"description": ""
+	},
+	"settingsGeneralDetectFailuresDesc": {
+		"message": "Request failures detection will help you identify the domains that needs proxy.",
+		"description": ""
+	},
+	"settingsGeneralSelectIgnoredDomains": {
+		"message": "Select Domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresForDomains": {
+		"message": "Ignore failure detection for these domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
+		"message": "Enter domain list you wish to disable failure detection.",
+		"description": ""
+	},
+	"settingsGeneralDisplayFailedOnBadge": {
+		"message": "Display failed requests count on toolbar icon badge",
+		"description": ""
+	},
+	"settingsGeneralOtherSettings": {
+		"message": "Other Settings",
+		"description": ""
+	},
+	"settingsGeneralEnableShortcuts": {
+		"message": "Enable Shortcuts",
+		"description": ""
+	},
+	"settingsGeneralEnableShortcutsDesc": {
+		"message": "You can configure shortcuts from browser addon settings page.",
+		"description": ""
+	},
+	"settingsGeneralViewShortcuts": {
+		"message": "View shortcuts",
+		"description": ""
+	},
+	"settingsGeneralShortcutNotification": {
+		"message": "Enable shortcut notification",
+		"description": ""
+	},
+	"settingsGeneralViewShortcutKeys": {
+		"message": "Shortcut Keys",
+		"description": ""
+	},
+	"settingsGeneralDisplayAppliedProxyOnBadge": {
+		"message": "Display applied proxy on badge",
+		"description": ""
+	},
+	"settingsGeneralIgnoreRequestFailuresTitle": {
+		"message": "Ignore Request Failures For Domains",
+		"description": ""
+	},
+	"settingsGeneralIgnoredDomains": {
+		"message": "Ignored domain list:",
+		"description": ""
+	},
+	"settingsGeneralCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsGeneralSaveChanges": {
+		"message": "Save Changes",
+		"description": ""
+	},
+	"settingsGeneralKeyboardShortcutsTitle": {
+		"message": "Keyboard shortcuts",
+		"description": ""
+	},
+	"settingsGeneralCloseButton": {
+		"message": "Close",
+		"description": ""
+	},
+	"settingsTabProxyServersTitle": {
+		"message": "Manejar tus servidores Proxy:",
+		"description": ""
+	},
+	"settingsTabProxyServersDescription": {
+		"message": "Aquí está la lista de los servidores Proxy. Puedes definir tantos Proxy como quieras y cambiar entre ellos desde la barra de herramientas.",
+		"description": ""
+	},
+	"settingsTabProxyRulesTitle": {
+		"message": "Administrar tus reglas de Proxy:",
+		"description": ""
+	},
+	"settingsTabProxyRulesDescription": {
+		"message": "Aquí está la lista de reglas que permitirán al Proxy inteligente, decidir habilitarse para un sitio específico o no.<br \/>Reglas basadas en <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'> coinciden con patrones<\/a> & <a href='https:\/\/en.wikipedia.org\/wiki\/Regular_expression' target='_blank'>Regular expressions<\/a>.",
+		"description": ""
+	},
+	"settingsTabBypassDescription": {
+		"message": "La siguiente es la lista de anfitriones en los que el Proxy no debe ser aplicado.",
+		"description": ""
+	},
+	"settingsTabBackupRestoreDescription": {
+		"message": "Puedes hacer un respaldo completo o parcial de tus configuraciones.",
+		"description": ""
+	},
+	"settingsErrNoServersTitle": {
+		"message": "¡No hay servidores!",
+		"description": ""
+	},
+	"settingsErrNoServersDescription": {
+		"message": "Antes que nada, debes definir los servidores Proxy.",
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
@@ -367,6 +491,10 @@
 		"message": "Importar",
 		"description": ""
 	},
+	"settingsConfirmRemoveProxyServer": {
+		"message": "Are you sure to remove the selected proxy server?",
+		"description": ""
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "¿Seguro que deseas eliminar todos los servidores Proxy?",
 		"description": ""
@@ -401,6 +529,10 @@
 	},
 	"settingsChangesReverted": {
 		"message": "Cambios aplicados con éxito.",
+		"description": ""
+	},
+	"settingsConfirmRemoveProxyRule": {
+		"message": "Are you sure to remove the selected rule?",
 		"description": ""
 	},
 	"settingsRemoveAllRules": {
@@ -507,6 +639,10 @@
 		"message": "Cancelar",
 		"description": ""
 	},
+	"settingsServersSave": {
+		"message": "Save",
+		"description": ""
+	},
 	"settingsServersImport": {
 		"message": "Importar",
 		"description": ""
@@ -516,7 +652,7 @@
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "fuente inválida, el nombre de la fuente debe ser algo como 'google.com'",
+		"message": "Fuente inválida, el nombre de la fuente debe ser algo como 'google.com'",
 		"description": ""
 	},
 	"settingsRuleSourceInvalidFormat": {
@@ -531,16 +667,40 @@
 		"message": "Nombre de anfitrión '{0}' inválido, nombre de anfitrión debe ser algo como 'google.com'",
 		"description": ""
 	},
+	"settingsRuleRegexNotMatchDomain": {
+		"message": "Regex rule does not match the source domain '{0}'",
+		"description": ""
+	},
+	"settingsRuleDoesntIncludeDomain": {
+		"message": "The rule does not match the source domain '{0}'",
+		"description": ""
+	},
+	"settingsRuleRegexInvalid": {
+		"message": "Regex rule '{0}' is not valid",
+		"description": ""
+	},
+	"settingsRuleExactUrlInvalid": {
+		"message": "Url '{0}' is not valid",
+		"description": ""
+	},
+	"settingsRuleUrlInvalid": {
+		"message": "Url '{0}' is not valid",
+		"description": ""
+	},
 	"settingsRulesGridNoDataContent": {
 		"message": "No hay reglas definidas",
+		"description": ""
+	},
+	"settingsRulesGridColRuleType": {
+		"message": "Rule Type",
 		"description": ""
 	},
 	"settingsRulesGridColSource": {
 		"message": "Fuente",
 		"description": ""
 	},
-	"settingsRulesGridColPattern": {
-		"message": "Patrón",
+	"settingsRulesGridColRule": {
+		"message": "Rule",
 		"description": ""
 	},
 	"settingsRulesGridColEnabled": {
@@ -563,6 +723,10 @@
 		"message": "Detalles de la regla",
 		"description": ""
 	},
+	"settingsRulesRuleType": {
+		"message": "Rule Type",
+		"description": ""
+	},
 	"settingsRulesSourceDomain": {
 		"message": "Dominio de origen de regla",
 		"description": ""
@@ -575,12 +739,24 @@
 		"message": "Coincidencia de patrón",
 		"description": ""
 	},
-	"settingsRulesPatternDesc": {
-		"message": "(Generado automáticamente)",
+	"settingsRulesGeneratePattern": {
+		"message": "Generate pattern automatically",
+		"description": ""
+	},
+	"settingsRulesRegex": {
+		"message": "Url Regex",
+		"description": ""
+	},
+	"settingsRulesExactUrl": {
+		"message": "Exact Url",
 		"description": ""
 	},
 	"settingsRulesProxyServer": {
 		"message": "Servidor Proxy",
+		"description": ""
+	},
+	"settingsRulesProxyServerNotAuth": {
+		"message": "(Servers with authentication not supported)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {
@@ -635,6 +811,26 @@
 		"message": "Total {0} a {1} proxies son agregados.<br>No olvides guardar los cambios.",
 		"description": ""
 	},
+	"settingsAddMultipleRulesButton": {
+		"message": "Add Multiple Rules",
+		"description": ""
+	},
+	"settingsAddMultipleRuleTitle": {
+		"message": "Add Multiple Rules",
+		"description": ""
+	},
+	"settingsMultipleRuleList": {
+		"message": "Host\/Rule list:",
+		"description": ""
+	},
+	"settingsMultipleRuleInvalidHost": {
+		"message": "Host name '{0}' is invalid",
+		"description": ""
+	},
+	"settingsMultipleRuleNoNewRuleAdded": {
+		"message": "No new rule is added",
+		"description": ""
+	},
 	"settingsTabProxyServerSubscriptionsTitle": {
 		"message": "Administrar suscripciones de servidor proxy:",
 		"description": ""
@@ -687,6 +883,10 @@
 		"message": "Ofuscación:",
 		"description": ""
 	},
+	"settingsServerSubscriptionFormat": {
+		"message": "Format:",
+		"description": ""
+	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Nombre de usuario:",
 		"description": ""
@@ -717,6 +917,10 @@
 	},
 	"settingsServerSubscriptionTestingButton": {
 		"message": "Comprobando...",
+		"description": ""
+	},
+	"settingsConfirmRemoveServerSubscription": {
+		"message": "Are you sure to remove the selected subscription?",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
@@ -799,12 +1003,8 @@
 		"message": "Habilitar para el modo \"Siempre habilitado\"",
 		"description": ""
 	},
-	"settingsBypassEnableForSystem": {
-		"message": "Activar para el modo 'Sistema Proxy' (sólo Firefox)",
-		"description": ""
-	},
 	"settingsBypassList": {
-		"message": "Lista de exclusiones:",
+		"message": "Vaciar la lista:",
 		"description": ""
 	},
 	"settingsBypassListHint": {
@@ -816,11 +1016,31 @@
 		"description": ""
 	},
 	"settingsSaveBypassSuccess": {
-		"message": "La lista de exclusion del proxy fue guardada exitosamente.",
+		"message": "La lista del proxy fue guardada exitosamente.",
 		"description": ""
 	},
 	"settingsBypassInvalid": {
-		"message": "Configuración de exclusión no válida",
+		"message": "Configuración de bypass no válido",
+		"description": ""
+	},
+	"notificationNoNextProxyServer": {
+		"message": "There is no further next proxy server",
+		"description": ""
+	},
+	"notificationNoPreviousProxyServer": {
+		"message": "There is no further previous proxy server",
+		"description": ""
+	},
+	"notificationShortcutTitle": {
+		"message": "SmartProxy shortcut notification",
+		"description": ""
+	},
+	"notificationShortcutProxyModeMessage": {
+		"message": "Proxy mode changed to {0}",
+		"description": ""
+	},
+	"notificationShortcutProxyServerChanged": {
+		"message": "Proxy server changed to {0}",
 		"description": ""
 	}
 }
