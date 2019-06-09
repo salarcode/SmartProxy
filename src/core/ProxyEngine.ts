@@ -76,12 +76,11 @@ export class ProxyEngine {
             PacScriptEventDispatcher.notifyProxyRulesChange();
 
         // update proxy rules
+        ProxyRules.compileRules(Settings.current.proxyRules);
+        
+        // update proxy rules
         this.updateChromeProxyConfig();
         this.updateFirefoxProxyConfig();
-
-        // TODO: is this only in firefox?
-        // update proxy rules
-        ProxyRules.compileRules(Settings.current.proxyRules);
     }
 
     public static notifyBypassChanged() {

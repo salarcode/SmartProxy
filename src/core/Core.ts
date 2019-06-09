@@ -740,11 +740,6 @@ export class Core {
 				}
 			}
 
-		} else {
-			PolyFill.browserActionSetBadgeText({
-				text: "",
-				tabId: tabData.tabId
-			});
 		}
 
 		if (Settings.current.activeProxyServer) {
