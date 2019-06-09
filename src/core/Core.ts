@@ -555,6 +555,7 @@ export class Core {
 		dataForPopup.updateInfo = null;
 		dataForPopup.failedRequests = null;
 		dataForPopup.notSupportedSetProxySettings = environment.notSupported.setProxySettings;
+		dataForPopup.notAllowedSetProxySettings = environment.notAllowed.setProxySettings;
 
 		if (UpdateManager.updateIsAvailable) {
 			// generate update text

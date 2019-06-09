@@ -83,6 +83,14 @@
 		"message": "Add To Rules List",
 		"description": ""
 	},
+	"popupNotAllowedSetProxySettingsChrome": {
+		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>Learn how<\/a>.",
+		"description": ""
+	},
+	"popupNotAllowedSetProxySettingsFirefox": {
+		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https:\/\/support.mozilla.org\/en-US\/kb\/extensions-private-browsing'>Learn how<\/a>.",
+		"description": ""
+	},
 	"proxyableTitle": {
 		"message": "Proxyable Resources",
 		"description": ""

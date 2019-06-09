@@ -22,6 +22,9 @@ export let environment = {
 	notSupported: {
 		setProxySettings: false
 	},
+	notAllowed: {
+		setProxySettings: false
+	},
 	bugFreeVersions: {
 		firefoxToProxyScript: 56,
 		firefoxConfirmInPopupWorks: 57,

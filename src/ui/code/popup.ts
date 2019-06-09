@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { browser, environment } from "../../lib/environment";
-import { jQuery } from "../../lib/External";
+import { jQuery, messageBox } from "../../lib/External";
 import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType, ProxyServer } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
@@ -343,6 +343,19 @@ export class popup {
     private static onProxyModeClick() {
         let element = jQuery(this);
         let selectedProxyMode = element.attr("data-proxyMode");
+
+        if (popup.popupData.notAllowedSetProxySettings &&
+            selectedProxyMode == ProxyModeType.SystemProxy) {
+
+            let message: string;
+            if (environment.chrome)
+                message = browser.i18n.getMessage("popupNotAllowedSetProxySettingsChrome");
+            else
+                message = browser.i18n.getMessage("popupNotAllowedSetProxySettingsFirefox");
+
+            messageBox.error(message, 5000);
+            return;
+        }
 
         // change proxy mode
         PolyFill.runtimeSendMessage({
