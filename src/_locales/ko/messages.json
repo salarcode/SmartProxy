@@ -8,23 +8,23 @@
 		"description": ""
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy automatycznie włączy\/wyłączy proxy dla stron, które odwiedzasz, bazując na konfigurowalnych wzorcach.",
+		"message": "Smart Proxy wird automatisch Proxy aktivieren\/deaktivieren für die Seiten die Sie besuchen, besierend auf anpassbaren Mustern.",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "In effect rule:",
+		"message": "Effektive Regel:",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "In effect rule: none",
+		"message": "Effektive Regel: keins",
 		"description": ""
 	},
 	"popupTitle": {
-		"message": "Aktywacja SmartProxy",
+		"message": "SmartProxy Aktivierung",
 		"description": ""
 	},
 	"popupNoProxy": {
-		"message": "Bezpośrednio (bez proxy)",
+		"message": "Direkt (Kein Proxy)",
 		"description": ""
 	},
 	"popupSmartProxy": {
@@ -32,7 +32,7 @@
 		"description": ""
 	},
 	"popupAlwaysEnable": {
-		"message": "Always Enable",
+		"message": "Immer Aktiv",
 		"description": ""
 	},
 	"popupSystemProxy": {
@@ -40,35 +40,35 @@
 		"description": ""
 	},
 	"popupActiveProxy": {
-		"message": "Aktywne proxy:",
+		"message": "Aktive Proxy:",
 		"description": ""
 	},
 	"popupEnableProxyOn": {
-		"message": "Aktywuj proxy",
+		"message": "Proxy aktivieren",
 		"description": ""
 	},
 	"popupProxyableResources": {
-		"message": "Proxyable Resources",
+		"message": "Proxyfähige Quellen",
 		"description": ""
 	},
 	"popupSettings": {
-		"message": "Ustawienia",
+		"message": "Einstellungen",
 		"description": ""
 	},
 	"popupSubscriptions": {
-		"message": "-Subskrypcje-",
+		"message": "-Abonnements-",
 		"description": ""
 	},
 	"popupUpdateText": {
-		"message": "Aktualizacja {0} jest dostępna",
+		"message": "Aktualisierung zu {0} ist verfügbar",
 		"description": ""
 	},
 	"popupFailedRequestsMenu": {
-		"message": "Nieudane zapytania",
+		"message": "Fehlgeschlagene Anforderungen",
 		"description": ""
 	},
 	"popupFailedRequestsTitle": {
-		"message": "Lista nieudanych zapytań",
+		"message": "Fehlgeschlagene Anforderungen Liste",
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
@@ -76,11 +76,11 @@
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
-		"message": "Dodać wybrane domeny do listy reguł?",
+		"message": "Ausgewählte Domains zur Regelliste hinzufügen?",
 		"description": ""
 	},
 	"popupAddFailedRequests": {
-		"message": "Dodaj do listy reguł",
+		"message": "Zur Regelnliste hinzufügen",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
@@ -92,55 +92,55 @@
 		"description": ""
 	},
 	"proxyableTitle": {
-		"message": "Proxyable Resources",
+		"message": "Proxyfähige Quellen",
 		"description": ""
 	},
 	"proxyableHeader": {
-		"message": "Proxyable items on this page",
+		"message": "Proxyfähige artikeln auf dieser Seite",
 		"description": ""
 	},
 	"proxyableReload": {
-		"message": "Odśwież",
+		"message": "Neu laden",
 		"description": ""
 	},
 	"proxyableClose": {
-		"message": "Zamknij",
+		"message": "Schließen",
 		"description": ""
 	},
 	"proxyableHeaderDesc": {
-		"message": "Here is the list of resources that are used or invoked from this page. Use this list to add these resources to the proxy activation rules.<br \/>If you don't see anything here, reload the page to see the resources.",
+		"message": "Hier ist die Liste der Quellen die von dieser Seite benutzt oder aufgeruft werden. Benutzen Sie diese Liste um diese Quellen zu den Proxy Aktivations Regeln hinzuzufügen.<br \/>Falls Sie hier nichts sehen, laden Sie die Seite neu um die Quellen zu sehen.",
 		"description": ""
 	},
 	"proxyableErrNoSourceTab": {
-		"message": "Source tab not found!",
+		"message": "Quellen tab nicht gefunden!",
 		"description": ""
 	},
 	"proxyableCreateRuleConfirm": {
-		"message": "Czy na pewno chcesz utworzyć regułę dla wybranej domeny",
+		"message": "Sind Sie sicher eine Regel zu erstellen für den ausgewählten Domain",
 		"description": ""
 	},
 	"proxyableDisableButton": {
-		"message": "Wyłącz",
+		"message": "Deaktivieren",
 		"description": ""
 	},
 	"proxyableEnableButton": {
-		"message": "Włącz",
+		"message": "Aktivieren",
 		"description": ""
 	},
 	"proxyableEnableButtonDomain": {
-		"message": "Włącz dla: ",
+		"message": "Aktivieren für: ",
 		"description": ""
 	},
 	"proxyableDeleteRuleConfirm": {
-		"message": "Czy na pewno chcesz usunąć wybraną regułę dla:",
+		"message": "Sind Sie sicher dass Sie die ausgewählte Regel löschen möchten für:",
 		"description": ""
 	},
 	"proxyableGridNoDataContent": {
-		"message": "Brak zapytań",
+		"message": "Keine Anfragen",
 		"description": ""
 	},
 	"proxyableGridColUrl": {
-		"message": "Url zapytania",
+		"message": "Url benötigt",
 		"description": ""
 	},
 	"proxyableGridColEnabled": {
@@ -148,43 +148,43 @@
 		"description": ""
 	},
 	"proxyableGridColSource": {
-		"message": "In effect rule",
+		"message": "Effektive Regel",
 		"description": ""
 	},
 	"settingsTitle": {
-		"message": "Ustawienia SmartProxy",
+		"message": "SmartProxy Einstellungen",
 		"description": ""
 	},
 	"settingsTabAbout": {
-		"message": "O programie",
+		"message": "Über",
 		"description": ""
 	},
 	"settingsTabGeneral": {
-		"message": "Ustawienia ogólne",
+		"message": "Allgemeine Optionen",
 		"description": ""
 	},
 	"settingsTabProxyServers": {
-		"message": "Serwery proxy",
+		"message": "Proxy Server",
 		"description": ""
 	},
 	"settingsTabProxyRules": {
-		"message": "Reguły proxy",
+		"message": "Proxy Regeln",
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptions": {
-		"message": "Proxy Server Subscriptions",
+		"message": "Proxy Server Abonnements",
 		"description": ""
 	},
 	"settingsTabBypass": {
-		"message": "Bypass List",
+		"message": "Bypass Liste",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
-		"message": "Kopia zapasowa \/ przywracanie",
+		"message": "Sichern \/ Wiederherstellen",
 		"description": ""
 	},
 	"settingsTabUpdateText": {
-		"message": "Aktualizuj do {0}",
+		"message": "Zu {0} aktualisieren",
 		"description": ""
 	},
 	"settingsTabAboutDescription": {
@@ -216,23 +216,23 @@
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
-		"message": "Synchronizacja",
+		"message": "Synchronisierung",
 		"description": ""
 	},
 	"settingsGeneralEnableSyncing": {
-		"message": "Aktywuj synchronizację ustawień",
+		"message": "Einstellungen Synchronisierung aktivieren",
 		"description": ""
 	},
 	"settingsGeneralEnableSyncingDesc": {
-		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.",
+		"message": "Durch die Aktivierung der Synchronisierung, all Ihre Einstellungen einschließlich Regeln, werden Serves und Abonnemente verfügbar durch alle Browsern.",
 		"description": ""
 	},
 	"settingsSaveGeneralOptionsButton": {
-		"message": "Zapisz zmiany",
+		"message": "Änderungen speichern",
 		"description": ""
 	},
 	"settingsRejectGeneralOptionsButton": {
-		"message": "Odrzuć zmiany",
+		"message": "Änderungen ablehnen",
 		"description": ""
 	},
 	"settingsGeneralSyncProxyMode": {
@@ -332,15 +332,15 @@
 		"description": ""
 	},
 	"settingsTabProxyServersTitle": {
-		"message": "Zarządzaj serwerami proxy:",
+		"message": "Verwalten Sie Ihre Proxy Server:",
 		"description": ""
 	},
 	"settingsTabProxyServersDescription": {
-		"message": "Tutaj znajduje się lista serwerów proxy. Możesz zdefiniować nieskończoną ilość proxy i wybierać pomiędzy nimi z poziomu paska narzędzi.",
+		"message": "Hier ist die Liste der Proxy Server. Sie können so viele Proxy wie Sie möchten definieren und von der Toolbar zwischen denen wechseln.",
 		"description": ""
 	},
 	"settingsTabProxyRulesTitle": {
-		"message": "Zarządzaj regułami proxy:",
+		"message": "Verwalten Sie Ihre Proxy Regeln:",
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
@@ -348,147 +348,147 @@
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
-		"message": "The following list is the list of hosts that proxy should not be applied to.",
+		"message": "Die folgende Liste ist die Liste der Hosts, die beim Proxy nicht angewendet werden soll.",
 		"description": ""
 	},
 	"settingsTabBackupRestoreDescription": {
-		"message": "You can make either full or partial backup of your settings.",
+		"message": "Sie können entweder vollen oder teilweisenden Backup Ihrer Einstellungen machen.",
 		"description": ""
 	},
 	"settingsErrNoServersTitle": {
-		"message": "Brak serwerów!",
+		"message": "Keine Server!",
 		"description": ""
 	},
 	"settingsErrNoServersDescription": {
-		"message": "Zanim zaczniesz, zdefiniuj serwery proxy.",
+		"message": "Vor allem müssen Sie Proxy Servers definieren.",
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
-		"message": "Aktywny serwer proxy:",
+		"message": "Aktive Proxy Server:",
 		"description": ""
 	},
 	"settingsAddServerButton": {
-		"message": "Dodaj serwer",
+		"message": "Server hinzufügen",
 		"description": ""
 	},
 	"settingsSaveChangesButton": {
-		"message": "Zapisz zmiany",
+		"message": "Veränderungen speichern",
 		"description": ""
 	},
 	"settingsRejectChangesButton": {
-		"message": "Odrzuć zmiany",
+		"message": "Veränderungen ablehnen",
 		"description": ""
 	},
 	"settingsFullBackupButton": {
-		"message": "Utwórz pełną kopię zapasową",
+		"message": "Vollständigen Backup ertsellen",
 		"description": ""
 	},
 	"settingsFullBackupButtonDesc": {
-		"message": "Utwórz kompletną kopię zapasową ustawień (łącznie z listą serwerów proxy i reguł).",
+		"message": "Machen Sie einen vollständigen Backup der Optionen (einschließlich Proxy Servers und Regeln).",
 		"description": ""
 	},
 	"settingsRulesBackupButton": {
-		"message": "Utwórz kopię zapasową reguł",
+		"message": "Regeln Backup erstellen",
 		"description": ""
 	},
 	"settingsRulesBackupButtonDesc": {
-		"message": "Utwórz kopię zapasową reguł proxy.",
+		"message": "Machen Sie einen Backup der Proxy Regeln.",
 		"description": ""
 	},
 	"settingsRestoreBackupButton": {
-		"message": "Przywróć kopię zapasową",
+		"message": "Backup wiederherstellen",
 		"description": ""
 	},
 	"settingsRestoreBackupButtonDesc": {
-		"message": "Restore your previously taken backup from a local file",
+		"message": "Wiederherstellen Sie Ihren vorherig genomennen Backup von einer lokalen Datei",
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Importuj\/eksportuj listę proxy i reguł.",
+		"message": "Importieren\/Exportieren Sie individuelle Liste der Proxies und Regeln.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
-		"message": "Importuj serwery proxy",
+		"message": "Proxy Servers importieren",
 		"description": ""
 	},
 	"settingsExportProxiesButtonBackup": {
-		"message": "Eksportuj serwery proxy",
+		"message": "Proxy Servers exportieren",
 		"description": ""
 	},
 	"settingsImportRulesButtonBackup": {
-		"message": "Importuj reguły proxy",
+		"message": "Proxy Regeln importieren",
 		"description": ""
 	},
 	"settingsAddRuleButton": {
-		"message": "Dodaj regułę",
+		"message": "Regel hinzufügen",
 		"description": ""
 	},
 	"settingsImportRulesButton": {
-		"message": "Importuj reguły",
+		"message": "Regeln importieren",
 		"description": ""
 	},
 	"settingsImportRulesTitle": {
-		"message": "Importuj reguły",
+		"message": "Regeln importieren",
 		"description": ""
 	},
 	"settingsImportRulesSelectButton": {
-		"message": "Plik kopii zapasowej reguł",
+		"message": "Regel Backup Datei",
 		"description": ""
 	},
 	"settingsImportRulesFrom": {
-		"message": "From",
+		"message": "Von",
 		"description": ""
 	},
 	"settingsImportRulesOptionAppend": {
-		"message": "Zastosuj do istniejących reguł",
+		"message": "Zu bestehenden Regeln hinzufügen",
 		"description": ""
 	},
 	"settingsImportRulesOptionOverride": {
-		"message": "Zastąp aktualne reguły (używaj odpowiedzialnie)",
+		"message": "Aktuelle Regeln ersetzen (mit Vorsicht benutzen)",
 		"description": ""
 	},
 	"settingsImportRulesCancelButton": {
-		"message": "Anuluj",
+		"message": "Abbrechen",
 		"description": ""
 	},
 	"settingsImportRulesImportButton": {
-		"message": "Importuj",
+		"message": "Importieren",
 		"description": ""
 	},
 	"settingsImportProxiesButton": {
-		"message": "Importuj proxy",
+		"message": "Proxies importieren",
 		"description": ""
 	},
 	"settingsExportProxiesButton": {
-		"message": "Exportuj proxy",
+		"message": "Proxies exportieren",
 		"description": ""
 	},
 	"settingsImportProxiesTitle": {
-		"message": "Importuj listę proxy",
+		"message": "Proxy Liste importieren",
 		"description": ""
 	},
 	"settingsImportProxiesSelectFileButton": {
-		"message": "Plik listy proxy",
+		"message": "Proxy Liste Datei",
 		"description": ""
 	},
 	"settingsImportProxiesSelectTextButton": {
-		"message": "Proxy list text",
+		"message": "Proxy Liste Text",
 		"description": ""
 	},
 	"settingsImportProxiesOptionAppend": {
-		"message": "Dodaj do istniejących proxy",
+		"message": "Zu bestehenden Proxies hinzufügen",
 		"description": ""
 	},
 	"settingsImportProxiesOptionOverride": {
-		"message": "Zastąp aktualne proxy (używaj odpowiedzialnie)",
+		"message": "Aktuelle Regeln ersetzen (mit Vorsicht benutzen)",
 		"description": ""
 	},
 	"settingsImportProxiesCancelButton": {
-		"message": "Anuluj",
+		"message": "Abbrechen",
 		"description": ""
 	},
 	"settingsImportProxiesImportButton": {
-		"message": "Importuj",
+		"message": "Importieren",
 		"description": ""
 	},
 	"settingsConfirmRemoveProxyServer": {
@@ -496,39 +496,39 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServers": {
-		"message": "Czy na pewno chcesz usunąć wszystkie serwery proxy?",
+		"message": "Sind Sie sicher alle Proxy Servers zu entfernen?",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "Serwery proxy zostały usunięte.<br\/>Zapisz, aby zachować zmiany.",
+		"message": "Alle Proxy Serves wurden entfernt.<br\/>Sie müssen speichern um die Veränderungen zu übernehmen.",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
-		"message": "Wybierz plik z listą proxy",
+		"message": "Bitte wählen sie eine Proxy Listdatei",
 		"description": ""
 	},
 	"settingsImportProxyListTextIsEmpty": {
-		"message": "Wprowadź listę proxy",
+		"message": "Bitte geben Sie eine Proxy Liste ein",
 		"description": ""
 	},
 	"settingsImportProxyServersFailed": {
-		"message": "Nie można zaimportować serwerów proxy",
+		"message": "Proxy Servers importieren fehlgeschlagen",
 		"description": ""
 	},
 	"importerImportProxySuccess": {
-		"message": "Zaimportowano łacznie {0} z {1} proxy.<br>Nie zapomnij o zapisaniu zmian.",
+		"message": "Total {0} von {1} Proxies wurden importiert.<br>Vergessen Sie nicht die Veränderungen zu speichern.",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveServers": {
-		"message": "Nie udało się zapisać serwerów.",
+		"message": "Servers speichern fehlgeschlagen.",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveRules": {
-		"message": "Nie udało się zapisać reguł.",
+		"message": "Fehler beim Speichern der Regeln.",
 		"description": ""
 	},
 	"settingsChangesReverted": {
-		"message": "Zmiany zostały przywrócone.",
+		"message": "Veränderungen erfolgreich rückgängig gemacht.",
 		"description": ""
 	},
 	"settingsConfirmRemoveProxyRule": {
@@ -536,67 +536,67 @@
 		"description": ""
 	},
 	"settingsRemoveAllRules": {
-		"message": "Czy na pewno chcesz usunąć wszystkie reguły?",
+		"message": "Sind Sie sicher alle Regeln zu entfernen?",
 		"description": ""
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "Reguły zostały usunięte.<br\/>Zapisz, aby zachować zmiany.",
+		"message": "Alle Regeln wurden entfernt.<br\/>Sie müssen Speichern um die Veränderungen zu übernehmen.",
 		"description": ""
 	},
 	"settingsRestoreBackupFailed": {
-		"message": "Wystąpił błąd podczas przywracania kopii zapasowej",
+		"message": "Es gab einen Fehler bei der Wiederherstellung der Backup",
 		"description": ""
 	},
 	"settingsRestoreBackupFileError": {
-		"message": "Nie można odczytać wybranego pliku",
+		"message": "Lesen der ausgewählten Datei fehlgeschlagen",
 		"description": ""
 	},
 	"settingsRulesFileNotSelected": {
-		"message": "Proszę wybierz plik z regułami",
+		"message": "Bitte wählen sie eine Regeldatei",
 		"description": ""
 	},
 	"settingsSourceTypeNotSelected": {
-		"message": "Wybierz typ źródła",
+		"message": "Bitte wählen Sie die Quellenart",
 		"description": ""
 	},
 	"settingsImportRulesFailed": {
-		"message": "Nie udało się zaimportować pliku.",
+		"message": "Importieren der Datei fehlgeschlagen.",
 		"description": ""
 	},
 	"settingsServerNameRequired": {
-		"message": "Wprowadź nazwę serwera!",
+		"message": "Spezifizieren Sie den Namen des Servers!",
 		"description": ""
 	},
 	"settingsServerNameExists": {
-		"message": "Serwer o tej samej nazwie już istnieje!",
+		"message": "Ein Server mit dem gleichen Namen existiert bereits!",
 		"description": ""
 	},
 	"settingsServerServerAddressIsEmpty": {
-		"message": "Adres serwera nie może być pusty",
+		"message": "Server adresse darf nicht leer sein",
 		"description": ""
 	},
 	"settingsServerPortNoInvalid": {
-		"message": "Wprowadź prawidłowy numer portu",
+		"message": "Bitte geben Sie eine gültige Portnummer ein",
 		"description": ""
 	},
 	"settingsServerAuthenticationInvalid": {
-		"message": "Nazwa użytkownika i hasło wymagane są do uwierzytelnienia",
+		"message": "Sowohl der Benutzername als auch das Passwort sind für die Authentifizierung erforderlich",
 		"description": ""
 	},
 	"settingsServersGridNoDataContent": {
-		"message": "Nie zdefiniowano żadnych serwerów",
+		"message": "Kein Server ist definiert",
 		"description": ""
 	},
 	"settingsServersGridColName": {
-		"message": "Nazwa",
+		"message": "Name",
 		"description": ""
 	},
 	"settingsServersGridColProtocol": {
-		"message": "Protokół",
+		"message": "Protokoll",
 		"description": ""
 	},
 	"settingsServersGridColServer": {
-		"message": "Serwer",
+		"message": "Server",
 		"description": ""
 	},
 	"settingsServersGridColPort": {
@@ -604,15 +604,15 @@
 		"description": ""
 	},
 	"settingsServersModalTitle": {
-		"message": "Szczegóły serwera proxy",
+		"message": "Proxy Server Details",
 		"description": ""
 	},
 	"settingsServersServerName": {
-		"message": "Nazwa serwera",
+		"message": "Server Name",
 		"description": ""
 	},
 	"settingsServersSeverAddress": {
-		"message": "Adres serwera",
+		"message": "Sever Adresse",
 		"description": ""
 	},
 	"settingsServersProtocol": {
@@ -628,15 +628,15 @@
 		"description": ""
 	},
 	"settingsServersUsername": {
-		"message": "Nazwa użytkownika",
+		"message": "Benutzername",
 		"description": ""
 	},
 	"settingsServersPassword": {
-		"message": "Hasło",
+		"message": "Passwort",
 		"description": ""
 	},
 	"settingsServersCancel": {
-		"message": "Anuluj",
+		"message": "Abbrechen",
 		"description": ""
 	},
 	"settingsServersSave": {
@@ -644,7 +644,7 @@
 		"description": ""
 	},
 	"settingsServersImport": {
-		"message": "Importuj",
+		"message": "Importieren",
 		"description": ""
 	},
 	"settingsRuleSourceRequired": {
@@ -660,11 +660,11 @@
 		"description": ""
 	},
 	"settingsRuleSourceAlreadyExists": {
-		"message": "A Rule with the same source already exists!",
+		"message": "Eine Regel mit der gleichen Quelle existiert bereits!",
 		"description": ""
 	},
 	"settingsRuleHostInvalid": {
-		"message": "Host name '{0}' is invalid, host name should be something like 'google.com'",
+		"message": "Host Name '{0}' ist ungültig, Host Name sollte etwas wir 'google.com' sein",
 		"description": ""
 	},
 	"settingsRuleRegexNotMatchDomain": {
@@ -688,7 +688,7 @@
 		"description": ""
 	},
 	"settingsRulesGridNoDataContent": {
-		"message": "Nie zdefiniowano żadnych reguł",
+		"message": "Keine Regel ist definiert",
 		"description": ""
 	},
 	"settingsRulesGridColRuleType": {
@@ -696,7 +696,7 @@
 		"description": ""
 	},
 	"settingsRulesGridColSource": {
-		"message": "Źródło",
+		"message": "Quelle",
 		"description": ""
 	},
 	"settingsRulesGridColRule": {
@@ -704,23 +704,23 @@
 		"description": ""
 	},
 	"settingsRulesGridColEnabled": {
-		"message": "Enabled",
+		"message": "Aktiviert",
 		"description": ""
 	},
 	"settingsRulesGridColProxy": {
-		"message": "Serwer proxy",
+		"message": "Proxy Server",
 		"description": ""
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[General]",
+		"message": "[Allgemein]",
 		"description": ""
 	},
 	"settingsSaveProxyRulesSuccess": {
-		"message": "Reguły proxy zostały zapisane.",
+		"message": "Proxy Regeln erfolgreich gespeichert.",
 		"description": ""
 	},
 	"settingsRulesModalTitle": {
-		"message": "Szczegóły reguły",
+		"message": "Regeldetails",
 		"description": ""
 	},
 	"settingsRulesRuleType": {
@@ -728,15 +728,15 @@
 		"description": ""
 	},
 	"settingsRulesSourceDomain": {
-		"message": "Rule Source Domain",
+		"message": "Regel Quelle Domain",
 		"description": ""
 	},
 	"settingsRulesSourceDomainDesc": {
-		"message": "(np. google.com)",
+		"message": "(z.B. google.com)",
 		"description": ""
 	},
 	"settingsRulesPattern": {
-		"message": "Match Pattern",
+		"message": "Pattern übereinstimmen",
 		"description": ""
 	},
 	"settingsRulesGeneratePattern": {
@@ -752,7 +752,7 @@
 		"description": ""
 	},
 	"settingsRulesProxyServer": {
-		"message": "Serwer proxy",
+		"message": "Proxy Server",
 		"description": ""
 	},
 	"settingsRulesProxyServerNotAuth": {
@@ -760,55 +760,55 @@
 		"description": ""
 	},
 	"settingsRulesEnabled": {
-		"message": "Enabled",
+		"message": "Aktiviert",
 		"description": ""
 	},
 	"settingsRulesModalCancel": {
-		"message": "Anuluj",
+		"message": "Abbrechen",
 		"description": ""
 	},
 	"settingsRulesModalSave": {
-		"message": "Zapisz",
+		"message": "Speichern",
 		"description": ""
 	},
 	"settingsServerPortInvalid": {
-		"message": "Port serwera '{0}' jest nieprawidłowy",
+		"message": "Server Port '{0}' ist ungültig",
 		"description": ""
 	},
 	"settingsServerHostInvalid": {
-		"message": "Server host '{0}' is invalid",
+		"message": "Server Host '{0}' ist ungültig",
 		"description": ""
 	},
 	"settingsProxyModeInvalid": {
-		"message": "Invalid proxy mode setting",
+		"message": "Ungültige Proxy Modus Einstellung",
 		"description": ""
 	},
 	"settingsRestoreSettingsSuccess": {
-		"message": "Ustawienia zostały przywrócone",
+		"message": "Einstellungen wurden erfolgreich wiederhergestellt",
 		"description": ""
 	},
 	"settingsRestoreSettingsFailed": {
-		"message": "Wystąpił błąd podczas przywracania ustawień",
+		"message": "Es gab einen Fehler bei der Wiederherstellung der Backup",
 		"description": ""
 	},
 	"settingsEnableByDomainInvalid": {
-		"message": "Wybrana domena jest nieprawidłowa",
+		"message": "Der ausgewählte Domain ist nicht gültig",
 		"description": ""
 	},
 	"settingsEnableByDomainExists": {
-		"message": "Reguła dla domeny już istnieje",
+		"message": "Regel für den Domain existiert bereits",
 		"description": ""
 	},
 	"settingsNoRuleFoundForDomain": {
-		"message": "There isn't any rule for '{0}'",
+		"message": "Dort ist keine Regel für '{0}'",
 		"description": ""
 	},
 	"settingsRuleSourceIsEmpty": {
-		"message": "Rule 'source' is empty",
+		"message": "Refel 'Quelle' ist leer",
 		"description": ""
 	},
 	"importerImportSuccess": {
-		"message": "Total {0} out of {1} rules are appended.<br>Don't forget to save the changes.",
+		"message": "Gesamt {0} von {1} Regeln sind angehängt.<br> Vergessen Sie nicht die Veränderungen zu speichern.",
 		"description": ""
 	},
 	"settingsAddMultipleRulesButton": {
@@ -832,31 +832,31 @@
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
-		"message": "Manage proxy server subscriptions:",
+		"message": "Verwalten Sie die Proxy Server Abonnemente:",
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptionsDescription": {
-		"message": "Here you can subscribe to proxy lists and switch between the proxies later. Please note that long lists may cause failure in syncing data between devices.",
+		"message": "Hier können Sie zu der Proxy liste abonnieren und zwischen den Proxies später wechseln. Bitte beachten Sie dass lange Listen zur Fehler verursachen kann bei der Synchronisierung der Datei zwischen Geräten.",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveGeneral": {
-		"message": "Nie udało się zapisać ustawień.",
+		"message": "Optionen Einstellungen speichern fehlgeschlagen.",
 		"description": ""
 	},
 	"settingsSaveOptionsSuccess": {
-		"message": "Ustawienia ogólne zostały zapisane.",
+		"message": "Allgemeine Einstellungen erfolgreich gespeichert.",
 		"description": ""
 	},
 	"settingsAddServerSubscriptionButton": {
-		"message": "Subscribe to a list",
+		"message": "Tragen Sie zur einer Liste ein",
 		"description": ""
 	},
 	"settingsServerSubscriptionModalTitle": {
-		"message": "Subscribe to a proxy server list",
+		"message": "Tragen Sie zur einem Proxy Server Liste ein",
 		"description": ""
 	},
 	"settingsServerSubscriptionName": {
-		"message": "Nazwa:",
+		"message": "Name:",
 		"description": ""
 	},
 	"settingsServerSubscriptionUrl": {
@@ -864,23 +864,23 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionRefreshRate": {
-		"message": "Częstotliwość odświeżania:",
+		"message": "Aktualisiere Bewertung:",
 		"description": ""
 	},
 	"settingsServerSubscriptionRefreshRateHelp": {
-		"message": "(w minutach, 0 oznacza brak odświeżeń)",
+		"message": "(in Minuten, 0 bedeutet keine Aktualisierung)",
 		"description": ""
 	},
 	"settingsServerSubscriptionEnabled": {
-		"message": "Enabled",
+		"message": "Aktiviert",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocol": {
-		"message": "Protokół:",
+		"message": "Protokoll:",
 		"description": ""
 	},
 	"settingsServerSubscriptionObfuscation": {
-		"message": "Obfuscation:",
+		"message": "Verdunkelung:",
 		"description": ""
 	},
 	"settingsServerSubscriptionFormat": {
@@ -888,27 +888,27 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionUsername": {
-		"message": "Nazwa użytkownika:",
+		"message": "Benutzername:",
 		"description": ""
 	},
 	"settingsServerSubscriptionPassword": {
-		"message": "Hasło:",
+		"message": "Passwort:",
 		"description": ""
 	},
 	"settingsServerSubscriptionAuthenticationHelp": {
-		"message": "(Jeśli lista wymaga uwierzytelniania)",
+		"message": "(wenn die Liste Authentifizierung erfordert)",
 		"description": ""
 	},
 	"settingsServerSubscriptionCancelButton": {
-		"message": "Anuluj",
+		"message": "Abbrechen",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveButton": {
-		"message": "Zapisz",
+		"message": "Speichern",
 		"description": ""
 	},
 	"settingsServerSubscriptionSavingButton": {
-		"message": "Zapisywanie...",
+		"message": "Speichert...",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestButton": {
@@ -916,7 +916,7 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionTestingButton": {
-		"message": "Testowanie...",
+		"message": "Testet...",
 		"description": ""
 	},
 	"settingsConfirmRemoveServerSubscription": {
@@ -924,31 +924,31 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
-		"message": "Are you sure to remove all the proxy server subscriptions?",
+		"message": "Sind Sie sicher alle Proxy Server Abonnements zu entfernen?",
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "All the proxy server subscriptions are removed.<br\/>You have to save to apply the changes.",
+		"message": "Alle Proxy Server Abonnements wurden entfernt.<br\/>Sie müssen speichern um die Veränderungen zu übernehmen.",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
-		"message": "(Auto detect with HTTP fallback)",
+		"message": "(Automatische Erkennung mit HTTP Fallback)",
 		"description": ""
 	},
 	"settingsInitializeFailed": {
-		"message": "Nie udało się odczytać konfiguracji. Zamknij stronę ustawień i spróbuj ponownie.",
+		"message": "Konfigurationen lesen fehlgeschlagen. Bitte schließen Sie die Einstellgunsseite und versuchen Sie es noch einmal.",
 		"description": ""
 	},
 	"settingsActiveProxyServerSubscriptions": {
-		"message": "-Subscriptions-",
+		"message": "-Abonnements-",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridNoDataContent": {
-		"message": "Brak subskrypcji",
+		"message": "Keine Abonnements",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColName": {
-		"message": "Nazwa",
+		"message": "Name",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColUrl": {
@@ -956,35 +956,35 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColCount": {
-		"message": "Ilość",
+		"message": "Anzahl",
 		"description": ""
 	},
 	"settingsServerSubscriptionsGridColEnabled": {
-		"message": "Enabled",
+		"message": "Aktiviert",
 		"description": ""
 	},
 	"settingsServerSubscriptionIncompleteForm": {
-		"message": "Uzupełnij wymagane pola używając poprawnego formatu",
+		"message": "Bitte füllen Sie die erforderlichen Felder in der richtigen Format",
 		"description": ""
 	},
 	"settingsServerSubscriptionInvalidForm": {
-		"message": "Invalid proxy server subscription details",
+		"message": "Ungültige Proxy Server Abonnementsdetails",
 		"description": ""
 	},
 	"settingsServerSubscriptionDuplicateName": {
-		"message": "Ta nazwa jest już używana, wprowadź inną nazwę.",
+		"message": "Der eingegebene Name wird bereits benutzt, bitte geben Sie einen anderen Namen ein.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "The subscription is updated with {0} proxies in it. <br\/>Don't forget to save the changes.",
+		"message": "Das Abonnement ist aktualisiert mit {0} Proxies in es.<br\/>Bitte vergessen Sie nicht die Veränderungen zu speichern.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "The subscription is added with {0} proxies in it. <br\/>Don't forget to save the changes.",
+		"message": "Das Abonnement ist mit {0} hinzugefügt Proxies in es.<br\/>Vergessen Sie nicht die Veränderungen zu speichern.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {
-		"message": "Nie udało się pobrać listy proxy.",
+		"message": "Proxies erhalten fehlgeschlagen.",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestSuccess": {
@@ -992,19 +992,19 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionTestFailed": {
-		"message": "Test nie powiódł się",
+		"message": "Test fehlgeschlagen",
 		"description": ""
 	},
 	"settingsSaveProxyServerSubscriptionsSuccess": {
-		"message": "Proxy server subscriptions saved successfully.",
+		"message": "Proxy Serverabonnements erfolgreich gespeichert.",
 		"description": ""
 	},
 	"settingsBypassEnableForAlways": {
-		"message": "Enable for 'Always Enable' mode",
+		"message": "Für den 'Immer Aktiven' Modus aktivieren",
 		"description": ""
 	},
 	"settingsBypassList": {
-		"message": "Bypass list:",
+		"message": "Bypass Liste:",
 		"description": ""
 	},
 	"settingsBypassListHint": {
@@ -1016,11 +1016,11 @@
 		"description": ""
 	},
 	"settingsSaveBypassSuccess": {
-		"message": "Bypass list saved successfully.",
+		"message": "Bypass Liste erfolgreich gespeichert.",
 		"description": ""
 	},
 	"settingsBypassInvalid": {
-		"message": "Invalid bypass settings",
+		"message": "Ungültige Bypass Einstellungen",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {
