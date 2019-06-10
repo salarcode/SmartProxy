@@ -599,10 +599,6 @@
 		"message": "آدرس",
 		"description": ""
 	},
-	"settingsServersGridColPort": {
-		"message": "Port",
-		"description": ""
-	},
 	"settingsServersModalTitle": {
 		"message": "اطلاعات سرور پراکسی",
 		"description": ""
