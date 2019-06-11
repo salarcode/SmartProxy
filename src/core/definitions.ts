@@ -125,6 +125,7 @@ export class FailedRequestType {
 	ruleIsForThisHost: boolean;
 	isRootHost: boolean;
 	ignored: boolean;
+	_domainSortable: string;
 }
 
 export type ProxyableDomainType = {

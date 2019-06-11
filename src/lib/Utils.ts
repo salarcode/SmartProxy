@@ -97,6 +97,10 @@ export class Utils {
 			}) === index);
 	}
 
+	public static reverseString(str: string): string{
+		return str.split('').reverse().join('');
+	}
+
 	public static strStartsWith(str: string, prefix: string) {
 		return str.substr(0, prefix.length) === prefix;
 	}

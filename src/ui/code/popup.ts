@@ -19,6 +19,7 @@ import { jQuery, messageBox } from "../../lib/External";
 import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType, ProxyServer } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
+import { Utils } from "../../lib/Utils";
 
 export class popup {
     private static popupData: PopupInternalDataType = null;
@@ -280,9 +281,14 @@ export class popup {
 
             // Order by parent domain
             failedRequests = failedRequests.sort((a, b) => {
-                if ("." + a.domain.includes(b.domain))
+                if (a._domainSortable === null)
+                    a._domainSortable = Utils.reverseString(a.domain);
+                if (b._domainSortable === null)
+                    b._domainSortable = Utils.reverseString(b.domain);
+
+                if (a._domainSortable > b._domainSortable)
                     return 1;
-                if ("." + b.domain.includes(a.domain))
+                if (a._domainSortable < b._domainSortable)
                     return -1;
                 return 0;
             });
