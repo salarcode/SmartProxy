@@ -14,7 +14,7 @@ let plugins = [
   ]),
   new CopyWebpackPlugin([
     { from: './src/core/ProxyEngineFirefoxPac.js', to: 'core-engine-ff-pac.js' },
-    { from: './src/_locales', to: '_locales' },
+    { from: './src/_locales/', to: '_locales', ignore: ['default-messages.json'], },
     { from: './src/icons', to: 'icons' },
     { from: './src/ui', to: 'ui', ignore: ['code/*'] },
   ]),

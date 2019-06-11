@@ -20,11 +20,11 @@
 		"description": ""
 	},
 	"popupTitle": {
-		"message": "SmartProxy Активация",
+		"message": "Активация SmartProxy",
 		"description": ""
 	},
 	"popupNoProxy": {
-		"message": "Напрямую (Без прокси)",
+		"message": "Напрямую (без прокси)",
 		"description": ""
 	},
 	"popupSmartProxy": {
@@ -72,7 +72,7 @@
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "Это домены, для которых истекло время ожидания или произошел сбой.<br \/>Если вы считаете, что эти домены заблокированы, здесь вы можете добавить их в список правил прокси.",
+		"message": "Это домены, для которых истекло время ожидания или произошёл сбой.<br \/>Если вы считаете, что эти домены заблокированы, здесь вы можете добавить их в список правил прокси.",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
@@ -84,15 +84,15 @@
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>Learn how<\/a>.",
+		"message": "К сожалению, изменение настроек браузера для использования прокси-сервера системы требует разрешения «инкогнито». Перейдите в настройки расширения SmartProxy в браузере и проверьте разрешение «Разрешить в режиме инкогнито». <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>Узнайте, как<\/a>.",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https:\/\/support.mozilla.org\/en-US\/kb\/extensions-private-browsing'>Learn how<\/a>.",
+		"message": "Поскольку Firefox 67 изменяет настройки браузера для использования прокси-сервера системы, требуется разрешение «Приватный просмотр». Перейдите к настройкам дополнения SmartProxy в браузере и разрешите «Запуск в приватных окнах». <a href='https:\/\/support.mozilla.org\/ru-RU\/kb\/extensions-private-browsing'>Узнайте, как<\/a>.",
 		"description": ""
 	},
 	"proxyableTitle": {
-		"message": "Прокси-ресурсы",
+		"message": "Проксируемые элементы",
 		"description": ""
 	},
 	"proxyableHeader": {
@@ -168,7 +168,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRules": {
-		"message": "Прокси-правила",
+		"message": "Правила проксирования",
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptions": {
@@ -180,7 +180,7 @@
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
-		"message": "Резервное копирование\/Восстановление",
+		"message": "Резервирование\/восстановление",
 		"description": ""
 	},
 	"settingsTabUpdateText": {
