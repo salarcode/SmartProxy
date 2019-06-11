@@ -3,10 +3,6 @@
 		"message": "rtl",
 		"description": ""
 	},
-	"extensionName": {
-		"message": "SmartProxy",
-		"description": ""
-	},
 	"extensionDescription": {
 		"message": "خودکار سازی اعمال پراکسی به سایتهایی که در حال مشاهده هستید بدون اینکه کاری انجام دهید. این کار با استفاده از لیستی از قوانینی که برای اعمال پراکسی بر روی سایتها قبلا توسط شما و با یک کلیک اضافه شده اند، انجام می شود.",
 		"description": ""
@@ -597,10 +593,6 @@
 	},
 	"settingsServersGridColServer": {
 		"message": "آدرس",
-		"description": ""
-	},
-	"settingsServersGridColPort": {
-		"message": "Port",
 		"description": ""
 	},
 	"settingsServersModalTitle": {
