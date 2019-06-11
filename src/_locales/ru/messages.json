@@ -1,12 +1,4 @@
 {
-	"uiDirection": {
-		"message": "ltr",
-		"description": ""
-	},
-	"extensionName": {
-		"message": "SmartProxy",
-		"description": ""
-	},
 	"extensionDescription": {
 		"message": "Smart Proxy автоматически включит\/отключит прокси для сайтов, которые вы посещаете, на основе настраиваемых шаблонов.",
 		"description": ""
