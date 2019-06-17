@@ -1,0 +1,2 @@
+https://crowdin.com/project/smartproxy
+Please go to above url and start right away.
