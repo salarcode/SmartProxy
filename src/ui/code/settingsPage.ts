@@ -21,7 +21,7 @@ import { environment, browser } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, BypassOptions, ResultHolder, proxyServerSubscriptionFormat } from "../../core/definitions";
+import { SettingsConfig, Messages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, BypassOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys } from "../../core/definitions";
 
 export class settingsPage {
 
@@ -46,7 +46,7 @@ export class settingsPage {
 
         CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
         CommonUi.onDocumentReady(settingsPage.resizableMenu);
-        
+
         CommonUi.onDocumentReady(this.bindEvents);
         CommonUi.onDocumentReady(this.initializeGrids);
         CommonUi.onDocumentReady(this.initializeUi);
@@ -320,7 +320,6 @@ export class settingsPage {
         // the default values
         let cmbServerSubscriptionObfuscation = jQuery("#cmbServerSubscriptionObfuscation");
 
-        let cmbServerSubscriptionFormat = jQuery("#cmbServerSubscriptionFormat");
 
         jQuery("<option>").attr("value", "")
             // (Auto detect with HTTP fallback)
@@ -338,11 +337,21 @@ export class settingsPage {
                 .appendTo(cmbServerSubscriptionObfuscation);
         });
 
+        let cmbServerSubscriptionFormat = jQuery("#cmbServerSubscriptionFormat");
         proxyServerSubscriptionFormat.forEach((item, index) => {
             jQuery("<option>").attr("value", index)
                 .text(item)
                 .appendTo(cmbServerSubscriptionFormat);
         });
+
+        let cmbServerSubscriptionApplyProxy = jQuery("#cmbServerSubscriptionApplyProxy");
+        specialRequestApplyProxyModeKeys.forEach((item, index) => {
+            jQuery("<option>").attr("value", index)
+                .text(browser.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
+                .appendTo(cmbServerSubscriptionApplyProxy);
+        });
+        if (environment.chrome)
+            cmbServerSubscriptionApplyProxy.attr("disabled", "disabled");
     }
 
     private static resizableMenu() {
@@ -610,6 +619,7 @@ export class settingsPage {
             modalContainer.find("#cmbServerSubscriptionProtocol").val(subscription.proxyProtocol);
             modalContainer.find("#cmbServerSubscriptionObfuscation").val(subscription.obfuscation);
             modalContainer.find("#cmbServerSubscriptionFormat").val(subscription.format);
+            modalContainer.find("#cmbServerSubscriptionApplyProxy").val(subscription.applyProxy || SpecialRequestApplyProxyMode.CurrentProxy);
             modalContainer.find("#cmbServerSubscriptionUsername").val(subscription.username);
             if (subscription.password != null)
                 // from BASE64
@@ -626,6 +636,7 @@ export class settingsPage {
             modalContainer.find("#cmbServerSubscriptionProtocol")[0].selectedIndex = 0;
             modalContainer.find("#cmbServerSubscriptionObfuscation")[0].selectedIndex = 0;
             modalContainer.find("#cmbServerSubscriptionFormat")[0].selectedIndex = 0;
+            modalContainer.find("#cmbServerSubscriptionApplyProxy")[0].selectedIndex = 0;
             modalContainer.find("#cmbServerSubscriptionUsername").val("");
             modalContainer.find("#cmbServerSubscriptionPassword").val("");
         }
@@ -641,6 +652,7 @@ export class settingsPage {
         subscription.refreshRate = +(modalContainer.find("#numRefreshRate").val() || 0);
         subscription.obfuscation = modalContainer.find("#cmbServerSubscriptionObfuscation").val();
         subscription.format = +modalContainer.find("#cmbServerSubscriptionFormat").val();
+        subscription.applyProxy = +modalContainer.find("#cmbServerSubscriptionApplyProxy").val();
         subscription.username = modalContainer.find("#cmbServerSubscriptionUsername").val();
         // BASE 64 string
         subscription.password = btoa(modalContainer.find("#cmbServerSubscriptionPassword").val());
@@ -1891,20 +1903,47 @@ export class settingsPage {
             jQuery("#btnTestServerSubscription").attr("data-loading-text", browser.i18n.getMessage("settingsServerSubscriptionTestingButton"));
             jQuery("#btnTestServerSubscription").button("loading");
 
-            ProxyImporter.readFromServer(subscriptionModel,
-                (response: any) => {
+            // mark this request as special
+            var applyProxyMode = subscriptionModel.applyProxy;
+            // prevent the importer mark it again as special request
+            subscriptionModel.applyProxy = null;
 
-                    jQuery("#btnTestServerSubscription").button('reset');
-
-                    if (response.success) {
-                        let count = response.result.length;
-
-                        messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionTestSuccess").replace("{0}", count));
-                    } else {
-                        messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
-                    }
+            PolyFill.runtimeSendMessage(
+                {
+                    command: Messages.SettingsPageMakeRequestSpecial,
+                    url: subscriptionModel.url,
+                    applyProxy: applyProxyMode,
+                    selectedProxy: null
                 },
-                () => {
+                (response: any) => {
+                    if (!response) return;
+                    if (!response.success) {
+                        if (response.message)
+                            messageBox.error(response.message);
+                        return;
+                    }
+                    if (response.message)
+                        messageBox.success(response.message);
+
+                    ProxyImporter.readFromServer(subscriptionModel,
+                        (response: any) => {
+
+                            jQuery("#btnTestServerSubscription").button('reset');
+
+                            if (response.success) {
+                                let count = response.result.length;
+
+                                messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionTestSuccess").replace("{0}", count));
+                            } else {
+                                messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
+                            }
+                        },
+                        () => {
+                            messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
+                            jQuery("#btnTestServerSubscription").button('reset');
+                        });
+                },
+                (error: Error) => {
                     messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
                     jQuery("#btnTestServerSubscription").button('reset');
                 });

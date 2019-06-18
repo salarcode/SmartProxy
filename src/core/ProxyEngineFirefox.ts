@@ -16,11 +16,12 @@
  */
 import { browser, environment } from "../lib/environment";
 import { Debug } from "../lib/Debug";
-import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer } from "./definitions";
+import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer, SpecialRequestApplyProxyMode } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { TabManager } from "./TabManager";
 import { PolyFill } from "../lib/PolyFill";
 import { Settings } from "./Settings";
+import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
 
 export class ProxyEngineFirefox {
 	private static proxyScriptUrlFirefox = "core-engine-ff-pac.js";
@@ -95,31 +96,37 @@ export class ProxyEngineFirefox {
 			type: "speculative"
 			url: "http://socialshare.ir/admin/media-promote"
 			*/
-		/** new URL()->
-			hash: ""
-			​host: "socialshare.ir"
-			​hostname: "socialshare.ir"
-			​href: "http://socialshare.ir/admin/comment/comment-list?grdAdminComment-sort=CommentBody-asc"
-			​origin: "http://socialshare.ir"
-			​password: ""
-			​pathname: "/admin/comment/comment-list"
-			​port: ""
-			​protocol: "http:"
-			​search: "?grdAdminComment-sort=CommentBody-asc"
-			​searchParams: URLSearchParams {  }
-			​username: ""
-		 */
+
 		let settings = Settings.current;
 
-		if (!requestDetails.url ||
-			settings.proxyMode == ProxyModeType.Direct)
+		if (!requestDetails.url)
+			return [{ type: "direct" }];
+
+		// checking if request is special
+		let specialRequest = ProxyEngineSpecialRequests.getProxyMode(requestDetails.url, true);
+		if (specialRequest !== null) {
+			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.NoProxy)
+				return [{ type: "direct" }];
+
+			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.CurrentProxy) {
+				if (settings.activeProxyServer)
+					return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
+				else
+					return [{ type: "direct" }];
+			}
+
+			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.SelectedProxy 
+				&& specialRequest.selectedProxy) {
+				return ProxyEngineFirefox.getResultProxyInfo(specialRequest.selectedProxy);
+			}
+		}
+
+		if (settings.proxyMode == ProxyModeType.Direct ||
+			!settings.activeProxyServer)
 			return [{ type: "direct" }];
 
 		if (settings.proxyMode == ProxyModeType.SystemProxy)
 			// system proxy mode is not handled here
-			return [{ type: "direct" }];
-
-		if (!settings.activeProxyServer)
 			return [{ type: "direct" }];
 
 		if (settings.proxyMode == ProxyModeType.Always) {

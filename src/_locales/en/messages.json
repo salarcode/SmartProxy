@@ -224,7 +224,7 @@
 		"description": ""
 	},
 	"settingsGeneralEnableSyncingDesc": {
-		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.",
+		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be available across all browsers.",
 		"description": ""
 	},
 	"settingsSaveGeneralOptionsButton": {
@@ -887,6 +887,30 @@
 		"message": "Format:",
 		"description": ""
 	},
+	"settingsServerSubscriptionApplyProxy": {
+		"message": "Pass through proxy:",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpFirefox": {
+		"message": "(Decide base on your access)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpChrome": {
+		"message": "(This feature is not available in chrome. Current proxy will apply)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_NoProxy": {
+		"message": "No Proxy",
+		"description": ""
+	},	
+	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
+		"message": "Current Proxy",
+		"description": ""
+	},	
+	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
+		"message": "Selected Proxy",
+		"description": ""
+	},	
 	"settingsServerSubscriptionUsername": {
 		"message": "Username:",
 		"description": ""

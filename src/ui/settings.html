@@ -580,7 +580,7 @@
 							<label for="txtServerPort" data-localize="settingsServersPort">Port</label>
 							<input type="number" id="txtServerPort" class="form-control" />
 						</div>
-						<div class="form-group col-sm-6">
+						<div class="form-group col-sm-6 pr-1">
 							<br />
 							<div class="custom-control custom-checkbox">
 								<input type="checkbox" class="custom-control-input" id="chkServerProxyDNS">
@@ -766,6 +766,16 @@
 						<div class="form-group col-sm-6">
 							<label for="cmbServerSubscriptionFormat" data-localize="settingsServerSubscriptionFormat">Format:</label>
 							<select class="form-control" id="cmbServerSubscriptionFormat"></select>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="cmbServerSubscriptionApplyProxy" data-localize="settingsServerSubscriptionApplyProxy">Pass through proxy:</label>
+							<select class="form-control" id="cmbServerSubscriptionApplyProxy"></select>
+							<span data-localize="settingsServerSubscriptionApplyProxyHelpFirefox" class="form-text text-muted firefox-only">
+								(Decide base on your access)
+							</span>
+							<span data-localize="settingsServerSubscriptionApplyProxyHelpChrome" class="form-text text-muted chrome-only">
+								(Unfortunately this feature is not available in chrome. Current proxy will apply)
+							</span>							
 						</div>
 					</div>
 					<div class="row">

@@ -19,6 +19,7 @@
 export const proxyServerProtocols = ["HTTP", "HTTPS", "SOCKS4", "SOCKS5"];
 export const proxyServerSubscriptionObfuscate = ["None", "Base64"];
 export const proxyServerSubscriptionFormat = ["PlainText", "JSON"];
+export const specialRequestApplyProxyModeKeys = ["NoProxy", "CurrentProxy"/* , "SelectedProxy" */];
 
 export enum ProxyModeType {
 	Direct,
@@ -67,6 +68,7 @@ export class Messages {
 	public static SettingsPageSaveProxySubscriptions = "SettingsPage_SaveProxySubscriptions";
 	public static SettingsPageSaveBypass = "SettingsPage_SaveBypass";
 	public static SettingsPageRestoreSettings = "SettingsPage_RestoreSettings";
+	public static SettingsPageMakeRequestSpecial = "SettingsPage_MakeRequestSpecial";
 
 	// Request Logger
 	public static ProxyableRequestLog = "Proxyable_RequestLog";
@@ -326,6 +328,11 @@ export class CompiledRule extends ProxyRule {
 	regex: RegExp;
 }
 
+export enum SpecialRequestApplyProxyMode {
+	NoProxy,
+	CurrentProxy,
+	SelectedProxy
+}
 export enum ProxyServerSubscriptionFormat {
 	PlainText,
 	Json
@@ -353,4 +360,6 @@ export class ProxyServerSubscription {
 	public password: string;
 	// the loaded proxies
 	public proxies: any[];
+
+	public applyProxy: SpecialRequestApplyProxyMode;
 }

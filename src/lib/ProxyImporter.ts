@@ -19,6 +19,7 @@ import { browser } from "./environment";
 import { ProxyServerSubscription, ProxyServer, ProxyServerSubscriptionFormat } from "../core/definitions";
 import { Debug } from "./Debug";
 import { Settings } from "../core/Settings";
+import { ProxyEngineSpecialRequests } from "../core/ProxyEngineSpecialRequests";
 
 export const ProxyImporter = {
 	readFromServer(serverDetail: ProxyServerSubscription, success?: Function, fail?: Function) {
@@ -50,6 +51,10 @@ export const ProxyImporter = {
 				},
 				serverDetail);
 		}
+
+		if (serverDetail.applyProxy !== null)
+			// mark this request as special
+			ProxyEngineSpecialRequests.setSpecialUrl(serverDetail.url, serverDetail.applyProxy);
 
 		let xhr = new XMLHttpRequest();
 		xhr.open("GET", serverDetail.url);

@@ -31,6 +31,7 @@ import { SubscriptionUpdater } from "./SubscriptionUpdater";
 import { Settings } from "./Settings";
 import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyableInternalDataType, ProxyServer, ProxyModeType, ResultHolderGeneric } from "./definitions";
 import { KeyboardShortcuts } from "./KeyboardShortcuts";
+import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
 
 export class Core {
 
@@ -38,7 +39,7 @@ export class Core {
 	public static initializeApp() {
 
 		// comment for debugging
-		Debug.disable();
+		Debug.disable(); 
 
 		Settings.onInitialized = (() => {
 			// on settings read success
@@ -373,6 +374,24 @@ export class Core {
 
 					if (sendResponse) {
 						sendResponse(result);
+					}
+					return;
+				}
+			case Messages.SettingsPageMakeRequestSpecial:
+				{
+					if (!message.url)
+						return;
+
+					var url = message.url;
+					var applyProxy = message.applyProxy;
+					var selectedProxy = message.selectedProxy;
+
+					ProxyEngineSpecialRequests.setSpecialUrl(url, applyProxy, selectedProxy);
+
+					if (sendResponse) {
+						sendResponse({
+							success: true
+						});
 					}
 					return;
 				}
