@@ -892,11 +892,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxyHelpFirefox": {
-		"message": "(Decide base on your access)",
+		"message": "(Decide base on your access to the server)",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxyHelpChrome": {
-		"message": "(This feature is not available in chrome. Current proxy will apply)",
+		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
