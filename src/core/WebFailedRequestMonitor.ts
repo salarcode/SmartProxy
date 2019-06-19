@@ -85,14 +85,12 @@ export class WebFailedRequestMonitor {
             return;
 
         let requestUrl = requestDetails.url;
-
-        let ignoreRequestFailuresForDomains = Settings.current.options.ignoreRequestFailuresForDomains;
-        if (ignoreRequestFailuresForDomains && ignoreRequestFailuresForDomains.length) {
-            // TODO:
-            //return;
-        }
-
         let requestHost = Utils.extractHostFromUrl(requestUrl);
+
+        if (WebFailedRequestMonitor.checkIfDomainIgnored(requestHost)) {
+            // no logging or reporting requested to ignore domains
+            return;
+        }
 
         let failedRequests = tabData.failedRequests || (tabData.failedRequests = new Map<string, FailedRequestType>());
 
@@ -122,10 +120,13 @@ export class WebFailedRequestMonitor {
                     let failedInfo = failedRequests.get(requestHost);
                     if (!failedInfo) {
 
+                        // considering redirect as complete
+                        WebFailedRequestMonitor.deleteFailedRequests(failedRequests, requestHost);
+
                         // send message to the tab
                         WebFailedRequestMonitor.sendWebFailedRequestNotification(
                             tabId,
-                            failedInfo,
+                            null,
                             failedRequests);
 
                         Core.setBrowserActionStatus(tabData);
@@ -143,7 +144,7 @@ export class WebFailedRequestMonitor {
                     if (!failedInfo) {
 
                         // remove the log
-                        //TODO: failedRequests.delete(requestHost);
+                        WebFailedRequestMonitor.deleteFailedRequests(failedRequests, requestHost);
 
                         // send message to the tab
                         WebFailedRequestMonitor.sendWebFailedRequestNotification(
@@ -282,6 +283,17 @@ export class WebFailedRequestMonitor {
             if (ignoredDomains.indexOf(requestHost) !== -1)
                 failedInfo.ignored = true;
         }
+    }
+
+    private static checkIfDomainIgnored(requestHost: string): boolean {
+
+        let ignoredDomains = Settings.current.options.ignoreRequestFailuresForDomains;
+        if (ignoredDomains && ignoredDomains.length) {
+
+            if (ignoredDomains.indexOf(requestHost) !== -1)
+                return true;
+        }
+        return false;
     }
 
     private static sendWebFailedRequestNotification(tabId: number, failedInfo: FailedRequestType, failedRequests: Map<string, FailedRequestType>) {
