@@ -600,7 +600,7 @@
 		"description": ""
 	},
 	"settingsServersGridColPort": {
-		"message": "Port",
+		"message": "پورت",
 		"description": ""
 	},
 	"settingsServersModalTitle": {
@@ -885,6 +885,30 @@
 	},
 	"settingsServerSubscriptionFormat": {
 		"message": "قالب فایل:",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy": {
+		"message": "استفاده از پراکسی:",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpFirefox": {
+		"message": "(با توجه به دسترسی سرور تصمیم بگیرین)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpChrome": {
+		"message": "(متاسفانه این ویژگی در مرورگر کروم در دسترس نیست. پراکسی فعلی استفاده خواهد شد)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_NoProxy": {
+		"message": "بدون پراکسی",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
+		"message": "پراکسی فعلی",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
+		"message": "انتخاب پراکسی سفارشی",
 		"description": ""
 	},
 	"settingsServerSubscriptionUsername": {

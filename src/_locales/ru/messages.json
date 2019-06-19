@@ -887,6 +887,30 @@
 		"message": "Формат:",
 		"description": ""
 	},
+	"settingsServerSubscriptionApplyProxy": {
+		"message": "Сквозной прокси:",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpFirefox": {
+		"message": "(Определяет критерии доступа к серверу)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpChrome": {
+		"message": "(К сожалению, эта функция недоступна в Chrome. Будет применяться текущий прокси. )",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_NoProxy": {
+		"message": "Без прокси",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
+		"message": "Текущий прокси",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
+		"message": "Выбранный прокси",
+		"description": ""
+	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Имя пользователя:",
 		"description": ""
