@@ -756,7 +756,7 @@
 		"description": ""
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(Серверы с аутентификацией не поддерживаются)",
+		"message": "(Серверы с аутентификацией не поддерживаются в Chrome)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {

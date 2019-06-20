@@ -756,7 +756,7 @@
 		"description": ""
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "（暂不支持需要验证的代理服务器）",
+		"message": "(Chrome 不支持经过身份验证的服务器)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {

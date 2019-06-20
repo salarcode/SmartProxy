@@ -756,7 +756,7 @@
 		"description": ""
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(سرورهایی که نیاز به تایید هویت با نام کاربری دارند پشتیبانی نمی شود)",
+		"message": "(در کروم، سرورهایی که نیاز به تایید هویت با نام کاربری دارند پشتیبانی نمی شود)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {
