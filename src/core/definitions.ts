@@ -281,6 +281,12 @@ export class ProxyRule implements Cloneable {
 		}
 		return "";
 	}
+	get proxyName(): string {
+		if (!this.proxy)
+			return null;
+			
+		return this.proxy.name;
+	}
 	public static assignArray(rules: any[]): ProxyRule[] {
 		if (!rules || !rules.length)
 			return [];
