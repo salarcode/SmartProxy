@@ -68,15 +68,18 @@ export class WebRequestMonitor {
 
 			if (now - req._startTime < requestTimeoutTime) {
 				continue;
-			} else {
-				req._isTimedOut = true;
-
-				// callback request-timeout
-				WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestTimeout, req);
-
-				if (WebRequestMonitor.debugInfo)
-					WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestTimeout], req);
 			}
+
+			// NOTE: here the time constantly send timeout notifications to the callback
+			// we need this because the 'host' that has error can lost the error mark if another successful request from the same 'host' happens
+
+			req._isTimedOut = true;
+
+			// callback request-timeout
+			WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestTimeout, req);
+
+			if (WebRequestMonitor.debugInfo)
+				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestTimeout], req);
 		}
 	}
 
@@ -118,9 +121,11 @@ export class WebRequestMonitor {
 			if (!req)
 				return;
 
-				req._isHealthy = true;
+			req._isHealthy = true;
 
 			if (req._isTimedOut) {
+				req._isTimedOut = false;
+				
 				// call the callbacks indicating the request is healthy
 				// callback request-revert-from-timeout
 				WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestRevertTimeout, requestDetails);
@@ -222,6 +227,7 @@ export class WebRequestMonitor {
 export enum RequestMonitorEvent {
 	RequestStart,
 	RequestTimeout,
+	/** When was timed-out but eventually headers are received  */
 	RequestRevertTimeout,
 	RequestRedirected,
 	RequestComplete,

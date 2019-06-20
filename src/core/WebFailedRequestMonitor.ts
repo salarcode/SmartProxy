@@ -126,7 +126,7 @@ export class WebFailedRequestMonitor {
                         // send message to the tab
                         WebFailedRequestMonitor.sendWebFailedRequestNotification(
                             tabId,
-                            null,
+                            failedInfo,
                             failedRequests);
 
                         Core.setBrowserActionStatus(tabData);
@@ -142,9 +142,6 @@ export class WebFailedRequestMonitor {
 
                     let failedInfo = failedRequests.get(requestHost);
                     if (!failedInfo) {
-
-                        // remove the log
-                        WebFailedRequestMonitor.deleteFailedRequests(failedRequests, requestHost);
 
                         // send message to the tab
                         WebFailedRequestMonitor.sendWebFailedRequestNotification(
@@ -163,8 +160,10 @@ export class WebFailedRequestMonitor {
                 {
                     let failedInfo = failedRequests.get(requestHost);
                     if (failedInfo) {
-                        // only on error increase hit count
-                        failedInfo.hitCount += 1;
+                        if (eventType == RequestMonitorEvent.RequestError) {
+                            // only on error increase hit count
+                            failedInfo.hitCount += 1;
+                        }
                     } else {
 
                         let shouldNotify = false;
@@ -269,7 +268,6 @@ export class WebFailedRequestMonitor {
                                 Core.setBrowserActionStatus(tabData);
                             }
                         }
-
                     }
                 }
         }
@@ -305,7 +303,7 @@ export class WebFailedRequestMonitor {
                 command: Messages.WebFailedRequestNotification,
                 tabId: tabId,
                 failedRequests: WebFailedRequestMonitor.convertFailedRequestsToArray(failedRequests),
-                failedInfo: failedInfo
+                //failedInfo: failedInfo TODO: not used? remove then.
             },
             null,
             error => {

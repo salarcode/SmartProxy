@@ -100,19 +100,19 @@ export class ProxyEngineFirefox {
 		let settings = Settings.current;
 
 		if (!requestDetails.url)
-			return [{ type: "direct" }];
+			return { type: "direct" };
 
 		// checking if request is special
 		let specialRequest = ProxyEngineSpecialRequests.getProxyMode(requestDetails.url, true);
 		if (specialRequest !== null) {
 			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.NoProxy)
-				return [{ type: "direct" }];
+				return { type: "direct" };
 
 			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.CurrentProxy) {
 				if (settings.activeProxyServer)
 					return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 				else
-					return [{ type: "direct" }];
+					return { type: "direct" };
 			}
 
 			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.SelectedProxy 
@@ -123,11 +123,11 @@ export class ProxyEngineFirefox {
 
 		if (settings.proxyMode == ProxyModeType.Direct ||
 			!settings.activeProxyServer)
-			return [{ type: "direct" }];
+			return { type: "direct" };
 
 		if (settings.proxyMode == ProxyModeType.SystemProxy)
 			// system proxy mode is not handled here
-			return [{ type: "direct" }];
+			return { type: "direct" };
 
 		if (settings.proxyMode == ProxyModeType.Always) {
 			// should bypass this host?
@@ -136,7 +136,7 @@ export class ProxyEngineFirefox {
 				let host = new URL(requestDetails.url).host.toLowerCase();
 
 				if (settings.bypass.bypassList.indexOf(host) !== -1)
-					return [{ type: "direct" }];
+					return { type: "direct" };
 			}
 
 			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
@@ -170,7 +170,7 @@ export class ProxyEngineFirefox {
 		}
 
 		// nothing matched
-		return [{ type: "direct" }];
+		return { type: "direct" };
 	}
 
 	private static storeTabProxyDetail(requestDetails: any, matchedRule: ProxyRule) {
@@ -202,25 +202,25 @@ export class ProxyEngineFirefox {
 		switch (proxyServer.protocol) {
 			case "SOCKS5":
 				// "socks" refers to the SOCKS5 protocol
-				return [{
+				return {
 					type: "socks",
 					host: proxyServer.host,
 					port: proxyServer.port,
 					proxyDNS: proxyServer.proxyDNS,
 					username: proxyServer.username,
 					password: proxyServer.password
-				}];
+				};
 
 			default:
 			case "HTTP":
 			case "HTTPS":
 			case "SOCKS4":
-				return [{
+				return {
 					type: proxyServer.protocol,
 					host: proxyServer.host,
 					port: proxyServer.port,
 					proxyDNS: proxyServer.proxyDNS
-				}];
+				};
 		}
 	}
 
