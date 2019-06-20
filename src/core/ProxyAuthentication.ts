@@ -17,6 +17,7 @@
 import { browser, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 import { ProxyModeType } from "./definitions";
+import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
 
 export class ProxyAuthentication {
 	private static pendingRequests: { [index: string]: any } = {};
@@ -124,15 +125,39 @@ export class ProxyAuthentication {
 		let applyAuthentication = (settings.proxyMode !== ProxyModeType.Direct) &&
 			(settings.proxyMode !== ProxyModeType.SystemProxy);
 
-		let activeProxy = settings.activeProxyServer;
+		// check if authentication is already provided
+		if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
+			return { cancel: true };
+		}
 
-		if (!activeProxy) {
+		let proxyServer = settings.activeProxyServer;
+
+		if (requestDetails.challenger) {
+			var serverHost = requestDetails.challenger.host + ":" + requestDetails.challenger.port;
+
+			let specialRequest = ProxyEngineSpecialRequests.getProxyMode(serverHost, true);
+			if (specialRequest !== null) {
+
+				// value of `specialRequest.applyMode` is ignored, because this request is done by proxy handler itself
+
+				if (specialRequest.selectedProxy) {
+					// add this request to pending list
+					ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
+
+					return {
+						authCredentials: { username: specialRequest.selectedProxy.username, password: specialRequest.selectedProxy.password }
+					};
+				}
+			}
+		}
+
+		if (!proxyServer) {
 			return {};
 		}
 
 		if (applyAuthentication &&
-			activeProxy &&
-			activeProxy.username)
+			proxyServer &&
+			proxyServer.username)
 			applyAuthentication = true;
 		else
 			applyAuthentication = false;
@@ -142,16 +167,11 @@ export class ProxyAuthentication {
 			return {};
 		}
 
-		// check if authentication is already provided
-		if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
-			return { cancel: true };
-		}
-
 		// add this request to pending list
 		ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
 		return {
-			authCredentials: { username: activeProxy.username, password: activeProxy.password }
+			authCredentials: { username: proxyServer.username, password: proxyServer.password }
 		};
 	}
 	private static onRequestFinished(requestDetails: any) {

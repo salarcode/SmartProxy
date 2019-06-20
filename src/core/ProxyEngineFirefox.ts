@@ -115,7 +115,7 @@ export class ProxyEngineFirefox {
 					return { type: "direct" };
 			}
 
-			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.SelectedProxy 
+			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.SelectedProxy
 				&& specialRequest.selectedProxy) {
 				return ProxyEngineFirefox.getResultProxyInfo(specialRequest.selectedProxy);
 			}
@@ -131,7 +131,8 @@ export class ProxyEngineFirefox {
 
 		if (settings.proxyMode == ProxyModeType.Always) {
 			// should bypass this host?
-			if (settings.bypass.enableForAlways === true) {
+			if (settings.bypass.enableForAlways === true &&
+				settings.bypass.bypassList.length > 0) {
 
 				let host = new URL(requestDetails.url).host.toLowerCase();
 
@@ -148,8 +149,13 @@ export class ProxyEngineFirefox {
 			let tabData = TabManager.getTab(requestDetails.tabId);
 			if (tabData != null && tabData.proxified) {
 
-				if (tabData.proxyServerFromRule)
+				if (tabData.proxyServerFromRule) {
+					if (tabData.proxyServerFromRule.username)
+						// Requires authentication. Mark as special and store authentication info.
+						ProxyEngineSpecialRequests.setSpecialUrl(`${tabData.proxyServerFromRule.host}:${tabData.proxyServerFromRule.port}`, null, tabData.proxyServerFromRule);
+
 					return ProxyEngineFirefox.getResultProxyInfo(tabData.proxyServerFromRule);
+				}
 
 				return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 			}
@@ -163,8 +169,13 @@ export class ProxyEngineFirefox {
 				ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule);
 			}
 
-			if (matchedRule.proxy)
+			if (matchedRule.proxy) {
+				if (matchedRule.proxy.username)
+					// Requires authentication. Mark as special and store authentication info.
+					ProxyEngineSpecialRequests.setSpecialUrl(`${matchedRule.proxy.host}:${matchedRule.proxy.port}`, null, matchedRule.proxy);
+
 				return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
+			}
 
 			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 		}

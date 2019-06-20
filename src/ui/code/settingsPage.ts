@@ -225,7 +225,7 @@ export class settingsPage {
                     name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled")
                 },
                 {
-                    name: "proxy", data: "proxy", title: browser.i18n.getMessage("settingsRulesGridColProxy"),
+                    name: "proxy", data: "proxyName", title: browser.i18n.getMessage("settingsRulesGridColProxy"),
                     defaultContent: browser.i18n.getMessage("settingsRulesProxyDefault")
                 },
                 {
@@ -524,6 +524,10 @@ export class settingsPage {
             .text(browser.i18n.getMessage("settingsRulesProxyDefault"))
             .appendTo(cmdRuleProxyServer);
 
+        let dontIncludeAuthServers = false;
+        if (environment.chrome)
+            dontIncludeAuthServers = true;
+
         if (proxyRule) {
 
             modalContainer.find("#chkRuleGeneratePattern").prop('checked', proxyRule.autoGeneratePattern);
@@ -539,7 +543,7 @@ export class settingsPage {
             if (proxyRule.proxy)
                 proxyServerName = proxyRule.proxy.name;
 
-            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, proxyServerName, null, null, true);
+            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, proxyServerName, null, null, dontIncludeAuthServers);
 
         } else {
 
@@ -552,7 +556,7 @@ export class settingsPage {
             modalContainer.find("#txtRuleUrlExact").val("");
             modalContainer.find("#chkRuleEnabled").prop('checked', true);
 
-            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, null, null, null, true);
+            settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, null, null, null, dontIncludeAuthServers);
         }
 
         settingsPage.updateProxyRuleModal();
