@@ -794,7 +794,7 @@ export class settingsPage {
     }
 
     private static refreshServersGrid() {
-        let currentRow = this.grdServers.row();
+        let currentRow = this.grdServers.row(".selected");
         if (currentRow)
             // displaying the possible data change
             settingsPage.refreshServersGridRow(currentRow, true);
@@ -936,7 +936,7 @@ export class settingsPage {
     }
 
     private static refreshRulesGrid() {
-        let currentRow = this.grdRules.row();
+        let currentRow = this.grdRules.row('.selected');
         if (currentRow)
             // displaying the possible data change
             settingsPage.refreshRulesGridRow(currentRow, true);
@@ -1063,7 +1063,7 @@ export class settingsPage {
     }
 
     private static refreshServerSubscriptionsGrid() {
-        let currentRow = this.grdServerSubscriptions.row();
+        let currentRow = this.grdServerSubscriptions.row('.selected');
         if (currentRow)
             // displaying the possible data change
             settingsPage.refreshServerSubscriptionsGridRow(currentRow, true);
@@ -1255,7 +1255,7 @@ export class settingsPage {
             modal.find("#txtServerAddress").focus();
         },
         onClickSubmitProxyServer() {
-
+            
             let modal = jQuery("#modalModifyProxyServer");
             let editingModel = modal.data("editing");
 
@@ -1295,7 +1295,6 @@ export class settingsPage {
                 messageBox.error(browser.i18n.getMessage("settingsServerAuthenticationInvalid"));
                 return;
             }
-
             if (editingModel) {
                 // just copy the values
                 jQuery.extend(editingModel, serverInputInfo);
