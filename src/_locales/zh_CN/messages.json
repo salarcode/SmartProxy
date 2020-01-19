@@ -72,7 +72,7 @@
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "下列为连接超时或失败的域名。<br \/>如认为被屏蔽，请在此处添加到代理规则列表中。",
+		"message": "下列为连接超时或失败的域名。<br />如认为被屏蔽，请在此处添加到代理规则列表中。",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
@@ -84,11 +84,11 @@
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>Learn how<\/a>.",
+		"message": "修改浏览器使用系统代理需要`incognito`权限。请打开SmartProxy扩展的设置，请允许`incognito`权限。 <a href='https://support.google.com/chrome_webstore/answer/2664769'>点击了解如何操作</a>.",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https:\/\/support.mozilla.org\/en-US\/kb\/extensions-private-browsing'>Learn how<\/a>.",
+		"message": "自Firefox 67 开始，修改浏览器使用系统代理需要`Private Browsing` 权限。请在浏览器附加组件管理中 允许SmartProxy组件的`在隐私窗口中运行`权限。 <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>点击了解如何操作</a>。",
 		"description": ""
 	},
 	"proxyableTitle": {
@@ -108,7 +108,7 @@
 		"description": ""
 	},
 	"proxyableHeaderDesc": {
-		"message": "以下为当前页面在使用或可供调用的资源列表。该列表用于向代理激活判定规则添加条目。<br \/>如果此处为空，请重新载入页面以刷新资源。",
+		"message": "以下为当前页面在使用或可供调用的资源列表。该列表用于向代理激活判定规则添加条目。<br />如果此处为空，请重新载入页面以刷新资源。",
 		"description": ""
 	},
 	"proxyableErrNoSourceTab": {
@@ -180,7 +180,7 @@
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
-		"message": "备份\/还原",
+		"message": "备份/还原",
 		"description": ""
 	},
 	"settingsTabUpdateText": {
@@ -196,11 +196,11 @@
 		"description": ""
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong>仅用于 Firefox！<\/strong>不幸的是，这一特性不被 Chrome 支持。<\/span>",
+		"message": "<strong>仅用于 Firefox！</strong>不幸的是，这一特性不被 Chrome 支持。</span>",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "为每个标签\/来源启用代理",
+		"message": "为每个标签/来源启用代理",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDesc": {
@@ -208,11 +208,11 @@
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "已为每个标签\/来源启用代理",
+		"message": "已为每个标签/来源启用代理",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "已为每个标签\/来源停用代理",
+		"message": "已为每个标签/来源停用代理",
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
@@ -344,7 +344,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "下列是SmartProxy用于决定是否为一个特定域名开启代理的规则列表。<br \/>规则语法基于<a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>扩展匹配模式<\/a>以及<a href='https:\/\/en.wikipedia.org\/wiki\/Regular_expression' target='_blank'>正则表达式<\/a>。",
+		"message": "下列是SmartProxy用于决定是否为一个特定域名开启代理的规则列表。<br />规则语法基于<a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>扩展匹配模式</a>以及<a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>正则表达式</a>。",
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
@@ -404,7 +404,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "导入\/导出代理服务器和规则",
+		"message": "导入/导出代理服务器和规则",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -500,7 +500,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "所有代理服务器已移除。<br\/>你必须保存才能应用更改。",
+		"message": "所有代理服务器已移除。<br/>你必须保存才能应用更改。",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
@@ -540,7 +540,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "所有规则已移除。<br\/>你必须保存以应用更改。",
+		"message": "所有规则已移除。<br/>你必须保存以应用更改。",
 		"description": ""
 	},
 	"settingsRestoreBackupFailed": {
@@ -808,7 +808,7 @@
 		"description": ""
 	},
 	"importerImportSuccess": {
-		"message": "{0} \/ {1} 条规则已添加。<br>注意保存更改。",
+		"message": "{0} / {1} 条规则已添加。<br>注意保存更改。",
 		"description": ""
 	},
 	"settingsAddMultipleRulesButton": {
@@ -820,7 +820,7 @@
 		"description": ""
 	},
 	"settingsMultipleRuleList": {
-		"message": "主机\/规则列表：",
+		"message": "主机/规则列表：",
 		"description": ""
 	},
 	"settingsMultipleRuleInvalidHost": {
@@ -888,27 +888,27 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxy": {
-		"message": "Pass through proxy:",
+		"message": "通过代理",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxyHelpFirefox": {
-		"message": "(Decide base on your access to the server)",
+		"message": "(决定您如何访问订阅服务)",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxyHelpChrome": {
-		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)",
+		"message": "(抱歉，当前功能不可用。当前代理将会生效。)",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
-		"message": "No Proxy",
+		"message": "直连",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
-		"message": "Current Proxy",
+		"message": "当前代理",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
-		"message": "Selected Proxy",
+		"message": "已选代理",
 		"description": ""
 	},
 	"settingsServerSubscriptionUsername": {
@@ -952,7 +952,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "所有代理服务器订阅已移除。<br\/>你必须保存以应用更改。",
+		"message": "所有代理服务器订阅已移除。<br/>你必须保存以应用更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
@@ -1000,11 +1000,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "订阅已更新，包含 {0} 个代理。<br\/>请注意保存更改。",
+		"message": "订阅已更新，包含 {0} 个代理。<br/>请注意保存更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "订阅已添加，包含 {0} 个代理。<br\/>请注意保存更改。",
+		"message": "订阅已添加，包含 {0} 个代理。<br/>请注意保存更改。",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {

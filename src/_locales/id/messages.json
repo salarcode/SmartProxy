@@ -8,7 +8,7 @@
 		"description": ""
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy akan secara otomatis mengaktifkan\/menonaktifkan proksi untuk situs yang Anda kunjungi, berdasarkan pola yang sudah ditentukan.",
+		"message": "Smart Proxy akan secara otomatis mengaktifkan/menonaktifkan proksi untuk situs yang Anda kunjungi, berdasarkan pola yang sudah ditentukan.",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
@@ -72,7 +72,7 @@
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "These are the domains that are either timed-out or failed.<br \/>If you believe that these domains are blocked, here you can add them to proxy rules list.",
+		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list.",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
@@ -84,11 +84,11 @@
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>Learn how<\/a>.",
+		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>.",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https:\/\/support.mozilla.org\/en-US\/kb\/extensions-private-browsing'>Learn how<\/a>.",
+		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>.",
 		"description": ""
 	},
 	"proxyableTitle": {
@@ -108,7 +108,7 @@
 		"description": ""
 	},
 	"proxyableHeaderDesc": {
-		"message": "Berikut adalah daftar sumber yang digunakan atau dipanggil dari halaman ini. Gunakan daftar ini untuk menambahkan sumber ini ke aturan penggiatan proksi.<br \/>Jika Anda tidak melihat apa pun di sini, muat ulang halaman untuk melihat sumbernya.",
+		"message": "Berikut adalah daftar sumber yang digunakan atau dipanggil dari halaman ini. Gunakan daftar ini untuk menambahkan sumber ini ke aturan penggiatan proksi.<br />Jika Anda tidak melihat apa pun di sini, muat ulang halaman untuk melihat sumbernya.",
 		"description": ""
 	},
 	"proxyableErrNoSourceTab": {
@@ -180,7 +180,7 @@
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
-		"message": "Cadangkan\/Pulihkan",
+		"message": "Cadangkan/Pulihkan",
 		"description": ""
 	},
 	"settingsTabUpdateText": {
@@ -196,23 +196,23 @@
 		"description": ""
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong>Firefox only!<\/strong> Unfortunately this feature is not supported by Chrome.<\/span>",
+		"message": "<strong>Firefox only!</strong> Unfortunately this feature is not supported by Chrome.</span>",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Enable proxy per tab\/origin",
+		"message": "Enable proxy per tab/origin",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If one of the rules matched the origin\/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
+		"message": "If one of the rules matched the origin/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "Proxy per tab\/origin enabled",
+		"message": "Proxy per tab/origin enabled",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "Proxy per tab\/origin disabled",
+		"message": "Proxy per tab/origin disabled",
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
@@ -344,7 +344,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br \/>Rules are based on <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>Match patterns<\/a> and <a href='https:\/\/en.wikipedia.org\/wiki\/Regular_expression' target='_blank'>Regular expressions<\/a>.",
+		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.",
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
@@ -404,7 +404,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Impor\/Ekspor secara terpisah daftar proksi dan aturan.",
+		"message": "Impor/Ekspor secara terpisah daftar proksi dan aturan.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -500,7 +500,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "Semua server proksi dihapus.<br\/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
+		"message": "Semua server proksi dihapus.<br/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
@@ -540,7 +540,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "Semua aturan dihapus.<br\/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
+		"message": "Semua aturan dihapus.<br/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
 		"description": ""
 	},
 	"settingsRestoreBackupFailed": {
@@ -756,7 +756,7 @@
 		"description": ""
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(Servers with authentication not supported)",
+		"message": "(Servers with authentication are not supported in Chrome)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {
@@ -820,7 +820,7 @@
 		"description": ""
 	},
 	"settingsMultipleRuleList": {
-		"message": "Host\/Rule list:",
+		"message": "Host/Rule list:",
 		"description": ""
 	},
 	"settingsMultipleRuleInvalidHost": {
@@ -887,6 +887,30 @@
 		"message": "Format:",
 		"description": ""
 	},
+	"settingsServerSubscriptionApplyProxy": {
+		"message": "Pass through proxy:",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpFirefox": {
+		"message": "(Decide base on your access to the server)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpChrome": {
+		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_NoProxy": {
+		"message": "No Proxy",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
+		"message": "Current Proxy",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
+		"message": "Selected Proxy",
+		"description": ""
+	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Nama pengguna:",
 		"description": ""
@@ -928,7 +952,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "Semua langganan server proksi dihapus.<br\/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
+		"message": "Semua langganan server proksi dihapus.<br/>Anda harus menyimpan dulu untuk menerapkan perubahan.",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
@@ -976,11 +1000,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "Langganan diperbarui dengan proksi {0} di dalamnya.<br\/>Jangan lupa menyimpan perubahan.",
+		"message": "Langganan diperbarui dengan proksi {0} di dalamnya.<br/>Jangan lupa menyimpan perubahan.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "Langganan telah ditambahkan dengan proksi {0} di dalamnya.<br\/>Jangan lupa menyimpan perubahan.",
+		"message": "Langganan telah ditambahkan dengan proksi {0} di dalamnya.<br/>Jangan lupa menyimpan perubahan.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {

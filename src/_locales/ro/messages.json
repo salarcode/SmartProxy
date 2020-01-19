@@ -8,7 +8,7 @@
 		"description": ""
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy o sã activeze\/dezactiveze automat proxy-ul pentru site-urile pe care le vizitati, bazate pe modele personalizate.",
+		"message": "Smart Proxy o sã activeze/dezactiveze automat proxy-ul pentru site-urile pe care le vizitati, bazate pe modele personalizate.",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
@@ -72,7 +72,7 @@
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "These are the domains that are either timed-out or failed.<br \/>If you believe that these domains are blocked, here you can add them to proxy rules list.",
+		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list.",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
@@ -84,11 +84,11 @@
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>Learn how<\/a>.",
+		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>.",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https:\/\/support.mozilla.org\/en-US\/kb\/extensions-private-browsing'>Learn how<\/a>.",
+		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>.",
 		"description": ""
 	},
 	"proxyableTitle": {
@@ -108,7 +108,7 @@
 		"description": ""
 	},
 	"proxyableHeaderDesc": {
-		"message": "Here is the list of resources that are used or invoked from this page. Use this list to add these resources to the proxy activation rules.<br \/>If you don't see anything here, reload the page to see the resources.",
+		"message": "Here is the list of resources that are used or invoked from this page. Use this list to add these resources to the proxy activation rules.<br />If you don't see anything here, reload the page to see the resources.",
 		"description": ""
 	},
 	"proxyableErrNoSourceTab": {
@@ -180,7 +180,7 @@
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
-		"message": "Backup\/ Restore",
+		"message": "Backup/ Restore",
 		"description": ""
 	},
 	"settingsTabUpdateText": {
@@ -196,23 +196,23 @@
 		"description": ""
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong>Firefox only!<\/strong> Unfortunately this feature is not supported by Chrome.<\/span>",
+		"message": "<strong>Firefox only!</strong> Unfortunately this feature is not supported by Chrome.</span>",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Enable proxy per tab\/origin",
+		"message": "Enable proxy per tab/origin",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If one of the rules matched the origin\/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
+		"message": "If one of the rules matched the origin/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "Proxy per tab\/origin enabled",
+		"message": "Proxy per tab/origin enabled",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "Proxy per tab\/origin disabled",
+		"message": "Proxy per tab/origin disabled",
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
@@ -224,7 +224,7 @@
 		"description": ""
 	},
 	"settingsGeneralEnableSyncingDesc": {
-		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be avaialble across all browsers.",
+		"message": "By enabling syncing, your all settings including rules, servers and subscriptions will be available across all browsers.",
 		"description": ""
 	},
 	"settingsSaveGeneralOptionsButton": {
@@ -344,7 +344,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br \/>Rules are based on <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>Match patterns<\/a> and <a href='https:\/\/en.wikipedia.org\/wiki\/Regular_expression' target='_blank'>Regular expressions<\/a>.",
+		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.",
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
@@ -404,7 +404,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import\/Export individual list of proxies and rules.",
+		"message": "Import/Export individual list of proxies and rules.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -500,7 +500,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "All the proxy servers are removed.<br\/>You have to save to apply the changes.",
+		"message": "All the proxy servers are removed.<br/>You have to save to apply the changes.",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
@@ -540,7 +540,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "All rules are removed.<br\/>You have to save to apply the changes.",
+		"message": "All rules are removed.<br/>You have to save to apply the changes.",
 		"description": ""
 	},
 	"settingsRestoreBackupFailed": {
@@ -756,7 +756,7 @@
 		"description": ""
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(Servers with authentication not supported)",
+		"message": "(Servers with authentication are not supported in Chrome)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {
@@ -820,7 +820,7 @@
 		"description": ""
 	},
 	"settingsMultipleRuleList": {
-		"message": "Host\/Rule list:",
+		"message": "Host/Rule list:",
 		"description": ""
 	},
 	"settingsMultipleRuleInvalidHost": {
@@ -887,6 +887,30 @@
 		"message": "Format:",
 		"description": ""
 	},
+	"settingsServerSubscriptionApplyProxy": {
+		"message": "Pass through proxy:",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpFirefox": {
+		"message": "(Decide base on your access to the server)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxyHelpChrome": {
+		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_NoProxy": {
+		"message": "No Proxy",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
+		"message": "Current Proxy",
+		"description": ""
+	},
+	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
+		"message": "Selected Proxy",
+		"description": ""
+	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Username:",
 		"description": ""
@@ -928,7 +952,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "All the proxy server subscriptions are removed.<br\/>You have to save to apply the changes.",
+		"message": "All the proxy server subscriptions are removed.<br/>You have to save to apply the changes.",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
@@ -976,11 +1000,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "The subscription is updated with {0} proxies in it. <br\/>Don't forget to save the changes.",
+		"message": "The subscription is updated with {0} proxies in it. <br/>Don't forget to save the changes.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "The subscription is added with {0} proxies in it. <br\/>Don't forget to save the changes.",
+		"message": "The subscription is added with {0} proxies in it. <br/>Don't forget to save the changes.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {

@@ -72,7 +72,7 @@
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "لیست زیر دامنه هایی است که یا از آنها پاسخی دریافت نشده و یا با خطا مواجه شده اند<br \/>اگر فکر می کنید که اینها مسدود شده اند، میتوانید آنها را به لیست قوانین اضافه کنید.",
+		"message": "لیست زیر دامنه هایی است که یا از آنها پاسخی دریافت نشده و یا با خطا مواجه شده اند<br />اگر فکر می کنید که اینها مسدود شده اند، میتوانید آنها را به لیست قوانین اضافه کنید.",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
@@ -84,11 +84,11 @@
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "متاسفانه اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow in incognito` را فعال کنید. <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>اطلاعات بیشتر<\/a>.",
+		"message": "متاسفانه اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow in incognito` را فعال کنید. <a href='https://support.google.com/chrome_webstore/answer/2664769'>اطلاعات بیشتر</a>.",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "از فایرفاکس 67 به بعد اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow` را برای `Run in Private Windows` فعال کنید. <a href='https:\/\/support.mozilla.org\/en-US\/kb\/extensions-private-browsing'>اطلاعات بیشتر<\/a>.",
+		"message": "از فایرفاکس 67 به بعد اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow` را برای `Run in Private Windows` فعال کنید. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>اطلاعات بیشتر</a>.",
 		"description": ""
 	},
 	"proxyableTitle": {
@@ -96,7 +96,7 @@
 		"description": ""
 	},
 	"proxyableHeader": {
-		"message": "لیست درخواست ها\/عکس\/منایع قابل پراکسی شدن در این صفحه",
+		"message": "لیست درخواست ها/عکس/منایع قابل پراکسی شدن در این صفحه",
 		"description": ""
 	},
 	"proxyableReload": {
@@ -108,7 +108,7 @@
 		"description": ""
 	},
 	"proxyableHeaderDesc": {
-		"message": "در این صفحه لیست منابعی که در صفحه استفاده شده و یا از همین صفحه فراخوانی شده اند را ببینید و سپس پراکسی را برای هر کدام فعال کنید.<br\/> اگر لیست خالی است می توانید برای مشاهده منابع صفحه مورد نظر را بازخوانی کنید.",
+		"message": "در این صفحه لیست منابعی که در صفحه استفاده شده و یا از همین صفحه فراخوانی شده اند را ببینید و سپس پراکسی را برای هر کدام فعال کنید.<br/> اگر لیست خالی است می توانید برای مشاهده منابع صفحه مورد نظر را بازخوانی کنید.",
 		"description": ""
 	},
 	"proxyableErrNoSourceTab": {
@@ -196,7 +196,7 @@
 		"description": ""
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong>فقط مخصوص Firefox<\/strong>متاسفانه این ویژگی را مرورگر Chrome پشتیبانی نمی کند.<\/span>",
+		"message": "<strong>فقط مخصوص Firefox</strong>متاسفانه این ویژگی را مرورگر Chrome پشتیبانی نمی کند.</span>",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOrigin": {
@@ -240,7 +240,7 @@
 		"description": ""
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا وضعیت فعال\/غیرفعال\/هوشمند\/... را همگام سازی کنید.",
+		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا وضعیت فعال/غیرفعال/هوشمند/... را همگام سازی کنید.",
 		"description": ""
 	},
 	"settingsGeneralSyncActiveProxy": {
@@ -344,7 +344,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "در ایجا لیست قوانینی را مشاهده می کنید که به SmartProxy این اجازه را میده که برای فعال و غیر فعال کردن پراکسی برای سایت های مختلف تصمیم گیری کند.<br \/> قالب قوانین از <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>Match patterns<\/a> و <a href='https:\/\/en.wikipedia.org\/wiki\/Regular_expression' target='_blank'>Regular expressions<\/a> تبعیت می کند.",
+		"message": "در ایجا لیست قوانینی را مشاهده می کنید که به SmartProxy این اجازه را میده که برای فعال و غیر فعال کردن پراکسی برای سایت های مختلف تصمیم گیری کند.<br /> قالب قوانین از <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> و <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a> تبعیت می کند.",
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
@@ -404,7 +404,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "وارد کردن\/پشتیبانی گیری از لیست پراکسی سرور هاو قوانین.",
+		"message": "وارد کردن/پشتیبانی گیری از لیست پراکسی سرور هاو قوانین.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -500,7 +500,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "تمامی سرورهای پروکسی حذف شدند. <br\/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
+		"message": "تمامی سرورهای پروکسی حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
@@ -540,7 +540,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "تمامی قوانین حذف شدند. <br\/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
+		"message": "تمامی قوانین حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
 		"description": ""
 	},
 	"settingsRestoreBackupFailed": {
@@ -820,7 +820,7 @@
 		"description": ""
 	},
 	"settingsMultipleRuleList": {
-		"message": "لیست دامنه ها\/قوانین:",
+		"message": "لیست دامنه ها/قوانین:",
 		"description": ""
 	},
 	"settingsMultipleRuleInvalidHost": {
@@ -952,7 +952,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "تمامی اشتراکات لیست پروکسی ها حذف شدند. <br\/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
+		"message": "تمامی اشتراکات لیست پروکسی ها حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
@@ -1000,11 +1000,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "اشتراک مورد نظر با {0} پراکسی به روزرسانی شد.<br\/>ذخیره تغییرات فراموش نشود.",
+		"message": "اشتراک مورد نظر با {0} پراکسی به روزرسانی شد.<br/>ذخیره تغییرات فراموش نشود.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "اشتراک مورد نظر با تعداد {0} پراکسی اضافه شد.<br\/>ذخیره تغییرات فراموش نشود.",
+		"message": "اشتراک مورد نظر با تعداد {0} پراکسی اضافه شد.<br/>ذخیره تغییرات فراموش نشود.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {

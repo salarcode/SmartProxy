@@ -8,7 +8,7 @@
 		"description": ""
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy автоматически включит\/отключит прокси для сайтов, которые вы посещаете, на основе настраиваемых шаблонов.",
+		"message": "Smart Proxy автоматически включит/отключит прокси для сайтов, которые вы посещаете, на основе настраиваемых шаблонов.",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
@@ -72,7 +72,7 @@
 		"description": ""
 	},
 	"popupFailedRequestsDesc": {
-		"message": "Это домены, для которых истекло время ожидания или произошёл сбой.<br \/>Если вы считаете, что эти домены заблокированы, здесь вы можете добавить их в список правил прокси.",
+		"message": "Это домены, для которых истекло время ожидания или произошёл сбой.<br />Если вы считаете, что эти домены заблокированы, здесь вы можете добавить их в список правил прокси.",
 		"description": ""
 	},
 	"popupAddFailedRequestsConfirm": {
@@ -84,11 +84,11 @@
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "К сожалению, изменение настроек браузера для использования прокси-сервера системы требует разрешения «инкогнито». Перейдите в настройки расширения SmartProxy в браузере и проверьте разрешение «Разрешить в режиме инкогнито». <a href='https:\/\/support.google.com\/chrome_webstore\/answer\/2664769'>Узнайте, как<\/a>.",
+		"message": "К сожалению, изменение настроек браузера для использования прокси-сервера системы требует разрешения «инкогнито». Перейдите в настройки расширения SmartProxy в браузере и проверьте разрешение «Разрешить в режиме инкогнито». <a href='https://support.google.com/chrome_webstore/answer/2664769'>Узнайте, как</a>.",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Поскольку Firefox 67 изменяет настройки браузера для использования прокси-сервера системы, требуется разрешение «Приватный просмотр». Перейдите к настройкам дополнения SmartProxy в браузере и разрешите «Запуск в приватных окнах». <a href='https:\/\/support.mozilla.org\/ru-RU\/kb\/extensions-private-browsing'>Узнайте, как<\/a>.",
+		"message": "Поскольку Firefox 67 изменяет настройки браузера для использования прокси-сервера системы, требуется разрешение «Приватный просмотр». Перейдите к настройкам дополнения SmartProxy в браузере и разрешите «Запуск в приватных окнах». <a href='https://support.mozilla.org/ru-RU/kb/extensions-private-browsing'>Узнайте, как</a>.",
 		"description": ""
 	},
 	"proxyableTitle": {
@@ -108,7 +108,7 @@
 		"description": ""
 	},
 	"proxyableHeaderDesc": {
-		"message": "Ниже приведён список ресурсов, которые используются или вызывается с этой страницы. Используйте этот список, чтобы добавить эти ресурсы в правила активации прокси.<br \/>Если вы ничего здесь не видите, перезагрузите страницу, чтобы просмотреть ресурсы.",
+		"message": "Ниже приведён список ресурсов, которые используются или вызывается с этой страницы. Используйте этот список, чтобы добавить эти ресурсы в правила активации прокси.<br />Если вы ничего здесь не видите, перезагрузите страницу, чтобы просмотреть ресурсы.",
 		"description": ""
 	},
 	"proxyableErrNoSourceTab": {
@@ -180,7 +180,7 @@
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
-		"message": "Резервирование\/восстановление",
+		"message": "Резервирование/восстановление",
 		"description": ""
 	},
 	"settingsTabUpdateText": {
@@ -196,23 +196,23 @@
 		"description": ""
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong>только для Firefox!<\/strong> К сожалению, эта функция не поддерживается в Chrome.<\/span>",
+		"message": "<strong>только для Firefox!</strong> К сожалению, эта функция не поддерживается в Chrome.</span>",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Использовать прокси для вкладки\/источника",
+		"message": "Использовать прокси для вкладки/источника",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "Если одно из правил соответствует исходному\/главному URL-адресу вкладки и к нему применяется прокси, то все другие запросы из этого источника также будут использовать данный прокси. Это приведёт к тому, что вся вкладка будет передана на определённый прокси-сервер. Кроме того, исчезает необходимость иметь правило для каждого отдельного домена. Обратите внимание, что если прокси не применяется к вкладке, правила прокси могут применяться к другим запросам к другим доменам индивидуально.",
+		"message": "Если одно из правил соответствует исходному/главному URL-адресу вкладки и к нему применяется прокси, то все другие запросы из этого источника также будут использовать данный прокси. Это приведёт к тому, что вся вкладка будет передана на определённый прокси-сервер. Кроме того, исчезает необходимость иметь правило для каждого отдельного домена. Обратите внимание, что если прокси не применяется к вкладке, правила прокси могут применяться к другим запросам к другим доменам индивидуально.",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "Прокси для вкладки\/источника включены",
+		"message": "Прокси для вкладки/источника включены",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "Прокси для вкладки\/источника отключены",
+		"message": "Прокси для вкладки/источника отключены",
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
@@ -344,7 +344,7 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesDescription": {
-		"message": "Список правил, указывающих SmartProxy, включать ли прокси для определённого домена или нет.<br \/>Правила основываются на <a href='https:\/\/developer.mozilla.org\/en-US\/Add-ons\/WebExtensions\/Match_patterns' target='_blank'>шаблонах совпадений<\/a> и <a href='https:\/\/en.wikipedia.org\/wiki\/Regular_expression' target='_blank'>регулярных выражениях<\/a>.",
+		"message": "Список правил, указывающих SmartProxy, включать ли прокси для определённого домена или нет.<br />Правила основываются на <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>шаблонах совпадений</a> и <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>регулярных выражениях</a>.",
 		"description": ""
 	},
 	"settingsTabBypassDescription": {
@@ -404,7 +404,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Импортирование\/экспортирование отдельных списков прокси и правил.",
+		"message": "Импортирование/экспортирование отдельных списков прокси и правил.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -500,7 +500,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "Все прокси-серверы удалены.<br\/>Вы должны сохранить, чтобы применить изменения.",
+		"message": "Все прокси-серверы удалены.<br/>Вы должны сохранить, чтобы применить изменения.",
 		"description": ""
 	},
 	"settingsImportProxiesFileNotSelected": {
@@ -540,7 +540,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "Все правила будут удалены.<br\/>Вы должны сохранить, чтобы применить изменения.",
+		"message": "Все правила будут удалены.<br/>Вы должны сохранить, чтобы применить изменения.",
 		"description": ""
 	},
 	"settingsRestoreBackupFailed": {
@@ -820,7 +820,7 @@
 		"description": ""
 	},
 	"settingsMultipleRuleList": {
-		"message": "Список хостов\/правил:",
+		"message": "Список хостов/правил:",
 		"description": ""
 	},
 	"settingsMultipleRuleInvalidHost": {
@@ -952,7 +952,7 @@
 		"description": ""
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "Все подписки на прокси-сервер удалятся.<br\/>Вы должны сохранить, чтобы применить изменения.",
+		"message": "Все подписки на прокси-сервер удалятся.<br/>Вы должны сохранить, чтобы применить изменения.",
 		"description": ""
 	},
 	"settingsServerSubscriptionProtocolDefault": {
@@ -1000,11 +1000,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "Подписка обновляется с помощью {0} прокси.<br\/>Не забудьте сохранить изменения.",
+		"message": "Подписка обновляется с помощью {0} прокси.<br/>Не забудьте сохранить изменения.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "Подписка добавляется с помощью {0} прокси.<br\/>Не забудьте сохранить изменения.",
+		"message": "Подписка добавляется с помощью {0} прокси.<br/>Не забудьте сохранить изменения.",
 		"description": ""
 	},
 	"settingsServerSubscriptionSaveFailedGet": {
