@@ -190,7 +190,9 @@ export class settingsPage {
                     name: "port", data: "port", type: "num", title: browser.i18n.getMessage("settingsServersGridColPort"),
                 },
                 {
+                    "width": "70px",
                     "data": null,
+                    "className": "text-nowrap",
                     "defaultContent": "<button class='btn btn-sm btn-success' id='btnServersEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>",
                 }
             ],
@@ -225,13 +227,14 @@ export class settingsPage {
                     name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled")
                 },
                 {
-                    name: "proxy", data: "proxyName", title: browser.i18n.getMessage("settingsRulesGridColProxy"),
-                    defaultContent: browser.i18n.getMessage("settingsRulesProxyDefault")
+                    "width": "60px",
+                    "data": null,
+                    "className": "text-nowrap",
+                    "defaultContent": "<button class='btn btn-sm btn-success' id='btnRulesEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnRulesRemove'><i class='fas fa-times'></button>",
                 },
                 {
-                    width: "70px",
-                    "data": null,
-                    "defaultContent": "<button class='btn btn-sm btn-success' id='btnRulesEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnRulesRemove'><i class='fas fa-times'></button>",
+                    name: "proxy", data: "proxyName", title: browser.i18n.getMessage("settingsRulesGridColProxy"),
+                    defaultContent: browser.i18n.getMessage("settingsRulesProxyDefault")
                 }
             ],
         });
@@ -265,7 +268,9 @@ export class settingsPage {
                     name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColEnabled"),
                 },
                 {
+                    "width": "70px",
                     "data": null,
+                    "className": "text-nowrap",
                     "defaultContent": "<button class='btn btn-sm btn-success' id='btnSubscriptionsEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnSubscriptionsRemove'><i class='fas fa-times'></button>",
                 }
             ],
