@@ -771,7 +771,10 @@ export class settingsPage {
         if (e && e.target) {
             let rowElement = jQuery(e.target).parents('tr');
             if (rowElement.hasClass('child'))
-                dataItem = this.grdServers.row({ selected: true }).data();
+            {
+                this.grdServers.rows().deselect();
+                dataItem = this.grdServers.row(rowElement.prev('tr.parent')).select().data();
+            }
             else
                 dataItem = this.grdServers.row(rowElement).data();
         }
@@ -795,9 +798,13 @@ export class settingsPage {
 
     private static refreshServersGrid() {
         let currentRow = this.grdServers.row(".selected");
-        if (currentRow)
+        if (currentRow && currentRow.data())
             // displaying the possible data change
             settingsPage.refreshServersGridRow(currentRow, true);
+        else {
+            this.grdServers.rows().invalidate();
+            settingsPage.refreshServersGridAllRows();
+        }
 
         this.grdServers.draw('full-hold');
     }
@@ -909,11 +916,13 @@ export class settingsPage {
 
     private static readSelectedRule(e?: any): any {
         let dataItem;
-
         if (e && e.target) {
             let rowElement = jQuery(e.target).parents('tr');
             if (rowElement.hasClass('child'))
-                dataItem = this.grdRules.row({ selected: true }).data();
+            {
+                this.grdRules.rows().deselect();
+                dataItem = this.grdRules.row(rowElement.prev('tr.parent')).select().data();
+            }
             else
                 dataItem = this.grdRules.row(rowElement).data();
         }
@@ -937,9 +946,13 @@ export class settingsPage {
 
     private static refreshRulesGrid() {
         let currentRow = this.grdRules.row('.selected');
-        if (currentRow)
+        if (currentRow && currentRow.data())
             // displaying the possible data change
             settingsPage.refreshRulesGridRow(currentRow, true);
+        else {
+            this.grdRules.rows().invalidate();
+            settingsPage.refreshRulesGridAllRows();
+        }
 
         this.grdRules.draw('full-hold');
     }
@@ -1040,7 +1053,10 @@ export class settingsPage {
         if (e && e.target) {
             let rowElement = jQuery(e.target).parents('tr');
             if (rowElement.hasClass('child'))
-                dataItem = this.grdServerSubscriptions.row({ selected: true }).data();
+            {
+                this.grdServerSubscriptions.rows().deselect();    
+                dataItem = this.grdServerSubscriptions.row(rowElement.prev('tr.parent')).select().data();
+            }
             else
                 dataItem = this.grdServerSubscriptions.row(rowElement).data();
         }
@@ -1064,9 +1080,13 @@ export class settingsPage {
 
     private static refreshServerSubscriptionsGrid() {
         let currentRow = this.grdServerSubscriptions.row('.selected');
-        if (currentRow)
+        if (currentRow && currentRow.data())
             // displaying the possible data change
             settingsPage.refreshServerSubscriptionsGridRow(currentRow, true);
+        else {
+            this.grdServerSubscriptions.rows().invalidate();
+            settingsPage.refreshServerSubscriptionsGridAllRows();
+        }
 
         this.grdServerSubscriptions.draw('full-hold');
     }
@@ -1255,7 +1275,7 @@ export class settingsPage {
             modal.find("#txtServerAddress").focus();
         },
         onClickSubmitProxyServer() {
-            
+
             let modal = jQuery("#modalModifyProxyServer");
             let editingModel = modal.data("editing");
 
