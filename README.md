@@ -41,21 +41,19 @@ To install in **Firefox** follow these instructions:
 
 https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Temporary_Installation_in_Firefox
 
-1.  Create a copy of `manifest-firefox.json` file and name it `manifest.json`
-2.	build the project using `npm run build-ff` command
-3.	open Firefox
-4.	enter "about:debugging" in the URL bar
-5.	click "Load Temporary Add-on"
-6.	open the extension's 'build' directory and select any file inside the extension.
+1.	build the project using `npm run build-ff` command
+2.	open Firefox
+3.	enter "about:debugging" in the URL bar
+4.	click "Load Temporary Add-on"
+5.	open the extension's 'build' directory and select any file inside the extension.
 
 To install in **Google Chrome** follow these instructions:
 
 https://developer.chrome.com/extensions/getstarted#unpacked
 
-1.  Create a copy of `manifest-chrome.json` file and name it `manifest.json`
-2.	build the project using `npm run build-ch` command
-3.	Open the Extension Management page by navigating to chrome://extensions.
-4.	The Extension Management page can also be opened by clicking on the Chrome menu, hovering over More Tools then selecting Extensions.
-5.	Enable Developer Mode by clicking the toggle switch next to Developer mode.
-6.	Click the LOAD UNPACKED button and select the extension's 'build' directory.
+1.	build the project using `npm run build-ch` command
+2.	Open the Extension Management page by navigating to chrome://extensions.
+3.	The Extension Management page can also be opened by clicking on the Chrome menu, hovering over More Tools then selecting Extensions.
+4.	Enable Developer Mode by clicking the toggle switch next to Developer mode.
+5.	Click the LOAD UNPACKED button and select the extension's 'build' directory.
 
