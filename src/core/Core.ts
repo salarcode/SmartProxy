@@ -363,7 +363,8 @@ export class Core {
 							// Proxy server subscriptions saved successfully.
 							message: browser.i18n.getMessage("settingsSaveBypassSuccess")
 						});
-					} return;
+					}
+					return;
 				}
 			case Messages.SettingsPageRestoreSettings:
 				{
@@ -387,6 +388,19 @@ export class Core {
 					var selectedProxy = message.selectedProxy;
 
 					ProxyEngineSpecialRequests.setSpecialUrl(url, applyProxy, selectedProxy);
+
+					if (sendResponse) {
+						sendResponse({
+							success: true
+						});
+					}
+					return;
+				}
+			case Messages.SettingsPageSkipWelcome:
+				{
+					Settings.current.firstEverInstallNotified = true;
+					SettingsOperation.saveAllSync();
+
 
 					if (sendResponse) {
 						sendResponse({

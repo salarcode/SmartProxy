@@ -50,6 +50,7 @@ export class settingsPage {
         CommonUi.onDocumentReady(this.bindEvents);
         CommonUi.onDocumentReady(this.initializeGrids);
         CommonUi.onDocumentReady(this.initializeUi);
+        CommonUi.onDocumentReady(this.showNewUserWelcome);
 
         PolyFill.runtimeSendMessage(Messages.SettingsPageGetInitialData,
             (dataForSettings: SettingsPageInternalDataType) => {
@@ -88,6 +89,8 @@ export class settingsPage {
 
     private static bindEvents() {
         // general options
+        jQuery("#btnSkipWelcome").click(settingsPage.uiEvents.onClickSkipWelcome);
+
         jQuery("#btnSaveGeneralOptions").click(settingsPage.uiEvents.onClickSaveGeneralOptions);
 
         jQuery("#btnRejectGeneralOptions").click(settingsPage.uiEvents.onClickRejectGeneralOptions);
@@ -376,6 +379,14 @@ export class settingsPage {
 
         //Fire it when the page first loads:
         alterMenuCss();
+    }
+
+    private static showNewUserWelcome() {
+        if (settingsPage.currentSettings.firstEverInstallNotified === true ||
+            (settingsPage.currentSettings.proxyServers != null && settingsPage.currentSettings.proxyServers.length > 0))
+            return;
+        let modal = jQuery("#modalWelcome");
+        modal.modal("show");
     }
 
     //#region Populate UI ----------------------
@@ -775,8 +786,7 @@ export class settingsPage {
 
         if (e && e.target) {
             let rowElement = jQuery(e.target).parents('tr');
-            if (rowElement.hasClass('child'))
-            {
+            if (rowElement.hasClass('child')) {
                 this.grdServers.rows().deselect();
                 dataItem = this.grdServers.row(rowElement.prev('tr.parent')).select().data();
             }
@@ -923,8 +933,7 @@ export class settingsPage {
         let dataItem;
         if (e && e.target) {
             let rowElement = jQuery(e.target).parents('tr');
-            if (rowElement.hasClass('child'))
-            {
+            if (rowElement.hasClass('child')) {
                 this.grdRules.rows().deselect();
                 dataItem = this.grdRules.row(rowElement.prev('tr.parent')).select().data();
             }
@@ -1057,9 +1066,8 @@ export class settingsPage {
 
         if (e && e.target) {
             let rowElement = jQuery(e.target).parents('tr');
-            if (rowElement.hasClass('child'))
-            {
-                this.grdServerSubscriptions.rows().deselect();    
+            if (rowElement.hasClass('child')) {
+                this.grdServerSubscriptions.rows().deselect();
                 dataItem = this.grdServerSubscriptions.row(rowElement.prev('tr.parent')).select().data();
             }
             else
@@ -1178,6 +1186,12 @@ export class settingsPage {
 
     //#region Events --------------------------
     private static uiEvents = {
+        onClickSkipWelcome() {
+            PolyFill.runtimeSendMessage(
+                {
+                    command: Messages.SettingsPageSkipWelcome
+                });
+        },
         onClickSaveGeneralOptions() {
             let generalOptions = settingsPage.readGeneralOptions();
 

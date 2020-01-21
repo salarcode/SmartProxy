@@ -39,9 +39,11 @@ html.popup body {
 .rtl {
     font-family: Tahoma, sans-serif;
 }
+
 body.rtl {
     text-align: right;
 }
+
 .rtl .jsgrid-align-left {
     direction: ltr;
 }
@@ -49,13 +51,16 @@ body.rtl {
 .rtl .nav {
     padding-right: 0;
 }
-.rtl .modal-footer > :not(:first-child) {
+
+.rtl .modal-footer> :not(:first-child) {
     margin-left: 0;
     margin-right: .25rem;
 }
+
 .rtl .modal-header .close {
     margin: -1rem auto -1rem -1rem;
 }
+
 .direction-ltr {
     direction: ltr;
 }
@@ -112,6 +117,10 @@ input:invalid {
 .subdomains-list.subdomains-list {
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.has-list-with-muted-help li>small {
+    color: gray;
 }
 
 /* ============================== */

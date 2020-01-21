@@ -69,6 +69,7 @@ export class Messages {
 	public static SettingsPageSaveBypass = "SettingsPage_SaveBypass";
 	public static SettingsPageRestoreSettings = "SettingsPage_RestoreSettings";
 	public static SettingsPageMakeRequestSpecial = "SettingsPage_MakeRequestSpecial";
+	public static SettingsPageSkipWelcome = "SettingsPage_SkipWelcome";
 
 	// Request Logger
 	public static ProxyableRequestLog = "Proxyable_RequestLog";
@@ -169,6 +170,7 @@ export class SettingsConfig {
 	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
 	public options: GeneralOptions;
 	public bypass: BypassOptions;
+	public firstEverInstallNotified: boolean = false;
 }
 export class GeneralOptions implements Cloneable {
 	public syncSettings: boolean = false;
