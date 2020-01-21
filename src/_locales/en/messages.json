@@ -8,7 +8,7 @@
 		"description": ""
 	},
 	"extensionDescription": {
-		"message": "SmartProxy is a smart automatic proxy switcher that will automatically enable/disable proxy for the sites you visit, based on customizable rules.",
+		"message": "Smart Proxy will automatically enable/disable proxy for the sites you visit, based on customizable patterns.",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
@@ -1045,6 +1045,18 @@
 	},
 	"settingsBypassInvalid": {
 		"message": "Invalid bypass settings",
+		"description": ""
+	},
+	"settingsWelcomeTitle": {
+		"message": "Welcome to SmartProxy",
+		"description": ""
+	},
+	"settingsWelcomeMessage": {
+		"message": "<p>\n\t\t\t\t\t\tWelcome! I'm glad that you have chosen SmartProxy, the smart proxy switcher.\n\t\t\t\t\t\t<br>\n\t\t\t\t\t\tPlease follow these steps to get started:\n\t\t\t\t\t</p>\n\t\t\t\t\t<ol>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tAdd a Proxy Server\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Head to Proxy Servers tab and add a proxy server there)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tSet proxy mode to Smart Proxy mode\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Use toolbar popup menu to change the active mode to Smart Proxy)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tDefine Proxy Rules\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Use toolbar popup menu to add rules or add/modify rules from Proxy Rules tab)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tYou're all set.\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ol>",
+		"description": ""
+	},
+	"settingsWelcomeSkipButton": {
+		"message": "Got it",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {
