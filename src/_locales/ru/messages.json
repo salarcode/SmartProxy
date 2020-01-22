@@ -1047,6 +1047,18 @@
 		"message": "Недопустимые настройки обхода",
 		"description": ""
 	},
+	"settingsWelcomeTitle": {
+		"message": "Добро пожаловать в SmartProxy",
+		"description": ""
+	},
+	"settingsWelcomeMessage": {
+		"message": "<p>\n\t\t\t\t\t\tДобро пожаловать! Я рад, что вы выбрали SmartProxy, умный переключатель прокси.\n\t\t\t\t\t\t<br>\n\t\t\t\t\t\tПожалуйста, выполните следующие действия, чтобы начать работу:\n\t\t\t\t\t</p>\n\t\t\t\t\t<ol>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tДобавьте прокси-сервер\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Перейдите на вкладку «Прокси-серверы» и там добавьте)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tУстановите умный режим прокси\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Используйте всплывающее меню панели инструментов, чтобы изменить активный режим на «Умный прокси»)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tНастройте правила прокси\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Используйте всплывающее меню панели инструментов для добавления правил или вкладку «Правила проксирования» добавления/изменения правил прокси-сервера)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tВсё готово.\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ol>",
+		"description": ""
+	},
+	"settingsWelcomeSkipButton": {
+		"message": "Ясно",
+		"description": ""
+	},
 	"notificationNoNextProxyServer": {
 		"message": "Следующий прокси-сервер отсутствует",
 		"description": ""
