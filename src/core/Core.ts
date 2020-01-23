@@ -15,7 +15,6 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { browser, environment } from "../lib/environment";
-import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { ProxyAuthentication } from "./ProxyAuthentication";
 import { Debug } from "../lib/Debug";
 import { SettingsOperation } from "./SettingsOperation";
@@ -81,22 +80,6 @@ export class Core {
 	private static handleMessages(message: any, sender: any, sendResponse: Function) {
 
 		Debug.log("core message> ", message);
-
-		// --------------------
-		// handling pac proxy messages
-		if (sender.url == ProxyEngineFirefox.proxyScriptExtensionUrlFirefox) {
-			if (message == Messages.PacScriptGetInitialData) {
-
-				if (!sendResponse)
-					return;
-
-				let pacScriptInitData = Core.getDataForProxyScript();
-
-				// send the rules
-				sendResponse(pacScriptInitData);
-			}
-			return;
-		}
 
 		let isCommand = false;
 		let command: string;
@@ -546,14 +529,6 @@ export class Core {
 		result.success = false;
 		result.message = browser.i18n.getMessage("notificationNoPreviousProxyServer");
 		return result;
-	}
-	private static getDataForProxyScript() {
-		return {
-			proxyRules: Settings.current.proxyRules,
-			proxyMode: Settings.current.proxyMode,
-			activeProxyServer: Settings.current.activeProxyServer,
-			bypass: Settings.current.bypass
-		};
 	}
 
 	private static getSettingsPageInitialData(): SettingsPageInternalDataType {

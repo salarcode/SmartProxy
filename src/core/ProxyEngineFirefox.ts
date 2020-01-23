@@ -24,8 +24,6 @@ import { Settings } from "./Settings";
 import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
 
 export class ProxyEngineFirefox {
-	private static proxyScriptUrlFirefox = "core-engine-ff-pac.js";
-	public static proxyScriptExtensionUrlFirefox = browser.runtime.getURL("core-engine-ff-pac.js");
 
 	/** If Firefox API available, registers proxy */
 	public static register(): boolean {
@@ -35,10 +33,6 @@ export class ProxyEngineFirefox {
 			// Smart features are available here only
 			browser.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest,
 				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] });
-
-			// PAC script is used for Ftp and other protocols
-			if (browser.proxy["register"])
-				browser.proxy.register(ProxyEngineFirefox.proxyScriptUrlFirefox);
 
 			browser.proxy.onError.addListener(ProxyEngineFirefox.onProxyError);
 

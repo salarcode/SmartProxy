@@ -88,7 +88,7 @@
 	"applications": {
 		"gecko": {
 			"id": "smartproxy@salarcode.com",
-			"strict_min_version": "60.0"
+			"strict_min_version": "71.0"
 		}
 	}
 }
