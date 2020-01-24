@@ -259,6 +259,9 @@ export const RuleImporter = {
 				return `[${source} , ${pattern}]`;
 			}
 		}
+	},
+	importGFWList(file: any, append: any, currentRules: any, success: Function, fail: Function) {
+
 	}
 }
 
@@ -380,6 +383,92 @@ const externalAppRuleParser = {
 				});
 			}
 			return exclusive_rules.concat(normal_rules);
+		}
+	},
+	'GFWList': {
+		parse(text: any): {
+			whiteList: any[],
+			blackList: any[]
+		} {
+			text = text.trim();
+
+			let whiteList = [];
+			let blackList = [];
+
+			for (var line in text.split('\n')) {
+				if (!line[0] || line[0] == '!' || line[0] == '[')
+					continue;
+
+				var converted = externalAppRuleParser.GFWList.convertLineRegex(line);
+				if (!converted) continue;
+
+				if (line.startsWith('@@'))
+					whiteList.push(converted);
+				else
+					blackList.push(converted);
+
+			}
+			return {
+				whiteList: whiteList,
+				blackList: blackList
+			};
+		},
+		convertLineRegex(line: string): {
+			regex: string,
+			name: string,
+			makeNameRandom: boolean
+		} {
+			if (line.startsWith('@@'))
+				// white-list is not handled here
+				line = line.substring(2);
+
+			if (line.startsWith('/') && line.endsWith('/')) {
+				line = line.substring(1, line.length - 1);
+				// this is a regex expression, doesn't need processing
+				return {
+					regex: line,
+					name: 'Regex',
+					makeNameRandom: true
+				}
+			}
+
+			line = line.replace('*', '.+');
+			line = line.replace('(', '\(').replace(')', '\)');
+
+			if (line.startsWith('||')) {
+				line = line.substring(2);
+
+				return {
+					regex: `^(https?|ftps?|wss?):\/\/(?:.+\.)?${line}(?:[.?#\\\/].*)?$`,
+					name: line,
+					makeNameRandom: false
+				}
+			}
+			if (line.startsWith('|')) {
+				line = line.substring(1);
+
+				return {
+					regex: `^${line}.*`,
+					name: line,
+					makeNameRandom: false
+				}
+			}
+			if (line.endsWith('|')) {
+				line = line.substring(0, line.length - 1);
+
+				return {
+					regex: `.*${line}$`,
+					name: line,
+					makeNameRandom: false
+				}
+			}
+			else {
+				return {
+					regex: `.*${line}.*`,
+					name: line,
+					makeNameRandom: false
+				}
+			}
 		}
 	},
 	'Switchy': {
