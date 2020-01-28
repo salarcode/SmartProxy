@@ -370,3 +370,31 @@ export class ProxyServerSubscription {
 
 	public applyProxy: SpecialRequestApplyProxyMode;
 }
+
+export enum ProxyRulesSubscriptionFormat {
+	AutoProxy
+}
+
+export class ProxyRulesSubscription{
+	public name: string;
+	public url: string;
+	public enabled: boolean = false;
+
+	// in minutes
+	public refreshRate: number = 0;
+
+	// types stored in proxyServerSubscriptionObfuscate
+	public obfuscation: string;
+
+	public format: ProxyRulesSubscriptionFormat;
+
+	// number of rules in the list
+	public totalCount: number = 0;
+
+	public username: string;
+	public password: string;
+	// // the loaded proxies
+	// public proxies: any[];
+
+	public applyProxy: SpecialRequestApplyProxyMode;	
+}

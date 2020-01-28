@@ -1023,6 +1023,26 @@
 		"message": "Proxy server subscriptions saved successfully.",
 		"description": ""
 	},
+	"settingsRulesSubscriptionsModalTitle": {
+		"message": "Subscribe to a rules list",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColName": {
+		"message": "Name",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColUrl": {
+		"message": "Url",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColCount": {
+		"message": "Count",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
 	"settingsBypassEnableForAlways": {
 		"message": "Enable for 'Always Enable' mode",
 		"description": ""

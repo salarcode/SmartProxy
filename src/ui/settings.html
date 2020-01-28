@@ -61,15 +61,20 @@
 						<i class="fas fa-server fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServers">Proxy Servers</span>
 					</a>
+					<a class="nav-link" id="tab-server-subscriptions-tab" data-toggle="pill" href="#tab-server-subscriptions" role="tab"
+					   aria-controls="tab-server-subscriptions" aria-expanded="true">
+						<i class="fas fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
+						<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
+					</a>
 					<a class="nav-link" id="tab-rules-tab" data-toggle="pill" href="#tab-rules" role="tab" aria-controls="tab-rules"
 					   aria-expanded="true">
 						<i class="fas fa-magic fa-lg text-warning" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyRules">Proxy Rules</span>
 					</a>
-					<a class="nav-link" id="tab-server-subscriptions-tab" data-toggle="pill" href="#tab-server-subscriptions" role="tab"
-					   aria-controls="tab-server-subscriptions" aria-expanded="true">
-						<i class="fas fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
-						<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
+					<a class="nav-link" id="tab-rules-subscriptions-tab" data-toggle="pill" href="#tab-rules-subscriptions" role="tab"
+					   aria-controls="tab-rules-subscriptions" aria-expanded="true">
+					   <i class="fas fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
+					   <span data-localize="settingsTabProxyRulesSubscriptions">Proxy Rules Subscriptions</span>
 					</a>
 					<a class="nav-link" id="tab-bypass-tab" data-toggle="pill" href="#tab-bypass" role="tab" aria-controls="tab-bypass"
 					   aria-expanded="true">
@@ -395,8 +400,46 @@
 						</p>
 					</div>
 
+					<div class="tab-pane fade" id="tab-rules-subscriptions" role="tabpanel" aria-labelledby="tab-rules-subscriptions-tab">
+						<!----------Proxy Rules Subscriptions----------->
+						<h3 data-localize="settingsTabProxyRulesSubscriptionAAAAA">Proxy Rules Subscriptions</h3>
+						<hr class="afshin-line" />
 
-					<div class="tab-pane fade" id="tab-server-subscriptions" role="tabpanel" aria-labelledby="tab-rules-tab">
+						<h4 data-localize="settingsTabProxyRulesSubscriptionTitleAAAAA">
+							Manage proxy rules subscriptions:
+						</h4>
+						<p data-localize="settingsTabProxyRulesSubscriptionDescriptionAAAAA">
+							Here you can subscribe to rules lists. Based on these rules, proxies will apply.
+						</p>
+						<p>
+							<div class="float-left">
+								<button id="btnAddRulesSubscription" class="btn btn-info" data-localize="settingsAddRulesSubscriptionButtonAAAA">
+									Subscribe to a rules list
+								</button>
+							</div>
+							<div class="clearfix"></div>
+						</p>
+						<table id="grdRulesSubscriptions" class="table table-striped table-bordered table-hover"></table>
+
+						<p class="mt-2">
+							<div class="float-left">
+								<button id="btnSaveRulesSubscriptionsChanges" class="btn btn-primary">
+									<span data-localize="settingsSaveChangesButtonAAAAA">Save Changes</span>
+								</button>
+								<button id="btnRejectRulesSubscriptionsChanges" class="btn btn-outline-secondary">
+									<span data-localize="settingsRejectChangesButtonAAAAA">Reject Changes</span>
+								</button>
+							</div>
+							<div class="float-right">
+								<button id="btnClearRulesSubscriptions" class="btn btn-outline-danger" title="Clear all the subscriptions">
+									<i class="fas fa-trash" aria-hidden="true"></i>
+								</button>
+							</div>
+							<div class="clearfix"></div>
+						</p>
+					</div>
+
+					<div class="tab-pane fade" id="tab-server-subscriptions" role="tabpanel" aria-labelledby="tab-server-subscriptions-tab">
 						<!----------Proxy Server Subscriptions----------->
 						<h3 data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</h3>
 						<hr class="afshin-line" />
@@ -411,8 +454,7 @@
 						<p>
 							<div class="float-left">
 								<button id="btnAddServerSubscription" class="btn btn-info" data-localize="settingsAddServerSubscriptionButton">
-									Subscribe
-									to a list
+									Subscribe to a list
 								</button>
 							</div>
 							<div class="clearfix"></div>
@@ -800,6 +842,90 @@
 							<button type="button" id="btnSaveServerSubscription" class="btn btn-primary" data-localize="settingsServerSubscriptionSaveButton">Save
 							</button>
 							<button type="button" class="btn btn-secondary" data-dismiss="modal" data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalRulesSubscription" tabindex="-1" role="dialog" aria-labelledby="modalRulesSubscriptionLabel">
+		<!----------modal Rules Subscription----------->
+		<div class="modal-dialog" role="document">
+			<form class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalRulesSubscriptionLabel" data-localize="settingsRulesSubscriptionsModalTitle">
+						Subscribe to a rules list</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="txtName" data-localize="settingsRulesSubscriptionsNameAAAAA">Name:</label>
+						<input type="text" class="form-control" id="txtName" placeholder="Name" required>
+					</div>
+					<div class="form-group">
+						<label for="txtUrl" data-localize="settingsRulesSubscriptionsUrlAAAAA">Url:</label>
+						<input type="url" class="form-control direction-ltr" id="txtUrl" placeholder="Url" checked required>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="numRefreshRate" data-localize="settingsRulesSubscriptionsRefreshRateAAAA">Refresh Rate:</label>
+							<input type="number" min="0" class="form-control" id="numRefreshRate" placeholder="Refresh rate in minutes"
+							 required>
+							<span data-localize="settingsRulesSubscriptionsRefreshRateHelpAAAAA" class="form-text text-muted">(in minutes, 0
+								means no refresh)</span>
+						</div>
+						<div class="form-group col-sm-6">
+							<br />
+							<input type="checkbox" class="" id="chkEnabled" checked>
+							<label for="chkEnabled" data-localize="settingsRulesSubscriptionEnabledAAAAAA">Enabled</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="cmbRulesSubscriptionsObfuscation" data-localize="settingsRulesSubscriptionsObfuscationAAAAA">Obfuscation:</label>
+							<select class="form-control" id="cmbRulesSubscriptionsObfuscation"></select>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="cmbRulesSubscriptionsFormat" data-localize="settingsRulesSubscriptionsFormatAAAAA">Format:</label>
+							<select class="form-control" id="cmbRulesSubscriptionsFormat"></select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="cmbRulesSubscriptionsApplyProxy" data-localize="settingsRulesSubscriptionsApplyProxyAAAA">Pass through proxy:</label>
+							<select class="form-control" id="cmbRulesSubscriptionsApplyProxy"></select>
+							<small data-localize="settingsRulesSubscriptionsApplyProxyHelpFirefoxAAAAA" class="form-text text-muted firefox-only">
+								(Decide base on your access to the server)
+							</small>
+							<small data-localize="settingsRulesSubscriptionsApplyProxyHelpChromeAAAAA" class="form-text text-muted chrome-only">
+								(Unfortunately this feature is not available in chrome. Current proxy will apply)
+							</small>							
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="cmbRulesSubscriptionsUsername" data-localize="settingsRulesSubscriptionsUsernameAAAAA">Username:</label>
+							<input type="text" class="form-control" id="cmbRulesSubscriptionsUsername">
+							<span data-localize="settingsRulesSubscriptionsAuthenticationHelpAAAAA" class="form-text text-muted">(if the list
+								requires authentication)</span>
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="cmbRulesSubscriptionsPassword" data-localize="settingsRulesSubscriptionsPasswordAAAA">Password:</label>
+							<input type="password" class="form-control" id="cmbRulesSubscriptionsPassword" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="fullwidth">
+						<div class="float-left">
+							<button type="button" id="btnTestRulesSubscriptions" class="btn btn-secondary" data-localize="settingsRulesSubscriptionsTestButtonAAAAA">Test</button>
+						</div>
+						<div class="float-right">
+							<button type="button" id="btnSaveRulesSubscriptions" class="btn btn-primary" data-localize="settingsRulesSubscriptionsSaveButtonAAAAA">Save
+							</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" data-localize="settingsRulesSubscriptionsCancelButtonAAAA">Cancel</button>
 						</div>
 					</div>
 					<div class="clearfix"></div>
