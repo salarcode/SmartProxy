@@ -146,7 +146,7 @@ export class Utils {
 
 	public static isValidHost(host: string): boolean {
 		if (host) {
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
 			if (skip.indexOf(host) >= 0)
 				return false;
 
@@ -158,7 +158,7 @@ export class Utils {
 	public static isValidUrl(url: string): boolean {
 		try {
 			const u = new URL(url);
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
 			if (skip.indexOf(u.protocol) >= 0)
 				return false;
 
@@ -170,7 +170,7 @@ export class Utils {
 	public static isUrlLocal(url: string): boolean {
 		try {
 			const u = new URL(url);
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
 			if (skip.indexOf(u.protocol) >= 0)
 				return true;
 
@@ -192,7 +192,7 @@ export class Utils {
 	public static extractHostFromUrl(url: string): string | null {
 		try {
 			const u = new URL(url);
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:"];
+			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
 			if (skip.indexOf(u.protocol) >= 0)
 				return null;
 			let host = u.host;
