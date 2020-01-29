@@ -20,6 +20,7 @@ export const proxyServerProtocols = ["HTTP", "HTTPS", "SOCKS4", "SOCKS5"];
 export const proxyServerSubscriptionObfuscate = ["None", "Base64"];
 export const proxyServerSubscriptionFormat = ["PlainText", "JSON"];
 export const specialRequestApplyProxyModeKeys = ["NoProxy", "CurrentProxy"/* , "SelectedProxy" */];
+export const proxyRulesSubscriptionFormat = ["AutoProxy"];
 
 export enum ProxyModeType {
 	Direct,
@@ -167,6 +168,7 @@ export class SettingsConfig {
 
 	public activeProxyServer: ProxyServer | null;
 	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
+	public proxyRulesSubscriptions: ProxyRulesSubscription[] = [];
 	public options: GeneralOptions;
 	public bypass: BypassOptions;
 	public firstEverInstallNotified: boolean = false;
@@ -285,7 +287,7 @@ export class ProxyRule implements Cloneable {
 	get proxyName(): string {
 		if (!this.proxy)
 			return null;
-			
+
 		return this.proxy.name;
 	}
 	public static assignArray(rules: any[]): ProxyRule[] {
@@ -375,7 +377,7 @@ export enum ProxyRulesSubscriptionFormat {
 	AutoProxy
 }
 
-export class ProxyRulesSubscription{
+export class ProxyRulesSubscription {
 	public name: string;
 	public url: string;
 	public enabled: boolean = false;
@@ -396,5 +398,5 @@ export class ProxyRulesSubscription{
 	// // the loaded proxies
 	// public proxies: any[];
 
-	public applyProxy: SpecialRequestApplyProxyMode;	
+	public applyProxy: SpecialRequestApplyProxyMode;
 }

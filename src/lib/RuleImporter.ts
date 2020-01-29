@@ -16,8 +16,11 @@
  */
 import { Utils } from "./Utils";
 import { browser } from "./environment";
+import { ProxyRulesSubscription } from "../core/definitions";
 
 export const RuleImporter = {
+	readFromServer(serverDetail: ProxyRulesSubscription, success?: Function, fail?: Function) {
+	},
 	importSwitchyRules(file: any, append: any, currentRules: any, success: Function, fail: Function) {
 
 		if (!file) {
