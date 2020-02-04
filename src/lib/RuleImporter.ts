@@ -399,6 +399,7 @@ const externalAppRuleParser = {
 			let blackList = [];
 
 			for (var line in text.split(/\n|\r/)) {
+			for (var line of text.split(/\n|\r/)) {
 				line = line.trim();
 				if (!line[0] || line[0] == '!' || line[0] == '[')
 					continue;
