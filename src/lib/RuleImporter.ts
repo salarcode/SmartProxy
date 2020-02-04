@@ -438,6 +438,7 @@ const externalAppRuleParser = {
 			}
 
 			line = line.replace('*', '.+');
+			line = line.replace('*', '.+').replace('?', '\?');
 			line = line.replace('(', '\(').replace(')', '\)');
 
 			if (line.startsWith('||')) {
@@ -445,6 +446,7 @@ const externalAppRuleParser = {
 
 				return {
 					regex: `^(https?|ftps?|wss?):\/\/(?:.+\.)?${line}(?:[.?#\\\/].*)?$`,
+					regex: `^(https?|ftps?|wss?):\\/\\/(?:.+\\.)?${line}(?:[.?#\\\/].*)?$`,
 					name: line,
 					makeNameRandom: false
 				}
