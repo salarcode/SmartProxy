@@ -17,9 +17,60 @@
 import { Utils } from "./Utils";
 import { browser } from "./environment";
 import { ProxyRulesSubscription } from "../core/definitions";
+import { ProxyEngineSpecialRequests } from "../core/ProxyEngineSpecialRequests";
+import { CommonUi } from "../ui/code/CommonUi";
 
 export const RuleImporter = {
-	readFromServer(serverDetail: ProxyRulesSubscription, success?: Function, fail?: Function) {
+	readFromServer(subscriptionDetail: ProxyRulesSubscription, success?: Function, fail?: Function) {
+		if (!subscriptionDetail || !subscriptionDetail.url) {
+			if (fail) fail();
+			return;
+		}
+		if (!success) throw "onSuccess callback is mandatory";
+
+		function ajaxSuccess(response: any) {
+			if (!response)
+				if (fail) fail();
+			RuleImporter.importGFWList(response,
+				false,
+				null,
+				(importResult: any) => {
+					if (!importResult.success) {
+						if (fail)
+							fail(importResult);
+						return;
+					}
+					if (success)
+						success(importResult);
+				},
+				(error: Error) => {
+					if (fail)
+						fail(error);
+				});
+			//serverDetail);
+		}
+
+		if (subscriptionDetail.applyProxy !== null)
+			// mark this request as special
+			ProxyEngineSpecialRequests.setSpecialUrl(subscriptionDetail.url, subscriptionDetail.applyProxy);
+
+		let xhr = new XMLHttpRequest();
+		xhr.open("GET", subscriptionDetail.url);
+
+		if (subscriptionDetail.username) {
+			let pass = atob(subscriptionDetail.password);
+			xhr.setRequestHeader("Authorization", "Basic " + btoa(subscriptionDetail.username + ":" + pass));
+		}
+
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				ajaxSuccess(xhr.responseText);
+			}
+			else {
+				if (fail) fail(xhr.status);
+			}
+		};
+		xhr.send();
 	},
 	importSwitchyRules(file: any, append: any, currentRules: any, success: Function, fail: Function) {
 
@@ -264,7 +315,16 @@ export const RuleImporter = {
 		}
 	},
 	importGFWList(file: any, append: any, currentRules: any, success: Function, fail: Function) {
-
+		debugger;
+		var lines = Utils.b64DecodeUnicode(file);
+		var result = externalAppRuleParser.GFWList.parse(lines);
+		debugger;
+		var final = '';
+		for (const item of result._debug) {
+			final += item;
+		}
+		console.log(final);
+		CommonUi.downloadData(final, "processed-rules.txt");
 	}
 }
 
@@ -390,6 +450,7 @@ const externalAppRuleParser = {
 	},
 	'GFWList': {
 		parse(text: any): {
+			_debug: any[],
 			whiteList: any[],
 			blackList: any[]
 		} {
@@ -397,8 +458,8 @@ const externalAppRuleParser = {
 
 			let whiteList = [];
 			let blackList = [];
+			let _debug = [];
 
-			for (var line in text.split(/\n|\r/)) {
 			for (var line of text.split(/\n|\r/)) {
 				line = line.trim();
 				if (!line[0] || line[0] == '!' || line[0] == '[')
@@ -407,6 +468,7 @@ const externalAppRuleParser = {
 				var converted = externalAppRuleParser.GFWList.convertLineRegex(line);
 				if (!converted) continue;
 
+				_debug.push(line + '\n' + converted.regex + ' \t\t Name:' + converted.name + '\n\n');
 				if (line.startsWith('@@'))
 					whiteList.push(converted);
 				else
@@ -414,6 +476,7 @@ const externalAppRuleParser = {
 
 			}
 			return {
+				_debug: _debug,
 				whiteList: whiteList,
 				blackList: blackList
 			};
@@ -437,7 +500,6 @@ const externalAppRuleParser = {
 				}
 			}
 
-			line = line.replace('*', '.+');
 			line = line.replace('*', '.+').replace('?', '\?');
 			line = line.replace('(', '\(').replace(')', '\)');
 
@@ -445,8 +507,7 @@ const externalAppRuleParser = {
 				line = line.substring(2);
 
 				return {
-					regex: `^(https?|ftps?|wss?):\/\/(?:.+\.)?${line}(?:[.?#\\\/].*)?$`,
-					regex: `^(https?|ftps?|wss?):\\/\\/(?:.+\\.)?${line}(?:[.?#\\\/].*)?$`,
+					regex: `^(?:https?|ftps?|wss?):\\/\\/(?:.+\\.)?${line}(?:[.?#\\\/].*)?$`,
 					name: line,
 					makeNameRandom: false
 				}
