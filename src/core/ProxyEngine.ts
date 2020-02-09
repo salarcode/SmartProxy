@@ -16,7 +16,6 @@
  */
 import { PacScriptEventDispatcher } from "./PacScriptEventDispatcher";
 import { ProxyRules } from "./ProxyRules";
-import { Settings } from "./Settings";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { environment } from "../lib/environment";
 import { ProxyEngineChrome } from "./ProxyEngineChrome";
@@ -76,7 +75,7 @@ export class ProxyEngine {
             PacScriptEventDispatcher.notifyProxyRulesChange();
 
         // update proxy rules
-        ProxyRules.compileRules(Settings.current.proxyRules);
+        ProxyRules.compileRules();
         
         // update proxy rules
         this.updateChromeProxyConfig();

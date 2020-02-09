@@ -36,7 +36,11 @@ export const ProxyImporter = {
 				null,
 				false,
 				null,
-				(importResult: any) => {
+				(importResult: {
+					success: boolean,
+					message: string,
+					result: ProxyServer[]
+				}) => {
 					if (!importResult.success) {
 						if (fail)
 							fail(importResult);
@@ -74,7 +78,7 @@ export const ProxyImporter = {
 		};
 		xhr.send();
 	},
-	importText(text: string | ArrayBuffer, file: any, append: boolean, currentProxies: any[], success: Function, fail?: Function, options?: ProxyServerSubscription) {
+	importText(text: string | ArrayBuffer, file: any, append: boolean, currentProxies: ProxyServer[], success: Function, fail?: Function, options?: ProxyServerSubscription) {
 		if (!file && !text) {
 			if (fail) fail();
 			return;
@@ -112,7 +116,7 @@ export const ProxyImporter = {
 				return;
 			}
 
-			let importedProxies = Utils.removeDuplicatesFunc(parsedProxies,
+			let importedProxies: ProxyServer[] = Utils.removeDuplicatesFunc(parsedProxies,
 				(item1: ProxyServer, item2: ProxyServer) => item1.host == item2.host &&
 					item1.port == item2.port &&
 					item1.username == item2.username &&
@@ -125,7 +129,7 @@ export const ProxyImporter = {
 					currentProxies = [];
 
 				// make a copy
-				let appendedProxyList: any[] = currentProxies.slice();
+				let appendedProxyList: ProxyServer[] = currentProxies.slice();
 				let appendedProxyCount = 0;
 
 				for (let importedProxy of importedProxies) {

@@ -2,7 +2,7 @@
 
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -20,7 +20,7 @@ export const proxyServerProtocols = ["HTTP", "HTTPS", "SOCKS4", "SOCKS5"];
 export const proxyServerSubscriptionObfuscate = ["None", "Base64"];
 export const proxyServerSubscriptionFormat = ["PlainText", "JSON"];
 export const specialRequestApplyProxyModeKeys = ["NoProxy", "CurrentProxy"/* , "SelectedProxy" */];
-export const proxyRulesSubscriptionFormat = ["AutoProxy"];
+export const proxyRulesSubscriptionFormat = ["AutoProxy/GFWList"];
 
 export enum ProxyModeType {
 	Direct,
@@ -66,6 +66,7 @@ export class Messages {
 	public static SettingsPageSaveProxyServers = "SettingsPage_SaveProxyServers";
 	public static SettingsPageSaveProxyRules = "SettingsPage_SaveProxyRules";
 	public static SettingsPageSaveProxySubscriptions = "SettingsPage_SaveProxySubscriptions";
+	public static SettingsPageSaveProxyRulesSubscriptions = "SettingsPage_SaveProxyRulesSubscriptions";
 	public static SettingsPageSaveBypass = "SettingsPage_SaveBypass";
 	public static SettingsPageRestoreSettings = "SettingsPage_RestoreSettings";
 	public static SettingsPageMakeRequestSpecial = "SettingsPage_MakeRequestSpecial";
@@ -368,7 +369,7 @@ export class ProxyServerSubscription {
 	public username: string;
 	public password: string;
 	// the loaded proxies
-	public proxies: any[];
+	public proxies: ProxyServer[];
 
 	public applyProxy: SpecialRequestApplyProxyMode;
 }
@@ -395,8 +396,10 @@ export class ProxyRulesSubscription {
 
 	public username: string;
 	public password: string;
-	// // the loaded proxies
-	// public proxies: any[];
+	
+	// the loaded rules
+	public proxyRules: string[]; // Regex string
+	public whitelistRules: string[]; // Regex string
 
 	public applyProxy: SpecialRequestApplyProxyMode;
 }

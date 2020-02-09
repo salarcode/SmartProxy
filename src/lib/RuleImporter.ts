@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -16,9 +16,8 @@
  */
 import { Utils } from "./Utils";
 import { browser } from "./environment";
-import { ProxyRulesSubscription } from "../core/definitions";
+import { ProxyRulesSubscription, ProxyRulesSubscriptionFormat } from "../core/definitions";
 import { ProxyEngineSpecialRequests } from "../core/ProxyEngineSpecialRequests";
-import { CommonUi } from "../ui/code/CommonUi";
 
 export const RuleImporter = {
 	readFromServer(subscriptionDetail: ProxyRulesSubscription, success?: Function, fail?: Function) {
@@ -31,10 +30,17 @@ export const RuleImporter = {
 		function ajaxSuccess(response: any) {
 			if (!response)
 				if (fail) fail();
-			RuleImporter.importGFWList(response,
+			RuleImporter.importRulesBatch(response, null,
 				false,
 				null,
-				(importResult: any) => {
+				(importResult: {
+					success: boolean,
+					message: string,
+					result: {
+						whiteList: string[],
+						blackList: string[]
+					}
+				}) => {
 					if (!importResult.success) {
 						if (fail)
 							fail(importResult);
@@ -46,8 +52,8 @@ export const RuleImporter = {
 				(error: Error) => {
 					if (fail)
 						fail(error);
-				});
-			//serverDetail);
+				},
+				subscriptionDetail);
 		}
 
 		if (subscriptionDetail.applyProxy !== null)
@@ -72,33 +78,81 @@ export const RuleImporter = {
 		};
 		xhr.send();
 	},
-	importSwitchyRules(file: any, append: any, currentRules: any, success: Function, fail: Function) {
-
-		if (!file) {
+	importRulesBatch(text: string | ArrayBuffer, file: any, append: boolean, currentRules: any[], success: Function, fail?: Function, options?: ProxyRulesSubscription) {
+		if (!file && !text) {
 			if (fail) fail();
 			return;
 		}
-		let reader = new FileReader();
-		reader.onerror = event => {
-			if (fail) fail(event);
-		};
-		reader.onload = event => {
-			//let textFile = event.target;
-			let fileText = reader.result;
 
+		if (text) {
 			try {
-
-				// TODO: implement switchy import rules
-				let parsedRuleList = externalAppRuleParser.Switchy.parse(fileText);
-				if (parsedRuleList) {
-					// TODO
-				}
-
+				doImport(text as string, options);
 			} catch (e) {
 				if (fail) fail(e);
 			}
-		};
-		reader.readAsText(file);
+		}
+		else {
+			let reader = new FileReader();
+			reader.onerror = event => {
+				if (fail) fail(event);
+			};
+			reader.onload = event => {
+				//let textFile = event.target;
+				let fileText = reader.result;
+
+				try {
+					doImport(fileText as string, options);
+				} catch (e) {
+					if (fail) fail(e);
+				}
+			};
+			reader.readAsText(file);
+		}
+		function doImport(text: string, options?: ProxyRulesSubscription) {
+			if (options.obfuscation.toLowerCase() == "base64") {
+				// decode base64
+				text = Utils.b64DecodeUnicode(text);
+			}
+
+			let totalRules = 0;
+			let rules: {
+				whiteList: string[],
+				blackList: string[]
+			};
+
+			if (options && options.format == ProxyRulesSubscriptionFormat.AutoProxy) {
+				if (!externalAppRuleParser.GFWList.detect(text, false)) {
+					if (fail) fail();
+					return;
+				}
+				rules = externalAppRuleParser.GFWList.parse(text);
+			}
+			else {
+				if (fail) fail();
+				return;
+			}
+
+			if (append) {
+				if (!currentRules)
+					currentRules = [];
+				// TODO: 
+
+			}
+			else {
+				// Total of ${totalRules} rules are returned.<br>Don't forget to save the changes.
+				let message = browser.i18n.getMessage("importerImportRulesSuccessAAAAAA")
+					.replace("{0}", totalRules.toString());
+
+				if (success) {
+					// not need for any check, return straight away
+					success({
+						success: true,
+						message: message,
+						result: rules
+					});
+				}
+			}
+		}
 	},
 	importAutoProxy(file: any, append: any, currentRules: any, success: Function, fail: Function) {
 		///<summary>
@@ -313,18 +367,6 @@ export const RuleImporter = {
 				return `[${source} , ${pattern}]`;
 			}
 		}
-	},
-	importGFWList(file: any, append: any, currentRules: any, success: Function, fail: Function) {
-		debugger;
-		var lines = Utils.b64DecodeUnicode(file);
-		var result = externalAppRuleParser.GFWList.parse(lines);
-		debugger;
-		var final = '';
-		for (const item of result._debug) {
-			final += item;
-		}
-		console.log(final);
-		CommonUi.downloadData(final, "processed-rules.txt");
 	}
 }
 
@@ -378,12 +420,13 @@ Beginning with !, just for explanation.
 const externalAppRuleParser = {
 	'AutoProxy': {
 		magicPrefix: "W0F1dG9Qcm94",
-		detect(text: any) {
-			if (Utils.strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
+		detect(text: string, acceptBase64: boolean = true): boolean {
+			if (acceptBase64 && Utils.strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
 				return true;
 			} else if (Utils.strStartsWith(text, "[AutoProxy")) {
 				return true;
 			}
+			return false;
 		},
 		preprocess(text: any) {
 			if (Utils.strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
@@ -449,15 +492,23 @@ const externalAppRuleParser = {
 		}
 	},
 	'GFWList': {
+		detect(text: string, acceptBase64: boolean = true): boolean {
+			if (acceptBase64 && Utils.strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
+				return true;
+			} else if (Utils.strStartsWith(text, "[AutoProxy")) {
+				return true;
+			}
+			return false;
+		},
 		parse(text: any): {
 			_debug: any[],
-			whiteList: any[],
-			blackList: any[]
+			whiteList: string[],
+			blackList: string[]
 		} {
 			text = text.trim();
 
-			let whiteList = [];
-			let blackList = [];
+			let whiteList: string[] = [];
+			let blackList: string[] = [];
 			let _debug = [];
 
 			for (var line of text.split(/\n|\r/)) {
@@ -470,9 +521,9 @@ const externalAppRuleParser = {
 
 				_debug.push(line + '\n' + converted.regex + ' \t\t Name:' + converted.name + '\n\n');
 				if (line.startsWith('@@'))
-					whiteList.push(converted);
+					whiteList.push(converted.regex);
 				else
-					blackList.push(converted);
+					blackList.push(converted.regex);
 
 			}
 			return {

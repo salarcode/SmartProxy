@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -18,11 +18,14 @@ import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { ProxyImporter } from "../lib/ProxyImporter";
 import { SettingsOperation } from "./SettingsOperation";
+import { RuleImporter } from "../lib/RuleImporter";
+import { ProxyEngine } from "./ProxyEngine";
+import { ProxyServer } from "./definitions";
 
 export class SubscriptionUpdater {
     private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
-    // private static rulesSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
-    public static updateSubscriptions() {
+    private static rulesSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
+    public static updateServerSubscriptions() {
 
         // -------------------------
         // Proxy Server Subscriptions
@@ -83,11 +86,8 @@ export class SubscriptionUpdater {
             return true;
         });
         SubscriptionUpdater.serverSubscriptionTimers = remainingTimers;
-
-        // -------------------------
-        // Proxy Rules Subscriptions
-        // TODO:
     }
+
     private static readServerSubscription(subscriptionName: string) {
         Debug.log("readServerSubscription", subscriptionName);
         if (!subscriptionName)
@@ -108,7 +108,11 @@ export class SubscriptionUpdater {
         }
 
         ProxyImporter.readFromServer(subscription,
-            function (response: any) {
+            function (response: {
+                success: boolean,
+                message: string,
+                result: ProxyServer[]
+            }) {
                 if (!response) return;
 
                 if (response.success) {
@@ -128,6 +132,120 @@ export class SubscriptionUpdater {
                 Debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, error);
             });
     }
+    public static updateRulesSubscriptions() {
+
+        // -------------------------
+        // Proxy Rules Subscriptions
+        let ruleExistingNames: string[] = [];
+        for (let subscription of Settings.current.proxyRulesSubscriptions) {
+            if (!subscription.enabled)
+                continue;
+
+            // refresh is not requested
+            if (!(subscription.refreshRate > 0))
+                continue;
+
+            // it should be active, don't remove it
+            ruleExistingNames.push(subscription.name);
+
+            let shouldCreate = false;
+            let ruleTimerInfo = SubscriptionUpdater.getRulesSubscriptionTimer(subscription.name);
+            if (ruleTimerInfo == null) {
+                // should be created
+                shouldCreate = true;
+            } else {
+
+                // should be updated if rates are changed
+                if (ruleTimerInfo.timer.refreshRate != subscription.refreshRate) {
+                    shouldCreate = true;
+                    clearInterval(ruleTimerInfo.timer.id);
+
+                    // remove from array
+                    SubscriptionUpdater.rulesSubscriptionTimers.splice(ruleTimerInfo.index, 1);
+                }
+            }
+
+            if (shouldCreate) {
+                let internal = subscription.refreshRate * 60 * 1000;
+                //internal = 1000;
+
+                let id = setInterval(
+                    SubscriptionUpdater.readRulesSubscription,
+                    internal,
+                    subscription.name);
+
+                SubscriptionUpdater.rulesSubscriptionTimers.push({
+                    id: id,
+                    name: subscription.name,
+                    refreshRate: subscription.refreshRate
+                });
+            }
+        }
+        // remove the remaining timers
+        let remainingTimers = SubscriptionUpdater.rulesSubscriptionTimers.filter(timer => {
+            // not used or removed. Just unregister it then remove it
+            if (ruleExistingNames.indexOf(timer.name) === -1) {
+                clearInterval(timer.id);
+                return false;
+            }
+
+            // it is created or updated, don't remove it
+            return true;
+        });
+        SubscriptionUpdater.rulesSubscriptionTimers = remainingTimers;
+
+    }
+
+    private static readRulesSubscription(subscriptionName: string) {
+        Debug.log("readRulesSubscription", subscriptionName);
+        if (!subscriptionName)
+            return;
+
+        let subscription = Settings.current.proxyRulesSubscriptions.find(item => item.name === subscriptionName);
+        if (!subscription) {
+            // the subscription is removed.
+            //remove the timer
+            let rulesTimerInfo = SubscriptionUpdater.getRulesSubscriptionTimer(subscriptionName);
+
+            if (!rulesTimerInfo)
+                return;
+
+            clearInterval(rulesTimerInfo.timer.id);
+            SubscriptionUpdater.rulesSubscriptionTimers.splice(rulesTimerInfo.index, 1);
+            return;
+        }
+
+        RuleImporter.readFromServer(subscription,
+            function (response: {
+                success: boolean,
+                message: string,
+                result: {
+                    whiteList: string[],
+                    blackList: string[]
+                }
+            }) {
+                if (!response) return;
+
+                if (response.success) {
+
+                    subscription.proxyRules = response.result.blackList;
+                    subscription.whitelistRules = response.result.whiteList;
+                    subscription.totalCount = response.result.blackList.length + response.result.whiteList.length;
+
+                    SettingsOperation.saveProxyServerSubscriptions();
+                    SettingsOperation.saveAllSync();
+
+					ProxyEngine.notifyProxyRulesChanged();
+
+                } else {
+                    Debug.warn("Failed to read proxy rules subscription: " + subscriptionName);
+                }
+            },
+            function (error: Error) {
+                Debug.warn("Failed to read proxy rules subscription: " + subscriptionName, subscription, error);
+            });
+    }
+
     private static _getSubscriptionTimer(timers: SubscriptionTimerType[], name: string)
         : {
             timer: SubscriptionTimerType,
@@ -151,14 +269,13 @@ export class SubscriptionUpdater {
         return SubscriptionUpdater._getSubscriptionTimer(SubscriptionUpdater.serverSubscriptionTimers, name);
     }
 
-    // private static getRulesSubscriptionTimersTimer(name: string)
-    //     : {
-    //         timer: SubscriptionTimerType,
-    //         index: number
-    //     } {
-    //     // TODO: Merge to a function
-    //     return SubscriptionUpdater._getSubscriptionTimer(SubscriptionUpdater.rulesSubscriptionTimers, name);
-    // }
+    private static getRulesSubscriptionTimer(name: string)
+        : {
+            timer: SubscriptionTimerType,
+            index: number
+        } {
+        return SubscriptionUpdater._getSubscriptionTimer(SubscriptionUpdater.rulesSubscriptionTimers, name);
+    }
 }
 
 type SubscriptionTimerType = { id: number, name: string, refreshRate: number };

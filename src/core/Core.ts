@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -50,7 +50,7 @@ export class Core {
 			Core.setBrowserActionStatus();
 
 			// update the timers
-			SubscriptionUpdater.updateSubscriptions();
+			SubscriptionUpdater.updateServerSubscriptions();
 
 			// check for updates, only in unlisted version
 			UpdateManager.readUpdateInfo();
@@ -316,7 +316,7 @@ export class Core {
 					SettingsOperation.saveAllSync();
 
 					// update the timers
-					SubscriptionUpdater.updateSubscriptions();
+					SubscriptionUpdater.updateServerSubscriptions();
 
 					// it is possible that active proxy is changed
 					ProxyEngine.notifyActiveProxyServerChanged();
@@ -326,6 +326,31 @@ export class Core {
 							success: true,
 							// Proxy server subscriptions saved successfully.
 							message: browser.i18n.getMessage("settingsSaveProxyServerSubscriptionsSuccess")
+						});
+					}
+					return;
+				}
+			case Messages.SettingsPageSaveProxyRulesSubscriptions:
+				{
+					if (!message.proxyRulesSubscriptions)
+						return;
+					Settings.current.proxyRulesSubscriptions = message.proxyRulesSubscriptions;
+					SettingsOperation.saveProxyRulesSubscriptions();
+					SettingsOperation.saveAllSync();
+
+					// update the timers
+					SubscriptionUpdater.updateRulesSubscriptions();
+
+					ProxyEngine.notifyProxyRulesChanged();
+
+					// update active proxy tab status
+					Core.setBrowserActionStatus();
+
+					if (sendResponse) {
+						sendResponse({
+							success: true,
+							// Proxy rule subscriptions saved successfully.
+							message: browser.i18n.getMessage("settingsSaveProxyRulesSubscriptionsSuccessAAAAAA")
 						});
 					}
 					return;

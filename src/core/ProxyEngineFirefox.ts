@@ -137,6 +137,11 @@ export class ProxyEngineFirefox {
 			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 		}
 
+		let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
+		if (matchedWhitelistRule) {
+			return { type: "direct" };
+		}
+
 		if (settings.options.proxyPerOrigin &&
 			requestDetails.tabId > -1) {
 

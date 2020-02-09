@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -307,6 +307,17 @@ export class SettingsOperation {
 			null,
 			(error: Error) => {
 				Debug.error(`SettingsOperation.proxyServerSubscriptions error: ${error.message}`);
+			});
+	}
+	public static saveProxyRulesSubscriptions() {
+		if (Settings.current.options.syncSettings)
+			// don't save in local when sync enabled
+			return;
+
+		PolyFill.storageLocalSet({ proxyRulesSubscriptions: Settings.current.proxyRulesSubscriptions },
+			null,
+			(error: Error) => {
+				Debug.error(`SettingsOperation.proxyRulesSubscriptions error: ${error.message}`);
 			});
 	}
 	public static saveBypass() {

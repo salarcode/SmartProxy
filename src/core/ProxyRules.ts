@@ -22,6 +22,7 @@ import { Utils } from "../lib/Utils";
 export class ProxyRules {
 
 	private static compiledRulesList: CompiledRule[] = [];
+	private static compiledWhitelistRulesList: CompiledRule[] = [];
 
 	public static getCompiledRulesList(): CompiledRule[] {
 		return ProxyRules.compiledRulesList;
@@ -143,8 +144,59 @@ export class ProxyRules {
 			Settings.current.proxyRules.splice(itemIndex, 1);
 		}
 	}
+	public static compileRules() {
+		let settings = Settings.current;
 
-	public static compileRules(proxyRules: ProxyRule[]) {
+		// the default rules
+		let compiledList = ProxyRules.compileRulesInternal(settings.proxyRules);
+		let whiteListCompiledList: CompiledRule[] = [];
+
+		// the subscription rules
+		if (settings.proxyRulesSubscriptions && settings.proxyRulesSubscriptions.length > 0) {
+
+			for (const subscription of settings.proxyRulesSubscriptions) {
+
+				if (subscription.whitelistRules &&
+					subscription.whitelistRules.length > 0) {
+
+					let whitelistRules = ProxyRules.compileRulesSubscription(subscription.whitelistRules);
+					whiteListCompiledList = whitelistRules.concat(whiteListCompiledList);
+				}
+
+				if (subscription.proxyRules &&
+					subscription.proxyRules.length > 0) {
+
+					let proxyRules = ProxyRules.compileRulesSubscription(subscription.proxyRules);
+					compiledList = compiledList.concat(proxyRules);
+				}
+			}
+		}
+
+		// apply the new rules
+		ProxyRules.compiledRulesList = compiledList;
+		ProxyRules.compiledWhitelistRulesList = whiteListCompiledList;
+	}
+
+	private static compileRulesSubscription(rules: string[]): CompiledRule[] {
+		if (!rules)
+			return;
+
+		let compiledList: CompiledRule[] = [];
+		for (const rule of rules) {
+
+			let newCompiled = new CompiledRule();
+			newCompiled.enabled = true;
+			newCompiled.ruleType = ProxyRuleType.RegexUrl;
+
+			newCompiled.regex = new RegExp(rule);
+
+			compiledList.push(newCompiled);
+		}
+
+		return compiledList;
+	}
+
+	private static compileRulesInternal(proxyRules: ProxyRule[]): CompiledRule[] {
 		if (!proxyRules)
 			return;
 
@@ -197,18 +249,27 @@ export class ProxyRules {
 			compiledList.push(newCompiled);
 		}
 
-		// apply the new rules
-		ProxyRules.compiledRulesList = compiledList;
+		return compiledList;
 	}
 
 
 	public static findMatchForUrl(url: string): ProxyRule | null {
+		return ProxyRules.findMatchForUrlInternal(url, ProxyRules.compiledRulesList);
+	}
+
+	public static findWhitelistMatchForUrl(url: string): ProxyRule | null {
+		if (!ProxyRules.compiledWhitelistRulesList || ProxyRules.compiledWhitelistRulesList.length == 0)
+			return null;
+		return ProxyRules.findMatchForUrlInternal(url, ProxyRules.compiledWhitelistRulesList);
+	}
+
+	private static findMatchForUrlInternal(url: string, rules: CompiledRule[]): ProxyRule | null {
 		//var host = new URL(url).host;
 		let lowerCaseUrl: string;
 		let domainHost: string;
 
 		try {
-			for (let rule of ProxyRules.compiledRulesList) {
+			for (let rule of rules) {
 
 				switch (rule.ruleType) {
 					case ProxyRuleType.Exact:

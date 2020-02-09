@@ -71,10 +71,11 @@ export class settingsPage {
     private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
         this.currentSettings = settingsData.settings;
         this.populateSettingsUiData(settingsData);
-
+        debugger;
         this.loadRules(this.currentSettings.proxyRules);
         this.loadServers(this.currentSettings.proxyServers);
         this.loadServerSubscriptions(this.currentSettings.proxyServerSubscriptions);
+        this.loadRulesSubscriptions(this.currentSettings.proxyRulesSubscriptions);
         this.loadActiveProxyServer(this.currentSettings.proxyServers, this.currentSettings.proxyServerSubscriptions);
         this.loadBypass(this.currentSettings.bypass);
         this.loadGeneralOptions(this.currentSettings.options);
@@ -85,6 +86,7 @@ export class settingsPage {
         this.originalSettings.proxyServers = this.currentSettings.proxyServers.slice();
         this.originalSettings.activeProxyServer = this.currentSettings.activeProxyServer;
         this.originalSettings.proxyServerSubscriptions = this.currentSettings.proxyServerSubscriptions;
+        this.originalSettings.proxyRulesSubscriptions = this.currentSettings.proxyRulesSubscriptions;
         this.originalSettings.bypass = jQuery.extend({}, this.currentSettings.bypass);
         this.originalSettings.options = jQuery.extend({}, this.currentSettings.options);
     }
@@ -171,9 +173,9 @@ export class settingsPage {
         // proxy rules subscriptions
         jQuery("#btnAddRulesSubscription").click(settingsPage.uiEvents.onClickAddRulesSubscription);
 
-        jQuery("#btnSaveRulesSubscription").click(settingsPage.uiEvents.onClickSaveRulesSubscription);
+        jQuery("#btnSaveRulesSubscriptions").click(settingsPage.uiEvents.onClickSaveRulesSubscription);
 
-        jQuery("#btnTestRulesSubscription").click(settingsPage.uiEvents.onClickTestRulesSubscription);
+        jQuery("#btnTestRulesSubscriptions").click(settingsPage.uiEvents.onClickTestRulesSubscription);
 
         jQuery("#btnClearRulesSubscriptions").click(settingsPage.uiEvents.onClickClearRulesSubscriptions);
 
@@ -348,6 +350,9 @@ export class settingsPage {
 
             if (settingsPage.currentSettings.proxyServerSubscriptions)
                 settingsPage.loadServerSubscriptions(settingsPage.currentSettings.proxyServerSubscriptions);
+
+            if (settingsPage.currentSettings.proxyRulesSubscriptions)
+                settingsPage.loadRulesSubscriptions(settingsPage.currentSettings.proxyRulesSubscriptions);
         }
         else {
             settingsPage.loadServers([]);
@@ -415,43 +420,43 @@ export class settingsPage {
 
 
         // -- RulesSubscription --------
-         // applying the default values
-         let cmbRulesSubscriptionProtocol = jQuery("#cmbRulesSubscriptionProtocol");
-         let cmbRulesSubscriptionObfuscation = jQuery("#cmbRulesSubscriptionObfuscation");
-         let cmbRulesSubscriptionFormat = jQuery("#cmbRulesSubscriptionFormat");
- 
- 
-         jQuery("<option>").attr("value", "")
-             // (Auto detect with HTTP fallback)
-             .text(browser.i18n.getMessage("settingsRulesSubscriptionProtocolDefault"))
-             .appendTo(cmbRulesSubscriptionProtocol);
-         proxyServerProtocols.forEach(item => {
-             jQuery("<option>").attr("value", item)
-                 .text(item)
-                 .appendTo(cmbRulesSubscriptionProtocol);
-         });
- 
-         proxyRulesSubscriptionFormat.forEach(item => {
+        // applying the default values
+        let cmbRulesSubscriptionProtocol = jQuery("#cmbRulesSubscriptionProtocol");
+        let cmbRulesSubscriptionObfuscation = jQuery("#cmbRulesSubscriptionObfuscation");
+        let cmbRulesSubscriptionFormat = jQuery("#cmbRulesSubscriptionFormat");
+
+
+        jQuery("<option>").attr("value", "")
+            // (Auto detect with HTTP fallback)
+            .text(browser.i18n.getMessage("settingsRulesSubscriptionProtocolDefault"))
+            .appendTo(cmbRulesSubscriptionProtocol);
+        proxyServerProtocols.forEach(item => {
             jQuery("<option>").attr("value", item)
+                .text(item)
+                .appendTo(cmbRulesSubscriptionProtocol);
+        });
+
+        proxyRulesSubscriptionFormat.forEach((item, index) => {
+            jQuery("<option>").attr("value", index)
                 .text(item)
                 .appendTo(cmbRulesSubscriptionFormat);
         });
 
-         proxyServerSubscriptionObfuscate.forEach(item => {
-             jQuery("<option>").attr("value", item)
-                 .text(item)
-                 .appendTo(cmbRulesSubscriptionObfuscation);
-         });
- 
-         let cmbRulesSubscriptionApplyProxy = jQuery("#cmbRulesSubscriptionApplyProxy");
-         specialRequestApplyProxyModeKeys.forEach((item, index) => {
-             jQuery("<option>").attr("value", index)
-                 .text(browser.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
-                 .appendTo(cmbRulesSubscriptionApplyProxy);
-         });
-         if (environment.chrome)
-             cmbRulesSubscriptionApplyProxy.attr("disabled", "disabled");
- 
+        proxyServerSubscriptionObfuscate.forEach(item => {
+            jQuery("<option>").attr("value", item)
+                .text(item)
+                .appendTo(cmbRulesSubscriptionObfuscation);
+        });
+
+        let cmbRulesSubscriptionApplyProxy = jQuery("#cmbRulesSubscriptionApplyProxy");
+        specialRequestApplyProxyModeKeys.forEach((item, index) => {
+            jQuery("<option>").attr("value", index)
+                .text(browser.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
+                .appendTo(cmbRulesSubscriptionApplyProxy);
+        });
+        if (environment.chrome)
+            cmbRulesSubscriptionApplyProxy.attr("disabled", "disabled");
+
     }
 
     private static resizableMenu() {
@@ -1368,8 +1373,8 @@ export class settingsPage {
         // and invalidated row loosed the event bindings.
         // so we need to bind the events each time data changes.
 
-        rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onRulesSubscriptionRemoveClick);
-        rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onRulesSubscriptionEditClick);
+        rowElement.find("#btnRuleSubscriptionsRemove").on("click", settingsPage.uiEvents.onRulesSubscriptionRemoveClick);
+        rowElement.find("#btnRuleSubscriptionsEdit").on("click", settingsPage.uiEvents.onRulesSubscriptionEditClick);
     }
 
     private static refreshRulesSubscriptionsGridRowElement(rowElement: any, invalidate?: any) {
@@ -1378,8 +1383,8 @@ export class settingsPage {
 
         rowElement = jQuery(rowElement);
 
-        rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onRulesSubscriptionRemoveClick);
-        rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onRulesSubscriptionEditClick);
+        rowElement.find("#btnRuleSubscriptionsRemove").on("click", settingsPage.uiEvents.onRulesSubscriptionRemoveClick);
+        rowElement.find("#btnRuleSubscriptionsEdit").on("click", settingsPage.uiEvents.onRulesSubscriptionEditClick);
     }
 
     private static refreshRulesSubscriptionsGridAllRows() {
@@ -1387,8 +1392,8 @@ export class settingsPage {
         for (let index = 0; index < nodes.length; index++) {
             const rowElement = jQuery(nodes[index]);
 
-            rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onRulesSubscriptionRemoveClick);
-            rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onRulesSubscriptionEditClick);
+            rowElement.find("#btnRuleSubscriptionsRemove").on("click", settingsPage.uiEvents.onRulesSubscriptionRemoveClick);
+            rowElement.find("#btnRuleSubscriptionsEdit").on("click", settingsPage.uiEvents.onRulesSubscriptionEditClick);
         }
     }
 
@@ -2135,7 +2140,11 @@ export class settingsPage {
             jQuery("#btnSaveServerSubscription").button("loading");
 
             ProxyImporter.readFromServer(subscriptionModel,
-                (response: any) => {
+                (response: {
+                    success: boolean,
+                    message: string,
+                    result: ProxyServer[]
+                }) => {
                     jQuery("#btnSaveServerSubscription").button('reset');
 
                     if (response.success) {
@@ -2220,7 +2229,11 @@ export class settingsPage {
                         messageBox.success(response.message);
 
                     ProxyImporter.readFromServer(subscriptionModel,
-                        (response: any) => {
+                        (response: {
+                            success: boolean,
+                            message: string,
+                            result: ProxyServer[]
+                        }) => {
 
                             jQuery("#btnTestServerSubscription").button('reset');
 
@@ -2353,7 +2366,7 @@ export class settingsPage {
             }
 
             let subscriptionsList = settingsPage.readRulesSubscriptions();
-            let editingSubscription = modal.data("editing");
+            let editingSubscription: ProxyRulesSubscription = modal.data("editing");
             let editingName = "";
             if (editingSubscription)
                 editingName = editingSubscription.name;
@@ -2385,12 +2398,21 @@ export class settingsPage {
             jQuery("#btnSaveRulesSubscriptions").button("loading");
 
             RuleImporter.readFromServer(subscriptionModel,
-                (response: any) => {
+                (response: {
+                    success: boolean,
+                    message: string,
+                    result: {
+                        whiteList: string[],
+                        blackList: string[]
+                    }
+                }) => {
                     jQuery("#btnSaveRulesSubscriptions").button('reset');
 
                     if (response.success) {
-                        let count = response.result.length;
+                        let count = response.result.blackList.length + response.result.whiteList.length;
 
+                        subscriptionModel.proxyRules = response.result.blackList;
+                        subscriptionModel.whitelistRules = response.result.whiteList;
                         subscriptionModel.totalCount = count;
 
                         if (editingSubscription) {
@@ -2408,11 +2430,10 @@ export class settingsPage {
                             settingsPage.insertNewRulesSubscriptionInGrid(subscriptionModel);
 
                             // The subscription is added with {0} proxies in it. <br/>Don't forget to save the changes.
-                            messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveAdded").replace("{0}", count));
+                            messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveAddedAAAAAAAA").replace("{0}", count));
                         }
 
                         settingsPage.changeTracking.rulesSubscriptions = true;
-                        settingsPage.loadActiveProxyServer();
 
                         // close the window
                         modal.modal("hide");
@@ -2443,8 +2464,8 @@ export class settingsPage {
             }
 
             // Testing...
-            jQuery("#btnTestRulesSubscription").attr("data-loading-text", browser.i18n.getMessage("settingsRulesSubscriptionTestingButtonAAAAAA"));
-            jQuery("#btnTestRulesSubscription").button("loading");
+            jQuery("#btnTestRulesSubscriptions").attr("data-loading-text", browser.i18n.getMessage("settingsRulesSubscriptionTestingButtonAAAAAA"));
+            jQuery("#btnTestRulesSubscriptions").button("loading");
 
             // mark this request as special
             var applyProxyMode = subscriptionModel.applyProxy;
@@ -2469,12 +2490,18 @@ export class settingsPage {
                         messageBox.success(response.message);
 
                     RuleImporter.readFromServer(subscriptionModel,
-                        (response: any) => {
-
-                            jQuery("#btnTestRulesSubscription").button('reset');
+                        (response: {
+                            success: boolean,
+                            message: string,
+                            result: {
+                                whiteList: string[],
+                                blackList: string[]
+                            }
+                        }) => {
+                            jQuery("#btnTestRulesSubscriptions").button('reset');
 
                             if (response.success) {
-                                let count = response.result.length;
+                                let count = response.result.whiteList.length + response.result.blackList.length;
 
                                 messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionTestSuccessAAAA").replace("{0}", count));
                             } else {
@@ -2483,20 +2510,19 @@ export class settingsPage {
                         },
                         () => {
                             messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailedAAAA"));
-                            jQuery("#btnTestRulesSubscription").button('reset');
+                            jQuery("#btnTestRulesSubscriptions").button('reset');
                         });
                 },
                 (error: Error) => {
                     messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailedAAAAA"));
-                    jQuery("#btnTestRulesSubscription").button('reset');
+                    jQuery("#btnTestRulesSubscriptions").button('reset');
                 });
         },
         onClickSaveRulesSubscriptionsChanges() {
             let proxyRulesSubscriptions = settingsPage.readRulesSubscriptions();
-
             PolyFill.runtimeSendMessage(
                 {
-                    command: Messages.SettingsPageSaveProxySubscriptions,
+                    command: Messages.SettingsPageSaveProxyRulesSubscriptions,
                     proxyRulesSubscriptions: proxyRulesSubscriptions
                 },
                 (response: any) => {
@@ -2523,7 +2549,6 @@ export class settingsPage {
             // reset the data
             settingsPage.currentSettings.proxyRulesSubscriptions = settingsPage.originalSettings.proxyRulesSubscriptions.slice();
             settingsPage.loadRulesSubscriptions(settingsPage.currentSettings.proxyRulesSubscriptions);
-            settingsPage.loadActiveProxyServer();
 
             settingsPage.changeTracking.rulesSubscriptions = false;
 
@@ -2536,7 +2561,6 @@ export class settingsPage {
             messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptionsAAAAAAAA"),
                 () => {
                     settingsPage.loadRulesSubscriptions([]);
-                    settingsPage.loadActiveProxyServer();
 
                     settingsPage.changeTracking.rulesSubscriptions = true;
 
@@ -2617,7 +2641,11 @@ export class settingsPage {
             ProxyImporter.importText(text, file,
                 append,
                 proxyServers,
-                (response: any) => {
+                (response: {
+                    success: boolean,
+                    message: string,
+                    result: ProxyServer[]
+                }) => {
                     if (!response) return;
 
                     if (response.success) {
@@ -2667,8 +2695,6 @@ export class settingsPage {
             let importFunction: Function;
             if (sourceType == "autoproxy") {
                 importFunction = RuleImporter.importAutoProxy;
-            } else if (sourceType == "switchy") {
-                importFunction = RuleImporter.importSwitchyRules;
             } else {
                 messageBox.warning(browser.i18n.getMessage("settingsSourceTypeNotSelected"));
                 return;
