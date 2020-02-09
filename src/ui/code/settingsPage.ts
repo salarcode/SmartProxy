@@ -65,13 +65,11 @@ export class settingsPage {
                 PolyFill.runtimeSendMessage("SettingsPageGetInitialData failed! > " + error);
                 messageBox.error(browser.i18n.getMessage("settingsInitializeFailed"));
             });
-
     }
 
     private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
         this.currentSettings = settingsData.settings;
         this.populateSettingsUiData(settingsData);
-        debugger;
         this.loadRules(this.currentSettings.proxyRules);
         this.loadServers(this.currentSettings.proxyServers);
         this.loadServerSubscriptions(this.currentSettings.proxyServerSubscriptions);
@@ -421,20 +419,8 @@ export class settingsPage {
 
         // -- RulesSubscription --------
         // applying the default values
-        let cmbRulesSubscriptionProtocol = jQuery("#cmbRulesSubscriptionProtocol");
         let cmbRulesSubscriptionObfuscation = jQuery("#cmbRulesSubscriptionObfuscation");
         let cmbRulesSubscriptionFormat = jQuery("#cmbRulesSubscriptionFormat");
-
-
-        jQuery("<option>").attr("value", "")
-            // (Auto detect with HTTP fallback)
-            .text(browser.i18n.getMessage("settingsRulesSubscriptionProtocolDefault"))
-            .appendTo(cmbRulesSubscriptionProtocol);
-        proxyServerProtocols.forEach(item => {
-            jQuery("<option>").attr("value", item)
-                .text(item)
-                .appendTo(cmbRulesSubscriptionProtocol);
-        });
 
         proxyRulesSubscriptionFormat.forEach((item, index) => {
             jQuery("<option>").attr("value", index)
@@ -2342,7 +2328,7 @@ export class settingsPage {
             if (!row)
                 return;
 
-            messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveRulesSubscriptionAAAAAAAAAA"),
+            messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveRulesSubscription"),
                 () => {
                     // remove then redraw the grid page
                     row.remove().draw('full-hold');
@@ -2356,12 +2342,12 @@ export class settingsPage {
 
             if (!modal.find("form")[0].checkValidity()) {
                 // Please fill the required fields in the right format
-                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionIncompleteFormAAAAA"));
+                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionIncompleteForm"));
                 return;
             }
             let subscriptionModel = settingsPage.readRulesSubscriptionModel(modal);
             if (!subscriptionModel) {
-                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionInvalidFormAAAAA"));
+                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionInvalidForm"));
                 return;
             }
 
@@ -2388,13 +2374,13 @@ export class settingsPage {
                     // check for duplicate
                     if (nameIsDuplicate) {
                         // The entered name is already used, please enter another name.
-                        messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionDuplicateNameAAAAAA"));
+                        messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionDuplicateName"));
                         return;
                     }
             }
 
             // Saving...
-            jQuery("#btnSaveRulesSubscriptions").attr("data-loading-text", browser.i18n.getMessage("settingsRulesSubscriptionSavingButtonAAAAA"));
+            jQuery("#btnSaveRulesSubscriptions").attr("data-loading-text", browser.i18n.getMessage("settingsRulesSubscriptionSavingButton"));
             jQuery("#btnSaveRulesSubscriptions").button("loading");
 
             RuleImporter.readFromServer(subscriptionModel,
@@ -2422,15 +2408,19 @@ export class settingsPage {
 
                             settingsPage.refreshRulesSubscriptionsGrid();
 
-                            // The subscription is updated with {0} proxies in it. <br/>Don't forget to save the changes.
-                            messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveUpdatedAAAAA").replace("{0}", count));
+                            // The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
+                            messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
+                                .replace("{0}", response.result.blackList.length)
+                                .replace("{1}", response.result.whiteList.length));
                         } else {
 
                             // insert to the grid
                             settingsPage.insertNewRulesSubscriptionInGrid(subscriptionModel);
 
-                            // The subscription is added with {0} proxies in it. <br/>Don't forget to save the changes.
-                            messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveAddedAAAAAAAA").replace("{0}", count));
+                            // The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
+                            messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveAdded")
+                                .replace("{0}", response.result.blackList.length)
+                                .replace("{1}", response.result.whiteList.length));
                         }
 
                         settingsPage.changeTracking.rulesSubscriptions = true;
@@ -2439,11 +2429,11 @@ export class settingsPage {
                         modal.modal("hide");
 
                     } else {
-                        messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionSaveFailedGetAAAA"));
+                        messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
                     }
                 },
                 () => {
-                    messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionSaveFailedGetAAAA"));
+                    messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
                     jQuery("#btnSaveRulesSubscriptions").button('reset');
                 });
         },
@@ -2452,19 +2442,19 @@ export class settingsPage {
 
             if (!modal.find("form")[0].checkValidity()) {
                 // Please fill the required fields in the right format
-                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionIncompleteFormAAAA"));
+                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionIncompleteForm"));
                 return;
             }
 
             let subscriptionModel = settingsPage.readRulesSubscriptionModel(modal);
 
             if (!subscriptionModel) {
-                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionInvalidFormAAAA"));
+                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionInvalidForm"));
                 return;
             }
 
             // Testing...
-            jQuery("#btnTestRulesSubscriptions").attr("data-loading-text", browser.i18n.getMessage("settingsRulesSubscriptionTestingButtonAAAAAA"));
+            jQuery("#btnTestRulesSubscriptions").attr("data-loading-text", browser.i18n.getMessage("settingsRulesSubscriptionTestingButton"));
             jQuery("#btnTestRulesSubscriptions").button("loading");
 
             // mark this request as special
@@ -2501,20 +2491,21 @@ export class settingsPage {
                             jQuery("#btnTestRulesSubscriptions").button('reset');
 
                             if (response.success) {
-                                let count = response.result.whiteList.length + response.result.blackList.length;
 
-                                messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionTestSuccessAAAA").replace("{0}", count));
+                                messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionTestSuccess")
+                                    .replace("{0}", response.result.blackList.length)
+                                    .replace("{1}", response.result.whiteList.length));
                             } else {
-                                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailedAAAA"));
+                                messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
                             }
                         },
                         () => {
-                            messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailedAAAA"));
+                            messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
                             jQuery("#btnTestRulesSubscriptions").button('reset');
                         });
                 },
                 (error: Error) => {
-                    messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailedAAAAA"));
+                    messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
                     jQuery("#btnTestRulesSubscriptions").button('reset');
                 });
         },
@@ -2542,7 +2533,7 @@ export class settingsPage {
                     }
                 },
                 (error: Error) => {
-                    messageBox.error(browser.i18n.getMessage("settingsFailedToSaveProxySubscriptionsAAAAAA") + " " + error.message);
+                    messageBox.error(browser.i18n.getMessage("settingsFailedToSaveRulesSubscriptions") + " " + error.message);
                 });
         },
         onClickRejectRulesSubscriptionsChanges() {
@@ -2553,19 +2544,19 @@ export class settingsPage {
             settingsPage.changeTracking.rulesSubscriptions = false;
 
             // Changes reverted successfully
-            messageBox.info(browser.i18n.getMessage("settingsChangesRevertedAAAAAAAA"));
+            messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
         },
         onClickClearRulesSubscriptions() {
 
-            // Are you sure to remove all the proxy server subscriptions?
-            messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptionsAAAAAAAA"),
+            // Are you sure to remove all the proxy rules subscriptions?
+            messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptions"),
                 () => {
                     settingsPage.loadRulesSubscriptions([]);
 
                     settingsPage.changeTracking.rulesSubscriptions = true;
 
                     // All the proxy server subscriptions are removed.<br/>You have to save to apply the changes.
-                    messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptionsSuccessAAAAAAAAAAA"));
+                    messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptionsSuccess"));
                 });
         },
         onClickSaveBypassChanges() {

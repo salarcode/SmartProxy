@@ -114,7 +114,6 @@ export const RuleImporter = {
 				text = Utils.b64DecodeUnicode(text);
 			}
 
-			let totalRules = 0;
 			let rules: {
 				whiteList: string[],
 				blackList: string[]
@@ -139,9 +138,10 @@ export const RuleImporter = {
 
 			}
 			else {
-				// Total of ${totalRules} rules are returned.<br>Don't forget to save the changes.
-				let message = browser.i18n.getMessage("importerImportRulesSuccessAAAAAA")
-					.replace("{0}", totalRules.toString());
+				// Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes.
+				let message = browser.i18n.getMessage("importerImportRulesSuccess")
+				.replace("{0}", rules.blackList.length)
+				.replace("{1}", rules.whiteList.length);
 
 				if (success) {
 					// not need for any check, return straight away

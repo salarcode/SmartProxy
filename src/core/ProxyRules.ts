@@ -473,7 +473,7 @@ export class ProxyRules {
 
 		if (!rule.rule)
 			// Rule doesn't have pattern defined
-			return { success: false, message: browser.i18n.getMessage("AAAAAAAAAAAAAA") };
+			return { success: false, message: browser.i18n.getMessage("settingsRulePatternIsEmpty") };
 
 		if (rule["enabled"] == null)
 			rule.enabled = true;

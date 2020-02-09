@@ -902,15 +902,15 @@
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
 		"message": "No Proxy",
 		"description": ""
-	},	
+	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
 		"message": "Current Proxy",
 		"description": ""
-	},	
+	},
 	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
 		"message": "Selected Proxy",
 		"description": ""
-	},	
+	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Username:",
 		"description": ""
@@ -1023,6 +1023,26 @@
 		"message": "Proxy server subscriptions saved successfully.",
 		"description": ""
 	},
+	"settingsFailedToSaveProxySubscriptions": {
+		"message": "Failed to save proxy servers subscriptions",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscription": {
+		"message": "Proxy Rules Subscriptions",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionTitle": {
+		"message": "Manage proxy rules subscriptions:",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionDescription": {
+		"message": "Here you can subscribe to rules lists. Based on these rules, proxies will apply.",
+		"description": ""
+	},
+	"settingsAddRulesSubscriptionButton": {
+		"message": "Subscribe to a rules list",
+		"description": ""
+	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Subscribe to a rules list",
 		"description": ""
@@ -1041,6 +1061,154 @@
 	},
 	"settingsRulesSubscriptionsGridColEnabled": {
 		"message": "Enabled",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsName": {
+		"message": "Name:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUrl": {
+		"message": "Url:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRate": {
+		"message": "Refresh Rate:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRateHelp": {
+		"message": "(in minutes, 0 means no refresh)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsObfuscation": {
+		"message": "Obfuscation:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsFormat": {
+		"message": "Format:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxy": {
+		"message": "Pass through proxy:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
+		"message": "(Decide base on your access to the server)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
+		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUsername": {
+		"message": "Username:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsAuthenticationHelp": {
+		"message": "(if the list requires authentication)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsPassword": {
+		"message": "Password:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsTestButton": {
+		"message": "Test",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsSaveButton": {
+		"message": "Save",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsConfirmRemoveRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscription?",
+		"description": ""
+	},
+	"settingsRulesSubscriptionIncompleteForm": {
+		"message": "Please fill the required fields in the right format",
+		"description": ""
+	},
+	"settingsRulesSubscriptionInvalidForm": {
+		"message": "Invalid proxy server subscription details",
+		"description": ""
+	},
+	"settingsRulesSubscriptionDuplicateName": {
+		"message": "The entered name is already used, please enter another name.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSavingButton": {
+		"message": "Saving...",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestButton": {
+		"message": "Test",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestingButton": {
+		"message": "Testing...",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveUpdated": {
+		"message": "The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveAdded": {
+		"message": "The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveFailedGet": {
+		"message": "Failed to get proxies.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestSuccess": {
+		"message": "Test was successful. The list returned {0} proxy rules and {1} white listed rules.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestFailed": {
+		"message": "Test failed",
+		"description": ""
+	},
+	"settingsFailedToSaveRulesSubscriptions": {
+		"message": "Failed to save rules subscriptions",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptions": {
+		"message": "Are you sure to remove all the proxy rules subscriptions?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
+		"message": "All the proxy rules subscriptions are removed.<br/>You have to save to apply the changes.",
+		"description": ""
+	},
+	"importerImportRulesSuccess": {
+		"message": "Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsRulePatternIsEmpty": {
+		"message": "Rule doesn't have pattern defined",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSubscriptionsSuccess": {
+		"message": "Proxy rules subscriptions saved successfully.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsAAAAAAAAAAAAAAAAAAAAAAAA": {
+		"message": "AAAAAAAAAAAAAAAAA",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsAAAAAAAAAAAAAAAAAAAAAAAA": {
+		"message": "AAAAAAAAAAAAAAAAA",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsAAAAAAAAAAAAAAAAAAAAAAAA": {
+		"message": "AAAAAAAAAAAAAAAAA",
 		"description": ""
 	},
 	"settingsBypassEnableForAlways": {

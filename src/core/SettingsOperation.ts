@@ -449,7 +449,7 @@ export class SettingsOperation {
 
 			if (backupOptions == null ||
 				(backupOptions.ignoreRequestFailuresForDomains && !Array.isArray(backupOptions.ignoreRequestFailuresForDomains))) {
-				return { success: false, message: browser.i18n.getMessage("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") };
+				return { success: false, message: "Invalid data provided for general options" };
 			}
 
 			let newOptions = new GeneralOptions();

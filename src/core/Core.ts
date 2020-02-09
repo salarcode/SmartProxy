@@ -350,7 +350,7 @@ export class Core {
 						sendResponse({
 							success: true,
 							// Proxy rule subscriptions saved successfully.
-							message: browser.i18n.getMessage("settingsSaveProxyRulesSubscriptionsSuccessAAAAAA")
+							message: browser.i18n.getMessage("settingsSaveProxyRulesSubscriptionsSuccess")
 						});
 					}
 					return;
