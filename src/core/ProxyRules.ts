@@ -28,6 +28,10 @@ export class ProxyRules {
 		return ProxyRules.compiledRulesList;
 	}
 
+	public static getCompiledWhitelistRulesList(): CompiledRule[] {
+		return ProxyRules.compiledWhitelistRulesList;
+	}
+
 	public static toggleRuleByDomain(domain: string) {
 
 		// the domain should be the source
@@ -148,8 +152,9 @@ export class ProxyRules {
 		let settings = Settings.current;
 
 		// the default rules
-		let compiledList = ProxyRules.compileRulesInternal(settings.proxyRules);
-		let whiteListCompiledList: CompiledRule[] = [];
+		let compiledInfo = ProxyRules.compileRulesInternal(settings.proxyRules);
+		let compiledList = compiledInfo.compiledList;
+		let whiteListCompiledList = compiledInfo.compiledWhiteList;
 
 		// the subscription rules
 		if (settings.proxyRulesSubscriptions && settings.proxyRulesSubscriptions.length > 0) {
@@ -196,11 +201,15 @@ export class ProxyRules {
 		return compiledList;
 	}
 
-	private static compileRulesInternal(proxyRules: ProxyRule[]): CompiledRule[] {
+	private static compileRulesInternal(proxyRules: ProxyRule[]): {
+		compiledList: CompiledRule[],
+		compiledWhiteList: CompiledRule[]
+	} {
 		if (!proxyRules)
 			return;
 
 		let compiledList: CompiledRule[] = [];
+		let compiledWhiteList: CompiledRule[] = [];
 
 		for (let i = 0; i < proxyRules.length; i++) {
 			const rule = proxyRules[i];
@@ -210,6 +219,10 @@ export class ProxyRules {
 			let newCompiled = new CompiledRule();
 			Object.assign(newCompiled, rule);
 
+			if (rule.whiteList) {
+				compiledWhiteList.push(newCompiled);
+				return;
+			}
 
 			switch (rule.ruleType) {
 				case ProxyRuleType.Exact:
@@ -249,7 +262,10 @@ export class ProxyRules {
 			compiledList.push(newCompiled);
 		}
 
-		return compiledList;
+		return {
+			compiledList,
+			compiledWhiteList
+		};
 	}
 
 

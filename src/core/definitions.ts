@@ -264,6 +264,7 @@ export class ProxyRule implements Cloneable {
 	public ruleExact: string;
 	public proxy: ProxyServer;
 	public enabled: boolean = true;
+	public whiteList: boolean = false;
 
 	get ruleTypeName(): string {
 		return ProxyRuleType[this.ruleType];
@@ -317,6 +318,9 @@ export class ProxyRule implements Cloneable {
 		this.proxy = source["proxy"];
 		if (source["enabled"] != null)
 			this.enabled = source["enabled"] == true ? true : false;
+
+		if (source["whiteList"] != null)
+			this.whiteList = source["whiteList"] == true ? true : false;
 
 		if (this.proxy) {
 			if (!Settings.validateProxyServer(this.proxy).success) {

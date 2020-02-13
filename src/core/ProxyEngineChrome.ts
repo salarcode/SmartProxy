@@ -61,6 +61,7 @@ export class ProxyEngineChrome {
 
         //let proxyRules = settings.proxyRules;
         let compiledRules = ProxyRules.getCompiledRulesList();
+        let compiledWhitelistRulesList = ProxyRules.getCompiledWhitelistRulesList();
         let proxyMode = settings.proxyMode;
         let resultActiveProxy = this.convertActiveProxyServer(settings.activeProxyServer);
 
@@ -69,6 +70,7 @@ export class ProxyEngineChrome {
 
         let pacTemplateString = `const proxyMode = "${proxyMode}";
 const compiledRules = [${compiledRulesAsString}];
+const compiledWhitelistRules = [${compiledWhitelistRulesList}];
 const bypass = ${compiledBypass};
 const hasActiveProxyServer = ${((settings.activeProxyServer) ? "true" : "false")};
 const ProxyModeType = {
@@ -115,6 +117,14 @@ function FindProxyForURL(url, host) {
 	}
 
     try {
+        if (compiledWhitelistRules.length > 0)
+            for (let i = 0; i < compiledWhitelistRules.length; i++) {
+                let rule = compiledWhitelistRules[i];
+                
+                if (rule.regex.test(url))
+                    return resultDirect;
+            }
+
         let lowerCaseUrl;
         for (let i = 0; i < compiledRules.length; i++) {
             let rule = compiledRules[i];
