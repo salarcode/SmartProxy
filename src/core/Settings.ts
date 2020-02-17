@@ -91,28 +91,35 @@ export class Settings {
 	}
 
 	public static setDefaultSettings(config: SettingsConfig) {
-		if (config["proxyRules"] == null || !Array.isArray(config.proxyRules)) {
-			config.proxyRules = [];
-		}
-		if (config["proxyServers"] == null || !Array.isArray(config.proxyServers)) {
-			config.proxyServers = [];
-		}
+		config.product = "SmartProxy";
+		config.version = null;
 		if (config["proxyMode"] == null) {
 			config.proxyMode = ProxyModeType.Direct;
 		}
 		if (config["activeProxyServer"] == null) {
 			config.activeProxyServer = null;
 		}
+		if (config["options"] == null) {
+			config.options = new GeneralOptions();
+		}
+		if (config["firstEverInstallNotified"] == null) {
+			config.firstEverInstallNotified = false;
+		}
+		if (config["proxyServers"] == null || !Array.isArray(config.proxyServers)) {
+			config.proxyServers = [];
+		}
+		if (config["proxyRules"] == null || !Array.isArray(config.proxyRules)) {
+			config.proxyRules = [];
+		}
 		if (config["proxyServerSubscriptions"] == null || !Array.isArray(config.proxyServerSubscriptions)) {
 			config.proxyServerSubscriptions = [];
 		}
-		if (config["options"] == null) {
-			config.options = new GeneralOptions();
+		if (config["proxyRulesSubscriptions"] == null || !Array.isArray(config.proxyRulesSubscriptions)) {
+			config.proxyRulesSubscriptions = [];
 		}
 		if (config["bypass"] == null) {
 			config.bypass = new BypassOptions();
 		}
-		config.product = "SmartProxy";
 
 		PolyFill.managementGetSelf((info: any) => {
 			config.version = info.version;

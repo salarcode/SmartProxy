@@ -1,4 +1,5 @@
 ﻿import { Settings } from "./Settings";
+import { browser } from "../lib/environment";
 
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,

@@ -52,7 +52,6 @@ export class settingsPage {
         CommonUi.onDocumentReady(this.bindEvents);
         CommonUi.onDocumentReady(this.initializeGrids);
         CommonUi.onDocumentReady(this.initializeUi);
-        CommonUi.onDocumentReady(this.showNewUserWelcome);
 
         PolyFill.runtimeSendMessage(Messages.SettingsPageGetInitialData,
             (dataForSettings: SettingsPageInternalDataType) => {
@@ -60,6 +59,8 @@ export class settingsPage {
                     return;
 
                 settingsPage.populateDataForSettings(dataForSettings);
+
+                CommonUi.onDocumentReady(settingsPage.showNewUserWelcome);
             },
             (error: Error) => {
                 PolyFill.runtimeSendMessage("SettingsPageGetInitialData failed! > " + error);
