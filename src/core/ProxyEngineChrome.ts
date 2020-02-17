@@ -97,6 +97,18 @@ function FindProxyForURL(url, host) {
 	if (proxyMode == ProxyModeType.Direct)
 		return resultDirect;
 
+    try {
+        if (compiledWhitelistRules.length > 0)
+            for (let i = 0; i < compiledWhitelistRules.length; i++) {
+                let rule = compiledWhitelistRules[i];
+                
+                if (rule.regex.test(url))
+                    return resultDirect;
+            }
+    } catch (e) {
+        return "";
+    }
+
 	// in chrome system mode is not controlled here
 	if (proxyMode == ProxyModeType.SystemProxy)
 		// bypass list should be checked here if Chrome supported this model
@@ -105,7 +117,7 @@ function FindProxyForURL(url, host) {
 	// there should be active proxy
 	if (!hasActiveProxyServer)
 		// let the browser decide
-		return "";
+        return "";
 
 	if (proxyMode == ProxyModeType.Always) {
 		// should bypass this host?

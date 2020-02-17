@@ -119,6 +119,11 @@ export class ProxyEngineFirefox {
 			!settings.activeProxyServer)
 			return { type: "direct" };
 
+		let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
+		if (matchedWhitelistRule) {
+			return { type: "direct" };
+		}
+
 		if (settings.proxyMode == ProxyModeType.SystemProxy)
 			// system proxy mode is not handled here
 			return { type: "direct" };
@@ -135,11 +140,6 @@ export class ProxyEngineFirefox {
 			}
 
 			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
-		}
-
-		let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
-		if (matchedWhitelistRule) {
-			return { type: "direct" };
 		}
 
 		if (settings.options.proxyPerOrigin &&
