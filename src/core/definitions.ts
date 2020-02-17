@@ -21,6 +21,7 @@ export const proxyServerSubscriptionObfuscate = ["None", "Base64"];
 export const proxyServerSubscriptionFormat = ["PlainText", "JSON"];
 export const specialRequestApplyProxyModeKeys = ["NoProxy", "CurrentProxy"/* , "SelectedProxy" */];
 export const proxyRulesSubscriptionFormat = ["AutoProxy/GFWList"];
+export const proxyRulesActionTypes = [browser.i18n.getMessage("settingsRuleActionApplyProxy"), browser.i18n.getMessage("settingsRuleActionWhitelist")];
 
 export enum ProxyModeType {
 	Direct,
@@ -400,7 +401,7 @@ export class ProxyRulesSubscription {
 
 	public username: string;
 	public password: string;
-	
+
 	// the loaded rules
 	public proxyRules: string[]; // Regex string
 	public whitelistRules: string[]; // Regex string

@@ -233,7 +233,7 @@ export class settingsPage {
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
             columns: [
                 {
-                    name: "ruleType", data: "ruleTypeName", title: browser.i18n.getMessage("settingsRulesGridColRuleType")
+                    name: "ruleType", data: "ruleTypeName", title: browser.i18n.getMessage("settingsRulesGridColRuleType"),
                 },
                 {
                     name: "sourceDomain", data: "sourceDomain", title: browser.i18n.getMessage("settingsRulesGridColSource")
@@ -242,7 +242,12 @@ export class settingsPage {
                     name: "rule", data: "rule", title: browser.i18n.getMessage("settingsRulesGridColRule")
                 },
                 {
-                    name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled")
+                    name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled"),
+                    render: function (data, type, row: ProxyRule) {
+                        if (row && row.whiteList)
+                            return `${data} <i class="far fa-hand-paper" title="${browser.i18n.getMessage("settingsRuleActionWhitelist")}"></i>`;
+                        return data;
+                    },
                 },
                 {
                     "width": "60px",
@@ -382,7 +387,6 @@ export class settingsPage {
         // applying the default values
         let cmbServerSubscriptionProtocol = jQuery("#cmbServerSubscriptionProtocol");
         let cmbServerSubscriptionObfuscation = jQuery("#cmbServerSubscriptionObfuscation");
-
 
         jQuery("<option>").attr("value", "")
             // (Auto detect with HTTP fallback)
@@ -637,6 +641,7 @@ export class settingsPage {
             modalContainer.find("#txtRuleUrlRegex").val(proxyRule.ruleRegex);
             modalContainer.find("#txtRuleUrlExact").val(proxyRule.ruleExact);
             modalContainer.find("#chkRuleEnabled").prop('checked', proxyRule.enabled);
+            modalContainer.find("#cmdRuleAction").val(proxyRule.whiteList ? "1" : "0");
 
             let proxyServerName = null;
             if (proxyRule.proxy)
@@ -654,6 +659,7 @@ export class settingsPage {
             modalContainer.find("#txtRuleUrlRegex").val("");
             modalContainer.find("#txtRuleUrlExact").val("");
             modalContainer.find("#chkRuleEnabled").prop('checked', true);
+            modalContainer.find("#cmdRuleAction")[0].selectedIndex = 0;
 
             settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, null, null, null, dontIncludeAuthServers);
         }
@@ -710,6 +716,7 @@ export class settingsPage {
         ruleInfo.ruleExact = modalContainer.find("#txtRuleUrlExact").val();
         ruleInfo.proxy = selectedProxy;
         ruleInfo.enabled = modalContainer.find("#chkRuleEnabled").prop("checked");
+        ruleInfo.whiteList = parseInt(modalContainer.find("#cmdRuleAction").val()) != 0;
         return ruleInfo;
     }
 

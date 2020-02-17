@@ -771,6 +771,18 @@
 		"message": "Save",
 		"description": ""
 	},
+	"settingsRulesActionType": {
+		"message": "Action",
+		"description": ""
+	},
+	"settingsRuleActionApplyProxy": {
+		"message": "Apply Proxy",
+		"description": ""
+	},
+	"settingsRuleActionWhitelist": {
+		"message": "Whitelist (No proxy)",
+		"description": ""
+	},
 	"settingsServerPortInvalid": {
 		"message": "Server port '{0}' is invalid",
 		"description": ""

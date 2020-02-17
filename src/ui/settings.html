@@ -672,6 +672,13 @@
 								<option value="4">Exact Url</option>
 							</select>
 						</div>
+						<div class="form-group col-sm-6">
+							<br />
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="chkRuleEnabled">
+								<label class="custom-control-label" for="chkRuleEnabled" data-localize="settingsRulesEnabled">Enabled</label>
+							</div>
+						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-sm-6">
@@ -714,11 +721,11 @@
 									(Servers with authentication are not supported in Chrome)</span>
 						</div>
 						<div class="form-group col-sm-6">
-							<br />
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="chkRuleEnabled">
-								<label class="custom-control-label" for="chkRuleEnabled" data-localize="settingsRulesEnabled">Enabled</label>
-							</div>
+							<label for="cmdRuleAction" data-localize="settingsRulesActionType">Action</label>
+							<select id="cmdRuleAction" class="form-control custom-select">
+								<option value="0" data-localize="settingsRuleActionApplyProxy">Apply Proxy</option>
+								<option value="1" data-localize="settingsRuleActionWhitelist">Whitelist (No proxy)</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -999,7 +1006,6 @@
 						<select id="cmbImportRulesFormat" class="form-control custom-select">
 							<!--<option value="">(Please select)</option>-->
 							<option value="autoproxy">AutoProxy</option>
-							<!--<option value="switchy">SwitchyOmega/SwitchySharp</option>-->
 						</select>
 					</div>
 
