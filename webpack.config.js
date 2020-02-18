@@ -27,10 +27,10 @@ module.exports = function (args) {
   return {
     mode: ENV,
     entry: {
-      'core': './src/core/Core.ts',
-      'ui/code/popup': './src/ui/code/popup.ts',
-      'ui/code/proxyable': './src/ui/code/proxyable.ts',
-      'ui/code/settingsPage': './src/ui/code/settingsPage.ts',
+      'core': ['./src/core/Core.ts', `./src/core/browsers/${browserType}.ts`],
+      'ui/code/popup': ['./src/ui/code/popup.ts', `./src/core/browsers/${browserType}.ts`],
+      'ui/code/proxyable': ['./src/ui/code/proxyable.ts', `./src/core/browsers/${browserType}.ts`],
+      'ui/code/settingsPage': ['./src/ui/code/settingsPage.ts', `./src/core/browsers/${browserType}.ts`],
     },
     devtool: '',
     // devtool: 'inline-source-map',

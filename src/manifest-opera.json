@@ -25,6 +25,7 @@
 		"notifications"
 	],
 	"browser_action": {
+		"chrome_style": true,
 		"default_title": "__MSG_extensionName__",
 		"default_popup": "ui/popup.html",
 		"default_icon": {
@@ -44,12 +45,33 @@
 	"options_ui": {
 		"page": "ui/settings.html",
 		"open_in_tab": true,
-		"browser_style": false
+		"chrome_style": false
 	},
-	"applications": {
-		"gecko": {
-			"id": "smartproxy@salarcode.com",
-			"strict_min_version": "71.0"
+	"commands": {
+		"next-proxy-server": {
+			"suggested_key": { 
+				"default": "Ctrl+Shift+Period"
+			},
+			"description": "Switch to next proxy server as the active proxy"
+		},
+		"proxy-mode-none": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+1"
+			},
+			"description": "Switch to 'No Proxy' mode"
+		},
+		"proxy-mode-smart": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+2"
+			},
+			"description": "Switch to 'Smart Proxy' mode"
+		},
+		"proxy-mode-system": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+4"
+			},
+			"description": "Switch to 'System' mode"
 		}
-	}
+	},
+	"minimum_opera_version": "60"
 }

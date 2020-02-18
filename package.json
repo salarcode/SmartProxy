@@ -1,6 +1,6 @@
 {
   "name": "SmartProxy",
-  "description": "SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions.",
+  "description": "SmartProxy is a browser extension that will automatically enable/disable proxy for the sites you visit, based on customizable patterns.",
   "devDependencies": {
     "clean-webpack-plugin": "^1.0.1",
     "copy-webpack-plugin": "^5.1.1",
@@ -14,12 +14,14 @@
     "lint": "eslint ./src",
     "build": "webpack --env.browser=chrome",
     "build-ff": "webpack --env.browser=firefox",
-    "build-ff-mobile": "webpack --env.browser=firefox-mobile",
-    "build-ch": "webpack --env.browser=chrome",
-    "build-ff-unlisted": "webpack --env.browser=firefox-unlisted",
     "build-ff:watch": "webpack --watch --env.browser=firefox",
-    "build-ff-mobile:watch": "webpack --watch --env.browser=firefox-mobile",
+    "build-ff-unlisted": "webpack --env.browser=firefox-unlisted",
+    "build-ch": "webpack --env.browser=chrome",
     "build-ch:watch": "webpack --watch --env.browser=chrome",
+    "build-ed": "webpack --env.browser=edge",
+    "build-ed:watch": "webpack --watch --env.browser=edge",
+    "build-op": "webpack --env.browser=opera",
+    "build-op:watch": "webpack --watch --env.browser=opera",
     "test": "npm run lint"
   },
   "license": "GPL-3.0",

@@ -41,9 +41,12 @@ export let environment = {
 				return -1;
 			}
 		}
+	},
+	browserConfig: {
+		name: "Default",
+		marketUrl: ""
 	}
 };
-
 
 export var chrome: any = window["chrome"];
 export var browser: any = window["browser"];
@@ -58,6 +61,7 @@ if (!browser["windows"]) {
 }
 else {
 	if (browser.runtime["getBrowserInfo"])
+		// getBrowserInfo is Firefox only API 
 		browser.runtime.getBrowserInfo().then(details => {
 			if (details.name == "Fennec")
 				environment.mobile = true;
