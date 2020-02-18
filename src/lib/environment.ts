@@ -44,6 +44,7 @@ export let environment = {
 	},
 	browserConfig: {
 		name: "Default",
+		marketName: "Extensions",
 		marketUrl: ""
 	}
 };
