@@ -383,6 +383,10 @@ export class settingsPage {
             jQuery(".firefox-only").show();
             jQuery(".chrome-only").hide();
         }
+        jQuery("#linkAddonsMarket")
+            .text(environment.browserConfig.marketName)
+            .attr("href", environment.browserConfig.marketUrl || "#");
+
 
         // -- ServerSubscription --------
         // applying the default values
