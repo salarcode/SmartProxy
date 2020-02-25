@@ -7,9 +7,8 @@
 		"noEmitOnError": true,
 		"removeComments": false,
 		"sourceMap": true,
-		"target": "es6",
-		"module": "es6",
-		"lib": [ "es6", "dom" ],
+		"target": "ES2020",
+		"lib": [ "ES2020", "dom" ],
 		"strictNullChecks": false,
 		"noUnusedLocals": true
 	},
