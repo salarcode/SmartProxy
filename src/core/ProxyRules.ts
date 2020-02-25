@@ -153,8 +153,8 @@ export class ProxyRules {
 
 		// the default rules
 		let compiledInfo = ProxyRules.compileRulesInternal(settings.proxyRules);
-		let compiledList = compiledInfo.compiledList;
-		let whiteListCompiledList = compiledInfo.compiledWhiteList;
+		let compiledList = compiledInfo?.compiledList ?? [];
+		let whiteListCompiledList = compiledInfo?.compiledWhiteList ?? [];
 
 		// the subscription rules
 		if (settings.proxyRulesSubscriptions && settings.proxyRulesSubscriptions.length > 0) {
@@ -221,7 +221,7 @@ export class ProxyRules {
 
 			if (rule.whiteList) {
 				compiledWhiteList.push(newCompiled);
-				return;
+				continue;
 			}
 
 			switch (rule.ruleType) {
