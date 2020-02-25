@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -16,12 +16,13 @@
  */
 import { browser, environment } from "../lib/environment";
 import { Debug } from "../lib/Debug";
-import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer, SpecialRequestApplyProxyMode } from "./definitions";
+import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer, SpecialRequestApplyProxyMode, ProxyableLogType, ProxyableDataType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { TabManager } from "./TabManager";
 import { PolyFill } from "../lib/PolyFill";
 import { Settings } from "./Settings";
 import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
+import { TabRequestLogger } from "./TabRequestLogger";
 
 export class ProxyEngineFirefox {
 
@@ -91,96 +92,131 @@ export class ProxyEngineFirefox {
 			url: "http://socialshare.ir/admin/media-promote"
 			*/
 
+		let proxyLog: ProxyableDataType = new ProxyableDataType();
+		proxyLog.tabId = requestDetails.tabId;
+		proxyLog.url = requestDetails.url;
+		proxyLog.logType = ProxyableLogType.NoneMatched;
+		proxyLog.enabled = false;
+
 		let settings = Settings.current;
-
-		if (!requestDetails.url)
-			return { type: "direct" };
-
-		// checking if request is special
-		let specialRequest = ProxyEngineSpecialRequests.getProxyMode(requestDetails.url, true);
-		if (specialRequest !== null) {
-			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.NoProxy)
+		let result = (() => {
+			if (!requestDetails.url)
 				return { type: "direct" };
 
-			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.CurrentProxy) {
-				if (settings.activeProxyServer)
+			// checking if request is special
+			let specialRequest = ProxyEngineSpecialRequests.getProxyMode(requestDetails.url, true);
+			if (specialRequest !== null) {
+				proxyLog.logType = ProxyableLogType.Special;
+
+				if (specialRequest.applyMode == SpecialRequestApplyProxyMode.NoProxy)
+					return { type: "direct" };
+
+				if (specialRequest.applyMode == SpecialRequestApplyProxyMode.CurrentProxy) {
+					if (settings.activeProxyServer)
+						return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
+					else
+						return { type: "direct" };
+				}
+
+				if (specialRequest.applyMode == SpecialRequestApplyProxyMode.SelectedProxy
+					&& specialRequest.selectedProxy) {
+					return ProxyEngineFirefox.getResultProxyInfo(specialRequest.selectedProxy);
+				}
+			}
+
+			if (settings.proxyMode == ProxyModeType.Direct ||
+				!settings.activeProxyServer)
+				return { type: "direct" };
+
+			let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
+			if (matchedWhitelistRule) {
+				proxyLog.logType = ProxyableLogType.Whitelisted;
+				proxyLog.rule = matchedWhitelistRule.rule;
+				proxyLog.sourceDomain = matchedWhitelistRule.sourceDomain;
+
+				return { type: "direct" };
+			}
+
+			if (settings.proxyMode == ProxyModeType.SystemProxy) {
+				// system proxy mode is not handled here
+				proxyLog.logType = ProxyableLogType.SystemProxyApplied;
+				return { type: "direct" };
+			}
+			if (settings.proxyMode == ProxyModeType.Always) {
+				// should bypass this host?
+				if (settings.bypass.enableForAlways === true &&
+					settings.bypass.bypassList.length > 0) {
+
+					let host = new URL(requestDetails.url).host.toLowerCase();
+
+					if (settings.bypass.bypassList.indexOf(host) !== -1) {
+						proxyLog.logType = ProxyableLogType.ByPassed;
+						proxyLog.sourceDomain = host;
+						return { type: "direct" };
+					}
+				}
+
+				proxyLog.logType = ProxyableLogType.AlwaysEnabled;
+				return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
+			}
+
+			if (settings.options.proxyPerOrigin &&
+				requestDetails.tabId > -1) {
+
+				let tabData = TabManager.getTab(requestDetails.tabId);
+				if (tabData != null && tabData.proxified) {
+
+					proxyLog.logType = ProxyableLogType.ProxyPerOrigin;
+					proxyLog.sourceDomain = tabData.proxySourceDomain;
+
+					if (tabData.proxyServerFromRule) {
+						if (tabData.proxyServerFromRule.username)
+							// Requires authentication. Mark as special and store authentication info.
+							ProxyEngineSpecialRequests.setSpecialUrl(`${tabData.proxyServerFromRule.host}:${tabData.proxyServerFromRule.port}`, null, tabData.proxyServerFromRule);
+
+						return ProxyEngineFirefox.getResultProxyInfo(tabData.proxyServerFromRule);
+					}
+
 					return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
-				else
-					return { type: "direct" };
+				}
 			}
 
-			if (specialRequest.applyMode == SpecialRequestApplyProxyMode.SelectedProxy
-				&& specialRequest.selectedProxy) {
-				return ProxyEngineFirefox.getResultProxyInfo(specialRequest.selectedProxy);
-			}
-		}
+			let matchedRule = ProxyRules.findMatchForUrl(requestDetails.url);
+			if (matchedRule) {
 
-		if (settings.proxyMode == ProxyModeType.Direct ||
-			!settings.activeProxyServer)
-			return { type: "direct" };
+				proxyLog.logType = ProxyableLogType.MatchedRule;
+				proxyLog.rule = matchedRule.rule;
+				proxyLog.sourceDomain = matchedRule.sourceDomain;
 
-		let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
-		if (matchedWhitelistRule) {
-			return { type: "direct" };
-		}
+				if (requestDetails.tabId > -1) {
+					// storing the proxy & rule in tab
+					ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule);
+				}
 
-		if (settings.proxyMode == ProxyModeType.SystemProxy)
-			// system proxy mode is not handled here
-			return { type: "direct" };
-
-		if (settings.proxyMode == ProxyModeType.Always) {
-			// should bypass this host?
-			if (settings.bypass.enableForAlways === true &&
-				settings.bypass.bypassList.length > 0) {
-
-				let host = new URL(requestDetails.url).host.toLowerCase();
-
-				if (settings.bypass.bypassList.indexOf(host) !== -1)
-					return { type: "direct" };
-			}
-
-			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
-		}
-
-		if (settings.options.proxyPerOrigin &&
-			requestDetails.tabId > -1) {
-
-			let tabData = TabManager.getTab(requestDetails.tabId);
-			if (tabData != null && tabData.proxified) {
-
-				if (tabData.proxyServerFromRule) {
-					if (tabData.proxyServerFromRule.username)
+				if (matchedRule.proxy) {
+					if (matchedRule.proxy.username)
 						// Requires authentication. Mark as special and store authentication info.
-						ProxyEngineSpecialRequests.setSpecialUrl(`${tabData.proxyServerFromRule.host}:${tabData.proxyServerFromRule.port}`, null, tabData.proxyServerFromRule);
+						// TODO: use proxyAuthorizationHeader
+						ProxyEngineSpecialRequests.setSpecialUrl(`${matchedRule.proxy.host}:${matchedRule.proxy.port}`, null, matchedRule.proxy);
 
-					return ProxyEngineFirefox.getResultProxyInfo(tabData.proxyServerFromRule);
+					return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
 				}
 
 				return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 			}
-		}
 
-		let matchedRule = ProxyRules.findMatchForUrl(requestDetails.url);
-		if (matchedRule) {
+			proxyLog.logType = ProxyableLogType.NoneMatched;
 
-			if (requestDetails.tabId > -1) {
-				// storing the proxy & rule in tab
-				ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule);
-			}
+			// nothing matched
+			return { type: "direct" };
+		})();
 
-			if (matchedRule.proxy) {
-				if (matchedRule.proxy.username)
-					// Requires authentication. Mark as special and store authentication info.
-					ProxyEngineSpecialRequests.setSpecialUrl(`${matchedRule.proxy.host}:${matchedRule.proxy.port}`, null, matchedRule.proxy);
+		if ((result as resultProxyInfo).host)
+			proxyLog.enabled = true;
 
-				return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
-			}
-
-			return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
-		}
-
-		// nothing matched
-		return { type: "direct" };
+		// notify the logger
+		TabRequestLogger.notifyProxyableLog(proxyLog);
+		return result;
 	}
 
 	private static storeTabProxyDetail(requestDetails: any, matchedRule: ProxyRule) {
@@ -208,7 +244,7 @@ export class ProxyEngineFirefox {
 		}
 	}
 
-	private static getResultProxyInfo(proxyServer: ProxyServer) {
+	private static getResultProxyInfo(proxyServer: ProxyServer): resultProxyInfo {
 		switch (proxyServer.protocol) {
 			case "SOCKS5":
 				// "socks" refers to the SOCKS5 protocol
@@ -238,3 +274,13 @@ export class ProxyEngineFirefox {
 		Debug.error(`Proxy error: ${error.message}`, error);
 	}
 }
+
+export interface resultProxyInfo {
+	type: string;
+	host: string;
+	port: number;
+	proxyDNS: boolean;
+	username?: string;
+	password?: string;
+	proxyAuthorizationHeader?: string;
+};

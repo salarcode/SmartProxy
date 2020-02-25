@@ -151,11 +151,28 @@ export class ProxyableInternalDataType {
 	requests: ProxyableDataType[];
 }
 
+export enum ProxyableLogType {
+	NoneMatched,
+	MatchedRule,
+	Special,
+	Whitelisted,
+	ByPassed,
+	SystemProxyApplied,
+	AlwaysEnabled,
+	ProxyPerOrigin
+}
+
 export class ProxyableDataType {
+	public tabId: number;
+	public logType: ProxyableLogType;
 	public url: string;
-	public enabled: boolean;
+	public enabled?: boolean;
 	public sourceDomain: string;
 	public rule: string;
+
+	get logTypeName(): string {
+		return ProxyableLogType[this.logType];
+	}
 }
 
 export class SettingsConfig {

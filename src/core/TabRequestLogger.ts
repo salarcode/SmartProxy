@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,23 +19,28 @@ import { Utils } from "../lib/Utils";
 import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { ProxyRules } from "./ProxyRules";
-import { Messages, ProxyableDataType } from "./definitions";
-import { browser } from "../lib/environment";
+import { Messages, ProxyableDataType as ProxyableLogDataType, ProxyableLogType, ProxyableDataType } from "./definitions";
+import { browser, environment } from "../lib/environment";
 
 export class TabRequestLogger {
 
-	private static subscribedTabList: any[] = [];
+	private static subscribedTabList: number[] = [];
 
 	public static startTracking() {
-		browser.webRequest.onBeforeRequest.addListener(
-			TabRequestLogger.logRequest,
-			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
-		);
+		// unsubscribing when tab got removed
+		TabManager.TabRemoved.on(TabRequestLogger.handleTabRemovedInternal);
 
-		TabManager.TabRemoved.on(TabRequestLogger.handleTabRemoved);
+		if (environment.chrome) {
+			// this is a Chrome specific way of logging
+
+			browser.webRequest.onBeforeRequest.addListener(
+				TabRequestLogger.logRequestInternal,
+				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
+			);
+		}
 	}
 
-	public static addToProxyableLogIdList(tabId: number) {
+	public static subscribeProxyableLogs(tabId: number) {
 		let index = TabRequestLogger.subscribedTabList.indexOf(tabId);
 
 		// only one instance
@@ -44,14 +49,25 @@ export class TabRequestLogger {
 		}
 	}
 
-	public static removeFromProxyableLogIdList(tabId: number) {
+	public static unsubscribeProxyableLogs(tabId: number) {
 		let index = TabRequestLogger.subscribedTabList.indexOf(tabId);
 		if (index > -1) {
 			TabRequestLogger.subscribedTabList.splice(index, 1);
 		}
 	}
 
-	private static logRequest(requestDetails: any) {
+	public static async notifyProxyableLog(proxyLogData: ProxyableLogDataType) {
+		// Note: the async/await is iagnored to prevent a blocking call.
+
+		// checking if this tab requested
+		if (TabRequestLogger.subscribedTabList.indexOf(proxyLogData.tabId) == -1) {
+			return;
+		}
+
+		TabRequestLogger.sendProxyableRequestLog(proxyLogData);
+	}
+
+	private static logRequestInternal(requestDetails: any) {
 		let tabId = requestDetails.tabId;
 		if (!(tabId > -1))
 			// only requests from tabs are logged
@@ -69,11 +85,11 @@ export class TabRequestLogger {
 			let tabData = TabManager.getOrSetTab(tabId, false);
 			tabData.requests.add(requestDetails.url);
 
-			TabRequestLogger.notifyProxyableLogRequest(requestDetails.url, tabId);
+			TabRequestLogger.notifyProxyableLogRequestInternal(requestDetails.url, tabId);
 		}
 	}
 
-	private static handleTabRemoved(tabData: TabDataType) {
+	private static handleTabRemovedInternal(tabData: TabDataType) {
 
 		tabData.requests = null;
 
@@ -81,10 +97,10 @@ export class TabRequestLogger {
 		TabRequestLogger.notifyProxyableOriginTabRemoved(tabData.tabId);
 
 		// then remove the tab from the notification list
-		TabRequestLogger.removeFromProxyableLogIdList(tabData.tabId);
+		TabRequestLogger.unsubscribeProxyableLogs(tabData.tabId);
 	}
 
-	private static notifyProxyableLogRequest(url: string, tabId: number) {
+	private static async notifyProxyableLogRequestInternal(url: string, tabId: number) {
 		let proxyableData = TabRequestLogger.getProxyableDataForUrl(url);
 
 		PolyFill.runtimeSendMessage(
@@ -94,11 +110,26 @@ export class TabRequestLogger {
 				logInfo: proxyableData
 			},
 			null,
-			(error: Error) =>  {
+			(error: Error) => {
 				// no more logging for this tab
-				TabRequestLogger.removeFromProxyableLogIdList(tabId);
+				TabRequestLogger.unsubscribeProxyableLogs(tabId);
 
-				Debug.error("notifyProxyableLogRequest failed for ", tabId, error);
+				Debug.error("notifyProxyableLogRequestInternal failed for ", tabId, error);
+			});
+	}
+	private static async sendProxyableRequestLog(logData: ProxyableDataType) {
+		PolyFill.runtimeSendMessage(
+			{
+				command: Messages.ProxyableRequestLog,
+				tabId: logData.tabId,
+				logInfo: logData
+			},
+			null,
+			(error: Error) => {
+				// no more logging for this tab
+				TabRequestLogger.unsubscribeProxyableLogs(logData.tabId);
+
+				Debug.error("sendProxyableRequestLog failed for ", logData.tabId, error);
 			});
 	}
 
@@ -115,29 +146,31 @@ export class TabRequestLogger {
 				tabId: tabId
 			},
 			null,
-			(error: Error) =>  {
+			(error: Error) => {
 				Debug.error("notifyProxyableOriginTabRemoved failed for ", tabId, error);
 			});
 	}
 
-	private static getProxyableDataForUrl(url: string): ProxyableDataType {
+	private static getProxyableDataForUrl(url: string): ProxyableLogDataType {
 
 		let testResult = ProxyRules.testSingleRule(url);
-		let result = new ProxyableDataType();
+		let result = new ProxyableLogDataType();
 
 		result.url = url;
 		result.enabled = testResult.match;
 		result.sourceDomain = "";
 		result.rule = "";
+		result.logType = ProxyableLogType.NoneMatched;
 
 		if (testResult.rule) {
 			result.sourceDomain = testResult.rule.sourceDomain;
 			result.rule = testResult.rule.rule;
+			result.logType = ProxyableLogType.MatchedRule;
 		}
 		return result;
 	}
 
-	public static getProxyableDataForUrlList(requests: Set<string> | string[]): ProxyableDataType[] {
+	public static getProxyableDataForUrlList(requests: Set<string> | string[]): ProxyableLogDataType[] {
 
 		let reqArray: string[];
 		if (!Array.isArray(requests))
@@ -146,12 +179,12 @@ export class TabRequestLogger {
 			reqArray = requests;
 
 		let multiTestResultList = ProxyRules.testMultipleRule(reqArray);
-		let proxyableResult: ProxyableDataType[] = [];
+		let proxyableResult: ProxyableLogDataType[] = [];
 
 		for (let i = 0; i < multiTestResultList.length; i++) {
 			let testResult = multiTestResultList[i];
 
-			let result = new ProxyableDataType();
+			let result = new ProxyableLogDataType();
 
 			result.url = reqArray[i];
 			result.enabled = testResult.match;

@@ -162,6 +162,9 @@ export class proxyable {
 					},
 				},
 				{
+					name: "logType", data: "logTypeName", title: 'Status',
+				},
+				{
 					name: "enabled", data: "enabled", title: browser.i18n.getMessage("proxyableGridColEnabled"),
 					render: function (data: any, type: any, row: ProxyableDataType): string {
 						return `<input type='checkbox' disabled ${row.enabled ? 'checked' : ''} />`
@@ -253,11 +256,16 @@ export class proxyable {
 	}
 
 
-	private static insertNewLogInGrid(newRequest: any) {
+	private static insertNewLogInGrid(newRequest: ProxyableDataType) {
 		try {
+			let request = new ProxyableDataType();
+			Object.assign(request, newRequest);
+
+			request.sourceDomain = request.sourceDomain ?? "";
+			request.rule = request.rule ?? "";
 
 			let row = this.grdProxyable.row
-				.add(newRequest)
+				.add(request)
 				.draw('full-hold');
 
 			row.scrollTo();

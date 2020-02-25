@@ -132,7 +132,7 @@ export class Core {
 					let dataForProxyable = Core.getProxyableInitialData(tabId);
 
 					if (dataForProxyable)
-						TabRequestLogger.addToProxyableLogIdList(tabId);
+						TabRequestLogger.subscribeProxyableLogs(tabId);
 
 					// send the data
 					sendResponse(dataForProxyable);
@@ -146,7 +146,7 @@ export class Core {
 						return;
 					let tabId = message.tabId;
 
-					TabRequestLogger.removeFromProxyableLogIdList(tabId);
+					TabRequestLogger.unsubscribeProxyableLogs(tabId);
 				}
 				break;
 
