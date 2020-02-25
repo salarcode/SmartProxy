@@ -72,5 +72,6 @@
 			},
 			"description": "Switch to 'System' mode"
 		}
-	}
+	},
+	"minimum_chrome_version": "80"
 }
