@@ -365,7 +365,7 @@ export class SettingsOperation {
 				let newServer = new ProxyServer();
 				newServer.CopyFrom(backServer);
 
-				let validateResult = Settings.validateProxyServer(newServer);
+				let validateResult = Settings.validateProxyServer(newServer, false);
 				if (!validateResult.success) {
 					// if validation failed
 

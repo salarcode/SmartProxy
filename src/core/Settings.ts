@@ -168,7 +168,7 @@ export class Settings {
 		}
 	}
 
-	public static validateProxyServer(server: ProxyServer): {
+	public static validateProxyServer(server: ProxyServer, checkExistingName: boolean = true): {
 		success: boolean, exist?: boolean, message?: string,
 		result?: any
 	} {
@@ -190,11 +190,13 @@ export class Settings {
 			return { success: false, message: browser.i18n.getMessage("settingsServerNameRequired") };
 		} else if (Settings.current) {
 
-			const currentServers = Settings.current.proxyServers;
+			if (checkExistingName) {
+				const currentServers = Settings.current.proxyServers;
 
-			for (let srv of currentServers) {
-				if (srv.name == server.name) {
-					return { success: false, exist: true, message: `Server name ${server.name} already exists` };
+				for (let srv of currentServers) {
+					if (srv.name == server.name) {
+						return { success: false, exist: true, message: `Server name ${server.name} already exists` };
+					}
 				}
 			}
 		}
