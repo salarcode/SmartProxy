@@ -191,7 +191,6 @@ export class TabDataType {
 		this.tabId = tabId;
 		this.created = new Date();
 		this.updated = new Date();
-		this.requests = new Set();
 		this.url = "";
 		this.incognito = false;
 		this.failedRequests = new Map<string, FailedRequestType>();
@@ -201,7 +200,6 @@ export class TabDataType {
 	public tabId: number;
 	public created: Date;
 	public updated: Date;
-	public requests: Set<string>;
 	public url: string;
 	public incognito: boolean;
 	public failedRequests: Map<string, FailedRequestType>;
@@ -212,8 +210,6 @@ export class TabDataType {
 	public proxyServerFromRule: ProxyServer;
 
 	public cleanup() {
-		if (this.requests)
-			this.requests.clear();
 		if (this.failedRequests)
 			this.failedRequests.clear();
 	}

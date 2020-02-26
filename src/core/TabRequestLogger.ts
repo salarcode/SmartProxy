@@ -82,16 +82,11 @@ export class TabRequestLogger {
 		}
 
 		if (Utils.isValidUrl(requestDetails.url)) {
-			let tabData = TabManager.getOrSetTab(tabId, false);
-			tabData.requests.add(requestDetails.url);
-
 			TabRequestLogger.notifyProxyableLogRequestInternal(requestDetails.url, tabId);
 		}
 	}
 
 	private static handleTabRemovedInternal(tabData: TabDataType) {
-
-		tabData.requests = null;
 
 		// send notification first
 		TabRequestLogger.notifyProxyableOriginTabRemoved(tabData.tabId);
@@ -168,32 +163,5 @@ export class TabRequestLogger {
 			result.logType = ProxyableLogType.MatchedRule;
 		}
 		return result;
-	}
-
-	public static getProxyableDataForUrlList(requests: Set<string> | string[]): ProxyableLogDataType[] {
-
-		let reqArray: string[];
-		if (!Array.isArray(requests))
-			reqArray = Array.from(requests);
-		else
-			reqArray = requests;
-
-		let multiTestResultList = ProxyRules.testMultipleRule(reqArray);
-		let proxyableResult: ProxyableLogDataType[] = [];
-
-		for (let i = 0; i < multiTestResultList.length; i++) {
-			let testResult = multiTestResultList[i];
-
-			let result = new ProxyableLogDataType();
-
-			result.url = reqArray[i];
-			result.enabled = testResult.match;
-			result.sourceDomain = testResult.sourceDomain;
-			result.rule = testResult.ruleText;
-
-			proxyableResult.push(result);
-		}
-
-		return proxyableResult;
 	}
 }

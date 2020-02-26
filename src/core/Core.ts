@@ -424,7 +424,6 @@ export class Core {
 						return;
 					let enableDomain = message.enableByDomain;
 					let removeDomain = message.removeBySource;
-					let tabId = message.tabId;
 					let ruleResult;
 
 					if (enableDomain)
@@ -445,12 +444,6 @@ export class Core {
 
 						// notify the proxy script
 						ProxyEngine.notifyProxyRulesChanged();
-
-						// rules are compiled now, update the requests
-						let dataForProxyable = Core.getProxyableInitialData(tabId);
-						if (dataForProxyable) {
-							result.requests = dataForProxyable.requests;
-						}
 					}
 
 					// send the responses
@@ -676,11 +669,6 @@ export class Core {
 		let result = new ProxyableInternalDataType();
 
 		result.url = tabData.url;
-		result.requests = null;
-
-		if (tabData.requests && tabData.requests.size > 0) {
-			result.requests = TabRequestLogger.getProxyableDataForUrlList(tabData.requests);
-		}
 		return result;
 	}
 

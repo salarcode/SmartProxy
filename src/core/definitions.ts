@@ -148,7 +148,6 @@ export type SettingsPageInternalDataType = {
 
 export class ProxyableInternalDataType {
 	url: string;
-	requests: ProxyableDataType[];
 }
 
 export enum ProxyableLogType {

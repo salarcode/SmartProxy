@@ -25,7 +25,6 @@ export class proxyable {
 	private static grdProxyable: any;
 	private static sourceTabId: number = null;
 	private static selfTabId: number;
-	private static proxyableData: ProxyableInternalDataType;
 
 	public static initialize() {
 
@@ -55,7 +54,6 @@ export class proxyable {
 					return;
 				}
 
-				proxyable.proxyableData = dataForProxyable;
 				proxyable.populateDataForProxyable(dataForProxyable);
 			},
 			(error: Error) => {
@@ -239,12 +237,6 @@ export class proxyable {
 			],
 		});
 		proxyable.grdProxyable.draw();
-
-		if (proxyable.proxyableData &&
-			proxyable.proxyableData.requests &&
-			proxyable.proxyableData.requests.length > 0) {
-			proxyable.loadRequests(proxyable.proxyableData.requests);
-		}
 	}
 
 	private static populateDataForProxyable(dataForProxyable: ProxyableInternalDataType) {
@@ -257,24 +249,7 @@ export class proxyable {
 		jQuery("#txtPageUrl")
 			.show()
 			.val(dataForProxyable.url);
-
-		if (dataForProxyable.requests && dataForProxyable.requests.length > 0) {
-			proxyable.loadRequests(dataForProxyable.requests);
-		}
 	}
-
-	private static loadRequests(requests: ProxyableDataType[]) {
-		if (!this.grdProxyable)
-			return;
-		this.grdProxyable.clear();
-
-		this.grdProxyable.rows.add(requests).draw('full-hold');
-		this.grdProxyable.row(requests.length - 1).scrollTo();
-
-		// binding the events for all the rows
-		this.refreshGridAllRows();
-	}
-
 
 	private static insertNewLogInGrid(newRequest: ProxyableDataType) {
 		try {
@@ -377,18 +352,10 @@ export class proxyable {
 					if (response.message) {
 						messageBox.success(response.message);
 					}
-					let requests: ProxyableDataType[] = response.requests;
-
-					if (requests) {
-						proxyable.proxyableData.requests = requests;
-						proxyable.loadRequests(requests);
-					}
-					else {
-						if (gridRow)
-							proxyable.refreshGridRow(gridRow, true);
-						else
-							proxyable.refreshGridAllRows(true);
-					}
+					if (gridRow)
+						proxyable.refreshGridRow(gridRow, true);
+					else
+						proxyable.refreshGridAllRows(true);
 
 				} else {
 					if (response.message)
