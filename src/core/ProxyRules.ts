@@ -160,6 +160,8 @@ export class ProxyRules {
 		if (settings.proxyRulesSubscriptions && settings.proxyRulesSubscriptions.length > 0) {
 
 			for (const subscription of settings.proxyRulesSubscriptions) {
+				if (!subscription.enabled)
+					continue;
 
 				if (subscription.whitelistRules &&
 					subscription.whitelistRules.length > 0) {
@@ -219,11 +221,6 @@ export class ProxyRules {
 			let newCompiled = new CompiledRule();
 			Object.assign(newCompiled, rule);
 
-			if (rule.whiteList) {
-				compiledWhiteList.push(newCompiled);
-				continue;
-			}
-
 			switch (rule.ruleType) {
 				case ProxyRuleType.Exact:
 					newCompiled.ruleExact = newCompiled.ruleExact.toLowerCase();
@@ -258,8 +255,10 @@ export class ProxyRules {
 				default:
 					continue;
 			}
-
-			compiledList.push(newCompiled);
+			if (rule.whiteList)
+				compiledWhiteList.push(newCompiled);
+			else
+				compiledList.push(newCompiled);
 		}
 
 		return {
