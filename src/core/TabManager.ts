@@ -85,14 +85,16 @@ export class TabManager {
 			tabData = TabManager.getOrSetTab(tabId, false);
 		}
 		if (tabData.proxifiedParentDocumentUrl != tabInfo.url) {
+
 			tabData.proxyServerFromRule = null;
 			tabData.proxified = false;
 		}
 		tabData.updated = new Date();
 		tabData.incognito = tabInfo.incognito;
 		tabData.url = tabInfo.url;
-		tabData.proxifiedParentDocumentUrl = tabInfo.url;
 		tabData.index = tabInfo.index;
+		if (!tabData.proxifiedParentDocumentUrl)
+			tabData.proxifiedParentDocumentUrl = tabInfo.url;
 
 		// saving the tab in the storage
 		TabManager.tabs[tabId] = tabData;
