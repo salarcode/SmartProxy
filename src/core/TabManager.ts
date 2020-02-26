@@ -45,7 +45,7 @@ export class TabManager {
 		browser.tabs.onRemoved.addListener(TabManager.handleTabRemoved);
 
 		// listen for window switching
-		if(browser["windows"])
+		if (browser["windows"])
 			browser.windows.onFocusChanged.addListener(TabManager.updateActiveTab);
 
 		// read the active tab
@@ -84,9 +84,14 @@ export class TabManager {
 		if (!tabData) {
 			tabData = TabManager.getOrSetTab(tabId, false);
 		}
+		if (tabData.proxifiedParentDocumentUrl != tabInfo.url) {
+			tabData.proxyServerFromRule = null;
+			tabData.proxified = false;
+		}
 		tabData.updated = new Date();
 		tabData.incognito = tabInfo.incognito;
 		tabData.url = tabInfo.url;
+		tabData.proxifiedParentDocumentUrl = tabInfo.url;
 		tabData.index = tabInfo.index;
 
 		// saving the tab in the storage
@@ -202,6 +207,7 @@ export class TabDataType {
 	public failedRequests: Map<string, FailedRequestType>;
 	public index: number;
 	public proxified: boolean;
+	public proxifiedParentDocumentUrl: string;
 	public proxySourceDomain: string;
 	public proxyServerFromRule: ProxyServer;
 

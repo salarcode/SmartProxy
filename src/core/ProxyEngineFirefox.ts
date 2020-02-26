@@ -166,18 +166,26 @@ export class ProxyEngineFirefox {
 				let tabData = TabManager.getTab(requestDetails.tabId);
 				if (tabData != null && tabData.proxified) {
 
-					proxyLog.logType = ProxyableLogType.ProxyPerOrigin;
-					proxyLog.sourceDomain = tabData.proxySourceDomain;
-
-					if (tabData.proxyServerFromRule) {
-						if (tabData.proxyServerFromRule.username)
-							// Requires authentication. Mark as special and store authentication info.
-							ProxyEngineSpecialRequests.setSpecialUrl(`${tabData.proxyServerFromRule.host}:${tabData.proxyServerFromRule.port}`, null, tabData.proxyServerFromRule);
-
-						return ProxyEngineFirefox.getResultProxyInfo(tabData.proxyServerFromRule);
+					if (!requestDetails.documentUrl) {
+						// document url is being changed, resetting the settings for that
+						tabData.proxified = false;
+						tabData.proxyServerFromRule = null;
+						tabData.proxifiedParentDocumentUrl = null;
 					}
+					else {
+						proxyLog.logType = ProxyableLogType.ProxyPerOrigin;
+						proxyLog.sourceDomain = tabData.proxySourceDomain;
 
-					return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
+						if (tabData.proxyServerFromRule) {
+							if (tabData.proxyServerFromRule.username)
+								// Requires authentication. Mark as special and store authentication info.
+								ProxyEngineSpecialRequests.setSpecialUrl(`${tabData.proxyServerFromRule.host}:${tabData.proxyServerFromRule.port}`, null, tabData.proxyServerFromRule);
+
+							return ProxyEngineFirefox.getResultProxyInfo(tabData.proxyServerFromRule);
+						}
+
+						return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
+					}
 				}
 			}
 
@@ -233,9 +241,12 @@ export class ProxyEngineFirefox {
 		}
 
 		// only the top-level
-		if (requestDetails.url === tabData.url) {
+		if (requestDetails.url === tabData.url ||
+			// on Firefox top-level doesn't have documentUrl
+			!requestDetails.documentUrl) {
 
 			tabData.proxified = true;
+			tabData.proxifiedParentDocumentUrl = requestDetails.url;
 			tabData.proxySourceDomain = matchedRule.sourceDomain;
 			if (matchedRule.proxy)
 				tabData.proxyServerFromRule = matchedRule.proxy;
