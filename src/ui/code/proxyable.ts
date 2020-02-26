@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { CommonUi } from "./CommonUi";
-import { Messages, ProxyableInternalDataType, ProxyableDataType } from "../../core/definitions";
+import { Messages, ProxyableInternalDataType, ProxyableDataType, ProxyableLogType } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { jQuery, messageBox } from "../../lib/External";
 import { browser } from "../../lib/environment";
@@ -138,8 +138,11 @@ export class proxyable {
 		});
 
 		jQuery("#btnReload").click(() => {
-			//proxyableGrid.clearLogData();
 			PolyFill.tabsReload(proxyable.sourceTabId);
+		});
+		jQuery("#btnClear").click(() => {
+			proxyable.grdProxyable.clear();
+			proxyable.grdProxyable.draw('full-hold');
 		});
 	}
 
@@ -156,30 +159,47 @@ export class proxyable {
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			columns: [
 				{
-					name: "url", data: "url", title: browser.i18n.getMessage("proxyableGridColUrl"),
+					name: "url", data: "url", title: browser.i18n.getMessage("proxyableGridColUrl"), className: "grid-ellipsis-text-cell", width: '60%',
 					render: function (data: any, type: any, row: ProxyableDataType): string {
-						return `<a class='wordwrap-anywhere' href="${data}" target="_blank">${data}</a>`;
+						return `<a class='wordwrap-anywhere grid-ellipsis-text-link' href="${data}" target="_blank">${data}</a>`;
 					},
 				},
 				{
-					name: "logType", data: "logTypeName", title: 'Status',
+					name: "logType", data: "logTypeName", title: browser.i18n.getMessage("proxyableGridColStatus"), width: 100, className: 'small',
+					render: function (data: any, type: any, row: ProxyableDataType): string {
+						return browser.i18n.getMessage(`proxyableGridData_LogType_${row.logTypeName}`);
+					}
 				},
 				{
-					name: "enabled", data: "enabled", title: browser.i18n.getMessage("proxyableGridColEnabled"),
+					name: "proxied", data: "proxied", title: browser.i18n.getMessage("proxyableGridColEnabled"), width: 50, className: 'text-center',
 					render: function (data: any, type: any, row: ProxyableDataType): string {
-						return `<input type='checkbox' disabled ${row.enabled ? 'checked' : ''} />`
+						if (row.proxied) {
+							return '<i class="fas fa-check text-success"></i>';
+						}
+						else if (row.logType == ProxyableLogType.Whitelisted) {
+							return `<i class="far fa-hand-paper text-warning" title="${row.logTypeName}"></i>`;
+						}
+						else if (row.logType == ProxyableLogType.ByPassed) {
+							return `<i class="far fa-hand-paper text-secondary" title="${row.logTypeName}"></i>`;
+						}
+						else if (row.logType == ProxyableLogType.SystemProxyApplied) {
+							return `<i class="fas fa-cog text-information" title="${row.logTypeName}"></i>`;
+						}
+						return '<i class="fas fa-minus text-danger"></i>';
 					}
 				},
 				{
 					name: "sourceDomain", data: "sourceDomain", title: browser.i18n.getMessage("proxyableGridColSource"),
 				},
 				{
-					name: "enabled",
+					name: "enabled", width: 100, title: '',
 					render: (data: any, type: any, row: ProxyableDataType): string => {
 						let url = row.url;
 						if (!url)
 							return "";
-						if (row.enabled) {
+						if (!row.statusCanBeDetermined)
+							return "";
+						if (row.rule) {
 							return `<button id='btnDisable' data-domain="${row.sourceDomain}" class="btn btn-sm btn-danger whitespace-nowrap">
                                     <i class="fa fa-times" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableDisableButton")}</button>`;
 						}

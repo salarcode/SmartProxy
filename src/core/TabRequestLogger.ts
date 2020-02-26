@@ -57,7 +57,7 @@ export class TabRequestLogger {
 	}
 
 	public static async notifyProxyableLog(proxyLogData: ProxyableLogDataType) {
-		// Note: the async/await is iagnored to prevent a blocking call.
+		// Note: the async/await is ignored to prevent a blocking call.
 
 		// checking if this tab requested
 		if (TabRequestLogger.subscribedTabList.indexOf(proxyLogData.tabId) == -1) {

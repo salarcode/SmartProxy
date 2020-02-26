@@ -220,3 +220,18 @@ input:invalid {
     right: 0;
     top: 4px;
 }
+/* ============================== */
+/* Proxyable page styles */
+/* ------------------------------ */
+.grid-ellipsis-text-cell{
+    position: relative;
+}
+.grid-ellipsis-text-link{
+    position: absolute;
+    margin: 2px 2px 0 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* display: inline-block; */
+    width: 92%;
+}

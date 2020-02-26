@@ -173,6 +173,21 @@ export class ProxyableDataType {
 	get logTypeName(): string {
 		return ProxyableLogType[this.logType];
 	}
+	get proxied(): boolean {
+		if (this.logType == ProxyableLogType.AlwaysEnabled ||
+			this.logType == ProxyableLogType.MatchedRule ||
+			this.logType == ProxyableLogType.ProxyPerOrigin)
+			return true;
+		return false;
+	}
+	get statusCanBeDetermined(): boolean {
+		if (this.logType == ProxyableLogType.AlwaysEnabled ||
+			this.logType == ProxyableLogType.Special ||
+			this.logType == ProxyableLogType.SystemProxyApplied ||
+			this.logType == ProxyableLogType.ByPassed)
+			return false;
+		return true;
+	}
 }
 
 export class SettingsConfig {
