@@ -180,7 +180,7 @@ export const ProxyImporter = {
 		}
 
 	},
-	parseText: (proxyListText: string, options?: any): ProxyServer[] => {
+	parseText: (proxyListText: string, options?: ProxyServerSubscription): ProxyServer[] => {
 		///<summary>Parses the proxy</summary>
 		if (!proxyListText || typeof (proxyListText) !== "string") return null;
 
@@ -238,7 +238,7 @@ export const ProxyImporter = {
 
 		return parsedProxies;
 	},
-	parseJson: (proxyListText: string, options?: any): ProxyServer[] => {
+	parseJson: (proxyListText: string, options?: ProxyServerSubscription): ProxyServer[] => {
 
 		if (options && options.obfuscation) {
 			try {

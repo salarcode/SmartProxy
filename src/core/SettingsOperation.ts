@@ -19,9 +19,10 @@ import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions } from "./definitions";
+import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions, ProxyRulesSubscription, ProxyServerSubscription } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
+import { SubscriptionUpdater } from "./SubscriptionUpdater";
 
 export class SettingsOperation {
 	public static readSyncedSettings(success: Function) {
@@ -376,11 +377,23 @@ export class SettingsOperation {
 					return validateResult;
 				}
 
-				// good
+				// -----------
 				upcomingServers.push(newServer);
 			}
 
 			return { success: true, result: upcomingServers };
+		}
+		function restoreServerSubscriptions(backupServerSubscriptions: any[]) {
+			let upcomingSubscriptions: ProxyServerSubscription[] = [];
+			for (let subscription of backupServerSubscriptions) {
+
+				let newSubscription = new ProxyServerSubscription();
+				newSubscription.CopyFrom(subscription);
+
+				upcomingSubscriptions.push(newSubscription);
+			}
+
+			return { success: true, result: upcomingSubscriptions };
 		}
 
 		function restoreRules(backupRules: any[]) {
@@ -397,11 +410,24 @@ export class SettingsOperation {
 					return validateResult;
 				}
 
-				// good
+				// -----------
 				upcomingRules.push(newRule);
 			}
 
 			return { success: true, result: upcomingRules };
+		}
+
+		function restoreRulesSubscriptions(backupRulesSubscriptions: any[]) {
+			let upcomingRulesSubscriptions: ProxyRulesSubscription[] = [];
+			for (let subscription of backupRulesSubscriptions) {
+
+				let newSubscription = new ProxyRulesSubscription();
+				newSubscription.CopyFrom(subscription);
+
+				upcomingRulesSubscriptions.push(newSubscription);
+			}
+
+			return { success: true, result: upcomingRulesSubscriptions };
 		}
 
 		function restoreActiveServer(backupActiveProxyServer: any) {
@@ -462,7 +488,9 @@ export class SettingsOperation {
 			let backupData = JSON.parse(fileData);
 			let backupOptions: GeneralOptions;
 			let backupServers: ProxyServer[];
+			let backupServerSubscriptions: ProxyServerSubscription[];
 			let backupRules: ProxyRule[];
+			let backupRulesSubscriptions: ProxyRulesSubscription[];
 			let backupActiveServer: ProxyServer;
 			let backupProxyMode: ProxyModeType;
 			let backupBypass: BypassOptions;
@@ -492,6 +520,18 @@ export class SettingsOperation {
 			}
 
 			// -----------------------------------
+			if (backupData["proxyServerSubscriptions"] != null &&
+				Array.isArray(backupData.proxyServerSubscriptions)) {
+
+				let restoreServerSubscriptionsResult = restoreServerSubscriptions(backupData.proxyServerSubscriptions);
+
+				if (!restoreServerSubscriptionsResult.success)
+					return restoreServerSubscriptionsResult;
+
+				backupServerSubscriptions = restoreServerSubscriptionsResult.result;
+			}
+
+			// -----------------------------------
 			if (backupData["proxyRules"] != null &&
 				Array.isArray(backupData.proxyRules)) {
 
@@ -501,6 +541,18 @@ export class SettingsOperation {
 					return restoreRulesResult;
 
 				backupRules = restoreRulesResult.result;
+			}
+
+			// -----------------------------------
+			if (backupData["proxyRulesSubscriptions"] != null &&
+				Array.isArray(backupData.proxyRulesSubscriptions)) {
+
+				let restoreRulesSubscriptionsResult = restoreRulesSubscriptions(backupData.proxyRulesSubscriptions);
+
+				if (!restoreRulesSubscriptionsResult.success)
+					return restoreRulesSubscriptionsResult;
+
+				backupRulesSubscriptions = restoreRulesSubscriptionsResult.result;
 			}
 
 			// -----------------------------------
@@ -555,11 +607,31 @@ export class SettingsOperation {
 				SettingsOperation.saveProxyServers();
 			}
 
+			if (backupServerSubscriptions != null) {
+
+				Settings.current.proxyServerSubscriptions = backupServerSubscriptions;
+
+				SettingsOperation.saveProxyServerSubscriptions();
+				// update the timers
+				SubscriptionUpdater.updateServerSubscriptions();
+			}
+
 			if (backupRules != null) {
 
 				Settings.current.proxyRules = backupRules;
 
 				SettingsOperation.saveRules();
+				ProxyEngine.notifyProxyRulesChanged();
+			}
+
+			if (backupRulesSubscriptions != null) {
+
+				Settings.current.proxyRulesSubscriptions = backupRulesSubscriptions;
+				SettingsOperation.saveProxyRulesSubscriptions();
+
+				// update the timers
+				SubscriptionUpdater.updateRulesSubscriptions();
+
 				ProxyEngine.notifyProxyRulesChanged();
 			}
 

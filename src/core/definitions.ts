@@ -384,13 +384,13 @@ export enum ProxyServerSubscriptionFormat {
 	PlainText,
 	Json
 }
-export class ProxyServerSubscription {
+export class ProxyServerSubscription implements Cloneable {
 	public name: string;
 	public url: string;
 	public enabled: boolean = false;
 
 	// same as proxyServerProtocols
-	public proxyProtocol: null;
+	public proxyProtocol: string = null;
 
 	// in minutes
 	public refreshRate: number = 0;
@@ -409,6 +409,46 @@ export class ProxyServerSubscription {
 	public proxies: ProxyServer[];
 
 	public applyProxy: SpecialRequestApplyProxyMode;
+
+	CopyFrom(source: any) {
+
+		if (source["name"] != null)
+			this.name = source["name"] || "";
+		if (source["url"] != null)
+			this.url = source["url"] || "";
+		if (source["enabled"] != null)
+			this.enabled = source["enabled"] == true ? true : false;
+		if (source["proxyProtocol"] != null)
+			this.proxyProtocol = source["proxyProtocol"] || null;
+		this.refreshRate = (+source["failoverTimeout"]) > 0 ? (+source["failoverTimeout"]) : 0;
+		if (source["obfuscation"] != null)
+			this.obfuscation = source["obfuscation"] || null;
+		this.format = ProxyServerSubscriptionFormat.PlainText;
+		if (source["format"] != null)
+			if (+source["format"] in ProxyServerSubscriptionFormat) {
+				this.format = +source["format"];
+			}
+		this.totalCount = +source["totalCount"];
+		if (source["username"] != null)
+			this.username = source["username"] || "";
+		if (source["password"] != null)
+			this.password = source["password"] || "";
+
+		this.applyProxy = SpecialRequestApplyProxyMode.CurrentProxy;
+		if (source["applyProxy"] != null)
+			if (+source["applyProxy"] in SpecialRequestApplyProxyMode) {
+				this.applyProxy = +source["applyProxy"];
+			}
+		this.proxies = [];
+		if (source["proxies"] != null && Array.isArray(source["proxies"]))
+			for (const sourceServer of source["proxies"]) {
+				var server = new ProxyServer();
+				server.CopyFrom(sourceServer);
+
+				if (Settings.validateProxyServer(server).success)
+					this.proxies.push(server);
+			}
+	}
 }
 
 export enum ProxyRulesSubscriptionFormat {
@@ -439,4 +479,40 @@ export class ProxyRulesSubscription {
 	public whitelistRules: string[]; // Regex string
 
 	public applyProxy: SpecialRequestApplyProxyMode;
+
+	CopyFrom(source: any) {
+
+		if (source["name"] != null)
+			this.name = source["name"] || "";
+		if (source["url"] != null)
+			this.url = source["url"] || "";
+		if (source["enabled"] != null)
+			this.enabled = source["enabled"] == true ? true : false;
+
+		this.refreshRate = (+source["failoverTimeout"]) > 0 ? (+source["failoverTimeout"]) : 0;
+		if (source["obfuscation"] != null)
+			this.obfuscation = source["obfuscation"] || null;
+		this.format = ProxyRulesSubscriptionFormat.AutoProxy;
+		if (source["format"] != null)
+			if (+source["format"] in ProxyServerSubscriptionFormat) {
+				this.format = +source["format"];
+			}
+		this.totalCount = +source["totalCount"];
+		if (source["username"] != null)
+			this.username = source["username"] || "";
+		if (source["password"] != null)
+			this.password = source["password"] || "";
+
+		this.applyProxy = SpecialRequestApplyProxyMode.CurrentProxy;
+		if (source["applyProxy"] != null)
+			if (+source["applyProxy"] in SpecialRequestApplyProxyMode) {
+				this.applyProxy = +source["applyProxy"];
+			}
+		this.proxyRules = [];
+		this.whitelistRules = [];
+		if (source["proxyRules"] != null && Array.isArray(source["proxyRules"]))
+			this.proxyRules = source["proxyRules"];
+		if (source["whitelistRules"] != null && Array.isArray(source["whitelistRules"]))
+			this.whitelistRules = source["whitelistRules"];
+	}
 }
