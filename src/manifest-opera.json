@@ -48,12 +48,6 @@
 		"chrome_style": false
 	},
 	"commands": {
-		"next-proxy-server": {
-			"suggested_key": { 
-				"default": "Ctrl+Shift+Period"
-			},
-			"description": "Switch to next proxy server as the active proxy"
-		},
 		"proxy-mode-none": {
 			"suggested_key": {
 				"default": "Ctrl+Shift+1"
@@ -65,6 +59,12 @@
 				"default": "Ctrl+Shift+2"
 			},
 			"description": "Switch to 'Smart Proxy' mode"
+		},
+		"proxy-mode-always": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+3"
+			},
+			"description": "Switch to 'Always Enabled' mode"
 		},
 		"proxy-mode-system": {
 			"suggested_key": {
