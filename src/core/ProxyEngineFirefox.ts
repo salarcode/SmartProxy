@@ -128,20 +128,6 @@ export class ProxyEngineFirefox {
 				!settings.activeProxyServer)
 				return { type: "direct" };
 
-			let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
-			if (matchedWhitelistRule) {
-				proxyLog.logType = ProxyableLogType.Whitelisted;
-				proxyLog.rule = matchedWhitelistRule.rule;
-				proxyLog.sourceDomain = matchedWhitelistRule.sourceDomain;
-
-				return { type: "direct" };
-			}
-
-			if (settings.proxyMode == ProxyModeType.SystemProxy) {
-				// system proxy mode is not handled here
-				proxyLog.logType = ProxyableLogType.SystemProxyApplied;
-				return { type: "direct" };
-			}
 			if (settings.proxyMode == ProxyModeType.Always) {
 				// should bypass this host?
 				if (settings.bypass.enableForAlways === true &&
@@ -160,6 +146,21 @@ export class ProxyEngineFirefox {
 				return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
 			}
 
+			let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
+			if (matchedWhitelistRule) {
+				proxyLog.logType = ProxyableLogType.Whitelisted;
+				proxyLog.rule = matchedWhitelistRule.rule;
+				proxyLog.sourceDomain = matchedWhitelistRule.sourceDomain;
+
+				return { type: "direct" };
+			}
+
+			if (settings.proxyMode == ProxyModeType.SystemProxy) {
+				// system proxy mode is not handled here
+				proxyLog.logType = ProxyableLogType.SystemProxyApplied;
+				return { type: "direct" };
+			}
+			
 			if (settings.options.proxyPerOrigin &&
 				requestDetails.tabId > -1) {
 
