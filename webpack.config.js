@@ -15,6 +15,7 @@ let plugins = [
   new CopyWebpackPlugin([
     { from: './src/_locales/', to: '_locales', ignore: ['default-messages.json'], },
     { from: './src/icons', to: 'icons' },
+    { from: './src/assets', to: 'assets' },
     { from: './src/ui', to: 'ui', ignore: ['code/*', '*.zip'] },
   ]),
 ];

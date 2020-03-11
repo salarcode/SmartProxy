@@ -31,6 +31,7 @@ import { Settings } from "./Settings";
 import { Messages, SettingsPageInternalDataType, PopupInternalDataType, ProxyableInternalDataType, ProxyServer, ProxyModeType, ResultHolderGeneric } from "./definitions";
 import { KeyboardShortcuts } from "./KeyboardShortcuts";
 import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
+import { CountryCode } from "../lib/CountryCode";
 
 export class Core {
 
@@ -54,6 +55,9 @@ export class Core {
 
 			// check for updates, only in unlisted version
 			UpdateManager.readUpdateInfo();
+
+			// TEST
+			CountryCode.testItDelayed();
 		});
 		Settings.initialize();
 
@@ -75,6 +79,9 @@ export class Core {
 
 		// listen to shortcut events
 		KeyboardShortcuts.startMonitor();
+
+		// read the country database file on startup
+		CountryCode.initialize();
 	}
 
 	private static handleMessages(message: any, sender: any, sendResponse: Function) {
