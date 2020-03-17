@@ -151,6 +151,42 @@
 		"message": "قانون در حال استفاده",
 		"description": ""
 	},
+	"proxyableGridColStatus": {
+		"message": "وضعیت",
+		"description": ""
+	},
+	"proxyableGridData_LogType_NoneMatched": {
+		"message": "بردون پراکسی",
+		"description": ""
+	},
+	"proxyableGridData_LogType_MatchedRule": {
+		"message": "قانون یافت و اعمال شد",
+		"description": ""
+	},
+	"proxyableGridData_LogType_Special": {
+		"message": "ویژه",
+		"description": ""
+	},
+	"proxyableGridData_LogType_Whitelisted": {
+		"message": "نادیده گرفته شد (بدون پراکسی)",
+		"description": ""
+	},
+	"proxyableGridData_LogType_ByPassed": {
+		"message": "نادیده گرفته شد",
+		"description": ""
+	},
+	"proxyableGridData_LogType_SystemProxyApplied": {
+		"message": "تصمیم توسط سیستم عامل",
+		"description": ""
+	},
+	"proxyableGridData_LogType_AlwaysEnabled": {
+		"message": "همیشه اعمال",
+		"description": ""
+	},
+	"proxyableGridData_LogType_ProxyPerOrigin": {
+		"message": "از صفحه مبدا\\والد",
+		"description": ""
+	},
 	"settingsTitle": {
 		"message": "تنظیمات SmartProxy",
 		"description": ""
@@ -771,6 +807,18 @@
 		"message": "ذخیره",
 		"description": ""
 	},
+	"settingsRulesActionType": {
+		"message": "روش اعمال",
+		"description": ""
+	},
+	"settingsRuleActionApplyProxy": {
+		"message": "اعمال پراکسی",
+		"description": ""
+	},
+	"settingsRuleActionWhitelist": {
+		"message": "نادیده گرفته شود (بدون پراکسی)",
+		"description": ""
+	},
 	"settingsServerPortInvalid": {
 		"message": "پورت سرور '{0}' نامعتبر است",
 		"description": ""
@@ -1023,6 +1071,182 @@
 		"message": "تنظیمات اشتراک پراکسی با موفقیت ذخیره شد.",
 		"description": ""
 	},
+	"settingsFailedToSaveProxySubscriptions": {
+		"message": "مشکلی در حذف اشتراک پیش آمده",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscription": {
+		"message": "اشتراکات قوانین پراکسی",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionTitle": {
+		"message": "مدیریت اشتراکات قوانین:",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionDescription": {
+		"message": "در اینجا می توانید اشتراکات قوانین را مدیریت کنید. با استفاده از این قوانین پراکسی اعمال خواهد شد.",
+		"description": ""
+	},
+	"settingsAddRulesSubscriptionButton": {
+		"message": "ایجاد اشتراک قوانین",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsModalTitle": {
+		"message": "اشتراک قوانین",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColName": {
+		"message": "نام",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColUrl": {
+		"message": "آدرس (Url)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColCount": {
+		"message": "تعداد قوانین",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColEnabled": {
+		"message": "فعال باشد",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsName": {
+		"message": "نام لیست:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUrl": {
+		"message": "آدرس (Url):",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRate": {
+		"message": "نرخ به روزرسانی:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRateHelp": {
+		"message": "(در دقیقه، 0 به معنی عدم به روزرسانی است)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionEnabled": {
+		"message": "فعال باشد",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsObfuscation": {
+		"message": "روش درهم سازی:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsFormat": {
+		"message": "قالب فایل:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxy": {
+		"message": "استفاده از پراکسی:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
+		"message": "(با توجه به دسترسی سرور تصمیم بگیرین)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
+		"message": "(متاسفانه این ویژگی در مرورگر کروم در دسترس نیست. پراکسی فعلی استفاده خواهد شد)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUsername": {
+		"message": "نام کاربری:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsAuthenticationHelp": {
+		"message": "(اگر لیست نیاز به احراز هویت داشت، پر کنید)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsPassword": {
+		"message": "کلمه عبور:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsTestButton": {
+		"message": "بررسی",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsSaveButton": {
+		"message": "ذخیره",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsCancelButton": {
+		"message": "انصراف",
+		"description": ""
+	},
+	"settingsConfirmRemoveRulesSubscription": {
+		"message": "از حذف اشتراک قوانین انتخاب شده مطمئن هستید؟",
+		"description": ""
+	},
+	"settingsRulesSubscriptionIncompleteForm": {
+		"message": "لطفا فیلد های اجباری را کامل نمایید",
+		"description": ""
+	},
+	"settingsRulesSubscriptionInvalidForm": {
+		"message": "اطلاعات اشتراک قوانین نامعتبر می باشند",
+		"description": ""
+	},
+	"settingsRulesSubscriptionDuplicateName": {
+		"message": "نام وارد شده قبلا استفاده است. لطفا نام دیگری را وارد کنید.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSavingButton": {
+		"message": "درحال ذخیره کردن...",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestButton": {
+		"message": "بررسی",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestingButton": {
+		"message": "در حال بررسی...",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveUpdated": {
+		"message": "اشتراک مورد نظر با تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) به روزرسانی شد.<br/>ذخیره تغییرات فراموش نشود.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveAdded": {
+		"message": "اشتراک مورد نظر با تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) اضافه شد.<br/>ذخیره تغییرات فراموش نشود.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveFailedGet": {
+		"message": "خطا در دریافت لیست قوانین.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestSuccess": {
+		"message": "بررسی موفقیت آمیر بود. تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) یافت شد.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestFailed": {
+		"message": "بررسی با شکست مواجه شد",
+		"description": ""
+	},
+	"settingsFailedToSaveRulesSubscriptions": {
+		"message": "مشکلی در حذف اشتراک قوانین پیش آمده",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptions": {
+		"message": "از حذف همه اشتراکات قوانین مطمئن هستید؟",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
+		"message": "تمامی اشتراکات قوانین حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
+		"description": ""
+	},
+	"importerImportRulesSuccess": {
+		"message": "تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) یافت شد.<br>ذخیره تغییرات فراموش نشود.",
+		"description": ""
+	},
+	"settingsRulePatternIsEmpty": {
+		"message": "الگوی قانون تعریف نشده",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSubscriptionsSuccess": {
+		"message": "تنظیمات اشتراک قوانین موفقیت ذخیره شد.",
+		"description": ""
+	},
 	"settingsBypassEnableForAlways": {
 		"message": "فعال کردن برای حالت 'همیشه فعال'",
 		"description": ""
@@ -1052,7 +1276,7 @@
 		"description": ""
 	},
 	"settingsWelcomeMessage": {
-		"message": "<p>\n\t\t\t\t\t\tWelcome! I'm glad that you have chosen SmartProxy, the smart proxy switcher.\n\t\t\t\t\t\t<br>\n\t\t\t\t\t\tPlease follow these steps to get started:\n\t\t\t\t\t</p>\n\t\t\t\t\t<ol>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tAdd a Proxy Server\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Head to Proxy Servers tab and add a proxy server there)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tSet proxy mode to Smart Proxy mode\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Use toolbar popup menu to change the active mode to Smart Proxy)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tDefine Proxy Rules\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Use toolbar popup menu to add rules or add/modify rules from Proxy Rules tab)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tYou're all set.\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ol>",
+		"message": "<p>\nخوش آمدید! خوشحالم که SmartProxy را انتخال کرده اید. بهترین برای اعمال پراکسی به مرورگر.\n\t<br>\n\tبرای شروع این کارها و تنظیمات را انجام دهید:\n</p>\n<ol>\n\t<li>\n\t\tیکی پراکسی سرور اضافه کنید\n\t\t<br>\n\t\t<small>(به صفحه پراکسی سرور ها رفته و پراکسی را اضافه کنید)</small>\n\t</li>\n\t<li>\n\t\tافزونه رو در وضعیت \"پراکسی هوشمند\" قرار دهید\n\t\t<br>\n\t\t<small>(با استفاده از دکمه که به نوار ابزار اضافه شده می توانید وضعیت پراکسی را عوض کنید)</small>\n\t</li>\n\t<li>\n\t\tقوانین اعمال پراکسی رو اضافه کنید\n\t\t<br>\n\t\t<small>(یا با استفاده از دکمه در نوار ابزار قوانین را اضافه کنید و یا استفاده از صفحه قوانین ویرایش/حذف انجام دهید)</small>\n\t</li>\n\t<li>\n\t\tو تبریک میگم! تمام.\n\t</li>\n</ol>",
 		"description": ""
 	},
 	"settingsWelcomeSkipButton": {

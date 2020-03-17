@@ -151,6 +151,42 @@
 		"message": "In Effetti Regola",
 		"description": ""
 	},
+	"proxyableGridColStatus": {
+		"message": "Status",
+		"description": ""
+	},
+	"proxyableGridData_LogType_NoneMatched": {
+		"message": "No Match",
+		"description": ""
+	},
+	"proxyableGridData_LogType_MatchedRule": {
+		"message": "Rule Matched",
+		"description": ""
+	},
+	"proxyableGridData_LogType_Special": {
+		"message": "Special",
+		"description": ""
+	},
+	"proxyableGridData_LogType_Whitelisted": {
+		"message": "Whitelisted",
+		"description": ""
+	},
+	"proxyableGridData_LogType_ByPassed": {
+		"message": "By Passed",
+		"description": ""
+	},
+	"proxyableGridData_LogType_SystemProxyApplied": {
+		"message": "System Mode",
+		"description": ""
+	},
+	"proxyableGridData_LogType_AlwaysEnabled": {
+		"message": "Always Mode",
+		"description": ""
+	},
+	"proxyableGridData_LogType_ProxyPerOrigin": {
+		"message": "From Parent Tab",
+		"description": ""
+	},
 	"settingsTitle": {
 		"message": "Impostazioni SmartProxy",
 		"description": ""
@@ -771,6 +807,18 @@
 		"message": "Salva",
 		"description": ""
 	},
+	"settingsRulesActionType": {
+		"message": "Action",
+		"description": ""
+	},
+	"settingsRuleActionApplyProxy": {
+		"message": "Apply Proxy",
+		"description": ""
+	},
+	"settingsRuleActionWhitelist": {
+		"message": "Whitelist (No proxy)",
+		"description": ""
+	},
 	"settingsServerPortInvalid": {
 		"message": "Porta Server '{0}' è invalido",
 		"description": ""
@@ -1023,6 +1071,182 @@
 		"message": "Sottoscrizioni del server proxy salvate correttamente.",
 		"description": ""
 	},
+	"settingsFailedToSaveProxySubscriptions": {
+		"message": "Failed to save proxy servers subscriptions",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscription": {
+		"message": "Proxy Rules Subscriptions",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionTitle": {
+		"message": "Manage proxy rules subscriptions:",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionDescription": {
+		"message": "Here you can subscribe to rules lists. Based on these rules, proxies will apply.",
+		"description": ""
+	},
+	"settingsAddRulesSubscriptionButton": {
+		"message": "Subscribe to a rules list",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsModalTitle": {
+		"message": "Subscribe to a rules list",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColName": {
+		"message": "Name",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColUrl": {
+		"message": "Url",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColCount": {
+		"message": "Count",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsName": {
+		"message": "Name:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUrl": {
+		"message": "Url:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRate": {
+		"message": "Refresh Rate:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRateHelp": {
+		"message": "(in minutes, 0 means no refresh)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionEnabled": {
+		"message": "Enabled",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsObfuscation": {
+		"message": "Obfuscation:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsFormat": {
+		"message": "Format:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxy": {
+		"message": "Pass through proxy:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
+		"message": "(Decide base on your access to the server)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
+		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUsername": {
+		"message": "Username:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsAuthenticationHelp": {
+		"message": "(if the list requires authentication)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsPassword": {
+		"message": "Password:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsTestButton": {
+		"message": "Test",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsSaveButton": {
+		"message": "Save",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsCancelButton": {
+		"message": "Cancel",
+		"description": ""
+	},
+	"settingsConfirmRemoveRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscription?",
+		"description": ""
+	},
+	"settingsRulesSubscriptionIncompleteForm": {
+		"message": "Please fill the required fields in the right format",
+		"description": ""
+	},
+	"settingsRulesSubscriptionInvalidForm": {
+		"message": "Invalid proxy server subscription details",
+		"description": ""
+	},
+	"settingsRulesSubscriptionDuplicateName": {
+		"message": "The entered name is already used, please enter another name.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSavingButton": {
+		"message": "Saving...",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestButton": {
+		"message": "Test",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestingButton": {
+		"message": "Testing...",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveUpdated": {
+		"message": "The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveAdded": {
+		"message": "The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveFailedGet": {
+		"message": "Failed to get proxies.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestSuccess": {
+		"message": "Test was successful. The list returned {0} proxy rules and {1} white listed rules.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestFailed": {
+		"message": "Test failed",
+		"description": ""
+	},
+	"settingsFailedToSaveRulesSubscriptions": {
+		"message": "Failed to save rules subscriptions",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptions": {
+		"message": "Are you sure to remove all the proxy rules subscriptions?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
+		"message": "All the proxy rules subscriptions are removed.<br/>You have to save to apply the changes.",
+		"description": ""
+	},
+	"importerImportRulesSuccess": {
+		"message": "Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes.",
+		"description": ""
+	},
+	"settingsRulePatternIsEmpty": {
+		"message": "Rule doesn't have pattern defined",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSubscriptionsSuccess": {
+		"message": "Proxy rules subscriptions saved successfully.",
+		"description": ""
+	},
 	"settingsBypassEnableForAlways": {
 		"message": "Abilitare per la modalità 'Sempre attiva'",
 		"description": ""
@@ -1045,6 +1269,18 @@
 	},
 	"settingsBypassInvalid": {
 		"message": "Impostazioni di bypass non valide",
+		"description": ""
+	},
+	"settingsWelcomeTitle": {
+		"message": "Welcome to SmartProxy",
+		"description": ""
+	},
+	"settingsWelcomeMessage": {
+		"message": "<p>\n\tWelcome! I'm glad that you have chosen SmartProxy, the smart proxy switcher.\n\t<br>\n\tPlease follow these steps to get started:\n</p>\n<ol>\n\t<li>\n\t\tAdd a Proxy Server\n\t\t<br>\n\t\t<small>(Head to Proxy Servers tab and add a proxy server there)</small>\n\t</li>\n\t<li>\n\t\tSet proxy mode to Smart Proxy mode\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to change the active mode to Smart Proxy)</small>\n\t</li>\n\t<li>\n\t\tDefine Proxy Rules\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to add rules or add/modify rules from Proxy Rules tab)</small>\n\t</li>\n\t<li>\n\t\tYou're all set.\n\t</li>\n</ol>",
+		"description": ""
+	},
+	"settingsWelcomeSkipButton": {
+		"message": "Got it",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {

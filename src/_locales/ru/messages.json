@@ -151,6 +151,42 @@
 		"message": "Правило",
 		"description": ""
 	},
+	"proxyableGridColStatus": {
+		"message": "Статус",
+		"description": ""
+	},
+	"proxyableGridData_LogType_NoneMatched": {
+		"message": "Нет соответствий",
+		"description": ""
+	},
+	"proxyableGridData_LogType_MatchedRule": {
+		"message": "Соответствие правилу",
+		"description": ""
+	},
+	"proxyableGridData_LogType_Special": {
+		"message": "Особое",
+		"description": ""
+	},
+	"proxyableGridData_LogType_Whitelisted": {
+		"message": "Исключение",
+		"description": ""
+	},
+	"proxyableGridData_LogType_ByPassed": {
+		"message": "Пропущено",
+		"description": ""
+	},
+	"proxyableGridData_LogType_SystemProxyApplied": {
+		"message": "Системный режим",
+		"description": ""
+	},
+	"proxyableGridData_LogType_AlwaysEnabled": {
+		"message": "Постоянный режим",
+		"description": ""
+	},
+	"proxyableGridData_LogType_ProxyPerOrigin": {
+		"message": "Из родительской вкладки",
+		"description": ""
+	},
 	"settingsTitle": {
 		"message": "Настройки SmartProxy",
 		"description": ""
@@ -771,6 +807,18 @@
 		"message": "Сохранить",
 		"description": ""
 	},
+	"settingsRulesActionType": {
+		"message": "Действие",
+		"description": ""
+	},
+	"settingsRuleActionApplyProxy": {
+		"message": "Использовать прокси",
+		"description": ""
+	},
+	"settingsRuleActionWhitelist": {
+		"message": "Исключение (без прокси)",
+		"description": ""
+	},
 	"settingsServerPortInvalid": {
 		"message": "Порт сервера '{0}' неправильный",
 		"description": ""
@@ -1021,6 +1069,182 @@
 	},
 	"settingsSaveProxyServerSubscriptionsSuccess": {
 		"message": "Подписки на прокси-сервер успешно сохранены.",
+		"description": ""
+	},
+	"settingsFailedToSaveProxySubscriptions": {
+		"message": "Не удалось сохранить подписку на правила прокси",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscription": {
+		"message": "Подписки на правила прокси",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionTitle": {
+		"message": "Управление подписками на правила:",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionDescription": {
+		"message": "Здесь можно подписаться на списки правил. На основе этих правил будут применяться прокси.",
+		"description": ""
+	},
+	"settingsAddRulesSubscriptionButton": {
+		"message": "Подписаться на список",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsModalTitle": {
+		"message": "Подписка на список правил",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColName": {
+		"message": "Имя",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColUrl": {
+		"message": "Адрес",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColCount": {
+		"message": "Всего",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColEnabled": {
+		"message": "Включено",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsName": {
+		"message": "Имя:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUrl": {
+		"message": "Адрес:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRate": {
+		"message": "Частота обновления:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRateHelp": {
+		"message": "(в минутах, 0 означает отсутствие обновления)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionEnabled": {
+		"message": "Включено",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsObfuscation": {
+		"message": "Обфускация:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsFormat": {
+		"message": "Формат:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxy": {
+		"message": "Сквозной прокси:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
+		"message": "(Определяет критерии доступа к серверу)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
+		"message": "(К сожалению, эта функция недоступна в Chrome. Будет применяться текущий прокси. )",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUsername": {
+		"message": "Имя пользователя:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsAuthenticationHelp": {
+		"message": "(если список требует аутентификации)",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsPassword": {
+		"message": "Пароль:",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsTestButton": {
+		"message": "Тест",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsSaveButton": {
+		"message": "Сохранить",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsCancelButton": {
+		"message": "Отмена",
+		"description": ""
+	},
+	"settingsConfirmRemoveRulesSubscription": {
+		"message": "Вы действительно хотите удалить выбранную подписку?",
+		"description": ""
+	},
+	"settingsRulesSubscriptionIncompleteForm": {
+		"message": "Пожалуйста, заполните необходимые поля в правильном формате",
+		"description": ""
+	},
+	"settingsRulesSubscriptionInvalidForm": {
+		"message": "Недопустимые данные подписки на прокси-сервер",
+		"description": ""
+	},
+	"settingsRulesSubscriptionDuplicateName": {
+		"message": "Введённое имя уже используется, введите другое.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSavingButton": {
+		"message": "Сохранение…",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestButton": {
+		"message": "Тест",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestingButton": {
+		"message": "Тестирование…",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveUpdated": {
+		"message": "Подписка обновляет {0} правил прокси, включай {1} правил-исключений.<br/>Не забудьте сохранить изменения.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveAdded": {
+		"message": "Подписка добавляет {0} правил прокси, включай {1} правил-исключений.<br/>Не забудьте сохранить изменения.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveFailedGet": {
+		"message": "Не удалось получить прокси.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestSuccess": {
+		"message": "Проверка прошла успешно. Список вернул {0} правил прокси и {1} правил-исключений.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestFailed": {
+		"message": "Тест не пройден",
+		"description": ""
+	},
+	"settingsFailedToSaveRulesSubscriptions": {
+		"message": "Не удалось сохранить подписку на правила",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptions": {
+		"message": "Вы действительно хотите удалить все подписки?",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
+		"message": "Все подписки на правила прокси удалены.<br/>Выполните сохранение, чтобы применить изменения.",
+		"description": ""
+	},
+	"importerImportRulesSuccess": {
+		"message": "Всего возвращены {0} правил прокси и {1} правил-исключений.<br>Не забудьте сохранить изменения.",
+		"description": ""
+	},
+	"settingsRulePatternIsEmpty": {
+		"message": "Правило не имеет шаблона",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSubscriptionsSuccess": {
+		"message": "Подписки на правила прокси успешно сохранены.",
 		"description": ""
 	},
 	"settingsBypassEnableForAlways": {

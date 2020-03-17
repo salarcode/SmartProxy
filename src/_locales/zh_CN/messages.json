@@ -151,6 +151,42 @@
 		"message": "对应规则",
 		"description": ""
 	},
+	"proxyableGridColStatus": {
+		"message": "状态",
+		"description": ""
+	},
+	"proxyableGridData_LogType_NoneMatched": {
+		"message": "无匹配",
+		"description": ""
+	},
+	"proxyableGridData_LogType_MatchedRule": {
+		"message": "规则匹配",
+		"description": ""
+	},
+	"proxyableGridData_LogType_Special": {
+		"message": "特殊",
+		"description": ""
+	},
+	"proxyableGridData_LogType_Whitelisted": {
+		"message": "白名单规则",
+		"description": ""
+	},
+	"proxyableGridData_LogType_ByPassed": {
+		"message": "跳过列表",
+		"description": ""
+	},
+	"proxyableGridData_LogType_SystemProxyApplied": {
+		"message": "系统模式",
+		"description": ""
+	},
+	"proxyableGridData_LogType_AlwaysEnabled": {
+		"message": "总是模式",
+		"description": ""
+	},
+	"proxyableGridData_LogType_ProxyPerOrigin": {
+		"message": "遵循父标签页",
+		"description": ""
+	},
 	"settingsTitle": {
 		"message": "SmartProxy 设置",
 		"description": ""
@@ -176,7 +212,7 @@
 		"description": ""
 	},
 	"settingsTabBypass": {
-		"message": "白名单",
+		"message": "跳过列表",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -771,6 +807,18 @@
 		"message": "保存",
 		"description": ""
 	},
+	"settingsRulesActionType": {
+		"message": "动作",
+		"description": ""
+	},
+	"settingsRuleActionApplyProxy": {
+		"message": "应用代理",
+		"description": ""
+	},
+	"settingsRuleActionWhitelist": {
+		"message": "白名单（无代理）",
+		"description": ""
+	},
 	"settingsServerPortInvalid": {
 		"message": "服务器端口 '{0}' 无效",
 		"description": ""
@@ -1023,8 +1071,184 @@
 		"message": "代理服务器订阅成功。",
 		"description": ""
 	},
+	"settingsFailedToSaveProxySubscriptions": {
+		"message": "保存代理服务器订阅失败",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscription": {
+		"message": "代理规则订阅",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionTitle": {
+		"message": "管理代理规则订阅：",
+		"description": ""
+	},
+	"settingsTabProxyRulesSubscriptionDescription": {
+		"message": "你可以在此订阅规则列表。代理将应用这些规则。",
+		"description": ""
+	},
+	"settingsAddRulesSubscriptionButton": {
+		"message": "订阅规则列表",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsModalTitle": {
+		"message": "订阅规则列表",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColName": {
+		"message": "名称",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColUrl": {
+		"message": "Url",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColCount": {
+		"message": "数量",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsGridColEnabled": {
+		"message": "启用",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsName": {
+		"message": "名称：",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUrl": {
+		"message": "Url：",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRate": {
+		"message": "刷新周期：",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsRefreshRateHelp": {
+		"message": "（以分钟计算，0 表示不刷新）",
+		"description": ""
+	},
+	"settingsRulesSubscriptionEnabled": {
+		"message": "启用",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsObfuscation": {
+		"message": "混淆：",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsFormat": {
+		"message": "格式：",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxy": {
+		"message": "通过代理：",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
+		"message": "（取决于你跟服务器的连接）",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
+		"message": "（抱歉，此功能在 chrome 中不可用。当前代理将应用）",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsUsername": {
+		"message": "用户名：",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsAuthenticationHelp": {
+		"message": "（如果列表需要身份验证）",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsPassword": {
+		"message": "密码：",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsTestButton": {
+		"message": "测试",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsSaveButton": {
+		"message": "保存",
+		"description": ""
+	},
+	"settingsRulesSubscriptionsCancelButton": {
+		"message": "取消",
+		"description": ""
+	},
+	"settingsConfirmRemoveRulesSubscription": {
+		"message": "确定要移除所选的规则订阅吗？",
+		"description": ""
+	},
+	"settingsRulesSubscriptionIncompleteForm": {
+		"message": "请以正确格式填写必需项",
+		"description": ""
+	},
+	"settingsRulesSubscriptionInvalidForm": {
+		"message": "无效的代理服务器订阅信息",
+		"description": ""
+	},
+	"settingsRulesSubscriptionDuplicateName": {
+		"message": "该名称已被使用，请换一个。",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSavingButton": {
+		"message": "正在保存……",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestButton": {
+		"message": "测试",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestingButton": {
+		"message": "正在测试……",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveUpdated": {
+		"message": "订阅此次更新了 {0} 条代理规则，{1} 条白名单规则。<br/>请注意保存更改。",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveAdded": {
+		"message": "订阅此次添加了 {0} 条代理规则，{1} 条白名单规则。<br/>请注意保存更改。",
+		"description": ""
+	},
+	"settingsRulesSubscriptionSaveFailedGet": {
+		"message": "无法获取代理。",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestSuccess": {
+		"message": "测试成功。返回的列表包含 {0} 条代理规则和 {1} 条白名单规则。",
+		"description": ""
+	},
+	"settingsRulesSubscriptionTestFailed": {
+		"message": "测试失败",
+		"description": ""
+	},
+	"settingsFailedToSaveRulesSubscriptions": {
+		"message": "保存规则订阅失败",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptions": {
+		"message": "确定要移除所有代理规则订阅吗？",
+		"description": ""
+	},
+	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
+		"message": "全部代理规则订阅都已移除。<br/>你必须保存以应用更改。",
+		"description": ""
+	},
+	"importerImportRulesSuccess": {
+		"message": "总共返回了 {0} 条代理规则和 {1} 条白名单规则。<br>别忘了保存更改。",
+		"description": ""
+	},
+	"settingsRulePatternIsEmpty": {
+		"message": "规则未定义模板",
+		"description": ""
+	},
+	"settingsSaveProxyRulesSubscriptionsSuccess": {
+		"message": "代理规则订阅保存成功。",
+		"description": ""
+	},
 	"settingsBypassEnableForAlways": {
-		"message": "为“总是启用”模式启用",
+		"message": "“总是启用”模式下生效",
 		"description": ""
 	},
 	"settingsBypassList": {
@@ -1045,6 +1269,18 @@
 	},
 	"settingsBypassInvalid": {
 		"message": "无效的跳过设置",
+		"description": ""
+	},
+	"settingsWelcomeTitle": {
+		"message": "欢迎使用 SmartProxy",
+		"description": ""
+	},
+	"settingsWelcomeMessage": {
+		"message": "<p>\n\t\t\t\t\t\t欢迎！很高兴您选择了智能代理切换器——SmartProxy。\n\t\t\t\t\t\t<br>\n\t\t\t\t\t\t请按照以下步骤开始：\n\t\t\t\t\t</p>\n\t\t\t\t\t<ol>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t添加代理服务器\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>（转到“代理服务器”页并在其中添加代理服务器）</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t设定代理模式为“智能代理”模式\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>（使用工具栏弹出菜单来更改激活模式为“智能代理”）</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t定义代理规则\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>（使用工具栏弹出菜单来添加规则或是从“代理规则”页中添加/修改规则）</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t设定完毕。\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ol>",
+		"description": ""
+	},
+	"settingsWelcomeSkipButton": {
+		"message": "明白",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {
