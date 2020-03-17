@@ -157,6 +157,8 @@ export class popup {
         if (!dataForPopup.proxyServersSubscribed)
             dataForPopup.proxyServersSubscribed = [];
 
+        let proxyServersHosts: string[] = [];
+
         // remove previous items
         cmbActiveProxy.find("option").remove();
 
@@ -174,9 +176,12 @@ export class popup {
             // display select options
             jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
 
+                proxyServersHosts.push(proxyServer.host);
+
                 // proxyServer
                 let $option = jQuery("<option>")
                     .attr("value", proxyServer.name)
+                    .attr("data-host", proxyServer.host)
                     .text(proxyServer.name)
                     .appendTo(cmbActiveProxy);
 
@@ -202,9 +207,39 @@ export class popup {
 
             cmbActiveProxy.on("change", popup.onActiveProxyChange);
 
+            // asking to resolve ip addresses country codes
+            if (proxyServersHosts.length)
+                PolyFill.runtimeSendMessage(
+                    {
+                        command: Messages.GeneralResolveCountryCodes,
+                        hosts: proxyServersHosts
+                    },
+                    (response: {
+                        ip: string,
+                        isoCode: string,
+                        name: string
+                    }[]) => {
+                        if (!response) return;
+                        popup.applyCountryCodes(cmbActiveProxy, response);
+                    });
+
         } else {
             // for one or less we dont show the select proxy
             divActiveProxy.hide();
+        }
+    }
+    private static applyCountryCodes(cmbActiveProxy: any, countryCodes: {
+        ip: string,
+        isoCode: string,
+        name: string
+    }[]) {
+        if (!countryCodes.length)
+            return;
+        for (const code of countryCodes) {
+            let node = jQuery(cmbActiveProxy).find(`option[data-host='${code.ip}']`);
+            let emojiCode = Utils.convertCountryCodeToEmoji(code.isoCode);
+            
+            node.html(`<span title='${code.name}'>${emojiCode}</span> ${node.text()}`);
         }
     }
 

@@ -55,6 +55,9 @@ export enum ProxyServerForProtocol {
 }
 export class Messages {
 
+	// General common messages
+	public static GeneralResolveCountryCodes = "GeneralResolveCountryCodes";
+
 	// Popup messages
 	public static PopupGetInitialData = "Popup_GetInitialData";
 	public static PopupChangeProxyMode = "Popup_ChangeProxyMode";

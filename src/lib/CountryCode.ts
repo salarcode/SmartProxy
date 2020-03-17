@@ -12,6 +12,34 @@ export class CountryCode {
         CountryCode.geoIP2 = null;
     }
 
+    static getRecords(ips: string[], preferredLanguageCode: string = 'en') {
+        const geoip = CountryCode.geoIP2;
+        if (!geoip) {
+            console.warn('GeoIP2 is not initalized!');
+            return null;
+        }
+
+        try {
+            let result = [];
+            for (const ip of ips) {
+                var record = geoip.getRecord(ip);
+                if (record == null)
+                    continue;
+
+                result.push({
+                    ip: ip,
+                    isoCode: record.country.iso_code,
+                    name: record.country.names[preferredLanguageCode] || record.country.names.en
+                });
+            }
+
+            return result;
+        } catch (error) {
+            console.warn(`Failed to get country info for ips`, ips, error);
+            return null;
+        }
+    }
+
     static getRecord(ip: string, preferredLanguageCode: string = 'en') {
         const geoip = CountryCode.geoIP2;
         if (!geoip) {

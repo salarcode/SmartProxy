@@ -19,6 +19,11 @@ import { pako } from "./External";
 import { SettingsConfig } from "../core/definitions";
 export class Utils {
 
+	public static convertCountryCodeToEmoji(countryCode: string): string {
+		// taken from https://medium.com/binary-passion/lets-turn-an-iso-country-code-into-a-unicode-emoji-shall-we-870c16e05aad
+		return countryCode.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397));
+	}
+
 	public static encodeSyncData(inputObject: SettingsConfig) {
 		let settingStr = JSON.stringify(inputObject);
 
@@ -97,7 +102,7 @@ export class Utils {
 			}) === index);
 	}
 
-	public static reverseString(str: string): string{
+	public static reverseString(str: string): string {
 		return str.split('').reverse().join('');
 	}
 

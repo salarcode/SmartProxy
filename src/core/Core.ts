@@ -39,7 +39,7 @@ export class Core {
 	public static initializeApp() {
 
 		// comment for debugging
-		Debug.disable(); 
+		Debug.disable();
 
 		Settings.onInitialized = (() => {
 			// on settings read success
@@ -459,6 +459,17 @@ export class Core {
 					}
 
 					Core.setBrowserActionStatus();
+					return;
+				}
+			case Messages.GeneralResolveCountryCodes:
+				{
+					if (!message.hosts)
+						return;
+					let hosts: string[] = message.hosts;
+
+					let countryCodes = CountryCode.getRecords(hosts, 'en');
+					if (sendResponse)
+						sendResponse(countryCodes);
 					return;
 				}
 			default:
