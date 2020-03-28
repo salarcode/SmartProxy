@@ -3,5 +3,5 @@ import { environment } from "../../lib/environment";
 environment.browserConfig = {
     name: "Opera",
     marketName: "Opera Extensions",
-    marketUrl: ""
+    marketUrl: "https://addons.opera.com/en/extensions/details/smartproxy/"
 };
