@@ -51,7 +51,7 @@ module.exports = function (args) {
       path: path.resolve(__dirname, 'build'),
     },
     optimization: {
-      minimize: false
+      minimize: true
     },
     plugins: plugins
   }
