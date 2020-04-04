@@ -2148,7 +2148,10 @@ export class settingsPage {
                     if (response.success) {
                         let count = response.result.length;
 
-                        subscriptionModel.proxies = response.result;
+                        if (subscriptionModel.enabled)
+                            subscriptionModel.proxies = response.result;
+                        else
+                            subscriptionModel.proxies = [];
                         subscriptionModel.totalCount = count;
 
                         if (editingSubscription) {
@@ -2409,8 +2412,14 @@ export class settingsPage {
                     if (response.success) {
                         let count = response.result.blackList.length + response.result.whiteList.length;
 
-                        subscriptionModel.proxyRules = response.result.blackList;
-                        subscriptionModel.whitelistRules = response.result.whiteList;
+                        if (subscriptionModel.enabled) {
+                            subscriptionModel.proxyRules = response.result.blackList;
+                            subscriptionModel.whitelistRules = response.result.whiteList;
+                        }
+                        else {
+                            subscriptionModel.proxyRules = [];
+                            subscriptionModel.whitelistRules = [];
+                        }
                         subscriptionModel.totalCount = count;
 
                         if (editingSubscription) {

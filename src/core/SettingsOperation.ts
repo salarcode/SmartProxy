@@ -19,12 +19,30 @@ import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions, ProxyRulesSubscription, ProxyServerSubscription } from "./definitions";
+import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions, ProxyRulesSubscription, ProxyServerSubscription, SettingsConfig } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
 
 export class SettingsOperation {
+
+	public static getStrippedSyncableSettings(settings: SettingsConfig): SettingsConfig {
+		// deep clone required
+		var settingsCopy = JSON.parse(JSON.stringify(settings));
+
+		if (settingsCopy.proxyRulesSubscriptions && settingsCopy.proxyRulesSubscriptions.length)
+			for (const subscription of settingsCopy.proxyRulesSubscriptions) {
+				subscription.proxyRules = [];
+				subscription.whitelistRules = [];
+			}
+		if (settingsCopy.proxyServerSubscriptions && settingsCopy.proxyServerSubscriptions.length)
+			for (const subscription of settingsCopy.proxyServerSubscriptions) {
+				subscription.proxies = []
+			}
+
+		return settingsCopy;
+	}
+
 	public static readSyncedSettings(success: Function) {
 		// getting synced data
 		PolyFill.storageSyncGet(null,
@@ -228,6 +246,10 @@ export class SettingsOperation {
 			ProxyEngine.notifyActiveProxyServerChanged();
 			ProxyEngine.notifyProxyModeChanged();
 			ProxyEngine.notifyBypassChanged();
+
+			// reload the subscriptions
+			SubscriptionUpdater.reloadEmptyServerSubscriptions();
+			SubscriptionUpdater.reloadEmptyRulesSubscriptions();
 		});
 	}
 	public static saveAllSync() {
@@ -239,7 +261,8 @@ export class SettingsOperation {
 		// before anything save everything in local
 		SettingsOperation.saveAllLocal(true);
 
-		let saveObject = Utils.encodeSyncData(Settings.current);
+		var strippedSettings = SettingsOperation.getStrippedSyncableSettings(Settings.current);
+		let saveObject = Utils.encodeSyncData(strippedSettings);
 
 		try {
 			PolyFill.storageSyncSet(saveObject,

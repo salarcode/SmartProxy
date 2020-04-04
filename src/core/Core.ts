@@ -51,6 +51,10 @@ export class Core {
 
 			// update the timers
 			SubscriptionUpdater.updateServerSubscriptions();
+			SubscriptionUpdater.reloadEmptyServerSubscriptions();
+			
+			SubscriptionUpdater.updateRulesSubscriptions();
+			SubscriptionUpdater.reloadEmptyRulesSubscriptions();
 
 			// check for updates, only in unlisted version
 			UpdateManager.readUpdateInfo();

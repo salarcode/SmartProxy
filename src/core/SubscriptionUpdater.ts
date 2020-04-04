@@ -25,6 +25,28 @@ import { ProxyServer } from "./definitions";
 export class SubscriptionUpdater {
     private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
     private static rulesSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
+
+    public static async reloadEmptyServerSubscriptions() {
+        /// Read subscriptions that are enabled but have no proxy
+        /// This method is async to prevent unnecessary blocking
+
+        for (let subscription of Settings.current.proxyServerSubscriptions) {
+            if (!subscription.enabled)
+                continue;
+
+            // ignore if refresh is requested
+            if (subscription.refreshRate > 0)
+                continue;
+
+            // ignore if already have proxies
+            if (subscription.proxies != null && subscription.proxies.length)
+                continue;
+
+            Debug.log(`Server subscription '${subscription.name}' was enabled but empty, reading it now.`);
+            SubscriptionUpdater.readServerSubscription(subscription.name);
+        }
+    }
+
     public static updateServerSubscriptions() {
 
         // -------------------------
@@ -132,6 +154,29 @@ export class SubscriptionUpdater {
                 Debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, error);
             });
     }
+
+    public static async reloadEmptyRulesSubscriptions() {
+        /// Read subscriptions that are enabled but have no rules defined
+        /// This method is async to prevent unnecessary blocking
+
+        for (let subscription of Settings.current.proxyRulesSubscriptions) {
+            if (!subscription.enabled)
+                continue;
+
+            // ignore if refresh is requested
+            if (subscription.refreshRate > 0)
+                continue;
+
+            // ignore if already have proxies
+            if ((subscription.proxyRules != null && subscription.proxyRules.length) ||
+                (subscription.whitelistRules != null && subscription.whitelistRules.length))
+                continue;
+
+            Debug.log(`Rule Subscription '${subscription.name}' was enabled but empty, reading it now.`);
+            SubscriptionUpdater.readRulesSubscription(subscription.name);
+        }
+    }
+
     public static updateRulesSubscriptions() {
 
         // -------------------------
@@ -235,7 +280,7 @@ export class SubscriptionUpdater {
                     SettingsOperation.saveProxyServerSubscriptions();
                     SettingsOperation.saveAllSync();
 
-					ProxyEngine.notifyProxyRulesChanged();
+                    ProxyEngine.notifyProxyRulesChanged();
 
                 } else {
                     Debug.warn("Failed to read proxy rules subscription: " + subscriptionName);
