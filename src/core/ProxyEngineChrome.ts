@@ -66,11 +66,11 @@ export class ProxyEngineChrome {
         let resultActiveProxy = this.convertActiveProxyServer(settings.activeProxyServer);
 
         let compiledRulesAsString = this.regexHostArrayToString(compiledRules).join(",");
+        let compiledWhitelistAsString = this.regexHostArrayToString(compiledWhitelistRulesList).join(",");
         let compiledBypass = JSON.stringify(settings.bypass);
-
         let pacTemplateString = `const proxyMode = "${proxyMode}";
 const compiledRules = [${compiledRulesAsString}];
-const compiledWhitelistRules = [${compiledWhitelistRulesList}];
+const compiledWhitelistRules = [${compiledWhitelistAsString}];
 const bypass = ${compiledBypass};
 const hasActiveProxyServer = ${((settings.activeProxyServer) ? "true" : "false")};
 const ProxyModeType = {
