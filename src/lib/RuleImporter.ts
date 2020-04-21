@@ -558,7 +558,7 @@ const externalAppRuleParser = {
 				line = line.substring(2);
 
 				return {
-					regex: `^(?:https?|ftps?|wss?):\\/\\/(?:.+\\.)?${line}(?:[.?#\\\/].*)?$`,
+					regex: `^(?:https?|ftps?|wss?):\\/\\/(?:.+\\.)?${line}(?:[?#\\\/].*)?$`,
 					name: line,
 					makeNameRandom: false
 				}
@@ -583,7 +583,7 @@ const externalAppRuleParser = {
 			}
 			else {
 				return {
-					regex: `.*${line}.*`,
+					regex: `.*${line}(?:[.?#\\\/].*)?$`,
 					name: line,
 					makeNameRandom: false
 				}
