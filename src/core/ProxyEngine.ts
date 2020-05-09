@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { PacScriptEventDispatcher } from "./PacScriptEventDispatcher";
 import { ProxyRules } from "./ProxyRules";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { environment } from "../lib/environment";
@@ -23,15 +22,19 @@ import { ProxyEngineChrome } from "./ProxyEngineChrome";
 export class ProxyEngine {
 
     public static registerEngine() {
-        if (environment.chrome) {
-            this.updateChromeProxyConfig();
+        if (!environment.chrome) {
+            ProxyEngineFirefox.register();
         }
         else {
-            ProxyEngineFirefox.register();
-            this.updateFirefoxProxyConfig();
+            // chrome engine is registered below after rule compiles
         }
 
-        this.notifyCompileRules(false);
+        this.compileRulesAndNotify(false);
+
+        // chrome registration
+        this.updateChromeProxyConfig();
+        // firefox update
+        this.updateFirefoxProxyConfig();
     }
 
     public static notifySettingsOptionsChanged() {
@@ -43,7 +46,7 @@ export class ProxyEngine {
 
     public static notifyProxyModeChanged() {
         // send it to the proxy server
-        PacScriptEventDispatcher.notifyProxyModeChange();
+        //PacScriptEventDispatcher.notifyProxyModeChange();
 
         // update proxy rules
         this.updateFirefoxProxyConfig();
@@ -53,7 +56,7 @@ export class ProxyEngine {
     public static notifyActiveProxyServerChanged() {
 
         // notify
-        PacScriptEventDispatcher.notifyActiveProxyServerChange();
+        //PacScriptEventDispatcher.notifyActiveProxyServerChange();
 
         // update proxy rules
         this.updateFirefoxProxyConfig();
@@ -62,29 +65,25 @@ export class ProxyEngine {
 
     public static notifyProxyRulesChanged() {
 
-        this.notifyCompileRules();
+        this.compileRulesAndNotify();
 
         // update proxy rules
         this.updateChromeProxyConfig();
         this.updateFirefoxProxyConfig();
     }
 
-    private static notifyCompileRules(sendMessage: boolean = true) {
+    private static compileRulesAndNotify(sendMessage: boolean = true) {
 
-        if (sendMessage)
-            PacScriptEventDispatcher.notifyProxyRulesChange();
+        // if (sendMessage)
+        //     PacScriptEventDispatcher.notifyProxyRulesChange();
 
         // update proxy rules
         ProxyRules.compileRules();
-        
-        // update proxy rules
-        this.updateChromeProxyConfig();
-        this.updateFirefoxProxyConfig();
     }
 
     public static notifyBypassChanged() {
 
-        PacScriptEventDispatcher.notifyBypassChanged();
+        //PacScriptEventDispatcher.notifyBypassChanged();
 
         // update proxy rules
         this.updateChromeProxyConfig();
@@ -92,6 +91,7 @@ export class ProxyEngine {
     }
 
 
+    /** Registers Chrome engine & updates the configurations for Chrome  */
     public static updateChromeProxyConfig() {
         if (!environment.chrome)
             return;
@@ -99,6 +99,7 @@ export class ProxyEngine {
         ProxyEngineChrome.updateChromeProxyConfig();
     }
 
+    /** Updates the configurations for Firefox  */
     public static updateFirefoxProxyConfig() {
         if (environment.chrome)
             return;
