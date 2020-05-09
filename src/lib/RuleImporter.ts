@@ -140,8 +140,8 @@ export const RuleImporter = {
 			else {
 				// Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes.
 				let message = browser.i18n.getMessage("importerImportRulesSuccess")
-				.replace("{0}", rules.blackList.length)
-				.replace("{1}", rules.whiteList.length);
+					.replace("{0}", rules.blackList.length)
+					.replace("{1}", rules.whiteList.length);
 
 				if (success) {
 					// not need for any check, return straight away
@@ -524,7 +524,6 @@ const externalAppRuleParser = {
 					whiteList.push(converted.regex);
 				else
 					blackList.push(converted.regex);
-
 			}
 			return {
 				_debug: _debug,
@@ -551,11 +550,12 @@ const externalAppRuleParser = {
 				}
 			}
 
-			line = line.replace('*', '.+').replace('?', '\?');
-			line = line.replace('(', '\(').replace(')', '\)');
+			line = line.replace('*', '.+').replace('?', '\\?');
+			line = line.replace('(', '\\(').replace(')', '\\)');
 
 			if (line.startsWith('||')) {
 				line = line.substring(2);
+				line = line.replace('.', '\\.');
 
 				return {
 					regex: `^(?:https?|ftps?|wss?):\\/\\/(?:.+\\.)?${line}(?:[?#\\\/].*)?$`,
@@ -565,6 +565,7 @@ const externalAppRuleParser = {
 			}
 			if (line.startsWith('|')) {
 				line = line.substring(1);
+				line = line.replace('.', '\\.');
 
 				return {
 					regex: `^${line}.*`,
@@ -572,8 +573,19 @@ const externalAppRuleParser = {
 					makeNameRandom: false
 				}
 			}
+			if (line.startsWith('.')) {
+				line = line.substring(1);
+				line = line.replace('.', '\\.');
+
+				return {
+					regex: `:\/\/(?:.+\\.)?${line}(?:[?#\\\/].*)?$`,
+					name: line,
+					makeNameRandom: false
+				}
+			}
 			if (line.endsWith('|')) {
 				line = line.substring(0, line.length - 1);
+				line = line.replace('.', '\\.');
 
 				return {
 					regex: `.*${line}$`,
@@ -582,6 +594,7 @@ const externalAppRuleParser = {
 				}
 			}
 			else {
+				line = line.replace('.', '\\.');
 				return {
 					regex: `.*${line}(?:[.?#\\\/].*)?$`,
 					name: line,

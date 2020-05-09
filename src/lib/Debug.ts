@@ -42,4 +42,9 @@ export class Debug {
 		if (!this.enabled) return;
 		window.console.warn.apply(null, arguments);
 	}
+
+	public static trace(msg: string, ...args: any) {
+		if (!this.enabled) return;
+		window.console.trace.apply(null, arguments);
+	}
 }
