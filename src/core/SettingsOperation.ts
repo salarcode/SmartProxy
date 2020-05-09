@@ -242,17 +242,15 @@ export class SettingsOperation {
 			// force to save changes to local
 			SettingsOperation.saveAllLocal(true);
 
+			// Compile rules & Updates Firefox/Chrome proxy configurations
 			ProxyEngine.notifyProxyRulesChanged();
-			ProxyEngine.notifyActiveProxyServerChanged();
-			ProxyEngine.notifyProxyModeChanged();
-			ProxyEngine.notifyBypassChanged();
 
 			// reload the subscriptions
 			SubscriptionUpdater.reloadEmptyServerSubscriptions();
 			SubscriptionUpdater.reloadEmptyRulesSubscriptions();
 		});
 	}
-	public static saveAllSync() {
+	public static saveAllSync(saveToSyncServer: boolean = true) {
 		if (!Settings.current.options.syncSettings &&
 			!Settings.currentOptionsSyncSettings) {
 			return;
@@ -261,21 +259,23 @@ export class SettingsOperation {
 		// before anything save everything in local
 		SettingsOperation.saveAllLocal(true);
 
-		var strippedSettings = SettingsOperation.getStrippedSyncableSettings(Settings.current);
-		let saveObject = Utils.encodeSyncData(strippedSettings);
+		if (saveToSyncServer) {
+			var strippedSettings = SettingsOperation.getStrippedSyncableSettings(Settings.current);
+			let saveObject = Utils.encodeSyncData(strippedSettings);
 
-		try {
-			PolyFill.storageSyncSet(saveObject,
-				() => {
+			try {
+				PolyFill.storageSyncSet(saveObject,
+					() => {
 
-					Settings.currentOptionsSyncSettings = Settings.current.options.syncSettings;
-				},
-				(error: Error) => {
-					Debug.error(`SettingsOperation.saveAllSync error: ${error.message} ` + saveObject);
-				});
+						Settings.currentOptionsSyncSettings = Settings.current.options.syncSettings;
+					},
+					(error: Error) => {
+						Debug.error(`SettingsOperation.saveAllSync error: ${error.message} ` + saveObject);
+					});
 
-		} catch (e) {
-			Debug.error(`SettingsOperation.saveAllSync error: ${e}`);
+			} catch (e) {
+				Debug.error(`SettingsOperation.saveAllSync error: ${e}`);
+			}
 		}
 	}
 	public static saveAllLocal(forceSave: boolean = false) {
@@ -621,7 +621,6 @@ export class SettingsOperation {
 				Settings.current.options = backupOptions;
 
 				SettingsOperation.saveOptions();
-				ProxyEngine.notifySettingsOptionsChanged();
 			}
 
 			if (backupServers != null) {
@@ -663,7 +662,6 @@ export class SettingsOperation {
 				Settings.current.activeProxyServer = backupActiveServer;
 
 				SettingsOperation.saveActiveProxyServer();
-				ProxyEngine.notifyActiveProxyServerChanged();
 			}
 
 			if (backupProxyMode != null) {
@@ -671,7 +669,6 @@ export class SettingsOperation {
 				Settings.current.proxyMode = backupProxyMode;
 
 				SettingsOperation.saveProxyMode();
-				ProxyEngine.notifyProxyModeChanged();
 			}
 
 			if (backupBypass != null) {
@@ -679,15 +676,13 @@ export class SettingsOperation {
 				Settings.current.bypass = backupBypass;
 
 				SettingsOperation.saveBypass();
-				ProxyEngine.notifyBypassChanged();
 			}
 
 			// save synced if needed
 			SettingsOperation.saveAllSync();
 
-			// update proxy rules
-			ProxyEngine.updateChromeProxyConfig();
-			ProxyEngine.updateFirefoxProxyConfig();
+			// update proxy rules/config
+			ProxyEngine.updateBrowsersProxyConfig();
 
 			return { success: true, message: browser.i18n.getMessage("settingsRestoreSettingsSuccess") }
 

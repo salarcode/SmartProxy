@@ -144,7 +144,7 @@ export class SubscriptionUpdater {
                     subscription.totalCount = count;
 
                     SettingsOperation.saveProxyServerSubscriptions();
-                    SettingsOperation.saveAllSync();
+                    SettingsOperation.saveAllSync(false);
 
                 } else {
                     Debug.warn("Failed to read proxy server subscription: " + subscriptionName);
@@ -278,7 +278,7 @@ export class SubscriptionUpdater {
                     subscription.totalCount = response.result.blackList.length + response.result.whiteList.length;
 
                     SettingsOperation.saveProxyServerSubscriptions();
-                    SettingsOperation.saveAllSync();
+                    SettingsOperation.saveAllSync(false);
 
                     ProxyEngine.notifyProxyRulesChanged();
 
