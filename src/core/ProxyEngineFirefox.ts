@@ -63,9 +63,13 @@ export class ProxyEngineFirefox {
 			{
 				value: proxySettings
 			},
-			null,
+			function () {
+				// reset the values
+				environment.notSupported.setProxySettings = false;
+				environment.notAllowed.setProxySettings = false;
+			},
 			function (error: Error) {
-				Debug.log("updateFirefoxProxyConfig failed to set proxy settings", proxySettings, error);
+				Debug.error("updateFirefoxProxyConfig failed to set proxy settings", proxySettings, error?.message);
 				if (error && error["message"]) {
 					if (error.message.includes("not supported"))
 						environment.notSupported.setProxySettings = true;
@@ -160,7 +164,7 @@ export class ProxyEngineFirefox {
 				proxyLog.logType = ProxyableLogType.SystemProxyApplied;
 				return { type: "direct" };
 			}
-			
+
 			if (settings.options.proxyPerOrigin &&
 				requestDetails.tabId > -1) {
 

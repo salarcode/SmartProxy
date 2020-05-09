@@ -29,70 +29,34 @@ export class ProxyEngine {
             // chrome engine is registered below after rule compiles
         }
 
-        this.compileRulesAndNotify(false);
+        // update proxy rules
+        ProxyRules.compileRules();
 
-        // chrome registration
-        this.updateChromeProxyConfig();
-        // firefox update
-        this.updateFirefoxProxyConfig();
+        // Updates Firefox & Chrome proxy configurations also registers Chrome Engine
+        this.updateBrowsersProxyConfig();
     }
 
-    public static notifySettingsOptionsChanged() {
+    /** Updates Firefox & Chrome proxy configurations  */
+    public static updateBrowsersProxyConfig() {
 
-        // update proxy rules
+        // update proxy config
         this.updateFirefoxProxyConfig();
-        this.updateChromeProxyConfig();
-    }
 
-    public static notifyProxyModeChanged() {
-        // send it to the proxy server
-        //PacScriptEventDispatcher.notifyProxyModeChange();
-
-        // update proxy rules
-        this.updateFirefoxProxyConfig();
-        this.updateChromeProxyConfig();
-    }
-
-    public static notifyActiveProxyServerChanged() {
-
-        // notify
-        //PacScriptEventDispatcher.notifyActiveProxyServerChange();
-
-        // update proxy rules
-        this.updateFirefoxProxyConfig();
+        // also registers Chrome engine
         this.updateChromeProxyConfig();
     }
 
     public static notifyProxyRulesChanged() {
 
-        this.compileRulesAndNotify();
-
-        // update proxy rules
-        this.updateChromeProxyConfig();
-        this.updateFirefoxProxyConfig();
-    }
-
-    private static compileRulesAndNotify(sendMessage: boolean = true) {
-
-        // if (sendMessage)
-        //     PacScriptEventDispatcher.notifyProxyRulesChange();
-
         // update proxy rules
         ProxyRules.compileRules();
-    }
-
-    public static notifyBypassChanged() {
-
-        //PacScriptEventDispatcher.notifyBypassChanged();
 
         // update proxy rules
-        this.updateChromeProxyConfig();
-        this.updateFirefoxProxyConfig();
+        this.updateBrowsersProxyConfig();
     }
 
-
     /** Registers Chrome engine & updates the configurations for Chrome  */
-    public static updateChromeProxyConfig() {
+    private static updateChromeProxyConfig() {
         if (!environment.chrome)
             return;
 
@@ -100,7 +64,7 @@ export class ProxyEngine {
     }
 
     /** Updates the configurations for Firefox  */
-    public static updateFirefoxProxyConfig() {
+    private static updateFirefoxProxyConfig() {
         if (environment.chrome)
             return;
 

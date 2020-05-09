@@ -251,7 +251,7 @@ export class Core {
 					SettingsOperation.saveAllSync();
 
 					// update proxy rules
-					ProxyEngine.notifySettingsOptionsChanged();
+					ProxyEngine.updateBrowsersProxyConfig();
 
 					if (sendResponse) {
 						sendResponse({
@@ -277,7 +277,7 @@ export class Core {
 					SettingsOperation.saveAllSync();
 
 					// notify
-					ProxyEngine.notifyActiveProxyServerChanged();
+					ProxyEngine.updateBrowsersProxyConfig();
 
 					if (sendResponse) {
 						sendResponse({
@@ -323,7 +323,7 @@ export class Core {
 					SubscriptionUpdater.updateServerSubscriptions();
 
 					// it is possible that active proxy is changed
-					ProxyEngine.notifyActiveProxyServerChanged();
+					ProxyEngine.updateBrowsersProxyConfig();
 
 					if (sendResponse) {
 						sendResponse({
@@ -367,7 +367,7 @@ export class Core {
 					SettingsOperation.saveBypass();
 					SettingsOperation.saveAllSync();
 
-					ProxyEngine.notifyBypassChanged();
+					ProxyEngine.updateBrowsersProxyConfig();
 
 					if (sendResponse) {
 						sendResponse({
@@ -480,7 +480,7 @@ export class Core {
 		SettingsOperation.saveAllSync();
 
 		// send it to the proxy server
-		ProxyEngine.notifyProxyModeChanged();
+		ProxyEngine.updateBrowsersProxyConfig();
 
 		// update active proxy tab status
 		Core.setBrowserActionStatus();
@@ -492,7 +492,7 @@ export class Core {
 		SettingsOperation.saveAllSync();
 
 		// send it to the proxy server
-		ProxyEngine.notifyActiveProxyServerChanged();
+		ProxyEngine.updateBrowsersProxyConfig();
 
 		// update active proxy tab status
 		Core.setBrowserActionStatus();
