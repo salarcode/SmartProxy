@@ -2275,6 +2275,7 @@ export class settingsPage {
 
                         settingsPage.changeTracking.serverSubscriptions = false;
 
+                        settingsPage.loadActiveProxyServer();
                     } else {
                         if (response.message)
                             messageBox.error(response.message);

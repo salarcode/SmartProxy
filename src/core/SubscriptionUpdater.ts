@@ -34,10 +34,6 @@ export class SubscriptionUpdater {
             if (!subscription.enabled)
                 continue;
 
-            // ignore if refresh is requested
-            if (subscription.refreshRate > 0)
-                continue;
-
             // ignore if already have proxies
             if (subscription.proxies != null && subscription.proxies.length)
                 continue;
@@ -161,10 +157,6 @@ export class SubscriptionUpdater {
 
         for (let subscription of Settings.current.proxyRulesSubscriptions) {
             if (!subscription.enabled)
-                continue;
-
-            // ignore if refresh is requested
-            if (subscription.refreshRate > 0)
                 continue;
 
             // ignore if already have proxies
