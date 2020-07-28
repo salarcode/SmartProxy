@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { CommonUi } from "./CommonUi";
-import { Messages, ProxyableInternalDataType, ProxyableDataType, ProxyableLogType } from "../../core/definitions";
+import { Messages, ProxyableInternalDataType, ProxyableLogDataType, ProxyableLogType } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { jQuery, messageBox } from "../../lib/External";
 import { browser } from "../../lib/environment";
@@ -158,19 +158,19 @@ export class proxyable {
 			columns: [
 				{
 					name: "url", data: "url", title: browser.i18n.getMessage("proxyableGridColUrl"), className: "grid-ellipsis-text-cell", width: '60%',
-					render: function (data: any, type: any, row: ProxyableDataType): string {
+					render: function (data: any, type: any, row: ProxyableLogDataType): string {
 						return `<a class='wordwrap-anywhere grid-ellipsis-text-link' href="${data}" target="_blank">${data}</a>`;
 					},
 				},
 				{
 					name: "logType", data: "logTypeName", title: browser.i18n.getMessage("proxyableGridColStatus"), width: 100, className: 'small',
-					render: function (data: any, type: any, row: ProxyableDataType): string {
+					render: function (data: any, type: any, row: ProxyableLogDataType): string {
 						return browser.i18n.getMessage(`proxyableGridData_LogType_${row.logTypeName}`);
 					}
 				},
 				{
 					name: "proxied", data: "proxied", title: browser.i18n.getMessage("proxyableGridColEnabled"), width: 50, className: 'text-center',
-					render: function (data: any, type: any, row: ProxyableDataType): string {
+					render: function (data: any, type: any, row: ProxyableLogDataType): string {
 						if (row.proxied) {
 							return '<i class="fas fa-check text-success"></i>';
 						}
@@ -191,7 +191,7 @@ export class proxyable {
 				},
 				{
 					name: "enabled", width: 100, title: '',
-					render: (data: any, type: any, row: ProxyableDataType): string => {
+					render: (data: any, type: any, row: ProxyableLogDataType): string => {
 						let url = row.url;
 						if (!url)
 							return "";
@@ -251,9 +251,9 @@ export class proxyable {
 			.val(dataForProxyable.url);
 	}
 
-	private static insertNewLogInGrid(newRequest: ProxyableDataType) {
+	private static insertNewLogInGrid(newRequest: ProxyableLogDataType) {
 		try {
-			let request = new ProxyableDataType();
+			let request = new ProxyableLogDataType();
 			Object.assign(request, newRequest);
 
 			request.sourceDomain = request.sourceDomain ?? "";
@@ -313,7 +313,7 @@ export class proxyable {
 		if (!domain)
 			return;
 
-		let gridRow: ProxyableDataType = proxyable.grdProxyable.row(element.parents('tr'));
+		let gridRow: ProxyableLogDataType = proxyable.grdProxyable.row(element.parents('tr'));
 
 		messageBox.confirm(`${browser.i18n.getMessage("proxyableCreateRuleConfirm")} <b>'${domain}'</b>?`,
 			() => {
@@ -327,7 +327,7 @@ export class proxyable {
 		if (!domain)
 			return;
 
-		let gridRow: ProxyableDataType = proxyable.grdProxyable.row(element.parents('tr'));
+		let gridRow: ProxyableLogDataType = proxyable.grdProxyable.row(element.parents('tr'));
 
 		messageBox.confirm(`${browser.i18n.getMessage("proxyableDeleteRuleConfirm")} <b>'${domain}'</b>?`,
 			() => {
@@ -335,7 +335,7 @@ export class proxyable {
 			});
 	}
 
-	private static toggleProxyableRequest(enableByDomain: string, removeBySource?: string, gridRow?: ProxyableDataType) {
+	private static toggleProxyableRequest(enableByDomain: string, removeBySource?: string, gridRow?: ProxyableLogDataType) {
 
 		PolyFill.runtimeSendMessage(
 			{

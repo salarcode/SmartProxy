@@ -161,23 +161,35 @@ export enum ProxyableLogType {
 	ProxyPerOrigin
 }
 
-export class ProxyableDataType {
+export class ProxyableLogDataType {
 	public tabId: number;
 	public logType: ProxyableLogType;
 	public url: string;
 	public enabled?: boolean;
 	public sourceDomain: string;
 	public rule: string;
+	public whitelist?: boolean;
 
 	get logTypeName(): string {
 		return ProxyableLogType[this.logType];
 	}
+
+	private _proxied: boolean | null;
+
 	get proxied(): boolean {
+		if (this._proxied != null)
+			// if value is set explicitly
+			return this._proxied;
+
 		if (this.logType == ProxyableLogType.AlwaysEnabled ||
 			this.logType == ProxyableLogType.MatchedRule ||
 			this.logType == ProxyableLogType.ProxyPerOrigin)
 			return true;
 		return false;
+	}
+	set proxied(value: boolean) {
+		// setting value explicitly
+		this._proxied = value;
 	}
 	get statusCanBeDetermined(): boolean {
 		if (this.logType == ProxyableLogType.AlwaysEnabled ||

@@ -16,7 +16,7 @@
  */
 import { browser, environment } from "../lib/environment";
 import { Debug } from "../lib/Debug";
-import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer, SpecialRequestApplyProxyMode, ProxyableLogType, ProxyableDataType } from "./definitions";
+import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer, SpecialRequestApplyProxyMode, ProxyableLogType, ProxyableLogDataType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { TabManager } from "./TabManager";
 import { PolyFill } from "../lib/PolyFill";
@@ -96,7 +96,7 @@ export class ProxyEngineFirefox {
 			url: "http://socialshare.ir/admin/media-promote"
 			*/
 
-		let proxyLog: ProxyableDataType = new ProxyableDataType();
+		let proxyLog: ProxyableLogDataType = new ProxyableLogDataType();
 		proxyLog.tabId = requestDetails.tabId;
 		proxyLog.url = requestDetails.url;
 		proxyLog.logType = ProxyableLogType.NoneMatched;

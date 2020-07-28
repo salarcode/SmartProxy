@@ -165,7 +165,6 @@ export class ProxyRules {
 
 				if (subscription.whitelistRules &&
 					subscription.whitelistRules.length > 0) {
-
 					let whitelistRules = ProxyRules.compileRulesSubscription(subscription.whitelistRules);
 					whiteListCompiledList = whitelistRules.concat(whiteListCompiledList);
 				}
@@ -255,8 +254,9 @@ export class ProxyRules {
 				default:
 					continue;
 			}
-			if (rule.whiteList)
+			if (rule.whiteList) {
 				compiledWhiteList.push(newCompiled);
+			}
 			else
 				compiledList.push(newCompiled);
 		}
@@ -328,6 +328,20 @@ export class ProxyRules {
 		match: boolean,
 		rule: ProxyRule
 	} {
+		return this.testSingleRuleInternal(domain, ProxyRules.compiledRulesList);
+	}
+	
+	public static testSingleWhiteListRule(domain: string): {
+		match: boolean,
+		rule: ProxyRule
+	} {
+		return this.testSingleRuleInternal(domain, ProxyRules.compiledWhitelistRulesList);
+	}
+	
+	private static testSingleRuleInternal(domain: string, ruleList: CompiledRule[]): {
+		match: boolean,
+		rule: ProxyRule
+	} {
 		// the url should be complete
 		let url = domain;
 		if (!url.includes(":/"))
@@ -335,7 +349,7 @@ export class ProxyRules {
 		let lowerCaseUrl: string;
 		let domainHost: string = null;
 
-		for (let rule of ProxyRules.compiledRulesList) {
+		for (let rule of ruleList) {
 
 			switch (rule.ruleType) {
 				case ProxyRuleType.Exact:
