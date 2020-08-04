@@ -97,7 +97,7 @@ export class Utils {
 			}) === index);
 	}
 
-	public static reverseString(str: string): string{
+	public static reverseString(str: string): string {
 		return str.split('').reverse().join('');
 	}
 
@@ -258,6 +258,16 @@ export class Utils {
 		if (completeUrl)
 			return `*://*.${host}/*`;
 		return `*.${host}/*`;
+	}
+
+	/** Removes Https:// and ftp:// and other protocols from url */
+	public static removeSchemaFromUrl(url: string): string {
+		if (url == null)
+			return url;
+		let u = new URL(url);
+		let schemaLength = (u.protocol + '//').length;
+
+		return url.substr(schemaLength - 1, url.length - schemaLength);
 	}
 
 	public static matchPatternToRegExp(pattern: string, completeUrl = true): RegExp | null {
