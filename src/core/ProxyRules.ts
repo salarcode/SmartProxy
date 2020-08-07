@@ -16,19 +16,19 @@
  */
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
-import { ProxyRuleType, CompiledRule, ProxyRule } from "./definitions";
+import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType } from "./definitions";
 import { Utils } from "../lib/Utils";
 
 export class ProxyRules {
 
-	private static compiledRulesList: CompiledRule[] = [];
-	private static compiledWhitelistRulesList: CompiledRule[] = [];
+	private static compiledRulesList: CompiledProxyRule[] = [];
+	private static compiledWhitelistRulesList: CompiledProxyRule[] = [];
 
-	public static getCompiledRulesList(): CompiledRule[] {
+	public static getCompiledRulesList(): CompiledProxyRule[] {
 		return ProxyRules.compiledRulesList;
 	}
 
-	public static getCompiledWhitelistRulesList(): CompiledRule[] {
+	public static getCompiledWhitelistRulesList(): CompiledProxyRule[] {
 		return ProxyRules.compiledWhitelistRulesList;
 	}
 
@@ -148,6 +148,7 @@ export class ProxyRules {
 			Settings.current.proxyRules.splice(itemIndex, 1);
 		}
 	}
+
 	public static compileRules() {
 		let settings = Settings.current;
 
@@ -165,7 +166,8 @@ export class ProxyRules {
 
 				if (subscription.whitelistRules &&
 					subscription.whitelistRules.length > 0) {
-					let whitelistRules = ProxyRules.compileRulesSubscription(subscription.whitelistRules);
+
+					let whitelistRules = ProxyRules.compileRulesSubscription(subscription.whitelistRules, true);
 					whiteListCompiledList = whitelistRules.concat(whiteListCompiledList);
 				}
 
@@ -183,19 +185,50 @@ export class ProxyRules {
 		ProxyRules.compiledWhitelistRulesList = whiteListCompiledList;
 	}
 
-	private static compileRulesSubscription(rules: string[]): CompiledRule[] {
+	private static compileRulesSubscription(rules: SubscriptionProxyRule[], markAsWhitelisted: boolean = null): CompiledProxyRule[] {
 		if (!rules)
 			return;
 
-		let compiledList: CompiledRule[] = [];
+		let compiledList: CompiledProxyRule[] = [];
 		for (const rule of rules) {
 
-			let newCompiled = new CompiledRule();
-			newCompiled.enabled = true;
-			newCompiled.ruleType = ProxyRuleType.RegexUrl;
+			let newCompiled = new CompiledProxyRule();
+			newCompiled.search = rule.search;
 
-			newCompiled.regex = new RegExp(rule);
+			if (markAsWhitelisted === true)
+				newCompiled.whiteList = true;
 
+			switch (rule.importedRuleType) {
+				case ProxyRulesSubscriptionRuleType.RegexHost:
+					newCompiled.regex = new RegExp(rule.regex);
+					newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
+					break;
+
+				case ProxyRulesSubscriptionRuleType.RegexUrl:
+					newCompiled.regex = new RegExp(rule.regex);
+					newCompiled.compiledRuleType = CompiledProxyRuleType.RegexUrl;
+					break;
+
+				case ProxyRulesSubscriptionRuleType.SearchUrl:
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchUrl;
+					break;
+
+				case ProxyRulesSubscriptionRuleType.SearchDomain:
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomain;
+					break;
+
+				case ProxyRulesSubscriptionRuleType.SearchDomainAndPath:
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainAndPath;
+					break;
+
+				case ProxyRulesSubscriptionRuleType.SearchDomainSubdomainAndPath:
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainSubdomainAndPath;
+					break;
+
+				default:
+					Debug.error('compileRulesSubscription: Invalid importedRuleType of ' + rule.importedRuleType);
+					continue;
+			}
 			compiledList.push(newCompiled);
 		}
 
@@ -203,26 +236,30 @@ export class ProxyRules {
 	}
 
 	private static compileRulesInternal(proxyRules: ProxyRule[]): {
-		compiledList: CompiledRule[],
-		compiledWhiteList: CompiledRule[]
+		compiledList: CompiledProxyRule[],
+		compiledWhiteList: CompiledProxyRule[]
 	} {
 		if (!proxyRules)
 			return;
 
-		let compiledList: CompiledRule[] = [];
-		let compiledWhiteList: CompiledRule[] = [];
+		let compiledList: CompiledProxyRule[] = [];
+		let compiledWhiteList: CompiledProxyRule[] = [];
 
 		for (let i = 0; i < proxyRules.length; i++) {
 			const rule = proxyRules[i];
 
 			if (!rule.enabled) continue;
 
-			let newCompiled = new CompiledRule();
-			Object.assign(newCompiled, rule);
+			let newCompiled = new CompiledProxyRule();
+
+			newCompiled.whiteList = rule.whiteList;
+			newCompiled.sourceDomain = rule.sourceDomain;
+			newCompiled.proxy = rule.proxy;
 
 			switch (rule.ruleType) {
 				case ProxyRuleType.Exact:
-					newCompiled.ruleExact = newCompiled.ruleExact.toLowerCase();
+					newCompiled.search = rule.ruleExact.toLowerCase();
+					newCompiled.compiledRuleType = CompiledProxyRuleType.Exact;
 					break;
 
 				case ProxyRuleType.MatchPatternHost:
@@ -231,6 +268,7 @@ export class ProxyRules {
 						if (regex == null)
 							continue;
 						newCompiled.regex = regex;
+						newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
 					}
 					break;
 
@@ -240,14 +278,23 @@ export class ProxyRules {
 						if (regex == null)
 							continue;
 						newCompiled.regex = regex;
+						newCompiled.compiledRuleType = CompiledProxyRuleType.RegexUrl;
 					}
 					break;
 
 				case ProxyRuleType.RegexHost:
+					{
+						// This simple construction is good enough. TODO: This ^(?:)$ is not needed?
+						newCompiled.regex = new RegExp(rule.ruleRegex);
+						newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
+					}
+					break;
+
 				case ProxyRuleType.RegexUrl:
 					{
-						// This simple construction is good enough. This ^(?:)$ is not needed?
+						// This simple construction is good enough. TODO: This ^(?:)$ is not needed?
 						newCompiled.regex = new RegExp(rule.ruleRegex);
+						newCompiled.compiledRuleType = CompiledProxyRuleType.RegexUrl;
 					}
 					break;
 
@@ -268,52 +315,131 @@ export class ProxyRules {
 	}
 
 
-	public static findMatchForUrl(url: string): ProxyRule | null {
+	public static findMatchForUrl(url: string): CompiledProxyRule | null {
 		return ProxyRules.findMatchForUrlInternal(url, ProxyRules.compiledRulesList);
 	}
 
-	public static findWhitelistMatchForUrl(url: string): ProxyRule | null {
+	public static findWhitelistMatchForUrl(url: string): CompiledProxyRule | null {
 		if (!ProxyRules.compiledWhitelistRulesList || ProxyRules.compiledWhitelistRulesList.length == 0)
 			return null;
 		return ProxyRules.findMatchForUrlInternal(url, ProxyRules.compiledWhitelistRulesList);
 	}
 
-	private static findMatchForUrlInternal(url: string, rules: CompiledRule[]): ProxyRule | null {
-		//var host = new URL(url).host;
-		let lowerCaseUrl: string;
+	private static findMatchForUrlInternal(searchUrl: string, rules: CompiledProxyRule[]): CompiledProxyRule | null {
 		let domainHost: string;
+		let schemaLessUrl: string;
+		let url = searchUrl.toLowerCase();
 
 		try {
 			for (let rule of rules) {
 
-				switch (rule.ruleType) {
-					case ProxyRuleType.Exact:
-						if (lowerCaseUrl == null)
-							lowerCaseUrl = url.toLowerCase();
+				switch (rule.compiledRuleType) {
+					case CompiledProxyRuleType.Exact:
 
-						if (lowerCaseUrl == rule.ruleExact)
+						if (url == rule.search)
 							return rule;
 						break;
 
-					case ProxyRuleType.MatchPatternHost:
-					case ProxyRuleType.RegexHost:
+					case CompiledProxyRuleType.RegexHost:
 
 						if (domainHost == null) {
-							let urlHost = Utils.extractHostFromUrl(url);
-							if (urlHost == null) {
+							domainHost = Utils.extractHostFromUrl(url);
+							if (domainHost == null) {
 								continue;
 							}
-							domainHost = urlHost.toLowerCase();
 						}
 
 						if (rule.regex.test(domainHost))
 							return rule;
 						break;
 
-					case ProxyRuleType.MatchPatternUrl:
-					case ProxyRuleType.RegexUrl:
+					case CompiledProxyRuleType.RegexUrl:
 
 						if (rule.regex.test(url))
+							return rule;
+						break;
+
+					case CompiledProxyRuleType.SearchUrl:
+
+						if (url.startsWith(rule.search))
+							return rule;
+						break;
+
+					case CompiledProxyRuleType.SearchDomain:
+
+						if (domainHost == null) {
+							domainHost = Utils.extractHostFromUrl(url);
+							if (domainHost == null) {
+								continue;
+							}
+						}
+						if (rule.search == domainHost)
+							return rule;
+						break;
+
+					case CompiledProxyRuleType.SearchDomainSubdomain:
+
+						if (domainHost == null) {
+							domainHost = Utils.extractHostFromUrl(url);
+							if (domainHost == null) {
+								continue;
+							}
+						}
+						// domain
+						if (domainHost == rule.search)
+							return rule;
+
+						// subdomains
+						if (domainHost.endsWith('.' + rule.search))
+							return rule;
+
+						break;
+
+					case CompiledProxyRuleType.SearchDomainAndPath:
+
+						if (schemaLessUrl == null) {
+							schemaLessUrl = Utils.removeSchemaFromUrl(url);
+							if (schemaLessUrl == null) {
+								continue;
+							}
+						}
+
+						if (schemaLessUrl.startsWith(rule.search))
+							return rule;
+
+						break;
+
+					case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
+
+						if (schemaLessUrl == null) {
+							schemaLessUrl = Utils.removeSchemaFromUrl(url);
+							if (schemaLessUrl == null) {
+								continue;
+							}
+						}
+
+						if (schemaLessUrl.startsWith(rule.search))
+							return rule;
+
+						let ruleSearchHost = Utils.extractHostFromInvalidUrl(rule.search);
+						if (ruleSearchHost != null) {
+
+							if (domainHost == null) {
+								domainHost = Utils.extractHostFromUrl(url);
+								if (domainHost == null) {
+									continue;
+								}
+							}
+
+							// should be the same
+							if (ruleSearchHost != domainHost)
+								continue;
+
+							// after this state, we are sure that the url is for the same domain, now just checking the path
+						}
+
+						// subdomains
+						if (schemaLessUrl.includes('.' + rule.search))
 							return rule;
 						break;
 				}
@@ -326,51 +452,47 @@ export class ProxyRules {
 
 	public static testSingleRule(domain: string): {
 		match: boolean,
-		rule: ProxyRule
+		rule: CompiledProxyRule
 	} {
 		return this.testSingleRuleInternal(domain, ProxyRules.compiledRulesList);
 	}
-	
+
 	public static testSingleWhiteListRule(domain: string): {
 		match: boolean,
-		rule: ProxyRule
+		rule: CompiledProxyRule
 	} {
 		return this.testSingleRuleInternal(domain, ProxyRules.compiledWhitelistRulesList);
 	}
-	
-	private static testSingleRuleInternal(domain: string, ruleList: CompiledRule[]): {
+
+	private static testSingleRuleInternal(domain: string, ruleList: CompiledProxyRule[]): {
 		match: boolean,
-		rule: ProxyRule
+		rule: CompiledProxyRule
 	} {
 		// the url should be complete
-		let url = domain;
+		let url = domain.toLowerCase();
 		if (!url.includes(":/"))
 			url = "http://" + url;
-		let lowerCaseUrl: string;
 		let domainHost: string = null;
+		let schemaLessUrl: string;
 
 		for (let rule of ruleList) {
 
-			switch (rule.ruleType) {
-				case ProxyRuleType.Exact:
-					if (lowerCaseUrl == null)
-						lowerCaseUrl = url.toLowerCase();
-					if (lowerCaseUrl == rule.ruleExact)
+			switch (rule.compiledRuleType) {
+				case CompiledProxyRuleType.Exact:
+					if (url == rule.search)
 						return {
 							match: true,
 							rule: rule
 						};
 					break;
 
-				case ProxyRuleType.MatchPatternHost:
-				case ProxyRuleType.RegexHost:
+				case CompiledProxyRuleType.RegexHost:
 
 					if (domainHost == null) {
-						let urlHost = Utils.extractHostFromUrl(url);
-						if (urlHost == null) {
+						domainHost = Utils.extractHostFromUrl(url);
+						if (domainHost == null) {
 							continue;
 						}
-						domainHost = urlHost.toLowerCase();
 					}
 
 					if (rule.regex.test(domainHost))
@@ -380,10 +502,114 @@ export class ProxyRules {
 						};
 					break;
 
-				case ProxyRuleType.MatchPatternUrl:
-				case ProxyRuleType.RegexUrl:
+				case CompiledProxyRuleType.RegexUrl:
 
 					if (rule.regex.test(url))
+						return {
+							match: true,
+							rule: rule
+						};
+					break;
+
+				case CompiledProxyRuleType.SearchUrl:
+
+					if (url.startsWith(rule.search))
+						return {
+							match: true,
+							rule: rule
+						};
+					break;
+
+				case CompiledProxyRuleType.SearchDomain:
+
+					if (domainHost == null) {
+						domainHost = Utils.extractHostFromUrl(url);
+						if (domainHost == null) {
+							continue;
+						}
+					}
+					if (rule.search == domainHost)
+						return {
+							match: true,
+							rule: rule
+						};
+					break;
+
+				case CompiledProxyRuleType.SearchDomainSubdomain:
+
+					if (domainHost == null) {
+						domainHost = Utils.extractHostFromUrl(url);
+						if (domainHost == null) {
+							continue;
+						}
+					}
+					// domain
+					if (domainHost == rule.search)
+						return {
+							match: true,
+							rule: rule
+						};
+
+					// subdomains
+					if (domainHost.endsWith('.' + rule.search))
+						return {
+							match: true,
+							rule: rule
+						};
+
+					break;
+
+				case CompiledProxyRuleType.SearchDomainAndPath:
+
+					if (schemaLessUrl == null) {
+						schemaLessUrl = Utils.removeSchemaFromUrl(url);
+						if (schemaLessUrl == null) {
+							continue;
+						}
+					}
+
+					if (schemaLessUrl.startsWith(rule.search))
+						return {
+							match: true,
+							rule: rule
+						};
+
+					break;
+
+				case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
+
+					if (schemaLessUrl == null) {
+						schemaLessUrl = Utils.removeSchemaFromUrl(url);
+						if (schemaLessUrl == null) {
+							continue;
+						}
+					}
+
+					if (schemaLessUrl.startsWith(rule.search))
+						return {
+							match: true,
+							rule: rule
+						};
+
+					let ruleSearchHost = Utils.extractHostFromInvalidUrl(rule.search);
+					if (ruleSearchHost != null) {
+
+						if (domainHost == null) {
+							domainHost = Utils.extractHostFromUrl(url);
+							if (domainHost == null) {
+								continue;
+							}
+						}
+
+						// should be the same
+						if (ruleSearchHost != domainHost)
+							continue;
+
+						// after this state, we are sure that the url is for the same domain, now just checking the path
+					}
+
+					// subdomains
+					if (schemaLessUrl.includes('.' + rule.search))
 						return {
 							match: true,
 							rule: rule
@@ -406,67 +632,143 @@ export class ProxyRules {
 		let result = [];
 
 		for (const domain of domainList) {
-			let url = domain;
-			let lowerCaseUrl: string;
+			let url = domain.toLowerCase();
 
 			// the url should be complete
 			if (!url.includes(":/"))
 				url = "http://" + url;
 			let domainHost: string = null;
+			let schemaLessUrl: string;
 			let matchFound = false;
 
 			for (const rule of ProxyRules.compiledRulesList) {
+				let matched = false;
 
-				switch (rule.ruleType) {
-					case ProxyRuleType.Exact:
-						if (lowerCaseUrl == null)
-							lowerCaseUrl = url.toLowerCase();
-						if (lowerCaseUrl == rule.ruleExact) {
-							result.push({
-								match: true,
-								domain: domain,
-								sourceDomain: rule.sourceDomain,
-								ruleText: rule.rule
-							});
-							matchFound = true;
-						}
+				switch (rule.compiledRuleType) {
+					case CompiledProxyRuleType.Exact:
+
+						if (url == rule.search)
+							matched = true;
+
 						break;
 
-					case ProxyRuleType.MatchPatternHost:
-					case ProxyRuleType.RegexHost:
+					case CompiledProxyRuleType.RegexHost:
 
 						if (domainHost == null) {
-							let urlHost = Utils.extractHostFromUrl(url);
-							if (urlHost == null) {
+							domainHost = Utils.extractHostFromUrl(url);
+							if (domainHost == null) {
 								continue;
 							}
-							domainHost = urlHost.toLowerCase();
 						}
 
-						if (rule.regex.test(domainHost)) {
-							result.push({
-								domain: domain,
-								match: true,
-								sourceDomain: rule.sourceDomain,
-								ruleText: rule.rule
-							});
-							matchFound = true;
-						}
+						if (rule.regex.test(domainHost))
+							matched = true;
+
 						break;
 
-					case ProxyRuleType.MatchPatternUrl:
-					case ProxyRuleType.RegexUrl:
+					case CompiledProxyRuleType.RegexUrl:
 
-						if (rule.regex.test(url)) {
-							result.push({
-								domain: domain,
-								match: true,
-								sourceDomain: rule.sourceDomain,
-								ruleText: rule.rule
-							});
-							matchFound = true;
+						if (rule.regex.test(url))
+							matched = true;
+						break;
+
+					case CompiledProxyRuleType.SearchUrl:
+
+						if (url.startsWith(rule.search))
+							matched = true;
+						break;
+
+					case CompiledProxyRuleType.SearchDomain:
+
+						if (domainHost == null) {
+							domainHost = Utils.extractHostFromUrl(url);
+							if (domainHost == null) {
+								continue;
+							}
+						}
+
+						if (rule.search == domainHost)
+							matched = true;
+						break;
+
+					case CompiledProxyRuleType.SearchDomainSubdomain:
+
+						if (domainHost == null) {
+							domainHost = Utils.extractHostFromUrl(url);
+							if (domainHost == null) {
+								continue;
+							}
+						}
+
+						// domain
+						if (domainHost == rule.search)
+							matched = true;
+
+						// subdomains
+						else if (domainHost.endsWith('.' + rule.search))
+							matched = true;
+
+						break;
+
+					case CompiledProxyRuleType.SearchDomainAndPath:
+
+						if (schemaLessUrl == null) {
+							schemaLessUrl = Utils.removeSchemaFromUrl(url);
+							if (schemaLessUrl == null) {
+								continue;
+							}
+						}
+
+						if (schemaLessUrl.startsWith(rule.search))
+							matched = true;
+
+						break;
+
+					case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
+
+						if (schemaLessUrl == null) {
+							schemaLessUrl = Utils.removeSchemaFromUrl(url);
+							if (schemaLessUrl == null) {
+								continue;
+							}
+						}
+
+						if (schemaLessUrl.startsWith(rule.search))
+							matched = true;
+
+						else {
+
+							let ruleSearchHost = Utils.extractHostFromInvalidUrl(rule.search);
+							if (ruleSearchHost != null) {
+
+								if (domainHost == null) {
+									domainHost = Utils.extractHostFromUrl(url);
+									if (domainHost == null) {
+										continue;
+									}
+								}
+
+								// should be the same
+								if (ruleSearchHost != domainHost)
+									continue;
+
+								// after this state, we are sure that the url is for the same domain, now just checking the path
+							}
+
+							// subdomains
+							if (schemaLessUrl.includes('.' + rule.search))
+								matched = true;
 						}
 						break;
+				}
+				if (matched) {
+					result.push({
+						match: true,
+						domain: domain,
+						sourceDomain: rule.sourceDomain,
+						ruleText: rule.rule
+					});
+					matchFound = true;
 				}
 			}
 

@@ -16,7 +16,7 @@
  */
 import { browser, environment } from "../lib/environment";
 import { Debug } from "../lib/Debug";
-import { ProxyModeType, BrowserProxySettingsType, ProxyRule, ProxyServer, SpecialRequestApplyProxyMode, ProxyableLogType, ProxyableLogDataType } from "./definitions";
+import { ProxyModeType, BrowserProxySettingsType, ProxyServer, SpecialRequestApplyProxyMode, ProxyableLogType, ProxyableLogDataType, CompiledProxyRule } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { TabManager } from "./TabManager";
 import { PolyFill } from "../lib/PolyFill";
@@ -232,7 +232,7 @@ export class ProxyEngineFirefox {
 		return result;
 	}
 
-	private static storeTabProxyDetail(requestDetails: any, matchedRule: ProxyRule) {
+	private static storeTabProxyDetail(requestDetails: any, matchedRule: CompiledProxyRule) {
 		// check if this is the top level request
 		if (requestDetails.type !== "main_frame") {
 			return;

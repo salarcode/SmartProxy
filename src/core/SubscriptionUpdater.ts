@@ -20,7 +20,7 @@ import { ProxyImporter } from "../lib/ProxyImporter";
 import { SettingsOperation } from "./SettingsOperation";
 import { RuleImporter } from "../lib/RuleImporter";
 import { ProxyEngine } from "./ProxyEngine";
-import { ProxyServer } from "./definitions";
+import { ProxyServer, SubscriptionProxyRule } from "./definitions";
 
 export class SubscriptionUpdater {
     private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
@@ -257,8 +257,8 @@ export class SubscriptionUpdater {
                 success: boolean,
                 message: string,
                 result: {
-                    whiteList: string[],
-                    blackList: string[]
+                    whiteList: SubscriptionProxyRule[],
+                    blackList: SubscriptionProxyRule[]
                 }
             }) {
                 if (!response) return;

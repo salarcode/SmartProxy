@@ -23,6 +23,10 @@ export class Debug {
 		this.enabled = false;
 	}
 
+	public static isEnabled() {
+		return this.enabled;
+	}
+
 	public static log(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		window.console.log.apply(null, arguments);

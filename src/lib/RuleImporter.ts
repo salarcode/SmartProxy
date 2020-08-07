@@ -16,7 +16,7 @@
  */
 import { Utils } from "./Utils";
 import { browser } from "./environment";
-import { ProxyRulesSubscription, ProxyRulesSubscriptionFormat } from "../core/definitions";
+import { ProxyRulesSubscription, ProxyRulesSubscriptionFormat, ProxyRulesSubscriptionRuleType, SubscriptionProxyRule } from "../core/definitions";
 import { ProxyEngineSpecialRequests } from "../core/ProxyEngineSpecialRequests";
 
 export const RuleImporter = {
@@ -37,8 +37,8 @@ export const RuleImporter = {
 					success: boolean,
 					message: string,
 					result: {
-						whiteList: string[],
-						blackList: string[]
+						whiteList: SubscriptionProxyRule[],
+						blackList: SubscriptionProxyRule[]
 					}
 				}) => {
 					if (!importResult.success) {
@@ -115,8 +115,8 @@ export const RuleImporter = {
 			}
 
 			let rules: {
-				whiteList: string[],
-				blackList: string[]
+				whiteList: SubscriptionProxyRule[],
+				blackList: SubscriptionProxyRule[]
 			};
 
 			if (options && options.format == ProxyRulesSubscriptionFormat.AutoProxy) {
@@ -370,54 +370,51 @@ export const RuleImporter = {
 	}
 }
 
-
-// -----------------------------------------------
-// -----------------------------------------------
-// -----------------------------------------------
-/*
-
------------------------------------------------
-AutoProxy Rules, from: https://web.archive.org/web/20150318182040/https://autoproxy.org/en/Rules
------------------------------------------------
-
-Currently these formats are supported in rules:
-
-example.com
-Matching: http://www.example.com/foo
-Matching: http://www.google.com/search?q=www.example.com
-Not match: https://www.example.com/
-Use when example.com is a URL keyword, any http connection (notincluding https)
-
-||example.com
-Matching: http://example.com/foo
-Matching: https://subdomain.example.com/bar
-Not matching: http://www.google.com/search?q=example.com
-Match the whole domain and second-level domain no matter http or https, used when site's IP is blocked.
-
-|https://ssl.example.com
-Match all address beginning with https://ssl.example.com, used when some IP's HTTPS is specifically blocked.
-
-|http://example.com
-Match all address beginning with http://example.com, used for short domains, like URL shortening services to avoid "slow rules". Also a temporary fix for issue 117.
-
-/^https?:\/\/[^\/]+example\.com/
-Match domain including "example.com" chars, it's a regex, used when the chars are DNS poisoning keyword.
-
-@@||example.com
-The highest privilege rule, all websites matching ||example.com aren't proxied, sometimes used for websites in China mainland.
-
-!Foo bar
-Beginning with !, just for explanation.
-*/
-// -----------------------------------------------
-/*!
- * This piece of code is from SwitchyOmega_Firefox <omega_pac.min.js>
- * Modified to return the not generalized pattern
- *
- * @source   https://github.com/FelisCatus/SwitchyOmega
- * @license  GPL3
- */
 const externalAppRuleParser = {
+
+	// -----------------------------------------------
+	/*
+	-----------------------------------------------
+	AutoProxy Rules, from: https://web.archive.org/web/20150318182040/https://autoproxy.org/en/Rules
+	-----------------------------------------------
+	
+	Currently these formats are supported in rules:
+	
+	example.com
+	Matching: http://www.example.com/foo
+	Matching: http://www.google.com/search?q=www.example.com
+	Not match: https://www.example.com/
+	Use when example.com is a URL keyword, any http connection (notincluding https)
+	
+	||example.com
+	Matching: http://example.com/foo
+	Matching: https://subdomain.example.com/bar
+	Not matching: http://www.google.com/search?q=example.com
+	Match the whole domain and second-level domain no matter http or https, used when site's IP is blocked.
+	
+	|https://ssl.example.com
+	Match all address beginning with https://ssl.example.com, used when some IP's HTTPS is specifically blocked.
+	
+	|http://example.com
+	Match all address beginning with http://example.com, used for short domains, like URL shortening services to avoid "slow rules". Also a temporary fix for issue 117.
+	
+	/^https?:\/\/[^\/]+example\.com/
+	Match domain including "example.com" chars, it's a regex, used when the chars are DNS poisoning keyword.
+	
+	@@||example.com
+	The highest privilege rule, all websites matching ||example.com aren't proxied, sometimes used for websites in China mainland.
+	
+	!Foo bar
+	Beginning with !, just for explanation.
+	*/
+	// -----------------------------------------------
+	/*!
+	 * This piece of code is from SwitchyOmega_Firefox <omega_pac.min.js>
+	 * Modified to return the not generalized pattern
+	 *
+	 * @source   https://github.com/FelisCatus/SwitchyOmega
+	 * @license  GPL3
+	 */
 	'AutoProxy': {
 		magicPrefix: "W0F1dG9Qcm94",
 		detect(text: string, acceptBase64: boolean = true): boolean {
@@ -492,6 +489,81 @@ const externalAppRuleParser = {
 		}
 	},
 	'GFWList': {
+		// -----------------------------------------------
+		/*
+		-----------------------------------------------
+		AutoProxy Rules, from: https://github.com/gfwlist/gfwlist/wiki/Syntax
+		-----------------------------------------------
+		
+		 GFWList syntax originated from ABP filters.
+		
+			|: Stands for matching from beginning (In URI, it's scheme): e.g.|http://example.com will match:
+		
+		http://example.com
+		http://example.com/page
+		http://example.com.co
+		
+		It will NOT match (replace www with any subdomain):
+		
+		http://www.example.com
+		https://example.com/page
+		https://example.com
+		https://www.example.com
+		https://example.com.co
+		
+		Same applied to |https://example.com.
+		
+			||: Stands for matching specific URI, in such a case, no need to write down scheme, e.g. ||example.com will match (replace www with any subdomain):
+		
+		http://example.com
+		http://www.example.com
+		https://example.com
+		https://www.example.com
+		
+		It will NOT match:
+		
+		http://anotherexample.com
+		https://anotherexample.com
+		http://example.com.co
+		https://example.com.co
+		
+		Note that ABP supports ||example.com/sample to block ADs in both HTTP and HTTPS, but GFWList doesn't absorb this.
+		
+			!: Stands for comments. Line started with ! means NOTHING. This is often useful for rules which need to be kept for future use, or statements for some purposes, examples:
+		
+		! Checksum: ...
+		!---------
+		!---
+		!###
+		!!
+		
+		Note: Any characters after ! are treated as NOTHING irrespective of how tricky, convoluted and far extended, they will NOT be parsed if in one line, but in order to keep the list sorted and regular, GFWList uses a variety of different comment styles.
+		
+			@@: Stands for whitelist rules. Although GFWList was designed to conform to the GFW mechanisms, it still has consideration of whitelist since sometimes there are some exceptions under special circumstances. Thus take a look at this example:
+		
+		.example.com
+		@@|http://sub.example.com
+		
+		It means example.com is suffering a block while http://sub.example.com is not brought in.
+		
+		Imagine there is a domain example.org, it has 8 subdomains albeit 7 of them are blocked due to whatever reason, only sub.example.org is available. In such a case, rules can be written as:
+		
+		|http://1.example.org
+		|http://2.example.org
+		|http://3.example.org
+		|http://4.example.org
+		|http://5.example.org
+		|http://6.example.org
+		|http://7.example.org
+		
+		Granting that these above is correct, they are still not space saving. A better solution is:
+		
+		.example.org
+		@@|http://8.example.org
+		
+		In stark contrast, the latter one is always better.
+		 */
+
 		detect(text: string, acceptBase64: boolean = true): boolean {
 			if (acceptBase64 && Utils.strStartsWith(text, externalAppRuleParser["AutoProxy"].magicPrefix)) {
 				return true;
@@ -502,13 +574,13 @@ const externalAppRuleParser = {
 		},
 		parse(text: any): {
 			_debug: any[],
-			whiteList: string[],
-			blackList: string[]
+			whiteList: SubscriptionProxyRule[],
+			blackList: SubscriptionProxyRule[]
 		} {
 			text = text.trim();
 
-			let whiteList: string[] = [];
-			let blackList: string[] = [];
+			let whiteList: SubscriptionProxyRule[] = [];
+			let blackList: SubscriptionProxyRule[] = [];
 			let _debug = [];
 
 			for (var line of text.split(/\n|\r/)) {
@@ -521,9 +593,9 @@ const externalAppRuleParser = {
 
 				_debug.push(line + '\n' + converted.regex + ' \t\t Name:' + converted.name + '\n\n');
 				if (line.startsWith('@@'))
-					whiteList.push(converted.regex);
+					whiteList.push(converted);
 				else
-					blackList.push(converted.regex);
+					blackList.push(converted);
 			}
 			return {
 				_debug: _debug,
@@ -531,7 +603,7 @@ const externalAppRuleParser = {
 				blackList: blackList
 			};
 		},
-		convertLineRegex(line: string): {
+		convertLineRegex_OLD(line: string): {
 			regex: string,
 			name: string,
 			makeNameRandom: boolean
@@ -599,6 +671,117 @@ const externalAppRuleParser = {
 					regex: `.*${line}(?:[.?#\\\/].*)?$`,
 					name: line,
 					makeNameRandom: false
+				}
+			}
+		},
+		convertLineRegex(line: string): SubscriptionProxyRule {
+			if (line.startsWith('@@'))
+				// white-list is not handled here
+				line = line.substring(2);
+
+			if (line.startsWith('/') && line.endsWith('/')) {
+				line = line.substring(1, line.length - 1);
+				// this is a regex expression, doesn't need processing
+				return {
+					regex: line,
+					name: 'Regex-' + line.replace(/[\d\\d]*\W*/g, '') /** keeping only characters */,
+					importedRuleType: ProxyRulesSubscriptionRuleType.RegexUrl,
+				}
+			}
+
+			let hasSpecialChars = line.includes('*') || line.includes('(');
+
+			function rectifyRegexChars(){
+				line = line.replace('*', '.+').replace('?', '\\?');
+				line = line.replace('(', '\\(').replace(')', '\\)');
+				line = line.replace('.', '\\.');
+			}
+
+			if (line.startsWith('||')) {
+				line = line.substring(2);
+
+				if (hasSpecialChars) {
+					rectifyRegexChars();
+
+					return {
+						regex: `^(?:https?|ftps?|wss?):\\/\\/(?:.+\\.)?${line}(?:[?#\\\/].*)?$`,
+						name: line,
+						importedRuleType: ProxyRulesSubscriptionRuleType.RegexUrl
+					}
+				}
+				else {
+					return {
+						search: line,
+						name: line,
+						importedRuleType: ProxyRulesSubscriptionRuleType.SearchDomain
+					}
+				}
+			}
+			if (line.startsWith('|')) {
+				line = line.substring(1);
+
+				if (hasSpecialChars) {
+					rectifyRegexChars();
+
+					return {
+						regex: `^${line}.*`,
+						name: line,
+						importedRuleType: ProxyRulesSubscriptionRuleType.RegexUrl
+					}
+				}
+				else {
+					return {
+						search: line,
+						name: line,
+						importedRuleType: ProxyRulesSubscriptionRuleType.SearchUrl
+					}
+				}
+			}
+			if (line.endsWith('|')) {
+				line = line.substring(0, line.length - 1);
+				rectifyRegexChars();
+
+				return {
+					regex: `.*${line}$`,
+					name: line,
+					importedRuleType: ProxyRulesSubscriptionRuleType.RegexUrl
+				}
+			}
+			if (line.startsWith('.')) {
+				line = line.substring(1);
+				if (hasSpecialChars) {
+					rectifyRegexChars();
+
+					return {
+						regex: `:\/\/(?:.+\\.)?${line}(?:[?#\\\/].*)?$`,
+						name: line,
+						importedRuleType: ProxyRulesSubscriptionRuleType.RegexUrl
+					}
+				}
+				else {
+					return {
+						search: line,
+						name: line,
+						importedRuleType: ProxyRulesSubscriptionRuleType.SearchDomainSubdomainAndPath
+					}
+				}
+			}
+			else {
+				if (hasSpecialChars) {
+					rectifyRegexChars();
+					
+					return {
+						regex: `.*${line}(?:[.?#\\\/].*)?$`,
+						name: line,
+						importedRuleType: ProxyRulesSubscriptionRuleType.RegexUrl
+					}
+				}
+				else {
+					return {
+						search: line,
+						name: line,
+						importedRuleType: ProxyRulesSubscriptionRuleType.SearchDomainAndPath
+					}
 				}
 			}
 		}

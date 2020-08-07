@@ -189,6 +189,22 @@ export class Utils {
 	}
 
 
+	public static extractHostFromInvalidUrl(url: string): string | null {
+		try {
+			if (url.includes(":/")) {
+				try {
+					new URL(url);
+					// url is valid
+					return Utils.extractHostFromUrl(url);
+				} catch { }
+			}
+
+			let urlFixed = 'http://' + url;
+			return Utils.extractHostFromUrl(urlFixed);
+		}
+		catch (e) { return null; }
+	}
+
 	public static extractHostFromUrl(url: string): string | null {
 		try {
 			const u = new URL(url);
@@ -267,7 +283,7 @@ export class Utils {
 		let u = new URL(url);
 		let schemaLength = (u.protocol + '//').length;
 
-		return url.substr(schemaLength - 1, url.length - schemaLength);
+		return url.substr(schemaLength, url.length - schemaLength);
 	}
 
 	public static matchPatternToRegExp(pattern: string, completeUrl = true): RegExp | null {

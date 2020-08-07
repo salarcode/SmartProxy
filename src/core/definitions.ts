@@ -46,6 +46,21 @@ export enum ProxyRuleType {
 	RegexUrl,
 	Exact
 }
+export enum CompiledProxyRuleType {
+	RegexHost,
+	RegexUrl,
+	Exact,
+	/** Url should be included from the start */
+	SearchUrl,
+	/** Domain should be a exact match */
+	SearchDomain,
+	/** Matches domain and its subdomains */
+	SearchDomainSubdomain,
+	/** Matches domain and path */
+	SearchDomainAndPath,
+	/** Matches domain and its subdomains including path in the end of each */
+	SearchDomainSubdomainAndPath
+}
 
 export enum ProxyServerForProtocol {
 	Http,
@@ -383,8 +398,33 @@ export class ProxyRule implements Cloneable {
 	}
 }
 
-export class CompiledRule extends ProxyRule {
-	regex: RegExp;
+export class CompiledProxyRule {
+	public compiledRuleType: CompiledProxyRuleType;
+	public regex?: RegExp;
+	public search?: string;
+
+	public sourceDomain: string;
+
+	public proxy: ProxyServer;
+	public whiteList: boolean = false;
+
+	get rule(): string {
+		// why ruleType is string? converting to int
+		switch (+this.compiledRuleType) {
+			case CompiledProxyRuleType.RegexHost:
+			case CompiledProxyRuleType.RegexUrl:
+				return this.regex.toString();
+
+			case CompiledProxyRuleType.Exact:
+			case CompiledProxyRuleType.SearchUrl:
+			case CompiledProxyRuleType.SearchDomain:
+			case CompiledProxyRuleType.SearchDomainAndPath:
+			case CompiledProxyRuleType.SearchDomainSubdomain:
+			case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
+				return this.search;
+		}
+		return "";
+	}
 }
 
 export enum SpecialRequestApplyProxyMode {
@@ -467,6 +507,26 @@ export enum ProxyRulesSubscriptionFormat {
 	AutoProxy
 }
 
+export enum ProxyRulesSubscriptionRuleType {
+	RegexHost,
+	RegexUrl,
+	/** Url should be included from the start */
+	SearchUrl,
+	/** Domain should be a exact match */
+	SearchDomain,
+	/** Matches domain and path */
+	SearchDomainAndPath,
+	/** Matches domain and its subdomains including path in the end of each */
+	SearchDomainSubdomainAndPath
+}
+
+export class SubscriptionProxyRule {
+	public name: string;
+	public regex?: string;
+	public search?: string;
+	public importedRuleType?: ProxyRulesSubscriptionRuleType;
+}
+
 export class ProxyRulesSubscription {
 	public name: string;
 	public url: string;
@@ -487,8 +547,8 @@ export class ProxyRulesSubscription {
 	public password: string;
 
 	// the loaded rules
-	public proxyRules: string[]; // Regex string
-	public whitelistRules: string[]; // Regex string
+	public proxyRules: SubscriptionProxyRule[];
+	public whitelistRules: SubscriptionProxyRule[];
 
 	public applyProxy: SpecialRequestApplyProxyMode;
 
