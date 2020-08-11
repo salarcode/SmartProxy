@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { CommonUi } from "./CommonUi";
-import { Messages, ProxyableInternalDataType, ProxyableLogDataType, ProxyableLogType } from "../../core/definitions";
+import { Messages, ProxyableInternalDataType, ProxyableLogDataType, ProxyableLogType, CompiledProxyRule, CompiledProxyRuleSource } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { jQuery, messageBox } from "../../lib/External";
 import { browser } from "../../lib/environment";
@@ -142,6 +142,24 @@ export class proxyable {
 			proxyable.grdProxyable.clear();
 			proxyable.grdProxyable.draw('full-hold');
 		});
+		jQuery("#btnBenchmark").click(() => {
+
+			messageBox.info('Check the Console for results');
+
+			PolyFill.runtimeSendMessage(
+				{
+					command: "BenchmarkTheRules",
+					urls: proxyable.grdProxyable.data().toArray().map(a => a.url),
+				},
+				(response: {
+					rules: CompiledProxyRule[],
+					whiteListRules: CompiledProxyRule[]
+				}) => {
+				},
+				(error: Error) => {
+					PolyFill.runtimeSendMessage("BenchmarkTheRules failed! > " + error);
+				});
+		});
 	}
 
 	private static initializeGrids() {
@@ -190,19 +208,29 @@ export class proxyable {
 					name: "sourceDomain", data: "sourceDomain", title: browser.i18n.getMessage("proxyableGridColSource"),
 				},
 				{
-					name: "enabled", width: 100, title: '',
+					name: "enabled", width: 100, title: '', className: 'text-center',
 					render: (data: any, type: any, row: ProxyableLogDataType): string => {
 						let url = row.url;
 						if (!url)
 							return "";
 						if (!row.statusCanBeDetermined)
 							return "";
-						if (row.rule) {
+						if (row.ruleSource == CompiledProxyRuleSource.Subscriptions) {
+							return `<small>${browser.i18n.getMessage("proxyableSubscriptionRule")}</small>`;
+						}
+						if (row.ruleText) {
 							return `<button id='btnDisable' data-domain="${row.sourceDomain}" class="btn btn-sm btn-danger whitespace-nowrap">
                                     <i class="fa fa-times" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableDisableButton")}</button>`;
 						}
 						else {
-							let subDomains = Utils.extractSubdomainListFromUrl(url);
+							if (row.proxied) {
+								return '<i class="fas fa-minus text-danger"></i>';
+							}
+							let subDomains: string[];
+							if (row["subDomains"])
+								subDomains = row["subDomains"];
+							else
+								subDomains = row["subDomains"] = Utils.extractSubdomainListFromUrl(url);
 
 							if (subDomains && subDomains.length) {
 								const template =
@@ -257,7 +285,7 @@ export class proxyable {
 			Object.assign(request, newRequest);
 
 			request.sourceDomain = request.sourceDomain ?? "";
-			request.rule = request.rule ?? "";
+			request.ruleText = request.ruleText ?? "";
 
 			let row = this.grdProxyable.row
 				.add(request)
@@ -282,7 +310,6 @@ export class proxyable {
 			proxyable.grdProxyable.rows().draw('full-hold');
 		}
 
-
 		var nodes = this.grdProxyable.rows().nodes();
 		for (let index = 0; index < nodes.length; index++) {
 			const rowElement = jQuery(nodes[index]);
@@ -305,6 +332,7 @@ export class proxyable {
 		// so we need to bind the events each time data changes.
 
 		rowElement.find(".subdomains-list a").on("click", proxyable.onToggleSubdomainClick);
+		rowElement.find("#btnDisable").on("click", proxyable.onDisableSubdomainClick);
 	}
 
 	private static onToggleSubdomainClick() {
@@ -324,7 +352,7 @@ export class proxyable {
 	private static onDisableSubdomainClick() {
 		let element = jQuery(this);
 		let domain = element.data("domain");
-		if (!domain)
+		if (!domain) 
 			return;
 
 		let gridRow: ProxyableLogDataType = proxyable.grdProxyable.row(element.parents('tr'));

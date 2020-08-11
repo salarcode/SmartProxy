@@ -213,9 +213,6 @@ export class Utils {
 				return null;
 			let host = u.host;
 
-			if (host.startsWith("www."))
-				return host.substring(4, host.length);
-
 			return host;
 		}
 		catch (e) { return null; }
@@ -235,9 +232,6 @@ export class Utils {
 		let parts = host.split(".");
 		if (parts.length <= 2)
 			return [host];
-
-		if (parts[0] === "www")
-			parts.splice(0, 1);
 
 		if (parts.length <= 2)
 			return [parts.join(".")];

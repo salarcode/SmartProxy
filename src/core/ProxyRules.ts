@@ -16,7 +16,7 @@
  */
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
-import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType } from "./definitions";
+import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType, CompiledProxyRuleSource } from "./definitions";
 import { Utils } from "../lib/Utils";
 
 export class ProxyRules {
@@ -122,11 +122,9 @@ export class ProxyRules {
 
 	private static addRuleByDomain(domain: string): ProxyRule {
 
-		let domainPattern = Utils.hostToMatchPattern(domain, false);
-
 		let rule = new ProxyRule();
-		rule.ruleType = ProxyRuleType.MatchPatternHost;
-		rule.rulePattern = domainPattern;
+		rule.ruleType = ProxyRuleType.DomainSubdomain;
+		rule.ruleSearch = domain;
 		rule.autoGeneratePattern = true;
 		rule.sourceDomain = domain;
 		rule.enabled = true;
@@ -194,6 +192,7 @@ export class ProxyRules {
 
 			let newCompiled = new CompiledProxyRule();
 			newCompiled.search = rule.search;
+			newCompiled.compiledRuleSource = CompiledProxyRuleSource.Subscriptions;
 
 			if (markAsWhitelisted === true)
 				newCompiled.whiteList = true;
@@ -215,6 +214,10 @@ export class ProxyRules {
 
 				case ProxyRulesSubscriptionRuleType.SearchDomain:
 					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomain;
+					break;
+
+				case ProxyRulesSubscriptionRuleType.SearchDomainSubdomain:
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainSubdomain;
 					break;
 
 				case ProxyRulesSubscriptionRuleType.SearchDomainAndPath:
@@ -255,11 +258,17 @@ export class ProxyRules {
 			newCompiled.whiteList = rule.whiteList;
 			newCompiled.sourceDomain = rule.sourceDomain;
 			newCompiled.proxy = rule.proxy;
+			newCompiled.compiledRuleSource = CompiledProxyRuleSource.Manual;
 
 			switch (rule.ruleType) {
 				case ProxyRuleType.Exact:
 					newCompiled.search = rule.ruleExact.toLowerCase();
 					newCompiled.compiledRuleType = CompiledProxyRuleType.Exact;
+					break;
+
+				case ProxyRuleType.DomainSubdomain:
+					newCompiled.search = rule.ruleSearch.toLowerCase();
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainSubdomain;
 					break;
 
 				case ProxyRuleType.MatchPatternHost:
@@ -403,7 +412,6 @@ export class ProxyRules {
 								continue;
 							}
 						}
-
 						if (schemaLessUrl.startsWith(rule.search))
 							return rule;
 
@@ -417,7 +425,6 @@ export class ProxyRules {
 								continue;
 							}
 						}
-
 						if (schemaLessUrl.startsWith(rule.search))
 							return rule;
 
@@ -432,7 +439,7 @@ export class ProxyRules {
 							}
 
 							// should be the same
-							if (ruleSearchHost != domainHost)
+							if (ruleSearchHost != domainHost && !domainHost.endsWith('.' + ruleSearchHost))
 								continue;
 
 							// after this state, we are sure that the url is for the same domain, now just checking the path
@@ -602,7 +609,7 @@ export class ProxyRules {
 						}
 
 						// should be the same
-						if (ruleSearchHost != domainHost)
+						if (ruleSearchHost != domainHost && !domainHost.endsWith('.' + ruleSearchHost))
 							continue;
 
 						// after this state, we are sure that the url is for the same domain, now just checking the path
@@ -627,7 +634,7 @@ export class ProxyRules {
 		match: boolean,
 		domain: string,
 		sourceDomain: string,
-		ruleText: string
+		rule: CompiledProxyRule
 	}[] {
 		let result = [];
 
@@ -643,6 +650,7 @@ export class ProxyRules {
 
 			for (const rule of ProxyRules.compiledRulesList) {
 				let matched = false;
+				let sourceDomain: string;
 
 				switch (rule.compiledRuleType) {
 					case CompiledProxyRuleType.Exact:
@@ -687,8 +695,10 @@ export class ProxyRules {
 							}
 						}
 
-						if (rule.search == domainHost)
+						if (rule.search == domainHost) {
 							matched = true;
+							sourceDomain = rule.search;
+						}
 						break;
 
 					case CompiledProxyRuleType.SearchDomainSubdomain:
@@ -701,12 +711,15 @@ export class ProxyRules {
 						}
 
 						// domain
-						if (domainHost == rule.search)
+						if (domainHost == rule.search) {
 							matched = true;
-
+							sourceDomain = rule.search;
+						}
 						// subdomains
-						else if (domainHost.endsWith('.' + rule.search))
+						else if (domainHost.endsWith('.' + rule.search)) {
 							matched = true;
+							sourceDomain = rule.search;
+						}
 
 						break;
 
@@ -749,7 +762,7 @@ export class ProxyRules {
 								}
 
 								// should be the same
-								if (ruleSearchHost != domainHost)
+								if (ruleSearchHost != domainHost && !domainHost.endsWith('.' + ruleSearchHost))
 									continue;
 
 								// after this state, we are sure that the url is for the same domain, now just checking the path
@@ -761,14 +774,16 @@ export class ProxyRules {
 						}
 						break;
 				}
+
 				if (matched) {
 					result.push({
 						match: true,
 						domain: domain,
-						sourceDomain: rule.sourceDomain,
-						ruleText: rule.rule
+						sourceDomain: rule.sourceDomain ?? sourceDomain,
+						rule: rule
 					});
 					matchFound = true;
+					break;
 				}
 			}
 
@@ -778,7 +793,7 @@ export class ProxyRules {
 					domain: domain,
 					match: false,
 					sourceDomain: null,
-					ruleText: null
+					rule: null
 				});
 			}
 		}

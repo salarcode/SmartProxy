@@ -16,7 +16,7 @@
  */
 import { browser, environment } from "../../lib/environment";
 import { jQuery, messageBox } from "../../lib/External";
-import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType, ProxyServer } from "../../core/definitions";
+import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
@@ -231,17 +231,24 @@ export class popup {
                 .text(domain);
             item.appendTo(divProxyableDomain);
             item.data("domainResult", domainResult);
-            //item.data("host-name", domain);
-            //item.data("ruleIsForThisHost", ruleIsForThisHost);
-            //item.data("hasMatchingRule", domainResult.hasMatchingRule);
 
             var itemIcon = item.find(".proxyable-status-icon");
-            if (domainResult.hasMatchingRule) {
+            if (domainResult.ruleSource == CompiledProxyRuleSource.Subscriptions) {
+                // disabling the item for subscriptions since these rules can't be disabled/enabled individually
+
+                itemIcon.removeClass("fa-square")
+                    .addClass("fas fa-check fa-sm");
+                item.show().find("div.proxyable-is-subscription").show();
+
+                item.find(".nav-link").addClass("disabled")
+                    .attr("title", `Subscription Rule, can't be disabled individually`);
+            }
+            else if (domainResult.ruleMatched) {
                 itemIcon.removeClass("fa-square")
                     .addClass("fa-check-square");
 
                 // if the matching rule is not for this host
-                if (!domainResult.ruleIsForThisHost) {
+                if (!domainResult.ruleMatchedThisHost) {
                     item.find(".nav-link").addClass("disabled")
                         .attr("title", `Enabled by other domains`);
                 }
@@ -393,9 +400,13 @@ export class popup {
 
     private static onProxyableDomainClick() {
         let domainResult: ProxyableDomainType = jQuery(this).data("domainResult");
+
+        if (domainResult.ruleSource == CompiledProxyRuleSource.Subscriptions)
+            return;
+
         let domain = domainResult.domain;
-        let hasMatchingRule = domainResult.hasMatchingRule;
-        let ruleIsForThisHost = domainResult.ruleIsForThisHost;
+        let hasMatchingRule = domainResult.ruleMatched;
+        let ruleIsForThisHost = domainResult.ruleMatchedThisHost;
 
 
         if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {

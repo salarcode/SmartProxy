@@ -100,7 +100,6 @@ export class ProxyEngineFirefox {
 		proxyLog.tabId = requestDetails.tabId;
 		proxyLog.url = requestDetails.url;
 		proxyLog.logType = ProxyableLogType.NoneMatched;
-		proxyLog.enabled = false;
 
 		let settings = Settings.current;
 		let result = (() => {
@@ -153,7 +152,8 @@ export class ProxyEngineFirefox {
 			let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
 			if (matchedWhitelistRule) {
 				proxyLog.logType = ProxyableLogType.Whitelisted;
-				proxyLog.rule = matchedWhitelistRule.rule;
+				proxyLog.ruleText = matchedWhitelistRule.ruleText;
+				proxyLog.ruleSource = matchedWhitelistRule.compiledRuleSource;
 				proxyLog.sourceDomain = matchedWhitelistRule.sourceDomain;
 
 				return { type: "direct" };
@@ -180,6 +180,7 @@ export class ProxyEngineFirefox {
 					else {
 						proxyLog.logType = ProxyableLogType.ProxyPerOrigin;
 						proxyLog.sourceDomain = tabData.proxySourceDomain;
+						proxyLog.proxied = true;
 
 						if (tabData.proxyServerFromRule) {
 							if (tabData.proxyServerFromRule.username)
@@ -198,14 +199,15 @@ export class ProxyEngineFirefox {
 			if (matchedRule) {
 
 				proxyLog.logType = ProxyableLogType.MatchedRule;
-				proxyLog.rule = matchedRule.rule;
+				proxyLog.ruleText = matchedRule.ruleText;
+				proxyLog.ruleSource = matchedRule.compiledRuleSource;
 				proxyLog.sourceDomain = matchedRule.sourceDomain;
 
 				if (requestDetails.tabId > -1) {
 					// storing the proxy & rule in tab
 					ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule);
 				}
-
+				
 				if (matchedRule.proxy) {
 					if (matchedRule.proxy.username)
 						// Requires authentication. Mark as special and store authentication info.
@@ -223,9 +225,6 @@ export class ProxyEngineFirefox {
 			// nothing matched
 			return { type: "direct" };
 		})();
-
-		if ((result as resultProxyInfo).host)
-			proxyLog.enabled = true;
 
 		// notify the logger
 		TabRequestLogger.notifyProxyableLog(proxyLog);

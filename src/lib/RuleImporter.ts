@@ -562,6 +562,43 @@ const externalAppRuleParser = {
 		@@|http://8.example.org
 		
 		In stark contrast, the latter one is always better.
+		
+		---------------------------------------------------
+		---------------------------------------------------
+		In addition:
+
+		--------
+		Dot (.):
+		A line starting with a dot (.) should match domain and its subdomains including the path.
+		For example: ".example.com/quiz?no=1" should match the followings:
+		
+		http://example.com/quiz?no=1
+		https://example.com/quiz?no=1&page=2
+		http://www.example.com/quiz?no=1&page=2
+		https://test.example.com/quiz?no=1
+
+		Will not match:
+		
+		http://example.com.au/quiz?no=1
+		https://example.com/quiz
+		https://test.example.com/quiz
+
+		------------
+		Simple line:
+		A line that has not any condition should match domain and its path.
+		For example: "example.com/quiz?no=1" should match the followings:
+		
+		http://example.com/quiz?no=1
+		https://example.com/quiz?no=1&page=2
+
+		Will not match:
+		
+		http://example.com.au/quiz?no=1
+		https://example.com/quiz
+		https://test.example.com/quiz
+		http://www.example.com/quiz?no=1&page=2
+		https://test.example.com/quiz?no=1
+
 		 */
 
 		detect(text: string, acceptBase64: boolean = true): boolean {
@@ -691,7 +728,7 @@ const externalAppRuleParser = {
 
 			let hasSpecialChars = line.includes('*') || line.includes('(');
 
-			function rectifyRegexChars(){
+			function rectifyRegexChars() {
 				line = line.replace('*', '.+').replace('?', '\\?');
 				line = line.replace('(', '\\(').replace(')', '\\)');
 				line = line.replace('.', '\\.');
@@ -713,7 +750,7 @@ const externalAppRuleParser = {
 					return {
 						search: line,
 						name: line,
-						importedRuleType: ProxyRulesSubscriptionRuleType.SearchDomain
+						importedRuleType: ProxyRulesSubscriptionRuleType.SearchDomainSubdomain
 					}
 				}
 			}
@@ -769,7 +806,7 @@ const externalAppRuleParser = {
 			else {
 				if (hasSpecialChars) {
 					rectifyRegexChars();
-					
+
 					return {
 						regex: `.*${line}(?:[.?#\\\/].*)?$`,
 						name: line,

@@ -38,7 +38,7 @@ export class Core {
 	public static initializeApp() {
 
 		// comment for debugging
-		Debug.disable(); 
+		//Debug.disable(); 
 
 		Settings.onInitialized = (() => {
 			// on settings read success
@@ -52,7 +52,7 @@ export class Core {
 			// update the timers
 			SubscriptionUpdater.updateServerSubscriptions();
 			SubscriptionUpdater.reloadEmptyServerSubscriptions();
-			
+
 			SubscriptionUpdater.updateRulesSubscriptions();
 			SubscriptionUpdater.reloadEmptyRulesSubscriptions();
 
@@ -127,6 +127,25 @@ export class Core {
 
 		// --------------------
 		switch (command) {
+			/**  //Uncomment to benchmark the rules
+			case "BenchmarkTheRules":
+				{
+					if (message.urls === null)
+						return;
+					RulesBenchmark.benchmarkRules(null, message.urls);
+
+					var response = {
+						rules: ProxyRules.getCompiledRulesList(),
+						whiteListRules: ProxyRules.getCompiledWhitelistRulesList()
+					};
+
+					// send the data
+					sendResponse(response);
+					return;
+				}
+				break;
+			*/
+
 			case Messages.ProxyableGetInitialData:
 				{
 					if (message.tabId === null)
@@ -622,28 +641,24 @@ export class Core {
 		if (proxyableDomainList.length == 1) {
 			let proxyableDomain = proxyableDomainList[0];
 			let testResult = ProxyRules.testSingleRule(proxyableDomain);
-			let ruleIsForThisHost = testResult.match;
 
-			if (testResult.match) {
-				// check to see if the matched rule is for this host or not!
-				// sources are same
-				if (testResult.rule.sourceDomain == proxyableDomain) {
-					ruleIsForThisHost = true;
-				}
-			}
 			// add the domain
 			dataForPopup.proxyableDomains.push({
 				domain: proxyableDomain,
-				hasMatchingRule: testResult.match,
-				ruleIsForThisHost: ruleIsForThisHost
+				ruleMatched: testResult.match,
+				ruleMatchedThisHost: testResult.match,
+				ruleSource: testResult.rule?.compiledRuleSource
 			});
 
 		} else {
 
 			let multiTestResultList = ProxyRules.testMultipleRule(proxyableDomainList);
-
+			let anyMatchFound = false;
 			for (let i = 0; i < multiTestResultList.length; i++) {
 				let result = multiTestResultList[i];
+
+				if (result.match)
+					anyMatchFound = true;
 
 				let ruleIsForThisHost = false;
 				if (result.match) {
@@ -653,11 +668,17 @@ export class Core {
 					}
 				}
 
+				// do not display www if rule is not for this domain
+				if (!ruleIsForThisHost && !anyMatchFound && result.domain.startsWith('www.')) {
+					continue;
+				}
+
 				// add the domain
 				dataForPopup.proxyableDomains.push({
 					domain: result.domain,
-					hasMatchingRule: result.match,
-					ruleIsForThisHost: ruleIsForThisHost
+					ruleMatched: result.match,
+					ruleMatchedThisHost: ruleIsForThisHost,
+					ruleSource: result.rule?.compiledRuleSource
 				});
 			}
 		}

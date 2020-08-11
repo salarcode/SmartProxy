@@ -70,7 +70,10 @@ export class TabRequestLogger {
 	public static async notifyProxyableLog(proxyLogData: ProxyableLogDataType) {
 		// Note: the async/await is ignored to prevent a blocking call.
 
-		// checking if this tab requested
+		if (TabRequestLogger.subscribedTabList.length == 0)
+			return;
+
+			// checking if this tab requested
 		if (TabRequestLogger.subscribedTabList.indexOf(proxyLogData.tabId) == -1) {
 			return;
 		}
@@ -104,7 +107,7 @@ export class TabRequestLogger {
 		if (TabRequestLogger.subscribedTabList.length == 0)
 			return;
 
-		// this tab is not requested
+		// checking if this tab requested
 		if (TabRequestLogger.subscribedTabList.indexOf(tabId) == -1) {
 			return;
 		}
@@ -117,22 +120,9 @@ export class TabRequestLogger {
 	/** browser.webRequest.onBeforeRequest -> this is a Chrome specific way of logging */
 	private static async notifyProxyableLogRequestInternal(url: string, tabId: number) {
 		let proxyableData = TabRequestLogger.getProxyableDataForUrl(url);
+		proxyableData.tabId = tabId;
 
-		Debug.log("notifyProxyableLogRequestInternal for ", url, proxyableData);
-
-		PolyFill.runtimeSendMessage(
-			{
-				command: Messages.ProxyableRequestLog,
-				tabId: tabId,
-				logInfo: proxyableData
-			},
-			null,
-			(error: Error) => {
-				// no more logging for this tab
-				TabRequestLogger.unsubscribeProxyableLogs(tabId);
-
-				Debug.error("notifyProxyableLogRequestInternal failed for ", tabId, error);
-			});
+		TabRequestLogger.sendProxyableRequestLog(proxyableData);
 	}
 
 	private static notifyProxyableOriginTabRemoved(tabId: number) {
@@ -152,23 +142,23 @@ export class TabRequestLogger {
 				Debug.error("notifyProxyableOriginTabRemoved failed for ", tabId, error);
 			});
 	}
-
 	private static getProxyableDataForUrl(url: string): ProxyableLogDataType {
 
 		let settings = Settings.current;
 
 		let testResult = ProxyRules.testSingleRule(url);
+
 		let result = new ProxyableLogDataType();
 
 		result.url = url;
-		result.enabled = testResult.match;
 		result.sourceDomain = "";
-		result.rule = "";
+		result.ruleText = "";
 		result.logType = ProxyableLogType.NoneMatched;
 
 		if (testResult.rule) {
 			result.sourceDomain = testResult.rule.sourceDomain;
-			result.rule = testResult.rule.rule;
+			result.ruleText = testResult.rule.ruleText;
+			result.ruleSource = testResult.rule.compiledRuleSource;
 			result.logType = ProxyableLogType.MatchedRule;
 			result.whitelist = testResult.rule.whiteList;
 		}
@@ -177,7 +167,8 @@ export class TabRequestLogger {
 
 			if (testResult.rule) {
 				result.sourceDomain = testResult.rule.sourceDomain;
-				result.rule = testResult.rule.rule;
+				result.ruleText = testResult.rule.ruleText;
+				result.ruleSource = testResult.rule.compiledRuleSource;
 				result.logType = ProxyableLogType.Whitelisted;
 				result.whitelist = testResult.rule.whiteList;
 			}
@@ -188,7 +179,7 @@ export class TabRequestLogger {
 		else if (settings.proxyMode == ProxyModeType.Always)
 			result.proxied = true;
 		else if (settings.proxyMode == ProxyModeType.Direct ||
-				settings.proxyMode == ProxyModeType.SystemProxy)
+			settings.proxyMode == ProxyModeType.SystemProxy)
 			result.proxied = false;
 
 		return result;

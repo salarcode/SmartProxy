@@ -73,6 +73,10 @@ body.rtl {
     word-wrap: anywhere;
 }
 
+.text-break-word {
+    word-break: break-word;
+}
+
 .whitespace-nowrap {
     white-space: nowrap;
 }
@@ -165,6 +169,13 @@ input:invalid {
     min-width: 200px;
 }
 
+.proxyable-item .proxyable-is-subscription{
+    display: block;
+    font-size: .7em;
+    line-height: 7pt;
+    padding: 0 20px;
+    margin: 0;
+}
 .popup-menu-failed {
     display: table-cell;
     vertical-align: top;

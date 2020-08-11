@@ -38,7 +38,6 @@ export class SubscriptionUpdater {
             if (subscription.proxies != null && subscription.proxies.length)
                 continue;
 
-            Debug.log(`Server subscription '${subscription.name}' was enabled but empty, reading it now.`);
             SubscriptionUpdater.readServerSubscription(subscription.name);
         }
     }
@@ -164,7 +163,6 @@ export class SubscriptionUpdater {
                 (subscription.whitelistRules != null && subscription.whitelistRules.length))
                 continue;
 
-            Debug.log(`Rule Subscription '${subscription.name}' was enabled but empty, reading it now.`);
             SubscriptionUpdater.readRulesSubscription(subscription.name);
         }
     }

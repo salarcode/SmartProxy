@@ -44,7 +44,8 @@ export enum ProxyRuleType {
 	MatchPatternUrl,
 	RegexHost,
 	RegexUrl,
-	Exact
+	Exact,
+	DomainSubdomain
 }
 export enum CompiledProxyRuleType {
 	RegexHost,
@@ -61,7 +62,10 @@ export enum CompiledProxyRuleType {
 	/** Matches domain and its subdomains including path in the end of each */
 	SearchDomainSubdomainAndPath
 }
-
+export enum CompiledProxyRuleSource {
+	Manual,
+	Subscriptions
+}
 export enum ProxyServerForProtocol {
 	Http,
 	SSL,
@@ -151,8 +155,9 @@ export class FailedRequestType {
 
 export type ProxyableDomainType = {
 	domain: string,
-	hasMatchingRule: boolean,
-	ruleIsForThisHost: boolean
+	ruleMatched: boolean,
+	ruleMatchedThisHost: boolean,
+	ruleSource: CompiledProxyRuleSource
 }
 
 export type SettingsPageInternalDataType = {
@@ -180,10 +185,11 @@ export class ProxyableLogDataType {
 	public tabId: number;
 	public logType: ProxyableLogType;
 	public url: string;
-	public enabled?: boolean;
 	public sourceDomain: string;
-	public rule: string;
+	public ruleText: string;
+	public ruleSource: CompiledProxyRuleSource;
 	public whitelist?: boolean;
+	
 
 	get logTypeName(): string {
 		return ProxyableLogType[this.logType];
@@ -316,12 +322,14 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 }
 
 export class ProxyRule implements Cloneable {
+
 	public ruleType: ProxyRuleType;
 	public sourceDomain: string;
 	public autoGeneratePattern: boolean;
 	public rulePattern: string;
 	public ruleRegex: string;
 	public ruleExact: string;
+	public ruleSearch: string;
 	public proxy: ProxyServer;
 	public enabled: boolean = true;
 	public whiteList: boolean = false;
@@ -340,6 +348,9 @@ export class ProxyRule implements Cloneable {
 			case ProxyRuleType.RegexHost:
 			case ProxyRuleType.RegexUrl:
 				return this.ruleRegex;
+
+			case ProxyRuleType.DomainSubdomain:
+				return this.ruleSearch;
 
 			case ProxyRuleType.Exact:
 				return this.ruleExact;
@@ -400,6 +411,7 @@ export class ProxyRule implements Cloneable {
 
 export class CompiledProxyRule {
 	public compiledRuleType: CompiledProxyRuleType;
+	public compiledRuleSource: CompiledProxyRuleSource;
 	public regex?: RegExp;
 	public search?: string;
 
@@ -408,7 +420,8 @@ export class CompiledProxyRule {
 	public proxy: ProxyServer;
 	public whiteList: boolean = false;
 
-	get rule(): string {
+	/**getting rule text */
+	get ruleText(): string {
 		// why ruleType is string? converting to int
 		switch (+this.compiledRuleType) {
 			case CompiledProxyRuleType.RegexHost:
@@ -516,6 +529,8 @@ export enum ProxyRulesSubscriptionRuleType {
 	SearchDomain,
 	/** Matches domain and path */
 	SearchDomainAndPath,
+	/** Matches domain and its subdomains */
+	SearchDomainSubdomain,
 	/** Matches domain and its subdomains including path in the end of each */
 	SearchDomainSubdomainAndPath
 }
