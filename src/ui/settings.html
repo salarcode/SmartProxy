@@ -482,10 +482,10 @@
 							The following list is the list of hosts that proxy should not be applied to.
 						</p>
 						<div class="radio">
-							<label>
-								<input type="checkbox" id="chkEnableBypassForAlwaysEnable" name="chkEnableBypassForAlwaysEnable">
-								<span data-localize="settingsBypassEnableForAlways">Enable for 'Always Enable' mode</span>
-							</label>
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="chkEnableBypassForAlwaysEnable">
+								<label class="custom-control-label" for="chkEnableBypassForAlwaysEnable" data-localize="settingsBypassEnableForAlways">Enable for 'Always Enable' mode</span>
+							</div>
 						</div>
 
 						<div class="form-group">
@@ -793,8 +793,10 @@
 						</div>
 						<div class="form-group col-sm-6">
 							<br />
-							<input type="checkbox" class="" id="chkEnabled" checked>
-							<label for="chkEnabled" data-localize="settingsServerSubscriptionEnabled">Enabled</label>
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="chkServerSubscriptionEnabled" checked>
+								<label class="custom-control-label" for="chkServerSubscriptionEnabled" data-localize="settingsServerSubscriptionEnabled">Enabled</label>
+							</div>
 						</div>
 					</div>
 					<div class="row">
@@ -881,8 +883,10 @@
 						</div>
 						<div class="form-group col-sm-6">
 							<br />
-							<input type="checkbox" class="" id="chkEnabled" checked>
-							<label for="chkEnabled" data-localize="settingsRulesSubscriptionEnabled">Enabled</label>
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="chkRulesSubscriptionEnabled" checked>
+								<label class="custom-control-label" for="chkRulesSubscriptionEnabled" data-localize="settingsRulesSubscriptionEnabled">Enabled</label>
+							</div>
 						</div>
 					</div>
 					<div class="row">

@@ -735,7 +735,7 @@ export class settingsPage {
 			modalContainer.find("#txtName").val(subscription.name);
 			modalContainer.find("#txtUrl").val(subscription.url);
 			modalContainer.find("#numRefreshRate").val(subscription.refreshRate);
-			modalContainer.find("#chkEnabled").prop('checked', subscription.enabled);
+			modalContainer.find("#chkServerSubscriptionEnabled").prop('checked', subscription.enabled);
 			modalContainer.find("#cmbServerSubscriptionProtocol").val(subscription.proxyProtocol);
 			modalContainer.find("#cmbServerSubscriptionObfuscation").val(subscription.obfuscation);
 			modalContainer.find("#cmbServerSubscriptionFormat").val(subscription.format);
@@ -752,7 +752,7 @@ export class settingsPage {
 			modalContainer.find("#txtName").val(settingsPage.generateNewSubscriptionName());
 			modalContainer.find("#txtUrl").val("");
 			modalContainer.find("#numRefreshRate").val(0);
-			modalContainer.find("#chkEnabled").prop('checked', true);
+			modalContainer.find("#chkServerSubscriptionEnabled").prop('checked', true);
 			modalContainer.find("#cmbServerSubscriptionProtocol")[0].selectedIndex = 0;
 			modalContainer.find("#cmbServerSubscriptionObfuscation")[0].selectedIndex = 0;
 			modalContainer.find("#cmbServerSubscriptionFormat")[0].selectedIndex = 0;
@@ -767,7 +767,7 @@ export class settingsPage {
 
 		subscription.name = modalContainer.find("#txtName").val();
 		subscription.url = modalContainer.find("#txtUrl").val();
-		subscription.enabled = modalContainer.find("#chkEnabled").prop('checked');
+		subscription.enabled = modalContainer.find("#chkServerSubscriptionEnabled").prop('checked');
 		subscription.proxyProtocol = modalContainer.find("#cmbServerSubscriptionProtocol").val();
 		subscription.refreshRate = +(modalContainer.find("#numRefreshRate").val() || 0);
 		subscription.obfuscation = modalContainer.find("#cmbServerSubscriptionObfuscation").val();
@@ -786,7 +786,7 @@ export class settingsPage {
 			modalContainer.find("#txtName").val(subscription.name);
 			modalContainer.find("#txtUrl").val(subscription.url);
 			modalContainer.find("#numRefreshRate").val(subscription.refreshRate);
-			modalContainer.find("#chkEnabled").prop('checked', subscription.enabled);
+			modalContainer.find("#chkRulesSubscriptionEnabled").prop('checked', subscription.enabled);
 			modalContainer.find("#cmbRulesSubscriptionObfuscation").val(subscription.obfuscation);
 			modalContainer.find("#cmbRulesSubscriptionFormat").val(subscription.format);
 			modalContainer.find("#cmbRulesSubscriptionApplyProxy").val(subscription.applyProxy || SpecialRequestApplyProxyMode.CurrentProxy);
@@ -802,7 +802,7 @@ export class settingsPage {
 			modalContainer.find("#txtName").val(settingsPage.generateNewRulesSubscriptionName());
 			modalContainer.find("#txtUrl").val("");
 			modalContainer.find("#numRefreshRate").val(0);
-			modalContainer.find("#chkEnabled").prop('checked', true);
+			modalContainer.find("#chkRulesSubscriptionEnabled").prop('checked', true);
 			modalContainer.find("#cmbRulesSubscriptionObfuscation")[0].selectedIndex = -1; // default is not selected
 			modalContainer.find("#cmbRulesSubscriptionFormat")[0].selectedIndex = -1; // default is not selected
 			modalContainer.find("#cmbRulesSubscriptionApplyProxy")[0].selectedIndex = 0;
@@ -816,7 +816,7 @@ export class settingsPage {
 
 		subscription.name = modalContainer.find("#txtName").val();
 		subscription.url = modalContainer.find("#txtUrl").val();
-		subscription.enabled = modalContainer.find("#chkEnabled").prop('checked');
+		subscription.enabled = modalContainer.find("#chkRulesSubscriptionEnabled").prop('checked');
 		subscription.refreshRate = +(modalContainer.find("#numRefreshRate").val() || 0);
 		subscription.obfuscation = modalContainer.find("#cmbRulesSubscriptionObfuscation").val();
 		subscription.format = +modalContainer.find("#cmbRulesSubscriptionFormat").val();
