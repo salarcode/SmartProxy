@@ -47,6 +47,10 @@
 		"message": "以下页面使用代理",
 		"description": ""
 	},
+	"popupRuleIsFromSubscription": {
+		"message": "(来自订阅)",
+		"description": ""
+	},
 	"popupProxyableResources": {
 		"message": "可代理的资源",
 		"description": ""
@@ -129,6 +133,10 @@
 	},
 	"proxyableEnableButtonDomain": {
 		"message": "已启用的域名：",
+		"description": ""
+	},
+	"proxyableSubscriptionRule": {
+		"message": "(订阅的规则)",
 		"description": ""
 	},
 	"proxyableDeleteRuleConfirm": {
@@ -1213,6 +1221,10 @@
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
 		"message": "无法获取代理。",
+		"description": ""
+	},
+	"settingsRulesSubscriptionRefreshOnDisabled": {
+		"message": "无法刷新已禁用的订阅",
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestSuccess": {

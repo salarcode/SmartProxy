@@ -47,6 +47,10 @@
 		"message": "Включить прокси для:",
 		"description": ""
 	},
+	"popupRuleIsFromSubscription": {
+		"message": "(Из подписки)",
+		"description": ""
+	},
 	"popupProxyableResources": {
 		"message": "Прокси-ресурсы",
 		"description": ""
@@ -129,6 +133,10 @@
 	},
 	"proxyableEnableButtonDomain": {
 		"message": "Включить для: ",
+		"description": ""
+	},
+	"proxyableSubscriptionRule": {
+		"message": "(Правило подписки)",
 		"description": ""
 	},
 	"proxyableDeleteRuleConfirm": {
@@ -1213,6 +1221,10 @@
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
 		"message": "Не удалось получить прокси.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionRefreshOnDisabled": {
+		"message": "Нельзя обновлять отключённую подписку",
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestSuccess": {

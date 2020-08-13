@@ -47,6 +47,10 @@
 		"message": "Proxy aktivieren",
 		"description": ""
 	},
+	"popupRuleIsFromSubscription": {
+		"message": "(From subscription)",
+		"description": ""
+	},
 	"popupProxyableResources": {
 		"message": "Proxyfähige Quellen",
 		"description": ""
@@ -129,6 +133,10 @@
 	},
 	"proxyableEnableButtonDomain": {
 		"message": "Aktivieren für: ",
+		"description": ""
+	},
+	"proxyableSubscriptionRule": {
+		"message": "(Subscription Rule)",
 		"description": ""
 	},
 	"proxyableDeleteRuleConfirm": {
@@ -1212,7 +1220,11 @@
 		"description": ""
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
-		"message": "Failed to get proxies.",
+		"message": "Failed to get rules.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionRefreshOnDisabled": {
+		"message": "Cannot refresh a disabled subscription",
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestSuccess": {

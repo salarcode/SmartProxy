@@ -47,6 +47,10 @@
 		"message": "Proxy'yi etkinleştir",
 		"description": ""
 	},
+	"popupRuleIsFromSubscription": {
+		"message": "(From subscription)",
+		"description": ""
+	},
 	"popupProxyableResources": {
 		"message": "Yedeklenebilir Kaynaklar",
 		"description": ""
@@ -129,6 +133,10 @@
 	},
 	"proxyableEnableButtonDomain": {
 		"message": "İçin Etkinleştir: ",
+		"description": ""
+	},
+	"proxyableSubscriptionRule": {
+		"message": "(Subscription Rule)",
 		"description": ""
 	},
 	"proxyableDeleteRuleConfirm": {
@@ -1212,7 +1220,11 @@
 		"description": ""
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
-		"message": "Failed to get proxies.",
+		"message": "Failed to get rules.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionRefreshOnDisabled": {
+		"message": "Cannot refresh a disabled subscription",
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestSuccess": {

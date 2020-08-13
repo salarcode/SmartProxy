@@ -47,6 +47,10 @@
 		"message": "فعال کردن پراکسی برای",
 		"description": ""
 	},
+	"popupRuleIsFromSubscription": {
+		"message": "(از اشتراکات)",
+		"description": ""
+	},
 	"popupProxyableResources": {
 		"message": "صفحات قابل پراکسی شدن",
 		"description": ""
@@ -129,6 +133,10 @@
 	},
 	"proxyableEnableButtonDomain": {
 		"message": "فعال کردن برای: ",
+		"description": ""
+	},
+	"proxyableSubscriptionRule": {
+		"message": "(از قانون های اشتراکات)",
 		"description": ""
 	},
 	"proxyableDeleteRuleConfirm": {
@@ -1213,6 +1221,10 @@
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
 		"message": "خطا در دریافت لیست قوانین.",
+		"description": ""
+	},
+	"settingsRulesSubscriptionRefreshOnDisabled": {
+		"message": "امکان به روزرسانی اشتراک غیر فعال وجود ندارد",
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestSuccess": {
