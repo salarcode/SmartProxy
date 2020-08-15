@@ -38,7 +38,7 @@ export class Core {
 	public static initializeApp() {
 
 		// comment for debugging
-		//Debug.disable(); 
+		Debug.disable();
 
 		Settings.onInitialized = (() => {
 			// on settings read success

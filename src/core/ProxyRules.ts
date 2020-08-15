@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
+import { browser } from "../lib/environment";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType, CompiledProxyRuleSource } from "./definitions";
