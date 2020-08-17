@@ -22,453 +22,487 @@ import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
 
 export class popup {
-    private static popupData: PopupInternalDataType = null;
-
-    public static initialize() {
-
-        popup.onDocumentReady(popup.bindEvents);
-
-        PolyFill.runtimeSendMessage(Messages.PopupGetInitialData,
-            (dataForPopup: PopupInternalDataType) => {
-
-                if (dataForPopup != null) {
-                    popup.popupData = dataForPopup;
-                    popup.populateDataForPopup(dataForPopup);
-                }
-            },
-            (error: Error) => {
-                PolyFill.runtimeSendMessage("PopupGetInitialData failed! > " + error);
-            });
-
-        // start handling messages
-        browser.runtime.onMessage.addListener(popup.handleMessages);
-
-        popup.onDocumentReady(CommonUi.localizeHtmlPage);
-    }
-
-    private static handleMessages(message: string, sender: any, sendResponse: Function) {
-
-        if (typeof (message) == "object") {
-
-            if (message["command"] === Messages.WebFailedRequestNotification) {
-                if (message["tabId"] == null)
-                    return;
-
-                let sourceTabId = popup.popupData.currentTabId;
-
-                let tabId = message["tabId"];
-                if (tabId != sourceTabId) {
-                    return;
-                }
-
-                let failedRequests: FailedRequestType[] = message["failedRequests"];
-
-                // display the failed requests
-                popup.populateFailedRequests(failedRequests);
-
-                // Chrome requires a response
-                if (sendResponse)
-                    sendResponse(null);
-
-                return;
-            }
-        }
-        // Chrome requires a response
-        if (sendResponse)
-            sendResponse(null);
-    }
-
-    private static onDocumentReady(callback: Function) {
-        jQuery(document).ready(callback);
-    }
-
-    private static bindEvents() {
-        jQuery("#openSettings").click(() => {
-            PolyFill.runtimeOpenOptionsPage();
-            popup.closeSelf();
-        });
-        jQuery("#openProxyable").click(() => {
-            if (!popup.popupData)
-                return;
-
-            var sourceTabId = popup.popupData.currentTabId;
-            browser.tabs.create(
-                {
-                    active: true,
-                    //openerTabId: null,
-                    url: browser.extension.getURL(`ui/proxyable.html?id=${sourceTabId}`)
-                }
-            );
-            popup.closeSelf();
-        });
-
-        jQuery("#divFailedRequests a").click(() => {
-            jQuery(".popup-menu-failed").toggle();
-        });
-
-        jQuery("#btnAddFailedRequests").click(popup.onAddFailedRequestsClick);
-    }
-
-    private static populateDataForPopup(dataForPopup: PopupInternalDataType) {
-
-        popup.populateUpdateAvailable(dataForPopup);
-        popup.populateUnsupportedFeatures(dataForPopup);
-        popup.populateProxyMode(dataForPopup.proxyMode);
-        popup.populateActiveProxy(dataForPopup);
-        popup.populateProxyableDomainList(dataForPopup.proxyableDomains);
-        popup.populateFailedRequests(dataForPopup.failedRequests);
-    }
-
-    private static populateUpdateAvailable(dataForPopup: PopupInternalDataType) {
-        if (dataForPopup.updateAvailableText && dataForPopup.updateInfo) {
-            jQuery("#divUpdateIsAvailable").show()
-                .find("a")
-                .text(dataForPopup.updateAvailableText)
-                .attr("href", dataForPopup.updateInfo.downloadPage);
-        }
-    }
-
-    private static populateUnsupportedFeatures(dataForPopup: PopupInternalDataType) {
-        if (dataForPopup.notSupportedSetProxySettings) {
-            jQuery("#linkSystemProxy").hide();
-        }
-    }
-
-    private static populateProxyMode(proxyMode: ProxyModeType) {
-        let divProxyMode = jQuery("#divProxyMode");
-        divProxyMode.find("li.disabled a").css("cursor", "default");
-
-        divProxyMode.find(".nav-link").removeClass("active");
-
-        divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
-            .addClass("active")
-            .parent("li");
-
-        divProxyMode.find(".nav-link:not(.disabled)")
-            .on("click", popup.onProxyModeClick);
-    }
-
-    private static populateActiveProxy(dataForPopup: PopupInternalDataType) {
-        let divActiveProxy = jQuery("#divActiveProxy");
-        let cmbActiveProxy = divActiveProxy.find("#cmbActiveProxy");
-
-        if (!dataForPopup.proxyServers)
-            dataForPopup.proxyServers = [];
-        if (!dataForPopup.proxyServersSubscribed)
-            dataForPopup.proxyServersSubscribed = [];
-
-        // remove previous items
-        cmbActiveProxy.find("option").remove();
-
-        if (dataForPopup.proxyServers.length > 1 ||
-            dataForPopup.proxyServersSubscribed.length) {
-
-            // display select combo
-            divActiveProxy.show();
-
-            let activeProxyName = "";
-            if (dataForPopup.activeProxyServer != null) {
-                activeProxyName = dataForPopup.activeProxyServer.name;
-            }
-
-            // display select options
-            jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
-
-                // proxyServer
-                let $option = jQuery("<option>")
-                    .attr("value", proxyServer.name)
-                    .text(proxyServer.name)
-                    .appendTo(cmbActiveProxy);
-
-                $option.prop("selected", (proxyServer.name === activeProxyName));
-            });
-
-            if (dataForPopup.proxyServersSubscribed.length > 0) {
-                let subscriptionGroup = jQuery("<optgroup>")
-                    // -Subscriptions-
-                    .attr("label", browser.i18n.getMessage("popupSubscriptions"))
-                    .appendTo(cmbActiveProxy);
-
-                dataForPopup.proxyServersSubscribed.forEach(proxyServer => {
-                    // proxyServer
-                    let $option = jQuery("<option>")
-                        .attr("value", proxyServer.name)
-                        .text(proxyServer.name)
-                        .appendTo(subscriptionGroup);
-
-                    $option.prop("selected", (proxyServer.name === activeProxyName));
-                });
-            }
-
-            cmbActiveProxy.on("change", popup.onActiveProxyChange);
-
-        } else {
-            // for one or less we dont show the select proxy
-            divActiveProxy.hide();
-        }
-    }
-
-    private static populateProxyableDomainList(proxyableDomainList: ProxyableDomainType[]) {
-        if (!proxyableDomainList || !proxyableDomainList.length) return;
-
-        var divProxyableContainer = jQuery("#divProxyableContainer");
-        var divProxyableDomain = divProxyableContainer.find("#divProxyableDomains");
-        var divProxyableDomainItem = divProxyableDomain.find("#divProxyableDomainItem");
-
-        // display the list container
-        divProxyableContainer.show();
-
-        // this is proxyable
-        jQuery("#openProxyable").show();
-
-        for (let i = 0; i < proxyableDomainList.length; i++) {
-            let domainResult = proxyableDomainList[i];
-            let domain = domainResult.domain;
-
-            let item = divProxyableDomainItem.clone();
-            item.show()
-                .find("span.proxyable-host-name")
-                .text(domain);
-            item.appendTo(divProxyableDomain);
-            item.data("domainResult", domainResult);
-
-            var itemIcon = item.find(".proxyable-status-icon");
-            if (domainResult.ruleSource == CompiledProxyRuleSource.Subscriptions) {
-                // disabling the item for subscriptions since these rules can't be disabled/enabled individually
-
-                itemIcon.removeClass("fa-square")
-                    .addClass("fas fa-check fa-sm");
-                item.show().find("div.proxyable-is-subscription").show();
-
-                item.find(".nav-link").addClass("disabled")
-                    .attr("title", `Subscription Rule, can't be disabled individually`);
-            }
-            else if (domainResult.ruleMatched) {
-                itemIcon.removeClass("fa-square")
-                    .addClass("fa-check-square");
-
-                // if the matching rule is not for this host
-                if (!domainResult.ruleMatchedThisHost) {
-                    item.find(".nav-link").addClass("disabled")
-                        .attr("title", `Enabled by other domains`);
-                }
-            } else {
-                itemIcon.removeClass("fa-check-square")
-                    .addClass("fa-square");
-            }
-
-            item.on("click", popup.onProxyableDomainClick);
-
-            divProxyableDomainItem.hide();
-        }
-    }
-
-    private static populateFailedRequests(failedRequests: FailedRequestType[]) {
-
-        var divFailedRequests = jQuery("#divFailedRequests");
-
-        if (failedRequests && failedRequests.length) {
-
-            let failedRequestCount = 0;
-            let failedRequestsItemsContainer = jQuery(".popup-menu-failed .failed-request-container");
-
-            // the item template
-            let failedRequestsItemTemplate = failedRequestsItemsContainer.find(".failed-request-template");
-            failedRequestsItemTemplate.hide();
-
-            // save checked domains, preventing check change on refresh
-            let domainsStatus: { [index: string]: any } = {};
-            failedRequestsItemsContainer.find(".request-box input:checkbox").each((index: number, e: any) => {
-                var element = jQuery(e);
-                domainsStatus[element.attr("data-domain")] = element.prop("checked");
-            });
-
-            // remove previous items
-            failedRequestsItemsContainer.find(".request-box:not(.failed-request-template)").remove();
-
-            // Order by parent domain
-            failedRequests = failedRequests.sort((a, b) => {
-                if (a._domainSortable === null)
-                    a._domainSortable = Utils.reverseString(a.domain);
-                if (b._domainSortable === null)
-                    b._domainSortable = Utils.reverseString(b.domain);
-
-                if (a._domainSortable > b._domainSortable)
-                    return 1;
-                if (a._domainSortable < b._domainSortable)
-                    return -1;
-                return 0;
-            });
-
-            for (let i = 0; i < failedRequests.length; i++) {
-                let request = failedRequests[i];
-
-                if (request.hasRule || request.ignored)
-                    // don't add if the request has rule
-                    continue;
-
-                let newItem = failedRequestsItemTemplate.clone();
-                newItem.find(".request-name a").attr("href", request.url);
-                newItem.find(".request-name label>span").text(request.domain);
-
-                let newItemCheckbox = newItem.find("input");
-                newItemCheckbox.attr("data-domain", request.domain);
-
-                if (request.isRootHost) {
-                    failedRequestCount += request.hitCount;
-
-                    newItemCheckbox.prop("checked", false);
-                } else {
-                    newItem.find(".failed-request-root").show();
-                    newItemCheckbox.prop("checked", true);
-                    newItem.addClass("request-box-dependant");
-                }
-                newItem.find(".failed-request-count").text(request.hitCount).show();
-
-                // set previous status, preventing check change on refresh
-                let previousStatus = domainsStatus[request.domain];
-                if (previousStatus != null) {
-                    newItemCheckbox.prop("checked", previousStatus);
-                }
-
-                newItem.removeClass("failed-request-template");
-                newItem.show();
-
-                failedRequestsItemsContainer.append(newItem);
-            }
-
-            // updating the failed request count
-            divFailedRequests.find("#lblFailedRequestCount").text(failedRequestCount);
-
-            if (failedRequestCount) {
-                // display the failed requests block
-                divFailedRequests.show();
-            } else {
-                divFailedRequests.hide();
-            }
-        } else {
-            divFailedRequests.hide();
-        }
-    }
-
-    //#region Events
-
-    private static onProxyModeClick() {
-        let element = jQuery(this);
-        let selectedProxyMode = element.attr("data-proxyMode");
-
-        if (popup.popupData.notAllowedSetProxySettings &&
-            selectedProxyMode == ProxyModeType.SystemProxy) {
-
-            let message: string;
-            if (environment.chrome)
-                message = browser.i18n.getMessage("popupNotAllowedSetProxySettingsChrome");
-            else
-                message = browser.i18n.getMessage("popupNotAllowedSetProxySettingsFirefox");
-
-            messageBox.error(message, 5000);
-            return;
-        }
-
-        // change proxy mode
-        PolyFill.runtimeSendMessage({
-            command: Messages.PopupChangeProxyMode,
-            proxyMode: selectedProxyMode
-        });
-
-        if (selectedProxyMode != ProxyModeType.Direct &&
-            selectedProxyMode != ProxyModeType.SystemProxy &&
-            !popup.popupData.hasProxyServers) {
-            // open the settings page
-            PolyFill.runtimeOpenOptionsPage();
-        }
-        popup.closeSelf();
-    }
-
-    private static onActiveProxyChange() {
-        let cmbActiveProxy = jQuery("#divActiveProxy #cmbActiveProxy");
-
-        let value = cmbActiveProxy.val();
-        if (!value) return;
-
-        PolyFill.runtimeSendMessage(
-            {
-                command: Messages.PopupChangeActiveProxyServer,
-                name: value
-            });
-    }
-
-    private static onProxyableDomainClick() {
-        let domainResult: ProxyableDomainType = jQuery(this).data("domainResult");
-
-        if (domainResult.ruleSource == CompiledProxyRuleSource.Subscriptions)
-            return;
-
-        let domain = domainResult.domain;
-        let hasMatchingRule = domainResult.ruleMatched;
-        let ruleIsForThisHost = domainResult.ruleMatchedThisHost;
-
-
-        if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
-            PolyFill.runtimeSendMessage(`proxyable-host-name: ${domain}`);
-
-            PolyFill.runtimeSendMessage({
-                command: Messages.PopupToggleProxyForDomain,
-                domain: domain
-            });
-
-            popup.closeSelf();
-        } else {
-            PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
-        }
-    }
-
-    private static onAddFailedRequestsClick() {
-        let domainList: string[] = [];
-
-        jQuery(".failed-request-container .request-box input:checked").each((index: number, e: any) => {
-            let element = jQuery(e);
-            let domain = element.attr("data-domain");
-            if (domain)
-                domainList.push(domain);
-        });
-
-        if (domainList.length)
-            // Add the selected domains to rule list?
-            if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
-                confirm(browser.i18n.getMessage("popupAddFailedRequestsConfirm"))) {
-
-                // send message to the core
-                PolyFill.runtimeSendMessage(
-                    {
-                        command: Messages.PopupAddDomainListToProxyRule,
-                        domainList: domainList,
-                        tabId: popup.popupData.currentTabId
-                    },
-                    (response: any) => {
-                        if (!response) return;
-                        if (response.failedRequests) {
-
-                            // display the failed requests
-                            popup.populateFailedRequests(response.failedRequests);
-                        }
-                    });
-
-                popup.closeSelf();
-            }
-    }
-
-    private static closeSelf() {
-        if (!environment.mobile) {
-            window.close();
-        }
-        else {
-            PolyFill.tabsGetCurrent(details => {
-                return PolyFill.tabsRemove(details.id);
-            });
-        }
-    }
-    //#endregion
+	private static popupData: PopupInternalDataType = null;
+
+	public static initialize() {
+
+		popup.onDocumentReady(popup.bindEvents);
+
+		PolyFill.runtimeSendMessage(Messages.PopupGetInitialData,
+			(dataForPopup: PopupInternalDataType) => {
+
+				if (dataForPopup != null) {
+					popup.popupData = dataForPopup;
+					popup.populateDataForPopup(dataForPopup);
+				}
+			},
+			(error: Error) => {
+				PolyFill.runtimeSendMessage("PopupGetInitialData failed! > " + error);
+			});
+
+		// start handling messages
+		browser.runtime.onMessage.addListener(popup.handleMessages);
+
+		popup.onDocumentReady(CommonUi.localizeHtmlPage);
+	}
+
+	private static handleMessages(message: string, sender: any, sendResponse: Function) {
+
+		if (typeof (message) == "object") {
+
+			if (message["command"] === Messages.WebFailedRequestNotification) {
+				if (message["tabId"] == null)
+					return;
+
+				let sourceTabId = popup.popupData.currentTabId;
+
+				let tabId = message["tabId"];
+				if (tabId != sourceTabId) {
+					return;
+				}
+
+				let failedRequests: FailedRequestType[] = message["failedRequests"];
+
+				// display the failed requests
+				popup.populateFailedRequests(failedRequests);
+
+				// Chrome requires a response
+				if (sendResponse)
+					sendResponse(null);
+
+				return;
+			}
+		}
+		// Chrome requires a response
+		if (sendResponse)
+			sendResponse(null);
+	}
+
+	private static onDocumentReady(callback: Function) {
+		jQuery(document).ready(callback);
+	}
+
+	private static bindEvents() {
+		jQuery("#openSettings").click(() => {
+			PolyFill.runtimeOpenOptionsPage();
+			popup.closeSelf();
+		});
+		jQuery("#openProxyable").click(() => {
+			if (!popup.popupData)
+				return;
+
+			var sourceTabId = popup.popupData.currentTabId;
+			browser.tabs.create(
+				{
+					active: true,
+					//openerTabId: null,
+					url: browser.extension.getURL(`ui/proxyable.html?id=${sourceTabId}`)
+				}
+			);
+			popup.closeSelf();
+		});
+
+		jQuery("#divFailedRequests a").click(() => {
+			jQuery(".popup-menu-failed").toggle();
+		});
+
+		jQuery("#btnAddFailedRequests").click(popup.onAddFailedRequestsClick);
+		jQuery("#btnAddIgnoredFailures").click(popup.onAddIgnoredFailuresClick);
+	}
+
+	private static populateDataForPopup(dataForPopup: PopupInternalDataType) {
+
+		popup.populateUpdateAvailable(dataForPopup);
+		popup.populateUnsupportedFeatures(dataForPopup);
+		popup.populateProxyMode(dataForPopup.proxyMode);
+		popup.populateActiveProxy(dataForPopup);
+		popup.populateProxyableDomainList(dataForPopup.proxyableDomains);
+		popup.populateFailedRequests(dataForPopup.failedRequests);
+	}
+
+	private static populateUpdateAvailable(dataForPopup: PopupInternalDataType) {
+		if (dataForPopup.updateAvailableText && dataForPopup.updateInfo) {
+			jQuery("#divUpdateIsAvailable").show()
+				.find("a")
+				.text(dataForPopup.updateAvailableText)
+				.attr("href", dataForPopup.updateInfo.downloadPage);
+		}
+	}
+
+	private static populateUnsupportedFeatures(dataForPopup: PopupInternalDataType) {
+		if (dataForPopup.notSupportedSetProxySettings) {
+			jQuery("#linkSystemProxy").hide();
+		}
+	}
+
+	private static populateProxyMode(proxyMode: ProxyModeType) {
+		let divProxyMode = jQuery("#divProxyMode");
+		divProxyMode.find("li.disabled a").css("cursor", "default");
+
+		divProxyMode.find(".nav-link").removeClass("active");
+
+		divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
+			.addClass("active")
+			.parent("li");
+
+		divProxyMode.find(".nav-link:not(.disabled)")
+			.on("click", popup.onProxyModeClick);
+	}
+
+	private static populateActiveProxy(dataForPopup: PopupInternalDataType) {
+		let divActiveProxy = jQuery("#divActiveProxy");
+		let cmbActiveProxy = divActiveProxy.find("#cmbActiveProxy");
+
+		if (!dataForPopup.proxyServers)
+			dataForPopup.proxyServers = [];
+		if (!dataForPopup.proxyServersSubscribed)
+			dataForPopup.proxyServersSubscribed = [];
+
+		// remove previous items
+		cmbActiveProxy.find("option").remove();
+
+		if (dataForPopup.proxyServers.length > 1 ||
+			dataForPopup.proxyServersSubscribed.length) {
+
+			// display select combo
+			divActiveProxy.show();
+
+			let activeProxyName = "";
+			if (dataForPopup.activeProxyServer != null) {
+				activeProxyName = dataForPopup.activeProxyServer.name;
+			}
+
+			// display select options
+			jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
+
+				// proxyServer
+				let $option = jQuery("<option>")
+					.attr("value", proxyServer.name)
+					.text(proxyServer.name)
+					.appendTo(cmbActiveProxy);
+
+				$option.prop("selected", (proxyServer.name === activeProxyName));
+			});
+
+			if (dataForPopup.proxyServersSubscribed.length > 0) {
+				let subscriptionGroup = jQuery("<optgroup>")
+					// -Subscriptions-
+					.attr("label", browser.i18n.getMessage("popupSubscriptions"))
+					.appendTo(cmbActiveProxy);
+
+				dataForPopup.proxyServersSubscribed.forEach(proxyServer => {
+					// proxyServer
+					let $option = jQuery("<option>")
+						.attr("value", proxyServer.name)
+						.text(proxyServer.name)
+						.appendTo(subscriptionGroup);
+
+					$option.prop("selected", (proxyServer.name === activeProxyName));
+				});
+			}
+
+			cmbActiveProxy.on("change", popup.onActiveProxyChange);
+
+		} else {
+			// for one or less we dont show the select proxy
+			divActiveProxy.hide();
+		}
+	}
+
+	private static populateProxyableDomainList(proxyableDomainList: ProxyableDomainType[]) {
+		if (!proxyableDomainList || !proxyableDomainList.length) return;
+
+		var divProxyableContainer = jQuery("#divProxyableContainer");
+		var divProxyableDomain = divProxyableContainer.find("#divProxyableDomains");
+		var divProxyableDomainItem = divProxyableDomain.find("#divProxyableDomainItem");
+
+		// display the list container
+		divProxyableContainer.show();
+
+		// this is proxyable
+		jQuery("#openProxyable").show();
+
+		for (let i = 0; i < proxyableDomainList.length; i++) {
+			let domainResult = proxyableDomainList[i];
+			let domain = domainResult.domain;
+
+			let item = divProxyableDomainItem.clone();
+			item.show()
+				.find("span.proxyable-host-name")
+				.text(domain);
+			item.appendTo(divProxyableDomain);
+			item.data("domainResult", domainResult);
+
+			var itemIcon = item.find(".proxyable-status-icon");
+			if (domainResult.ruleSource == CompiledProxyRuleSource.Subscriptions) {
+				// disabling the item for subscriptions since these rules can't be disabled/enabled individually
+
+				itemIcon.removeClass("fa-square")
+					.addClass("fas fa-check fa-sm");
+				item.show().find("div.proxyable-is-subscription").show();
+
+				item.find(".nav-link").addClass("disabled")
+					.attr("title", `Subscription Rule, can't be disabled individually`);
+			}
+			else if (domainResult.ruleMatched) {
+				itemIcon.removeClass("fa-square")
+					.addClass("fa-check-square");
+
+				// if the matching rule is not for this host
+				if (!domainResult.ruleMatchedThisHost) {
+					item.find(".nav-link").addClass("disabled")
+						.attr("title", `Enabled by other domains`);
+				}
+			} else {
+				itemIcon.removeClass("fa-check-square")
+					.addClass("fa-square");
+			}
+
+			item.on("click", popup.onProxyableDomainClick);
+
+			divProxyableDomainItem.hide();
+		}
+	}
+
+	private static populateFailedRequests(failedRequests: FailedRequestType[]) {
+
+		var divFailedRequests = jQuery("#divFailedRequests");
+
+		if (failedRequests && failedRequests.length) {
+
+			let failedRequestCount = 0;
+			let failedRequestsItemsContainer = jQuery(".popup-menu-failed .failed-request-container");
+
+			// the item template
+			let failedRequestsItemTemplate = failedRequestsItemsContainer.find(".failed-request-template");
+			failedRequestsItemTemplate.hide();
+
+			// save checked domains, preventing check change on refresh
+			let domainsStatus: { [index: string]: any } = {};
+			failedRequestsItemsContainer.find(".request-box input:checkbox").each((index: number, e: any) => {
+				var element = jQuery(e);
+				domainsStatus[element.attr("data-domain")] = element.prop("checked");
+			});
+
+			// remove previous items
+			failedRequestsItemsContainer.find(".request-box:not(.failed-request-template)").remove();
+
+			// Order by parent domain
+			failedRequests = failedRequests.sort((a, b) => {
+				if (a._domainSortable === null)
+					a._domainSortable = Utils.reverseString(a.domain);
+				if (b._domainSortable === null)
+					b._domainSortable = Utils.reverseString(b.domain);
+
+				if (a._domainSortable > b._domainSortable)
+					return 1;
+				if (a._domainSortable < b._domainSortable)
+					return -1;
+				return 0;
+			});
+
+			for (let i = 0; i < failedRequests.length; i++) {
+				let request = failedRequests[i];
+
+				if (request.hasRule || request.ignored)
+					// don't add if the request has rule
+					continue;
+
+				let newItem = failedRequestsItemTemplate.clone();
+				newItem.find(".request-name a").attr("href", request.url);
+				newItem.find(".request-name label>span").text(request.domain);
+
+				let newItemCheckbox = newItem.find("input");
+				newItemCheckbox.attr("data-domain", request.domain);
+
+				if (request.isRootHost) {
+					failedRequestCount += request.hitCount;
+
+					newItemCheckbox.prop("checked", false);
+				} else {
+					newItem.find(".failed-request-root").show();
+					newItemCheckbox.prop("checked", true);
+					newItem.addClass("request-box-dependant");
+				}
+				newItem.find(".failed-request-count").text(request.hitCount).show();
+
+				// set previous status, preventing check change on refresh
+				let previousStatus = domainsStatus[request.domain];
+				if (previousStatus != null) {
+					newItemCheckbox.prop("checked", previousStatus);
+				}
+
+				newItem.removeClass("failed-request-template");
+				newItem.show();
+
+				failedRequestsItemsContainer.append(newItem);
+			}
+
+			// updating the failed request count
+			divFailedRequests.find("#lblFailedRequestCount").text(failedRequestCount);
+
+			if (failedRequestCount) {
+				// display the failed requests block
+				divFailedRequests.show();
+			} else {
+				divFailedRequests.hide();
+			}
+		} else {
+			divFailedRequests.hide();
+		}
+	}
+
+	//#region Events
+
+	private static onProxyModeClick() {
+		let element = jQuery(this);
+		let selectedProxyMode = element.attr("data-proxyMode");
+
+		if (popup.popupData.notAllowedSetProxySettings &&
+			selectedProxyMode == ProxyModeType.SystemProxy) {
+
+			let message: string;
+			if (environment.chrome)
+				message = browser.i18n.getMessage("popupNotAllowedSetProxySettingsChrome");
+			else
+				message = browser.i18n.getMessage("popupNotAllowedSetProxySettingsFirefox");
+
+			messageBox.error(message, 5000);
+			return;
+		}
+
+		// change proxy mode
+		PolyFill.runtimeSendMessage({
+			command: Messages.PopupChangeProxyMode,
+			proxyMode: selectedProxyMode
+		});
+
+		if (selectedProxyMode != ProxyModeType.Direct &&
+			selectedProxyMode != ProxyModeType.SystemProxy &&
+			!popup.popupData.hasProxyServers) {
+			// open the settings page
+			PolyFill.runtimeOpenOptionsPage();
+		}
+		popup.closeSelf();
+	}
+
+	private static onActiveProxyChange() {
+		let cmbActiveProxy = jQuery("#divActiveProxy #cmbActiveProxy");
+
+		let value = cmbActiveProxy.val();
+		if (!value) return;
+
+		PolyFill.runtimeSendMessage(
+			{
+				command: Messages.PopupChangeActiveProxyServer,
+				name: value
+			});
+	}
+
+	private static onProxyableDomainClick() {
+		let domainResult: ProxyableDomainType = jQuery(this).data("domainResult");
+
+		if (domainResult.ruleSource == CompiledProxyRuleSource.Subscriptions)
+			return;
+
+		let domain = domainResult.domain;
+		let hasMatchingRule = domainResult.ruleMatched;
+		let ruleIsForThisHost = domainResult.ruleMatchedThisHost;
+
+
+		if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
+			PolyFill.runtimeSendMessage(`proxyable-host-name: ${domain}`);
+
+			PolyFill.runtimeSendMessage({
+				command: Messages.PopupToggleProxyForDomain,
+				domain: domain
+			});
+
+			popup.closeSelf();
+		} else {
+			PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
+		}
+	}
+
+	private static getSelectedFailedRequests(): string[] {
+		let domainList: string[] = [];
+
+		jQuery(".failed-request-container .request-box input:checked").each((index: number, e: any) => {
+			let element = jQuery(e);
+			let domain = element.attr("data-domain");
+			if (domain)
+				domainList.push(domain);
+		});
+		return domainList;
+	}
+	private static onAddFailedRequestsClick() {
+		
+		let domainList = popup.getSelectedFailedRequests();
+
+		if (domainList.length)
+			// Add the selected domains to rule list?
+			if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
+				confirm(browser.i18n.getMessage("popupAddFailedRequestsConfirm"))) {
+
+				// send message to the core
+				PolyFill.runtimeSendMessage(
+					{
+						command: Messages.PopupAddDomainListToProxyRule,
+						domainList: domainList,
+						tabId: popup.popupData.currentTabId
+					},
+					(response: any) => {
+						if (!response) return;
+						if (response.failedRequests) {
+
+							// display the updated failed requests
+							popup.populateFailedRequests(response.failedRequests);
+						}
+					});
+
+				popup.closeSelf();
+			}
+	}
+
+	private static onAddIgnoredFailuresClick() {
+		
+		let domainList = popup.getSelectedFailedRequests();
+
+		if (domainList.length)
+			// Add the selected domains to rule list?
+			if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
+				confirm(browser.i18n.getMessage("popupAddIgnoredFailuresConfirm"))) {
+
+				// send message to the core
+				PolyFill.runtimeSendMessage(
+					{
+						command: Messages.PopupAddDomainListToIgnored,
+						domainList: domainList,
+						tabId: popup.popupData.currentTabId
+					},
+					(response: any) => {
+						if (!response) return;
+						if (response.failedRequests) {
+
+							// display the updated failed requests
+							popup.populateFailedRequests(response.failedRequests);
+						}
+					});
+
+				popup.closeSelf();
+			}
+	}
+	private static closeSelf() {
+		if (!environment.mobile) {
+			window.close();
+		}
+		else {
+			PolyFill.tabsGetCurrent(details => {
+				return PolyFill.tabsRemove(details.id);
+			});
+		}
+	}
+	//#endregion
 }
 
 popup.initialize();

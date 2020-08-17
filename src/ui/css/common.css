@@ -180,7 +180,7 @@ input:invalid {
     display: table-cell;
     vertical-align: top;
     border-right: solid 1px silver;
-    min-width: 250px;
+    min-width: 260px;
 }
 
 .popup-menu-failed .failed-requests-box {

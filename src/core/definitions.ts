@@ -80,6 +80,7 @@ export class Messages {
 	public static PopupChangeActiveProxyServer = "Popup_ChangeActiveProxyServer";
 	public static PopupToggleProxyForDomain = "Popup_ToggleProxyForDomain";
 	public static PopupAddDomainListToProxyRule = "Popup_AddDomainListToProxyRule";
+	public static PopupAddDomainListToIgnored = "Popup_AddDomainListToIgnored";
 
 	// Settings page
 	public static SettingsPageGetInitialData = "SettingsPage_GetInitialData";

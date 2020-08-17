@@ -261,6 +261,29 @@ export class Core {
 					return;
 				}
 
+			case Messages.PopupAddDomainListToIgnored:
+				{
+					if (!message.domainList)
+						return;
+
+					let domainList = message.domainList;
+					let tabId = message.tabId;
+
+					Core.addFailedDomainsToIgnoredList(domainList);
+
+					let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
+
+					SettingsOperation.saveOptions();
+					SettingsOperation.saveAllSync();
+
+					// send the responses
+					if (updatedFailedRequests != null && sendResponse) {
+						sendResponse({
+							failedRequests: updatedFailedRequests
+						});
+					}
+					return;
+				}
 			case Messages.SettingsPageSaveOptions:
 				{
 					if (!message.options)
@@ -695,6 +718,13 @@ export class Core {
 
 		result.url = tabData.url;
 		return result;
+	}
+
+	private static addFailedDomainsToIgnoredList(domainList: string[]) {
+		let ignoredDomains = Settings.current.options.ignoreRequestFailuresForDomains || [];
+		let uniqueMerged = [...new Set([...ignoredDomains, ...domainList])];
+
+		Settings.current.options.ignoreRequestFailuresForDomains = uniqueMerged;
 	}
 
 	public static setBrowserActionStatus(tabData?: TabDataType) {
