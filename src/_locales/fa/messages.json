@@ -87,6 +87,14 @@
 		"message": "اضافه کردن به لیست قوانین",
 		"description": ""
 	},
+	"popupAddIgnoredFailures": {
+		"message": "نادیده گرفتن انتخابها",
+		"description": ""
+	},
+	"popupAddIgnoredFailuresConfirm": {
+		"message": "آیا از افزودن موارد انتخابی به لیست نادیده گرفته ها مطمئن هستید؟ اگر بله در این صورت دیگر خطایی از آنها نمایش داده نمی شود. شما می توانید این موارد را از تنظیمات هم بعدا تغییر بدهید.",
+		"description": ""
+	},
 	"popupNotAllowedSetProxySettingsChrome": {
 		"message": "متاسفانه اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow in incognito` را فعال کنید. <a href='https://support.google.com/chrome_webstore/answer/2664769'>اطلاعات بیشتر</a>.",
 		"description": ""

@@ -87,6 +87,14 @@
 		"message": "Добавить в список правил",
 		"description": ""
 	},
+	"popupAddIgnoredFailures": {
+		"message": "Игнорировать",
+		"description": ""
+	},
+	"popupAddIgnoredFailuresConfirm": {
+		"message": "Вы уверены, что хотите проигнорировать данные ошибки? Если вы это сделаете, то больше не получите уведомлений об их возникновении. Позже свой выбор можно будет изменить в настройках.",
+		"description": ""
+	},
 	"popupNotAllowedSetProxySettingsChrome": {
 		"message": "К сожалению, изменение настроек браузера для использования прокси-сервера системы требует разрешения «инкогнито». Перейдите в настройки расширения SmartProxy в браузере и проверьте разрешение «Разрешить в режиме инкогнито». <a href='https://support.google.com/chrome_webstore/answer/2664769'>Узнайте, как</a>.",
 		"description": ""

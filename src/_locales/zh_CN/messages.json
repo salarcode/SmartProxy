@@ -87,6 +87,14 @@
 		"message": "添加到代理规则",
 		"description": ""
 	},
+	"popupAddIgnoredFailures": {
+		"message": "忽略",
+		"description": ""
+	},
+	"popupAddIgnoredFailuresConfirm": {
+		"message": "确定忽略选中的失败？忽略后将不再收到它们的错误。之后也可以更改此设置。",
+		"description": ""
+	},
 	"popupNotAllowedSetProxySettingsChrome": {
 		"message": "修改浏览器使用系统代理需要`incognito`权限。请打开SmartProxy扩展的设置，请允许`incognito`权限。 <a href='https://support.google.com/chrome_webstore/answer/2664769'>点击了解如何操作</a>.",
 		"description": ""

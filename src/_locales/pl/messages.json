@@ -87,6 +87,14 @@
 		"message": "Dodaj do listy reguł",
 		"description": ""
 	},
+	"popupAddIgnoredFailures": {
+		"message": "Ignore them",
+		"description": ""
+	},
+	"popupAddIgnoredFailuresConfirm": {
+		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more error from them. You can change this from settings later.",
+		"description": ""
+	},
 	"popupNotAllowedSetProxySettingsChrome": {
 		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>.",
 		"description": ""
