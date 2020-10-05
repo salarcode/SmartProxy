@@ -22,7 +22,10 @@
 		"webRequestBlocking",
 		"storage",
 		"unlimitedStorage",
-		"notifications"
+		"notifications",
+		"clipboardRead",
+		"clipboardWrite",
+		"management"
 	],
 	"browser_action": {
 		"chrome_style": true,
