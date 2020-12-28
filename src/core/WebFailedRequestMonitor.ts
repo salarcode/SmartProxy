@@ -79,6 +79,9 @@ export class WebFailedRequestMonitor {
             return;
 
         let tabId = requestDetails.tabId;
+        if (tabId < 0)
+            return null;
+
         let tabData = TabManager.getOrSetTab(tabId, false);
 
         if (!tabData)
