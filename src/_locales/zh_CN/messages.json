@@ -876,11 +876,11 @@
 		"description": ""
 	},
 	"settingsAddMultipleRulesButton": {
-		"message": "添加多重规则",
+		"message": "添加多条规则",
 		"description": ""
 	},
 	"settingsAddMultipleRuleTitle": {
-		"message": "添加多重规则",
+		"message": "添加多条规则",
 		"description": ""
 	},
 	"settingsMultipleRuleList": {
