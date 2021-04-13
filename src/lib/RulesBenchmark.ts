@@ -96,7 +96,7 @@ export class RulesBenchmark {
 
             var ruleName = '';
             if (rule.ruleText) {
-                finalResult += `Testing rule: ${rule.ruleText}  for ${rule.sourceDomain} \r\n`;
+                finalResult += `Testing rule: ${rule.ruleText}  for ${rule.hostName} \r\n`;
                 ruleName = `${rule.ruleText}`;
             }
             else {

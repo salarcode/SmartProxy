@@ -115,7 +115,6 @@ export class Core {
 						if (!sendResponse)
 							return;
 						let dataForSettingsUi = Core.getSettingsPageInitialData();
-
 						// send the data
 						sendResponse(dataForSettingsUi);
 						return;
@@ -217,7 +216,8 @@ export class Core {
 						return;
 
 					let domain = message.domain;
-					ProxyRules.toggleRuleByDomain(domain);
+					let ruleId = message.ruleId;
+					ProxyRules.toggleRule(domain, ruleId);
 
 					SettingsOperation.saveRules();
 					SettingsOperation.saveAllSync();
@@ -239,7 +239,7 @@ export class Core {
 					let domainList = message.domainList;
 					let tabId = message.tabId;
 
-					ProxyRules.enableByDomainList(domainList);
+					ProxyRules.enableByHostnameList(domainList);
 
 					let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
 
@@ -334,6 +334,7 @@ export class Core {
 				{
 					if (!message.proxyRules)
 						return;
+
 					Settings.current.proxyRules = message.proxyRules;
 					SettingsOperation.saveRules();
 					SettingsOperation.saveAllSync();
@@ -470,19 +471,20 @@ export class Core {
 						return;
 					let enableDomain = message.enableByDomain;
 					let removeDomain = message.removeBySource;
+					let ruleId = message.ruleId;
 					let ruleResult;
 
 					if (enableDomain)
-						ruleResult = ProxyRules.enableByDomain(enableDomain);
+						ruleResult = ProxyRules.enableByHostname(enableDomain);
 					else
-						ruleResult = ProxyRules.removeBySource(removeDomain);
+						ruleResult = ProxyRules.removeByHostname(removeDomain, ruleId);
 
 					let result = {
 						success: ruleResult.success,
 						message: ruleResult.message,
+						rule: ruleResult.rule,
 						requests: null as any[]
 					};
-
 
 					if (ruleResult.success) {
 						SettingsOperation.saveRules();
@@ -667,6 +669,7 @@ export class Core {
 
 			// add the domain
 			dataForPopup.proxyableDomains.push({
+				ruleId: testResult.rule?.ruleId,
 				domain: proxyableDomain,
 				ruleMatched: testResult.match,
 				ruleMatchedThisHost: testResult.match,
@@ -678,30 +681,31 @@ export class Core {
 			let multiTestResultList = ProxyRules.testMultipleRule(proxyableDomainList);
 			let anyMatchFound = false;
 			for (let i = 0; i < multiTestResultList.length; i++) {
-				let result = multiTestResultList[i];
+				let resultRule = multiTestResultList[i];
 
-				if (result.match)
+				if (resultRule.match)
 					anyMatchFound = true;
 
 				let ruleIsForThisHost = false;
-				if (result.match) {
+				if (resultRule.match) {
 					// check to see if the matched rule is for this host or not!
-					if (result.sourceDomain == proxyableDomainList[i]) {
+					if (resultRule.hostName == proxyableDomainList[i]) {
 						ruleIsForThisHost = true;
 					}
 				}
 
-				// do not display www if rule is not for this domain
-				if (!ruleIsForThisHost && !anyMatchFound && result.domain.startsWith('www.')) {
+				// ignoring www: do not display www if rule is not for this domain
+				if (!ruleIsForThisHost && !anyMatchFound && resultRule.domain.startsWith('www.')) {
 					continue;
 				}
 
 				// add the domain
 				dataForPopup.proxyableDomains.push({
-					domain: result.domain,
-					ruleMatched: result.match,
+					ruleId: resultRule.rule?.ruleId,
+					domain: resultRule.domain,
+					ruleMatched: resultRule.match,
 					ruleMatchedThisHost: ruleIsForThisHost,
-					ruleSource: result.rule?.compiledRuleSource
+					ruleSource: resultRule.rule?.compiledRuleSource
 				});
 			}
 		}
@@ -811,7 +815,7 @@ export class Core {
 			if (Settings.current.options.displayAppliedProxyOnBadge &&
 				!environment.mobile) {
 				if (tabData.proxified) {
-					proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxySourceDomain}`;
+					proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRule")}  ${tabData.proxyRuleHostName}`;
 				} else {
 					proxyTitle += `\r\n${browser.i18n.getMessage("toolbarTooltipEffectiveRuleNone")}`;
 				}

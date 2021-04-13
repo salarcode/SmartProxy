@@ -145,16 +145,19 @@ export class PopupInternalDataType {
 
 export class FailedRequestType {
 	hasRule: boolean;
+	ruleId?: RuleId;
 	url: string;
 	domain: string;
 	hitCount: number;
-	ruleIsForThisHost: boolean;
+	isRuleForThisHost: boolean;
 	isRootHost: boolean;
 	ignored: boolean;
 	_domainSortable: string;
 }
 
 export type ProxyableDomainType = {
+	/**Most of the times no rule is defined */
+	ruleId?: RuleId;
 	domain: string,
 	ruleMatched: boolean,
 	ruleMatchedThisHost: boolean,
@@ -186,9 +189,10 @@ export class ProxyableLogDataType {
 	public tabId: number;
 	public logType: ProxyableLogType;
 	public url: string;
-	public sourceDomain: string;
+	public hostName: string;
 	public ruleText: string;
-	public ruleSource: CompiledProxyRuleSource;
+	public ruleId?: number;
+	public ruleSource?: CompiledProxyRuleSource;
 	public whitelist?: boolean;
 	
 
@@ -220,6 +224,22 @@ export class ProxyableLogDataType {
 			this.logType == ProxyableLogType.ByPassed)
 			return false;
 		return true;
+	}
+
+	applyFromRule(rule: CompiledProxyRule){
+		if (!rule)
+			return;
+
+		this.ruleText = rule.ruleText;
+		this.ruleId = rule.ruleId;
+		this.ruleSource = rule.compiledRuleSource;
+		if(!this.hostName)
+			this.hostName = rule.hostName;
+	}
+	removeRuleInfo(){
+		this.ruleText = null;
+		this.ruleId = null;
+		this.ruleSource = null;
 	}
 }
 
@@ -322,10 +342,16 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 	}
 }
 
-export class ProxyRule implements Cloneable {
+export type RuleId = number;
 
+export class ProxyRule implements Cloneable {
+	constructor() {
+		this.ruleId = ProxyRule.getNewUniqueIdNo();
+	}
+
+	public ruleId: RuleId;
 	public ruleType: ProxyRuleType;
-	public sourceDomain: string;
+	public hostName: string;
 	public autoGeneratePattern: boolean;
 	public rulePattern: string;
 	public ruleRegex: string;
@@ -379,10 +405,12 @@ export class ProxyRule implements Cloneable {
 
 		return result;
 	}
-
+	public static getNewUniqueIdNo(): RuleId{
+		return +Math.random().toString(10).substr(2 + (Math.random() * 10));
+	}
 	CopyFrom(source: any) {
-		this.ruleType = source["ruleType"] || ProxyRuleType.MatchPatternHost;
-		this.sourceDomain = source["sourceDomain"];
+		this.ruleType = source["ruleType"] || ProxyRuleType.DomainSubdomain;
+		this.hostName = source["hostName"] || source["sourceDomain"];
 		this.autoGeneratePattern = source["autoGeneratePattern"] == true ? true : false;
 		this.rulePattern = source["rulePattern"];
 		this.ruleRegex = source["ruleRegex"];
@@ -403,21 +431,24 @@ export class ProxyRule implements Cloneable {
 
 		// supporting old version
 		if (source["pattern"]) {
-			this.rulePattern = source["pattern"];
-			this.ruleType = ProxyRuleType.MatchPatternUrl;
-			this.sourceDomain = source["source"];
-			this.autoGeneratePattern = false;
+			this.rulePattern = source["rulePattern"] ||source["pattern"];
+			this.hostName = source["hostName"] || source["source"] || source["sourceDomain"];
+			if (this.ruleType == null)
+				this.ruleType = ProxyRuleType.MatchPatternUrl;
+			if (this.autoGeneratePattern == null)
+				this.autoGeneratePattern = false;
 		}
 	}
 }
 
 export class CompiledProxyRule {
+	public ruleId: RuleId;
 	public compiledRuleType: CompiledProxyRuleType;
 	public compiledRuleSource: CompiledProxyRuleSource;
 	public regex?: RegExp;
 	public search?: string;
 
-	public sourceDomain: string;
+	public hostName: string;
 
 	public proxy: ProxyServer;
 	public whiteList: boolean = false;

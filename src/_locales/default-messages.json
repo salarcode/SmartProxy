@@ -867,10 +867,6 @@
 		"message": "There isn't any rule for '{0}'",
 		"description": ""
 	},
-	"settingsRuleSourceIsEmpty": {
-		"message": "Rule 'source' is empty",
-		"description": ""
-	},
 	"importerImportSuccess": {
 		"message": "Total {0} out of {1} rules are appended.<br>Don't forget to save the changes.",
 		"description": ""

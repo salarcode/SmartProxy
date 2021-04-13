@@ -20,7 +20,7 @@ import { PolyFill } from "../lib/PolyFill";
 import { ProxyRules } from "./ProxyRules";
 import { Utils } from "../lib/Utils";
 import { TabManager } from "./TabManager";
-import { Messages, FailedRequestType } from "./definitions";
+import { Messages, FailedRequestType, CompiledProxyRule } from "./definitions";
 import { Settings } from "./Settings";
 import { Debug } from "../lib/Debug";
 
@@ -174,43 +174,44 @@ export class WebFailedRequestMonitor {
                         if (requestHostSubDomains && requestHostSubDomains.length > 1) {
 
                             let multiTestResultList = ProxyRules.testMultipleRule(requestHostSubDomains);
-                            let requestHostHasRule = false;
+                            let requestHostRule: CompiledProxyRule = null;
 
                             // checking if the request itself has rule or not
                             for (let result of multiTestResultList) {
                                 if (result.match &&
                                     result.domain == requestHost) {
 
-                                    requestHostHasRule = true;
+                                    requestHostRule = result.rule;
                                     break;
                                 }
                             }
 
                             // add only if the request doesn't have rule
-                            if (!requestHostHasRule) {
+                            if (requestHostRule == null) {
                                 // adding the sub-domains and top-level domain all together
                                 for (let i = 0; i < multiTestResultList.length; i++) {
-                                    let result = multiTestResultList[i];
+                                    let resultRule = multiTestResultList[i];
 
                                     let ruleIsForThisHost = false;
                                     // check to see if the matched rule is for this host or not!
-                                    if (result.sourceDomain == requestHostSubDomains[i]) {
+                                    if (resultRule.hostName == requestHostSubDomains[i]) {
                                         ruleIsForThisHost = true;
                                     }
 
                                     failedInfo = new FailedRequestType();
                                     failedInfo.url = requestDetails.url;
-                                    failedInfo.domain = result.domain;
+                                    failedInfo.domain = resultRule.domain;
                                     failedInfo.hitCount = 1;
-                                    failedInfo.hasRule = result.match;
-                                    failedInfo.ruleIsForThisHost = ruleIsForThisHost;
-                                    failedInfo.isRootHost = requestHost == result.domain;
+                                    failedInfo.hasRule = resultRule.match;
+                                    failedInfo.ruleId = resultRule.rule?.ruleId;
+                                    failedInfo.isRuleForThisHost = ruleIsForThisHost;
+                                    failedInfo.isRootHost = requestHost == resultRule.domain;
 
-                                    WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, result.domain);
+                                    WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, resultRule.domain);
 
                                     // add to the list
-                                    failedRequests.set(result.domain, failedInfo);
-                                    if (!result.match)
+                                    failedRequests.set(resultRule.domain, failedInfo);
+                                    if (!resultRule.match)
                                         shouldNotify = true;
                                 }
                             } else {
@@ -220,6 +221,7 @@ export class WebFailedRequestMonitor {
                                 failedInfo.domain = requestHost;
                                 failedInfo.hitCount = 1;
                                 failedInfo.hasRule = true;
+                                failedInfo.ruleId = requestHostRule.ruleId;
 
                                 WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, requestHost);
 
@@ -252,6 +254,7 @@ export class WebFailedRequestMonitor {
                                 // we are just adding this to prevent
                                 // further call to 'proxyRules.testSingleRule' which is expensive
                                 failedInfo.hasRule = true;
+                                failedInfo.ruleId = testResult.rule?.ruleId;
                             }
 
                             WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, requestHost);

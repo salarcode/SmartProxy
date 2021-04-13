@@ -10,7 +10,6 @@ export class ProxyEngineChrome {
 	public static updateChromeProxyConfig() {
 
 		if (Settings.current.proxyMode == ProxyModeType.SystemProxy) {
-			// No need to generate PAC since this code does the job
 
 			let config = {
 				mode: "system"

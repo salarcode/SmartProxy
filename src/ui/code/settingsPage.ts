@@ -111,6 +111,8 @@ export class settingsPage {
 
 		jQuery("#btnAddProxyServer").click(settingsPage.uiEvents.onClickAddProxyServer);
 
+		jQuery("#cmdServerProtocol").on("change", settingsPage.uiEvents.onChangeServerProtocol);
+
 		jQuery("#btnSubmitProxyServer").click(settingsPage.uiEvents.onClickSubmitProxyServer);
 
 		jQuery("#btnSaveProxyServers").click(settingsPage.uiEvents.onClickSaveProxyServers);
@@ -237,7 +239,7 @@ export class settingsPage {
 					name: "ruleType", data: "ruleTypeName", title: browser.i18n.getMessage("settingsRulesGridColRuleType"),
 				},
 				{
-					name: "sourceDomain", data: "sourceDomain", title: browser.i18n.getMessage("settingsRulesGridColSource")
+					name: "hostName", data: "hostName", title: browser.i18n.getMessage("settingsRulesGridColSource")
 				},
 				{
 					name: "rule", data: "rule", title: browser.i18n.getMessage("settingsRulesGridColRule")
@@ -583,6 +585,16 @@ export class settingsPage {
 		}
 	}
 
+	private static populateServerProtocol(){
+		let modal = jQuery("#modalModifyProxyServer");
+		let serverInputInfo = settingsPage.readServerModel(modal);
+
+		if(serverInputInfo.protocol == "SOCKS5")
+			modal.find("#chkServerProxyDNS-Control").show();
+		else
+			modal.find("#chkServerProxyDNS-Control").hide();
+	}
+
 	private static populateServerModal(modalContainer: any, server?: ProxyServer) {
 
 		if (server) {
@@ -604,6 +616,7 @@ export class settingsPage {
 			modalContainer.find("#txtServerUsername").val("");
 			modalContainer.find("#txtServerPassword").val("");
 		}
+		settingsPage.populateServerProtocol();
 	}
 
 	private static readServerModel(modalContainer: any): ProxyServer {
@@ -641,7 +654,7 @@ export class settingsPage {
 			modalContainer.find("#chkRuleGeneratePattern").prop('checked', proxyRule.autoGeneratePattern);
 			modalContainer.find("#cmdRuleType").val(proxyRule.ruleType);
 
-			modalContainer.find("#txtRuleSource").val(proxyRule.sourceDomain);
+			modalContainer.find("#txtRuleSource").val(proxyRule.hostName);
 			modalContainer.find("#txtRuleMatchPattern").val(proxyRule.rulePattern);
 			modalContainer.find("#txtRuleUrlRegex").val(proxyRule.ruleRegex);
 			modalContainer.find("#txtRuleUrlExact").val(proxyRule.ruleExact);
@@ -720,7 +733,7 @@ export class settingsPage {
 		let ruleInfo = new ProxyRule();
 		ruleInfo.autoGeneratePattern = modalContainer.find("#chkRuleGeneratePattern").prop('checked');
 		ruleInfo.ruleType = parseInt(modalContainer.find("#cmdRuleType").val());
-		ruleInfo.sourceDomain = modalContainer.find("#txtRuleSource").val();
+		ruleInfo.hostName = modalContainer.find("#txtRuleSource").val();
 		ruleInfo.rulePattern = modalContainer.find("#txtRuleMatchPattern").val();
 		ruleInfo.ruleRegex = modalContainer.find("#txtRuleUrlRegex").val();
 		ruleInfo.ruleExact = modalContainer.find("#txtRuleUrlExact").val();
@@ -1073,11 +1086,11 @@ export class settingsPage {
 		this.refreshRulesGridAllRows();
 	}
 
-	private static readRules(): any[] {
+	private static readRules(): ProxyRule[] {
 		return this.grdRules.data().toArray();
 	}
 
-	private static readSelectedRule(e?: any): any {
+	private static readSelectedRule(e?: any): ProxyRule {
 		let dataItem;
 		if (e && e.target) {
 			let rowElement = jQuery(e.target).parents('tr');
@@ -1556,6 +1569,9 @@ export class settingsPage {
 			modal.modal("show");
 			modal.find("#txtServerAddress").focus();
 		},
+		onChangeServerProtocol(){
+			settingsPage.populateServerProtocol();
+		},
 		onClickSubmitProxyServer() {
 
 			let modal = jQuery("#modalModifyProxyServer");
@@ -1730,7 +1746,7 @@ export class settingsPage {
 				if (!ruleLine)
 					continue;
 				ruleLine = ruleLine.trim().toLowerCase();
-				let domain: string;
+				let hostName: string;
 				let newRule = new ProxyRule();
 
 				if (ruleType == ProxyRuleType.Exact) {
@@ -1741,22 +1757,22 @@ export class settingsPage {
 						return;
 					}
 					newRule.ruleExact = ruleLine;
-					domain = Utils.extractHostFromUrl(ruleLine);
+					hostName = Utils.extractHostFromUrl(ruleLine);
 				}
 				else if (ruleType == ProxyRuleType.MatchPatternHost) {
 
 					if (!Utils.urlHasSchema(ruleLine))
 						ruleLine = "http://" + ruleLine;
 
-					domain = Utils.extractHostFromUrl(ruleLine);
+					hostName = Utils.extractHostFromUrl(ruleLine);
 
-					if (!Utils.isValidHost(domain)) {
-						messageBox.error(browser.i18n.getMessage("settingsMultipleRuleInvalidHost").replace("{0}", domain));
+					if (!Utils.isValidHost(hostName)) {
+						messageBox.error(browser.i18n.getMessage("settingsMultipleRuleInvalidHost").replace("{0}", hostName));
 						return;
 					}
 
-					domain = Utils.extractHostFromUrl(ruleLine);
-					newRule.rulePattern = Utils.hostToMatchPattern(domain, false);
+					hostName = Utils.extractHostFromUrl(ruleLine);
+					newRule.rulePattern = Utils.hostToMatchPattern(hostName, false);
 				}
 				else if (ruleType == ProxyRuleType.MatchPatternUrl) {
 
@@ -1765,7 +1781,7 @@ export class settingsPage {
 						return;
 					}
 
-					domain = Utils.extractHostFromUrl(ruleLine);
+					hostName = Utils.extractHostFromUrl(ruleLine);
 					newRule.rulePattern = Utils.hostToMatchPattern(ruleLine, true);
 				}
 				else {
@@ -1774,7 +1790,7 @@ export class settingsPage {
 				}
 
 				let ruleExists = existingRules.some(rule => {
-					return (rule.sourceDomain === domain);
+					return (rule.hostName === hostName);
 				});
 
 				if (ruleExists)
@@ -1783,7 +1799,7 @@ export class settingsPage {
 				newRule.autoGeneratePattern = true;
 				newRule.enabled = true;
 				newRule.proxy = null;
-				newRule.sourceDomain = domain;
+				newRule.hostName = hostName;
 				newRule.ruleType = ruleType;
 
 				resultRuleList.push(newRule);
@@ -1820,62 +1836,69 @@ export class settingsPage {
 		onClickSubmitProxyRule() {
 
 			let modal = jQuery("#modalModifyRule");
-			let editingModel = modal.data("editing");
+			let editingModel: ProxyRule = modal.data("editing");
 
 			let ruleInfo = settingsPage.readProxyRuleModel(modal);
-
-			let sourceDomain = ruleInfo.sourceDomain;
-			if (!sourceDomain) {
-				// Please specify the source of the rule!
-				messageBox.error(browser.i18n.getMessage("settingsRuleSourceRequired"));
-				return;
+			let hostName = ruleInfo.hostName;
+			
+			function checkHostName(): boolean{
+				if (!hostName) {
+					// Please specify the source of the rule!
+					messageBox.error(browser.i18n.getMessage("settingsRuleSourceRequired"));
+					return false;
+				}
+				return true;
 			}
 
-			if (!Utils.isValidHost(sourceDomain)) {
-				// source is invalid, source name should be something like 'google.com'
-				messageBox.error(browser.i18n.getMessage("settingsRuleSourceInvalid"));
-				return;
-			}
-
-			if (Utils.urlHasSchema(sourceDomain)) {
-				let extractedHost = Utils.extractHostFromUrl(sourceDomain);
-				if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
-
-					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
-					messageBox.error(
-						browser.i18n.getMessage("settingsRuleHostInvalid")
-							.replace("{0}", extractedHost)
-					);
+			if (hostName) {
+				if (!Utils.isValidHost(hostName)) {
+					// source is invalid, source name should be something like 'google.com'
+					messageBox.error(browser.i18n.getMessage("settingsRuleSourceInvalid"));
 					return;
 				}
-				sourceDomain = extractedHost;
 
-			} else {
-				// this extraction is to remove paths from rules, e.g. google.com/test/
+				if (Utils.urlHasSchema(hostName)) {
+					let extractedHost = Utils.extractHostFromUrl(hostName);
+					if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
 
-				let extractedHost = Utils.extractHostFromUrl("http://" + sourceDomain);
-				if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
+						// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+						messageBox.error(
+							browser.i18n.getMessage("settingsRuleHostInvalid")
+								.replace("{0}", extractedHost)
+						);
+						return;
+					}
+					hostName = extractedHost;
 
-					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
-					messageBox.error(
-						browser.i18n.getMessage("settingsRuleHostInvalid")
-							.replace("{0}", extractedHost)
-					);
-					return;
+				} else {
+					// this extraction is to remove paths from rules, e.g. google.com/test/
+
+					let extractedHost = Utils.extractHostFromUrl("http://" + hostName);
+					if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
+
+						// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+						messageBox.error(
+							browser.i18n.getMessage("settingsRuleHostInvalid")
+								.replace("{0}", extractedHost)
+						);
+						return;
+					}
 				}
 			}
-			ruleInfo.sourceDomain = sourceDomain;
+			ruleInfo.hostName = hostName;
 
 			if (ruleInfo.ruleType == ProxyRuleType.MatchPatternHost) {
 
 				if (ruleInfo.autoGeneratePattern) {
+					if (!checkHostName()) return;
+
 					// Feature #41 Allow entering/modifying custom pattern for rules 
-					ruleInfo.rulePattern = Utils.hostToMatchPattern(sourceDomain, false);
+					ruleInfo.rulePattern = Utils.hostToMatchPattern(hostName, false);
 				}
-				else if (!ruleInfo.rulePattern.includes(sourceDomain)) {
+				else if (hostName && !ruleInfo.rulePattern.includes(hostName)) {
 					// The rule does not match the source domain '{0}'
 					messageBox.error(
-						browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", sourceDomain)
+						browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", hostName)
 					);
 					return;
 				}
@@ -1883,13 +1906,15 @@ export class settingsPage {
 			else if (ruleInfo.ruleType == ProxyRuleType.MatchPatternUrl) {
 
 				if (ruleInfo.autoGeneratePattern) {
+					if (!checkHostName()) return;
+					
 					// Feature #41 Allow entering/modifying custom pattern for rules 
-					ruleInfo.rulePattern = Utils.hostToMatchPattern(sourceDomain, true);
+					ruleInfo.rulePattern = Utils.hostToMatchPattern(hostName, true);
 				}
-				else if (!ruleInfo.rulePattern.includes(sourceDomain)) {
+				else if (hostName && !ruleInfo.rulePattern.includes(hostName)) {
 					// The rule does not match the source domain '{0}'
 					messageBox.error(
-						browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", sourceDomain)
+						browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", hostName)
 					);
 					return;
 				}
@@ -1897,15 +1922,22 @@ export class settingsPage {
 			else if (ruleInfo.ruleType == ProxyRuleType.RegexHost) {
 
 				try {
-
-					let regex = new RegExp(ruleInfo.ruleRegex);
-
-					if (!regex.test(sourceDomain)) {
-						// Regex rule does not match the source domain '{0}'
+					if (!ruleInfo.ruleRegex) {
 						messageBox.error(
-							browser.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", sourceDomain)
+							browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
 						);
 						return;
+					}
+
+					let regex = new RegExp(ruleInfo.ruleRegex);
+					if (hostName) {
+						if (!regex.test(hostName)) {
+							// Regex rule does not match the source domain '{0}'
+							messageBox.error(
+								browser.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", hostName)
+							);
+							return;
+						}
 					}
 
 				} catch (error) {
@@ -1919,17 +1951,24 @@ export class settingsPage {
 			else if (ruleInfo.ruleType == ProxyRuleType.RegexUrl) {
 
 				try {
-
-					let regex = new RegExp(ruleInfo.ruleRegex);
-
-					if (!regex.test(sourceDomain)) {
-						// Regex rule does not match the source domain '{0}'
+					if (!ruleInfo.ruleRegex) {
 						messageBox.error(
-							browser.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", sourceDomain)
+							browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
 						);
 						return;
 					}
 
+					let regex = new RegExp(ruleInfo.ruleRegex);
+
+					if (hostName) {
+						if (!regex.test(hostName)) {
+							// Regex rule does not match the source domain '{0}'
+							messageBox.error(
+								browser.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", hostName)
+							);
+							return;
+						}
+					}
 				} catch (error) {
 					// Regex rule '{0}' is not valid
 					messageBox.error(
@@ -1939,8 +1978,10 @@ export class settingsPage {
 				}
 			}
 			else if (ruleInfo.ruleType == ProxyRuleType.DomainSubdomain) {
+				if (!checkHostName()) return;
+
 				// no validation required
-				ruleInfo.ruleSearch = sourceDomain;
+				ruleInfo.ruleSearch = hostName;
 			}
 			else {
 				if (!Utils.isValidUrl(ruleInfo.ruleExact)) {
@@ -1954,16 +1995,31 @@ export class settingsPage {
 			// ------------------
 			let editingSource: string = null;
 			if (editingModel)
-				editingSource = editingModel.sourceDomain;
+				editingSource = editingModel.hostName;
 
 			let existingRules = settingsPage.readRules();
-			let ruleExists = existingRules.some(rule => {
-				return (rule.sourceDomain === sourceDomain && rule.sourceDomain != editingSource);
-			});
+			let ruleExists = false;
+			if (hostName)
+				ruleExists = existingRules.some(rule => {
+					return (rule.hostName === hostName && rule.hostName != editingSource);
+				});
+
 			if (ruleExists) {
 				// A Rule with the same source already exists!
 				messageBox.error(browser.i18n.getMessage("settingsRuleSourceAlreadyExists"));
 				return;
+			}
+
+			if (!editingModel) {
+				do {
+					// making sure the ruleId is unique
+					ruleExists = existingRules.some(rule => {
+						return (rule.ruleId === ruleInfo.ruleId);
+					});
+
+					if (ruleExists)
+						ruleInfo.ruleId = ProxyRule.getNewUniqueIdNo();
+				} while (ruleExists);
 			}
 
 			if (editingModel) {

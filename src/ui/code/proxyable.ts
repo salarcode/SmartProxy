@@ -205,7 +205,7 @@ export class proxyable {
 					}
 				},
 				{
-					name: "sourceDomain", data: "sourceDomain", title: browser.i18n.getMessage("proxyableGridColSource"),
+					name: "hostName", data: "hostName", title: browser.i18n.getMessage("proxyableGridColSource"),
 				},
 				{
 					name: "enabled", width: 100, title: '', className: 'text-center',
@@ -219,8 +219,8 @@ export class proxyable {
 							return `<small>${browser.i18n.getMessage("proxyableSubscriptionRule")}</small>`;
 						}
 						if (row.ruleText) {
-							return `<button id='btnDisable' data-domain="${row.sourceDomain}" class="btn btn-sm btn-danger whitespace-nowrap">
-                                    <i class="fa fa-times" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableDisableButton")}</button>`;
+							return `<button id='btnDisable' data-domain="${row.hostName}" data-ruleId="${row.ruleId}" class="btn btn-sm btn-danger whitespace-nowrap">
+									<i class="fa fa-times" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableDisableButton")}</button>`;
 						}
 						else {
 							if (row.proxied) {
@@ -235,14 +235,14 @@ export class proxyable {
 							if (subDomains && subDomains.length) {
 								const template =
 									`<div><div class="btn-group dropleft">
-                                        <button type="button" class="btn btn-sm btn-success dropdown-toggle whitespace-nowrap" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            ${browser.i18n.getMessage("proxyableEnableButton")}
-                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                        </button>
-                                        <div class="subdomains-list dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#">(none)</a>
-                                        </div>
-                                    </div></div>`;
+										<button type="button" class="btn btn-sm btn-success dropdown-toggle whitespace-nowrap" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											${browser.i18n.getMessage("proxyableEnableButton")}
+											<i class="fa fa-plus" aria-hidden="true"></i>
+										</button>
+										<div class="subdomains-list dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item" href="#">(none)</a>
+										</div>
+									</div></div>`;
 
 								let templateElement = jQuery(template);
 								let subdomainContainer = templateElement.find(".subdomains-list");
@@ -250,7 +250,7 @@ export class proxyable {
 
 								for (let domain of subDomains) {
 									let domainElement = jQuery(`<a class="dropdown-item" data-domain="${domain}" href="#"><small>${browser.i18n.getMessage("proxyableEnableButtonDomain")} 
-                                                                <b class='font-url'>${domain}</b></small></a>`);
+																<b class='font-url'>${domain}</b></small></a>`);
 
 									subdomainContainer.append(domainElement);
 								}
@@ -284,7 +284,7 @@ export class proxyable {
 			let request = new ProxyableLogDataType();
 			Object.assign(request, newRequest);
 
-			request.sourceDomain = request.sourceDomain ?? "";
+			request.hostName = request.hostName ?? "";
 			request.ruleText = request.ruleText ?? "";
 
 			let row = this.grdProxyable.row
@@ -340,12 +340,13 @@ export class proxyable {
 		let domain = element.data("domain");
 		if (!domain)
 			return;
+		let ruleId = element.data("ruleId");
 
-		let gridRow: ProxyableLogDataType = proxyable.grdProxyable.row(element.parents('tr'));
+		let gridRow = proxyable.grdProxyable.row(element.parents('tr'));
 
 		messageBox.confirm(`${browser.i18n.getMessage("proxyableCreateRuleConfirm")} <b>'${domain}'</b>?`,
 			() => {
-				proxyable.toggleProxyableRequest(domain, null, gridRow);
+				proxyable.toggleProxyableRequest(domain, null, ruleId, gridRow);
 			});
 	}
 
@@ -354,22 +355,23 @@ export class proxyable {
 		let domain = element.data("domain");
 		if (!domain) 
 			return;
+		let ruleId = element.data("ruleId");
 
-		let gridRow: ProxyableLogDataType = proxyable.grdProxyable.row(element.parents('tr'));
+		let gridRow = proxyable.grdProxyable.row(element.parents('tr'));
 
 		messageBox.confirm(`${browser.i18n.getMessage("proxyableDeleteRuleConfirm")} <b>'${domain}'</b>?`,
 			() => {
-				proxyable.toggleProxyableRequest(null, domain, gridRow);
+				proxyable.toggleProxyableRequest(null, domain, ruleId, gridRow);
 			});
 	}
 
-	private static toggleProxyableRequest(enableByDomain: string, removeBySource?: string, gridRow?: ProxyableLogDataType) {
-
+	private static toggleProxyableRequest(enableByDomain: string, removeBySource?: string, ruleId?: string, gridRow?: any) {
 		PolyFill.runtimeSendMessage(
 			{
 				command: Messages.ProxyableToggleProxyableDomain,
 				enableByDomain: enableByDomain,
 				removeBySource: removeBySource,
+				ruleId: ruleId,
 				tabId: proxyable.sourceTabId
 			},
 			(response: any) => {
@@ -380,8 +382,25 @@ export class proxyable {
 					if (response.message) {
 						messageBox.success(response.message);
 					}
-					if (gridRow)
+					if (gridRow) {
+						var rowData: ProxyableLogDataType = gridRow.data();
+						var rule = response.rule;
+
+						if(rowData) {
+							// Not a complete fix on displaying the rule. This is a temporary visual change, next time the rule should be displayed correctly
+							if (enableByDomain) {
+								if (rule)
+									rowData.applyFromRule(rule);
+								rowData.proxied = true;
+							}
+							else if (removeBySource) {
+								rowData.removeRuleInfo();
+								rowData.proxied = false;
+							}
+						}
+
 						proxyable.refreshGridRow(gridRow, true);
+					}
 					else
 						proxyable.refreshGridAllRows(true);
 

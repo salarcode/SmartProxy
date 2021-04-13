@@ -223,18 +223,18 @@ export class popup {
 		jQuery("#openProxyable").show();
 
 		for (let i = 0; i < proxyableDomainList.length; i++) {
-			let domainResult = proxyableDomainList[i];
-			let domain = domainResult.domain;
+			let proxyableDomain = proxyableDomainList[i];
+			let domain = proxyableDomain.domain;
 
 			let item = divProxyableDomainItem.clone();
 			item.show()
 				.find("span.proxyable-host-name")
 				.text(domain);
 			item.appendTo(divProxyableDomain);
-			item.data("domainResult", domainResult);
+			item.data("proxyable-domain-type", proxyableDomain);
 
 			var itemIcon = item.find(".proxyable-status-icon");
-			if (domainResult.ruleSource == CompiledProxyRuleSource.Subscriptions) {
+			if (proxyableDomain.ruleSource == CompiledProxyRuleSource.Subscriptions) {
 				// disabling the item for subscriptions since these rules can't be disabled/enabled individually
 
 				itemIcon.removeClass("fa-square")
@@ -244,12 +244,12 @@ export class popup {
 				item.find(".nav-link").addClass("disabled")
 					.attr("title", `Subscription Rule, can't be disabled individually`);
 			}
-			else if (domainResult.ruleMatched) {
+			else if (proxyableDomain.ruleMatched) {
 				itemIcon.removeClass("fa-square")
 					.addClass("fa-check-square");
 
 				// if the matching rule is not for this host
-				if (!domainResult.ruleMatchedThisHost) {
+				if (!proxyableDomain.ruleMatchedThisHost) {
 					item.find(".nav-link").addClass("disabled")
 						.attr("title", `Enabled by other domains`);
 				}
@@ -314,6 +314,7 @@ export class popup {
 
 				let newItemCheckbox = newItem.find("input");
 				newItemCheckbox.attr("data-domain", request.domain);
+				newItemCheckbox.attr("data-ruleId", request.ruleId);
 
 				if (request.isRootHost) {
 					failedRequestCount += request.hitCount;
@@ -400,22 +401,22 @@ export class popup {
 	}
 
 	private static onProxyableDomainClick() {
-		let domainResult: ProxyableDomainType = jQuery(this).data("domainResult");
+		let proxyableDomain: ProxyableDomainType = jQuery(this).data("proxyable-domain-type");
 
-		if (domainResult.ruleSource == CompiledProxyRuleSource.Subscriptions)
+		if (proxyableDomain.ruleSource == CompiledProxyRuleSource.Subscriptions)
 			return;
 
-		let domain = domainResult.domain;
-		let hasMatchingRule = domainResult.ruleMatched;
-		let ruleIsForThisHost = domainResult.ruleMatchedThisHost;
-
+		let domain = proxyableDomain.domain;
+		let hasMatchingRule = proxyableDomain.ruleMatched;
+		let ruleIsForThisHost = proxyableDomain.ruleMatchedThisHost;
 
 		if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
 			PolyFill.runtimeSendMessage(`proxyable-host-name: ${domain}`);
 
-			PolyFill.runtimeSendMessage({
+		PolyFill.runtimeSendMessage({
 				command: Messages.PopupToggleProxyForDomain,
-				domain: domain
+				domain: domain,
+				ruleId: proxyableDomain.ruleId
 			});
 
 			popup.closeSelf();

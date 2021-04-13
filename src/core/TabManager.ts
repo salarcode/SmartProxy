@@ -16,7 +16,7 @@
  */
 import { PolyFill } from "../lib/PolyFill";
 import { LiteEvent } from "../lib/LiteEvent";
-import { FailedRequestType, ProxyServer } from "./definitions";
+import { CompiledProxyRule, FailedRequestType, ProxyServer } from "./definitions";
 import { browser } from "../lib/environment";
 
 export class TabManager {
@@ -208,7 +208,8 @@ export class TabDataType {
 	public index: number;
 	public proxified: boolean;
 	public proxifiedParentDocumentUrl: string;
-	public proxySourceDomain: string;
+	public proxyRuleHostName: string;
+	public proxyMatchedRule?: CompiledProxyRule;
 	public proxyServerFromRule: ProxyServer;
 
 	public cleanup() {

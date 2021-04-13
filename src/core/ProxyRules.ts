@@ -17,7 +17,7 @@
 import { browser } from "../lib/environment";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
-import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType, CompiledProxyRuleSource } from "./definitions";
+import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType, CompiledProxyRuleSource, RuleId } from "./definitions";
 import { Utils } from "../lib/Utils";
 
 export class ProxyRules {
@@ -33,36 +33,53 @@ export class ProxyRules {
 		return ProxyRules.compiledWhitelistRulesList;
 	}
 
-	public static toggleRuleByDomain(domain: string) {
+	public static toggleRule(hostName: string, ruleId?: RuleId) {
+		if(ruleId > 0) {
+			let rule = ProxyRules.getRuleById(ruleId);
+			
+			if (rule != null) {
+				ProxyRules.removeRule(rule);
+				return;
+			}
+		}
+
+		if (!Utils.isValidHost(hostName))
+			// this is an extra check!
+			return;
+
+		ProxyRules.toggleRuleByHostname(hostName);
+	}
+
+	public static toggleRuleByHostname(hostName: string) {
 
 		// the domain should be the source
-		let rule = ProxyRules.getRuleBySource(domain);
+		let rule = ProxyRules.getRuleByHostname(hostName);
 
 		if (rule == null) {
-			if (!Utils.isValidHost(domain))
+			if (!Utils.isValidHost(hostName))
 				// this is an extra check!
 				return;
 
-			ProxyRules.addRuleByDomain(domain);
+			ProxyRules.addRuleByHostname(hostName);
 		} else {
 			ProxyRules.removeRule(rule);
 		}
 	}
-	public static enableByDomainList(domainList: string[]) {
+	public static enableByHostnameList(domainList: string[]) {
 		if (!domainList || !domainList.length)
 			return;
-		for (let domain of domainList) {
-			ProxyRules.enableByDomain(domain);
+		for (let hostName of domainList) {
+			ProxyRules.enableByHostname(hostName);
 		}
 	}
-	public static enableByDomain(domain: string): {
+	public static enableByHostname(hostname: string): {
 		success: boolean,
 		message: string,
 		rule: ProxyRule
 	} {
 
 		// current url should be valid
-		if (!Utils.isValidHost(domain))
+		if (!Utils.isValidHost(hostname))
 			// The selected domain is not valid
 			return {
 				success: false,
@@ -71,7 +88,7 @@ export class ProxyRules {
 			};
 
 		// the domain should be the source
-		let rule: ProxyRule = ProxyRules.getRuleBySource(domain);
+		let rule: ProxyRule = ProxyRules.getRuleByHostname(hostname);
 
 		if (rule != null) {
 			// Rule for the domain already exists
@@ -82,7 +99,7 @@ export class ProxyRules {
 			};
 		}
 
-		rule = ProxyRules.addRuleByDomain(domain);
+		rule = ProxyRules.addRuleByHostname(hostname);
 
 		return {
 			success: true,
@@ -91,14 +108,19 @@ export class ProxyRules {
 		};
 	}
 
-	public static removeBySource(source: string): {
+	public static removeByHostname(hostName: string, ruleId?: number): {
 		success: boolean,
 		message: string,
 		rule: ProxyRule
 	} {
 
 		// get the rule for the source
-		let rule: ProxyRule = ProxyRules.getRuleBySource(source);
+		let rule: ProxyRule;
+
+		if(ruleId)
+			rule = ProxyRules.getRuleById(ruleId);
+		else
+			rule = ProxyRules.getRuleByHostname(hostName);
 
 		if (rule != null) {
 			ProxyRules.removeRule(rule);
@@ -111,23 +133,27 @@ export class ProxyRules {
 		}
 		return {
 			success: false,
-			message: browser.i18n.getMessage("settingsNoRuleFoundForDomain").replace("{0}", source),
+			message: browser.i18n.getMessage("settingsNoRuleFoundForDomain").replace("{0}", hostName),
 			rule: null
 		};
 	}
 
 	/** >Finds the defined rule for the host */
-	private static getRuleBySource(sourceDomain: string): ProxyRule {
-		return Settings.current.proxyRules.find(rule => rule.sourceDomain == sourceDomain);
+	private static getRuleByHostname(hostName: string): ProxyRule {
+		return Settings.current.proxyRules.find(rule => rule.hostName == hostName);
 	}
 
-	private static addRuleByDomain(domain: string): ProxyRule {
+	/** >Finds the defined rule by ID */
+	private static getRuleById(ruleId: RuleId): ProxyRule {
+		return Settings.current.proxyRules.find(rule => rule.ruleId == ruleId);
+	}
+	private static addRuleByHostname(domain: string): ProxyRule {
 
 		let rule = new ProxyRule();
 		rule.ruleType = ProxyRuleType.DomainSubdomain;
 		rule.ruleSearch = domain;
 		rule.autoGeneratePattern = true;
-		rule.sourceDomain = domain;
+		rule.hostName = domain;
 		rule.enabled = true;
 		rule.proxy = null;
 
@@ -138,6 +164,15 @@ export class ProxyRules {
 	}
 
 	private static addRule(rule: ProxyRule) {
+
+		do {
+			// making sure the ruleId is unique
+			var isDuplicateRuleId = Settings.current.proxyRules.some(r => r.ruleId == rule.ruleId);
+
+			if(isDuplicateRuleId)
+				rule.ruleId = ProxyRule.getNewUniqueIdNo();
+		} while (isDuplicateRuleId);
+
 		Settings.current.proxyRules.push(rule);
 	}
 
@@ -194,7 +229,7 @@ export class ProxyRules {
 			let newCompiled = new CompiledProxyRule();
 			newCompiled.search = rule.search;
 			newCompiled.compiledRuleSource = CompiledProxyRuleSource.Subscriptions;
-
+			
 			if (markAsWhitelisted === true)
 				newCompiled.whiteList = true;
 
@@ -256,8 +291,9 @@ export class ProxyRules {
 
 			let newCompiled = new CompiledProxyRule();
 
+			newCompiled.ruleId = rule.ruleId;
 			newCompiled.whiteList = rule.whiteList;
-			newCompiled.sourceDomain = rule.sourceDomain;
+			newCompiled.hostName = rule.hostName;
 			newCompiled.proxy = rule.proxy;
 			newCompiled.compiledRuleSource = CompiledProxyRuleSource.Manual;
 
@@ -634,7 +670,7 @@ export class ProxyRules {
 	public static testMultipleRule(domainList: string[]): {
 		match: boolean,
 		domain: string,
-		sourceDomain: string,
+		hostName: string,
 		rule: CompiledProxyRule
 	}[] {
 		let result = [];
@@ -646,12 +682,12 @@ export class ProxyRules {
 			if (!url.includes(":/"))
 				url = "http://" + url;
 			let domainHost: string = null;
-			let schemaLessUrl: string;
+			let schemalessUrl: string;
 			let matchFound = false;
 
 			for (const rule of ProxyRules.compiledRulesList) {
 				let matched = false;
-				let sourceDomain: string;
+				let hostName: string;
 
 				switch (rule.compiledRuleType) {
 					case CompiledProxyRuleType.Exact:
@@ -698,7 +734,7 @@ export class ProxyRules {
 
 						if (rule.search == domainHost) {
 							matched = true;
-							sourceDomain = rule.search;
+							hostName = rule.search;
 						}
 						break;
 
@@ -714,40 +750,40 @@ export class ProxyRules {
 						// domain
 						if (domainHost == rule.search) {
 							matched = true;
-							sourceDomain = rule.search;
+							hostName = rule.search;
 						}
 						// subdomains
 						else if (domainHost.endsWith('.' + rule.search)) {
 							matched = true;
-							sourceDomain = rule.search;
+							hostName = rule.search;
 						}
 
 						break;
 
 					case CompiledProxyRuleType.SearchDomainAndPath:
 
-						if (schemaLessUrl == null) {
-							schemaLessUrl = Utils.removeSchemaFromUrl(url);
-							if (schemaLessUrl == null) {
+						if (schemalessUrl == null) {
+							schemalessUrl = Utils.removeSchemaFromUrl(url);
+							if (schemalessUrl == null) {
 								continue;
 							}
 						}
 
-						if (schemaLessUrl.startsWith(rule.search))
+						if (schemalessUrl.startsWith(rule.search))
 							matched = true;
 
 						break;
 
 					case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 
-						if (schemaLessUrl == null) {
-							schemaLessUrl = Utils.removeSchemaFromUrl(url);
-							if (schemaLessUrl == null) {
+						if (schemalessUrl == null) {
+							schemalessUrl = Utils.removeSchemaFromUrl(url);
+							if (schemalessUrl == null) {
 								continue;
 							}
 						}
 
-						if (schemaLessUrl.startsWith(rule.search))
+						if (schemalessUrl.startsWith(rule.search))
 							matched = true;
 
 						else {
@@ -770,7 +806,7 @@ export class ProxyRules {
 							}
 
 							// subdomains
-							if (schemaLessUrl.includes('.' + rule.search))
+							if (schemalessUrl.includes('.' + rule.search))
 								matched = true;
 						}
 						break;
@@ -780,7 +816,7 @@ export class ProxyRules {
 					result.push({
 						match: true,
 						domain: domain,
-						sourceDomain: rule.sourceDomain ?? sourceDomain,
+						hostName: rule.hostName ?? hostName,
 						rule: rule
 					});
 					matchFound = true;
@@ -793,7 +829,7 @@ export class ProxyRules {
 				result.push({
 					domain: domain,
 					match: false,
-					sourceDomain: null,
+					hostName: null,
 					rule: null
 				});
 			}
@@ -806,15 +842,10 @@ export class ProxyRules {
 		success: boolean, exist?: boolean, message?: string,
 		result?: any
 	} {
-		// 	proxyRules: [{ rule: "rule", host: "host", enabled: false }],
-		if (!rule.sourceDomain) {
-			// Rule 'source' is empty
-			return { success: false, message: browser.i18n.getMessage("settingsRuleSourceIsEmpty") };
-		} else {
-
-			if (!Utils.isValidHost(rule.sourceDomain)) {
+		if(rule.hostName) {
+			if (!Utils.isValidHost(rule.hostName)) {
 				// 'source' is not valid '${rule.source}
-				return { success: false, message: browser.i18n.getMessage("settingsRuleSourceInvalidFormat").replace("{0}", rule.sourceDomain) };
+				return { success: false, message: browser.i18n.getMessage("settingsRuleSourceInvalidFormat").replace("{0}", rule.hostName) };
 			}
 		}
 

@@ -151,14 +151,13 @@ export class TabRequestLogger {
 		let result = new ProxyableLogDataType();
 
 		result.url = url;
-		result.sourceDomain = "";
+		result.hostName = "";
 		result.ruleText = "";
 		result.logType = ProxyableLogType.NoneMatched;
 
 		if (testResult.rule) {
-			result.sourceDomain = testResult.rule.sourceDomain;
-			result.ruleText = testResult.rule.ruleText;
-			result.ruleSource = testResult.rule.compiledRuleSource;
+			result.applyFromRule(testResult.rule);
+			result.hostName = testResult.rule.hostName;
 			result.logType = ProxyableLogType.MatchedRule;
 			result.whitelist = testResult.rule.whiteList;
 		}
@@ -166,9 +165,8 @@ export class TabRequestLogger {
 			testResult = ProxyRules.testSingleWhiteListRule(url);
 
 			if (testResult.rule) {
-				result.sourceDomain = testResult.rule.sourceDomain;
-				result.ruleText = testResult.rule.ruleText;
-				result.ruleSource = testResult.rule.compiledRuleSource;
+				result.applyFromRule(testResult.rule);
+				result.hostName = testResult.rule.hostName;
 				result.logType = ProxyableLogType.Whitelisted;
 				result.whitelist = testResult.rule.whiteList;
 			}

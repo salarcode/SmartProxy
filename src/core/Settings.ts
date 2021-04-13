@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { PolyFill } from "../lib/PolyFill";
-import { ProxyModeType, ProxyRuleType, proxyServerProtocols, ProxyServer, GeneralOptions, BypassOptions, SettingsConfig, ProxyRule } from "./definitions";
+import { ProxyModeType, ProxyRuleType, proxyServerProtocols, ProxyServer, GeneralOptions, BypassOptions, SettingsConfig } from "./definitions";
 import { Debug } from "../lib/Debug";
 import { SettingsOperation } from "./SettingsOperation";
 import { browser } from "../lib/environment";
@@ -69,6 +69,9 @@ export class Settings {
 					// use synced settings
 					Settings.setDefaultSettings(syncedSettings);
 					Settings.migrateFromOldVersion(syncedSettings);
+
+
+					// TODO: do not sync proxyMode if not enabled
 					Settings.current = syncedSettings;
 
 				} else {
@@ -131,25 +134,12 @@ export class Settings {
 			return;
 		if (config.proxyRules && config.proxyRules.length > 0) {
 
-			// check if pattern property exists
-			let oldRules: any[] = config.proxyRules;
-
-			if (oldRules[0]["pattern"]) {
-				let newRules: ProxyRule[] = [];
-
-				for (const oldRule of oldRules) {
-					let newRule = new ProxyRule();
-					newRule.rulePattern = oldRule["pattern"];
-					newRule.sourceDomain = oldRule["source"];
-					newRule.enabled = oldRule.enabled;
-					newRule.proxy = oldRule.proxy;
-					newRule.ruleType = ProxyRuleType.MatchPatternUrl;
-
-					newRules.push(newRule);
-				}
-
-				config.proxyRules = newRules;
-			}
+			for (const rule of config.proxyRules) {
+				rule.rulePattern = rule["rulePattern"] || rule["pattern"];
+				rule.hostName = rule["hostName"] || rule["source"] || rule["sourceDomain"] || null;
+				if (rule.ruleType == null)
+					rule.ruleType = ProxyRuleType.MatchPatternUrl;
+			} 
 		}
 	}
 

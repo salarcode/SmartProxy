@@ -140,7 +140,7 @@ export class ProxyEngineFirefox {
 
 					if (settings.bypass.bypassList.indexOf(host) !== -1) {
 						proxyLog.logType = ProxyableLogType.ByPassed;
-						proxyLog.sourceDomain = host;
+						proxyLog.hostName = host;
 						return { type: "direct" };
 					}
 				}
@@ -152,9 +152,8 @@ export class ProxyEngineFirefox {
 			let matchedWhitelistRule = ProxyRules.findWhitelistMatchForUrl(requestDetails.url);
 			if (matchedWhitelistRule) {
 				proxyLog.logType = ProxyableLogType.Whitelisted;
-				proxyLog.ruleText = matchedWhitelistRule.ruleText;
-				proxyLog.ruleSource = matchedWhitelistRule.compiledRuleSource;
-				proxyLog.sourceDomain = matchedWhitelistRule.sourceDomain;
+				proxyLog.applyFromRule(matchedWhitelistRule);
+				proxyLog.hostName = matchedWhitelistRule.hostName;
 
 				return { type: "direct" };
 			}
@@ -179,8 +178,12 @@ export class ProxyEngineFirefox {
 					}
 					else {
 						proxyLog.logType = ProxyableLogType.ProxyPerOrigin;
-						proxyLog.sourceDomain = tabData.proxySourceDomain;
+						proxyLog.hostName = tabData.proxyRuleHostName;
 						proxyLog.proxied = true;
+
+						if (tabData.proxyMatchedRule) {
+							proxyLog.applyFromRule(tabData.proxyMatchedRule);
+						}
 
 						if (tabData.proxyServerFromRule) {
 							if (tabData.proxyServerFromRule.username)
@@ -199,9 +202,8 @@ export class ProxyEngineFirefox {
 			if (matchedRule) {
 
 				proxyLog.logType = ProxyableLogType.MatchedRule;
-				proxyLog.ruleText = matchedRule.ruleText;
-				proxyLog.ruleSource = matchedRule.compiledRuleSource;
-				proxyLog.sourceDomain = matchedRule.sourceDomain;
+				proxyLog.applyFromRule(matchedRule);
+				proxyLog.hostName = matchedRule.hostName;
 
 				if (requestDetails.tabId > -1) {
 					// storing the proxy & rule in tab
@@ -251,7 +253,9 @@ export class ProxyEngineFirefox {
 
 			tabData.proxified = true;
 			tabData.proxifiedParentDocumentUrl = requestDetails.url;
-			tabData.proxySourceDomain = matchedRule.sourceDomain;
+			tabData.proxyMatchedRule = matchedRule;
+			tabData.proxyRuleHostName = matchedRule.hostName;
+
 			if (matchedRule.proxy)
 				tabData.proxyServerFromRule = matchedRule.proxy;
 			else
