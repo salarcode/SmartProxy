@@ -69,9 +69,8 @@ export class Settings {
 					// use synced settings
 					Settings.setDefaultSettings(syncedSettings);
 					Settings.migrateFromOldVersion(syncedSettings);
-
-
-					// TODO: do not sync proxyMode if not enabled
+					Settings.revertSyncOptions(syncedSettings);
+					
 					Settings.current = syncedSettings;
 
 				} else {
