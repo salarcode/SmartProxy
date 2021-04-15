@@ -378,6 +378,24 @@ export class SettingsOperation {
 			});
 	}
 
+	/** Updates the `proxy server` used in the proxy rules */
+	public static updateProxyRulesServers() {
+		let servers = Settings.current.proxyServers;
+		let rules = Settings.current.proxyRules;
+
+		for (const server of servers) {
+			for (const rule of rules) {
+				if (!rule.proxy)
+					continue;
+
+				if (rule.proxy.name != server.name)
+					continue;
+
+				rule.proxy = server;
+			}
+		}
+	}
+
 	public static restoreSettings(fileData: string) {
 		if (fileData == null)
 			return { success: false, message: "Invalid data" };

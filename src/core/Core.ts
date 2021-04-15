@@ -315,6 +315,7 @@ export class Core {
 					Settings.current.activeProxyServer = message.saveData.activeProxyServer;
 
 					SettingsOperation.saveProxyServers();
+					SettingsOperation.updateProxyRulesServers();
 					SettingsOperation.saveActiveProxyServer();
 					SettingsOperation.saveAllSync();
 
