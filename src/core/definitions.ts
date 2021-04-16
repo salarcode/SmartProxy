@@ -409,7 +409,9 @@ export class ProxyRule implements Cloneable {
 		return +Math.random().toString(10).substr(2 + (Math.random() * 10));
 	}
 	CopyFrom(source: any) {
-		this.ruleType = source["ruleType"] || ProxyRuleType.DomainSubdomain;
+		this.ruleType = source["ruleType"];
+		if (source["ruleType"] == null)
+			this.ruleType = ProxyRuleType.DomainSubdomain;
 		this.hostName = source["hostName"] || source["sourceDomain"];
 		this.autoGeneratePattern = source["autoGeneratePattern"] == true ? true : false;
 		this.rulePattern = source["rulePattern"];
