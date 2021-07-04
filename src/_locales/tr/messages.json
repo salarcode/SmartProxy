@@ -48,7 +48,7 @@
 		"description": ""
 	},
 	"popupRuleIsFromSubscription": {
-		"message": "(From subscription)",
+		"message": "(Abonelikten)",
 		"description": ""
 	},
 	"popupProxyableResources": {
@@ -88,7 +88,7 @@
 		"description": ""
 	},
 	"popupAddIgnoredFailures": {
-		"message": "Ignore them",
+		"message": "Görmezden gel",
 		"description": ""
 	},
 	"popupAddIgnoredFailuresConfirm": {
@@ -144,7 +144,7 @@
 		"description": ""
 	},
 	"proxyableSubscriptionRule": {
-		"message": "(Subscription Rule)",
+		"message": "(Abonelik Kuralı)",
 		"description": ""
 	},
 	"proxyableDeleteRuleConfirm": {
@@ -168,23 +168,23 @@
 		"description": ""
 	},
 	"proxyableGridColStatus": {
-		"message": "Status",
+		"message": "Durum",
 		"description": ""
 	},
 	"proxyableGridData_LogType_NoneMatched": {
-		"message": "No Match",
+		"message": "Eşleşme Yok",
 		"description": ""
 	},
 	"proxyableGridData_LogType_MatchedRule": {
-		"message": "Rule Matched",
+		"message": "Eşleşen Kural",
 		"description": ""
 	},
 	"proxyableGridData_LogType_Special": {
-		"message": "Special",
+		"message": "Özel",
 		"description": ""
 	},
 	"proxyableGridData_LogType_Whitelisted": {
-		"message": "Whitelisted",
+		"message": "Beyaz liste",
 		"description": ""
 	},
 	"proxyableGridData_LogType_ByPassed": {
@@ -192,11 +192,11 @@
 		"description": ""
 	},
 	"proxyableGridData_LogType_SystemProxyApplied": {
-		"message": "System Mode",
+		"message": "Sistem Modu",
 		"description": ""
 	},
 	"proxyableGridData_LogType_AlwaysEnabled": {
-		"message": "Always Mode",
+		"message": "Her Zaman Açık",
 		"description": ""
 	},
 	"proxyableGridData_LogType_ProxyPerOrigin": {
@@ -244,7 +244,7 @@
 		"description": ""
 	},
 	"settingsGeneralSmartFeatures": {
-		"message": "Smart Features",
+		"message": "Akıllı Özellikler",
 		"description": ""
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
@@ -304,7 +304,7 @@
 		"description": ""
 	},
 	"settingsGeneralErrorDetection": {
-		"message": "Error Detection",
+		"message": "Hata Tespiti",
 		"description": ""
 	},
 	"settingsGeneralDetectFailures": {
@@ -316,7 +316,7 @@
 		"description": ""
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Select Domains",
+		"message": "Alan Adları Seç",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
@@ -332,11 +332,11 @@
 		"description": ""
 	},
 	"settingsGeneralOtherSettings": {
-		"message": "Other Settings",
+		"message": "Diğer Seçenekler",
 		"description": ""
 	},
 	"settingsGeneralEnableShortcuts": {
-		"message": "Enable Shortcuts",
+		"message": "Kısayolu Etkinleştir",
 		"description": ""
 	},
 	"settingsGeneralEnableShortcutsDesc": {
@@ -344,15 +344,15 @@
 		"description": ""
 	},
 	"settingsGeneralViewShortcuts": {
-		"message": "View shortcuts",
+		"message": "Kısayolları Listele",
 		"description": ""
 	},
 	"settingsGeneralShortcutNotification": {
-		"message": "Enable shortcut notification",
+		"message": "Kısayolu bildirimlerini aktifleştir",
 		"description": ""
 	},
 	"settingsGeneralViewShortcutKeys": {
-		"message": "Shortcut Keys",
+		"message": "Kısayol Tuşları",
 		"description": ""
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
@@ -368,19 +368,19 @@
 		"description": ""
 	},
 	"settingsGeneralCancelButton": {
-		"message": "Cancel",
+		"message": "İptal",
 		"description": ""
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "Save Changes",
+		"message": "Değişiklikleri Kaydet",
 		"description": ""
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "Keyboard shortcuts",
+		"message": "Klavye Kısayolları",
 		"description": ""
 	},
 	"settingsGeneralCloseButton": {
-		"message": "Close",
+		"message": "Kapat",
 		"description": ""
 	},
 	"settingsTabProxyServersTitle": {
@@ -668,7 +668,7 @@
 		"description": ""
 	},
 	"settingsServersProtocol": {
-		"message": "Proxy Protocol",
+		"message": "Proxy Protokolü",
 		"description": ""
 	},
 	"settingsServersPort": {
@@ -676,7 +676,7 @@
 		"description": ""
 	},
 	"settingsServersProxyDNS": {
-		"message": "Proxy DNS when using SOCKS 5",
+		"message": "SOCKS 5 kullanırken DNS bağlantılarını Proxy'le",
 		"description": ""
 	},
 	"settingsServersUsername": {
@@ -692,7 +692,7 @@
 		"description": ""
 	},
 	"settingsServersSave": {
-		"message": "Save",
+		"message": "Kaydet",
 		"description": ""
 	},
 	"settingsServersImport": {
@@ -700,7 +700,7 @@
 		"description": ""
 	},
 	"settingsRuleSourceRequired": {
-		"message": "Please specify the source domain of the rule!",
+		"message": "Lütfen kuralın kaynak alanadını belirtin!",
 		"description": ""
 	},
 	"settingsRuleSourceInvalid": {
@@ -728,15 +728,15 @@
 		"description": ""
 	},
 	"settingsRuleRegexInvalid": {
-		"message": "Regex rule '{0}' is not valid",
+		"message": "Regex kuralı {0} geçerli değil",
 		"description": ""
 	},
 	"settingsRuleExactUrlInvalid": {
-		"message": "Url '{0}' is not valid",
+		"message": "Url kuralı {0} geçerli değil",
 		"description": ""
 	},
 	"settingsRuleUrlInvalid": {
-		"message": "Url '{0}' is not valid",
+		"message": "Url '{0}' geçerli değil",
 		"description": ""
 	},
 	"settingsRulesGridNoDataContent": {
@@ -744,7 +744,7 @@
 		"description": ""
 	},
 	"settingsRulesGridColRuleType": {
-		"message": "Rule Type",
+		"message": "Kural Türü",
 		"description": ""
 	},
 	"settingsRulesGridColSource": {
@@ -752,7 +752,7 @@
 		"description": ""
 	},
 	"settingsRulesGridColRule": {
-		"message": "Rule",
+		"message": "Kural",
 		"description": ""
 	},
 	"settingsRulesGridColEnabled": {
@@ -776,7 +776,7 @@
 		"description": ""
 	},
 	"settingsRulesRuleType": {
-		"message": "Rule Type",
+		"message": "Kural Türü",
 		"description": ""
 	},
 	"settingsRulesSourceDomain": {
@@ -792,7 +792,7 @@
 		"description": ""
 	},
 	"settingsRulesGeneratePattern": {
-		"message": "Generate pattern automatically",
+		"message": "Şablonu otomatik oluştur",
 		"description": ""
 	},
 	"settingsRulesRegex": {
@@ -800,7 +800,7 @@
 		"description": ""
 	},
 	"settingsRulesExactUrl": {
-		"message": "Exact Url",
+		"message": "Url ile Tam Eşleşme",
 		"description": ""
 	},
 	"settingsRulesProxyServer": {
@@ -808,7 +808,7 @@
 		"description": ""
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(Servers with authentication are not supported in Chrome)",
+		"message": "(Kimlik doğrulama gerektiren sunucular Chrome'da desteklenmemektedir)",
 		"description": ""
 	},
 	"settingsRulesEnabled": {
@@ -824,15 +824,15 @@
 		"description": ""
 	},
 	"settingsRulesActionType": {
-		"message": "Action",
+		"message": "Eylem",
 		"description": ""
 	},
 	"settingsRuleActionApplyProxy": {
-		"message": "Apply Proxy",
+		"message": "Proxy'i Uygula",
 		"description": ""
 	},
 	"settingsRuleActionWhitelist": {
-		"message": "Whitelist (No proxy)",
+		"message": "Doğrudan (Vekil sunucu yok.)",
 		"description": ""
 	},
 	"settingsServerPortInvalid": {
@@ -876,19 +876,19 @@
 		"description": ""
 	},
 	"settingsAddMultipleRulesButton": {
-		"message": "Add Multiple Rules",
+		"message": "Çoklu Kural Ekle",
 		"description": ""
 	},
 	"settingsAddMultipleRuleTitle": {
-		"message": "Add Multiple Rules",
+		"message": "Çoklu Kural Ekle",
 		"description": ""
 	},
 	"settingsMultipleRuleList": {
-		"message": "Host/Rule list:",
+		"message": "Host/Kural listesi:",
 		"description": ""
 	},
 	"settingsMultipleRuleInvalidHost": {
-		"message": "Host name '{0}' is invalid",
+		"message": "Host adı '{0}' geçerli değil",
 		"description": ""
 	},
 	"settingsMultipleRuleNoNewRuleAdded": {
@@ -948,7 +948,7 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionFormat": {
-		"message": "Format:",
+		"message": "Biçim:",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxy": {
@@ -968,11 +968,11 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
-		"message": "Current Proxy",
+		"message": "Aktif Vekil Sunucu",
 		"description": ""
 	},
 	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
-		"message": "Selected Proxy",
+		"message": "Seçili Vekil Sunucu",
 		"description": ""
 	},
 	"settingsServerSubscriptionUsername": {
@@ -1076,7 +1076,7 @@
 		"description": ""
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "Test was successful. The list returned {0} proxies.",
+		"message": "Test başarılı oldu. Liste, {0} vekil döndürdü.",
 		"description": ""
 	},
 	"settingsServerSubscriptionTestFailed": {
@@ -1092,43 +1092,43 @@
 		"description": ""
 	},
 	"settingsTabProxyRulesSubscription": {
-		"message": "Proxy Rules Subscriptions",
+		"message": "Proxy Kuralları Abonelikleri",
 		"description": ""
 	},
 	"settingsTabProxyRulesSubscriptionTitle": {
-		"message": "Manage proxy rules subscriptions:",
+		"message": "Proxy kural aboneliklerini yönet:",
 		"description": ""
 	},
 	"settingsTabProxyRulesSubscriptionDescription": {
-		"message": "Here you can subscribe to rules lists. Based on these rules, proxies will apply.",
+		"message": "Buradan kural listesine abone olabilirsiniz. Bu kurallara bağlı olarak proxyler kullanılacaktır.",
 		"description": ""
 	},
 	"settingsAddRulesSubscriptionButton": {
-		"message": "Subscribe to a rules list",
+		"message": "Bir kural listesine abone ol",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsModalTitle": {
-		"message": "Subscribe to a rules list",
+		"message": "Bir kural listesine abone ol",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsGridColName": {
-		"message": "Name",
+		"message": "Ad",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "Url",
+		"message": "Bağlantı",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsGridColCount": {
-		"message": "Count",
+		"message": "Miktar",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsGridColEnabled": {
-		"message": "Enabled",
+		"message": "Etkin",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsName": {
-		"message": "Name:",
+		"message": "Adı:",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsUrl": {
@@ -1136,27 +1136,27 @@
 		"description": ""
 	},
 	"settingsRulesSubscriptionsRefreshRate": {
-		"message": "Refresh Rate:",
+		"message": "Yenileme Hızı:",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsRefreshRateHelp": {
-		"message": "(in minutes, 0 means no refresh)",
+		"message": "(dakika olarak, 0 hiç yenileme yok demektir)",
 		"description": ""
 	},
 	"settingsRulesSubscriptionEnabled": {
-		"message": "Enabled",
+		"message": "Etkin",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsObfuscation": {
-		"message": "Obfuscation:",
+		"message": "Gizleme:",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsFormat": {
-		"message": "Format:",
+		"message": "Tür:",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsApplyProxy": {
-		"message": "Pass through proxy:",
+		"message": "Proxy üzerinden geçir:",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
@@ -1164,19 +1164,19 @@
 		"description": ""
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
-		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)",
+		"message": "(Maalesef bu özellik henüz Chrome'da mümkün değil. Aktif proxy kullanılacak)",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsUsername": {
-		"message": "Username:",
+		"message": "Kullanıcı Adı:",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsAuthenticationHelp": {
-		"message": "(if the list requires authentication)",
+		"message": "(liste kimlik doğrulaması gerektiriyorsa)",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsPassword": {
-		"message": "Password:",
+		"message": "Şifre:",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsTestButton": {
@@ -1184,31 +1184,31 @@
 		"description": ""
 	},
 	"settingsRulesSubscriptionsSaveButton": {
-		"message": "Save",
+		"message": "Kaydet",
 		"description": ""
 	},
 	"settingsRulesSubscriptionsCancelButton": {
-		"message": "Cancel",
+		"message": "İptal",
 		"description": ""
 	},
 	"settingsConfirmRemoveRulesSubscription": {
-		"message": "Are you sure to remove the selected rules subscription?",
+		"message": "Seçili kural aboneliklerini kaldırmak istediğinize emin misiniz?",
 		"description": ""
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
-		"message": "Please fill the required fields in the right format",
+		"message": "Lütfen gerekli alanları doğru biçimde doldurunuz",
 		"description": ""
 	},
 	"settingsRulesSubscriptionInvalidForm": {
-		"message": "Invalid proxy server subscription details",
+		"message": "Geçersiz proxy sunucu abonelik ayrıntıları",
 		"description": ""
 	},
 	"settingsRulesSubscriptionDuplicateName": {
-		"message": "The entered name is already used, please enter another name.",
+		"message": "Girilen ad zaten kullanıldı, lütfen başka bir ad girin.",
 		"description": ""
 	},
 	"settingsRulesSubscriptionSavingButton": {
-		"message": "Saving...",
+		"message": "Kaydediliyor...",
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestButton": {
@@ -1216,7 +1216,7 @@
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestingButton": {
-		"message": "Testing...",
+		"message": "Test Ediliyor...",
 		"description": ""
 	},
 	"settingsRulesSubscriptionSaveUpdated": {
@@ -1228,23 +1228,23 @@
 		"description": ""
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
-		"message": "Failed to get rules.",
+		"message": "Kurallar alınamadı.",
 		"description": ""
 	},
 	"settingsRulesSubscriptionRefreshOnDisabled": {
-		"message": "Cannot refresh a disabled subscription",
+		"message": "Devre dışı bırakılmış abonelikler yenilenemez",
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestSuccess": {
-		"message": "Test was successful. The list returned {0} proxy rules and {1} white listed rules.",
+		"message": "Test başarılı. Liste {0} proxy kuralı ve {1} beyaz liste kuralı döndürdü.",
 		"description": ""
 	},
 	"settingsRulesSubscriptionTestFailed": {
-		"message": "Test failed",
+		"message": "Test başarısız",
 		"description": ""
 	},
 	"settingsFailedToSaveRulesSubscriptions": {
-		"message": "Failed to save rules subscriptions",
+		"message": "Abonelik kuralları kaydedilemedi",
 		"description": ""
 	},
 	"settingsRemoveAllProxyRulesSubscriptions": {
@@ -1260,7 +1260,7 @@
 		"description": ""
 	},
 	"settingsRulePatternIsEmpty": {
-		"message": "Rule doesn't have pattern defined",
+		"message": "Kuralda herhangi bir şablon tanımlanmamış",
 		"description": ""
 	},
 	"settingsSaveProxyRulesSubscriptionsSuccess": {
@@ -1276,7 +1276,7 @@
 		"description": ""
 	},
 	"settingsBypassListHint": {
-		"message": "(Use new line to separate entries)",
+		"message": "(Yeni girdileri ayırmak için satır kullanın)",
 		"description": ""
 	},
 	"settingsErrorFailedToSaveBypass": {
@@ -1292,7 +1292,7 @@
 		"description": ""
 	},
 	"settingsWelcomeTitle": {
-		"message": "Welcome to SmartProxy",
+		"message": "SmartProxy'e Hoş Geldiniz",
 		"description": ""
 	},
 	"settingsWelcomeMessage": {
@@ -1300,7 +1300,7 @@
 		"description": ""
 	},
 	"settingsWelcomeSkipButton": {
-		"message": "Got it",
+		"message": "Anladım",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {
@@ -1312,15 +1312,15 @@
 		"description": ""
 	},
 	"notificationShortcutTitle": {
-		"message": "SmartProxy shortcut notification",
+		"message": "SmartProxy kısayol bildirimi",
 		"description": ""
 	},
 	"notificationShortcutProxyModeMessage": {
-		"message": "Proxy mode changed to {0}",
+		"message": "Proxy modu {0} olarak değiştirildi",
 		"description": ""
 	},
 	"notificationShortcutProxyServerChanged": {
-		"message": "Proxy server changed to {0}",
+		"message": "Proxy sunucusu {0} olarak değiştirildi",
 		"description": ""
 	}
 }
