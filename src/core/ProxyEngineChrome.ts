@@ -65,7 +65,7 @@ export class ProxyEngineChrome {
 		let compiledRulesAsString = this.regexHostArrayToString(compiledRules).join(",");
 		let compiledWhitelistAsString = this.regexHostArrayToString(compiledWhitelistRulesList).join(",");
 		let compiledBypass = JSON.stringify(settings.bypass);
-		let pacTemplateString = `const proxyMode = "${proxyMode}";
+		let pacTemplateString = `const proxyMode = +"${proxyMode}";
 const compiledRules = [${compiledRulesAsString}];
 const compiledWhitelistRules = [${compiledWhitelistAsString}];
 const bypass = ${compiledBypass};
@@ -155,7 +155,7 @@ function FindProxyForUrlInternal(url, host, compiledRules) {
 		let rule = compiledRules[i];
 		let matched = false;
 
-		switch (rule.ruleType) {
+		switch (+rule.ruleType) {
 			case CompiledProxyRuleType.Exact:
 				if (lowerCaseUrl == null)
 					lowerCaseUrl = url.toLowerCase();

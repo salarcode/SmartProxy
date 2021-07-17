@@ -593,6 +593,17 @@ export class settingsPage {
 			modal.find("#chkServerProxyDNS-Control").show();
 		else
 			modal.find("#chkServerProxyDNS-Control").hide();
+		
+		if (serverInputInfo.protocol == "SOCKS4")
+			modal.find("#chkServerProxy-Authentication").hide();
+		else if (serverInputInfo.protocol == "SOCKS5")
+		{
+			if (environment.chrome){
+				modal.find("#chkServerProxy-Authentication").hide();
+			}
+			else
+				modal.find("#chkServerProxy-Authentication").show();	
+		}
 	}
 
 	private static populateServerModal(modalContainer: any, server?: ProxyServer) {
