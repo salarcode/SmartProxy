@@ -160,7 +160,7 @@ function FindProxyForUrlInternal(url, host, compiledRules) {
 				if (lowerCaseUrl == null)
 					lowerCaseUrl = url.toLowerCase();
 
-				if (lowerCaseUrl == rule.ruleExact)
+				if (lowerCaseUrl == rule.search)
 					matched = true;
 				break;
 
