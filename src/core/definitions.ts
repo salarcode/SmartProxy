@@ -161,7 +161,8 @@ export type ProxyableDomainType = {
 	domain: string,
 	ruleMatched: boolean,
 	ruleMatchedThisHost: boolean,
-	ruleSource: CompiledProxyRuleSource
+	ruleSource: CompiledProxyRuleSource,
+	ruleHasWhiteListMatch?: boolean
 }
 
 export type SettingsPageInternalDataType = {

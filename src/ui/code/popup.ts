@@ -237,8 +237,15 @@ export class popup {
 			if (proxyableDomain.ruleSource == CompiledProxyRuleSource.Subscriptions) {
 				// disabling the item for subscriptions since these rules can't be disabled/enabled individually
 
-				itemIcon.removeClass("fa-square")
-					.addClass("fas fa-check fa-sm");
+				if(proxyableDomain.ruleHasWhiteListMatch){
+					itemIcon.removeClass("fa-square")
+						.addClass("far fa-hand-paper fa-sm");
+					item.attr("title", browser.i18n.getMessage("settingsRuleActionWhitelist"));
+				}
+				else{
+					itemIcon.removeClass("fa-square")
+						.addClass("fas fa-check fa-sm");
+				}
 				item.show().find("div.proxyable-is-subscription").show();
 
 				item.find(".nav-link").addClass("disabled")
