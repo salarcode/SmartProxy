@@ -1,3 +1,11 @@
+// -----------------------------------------------
+/*!
+* This piece of code is from SwitchyOmega_Chrome <omega_webext_proxy_script.min.js>
+* Modified to be in taste of SmartProxy
+*
+* @source  https://github.com/FelisCatus/SwitchyOmega
+* @license  GPL3
+*/
 const strStartsWith = function (str, prefix) {
 	return str.substr(0, prefix.length) === prefix;
 };

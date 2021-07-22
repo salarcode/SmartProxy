@@ -137,15 +137,13 @@ export const RuleImporter = {
 				}
 				rules = externalAppRuleParser.GFWList.parse(text);
 			} else if (options && options.format == ProxyRulesSubscriptionFormat.SwitchyOmega) {
-				debugger;
 				let switchyRules = externalAppRuleParser.Switchy.parseAndCompile(text);
-				debugger;
+
 				if (!switchyRules || !switchyRules.compiled) {
 					if (fail) fail();
 					return;
 				}
 				let blackListRules = externalAppRuleParser.Switchy.convertToSmartProxy(switchyRules.compiled);
-				debugger;
 				rules = {
 					blackList: blackListRules,
 					whiteList: [],
