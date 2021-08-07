@@ -623,7 +623,7 @@ export class settingsPage {
 			modalContainer.find("#txtServerAddress").val("127.0.0.1");
 			modalContainer.find("#txtServerPort").val("");
 			modalContainer.find("#cmdServerProtocol").val("HTTP");
-			modalContainer.find("#chkServerProxyDNS").prop('checked', false);
+			modalContainer.find("#chkServerProxyDNS").prop('checked', true);
 			modalContainer.find("#txtServerUsername").val("");
 			modalContainer.find("#txtServerPassword").val("");
 		}
