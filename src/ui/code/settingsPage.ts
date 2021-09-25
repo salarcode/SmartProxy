@@ -604,6 +604,9 @@ export class settingsPage {
 			else
 				modal.find("#chkServerProxy-Authentication").show();	
 		}
+		else{
+			modal.find("#chkServerProxy-Authentication").show();
+		}
 	}
 
 	private static populateServerModal(modalContainer: any, server?: ProxyServer) {
