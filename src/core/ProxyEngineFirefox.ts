@@ -283,8 +283,7 @@ export class ProxyEngineFirefox {
 				return {
 					type: proxyServer.protocol,
 					host: proxyServer.host,
-					port: proxyServer.port,
-					proxyDNS: proxyServer.proxyDNS
+					port: proxyServer.port
 				};
 		}
 	}
@@ -298,7 +297,7 @@ export interface resultProxyInfo {
 	type: string;
 	host: string;
 	port: number;
-	proxyDNS: boolean;
+	proxyDNS?: boolean;
 	username?: string;
 	password?: string;
 	proxyAuthorizationHeader?: string;
