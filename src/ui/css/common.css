@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
+@import url("./bootstrap.darkly.min.css") (prefers-color-scheme: dark);
 
 html {
     font-size: 15px;
@@ -245,4 +246,33 @@ input:invalid {
     overflow: hidden;
     /* display: inline-block; */
     width: 92%;
+}
+
+/* ============================== */
+/* Dark mode styles */
+/* ------------------------------ */
+@media (prefers-color-scheme: dark) {
+    .slogan {
+        color: #0A7BC0;
+    }
+
+    .background-white {
+        background-color: #222222;
+    }
+
+    .nav-pills.interactive .nav-link:hover {
+        background-color: #2F4D6C;
+    }
+
+    .nav-pills.interactive .nav-link:hover .text-secondary {
+        color: #3F6892 !important;
+    }
+
+    .nav-pills.interactive .nav-link.active:hover {
+        background-color: #2C4865;
+    }
+
+    .popup-menu-failed .failed-requests-box {
+        background: #222222;
+    }
 }
