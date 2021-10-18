@@ -1,4 +1,3 @@
-import { ProxyRules } from "../core/ProxyRules";
 import { CompiledProxyRule, CompiledProxyRuleType } from "../core/definitions";
 import { Utils } from "./Utils";
 
@@ -19,7 +18,7 @@ export class RulesBenchmark {
             urls = this.sampleUrls;
 
         if (rules == null)
-            rules = ProxyRules.getCompiledRulesList();
+            rules = []// TODO: ProxyRules.getCompiledRulesList();
 
         var finalResult = `Benchmarking ${rules.length} rules on ${urls.length} urls \r\n`;
         var resultList = [];
@@ -86,7 +85,7 @@ export class RulesBenchmark {
             urls = this.sampleUrls;
 
         if (rules == null)
-            rules = ProxyRules.getCompiledRulesList();
+            rules = [];// TODO: ProxyRules.getCompiledRulesList();
 
         var finalResult = `Benchmarking ${rules.length} rules on ${urls.length} urls \r\n`;
         var resultList = [];

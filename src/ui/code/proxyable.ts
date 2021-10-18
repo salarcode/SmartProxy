@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { CommonUi } from "./CommonUi";
-import { Messages, ProxyableInternalDataType, ProxyableLogDataType, ProxyableLogType, CompiledProxyRule, CompiledProxyRuleSource } from "../../core/definitions";
+import { CommandMessages, ProxyableInternalDataType, ProxyableLogDataType, ProxyableLogType, CompiledProxyRule, CompiledProxyRuleSource } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { jQuery, messageBox } from "../../lib/External";
 import { browser } from "../../lib/environment";
@@ -44,7 +44,7 @@ export class proxyable {
 
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.ProxyableGetInitialData,
+				command: CommandMessages.ProxyableGetInitialData,
 				tabId: proxyable.sourceTabId,
 			},
 			(dataForProxyable: ProxyableInternalDataType) => {
@@ -78,7 +78,7 @@ export class proxyable {
 	private static stopListeningToLogger() {
 		// request log for this page
 		PolyFill.runtimeSendMessage({
-			command: Messages.ProxyableRemoveProxyableLog,
+			command: CommandMessages.ProxyableRemoveProxyableLog,
 			tabId: proxyable.sourceTabId
 		});
 	}
@@ -87,7 +87,7 @@ export class proxyable {
 
 		if (typeof (message) != "object")
 			return;
-		if (message["command"] === Messages.ProxyableRequestLog &&
+		if (message["command"] === CommandMessages.ProxyableRequestLog &&
 			message["tabId"] != null) {
 
 			let tabId = message.tabId;
@@ -105,7 +105,7 @@ export class proxyable {
 			return;
 		}
 
-		if (message["command"] === Messages.ProxyableOriginTabRemoved &&
+		if (message["command"] === CommandMessages.ProxyableOriginTabRemoved &&
 			message["tabId"] != null) {
 
 			let tabId = message.tabId;
@@ -195,7 +195,7 @@ export class proxyable {
 						else if (row.logType == ProxyableLogType.Whitelisted) {
 							return `<i class="far fa-hand-paper text-warning" title="${row.logTypeName}"></i>`;
 						}
-						else if (row.logType == ProxyableLogType.ByPassed) {
+						else if (row.logType == ProxyableLogType.AlwaysEnabledByPassed) {
 							return `<i class="far fa-hand-paper text-secondary" title="${row.logTypeName}"></i>`;
 						}
 						else if (row.logType == ProxyableLogType.SystemProxyApplied) {
@@ -368,7 +368,7 @@ export class proxyable {
 	private static toggleProxyableRequest(enableByDomain: string, removeBySource?: string, ruleId?: string, gridRow?: any) {
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.ProxyableToggleProxyableDomain,
+				command: CommandMessages.ProxyableToggleProxyableDomain,
 				enableByDomain: enableByDomain,
 				removeBySource: removeBySource,
 				ruleId: ruleId,

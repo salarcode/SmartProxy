@@ -19,7 +19,7 @@ import { Utils } from "../lib/Utils";
 import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { ProxyRules } from "./ProxyRules";
-import { Messages, ProxyableLogDataType, ProxyableLogType, ProxyModeType } from "./definitions";
+import { CommandMessages, ProxyableLogDataType, ProxyableLogType, CompiledProxyRulesMatchedSource, SmartProfileType, monitorUrlsSchemaFilter } from "./definitions";
 import { browser, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 
@@ -36,7 +36,7 @@ export class TabRequestLogger {
 
 			browser.webRequest.onBeforeRequest.addListener(
 				TabRequestLogger.onBeforeRequestLogRequestInternal,
-				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
+				{ urls: monitorUrlsSchemaFilter }
 			);
 		}
 	}
@@ -73,7 +73,7 @@ export class TabRequestLogger {
 		if (TabRequestLogger.subscribedTabList.length == 0)
 			return;
 
-			// checking if this tab requested
+		// checking if this tab requested
 		if (TabRequestLogger.subscribedTabList.indexOf(proxyLogData.tabId) == -1) {
 			return;
 		}
@@ -84,7 +84,7 @@ export class TabRequestLogger {
 	private static async sendProxyableRequestLog(logData: ProxyableLogDataType) {
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.ProxyableRequestLog,
+				command: CommandMessages.ProxyableRequestLog,
 				tabId: logData.tabId,
 				logInfo: logData
 			},
@@ -134,7 +134,7 @@ export class TabRequestLogger {
 
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.ProxyableOriginTabRemoved,
+				command: CommandMessages.ProxyableOriginTabRemoved,
 				tabId: tabId
 			},
 			null,
@@ -142,43 +142,69 @@ export class TabRequestLogger {
 				Debug.error("notifyProxyableOriginTabRemoved failed for ", tabId, error);
 			});
 	}
+
+	//** get proxyable log info -> this is a Chrome specific way of logging */
 	private static getProxyableDataForUrl(url: string): ProxyableLogDataType {
 
-		let settings = Settings.current;
+		let settingsActive = Settings.active;
 
-		let testResult = ProxyRules.testSingleRule(url);
+		let activeSmartProfile = settingsActive.activeProfile;
+		if (!activeSmartProfile) {
+
+			let result = new ProxyableLogDataType();
+			result.url = url;
+			result.hostName = "";
+			result.ruleText = "";
+			result.logType = ProxyableLogType.NoneMatched;
+
+			return result;
+		}
+
+		let testResultInfo = ProxyRules.findMatchedUrlInRulesInfo(url, activeSmartProfile.compiledRules);
+		let testResultRule = testResultInfo?.compiledRule;
 
 		let result = new ProxyableLogDataType();
-
 		result.url = url;
 		result.hostName = "";
 		result.ruleText = "";
 		result.logType = ProxyableLogType.NoneMatched;
 
-		if (testResult.rule) {
-			result.applyFromRule(testResult.rule);
-			result.hostName = testResult.rule.hostName;
-			result.logType = ProxyableLogType.MatchedRule;
-			result.whitelist = testResult.rule.whiteList;
-		}
-		else {
-			testResult = ProxyRules.testSingleWhiteListRule(url);
+		if (testResultRule != null) {
+			result.applyFromRule(testResultRule);
+			result.hostName = testResultRule.hostName;
+			result.whitelist = testResultRule.whiteList;
+			result.proxied = true;
 
-			if (testResult.rule) {
-				result.applyFromRule(testResult.rule);
-				result.hostName = testResult.rule.hostName;
+			if (testResultInfo.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistRules ||
+				testResultInfo.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistSubscriptionRules) {
 				result.logType = ProxyableLogType.Whitelisted;
-				result.whitelist = testResult.rule.whiteList;
+			}
+			else {
+				result.logType = ProxyableLogType.MatchedRule;
 			}
 		}
 
-		if (result.whitelist)
+		if (activeSmartProfile.profileType == SmartProfileType.AlwaysEnabledBypassRules) {
+			if (result.whitelist) {
+				// TODO: check if whitelist work as reverse in always enabled mode
+				result.proxied = false;
+			}
+			else {
+				result.proxied = true;
+			}
+		}
+		else if (activeSmartProfile.profileType == SmartProfileType.SmartRules) {
+			if (result.whitelist) {
+				result.proxied = false;
+			}
+			else {
+				result.proxied = true;
+			}
+		}
+		else if (activeSmartProfile.profileType == SmartProfileType.Direct ||
+			activeSmartProfile.profileType == SmartProfileType.SystemProxy) {
 			result.proxied = false;
-		else if (settings.proxyMode == ProxyModeType.Always)
-			result.proxied = true;
-		else if (settings.proxyMode == ProxyModeType.Direct ||
-			settings.proxyMode == ProxyModeType.SystemProxy)
-			result.proxied = false;
+		}
 
 		return result;
 	}

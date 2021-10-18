@@ -16,7 +16,7 @@
  */
 import { browser, environment } from "../../lib/environment";
 import { jQuery, messageBox } from "../../lib/External";
-import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource } from "../../core/definitions";
+import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
@@ -28,7 +28,7 @@ export class popup {
 
 		popup.onDocumentReady(popup.bindEvents);
 
-		PolyFill.runtimeSendMessage(Messages.PopupGetInitialData,
+		PolyFill.runtimeSendMessage(CommandMessages.PopupGetInitialData,
 			(dataForPopup: PopupInternalDataType) => {
 
 				if (dataForPopup != null) {
@@ -50,7 +50,7 @@ export class popup {
 
 		if (typeof (message) == "object") {
 
-			if (message["command"] === Messages.WebFailedRequestNotification) {
+			if (message["command"] === CommandMessages.WebFailedRequestNotification) {
 				if (message["tabId"] == null)
 					return;
 
@@ -114,7 +114,7 @@ export class popup {
 
 		popup.populateUpdateAvailable(dataForPopup);
 		popup.populateUnsupportedFeatures(dataForPopup);
-		popup.populateProxyMode(dataForPopup.proxyMode);
+		popup.populateSmartProfiles(dataForPopup.proxyProfiles, dataForPopup.activeProfileId);
 		popup.populateActiveProxy(dataForPopup);
 		popup.populateProxyableDomainList(dataForPopup.proxyableDomains);
 		popup.populateFailedRequests(dataForPopup.failedRequests);
@@ -135,19 +135,47 @@ export class popup {
 		}
 	}
 
-	private static populateProxyMode(proxyMode: ProxyModeType) {
-		let divProxyMode = jQuery("#divProxyMode");
-		divProxyMode.find("li.disabled a").css("cursor", "default");
+	private static populateSmartProfiles(profiles: SmartProfileBase[], activeProfileId: string) {
+		let divProxyProfiles = jQuery("#divProxyProfiles");
+		let divProfileTemplate = divProxyProfiles.find("#divProfileTemplate").hide();
 
-		divProxyMode.find(".nav-link").removeClass("active");
+		let lastMenu = divProfileTemplate;
 
-		divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
-			.addClass("active")
-			.parent("li");
+		for (const profile of profiles) {
+			if (!profile.enabled)
+				continue;
 
-		divProxyMode.find(".nav-link:not(.disabled)")
-			.on("click", popup.onProxyModeClick);
+			let newId = 'smart-profile-' + profile.profileId;
+
+			let profileMenu = divProfileTemplate.clone();
+			profileMenu.find("span").text(profile.profileName);
+			profileMenu.find("i.fas").addClass('fa-ban'); // TODO: icon for profile
+			profileMenu.attr("id", newId);
+
+			if (profile.profileId == activeProfileId)
+				profileMenu.addClass('active');
+
+			profileMenu.show();
+			profileMenu.on("click", (e: any) => popup.onSmartProfileClick(profile, e));
+
+			lastMenu.after(profileMenu);
+			lastMenu = profileMenu;
+		}
 	}
+
+	// private static populateProxyMode(proxyMode: ProxyModeType) {
+	// 	let divProxyMode = jQuery("#divProxyMode");
+	// 	divProxyMode.find("li.disabled a").css("cursor", "default");
+
+	// 	divProxyMode.find(".nav-link").removeClass("active");
+
+	// 	divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
+	// 		.addClass("active")
+	// 		.parent("li");
+
+	// 	divProxyMode.find(".nav-link:not(.disabled)")
+	// 		.on("click", popup.onProxyModeClick);
+	// }
 
 	private static populateActiveProxy(dataForPopup: PopupInternalDataType) {
 		let divActiveProxy = jQuery("#divActiveProxy");
@@ -167,21 +195,18 @@ export class popup {
 			// display select combo
 			divActiveProxy.show();
 
-			let activeProxyName = "";
-			if (dataForPopup.activeProxyServer != null) {
-				activeProxyName = dataForPopup.activeProxyServer.name;
-			}
+			let activeProxyServerId = dataForPopup.activeProxyServerId;
 
 			// display select options
 			jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
 
 				// proxyServer
 				let $option = jQuery("<option>")
-					.attr("value", proxyServer.name)
+					.attr("value", proxyServer.id)
 					.text(proxyServer.name)
 					.appendTo(cmbActiveProxy);
 
-				$option.prop("selected", (proxyServer.name === activeProxyName));
+				$option.prop("selected", (proxyServer.id === activeProxyServerId));
 			});
 
 			if (dataForPopup.proxyServersSubscribed.length > 0) {
@@ -197,7 +222,7 @@ export class popup {
 						.text(proxyServer.name)
 						.appendTo(subscriptionGroup);
 
-					$option.prop("selected", (proxyServer.name === activeProxyName));
+					$option.prop("selected", (proxyServer.id === activeProxyServerId));
 				});
 			}
 
@@ -237,12 +262,12 @@ export class popup {
 			if (proxyableDomain.ruleSource == CompiledProxyRuleSource.Subscriptions) {
 				// disabling the item for subscriptions since these rules can't be disabled/enabled individually
 
-				if(proxyableDomain.ruleHasWhiteListMatch){
+				if (proxyableDomain.ruleHasWhiteListMatch) {
 					itemIcon.removeClass("fa-square")
 						.addClass("far fa-hand-paper fa-sm");
 					item.attr("title", browser.i18n.getMessage("settingsRuleActionWhitelist"));
 				}
-				else{
+				else {
 					itemIcon.removeClass("fa-square")
 						.addClass("fas fa-check fa-sm");
 				}
@@ -361,13 +386,10 @@ export class popup {
 	}
 
 	//#region Events
-
-	private static onProxyModeClick() {
-		let element = jQuery(this);
-		let selectedProxyMode = element.attr("data-proxyMode");
-
+	private static onSmartProfileClick(profile: SmartProfileBase, e: any) {
+		// 
 		if (popup.popupData.notAllowedSetProxySettings &&
-			selectedProxyMode == ProxyModeType.SystemProxy) {
+			profile.profileType == SmartProfileType.SystemProxy) {
 
 			let message: string;
 			if (environment.chrome)
@@ -378,20 +400,21 @@ export class popup {
 			messageBox.error(message, 5000);
 			return;
 		}
+		
+		// // change active profile
+		// PolyFill.runtimeSendMessage({
+		// 	command: CommandMessages.PopupChangeProxyMode,
+		// 	proxyMode: selectedProxyMode
+		// });
 
-		// change proxy mode
-		PolyFill.runtimeSendMessage({
-			command: Messages.PopupChangeProxyMode,
-			proxyMode: selectedProxyMode
-		});
-
-		if (selectedProxyMode != ProxyModeType.Direct &&
-			selectedProxyMode != ProxyModeType.SystemProxy &&
+		if (profile.profileType != SmartProfileType.Direct &&
+			profile.profileType != SmartProfileType.SystemProxy &&
 			!popup.popupData.hasProxyServers) {
 			// open the settings page
 			PolyFill.runtimeOpenOptionsPage();
 		}
 		popup.closeSelf();
+
 	}
 
 	private static onActiveProxyChange() {
@@ -402,7 +425,7 @@ export class popup {
 
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.PopupChangeActiveProxyServer,
+				command: CommandMessages.PopupChangeActiveProxyServer,
 				name: value
 			});
 	}
@@ -420,8 +443,8 @@ export class popup {
 		if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
 			PolyFill.runtimeSendMessage(`proxyable-host-name: ${domain}`);
 
-		PolyFill.runtimeSendMessage({
-				command: Messages.PopupToggleProxyForDomain,
+			PolyFill.runtimeSendMessage({
+				command: CommandMessages.PopupToggleProxyForDomain,
 				domain: domain,
 				ruleId: proxyableDomain.ruleId
 			});
@@ -444,7 +467,7 @@ export class popup {
 		return domainList;
 	}
 	private static onAddFailedRequestsClick() {
-		
+
 		let domainList = popup.getSelectedFailedRequests();
 
 		if (domainList.length)
@@ -455,7 +478,8 @@ export class popup {
 				// send message to the core
 				PolyFill.runtimeSendMessage(
 					{
-						command: Messages.PopupAddDomainListToProxyRule,
+						// TODO: change, should include active or previous profile id
+						command: CommandMessages.PopupAddDomainListToProxyRule,
 						domainList: domainList,
 						tabId: popup.popupData.currentTabId
 					},
@@ -473,7 +497,7 @@ export class popup {
 	}
 
 	private static onAddIgnoredFailuresClick() {
-		
+
 		let domainList = popup.getSelectedFailedRequests();
 
 		if (domainList.length)
@@ -484,7 +508,8 @@ export class popup {
 				// send message to the core
 				PolyFill.runtimeSendMessage(
 					{
-						command: Messages.PopupAddDomainListToIgnored,
+						// TODO: change, should include active or previous profile id
+						command: CommandMessages.PopupAddDomainListToIgnored,
 						domainList: domainList,
 						tabId: popup.popupData.currentTabId
 					},

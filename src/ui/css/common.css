@@ -16,115 +16,118 @@
  */
 
 html {
-    font-size: 15px;
+	font-size: 15px;
 }
 
 html.popup {
-    font-size: 13px;
+	font-size: 13px;
 }
 
 html.popup body {
-    min-width: 210px;
+	min-width: 210px;
 }
 
 .slogan {
-    font-weight: bold;
-    color: navy;
+	font-weight: bold;
+	color: navy;
 }
 
 .font-url {
-    font-family: Segoe UI, Courier New, Courier, monospace;
+	font-family: Segoe UI, Courier New, Courier, monospace;
 }
 
 .rtl {
-    font-family: Tahoma, sans-serif;
+	font-family: Tahoma, sans-serif;
 }
 
 body.rtl {
-    text-align: right;
+	text-align: right;
 }
 
 .rtl .jsgrid-align-left {
-    direction: ltr;
+	direction: ltr;
 }
 
 .rtl .nav {
-    padding-right: 0;
+	padding-right: 0;
 }
 
-.rtl .modal-footer> :not(:first-child) {
-    margin-left: 0;
-    margin-right: .25rem;
+.rtl .modal-footer > :not(:first-child) {
+	margin-left: 0;
+	margin-right: 0.25rem;
 }
 
 .rtl .modal-header .close {
-    margin: -1rem auto -1rem -1rem;
+	margin: -1rem auto -1rem -1rem;
 }
 
 .direction-ltr {
-    direction: ltr;
+	direction: ltr;
 }
 
 .fullwidth {
-    width: 100%;
+	width: 100%;
 }
 
 .wordwrap-anywhere {
-    word-wrap: anywhere;
+	word-wrap: anywhere;
 }
 
 .text-break-word {
-    word-break: break-word;
+	word-break: break-word;
 }
 
 .whitespace-nowrap {
-    white-space: nowrap;
+	white-space: nowrap;
 }
 
-input[type=file].form-control {
-    height: auto;
+input[type='file'].form-control {
+	height: auto;
 }
 
 input:invalid {
-    border: rgba(255, 0, 0, 0.5) 1px solid;
+	border: rgba(255, 0, 0, 0.5) 1px solid;
 }
 
 .background-white {
-    background-color: white;
+	background-color: white;
 }
 
 .nav li {
-    cursor: pointer;
+	cursor: pointer;
 }
 
-.nav-pills>a.active .fa,
-.nav-pills>a.active .fab,
-.nav-pills>a.active .fas,
-.nav-pills>a.active .far {
-    color: white !important;
+.nav-pills > a.active .fa,
+.nav-pills > a.active .fab,
+.nav-pills > a.active .fas,
+.nav-pills > a.active .far {
+	color: white !important;
 }
 
 .nav-pills.interactive .nav-link:hover {
-    background-color: whitesmoke;
+	background-color: whitesmoke;
 }
 
 .nav-pills.interactive .nav-link.active:hover {
-    background-color: #006ce0;
-    ;
+	background-color: #006ce0;
+}
+.nav-link.nav-smart-profile {
+	margin-left: 20px;
+	background-color: rgba(228, 255, 245, 0.5);
 }
 
 .form-text.text-muted {
-    margin-top: 0.1rem;
-    margin-bottom: 0.25rem;
+	margin-top: 0.1rem;
+	margin-bottom: 0.25rem;
 }
 
 .subdomains-list.subdomains-list {
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
 
-.has-list-with-muted-help li>small {
-    color: gray;
+.has-list-with-muted-help li > small {
+	color: gray;
 }
 
 /* ============================== */
@@ -132,24 +135,33 @@ input:invalid {
 /* ------------------------------ */
 
 @media (max-width: 576px) {
-    .container>.row {
-        /* Mobile fix on bootstrap */
-        margin: 0 auto;
-    }
+	.container > .row {
+		/* Mobile fix on bootstrap */
+		margin: 0 auto;
+	}
 
-    .container>.row>div {
-        /* Mobile fix on bootstrap */
-        padding-left: 0;
-        padding-right: 0;
-    }
+	.container > .row > div {
+		/* Mobile fix on bootstrap */
+		padding-left: 0;
+		padding-right: 0;
+	}
 }
 
 .backup-buttons {
-    min-width: 180px;
+	min-width: 180px;
 }
 
 #tabSettings .nav-link {
-    min-width: 160px;
+	min-width: 160px;
+}
+
+.sticky-save-buttons-bar {
+	position: sticky;
+	bottom: -1px;
+	background: white;
+	padding: 10px 5px;
+	box-shadow: 0 -3px 20px #c0c0c047;
+	border-radius: 5px;
 }
 
 /* ============================== */
@@ -159,90 +171,90 @@ input:invalid {
 /* ------------------------------ */
 
 .popup-container {
-    display: table;
-    width: 100%;
+	display: table;
+	width: 100%;
 }
 
 .popup-menu-contents {
-    display: table-cell;
-    vertical-align: top;
-    min-width: 200px;
+	display: table-cell;
+	vertical-align: top;
+	min-width: 200px;
 }
 
-.proxyable-item .proxyable-is-subscription{
-    display: block;
-    font-size: .7em;
-    line-height: 7pt;
-    padding: 0 20px;
-    margin: 0;
+.proxyable-item .proxyable-is-subscription {
+	display: block;
+	font-size: 0.7em;
+	line-height: 7pt;
+	padding: 0 20px;
+	margin: 0;
 }
 .popup-menu-failed {
-    display: table-cell;
-    vertical-align: top;
-    border-right: solid 1px silver;
-    min-width: 260px;
+	display: table-cell;
+	vertical-align: top;
+	border-right: solid 1px silver;
+	min-width: 260px;
 }
 
 .popup-menu-failed .failed-requests-box {
-    background: white;
-    -ms-border-radius: 5px;
+	background: white;
+	-ms-border-radius: 5px;
 }
 
 .failed-requests-box .failed-request-container {
-    overflow: auto;
-    max-height: 300px;
+	overflow: auto;
+	max-height: 300px;
 }
 
 .failed-requests-box .request-box {
-    display: block;
-    white-space: nowrap;
-    vertical-align: middle;
-    position: relative;
-    margin-top: 2px;
+	display: block;
+	white-space: nowrap;
+	vertical-align: middle;
+	position: relative;
+	margin-top: 2px;
 }
 
 .failed-requests-box .request-box.request-box-dependant {
-    margin-top: 6px;
-    margin-left: -8px;
+	margin-top: 6px;
+	margin-left: -8px;
 }
 
 .failed-requests-box .request-box .request-name {
-    display: inline-block;
-    max-width: 250px;
-    margin-rightXXXX: 25px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
+	display: inline-block;
+	max-width: 250px;
+	margin-rightxxxx: 25px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: middle;
 }
 
 .failed-requests-box .request-box .request-name input {
-    margin: 0;
-    vertical-align: middle;
-    padding: 0;
+	margin: 0;
+	vertical-align: middle;
+	padding: 0;
 }
 
 .failed-requests-box .request-box .request-name .fas {
-    margin: 0 5px
+	margin: 0 5px;
 }
 
 .failed-requests-box .request-box .badge-container {
-    display: inline-block;
-    position: absolute;
-    right: 0;
-    top: 4px;
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	top: 4px;
 }
 /* ============================== */
 /* Proxyable page styles */
 /* ------------------------------ */
-.grid-ellipsis-text-cell{
-    position: relative;
+.grid-ellipsis-text-cell {
+	position: relative;
 }
-.grid-ellipsis-text-link{
-    position: absolute;
-    margin: 2px 2px 0 0;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    /* display: inline-block; */
-    width: 92%;
+.grid-ellipsis-text-link {
+	position: absolute;
+	margin: 2px 2px 0 0;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	/* display: inline-block; */
+	width: 92%;
 }

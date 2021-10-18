@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2021 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,16 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { PolyFill } from "../lib/PolyFill";
-import { ProxyModeType, ProxyRuleType, proxyServerProtocols, ProxyServer, GeneralOptions, BypassOptions, SettingsConfig } from "./definitions";
-import { Debug } from "../lib/Debug";
-import { SettingsOperation } from "./SettingsOperation";
-import { browser } from "../lib/environment";
-import { Utils } from "../lib/Utils";
+import { PolyFill } from '../lib/PolyFill';
+import {
+	ProxyRuleType,
+	proxyServerProtocols,
+	ProxyServer,
+	GeneralOptions,
+	SettingsConfig,
+	SmartProfileTypeBuiltinIds,
+	getBuiltinSmartProfiles,
+	SettingsActive,
+	findProxyServerById,
+} from './definitions';
+import { Debug } from '../lib/Debug';
+import { SettingsOperation } from './SettingsOperation';
+import { browser } from '../lib/environment';
+import { Utils } from '../lib/Utils';
+import { ProfileOperations } from './ProfileOperations';
 
 export class Settings {
-
 	public static current: SettingsConfig;
+
+	public static active: SettingsActive;
 
 	public static currentOptionsSyncSettings: boolean = true;
 
@@ -32,14 +44,11 @@ export class Settings {
 	public static initialize() {
 		Settings.current = new SettingsConfig();
 
-		PolyFill.storageLocalGet(null,
-			Settings.onInitializeGetLocalData,
-			Settings.onInitializeGetLocalError);
+		PolyFill.storageLocalGet(null, Settings.onInitializeGetLocalData, Settings.onInitializeGetLocalError);
 
 		// handle synced settings changes
 		browser.storage.onChanged.addListener(SettingsOperation.syncOnChanged);
 	}
-
 
 	private static onInitializeGetLocalData(data: any) {
 		Settings.setDefaultSettings(data);
@@ -47,9 +56,7 @@ export class Settings {
 		Settings.current = data;
 
 		// read all the synced data along with synced ones
-		PolyFill.storageSyncGet(null,
-			Settings.onInitializeGetSyncData,
-			Settings.onInitializeGetSyncError);
+		PolyFill.storageSyncGet(null, Settings.onInitializeGetSyncData, Settings.onInitializeGetSyncError);
 	}
 
 	private static onInitializeGetLocalError(error: any) {
@@ -61,31 +68,27 @@ export class Settings {
 			let syncedSettings = Utils.decodeSyncData(data);
 
 			// only if sync settings is enabled
-			if (syncedSettings &&
-				syncedSettings.options) {
-
+			if (syncedSettings && syncedSettings.options) {
 				if (syncedSettings.options.syncSettings) {
-
 					// use synced settings
 					Settings.setDefaultSettings(syncedSettings);
 					Settings.migrateFromOldVersion(syncedSettings);
 					Settings.revertSyncOptions(syncedSettings);
-					
-					Settings.current = syncedSettings;
 
+					Settings.current = syncedSettings;
 				} else {
 					// sync is disabled
 					syncedSettings.options.syncSettings = false;
 				}
 
 				Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
+				Settings.updateActiveSettings();
 			}
 		} catch (e) {
 			Debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
 		}
 
-		if (Settings.onInitialized)
-			Settings.onInitialized();
+		if (Settings.onInitialized) Settings.onInitialized();
 	}
 
 	private static onInitializeGetSyncError(error: Error) {
@@ -93,34 +96,28 @@ export class Settings {
 	}
 
 	public static setDefaultSettings(config: SettingsConfig) {
-		config.product = "SmartProxy";
+		config.product = 'SmartProxy';
 		config.version = null;
-		if (config["proxyMode"] == null) {
-			config.proxyMode = ProxyModeType.Direct;
+		if (config['activeProfileId'] == null) {
+			config.activeProfileId = SmartProfileTypeBuiltinIds.Direct;
 		}
-		if (config["activeProxyServer"] == null) {
-			config.activeProxyServer = null;
+		if (config['activeProxyServerId'] == null) {
+			config.activeProxyServerId = null;
 		}
-		if (config["options"] == null) {
+		if (config['options'] == null) {
 			config.options = new GeneralOptions();
 		}
-		if (config["firstEverInstallNotified"] == null) {
+		if (config['firstEverInstallNotified'] == null) {
 			config.firstEverInstallNotified = false;
 		}
-		if (config["proxyServers"] == null || !Array.isArray(config.proxyServers)) {
+		if (config['proxyServers'] == null || !Array.isArray(config.proxyServers)) {
 			config.proxyServers = [];
 		}
-		if (config["proxyRules"] == null || !Array.isArray(config.proxyRules)) {
-			config.proxyRules = [];
+		if (config['proxyProfiles'] == null || !Array.isArray(config.proxyProfiles)) {
+			config.proxyProfiles = getBuiltinSmartProfiles();
 		}
-		if (config["proxyServerSubscriptions"] == null || !Array.isArray(config.proxyServerSubscriptions)) {
+		if (config['proxyServerSubscriptions'] == null || !Array.isArray(config.proxyServerSubscriptions)) {
 			config.proxyServerSubscriptions = [];
-		}
-		if (config["proxyRulesSubscriptions"] == null || !Array.isArray(config.proxyRulesSubscriptions)) {
-			config.proxyRulesSubscriptions = [];
-		}
-		if (config["bypass"] == null) {
-			config.bypass = new BypassOptions();
 		}
 
 		PolyFill.managementGetSelf((info: any) => {
@@ -129,16 +126,19 @@ export class Settings {
 	}
 
 	public static migrateFromOldVersion(config: SettingsConfig) {
-		if (!config)
-			return;
-		if (config.proxyRules && config.proxyRules.length > 0) {
+		if (!config) return;
 
-			for (const rule of config.proxyRules) {
-				rule.rulePattern = rule["rulePattern"] || rule["pattern"];
-				rule.hostName = rule["hostName"] || rule["source"] || rule["sourceDomain"] || null;
-				if (rule.ruleType == null)
-					rule.ruleType = ProxyRuleType.MatchPatternUrl;
-			} 
+		let oldConfig: any = config;
+
+		if (config.version < '0.9.11') {
+		} else if (config.version < '') {
+			if (oldConfig.proxyRules && oldConfig.proxyRules.length > 0) {
+				for (const rule of oldConfig.proxyRules) {
+					rule.rulePattern = rule['rulePattern'] || rule['pattern'];
+					rule.hostName = rule['hostName'] || rule['source'] || rule['sourceDomain'] || null;
+					if (rule.ruleType == null) rule.ruleType = ProxyRuleType.MatchPatternUrl;
+				}
+			}
 		}
 	}
 
@@ -147,38 +147,42 @@ export class Settings {
 		let settings = Settings.current;
 
 		syncedConfig.options.syncActiveProxy = settings.options.syncActiveProxy;
-		syncedConfig.options.syncProxyMode = settings.options.syncProxyMode;
+		syncedConfig.options.syncActiveProfile = settings.options.syncActiveProfile;
 
 		if (!settings.options.syncActiveProxy) {
-			syncedConfig.activeProxyServer = settings.activeProxyServer;
+			syncedConfig.activeProxyServerId = settings.activeProxyServerId;
 		}
-		if (!settings.options.syncProxyMode) {
-			syncedConfig.proxyMode = settings.proxyMode;
+		if (!settings.options.syncActiveProfile) {
+			syncedConfig.activeProfileId = settings.activeProfileId;
 		}
 	}
 
-	public static validateProxyServer(server: ProxyServer, checkExistingName: boolean = true): {
-		success: boolean, exist?: boolean, message?: string,
-		result?: any
+	public static validateProxyServer(
+		server: ProxyServer,
+		checkExistingName: boolean = true,
+	): {
+		success: boolean;
+		exist?: boolean;
+		message?: string;
+		result?: any;
 	} {
 		if (server.port <= 0 || server.port >= 65535) {
 			return {
 				success: false,
-				message: browser.i18n.getMessage("settingsServerPortInvalid").replace("{0}", `${server.host}:${server.port}`)
+				message: browser.i18n.getMessage('settingsServerPortInvalid').replace('{0}', `${server.host}:${server.port}`),
 			};
 		}
 
 		if (!server.host || !Utils.isValidHost(server.host)) {
 			return {
 				success: false,
-				message: browser.i18n.getMessage("settingsServerHostInvalid").replace("{0}", `${server.host}:${server.port}`)
+				message: browser.i18n.getMessage('settingsServerHostInvalid').replace('{0}', `${server.host}:${server.port}`),
 			};
 		}
 
 		if (!server.name) {
-			return { success: false, message: browser.i18n.getMessage("settingsServerNameRequired") };
+			return { success: false, message: browser.i18n.getMessage('settingsServerNameRequired') };
 		} else if (Settings.current) {
-
 			if (checkExistingName) {
 				const currentServers = Settings.current.proxyServers;
 
@@ -191,16 +195,38 @@ export class Settings {
 		}
 
 		if (!server.protocol) {
-			server.protocol = "HTTP";
+			server.protocol = 'HTTP';
 		} else {
 			server.protocol = server.protocol.toUpperCase();
 			if (proxyServerProtocols.indexOf(server.protocol) == -1) {
 				// not valid protocol, resetting
-				server.protocol = "HTTP";
+				server.protocol = 'HTTP';
 			}
 		}
 
 		return { success: true };
 	}
-}
 
+	public static updateActiveSettings(fallback: boolean = true) {
+		/** Updating `Settings.active` */
+
+		let settings = Settings.current;
+		if (!settings)
+			return;
+
+		let active = Settings.active ?? (Settings.active = new SettingsActive());
+
+		let foundProfile = ProfileOperations.findSmartProfileById(settings.activeProfileId, settings.proxyProfiles);
+		if (!foundProfile && fallback) {
+			foundProfile = ProfileOperations.findSmartProfileById(SmartProfileTypeBuiltinIds.Direct, settings.proxyProfiles);
+		}
+		if (foundProfile) {
+			active.activeProfile = ProfileOperations.compileSmartProfile(foundProfile);
+		}
+
+		let foundProxy = findProxyServerById(settings.activeProxyServerId, settings.proxyServers);
+		if (foundProxy) {
+			active.activeProxyServer = foundProxy;
+		}
+	}
+}

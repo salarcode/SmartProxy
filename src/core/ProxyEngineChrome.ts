@@ -1,15 +1,15 @@
-import { ProxyModeType, ProxyServer, CompiledProxyRule } from "./definitions";
+import { ProxyServer, CompiledProxyRule, SmartProfileType } from "./definitions";
 import { chrome } from "../lib/environment";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
-import { ProxyRules } from "./ProxyRules";
 
 export class ProxyEngineChrome {
 
 	/**  Chrome only. Updating Chrome proxy config. */
 	public static updateChromeProxyConfig() {
+		let settingsActive = Settings.active;
 
-		if (Settings.current.proxyMode == ProxyModeType.SystemProxy) {
+		if (settingsActive.activeProfile.profileType == SmartProfileType.SystemProxy) {
 
 			let config = {
 				mode: "system"
@@ -23,7 +23,7 @@ export class ProxyEngineChrome {
 				});
 			return;
 		}
-		else if (Settings.current.proxyMode == ProxyModeType.Direct) {
+		else if (settingsActive.activeProfile.profileType == SmartProfileType.Direct) {
 			let config = {
 				mode: "direct"
 			};
@@ -55,21 +55,21 @@ export class ProxyEngineChrome {
 	}
 
 	private static generateChromePacScript(): string {
-		var settings = Settings.current;
+		//let settings = Settings.current;
+		let settingsActive = Settings.active;
 
-		let compiledRules = ProxyRules.getCompiledRulesList();
-		let compiledWhitelistRulesList = ProxyRules.getCompiledWhitelistRulesList();
-		let proxyMode = settings.proxyMode;
-		let resultActiveProxy = this.convertActiveProxyServer(settings.activeProxyServer);
+		//let compiledRules = settingsActive.activeProfile.compiledRules;
+		let profileType = settingsActive.activeProfile.profileType;
+		let resultActiveProxy = this.convertActiveProxyServer(settingsActive.activeProxyServer);
 
-		let compiledRulesAsString = this.regexHostArrayToString(compiledRules).join(",");
-		let compiledWhitelistAsString = this.regexHostArrayToString(compiledWhitelistRulesList).join(",");
-		let compiledBypass = JSON.stringify(settings.bypass);
-		let pacTemplateString = `const proxyMode = +"${proxyMode}";
+		let compiledRulesAsString = this.regexHostArrayToString([]).join(",");
+		let compiledWhitelistAsString = this.regexHostArrayToString([]).join(",");
+		let compiledBypass = '{}';
+		let pacTemplateString = `const proxyMode = +"${profileType}";
 const compiledRules = [${compiledRulesAsString}];
 const compiledWhitelistRules = [${compiledWhitelistAsString}];
 const bypass = ${compiledBypass};
-const hasActiveProxyServer = ${((settings.activeProxyServer) ? "true" : "false")};
+const hasActiveProxyServer = ${((settingsActive.activeProxyServer) ? "true" : "false")};
 const ProxyModeType = {
     Direct: 0,
     SmartProxy: 1,

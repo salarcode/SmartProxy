@@ -1,5 +1,5 @@
 import { browser, environment } from "../lib/environment";
-import { ShortcutCommands, Messages, ProxyModeType } from "./definitions";
+import { ShortcutCommands } from "./definitions";
 import { Core } from "./Core";
 import { Settings } from "./Settings";
 import { PolyFill } from "../lib/PolyFill";
@@ -50,45 +50,45 @@ export class KeyboardShortcuts {
                 }
                 break;
 
-            case ShortcutCommands.ProxyModeNone:
-                // change proxy mode
-                Core.ChangeProxyMode(ProxyModeType.Direct);
+            // case ShortcutCommands.BuiltinProfileNone:
+            //     // change proxy mode
+            //     Core.ChangeActiveProfile(ProxyModeType.Direct);
 
-                KeyboardShortcuts.displayShortcutNotification(
-                    browser.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.Direct]),
-                    Messages.PopupChangeProxyMode,
-                    browser.extension.getURL("icons/proxymode-disabled-48.png"));
-                break;
+            //     KeyboardShortcuts.displayShortcutNotification(
+            //         browser.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.Direct]),
+            //         CommandMessages.PopupChangeProxyMode,
+            //         browser.extension.getURL("icons/proxymode-disabled-48.png"));
+            //     break;
 
-            case ShortcutCommands.ProxyModeSmart:
-                // change proxy mode
-                Core.ChangeProxyMode(ProxyModeType.SmartProxy);
+            // case ShortcutCommands.BuiltinProfileSmart:
+            //     // change proxy mode
+            //     Core.ChangeActiveProfile(ProxyModeType.SmartProxy);
 
-                KeyboardShortcuts.displayShortcutNotification(
-                    browser.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.SmartProxy]),
-                    Messages.PopupChangeProxyMode,
-                    browser.extension.getURL("icons/smartproxy-48.png"));
-                break;
+            //     KeyboardShortcuts.displayShortcutNotification(
+            //         browser.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.SmartProxy]),
+            //         CommandMessages.PopupChangeProxyMode,
+            //         browser.extension.getURL("icons/smartproxy-48.png"));
+            //     break;
 
-            case ShortcutCommands.ProxyModeAlways:
-                // change proxy mode
-                Core.ChangeProxyMode(ProxyModeType.Always);
+            // case ShortcutCommands.BuiltinProfileAlways:
+            //     // change proxy mode
+            //     Core.ChangeActiveProfile(ProxyModeType.Always);
 
-                KeyboardShortcuts.displayShortcutNotification(
-                    browser.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.Always]),
-                    Messages.PopupChangeProxyMode,
-                    browser.extension.getURL("icons/proxymode-always-48.png"));
-                break;
+            //     KeyboardShortcuts.displayShortcutNotification(
+            //         browser.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.Always]),
+            //         CommandMessages.PopupChangeProxyMode,
+            //         browser.extension.getURL("icons/proxymode-always-48.png"));
+            //     break;
 
-            case ShortcutCommands.ProxyModeSystem:
-                // change proxy mode
-                Core.ChangeProxyMode(ProxyModeType.SystemProxy);
+            // case ShortcutCommands.BuiltinProfileSystem:
+            //     // change proxy mode
+            //     Core.ChangeActiveProfile(ProxyModeType.SystemProxy);
 
-                KeyboardShortcuts.displayShortcutNotification(
-                    browser.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.SystemProxy]),
-                    Messages.PopupChangeProxyMode,
-                    browser.extension.getURL("icons/proxymode-system-48.png"));
-                break;
+            //     KeyboardShortcuts.displayShortcutNotification(
+            //         browser.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.SystemProxy]),
+            //         CommandMessages.PopupChangeProxyMode,
+            //         browser.extension.getURL("icons/proxymode-system-48.png"));
+            //     break;
         }
     }
 

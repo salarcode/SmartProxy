@@ -29,23 +29,25 @@ import { WebFailedRequestMonitor } from './WebFailedRequestMonitor';
 import { SubscriptionUpdater } from './SubscriptionUpdater';
 import { Settings } from './Settings';
 import {
-	Messages,
+	CommandMessages,
 	SettingsPageInternalDataType,
 	PopupInternalDataType,
 	ProxyableInternalDataType,
 	ProxyServer,
-	ProxyModeType,
 	ResultHolderGeneric,
-	CompiledProxyRuleSource,
+	SmartProfileType,
+	CompiledProxyRulesMatchedSource,
 } from './definitions';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
 import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
+import { ProfileOperations } from './ProfileOperations';
+import { ProfileRules } from './ProfileRules';
 
 export class Core {
 	/** Start the application */
 	public static initializeApp() {
 		// comment for debugging
-		Debug.disable();
+		//Debug.disable();
 
 		Settings.onInitialized = () => {
 			// on settings read success
@@ -101,9 +103,10 @@ export class Core {
 
 		if (!isCommand) {
 			switch (message) {
-				case Messages.PopupGetInitialData:
+				case CommandMessages.PopupGetInitialData:
 					{
-						if (!sendResponse) return;
+						if (!sendResponse)
+							return;
 						let dataForPopup = Core.getPopupInitialData();
 						WebFailedRequestMonitor.enableFailedRequestNotification();
 
@@ -113,10 +116,11 @@ export class Core {
 					}
 					break;
 
-				case Messages.SettingsPageGetInitialData:
+				case CommandMessages.SettingsPageGetInitialData:
 					{
 						// if response method is available
-						if (!sendResponse) return;
+						if (!sendResponse)
+							return;
 						let dataForSettingsUi = Core.getSettingsPageInitialData();
 						// send the data
 						sendResponse(dataForSettingsUi);
@@ -148,9 +152,10 @@ export class Core {
 				break;
 			*/
 
-			case Messages.ProxyableGetInitialData:
+			case CommandMessages.ProxyableGetInitialData:
 				{
-					if (message.tabId === null) return;
+					if (message.tabId === null)
+						return;
 					let tabId = message.tabId;
 
 					let dataForProxyable = Core.getProxyableInitialData(tabId);
@@ -163,25 +168,37 @@ export class Core {
 				}
 				break;
 
-			case Messages.ProxyableRemoveProxyableLog:
+			case CommandMessages.ProxyableRemoveProxyableLog:
 				{
-					if (message.tabId === null) return;
+					if (message.tabId === null)
+						return;
 					let tabId = message.tabId;
 
 					TabRequestLogger.unsubscribeProxyableLogs(tabId);
 				}
 				break;
 
-			case Messages.PopupChangeProxyMode: {
-				if (message.proxyMode === null || message.proxyMode === undefined) return;
+			case CommandMessages.PopupChangeActiveProfile: {
+				if (message.profileId === null || message.profileId === undefined)
+					return;
 
-				Core.ChangeProxyMode(+message.proxyMode);
+				Core.ChangeActiveProfileId(message.profileId);
 
 				return;
 			}
 
-			case Messages.PopupChangeActiveProxyServer: {
-				if (!message.name) return;
+			// TODO: REMOVE
+			// case CommandMessages.PopupChangeProxyMode: {
+			// 	if (message.proxyMode === null || message.proxyMode === undefined) return;
+
+			// 	Core.ChangeActiveProfileId(+message.proxyMode);
+
+			// 	return;
+			// }
+
+			case CommandMessages.PopupChangeActiveProxyServer: {
+				if (!message.name)
+					return;
 
 				let proxyName = message.name;
 
@@ -204,14 +221,15 @@ export class Core {
 				return;
 			}
 
-			case Messages.PopupToggleProxyForDomain: {
-				if (!message.domain) return;
+			case CommandMessages.PopupToggleProxyForDomain: {
+				if (!message.domain)
+					return;
 
 				let domain = message.domain;
 				let ruleId = message.ruleId;
-				ProxyRules.toggleRule(domain, ruleId);
+				ProfileRules.toggleRule(domain, ruleId);
 
-				SettingsOperation.saveRules();
+				SettingsOperation.saveProxyProfiles();
 				SettingsOperation.saveAllSync();
 
 				// notify the proxy script
@@ -223,20 +241,21 @@ export class Core {
 				return;
 			}
 
-			case Messages.PopupAddDomainListToProxyRule: {
-				if (!message.domainList) return;
+			case CommandMessages.PopupAddDomainListToProxyRule: {
+				if (!message.domainList)
+					return;
 
 				let domainList = message.domainList;
 				let tabId = message.tabId;
 
-				ProxyRules.enableByHostnameList(domainList);
+				ProfileRules.enableByHostnameList(domainList);
 
 				let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
 
 				// notify the proxy script
 				ProxyEngine.notifyProxyRulesChanged();
 
-				SettingsOperation.saveRules();
+				SettingsOperation.saveProxyProfiles();
 				SettingsOperation.saveAllSync();
 
 				// update active proxy tab status
@@ -251,8 +270,9 @@ export class Core {
 				return;
 			}
 
-			case Messages.PopupAddDomainListToIgnored: {
-				if (!message.domainList) return;
+			case CommandMessages.PopupAddDomainListToIgnored: {
+				if (!message.domainList)
+					return;
 
 				let domainList = message.domainList;
 				let tabId = message.tabId;
@@ -272,8 +292,9 @@ export class Core {
 				}
 				return;
 			}
-			case Messages.SettingsPageSaveOptions: {
-				if (!message.options) return;
+			case CommandMessages.SettingsPageSaveOptions: {
+				if (!message.options)
+					return;
 				Settings.current.options = message.options;
 				SettingsOperation.saveOptions();
 				SettingsOperation.saveAllSync();
@@ -291,15 +312,16 @@ export class Core {
 				return;
 			}
 
-			case Messages.SettingsPageSaveProxyServers: {
-				if (!message.saveData) return;
+			case CommandMessages.SettingsPageSaveProxyServers: {
+				if (!message.saveData)
+					return;
 				var saveData = message.saveData;
 
 				Settings.current.proxyServers = saveData.proxyServers;
-				Settings.current.activeProxyServer = message.saveData.activeProxyServer;
+				Settings.current.activeProxyServerId = message.saveData.activeProxyServerId;
 
 				SettingsOperation.saveProxyServers();
-				SettingsOperation.updateProxyRulesServers();
+				SettingsOperation.updateSmartProfilesRulesProxyServer();
 				SettingsOperation.saveActiveProxyServer();
 				SettingsOperation.saveAllSync();
 
@@ -314,31 +336,42 @@ export class Core {
 				}
 				return;
 			}
+			case CommandMessages.SettingsPageSaveSmartProfile: {
+				if (!message.smartProfile)
+					return;
 
-			case Messages.SettingsPageSaveProxyRules: {
-				if (!message.proxyRules) return;
+				//let smartProfile: SmartProfile = message.smartProfile;
 
-				Settings.current.proxyRules = message.proxyRules;
-				SettingsOperation.saveRules();
-				SettingsOperation.saveAllSync();
 
-				ProxyEngine.notifyProxyRulesChanged();
-
-				// update active proxy tab status
-				Core.setBrowserActionStatus();
-
-				if (sendResponse) {
-					sendResponse({
-						success: true,
-						// Proxy rules saved successfully.
-						message: browser.i18n.getMessage('settingsSaveProxyRulesSuccess'),
-					});
-				}
-
+				// TODO: 
 				return;
 			}
-			case Messages.SettingsPageSaveProxySubscriptions: {
-				if (!message.proxyServerSubscriptions) return;
+			// case CommandMessages.SettingsPageSaveProxyRules: {
+			// 	if (!message.proxyRules)
+			// 		return;
+
+			// 	Settings.current.proxyRules = message.proxyRules;
+			// 	SettingsOperation.saveProxyProfiles();
+			// 	SettingsOperation.saveAllSync();
+
+			// 	ProxyEngine.notifyProxyRulesChanged();
+
+			// 	// update active proxy tab status
+			// 	Core.setBrowserActionStatus();
+
+			// 	if (sendResponse) {
+			// 		sendResponse({
+			// 			success: true,
+			// 			// Proxy rules saved successfully.
+			// 			message: browser.i18n.getMessage('settingsSaveProxyRulesSuccess'),
+			// 		});
+			// 	}
+
+			// 	return;
+			// }
+			case CommandMessages.SettingsPageSaveProxySubscriptions: {
+				if (!message.proxyServerSubscriptions)
+					return;
 				Settings.current.proxyServerSubscriptions = message.proxyServerSubscriptions;
 				SettingsOperation.saveProxyServerSubscriptions();
 				SettingsOperation.saveAllSync();
@@ -358,58 +391,43 @@ export class Core {
 				}
 				return;
 			}
-			case Messages.SettingsPageSaveProxyRulesSubscriptions: {
-				if (!message.proxyRulesSubscriptions) return;
-				Settings.current.proxyRulesSubscriptions = message.proxyRulesSubscriptions;
-				SettingsOperation.saveProxyRulesSubscriptions();
-				SettingsOperation.saveAllSync();
+			// case CommandMessages.SettingsPageSaveProxyRulesSubscriptions: {
+			// 	if (!message.proxyRulesSubscriptions)
+			// 		return;
+			// 	Settings.current.proxyRulesSubscriptions = message.proxyRulesSubscriptions;
+			// 	SettingsOperation.saveProxyRulesSubscriptions();
+			// 	SettingsOperation.saveAllSync();
 
-				// update the timers
-				SubscriptionUpdater.updateRulesSubscriptions();
+			// 	// update the timers
+			// 	SubscriptionUpdater.updateRulesSubscriptions();
 
-				ProxyEngine.notifyProxyRulesChanged();
+			// 	ProxyEngine.notifyProxyRulesChanged();
 
-				// update active proxy tab status
-				Core.setBrowserActionStatus();
+			// 	// update active proxy tab status
+			// 	Core.setBrowserActionStatus();
 
-				if (sendResponse) {
-					sendResponse({
-						success: true,
-						// Proxy rule subscriptions saved successfully.
-						message: browser.i18n.getMessage('settingsSaveProxyRulesSubscriptionsSuccess'),
-					});
-				}
-				return;
-			}
-			case Messages.SettingsPageSaveBypass: {
-				if (!message.bypass) return;
-				Settings.current.bypass = message.bypass;
-				SettingsOperation.saveBypass();
-				SettingsOperation.saveAllSync();
-
-				ProxyEngine.updateBrowsersProxyConfig();
-
-				if (sendResponse) {
-					sendResponse({
-						success: true,
-						// Proxy server subscriptions saved successfully.
-						message: browser.i18n.getMessage('settingsSaveBypassSuccess'),
-					});
-				}
-				return;
-			}
-			case Messages.SettingsPageRestoreSettings: {
+			// 	if (sendResponse) {
+			// 		sendResponse({
+			// 			success: true,
+			// 			// Proxy rule subscriptions saved successfully.
+			// 			message: browser.i18n.getMessage('settingsSaveProxyRulesSubscriptionsSuccess'),
+			// 		});
+			// 	}
+			// 	return;
+			// }
+			case CommandMessages.SettingsPageRestoreSettings: {
 				if (!message.fileData) return;
 				let fileData = message.fileData;
-				let result = SettingsOperation.restoreSettings(fileData);
+				let result = SettingsOperation.restoreBackup(fileData);
 
 				if (sendResponse) {
 					sendResponse(result);
 				}
 				return;
 			}
-			case Messages.SettingsPageMakeRequestSpecial: {
-				if (!message.url) return;
+			case CommandMessages.SettingsPageMakeRequestSpecial: {
+				if (!message.url)
+					return;
 
 				var url = message.url;
 				var applyProxy = message.applyProxy;
@@ -424,7 +442,7 @@ export class Core {
 				}
 				return;
 			}
-			case Messages.SettingsPageSkipWelcome: {
+			case CommandMessages.SettingsPageSkipWelcome: {
 				Settings.current.firstEverInstallNotified = true;
 				SettingsOperation.saveAllSync();
 
@@ -435,15 +453,18 @@ export class Core {
 				}
 				return;
 			}
-			case Messages.ProxyableToggleProxyableDomain: {
-				if (!message.enableByDomain && !message.removeBySource) return;
+			case CommandMessages.ProxyableToggleProxyableDomain: {
+				if (!message.enableByDomain && !message.removeBySource)
+					return;
 				let enableDomain = message.enableByDomain;
 				let removeDomain = message.removeBySource;
 				let ruleId = message.ruleId;
 				let ruleResult;
 
-				if (enableDomain) ruleResult = ProxyRules.enableByHostname(enableDomain);
-				else ruleResult = ProxyRules.removeByHostname(removeDomain, ruleId);
+				if (enableDomain)
+					ruleResult = ProfileRules.enableByHostname(enableDomain);
+				else
+					ruleResult = ProfileRules.removeByHostname(removeDomain, ruleId);
 
 				let result = {
 					success: ruleResult.success,
@@ -453,7 +474,7 @@ export class Core {
 				};
 
 				if (ruleResult.success) {
-					SettingsOperation.saveRules();
+					SettingsOperation.saveProxyProfiles();
 					SettingsOperation.saveAllSync();
 
 					// notify the proxy script
@@ -478,12 +499,19 @@ export class Core {
 		if (sendResponse) sendResponse(null);
 	}
 
-	public static ChangeProxyMode(proxyMode: ProxyModeType) {
-		// converting to int
-		Settings.current.proxyMode = proxyMode;
+	public static ChangeActiveProfileId(profileId: string) {
+		// TODO: rename to `ChangeProxyProfile`
+
+		let profile = ProfileOperations.findSmartProfileById(profileId, Settings.current.proxyProfiles);
+		if (profile == null) {
+			Debug.warn(`Requested profile id '${profileId}' not found, change tor profile failed`);
+			return;
+		}
+
+		Settings.current.activeProfileId = profileId;
 
 		// save the changes
-		SettingsOperation.saveProxyMode();
+		SettingsOperation.saveActiveProfile();
 		SettingsOperation.saveAllSync();
 
 		// send it to the proxy server
@@ -494,7 +522,9 @@ export class Core {
 	}
 
 	public static ChangeActiveProxy(proxy: ProxyServer) {
-		Settings.current.activeProxyServer = proxy;
+
+		Settings.current.activeProxyServerId = proxy.id;
+
 		SettingsOperation.saveActiveProxyServer();
 		SettingsOperation.saveAllSync();
 
@@ -507,15 +537,15 @@ export class Core {
 
 	public static CycleToNextProxyServer(): ResultHolderGeneric<ProxyServer> {
 		let settings = Settings.current;
-		let activeServer = settings.activeProxyServer;
+		let activeServerId = settings.activeProxyServerId;
 		let resultProxy: ProxyServer;
 
-		if (!activeServer) {
+		if (!activeServerId) {
 			resultProxy = SettingsOperation.getFirstProxyServer();
 		}
 
-		if (!resultProxy && activeServer)
-			resultProxy = SettingsOperation.findNextProxyServerByCurrentProxyName(activeServer.name);
+		if (!resultProxy && activeServerId)
+			resultProxy = SettingsOperation.findNextProxyServerByCurrentProxyId(activeServerId);
 
 		if (resultProxy) {
 			Core.ChangeActiveProxy(resultProxy);
@@ -534,15 +564,15 @@ export class Core {
 
 	public static CycleToPreviousProxyServer(): ResultHolderGeneric<ProxyServer> {
 		let settings = Settings.current;
-		let activeServer = settings.activeProxyServer;
+		let activeServerId = settings.activeProxyServerId;
 		let resultProxy: ProxyServer;
 
-		if (!activeServer) {
+		if (!activeServerId) {
 			resultProxy = SettingsOperation.getFirstProxyServer();
 		}
 
-		if (!resultProxy && activeServer)
-			resultProxy = SettingsOperation.findPreviousProxyServerByCurrentProxyName(activeServer.name);
+		if (!resultProxy && activeServerId)
+			resultProxy = SettingsOperation.findPreviousProxyServerByCurrentProxyId(activeServerId);
 
 		if (resultProxy) {
 			Core.ChangeActiveProxy(resultProxy);
@@ -578,12 +608,17 @@ export class Core {
 	}
 
 	private static getPopupInitialData(): PopupInternalDataType {
+
+		let settingsActive = Settings.active;
+		let settings = Settings.current;
+
 		let dataForPopup = new PopupInternalDataType();
 		dataForPopup.proxyableDomains = [];
-		dataForPopup.proxyMode = Settings.current.proxyMode;
-		dataForPopup.hasProxyServers = Settings.current.proxyServers.length > 0;
-		dataForPopup.proxyServers = Settings.current.proxyServers;
-		dataForPopup.activeProxyServer = Settings.current.activeProxyServer;
+		dataForPopup.proxyProfiles = ProfileOperations.getSmartProfileBaseList(settings.proxyProfiles);
+		dataForPopup.activeProfileId = settings.activeProfileId;
+		dataForPopup.hasProxyServers = settings.proxyServers.length > 0;
+		dataForPopup.proxyServers = settings.proxyServers;
+		dataForPopup.activeProxyServerId = settings.activeProxyServerId;
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
 		dataForPopup.proxyServersSubscribed = SettingsOperation.getAllSubscribedProxyServers();
@@ -602,7 +637,8 @@ export class Core {
 		}
 
 		let currentTabData = TabManager.getCurrentTab();
-		if (currentTabData == null) return dataForPopup;
+		if (currentTabData == null)
+			return dataForPopup;
 
 		// tab info
 		dataForPopup.currentTabId = currentTabData.tabId;
@@ -611,76 +647,112 @@ export class Core {
 		// failed requests
 		dataForPopup.failedRequests = WebFailedRequestMonitor.convertFailedRequestsToArray(currentTabData.failedRequests);
 
+		// if profile type doesn't support rules, no point in getting domain list
+		if (!settingsActive.activeProfile ||
+			!ProfileOperations.profileTypeSupportsRules(settingsActive.activeProfile.profileType)) {
+			return dataForPopup;
+		}
+
 		// get the host name from url
 		let urlHost = Utils.extractHostFromUrl(currentTabData.url);
 
 		// current url should be valid
-		if (!Utils.isValidHost(urlHost)) return dataForPopup;
+		if (!Utils.isValidHost(urlHost))
+			return dataForPopup;
 
 		// extract list of domain and subdomain
 		let proxyableDomainList = Utils.extractSubdomainListFromHost(urlHost);
 
-		if (!proxyableDomainList || !proxyableDomainList.length) return dataForPopup;
+		if (!proxyableDomainList || !proxyableDomainList.length)
+			return dataForPopup;
 
-		// check if there are rules for the domains
+		let activeSmartProfile = settingsActive.activeProfile;
+
 		if (proxyableDomainList.length == 1) {
 			let proxyableDomain = proxyableDomainList[0];
-			let testResult = ProxyRules.testSingleRule(proxyableDomain);
 
+			let testResult = ProxyRules.findMatchedDomainInRulesInfo(proxyableDomain, activeSmartProfile.compiledRules);
+			if (testResult != null) {
+				let matchedRule = testResult.compiledRule;
+				let ruleIsWhitelist = testResult.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistRules ||
+					testResult.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistSubscriptionRules;
 
-			let ruleIsWhiteList = testResult.rule?.whiteList;
-			if (testResult.rule && !ruleIsWhiteList) {
-			if (testResult.rule.compiledRuleSource == CompiledProxyRuleSource.Subscriptions) {
-					ruleIsWhiteList = ProxyRules.testSingleWhiteListRule(proxyableDomain).match;
-				}
+				// add the domain with matched rule
+				dataForPopup.proxyableDomains.push({
+					ruleId: matchedRule.ruleId,
+					domain: proxyableDomain,
+					ruleMatched: true,
+					ruleMatchedThisHost: true,
+					ruleSource: matchedRule.compiledRuleSource,
+					ruleMatchSource: testResult.matchedRuleSource,
+					ruleHasWhiteListMatch: ruleIsWhitelist,
+				});
 			}
-
-			// add the domain
-			dataForPopup.proxyableDomains.push({
-				ruleId: testResult.rule?.ruleId,
-				domain: proxyableDomain,
-				ruleMatched: testResult.match,
-				ruleMatchedThisHost: testResult.match,
-				ruleSource: testResult.rule?.compiledRuleSource,
-				ruleHasWhiteListMatch: ruleIsWhiteList,
-			});
-		} else {
-			let multiTestResultList = ProxyRules.testMultipleRule(proxyableDomainList);
+			else {
+				// add the domain with no matching rule
+				dataForPopup.proxyableDomains.push({
+					ruleId: null,
+					domain: proxyableDomain,
+					ruleMatched: false,
+					ruleMatchedThisHost: false,
+					ruleSource: null,
+					ruleMatchSource: null,
+					ruleHasWhiteListMatch: false,
+				});
+			}
+		}
+		else {
+			let multiTestResultList = ProxyRules.findMatchedDomainListInRulesInfo(proxyableDomainList, activeSmartProfile.compiledRules);
 			let anyMatchFound = false;
-			for (let i = 0; i < multiTestResultList.length; i++) {
-				let resultRule = multiTestResultList[i];
 
-				if (resultRule.match) anyMatchFound = true;
+			for (let i = 0; i < multiTestResultList.length; i++) {
+				let resultRuleInfo = multiTestResultList[i];
+				let resultRule = resultRuleInfo?.compiledRule;
+				let domain = proxyableDomainList[i];
+				let matchedHost = resultRule?.hostName ?? domain;
 
 				let ruleIsForThisHost = false;
-				if (resultRule.match) {
+				if (resultRule != null) {
+					anyMatchFound = true;
+
 					// check to see if the matched rule is for this host or not!
-					if (resultRule.hostName == proxyableDomainList[i]) {
+					if (resultRule.hostName == domain) {
 						ruleIsForThisHost = true;
 					}
 				}
 
 				// ignoring www: do not display www if rule is not for this domain
-				if (!ruleIsForThisHost && !anyMatchFound && resultRule.domain.startsWith('www.')) {
+				if (!ruleIsForThisHost && !anyMatchFound && matchedHost.startsWith('www.')) {
 					continue;
 				}
 
-				let ruleIsWhiteList = resultRule.rule?.whiteList;
-				if (resultRule.rule && !ruleIsWhiteList) {
-					if (resultRule.rule.compiledRuleSource == CompiledProxyRuleSource.Subscriptions) {
-						ruleIsWhiteList = ProxyRules.testSingleWhiteListRule(resultRule.domain).match;
-					}
-				}
+				if (resultRuleInfo != null) {
+					let ruleIsWhitelist = resultRuleInfo.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistRules ||
+						resultRuleInfo.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistSubscriptionRules;
 
-				// add the domain
-				dataForPopup.proxyableDomains.push({
-					ruleId: resultRule.rule?.ruleId,
-					domain: resultRule.domain,
-					ruleMatched: resultRule.match,
-					ruleMatchedThisHost: ruleIsForThisHost,
-					ruleSource: resultRule.rule?.compiledRuleSource,
-					ruleHasWhiteListMatch: resultRule.rule?.whiteList || ruleIsWhiteList,
-				});
+					// add the domain with matched rule
+					dataForPopup.proxyableDomains.push({
+						ruleId: resultRule.ruleId,
+						domain: domain,
+						ruleMatched: true,
+						ruleMatchedThisHost: ruleIsForThisHost,
+						ruleSource: resultRule.compiledRuleSource,
+						ruleMatchSource: resultRuleInfo.matchedRuleSource,
+						ruleHasWhiteListMatch: ruleIsWhitelist,
+					});
+				}
+				else {
+					// add the domain with no matching rule
+					dataForPopup.proxyableDomains.push({
+						ruleId: null,
+						domain: domain,
+						ruleMatched: false,
+						ruleMatchedThisHost: false,
+						ruleSource: null,
+						ruleMatchSource: null,
+						ruleHasWhiteListMatch: false,
+					});
+				}
 			}
 		}
 		return dataForPopup;
@@ -688,7 +760,8 @@ export class Core {
 
 	private static getProxyableInitialData(tabId: number): ProxyableInternalDataType {
 		let tabData = TabManager.getOrSetTab(tabId, false);
-		if (tabData == null) return null;
+		if (tabData == null)
+			return null;
 
 		let result = new ProxyableInternalDataType();
 
@@ -697,17 +770,17 @@ export class Core {
 	}
 
 	private static addFailedDomainsToIgnoredList(domainList: string[]) {
-		let ignoredDomains = Settings.current.options.ignoreRequestFailuresForDomains || [];
+		let ignoredDomains = Settings.current.options.ignoreRequestFailuresForDomains_REMOVED || [];
 		let uniqueMerged = [...new Set([...ignoredDomains, ...domainList])];
 
-		Settings.current.options.ignoreRequestFailuresForDomains = uniqueMerged;
+		Settings.current.options.ignoreRequestFailuresForDomains_REMOVED = uniqueMerged;
 	}
 
 	public static setBrowserActionStatus(tabData?: TabDataType) {
 		let extensionName = browser.i18n.getMessage('extensionName');
 		let proxyTitle = '';
-		switch (Settings.current.proxyMode) {
-			case ProxyModeType.Direct:
+		switch (Settings.active.activeProfile.profileType) {
+			case SmartProfileType.Direct:
 				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupNoProxy')}`;
 				PolyFill.browserActionSetIcon({
 					path: {
@@ -718,7 +791,7 @@ export class Core {
 				});
 				break;
 
-			case ProxyModeType.Always:
+			case SmartProfileType.AlwaysEnabledBypassRules:
 				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupAlwaysEnable')}`;
 				PolyFill.browserActionSetIcon({
 					path: {
@@ -729,7 +802,7 @@ export class Core {
 				});
 				break;
 
-			case ProxyModeType.SystemProxy:
+			case SmartProfileType.SystemProxy:
 				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupSystemProxy')}`;
 				PolyFill.browserActionSetIcon({
 					path: {
@@ -740,7 +813,7 @@ export class Core {
 				});
 				break;
 
-			case ProxyModeType.SmartProxy:
+			case SmartProfileType.SmartRules:
 			default:
 				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupSmartProxy')}`;
 				PolyFill.browserActionSetIcon({
@@ -784,10 +857,14 @@ export class Core {
 					proxyTitle += `\r\n${browser.i18n.getMessage('toolbarTooltipEffectiveRuleNone')}`;
 				}
 			}
+
+			if (Settings.current.options.displayMatchedRuleOnBadge && !environment.mobile) {
+				// TODO: displayMatchedRuleOnBadge
+			}
 		}
 
-		if (Settings.current.activeProxyServer) {
-			proxyTitle += `\r\nProxy server: ${Settings.current.activeProxyServer.host} : ${Settings.current.activeProxyServer.port}`;
+		if (Settings.active.activeProxyServer) {
+			proxyTitle += `\r\nProxy server: ${Settings.active.activeProxyServer.host} : ${Settings.active.activeProxyServer.port}`;
 		}
 
 		browser.browserAction.setTitle({ title: proxyTitle });

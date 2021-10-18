@@ -227,6 +227,7 @@ export const ProxyImporter = {
 			let item = new ProxyServer();
 
 			item.name = name || `${ip}:${port}`;
+			item.id = name; // id should be same as name, because id should be consistent between multiple reads
 			item.host = ip;
 			item.port = parseInt(port);
 			item.protocol = protocol;
@@ -264,6 +265,7 @@ export const ProxyImporter = {
 				let item = new ProxyServer();
 
 				item.name = proxy["name"] || ((proxy["country"] ? `${proxy["country"]} - ` : '') + `${proxy["ip"]}:${proxy["port"]}`);
+				item.id = item.name; // id should be same as name, because id should be consistent between multiple reads
 				item.host = proxy["ip"];
 				item.port = parseInt(proxy["port"]);
 				item.protocol = proxy["protocol"];

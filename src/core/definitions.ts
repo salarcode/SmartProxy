@@ -1,5 +1,7 @@
 ﻿import { Settings } from './Settings';
 import { browser } from '../lib/environment';
+import { jQuery } from '../lib/External';
+import { Utils } from '../lib/Utils';
 
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
@@ -26,19 +28,22 @@ export const proxyRulesActionTypes = [
 	browser.i18n.getMessage('settingsRuleActionApplyProxy'),
 	browser.i18n.getMessage('settingsRuleActionWhitelist'),
 ];
-
-export enum ProxyModeType {
-	Direct,
-	SmartProxy,
-	Always,
-	SystemProxy,
-}
+export const monitorUrlsSchemaFilter = ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'];
+// TODO: REMOVE: 
+// export enum ProxyModeType {
+// 	// TODO: retire
+// 	Direct,
+// 	SmartProxy,
+// 	Always,
+// 	SystemProxy,
+// }
 
 export enum SmartProfileType {
 	Direct,
 	SystemProxy,
 	SmartRules,
-	WhitelistRules,
+	AlwaysEnabledBypassRules,
+	IgnoreFailureRules,
 }
 export enum SmartProfileTypeBuiltinIds {
 	Direct = 'InternalProfile_Direct',
@@ -46,13 +51,6 @@ export enum SmartProfileTypeBuiltinIds {
 	AlwaysEnabled = 'InternalProfile_AlwaysEnabled',
 	SystemProxy = 'InternalProfile_SystemProxy',
 	IgnoreRequestFailures = 'InternalProfile_IgnoreRequestFailures',
-}
-export enum BrowserProxySettingsType {
-	none = 'none',
-	autoDetect = 'autoDetect',
-	system = 'system',
-	manual = 'manual',
-	autoConfig = 'autoConfig',
 }
 export enum ProxyRuleType {
 	MatchPatternHost,
@@ -87,10 +85,11 @@ export enum ProxyServerForProtocol {
 	FTP,
 	SOCKS,
 }
-export class Messages {
+export class CommandMessages {
 	// Popup messages
 	public static PopupGetInitialData = 'Popup_GetInitialData';
-	public static PopupChangeProxyMode = 'Popup_ChangeProxyMode';
+	//public static PopupChangeProxyMode = 'Popup_ChangeProxyMode';
+	public static PopupChangeActiveProfile = 'Popup_ChangeActiveProfile';
 	public static PopupChangeActiveProxyServer = 'Popup_ChangeActiveProxyServer';
 	public static PopupToggleProxyForDomain = 'Popup_ToggleProxyForDomain';
 	public static PopupAddDomainListToProxyRule = 'Popup_AddDomainListToProxyRule';
@@ -100,10 +99,11 @@ export class Messages {
 	public static SettingsPageGetInitialData = 'SettingsPage_GetInitialData';
 	public static SettingsPageSaveOptions = 'SettingsPage_SaveOptions';
 	public static SettingsPageSaveProxyServers = 'SettingsPage_SaveProxyServers';
-	public static SettingsPageSaveProxyRules = 'SettingsPage_SaveProxyRules';
 	public static SettingsPageSaveProxySubscriptions = 'SettingsPage_SaveProxySubscriptions';
-	public static SettingsPageSaveProxyRulesSubscriptions = 'SettingsPage_SaveProxyRulesSubscriptions';
-	public static SettingsPageSaveBypass = 'SettingsPage_SaveBypass';
+	public static SettingsPageSaveSmartProfile = 'SettingsPage_SaveSmartProfile';
+	//public static SettingsPageSaveProxyRules = 'SettingsPage_SaveProxyRules';
+	//public static SettingsPageSaveProxyRulesSubscriptions = 'SettingsPage_SaveProxyRulesSubscriptions';
+	//public static SettingsPageSaveBypass = 'SettingsPage_SaveBypass';
 	public static SettingsPageRestoreSettings = 'SettingsPage_RestoreSettings';
 	public static SettingsPageMakeRequestSpecial = 'SettingsPage_MakeRequestSpecial';
 	public static SettingsPageSkipWelcome = 'SettingsPage_SkipWelcome';
@@ -120,14 +120,20 @@ export class Messages {
 	// WebFailedRequest
 	public static WebFailedRequestNotification = 'WebFailedRequest_Notification';
 }
-
+export enum BrowserProxySettingsType {
+	none = 'none',
+	autoDetect = 'autoDetect',
+	system = 'system',
+	manual = 'manual',
+	autoConfig = 'autoConfig',
+}
 export class ShortcutCommands {
 	public static NextProxyServer = 'next-proxy-server';
 	public static PreviousProxyServer = 'previous-proxy-server';
-	public static ProxyModeNone = 'proxy-mode-none';
-	public static ProxyModeSmart = 'proxy-mode-smart';
-	public static ProxyModeAlways = 'proxy-mode-always';
-	public static ProxyModeSystem = 'proxy-mode-system';
+	public static BuiltinProfileNone = 'proxy-mode-none';
+	public static BuiltinProfileSmart = 'proxy-mode-smart';
+	public static BuiltinProfileAlways = 'proxy-mode-always';
+	public static BuiltinProfileSystem = 'proxy-mode-system';
 }
 
 export class ResultHolder {
@@ -143,13 +149,15 @@ export class ResultHolderGeneric<T> implements ResultHolder {
 
 export class PopupInternalDataType {
 	public proxyableDomains: ProxyableDomainType[];
-	public proxyMode: ProxyModeType;
+	//public proxyMode: ProxyModeType;
+	public proxyProfiles: SmartProfileBase[];
+	public activeProfileId: string;
 	public hasProxyServers: boolean;
 	public proxyServers: ProxyServer[];
-	public activeProxyServer: ProxyServer;
+	public activeProxyServerId: string;
 	public currentTabId: number;
 	public currentTabIndex: number;
-	public proxyServersSubscribed: any[];
+	public proxyServersSubscribed: ProxyServer[];
 	public updateAvailableText: string;
 	public updateInfo: any;
 	public failedRequests: FailedRequestType[];
@@ -176,6 +184,7 @@ export type ProxyableDomainType = {
 	ruleMatched: boolean;
 	ruleMatchedThisHost: boolean;
 	ruleSource: CompiledProxyRuleSource;
+	ruleMatchSource: CompiledProxyRulesMatchedSource;
 	ruleHasWhiteListMatch?: boolean;
 };
 
@@ -183,6 +192,17 @@ export type SettingsPageInternalDataType = {
 	settings: SettingsConfig;
 	updateAvailableText: string;
 	updateInfo: any;
+};
+export class SettingsPageSmartProfile {
+	smartProfile: SmartProfile;
+	htmlProfileMenu: any;
+	htmlProfileTab: any;
+	grdRules: any;
+	grdRulesSubscriptions: any;
+	modalModifyRule: any;
+	modalAddMultipleRules: any;
+	modalRulesSubscription: any;
+	modalImportRules: any;
 };
 
 export class ProxyableInternalDataType {
@@ -194,9 +214,10 @@ export enum ProxyableLogType {
 	MatchedRule,
 	Special,
 	Whitelisted,
-	ByPassed,
+	AlwaysEnabledByPassed,
 	SystemProxyApplied,
 	AlwaysEnabled,
+	AlwaysEnabledForcedByRules,
 	ProxyPerOrigin,
 }
 
@@ -223,6 +244,7 @@ export class ProxyableLogDataType {
 
 		if (
 			this.logType == ProxyableLogType.AlwaysEnabled ||
+			this.logType == ProxyableLogType.AlwaysEnabledForcedByRules ||
 			this.logType == ProxyableLogType.MatchedRule ||
 			this.logType == ProxyableLogType.ProxyPerOrigin
 		)
@@ -236,21 +258,24 @@ export class ProxyableLogDataType {
 	get statusCanBeDetermined(): boolean {
 		if (
 			this.logType == ProxyableLogType.AlwaysEnabled ||
+			this.logType == ProxyableLogType.AlwaysEnabledForcedByRules ||
 			this.logType == ProxyableLogType.Special ||
 			this.logType == ProxyableLogType.SystemProxyApplied ||
-			this.logType == ProxyableLogType.ByPassed
+			this.logType == ProxyableLogType.AlwaysEnabledByPassed
 		)
 			return false;
 		return true;
 	}
 
 	applyFromRule(rule: CompiledProxyRule) {
-		if (!rule) return;
+		if (!rule)
+			return;
 
 		this.ruleText = rule.ruleText;
 		this.ruleId = rule.ruleId;
 		this.ruleSource = rule.compiledRuleSource;
-		if (!this.hostName) this.hostName = rule.hostName;
+		if (!this.hostName)
+			this.hostName = rule.hostName;
 	}
 	removeRuleInfo() {
 		this.ruleText = null;
@@ -259,8 +284,8 @@ export class ProxyableLogDataType {
 	}
 }
 
-export class SettingsConfig {
-	constructor() {}
+export class SettingsConfig implements Cloneable {
+	constructor() { }
 	public product: string = 'SmartProxy';
 	public version: string = '';
 	public proxyProfiles: SmartProfile[] = getBuiltinSmartProfiles();
@@ -271,18 +296,41 @@ export class SettingsConfig {
 	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
 	public options: GeneralOptions;
 	public firstEverInstallNotified: boolean = false;
+
+	CopyFrom(source: SettingsConfig): void {
+		this.proxyProfiles = Utils.deepClone(source.proxyProfiles);
+		this.activeProfileId = source.activeProfileId;
+		this.activeProxyServerId = source.activeProxyServerId;
+		this.proxyServers = Utils.deepClone(source.proxyServers);
+		this.proxyServerSubscriptions = Utils.deepClone(source.proxyServerSubscriptions);
+		this.firstEverInstallNotified = source.firstEverInstallNotified;
+		this.options = jQuery.extend({}, source.options);
+	}
 }
 
-export class SmartProfile {
+export class SettingsActive {
+	public activeProfile: SmartProfileCompiled;
+	public activeProxyServer: ProxyServer;
+}
+
+export class SmartProfileBase {
 	public profileType: SmartProfileType;
 	public profileId: string;
 	public profileName: string;
-	public proxyRules: [];
 	public enabled: boolean = true;
 	public editable: boolean;
 	public builtin: boolean;
-	public rulesSubscriptions?: ProxyRulesSubscription[] = [];
+	public supportsSubscriptions: boolean;
 	public activeProxyServerId?: string;
+}
+
+export class SmartProfile extends SmartProfileBase {
+	public proxyRules: ProxyRule[] = [];
+	public rulesSubscriptions?: ProxyRulesSubscription[] = [];
+}
+
+export class SmartProfileCompiled extends SmartProfileBase {
+	public compiledRules: CompiledProxyRulesInfo;
 }
 
 export function getBuiltinSmartProfiles(): SmartProfile[] {
@@ -295,6 +343,7 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			enabled: true,
 			builtin: true,
 			editable: false,
+			supportsSubscriptions: false
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.SmartRules,
@@ -304,15 +353,17 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			enabled: true,
 			builtin: true,
 			editable: true,
+			supportsSubscriptions: true
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.AlwaysEnabled,
-			profileType: SmartProfileType.WhitelistRules,
+			profileType: SmartProfileType.AlwaysEnabledBypassRules,
 			profileName: browser.i18n.getMessage('popupAlwaysEnable'),
 			proxyRules: [],
 			enabled: true,
 			builtin: true,
 			editable: true,
+			supportsSubscriptions: false
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.SystemProxy,
@@ -322,46 +373,42 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			enabled: true,
 			builtin: true,
 			editable: false,
+			supportsSubscriptions: false
 		},
 	];
 }
 export class GeneralOptions implements Cloneable {
 	public syncSettings: boolean = false;
-	public syncProxyMode: boolean = true;
+	public syncActiveProfile: boolean = true;
 	public syncActiveProxy: boolean = true;
 	public detectRequestFailures: boolean = true;
-	public ignoreRequestFailuresForDomains: string[];
+	//TODO: REMOVE/REPLACE with using Profiles
+	public ignoreRequestFailuresForDomains_REMOVED: string[];
 	public displayFailedOnBadge: boolean = true;
 	public displayAppliedProxyOnBadge: boolean = true;
+	public displayMatchedRuleOnBadge: boolean = true;
 	public proxyPerOrigin: boolean = true;
 	public enableShortcuts: boolean = true;
 	public shortcutNotification: boolean = true;
 
 	CopyFrom(source: any) {
 		if (source['syncSettings'] != null) this.syncSettings = source['syncSettings'] == true ? true : false;
-		if (source['syncProxyMode'] != null) this.syncProxyMode = source['syncProxyMode'] == true ? true : false;
+		if (source['syncProxyMode'] != null) this.syncActiveProfile = source['syncProxyMode'] == true ? true : false;
 		if (source['syncActiveProxy'] != null) this.syncActiveProxy = source['syncActiveProxy'] == true ? true : false;
 		if (source['detectRequestFailures'] != null)
 			this.detectRequestFailures = source['detectRequestFailures'] == true ? true : false;
 		if (source['ignoreRequestFailuresForDomains'] != null)
-			this.ignoreRequestFailuresForDomains = source['ignoreRequestFailuresForDomains'] || [];
+			this.ignoreRequestFailuresForDomains_REMOVED = source['ignoreRequestFailuresForDomains'] || [];
 		if (source['displayFailedOnBadge'] != null)
 			this.displayFailedOnBadge = source['displayFailedOnBadge'] == true ? true : false;
 		if (source['displayAppliedProxyOnBadge'] != null)
 			this.displayAppliedProxyOnBadge = source['displayAppliedProxyOnBadge'] == true ? true : false;
+		if (source['displayMatchedRuleOnBadge'] != null)
+			this.displayMatchedRuleOnBadge = source['displayMatchedRuleOnBadge'] == true ? true : false;
 		if (source['proxyPerOrigin'] != null) this.proxyPerOrigin = source['proxyPerOrigin'] == true ? true : false;
 		if (source['enableShortcuts'] != null) this.enableShortcuts = source['enableShortcuts'] == true ? true : false;
 		if (source['shortcutNotification'] != null)
 			this.shortcutNotification = source['shortcutNotification'] == true ? true : false;
-	}
-}
-export class BypassOptions implements Cloneable {
-	public enableForAlways: boolean = false;
-	public bypassList: string[] = ['127.0.0.1', 'localhost', '::1'];
-
-	CopyFrom(source: any) {
-		if (source['enableForAlways'] != null) this.enableForAlways = source['enableForAlways'] == true ? true : false;
-		if (source['bypassList'] != null) this.bypassList = source['bypassList'] || [];
 	}
 }
 
@@ -383,8 +430,13 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 	public name: string;
 	public failoverTimeout: number;
 
+	constructor() {
+		super();
+		this.id = Utils.getNewUniqueIdString();
+	}
+
 	CopyFrom(source: any) {
-		this.id = source['id'] ?? getRandomUniqueId();
+		this.id = source['id'] ?? Utils.getNewUniqueIdString();
 		this.name = source['name'];
 		this.host = source['host'];
 		this.port = +source['port'];
@@ -404,7 +456,7 @@ export type RuleId = number;
 
 export class ProxyRule implements Cloneable {
 	constructor() {
-		this.ruleId = ProxyRule.getNewUniqueIdNo();
+		this.ruleId = Utils.getNewUniqueIdNumber();
 	}
 
 	public ruleId: RuleId;
@@ -461,14 +513,11 @@ export class ProxyRule implements Cloneable {
 
 		return result;
 	}
-	public static getNewUniqueIdNo(): RuleId {
-		return +Math.random()
-			.toString(10)
-			.substr(2 + Math.random() * 10);
-	}
+
 	CopyFrom(source: any) {
 		this.ruleType = source['ruleType'];
-		if (source['ruleType'] == null) this.ruleType = ProxyRuleType.DomainSubdomain;
+		if (source['ruleType'] == null)
+			this.ruleType = ProxyRuleType.DomainSubdomain;
 		this.hostName = source['hostName'] || source['sourceDomain'];
 		this.autoGeneratePattern = source['autoGeneratePattern'] == true ? true : false;
 		this.rulePattern = source['rulePattern'];
@@ -476,9 +525,11 @@ export class ProxyRule implements Cloneable {
 		this.ruleExact = source['ruleExact'];
 		this.ruleSearch = source['ruleSearch'];
 		this.proxy = source['proxy'];
-		if (source['enabled'] != null) this.enabled = source['enabled'] == true ? true : false;
+		if (source['enabled'] != null)
+			this.enabled = source['enabled'] == true ? true : false;
 
-		if (source['whiteList'] != null) this.whiteList = source['whiteList'] == true ? true : false;
+		if (source['whiteList'] != null)
+			this.whiteList = source['whiteList'] == true ? true : false;
 
 		if (this.proxy) {
 			if (!Settings.validateProxyServer(this.proxy).success) {
@@ -490,8 +541,10 @@ export class ProxyRule implements Cloneable {
 		if (source['pattern']) {
 			this.rulePattern = source['rulePattern'] || source['pattern'];
 			this.hostName = source['hostName'] || source['source'] || source['sourceDomain'];
-			if (this.ruleType == null) this.ruleType = ProxyRuleType.MatchPatternUrl;
-			if (this.autoGeneratePattern == null) this.autoGeneratePattern = false;
+			if (this.ruleType == null)
+				this.ruleType = ProxyRuleType.MatchPatternUrl;
+			if (this.autoGeneratePattern == null)
+				this.autoGeneratePattern = false;
 		}
 	}
 }
@@ -526,6 +579,24 @@ export class CompiledProxyRule {
 		}
 		return '';
 	}
+}
+
+/** Compiled rules, separated by type and Priority */
+export class CompiledProxyRulesInfo {
+	/** User defined whitelist rules. P2 */
+	public WhitelistRules: CompiledProxyRule[] = [];
+	/** User defined rules. P1 */
+	public Rules: CompiledProxyRule[] = [];
+	/** Subscription whitelist rules. P3  */
+	public WhitelistSubscriptionRules: CompiledProxyRule[] = [];
+	/** Subscription rules. P4 */
+	public SubscriptionRules: CompiledProxyRule[] = [];
+}
+export enum CompiledProxyRulesMatchedSource {
+	WhitelistRules,
+	Rules,
+	WhitelistSubscriptionRules,
+	SubscriptionRules
 }
 
 export enum SpecialRequestApplyProxyMode {
@@ -623,6 +694,10 @@ export class SubscriptionProxyRule {
 }
 
 export class ProxyRulesSubscription {
+	constructor() {
+		this.id = Utils.getNewUniqueIdString();
+	}
+	public id: string;
 	public name: string;
 	public url: string;
 	public enabled: boolean = false;
@@ -676,13 +751,6 @@ export class ProxyRulesSubscription {
 	}
 }
 
-export function getRandomUniqueId() {
-	return (Math.random().toString(36).substr(2, 5) + Date.now().toString(36)).toLowerCase();
-}
-
-export function findSmartProfileById(id: string, profiles: SmartProfile[]): SmartProfile | null {
-	return profiles.find((a) => a.profileId === id);
-}
 
 export function findProxyServerById(id: string, servers: ProxyServer[]): ProxyServer | null {
 	return servers.find((a) => a.id === id);

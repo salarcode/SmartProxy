@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { ProxyRules } from "./ProxyRules";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { environment } from "../lib/environment";
 import { ProxyEngineChrome } from "./ProxyEngineChrome";
+import { Settings } from "./Settings";
 
 export class ProxyEngine {
 
@@ -30,7 +30,7 @@ export class ProxyEngine {
         }
 
         // update proxy rules
-        ProxyRules.compileRules();
+        Settings.updateActiveSettings();
 
         // Updates Firefox & Chrome proxy configurations also registers Chrome Engine
         this.updateBrowsersProxyConfig();
@@ -49,7 +49,7 @@ export class ProxyEngine {
     public static notifyProxyRulesChanged() {
 
         // update proxy rules
-        ProxyRules.compileRules();
+        Settings.updateActiveSettings();
 
         // update proxy rules
         this.updateBrowsersProxyConfig();

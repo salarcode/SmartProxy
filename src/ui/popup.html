@@ -53,8 +53,10 @@
 									<a href="" target="_blank"> <i class="fas fa-sm fa-external-link-alt"></i> </a>
 								</div>
 								<div class="badge-container">
-									<span class="badge badge-danger failed-request-count" title="Failed Count" style="display: none">0</span>
-									<span class="badge badge-warning failed-request-root" title="Root" style="display: none">
+									<span class="badge badge-danger failed-request-count" title="Failed Count"
+										style="display: none">0</span>
+									<span class="badge badge-warning failed-request-root" title="Root"
+										style="display: none">
 										<i class="fas fa-caret-down"></i>
 									</span>
 								</div>
@@ -65,7 +67,7 @@
 								<i class="fas fa-plus"></i>
 								<span data-localize="popupAddFailedRequests">Add To Rules List</span>
 							</button>
-							
+
 							<button class="btn btn-outline-secondary float-right btn-sm" id="btnAddIgnoredFailures">
 								<i class="fas fa-plus"></i>
 								<span data-localize="popupAddIgnoredFailures">Ignore them</span>
@@ -81,8 +83,15 @@
 				<a href="#" target="_blank">Update text</a>
 			</div>
 			<h6 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h6>
-			<div id="divProxyMode" class="nav flex-column nav-pills interactive">
-				<!-- <a href="#" class="nav-link disabled px-5 text-center" data-localize="popupTitle">SmartProxy Activation</a> -->
+			<div id="divProxyProfiles" class="nav flex-column nav-pills interactive">
+				<a id="divProfileTemplate" href="#" class="nav-link">
+					<i class="fas fa-lg " aria-hidden="true"></i>
+					<span>(ProfileName)</span>
+				</a>
+			</div>
+			<!--<div class="dropdown-divider"></div>
+					<a href="#" class="nav-link active">Settings</a>-->
+			<!-- <div id="divProxyMode" class="nav flex-column nav-pills interactive">
 				<a href="#" data-proxyMode="0" class="nav-link">
 					<i class="fas fa-ban fa-lg text-danger" aria-hidden="true"></i>
 					<span data-localize="popupNoProxy">Direct (No Proxy)</span>
@@ -99,9 +108,7 @@
 					<i class="fab fa-windows fa-lg text-primary" aria-hidden="true"></i>
 					<span data-localize="popupSystemProxy">System Proxy</span>
 				</a>
-				<!--<div class="dropdown-divider"></div>
-					<a href="#" class="nav-link active">Settings</a>-->
-			</div>
+			</div> -->
 			<div id="divFailedRequests" style="display: none">
 				<hr class="afshin-line" />
 				<ul class="nav flex-column nav-pills interactive direction-ltrXXX">
@@ -143,7 +150,8 @@
 								<div class="col-10 text-nowrap">
 									<i class="fas fa-globe-americas fa-lg text-primary"></i>
 									<span class="proxyable-host-name font-url">-</span>
-									<div class="proxyable-is-subscription" style="display: none;" data-localize="popupRuleIsFromSubscription">(From subscription)</div>
+									<div class="proxyable-is-subscription" style="display: none;"
+										data-localize="popupRuleIsFromSubscription">(From subscription)</div>
 								</div>
 								<div class="col-2 text-center p-0 pl-1">
 									<i class="proxyable-status-icon far fa-square fa-lg background-white"></i>
