@@ -155,13 +155,30 @@ input:invalid {
 	min-width: 160px;
 }
 
-.sticky-save-buttons-bar {
+.position-sticky-bottom {
 	position: sticky;
 	bottom: -1px;
 	background: white;
+}
+.sticky-save-buttons-bar {
+	position: relative;
+	bottom: -1px;
+	background: white;
 	padding: 10px 5px;
-	box-shadow: 0 -3px 20px #c0c0c047;
 	border-radius: 5px;
+}
+.sticky-save-buttons-bar::after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+	border-radius: 50%;
+
+	top: 0;
+	left: 15%;
+	right: 15%;
+	height: 10%;
+	width: 70%;
 }
 
 /* ============================== */

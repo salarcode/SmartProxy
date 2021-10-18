@@ -327,17 +327,20 @@
 							</label>
 						</div>
 						<div class="mt-5"></div>
-						<p class="mt-4">
-						<div class="pull-left">
-							<button id="btnSaveGeneralOptions" class="btn btn-primary">
-								<span data-localize="settingsSaveGeneralOptionsButton">Save Changes</span>
-							</button>
-							<button id="btnRejectGeneralOptions" class="btn btn-outline-secondary">
-								<span data-localize="settingsRejectGeneralOptionsButton">Reject Changes</span>
-							</button>
+						<p class="mt-4"></p>
+						<div class="position-sticky-bottom">
+							<div class="sticky-save-buttons-bar">
+								<div class="pull-left">
+									<button id="btnSaveGeneralOptions" class="btn btn-primary">
+										<span data-localize="settingsSaveGeneralOptionsButton">Save Changes</span>
+									</button>
+									<button id="btnRejectGeneralOptions" class="btn btn-outline-secondary">
+										<span data-localize="settingsRejectGeneralOptionsButton">Reject Changes</span>
+									</button>
+								</div>
+								<div class="clearfix"></div>
+							</div>
 						</div>
-						<div class="clearfix"></div>
-						</p>
 					</div>
 					<div class="tab-pane fade" id="tab-servers" role="tabpanel" aria-labelledby="tab-servers-tab">
 						<!----------Proxy Servers----------->
@@ -399,7 +402,8 @@
 						</p>
 					</div>
 					<div class="tab-pane fade" id="tab-smart-profile" role="tabpanel"
-						aria-labelledby="menu-smart-profile">
+						aria-labelledby="menu-smart-profile-TEMPLATE">
+						<!----------Smart Profiles Tab----------->
 						<h3>
 							<span>Smart Profile:</span>
 							<a id="lblProfileName" href="#">{profile-name}</a>
@@ -436,7 +440,9 @@
 						</p>
 						<table id="grdRules" class="table table-striped table-bordered table-hover"></table>
 
+
 						<div id="divSmartProfileSubscription">
+							<hr class="afshin-line" />
 							<p class="mt-2" id="label-profile-subscription-description">
 								Here you can subscribe to rules lists.
 							</p>
@@ -453,25 +459,28 @@
 							</table>
 						</div>
 						<p class="mt-2">
-						<div class="sticky-save-buttons-bar">
-							<div class="float-left">
-								<button id="btnSaveSmartProfile" class="btn btn-primary">
-									<span data-localize="settingsSaveChangesButton">Save Changes</span>
-								</button>
-								<button id="btnRejectSmartProfile" class="btn btn-outline-secondary">
-									<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-								</button>
+						<div class="position-sticky-bottom">
+							<div class="sticky-save-buttons-bar">
+								<div class="float-left">
+									<button id="btnSaveSmartProfile" class="btn btn-primary">
+										<span data-localize="settingsSaveChangesButton">Save Changes</span>
+									</button>
+									<button id="btnRejectSmartProfile" class="btn btn-outline-secondary">
+										<span data-localize="settingsRejectChangesButton">Reject Changes</span>
+									</button>
+								</div>
+								<div class="float-right">
+									<button id="btnClearProxyRules" class="btn btn-outline-danger"
+										title="Clear all the rules">
+										<i class="fas fa-trash" aria-hidden="true"></i>
+									</button>
+									<button id="btnClearRulesSubscriptions" class="btn btn-outline-danger"
+										title="Clear all the subscriptions">
+										<i class="fas fa-trash" aria-hidden="true"></i>
+									</button>
+								</div>
+								<div class="clearfix"></div>
 							</div>
-							<div class="float-right">
-								<button id="btnClearProxyRules" class="btn btn-outline-danger" title="Clear all the rules">
-									<i class="fas fa-trash" aria-hidden="true"></i>
-								</button>
-								<button id="btnClearRulesSubscriptions" class="btn btn-outline-danger"
-									title="Clear all the subscriptions">
-									<i class="fas fa-trash" aria-hidden="true"></i>
-								</button>
-							</div>
-							<div class="clearfix"></div>
 						</div>
 						</p>
 						<!-- MODALS-->

@@ -952,8 +952,8 @@ export class settingsPage {
 
 	private static loadSmartProfiles(profiles: SmartProfile[]) {
 		let jq = jQuery;
-		let profileMenuTemplate = jq("#menu-smart-profile").hide();
-		let profileTabTemplate = jq("#tab-smart-profile").hide();
+		let profileMenuTemplate = jq("#menu-smart-profile");
+		let profileTabTemplate = jq("#tab-smart-profile");
 
 		// let modalModifyRuleTemplate = profileTabTemplate.find("#modalModifyRule").hide();
 		// let modalAddMultipleRulesTemplate = profileTabTemplate.find("#modalAddMultipleRules").hide();
@@ -974,8 +974,6 @@ export class settingsPage {
 			let tabId = 'tab-' + newId;
 			let profileMenu = profileMenuTemplate.clone();
 			let profileTab = profileTabTemplate.clone();
-			
-			//new bootstrap.Tab(profileMenu).show();
 
 			pageSmartProfile.modalModifyRule = profileTab.find("#modalModifyRule").hide();
 			pageSmartProfile.modalAddMultipleRules = profileTab.find("#modalAddMultipleRules").hide();
@@ -1009,11 +1007,12 @@ export class settingsPage {
 			this.initializeSmartProfileGrids(pageSmartProfile);
 			this.bindSmartProfileEvents(pageSmartProfile);
 			profileMenu.show();
-			profileTab.show();
 
 			// -----
 			this.pageSmartProfiles.push(pageSmartProfile);
 		}
+		profileMenuTemplate.hide();
+		profileTabTemplate.hide();
 	}
 
 	private static initializeSmartProfileGrids(pageProfile: SettingsPageSmartProfile) {
