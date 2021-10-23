@@ -1299,6 +1299,10 @@
 		"message": "Got it",
 		"description": ""
 	},
+	"settingsBypassDontProxyWhitelist": {
+		"message": "Don't proxy whitelist in 'Always Enable' mode",
+		"description": ""
+	},
 	"notificationNoNextProxyServer": {
 		"message": "There is no further next proxy server",
 		"description": ""

@@ -98,25 +98,33 @@ function FindProxyForURL(url, host) {
 		return resultDirect;
 
 	host = host.toLowerCase();
-
+	const checkWhitelist=function(){
+		try {
+			if (compiledWhitelistRules.length > 0) {
+				let matchedRule = FindProxyForUrlInternal(url, host, compiledWhitelistRules);
+				if (matchedRule)
+					return resultDirect;
+			}
+		} catch (e) {
+			return "";
+		}
+	};
 	if (proxyMode == ProxyModeType.Always) {
 		// should bypass this host?
 		if (bypass.enableForAlways === true &&
 			bypass.bypassList.indexOf(host) !== -1)
 			return resultDirect;
-		else
-			return resultActiveProxy;
+		if(bypass.dontProxyWhitelist===true) {
+			const res = checkWhitelist();
+			if(res!==undefined)
+				return res;
+		}
+		return resultActiveProxy;
 	}
 
-	try {
-		if (compiledWhitelistRules.length > 0) {
-			let matchedRule = FindProxyForUrlInternal(url, host, compiledWhitelistRules);
-			if (matchedRule)
-				return resultDirect;
-		}
-	} catch (e) {
-		return "";
-	}
+	const res = checkWhitelist();
+	if(res!==undefined)
+		return res;
 
 	// in chrome system mode is not controlled here
 	if (proxyMode == ProxyModeType.SystemProxy)

@@ -1454,6 +1454,7 @@ export class settingsPage {
 			return;
 
 		jQuery("#chkEnableBypassForAlwaysEnable").prop("checked", bypass.enableForAlways);
+		jQuery("#chkEnableBypassDontProxyWhitelist").prop("checked", bypass.dontProxyWhitelist);
 		if (bypass.bypassList && Array.isArray(bypass.bypassList)) {
 			jQuery("#txtBypassList").val(bypass.bypassList.join("\n"));
 		}
@@ -1469,6 +1470,7 @@ export class settingsPage {
 
 		bypass.bypassList = settingsPage.readBypassList();
 		bypass.enableForAlways = divBypass.find("#chkEnableBypassForAlwaysEnable").prop("checked");
+		bypass.dontProxyWhitelist = divBypass.find("#chkEnableBypassDontProxyWhitelist").prop("checked");
 
 		return bypass;
 	}

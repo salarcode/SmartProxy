@@ -1303,6 +1303,10 @@
 		"message": "گرفتم",
 		"description": ""
 	},
+	"settingsBypassDontProxyWhitelist": {
+		"message": "در حالت 'همیشه فعال' لیست نادیده گرفته ها پروکسی نشوند.",
+		"description": ""
+	},
 	"notificationNoNextProxyServer": {
 		"message": "به انتهای لیست پراکسی سرور ها رسیدید",
 		"description": ""

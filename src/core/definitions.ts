@@ -299,11 +299,13 @@ export class GeneralOptions implements Cloneable {
 }
 export class BypassOptions implements Cloneable {
 	public enableForAlways: boolean = false;
+	public dontProxyWhitelist : boolean = false;
 	public bypassList: string[] = ["127.0.0.1", "localhost", "::1"];
 
 	CopyFrom(source: any) {
 		if (source["enableForAlways"] != null)
 			this.enableForAlways = source["enableForAlways"] == true ? true : false;
+		this.dontProxyWhitelist = source["dontProxyWhitelist"]==true;
 		if (source["bypassList"] != null)
 			this.bypassList = source["bypassList"] || [];
 	}

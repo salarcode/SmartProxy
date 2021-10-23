@@ -507,6 +507,7 @@ export class SettingsOperation {
 			newByPass.CopyFrom(backupBypass);
 
 			backupBypass.enableForAlways = backupBypass.enableForAlways || false;
+			backupBypass.dontProxyWhitelist = backupBypass.dontProxyWhitelist || false;
 			backupBypass.enableForSystem = backupBypass.enableForSystem || false;
 
 			return { success: true, result: backupBypass };
