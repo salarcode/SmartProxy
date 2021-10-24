@@ -164,7 +164,7 @@ input:invalid {
 	position: relative;
 	bottom: -1px;
 	background: white;
-	padding: 10px 5px;
+	padding: 10px 5px 15px;
 	border-radius: 5px;
 }
 .sticky-save-buttons-bar::after {
@@ -174,10 +174,10 @@ input:invalid {
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 	border-radius: 50%;
 
-	top: 0;
+	top: 10px;
 	left: 15%;
 	right: 15%;
-	height: 10%;
+	height: 20%;
 	width: 70%;
 }
 

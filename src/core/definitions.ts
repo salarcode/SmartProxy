@@ -45,6 +45,27 @@ export enum SmartProfileType {
 	AlwaysEnabledBypassRules,
 	IgnoreFailureRules,
 }
+export function getSmartProfileTypeIcon(profileType: SmartProfileType) {
+	switch (profileType) {
+		case SmartProfileType.Direct:
+			return 'fas fa-ban text-danger';
+
+		case SmartProfileType.SystemProxy:
+			return 'fab fa-windows text-primary';
+
+		case SmartProfileType.SmartRules:
+			return 'fas fa-magic text-success';
+
+		case SmartProfileType.AlwaysEnabledBypassRules:
+			return 'fas fa-globe-americas text-primary';
+
+		case SmartProfileType.IgnoreFailureRules:
+			return 'fas fa-scroll';
+
+		default:
+			return '';
+	}
+}
 export enum SmartProfileTypeBuiltinIds {
 	Direct = 'InternalProfile_Direct',
 	SmartRules = 'InternalProfile_SmartRules',

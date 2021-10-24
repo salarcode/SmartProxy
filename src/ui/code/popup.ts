@@ -16,7 +16,7 @@
  */
 import { browser, environment } from "../../lib/environment";
 import { jQuery, messageBox } from "../../lib/External";
-import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType } from "../../core/definitions";
+import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType, getSmartProfileTypeIcon } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
@@ -149,7 +149,7 @@ export class popup {
 
 			let profileMenu = divProfileTemplate.clone();
 			profileMenu.find("span").text(profile.profileName);
-			profileMenu.find("i.fas").addClass('fa-ban'); // TODO: icon for profile
+			profileMenu.find(".icon").addClass(getSmartProfileTypeIcon(profile.profileType));
 			profileMenu.attr("id", newId);
 
 			if (profile.profileId == activeProfileId)

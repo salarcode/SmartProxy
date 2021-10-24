@@ -21,7 +21,7 @@ import { environment, browser } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, proxyRulesSubscriptionFormat, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, proxyRulesSubscriptionFormat, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 
 export class settingsPage {
@@ -984,7 +984,8 @@ export class settingsPage {
 			pageSmartProfile.htmlProfileTab = profileTab;
 
 			// menu
-			profileMenu.find("span").text(`${SmartProfileType[profile.profileType]} - ${profile.profileName}`);
+			profileMenu.find("span").text(profile.profileName);
+			profileMenu.find(".icon").addClass(getSmartProfileTypeIcon(profile.profileType));
 			profileMenu.attr("id", menuId);
 			profileMenu.attr("href", '#' + tabId);
 			profileMenu.addClass('nav-smart-profile-item');
@@ -992,6 +993,12 @@ export class settingsPage {
 			// tab
 			profileTab.attr("id", tabId).attr('aria-labelledby', menuId);
 			profileTab.addClass('tab-smart-profile-item');
+			profileTab.find("#lblProfileName").html(profile.profileName + ` <i class="fas fa-pencil-alt fa-xs"></i>`);
+			profileTab.find("#txtSmartProfileName").val(profile.profileName);
+			profileTab.find("#lblProfileType").text(settingsPage.getSmartProfileTypeName(profile.profileType));
+			profileTab.find("#lblProfileTypeIcon").addClass(getSmartProfileTypeIcon(profile.profileType));
+			profileTab.find(".label-profile-type-description").hide();
+			profileTab.find(`.label-profile-type-description-for-${SmartProfileType[profile.profileType]}`).show();
 
 			if (!profile.supportsSubscriptions) {
 				profileTab.find("#divSmartProfileSubscription").remove();
@@ -1112,6 +1119,8 @@ export class settingsPage {
 	private static bindSmartProfileEvents(pageProfile: SettingsPageSmartProfile) {
 
 		let tabContainer = pageProfile.htmlProfileTab;
+
+		tabContainer.find("#lblProfileName").click(() => settingsPage.uiEvents.onProfileNameClick(pageProfile));
 
 		// rules
 		tabContainer.find("#cmdRuleType").change(() => settingsPage.uiEvents.onChangeRuleType(pageProfile));
@@ -2193,6 +2202,12 @@ export class settingsPage {
 					messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
 				});
 		},
+		onProfileNameClick(pageProfile: SettingsPageSmartProfile) {
+			let tabContainer = pageProfile.htmlProfileTab;
+			tabContainer.find("#lblProfileName").hide();
+			tabContainer.find("#txtSmartProfileName").addClass("d-inline").remove("d-none")
+				.focus();
+		},
 		onClickSaveSmartProfile(pageProfile: SettingsPageSmartProfile) {
 
 			settingsPage.readSmartProfile(pageProfile);
@@ -3142,7 +3157,12 @@ export class settingsPage {
 		}
 
 		return result;
-	}    //#endregion
+	}    
+	
+	private static getSmartProfileTypeName(profileType: SmartProfileType){
+		return browser.i18n.getMessage(`settings_SmartProfileType_${SmartProfileType[profileType]}`);
+	}
+	//#endregion
 
 }
 

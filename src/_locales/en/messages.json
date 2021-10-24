@@ -187,10 +187,6 @@
 		"message": "Whitelisted",
 		"description": ""
 	},
-	"proxyableGridData_LogType_ByPassed": {
-		"message": "By Passed",
-		"description": ""
-	},
 	"proxyableGridData_LogType_SystemProxyApplied": {
 		"message": "System Mode",
 		"description": ""
@@ -225,10 +221,6 @@
 	},
 	"settingsTabProxyServerSubscriptions": {
 		"message": "Proxy Server Subscriptions",
-		"description": ""
-	},
-	"settingsTabBypass": {
-		"message": "Bypass List",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -399,10 +391,6 @@
 		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.",
 		"description": ""
 	},
-	"settingsTabBypassDescription": {
-		"message": "The following list is the list of hosts that proxy should not be applied to.",
-		"description": ""
-	},
 	"settingsTabBackupRestoreDescription": {
 		"message": "You can make either full or partial backup of your settings.",
 		"description": ""
@@ -439,14 +427,6 @@
 		"message": "Make a full backup of the options (including proxy servers and rules).",
 		"description": ""
 	},
-	"settingsRulesBackupButton": {
-		"message": "Create rules backup",
-		"description": ""
-	},
-	"settingsRulesBackupButtonDesc": {
-		"message": "Make backup of the proxy rules.",
-		"description": ""
-	},
 	"settingsRestoreBackupButton": {
 		"message": "Restore backup",
 		"description": ""
@@ -456,7 +436,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import/Export individual list of proxies and rules.",
+		"message": "Import/Export individual list of proxies servers.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -465,10 +445,6 @@
 	},
 	"settingsExportProxiesButtonBackup": {
 		"message": "Export Proxy Servers",
-		"description": ""
-	},
-	"settingsImportRulesButtonBackup": {
-		"message": "Import Proxy Rules",
 		"description": ""
 	},
 	"settingsAddRuleButton": {
@@ -1259,32 +1235,12 @@
 		"message": "Rule doesn't have pattern defined",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSubscriptionsSuccess": {
-		"message": "Proxy rules subscriptions saved successfully.",
-		"description": ""
-	},
 	"settingsBypassEnableForAlways": {
 		"message": "Enable for 'Always Enable' mode",
 		"description": ""
 	},
-	"settingsBypassList": {
-		"message": "Bypass list:",
-		"description": ""
-	},
 	"settingsBypassListHint": {
 		"message": "(Use new line to separate entries)",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveBypass": {
-		"message": "Failed to save bypass settings.",
-		"description": ""
-	},
-	"settingsSaveBypassSuccess": {
-		"message": "Bypass list saved successfully.",
-		"description": ""
-	},
-	"settingsBypassInvalid": {
-		"message": "Invalid bypass settings",
 		"description": ""
 	},
 	"settingsWelcomeTitle": {
@@ -1297,6 +1253,26 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "Got it",
+		"description": ""
+	},
+	"settings_SmartProfileType_Direct": {
+		"message": "Direct",
+		"description": ""
+	},
+	"settings_SmartProfileType_SystemProxy": {
+		"message": "System Proxy",
+		"description": ""
+	},
+	"settings_SmartProfileType_SmartRules": {
+		"message": "Smart Rules",
+		"description": ""
+	},
+	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
+		"message": "Always Enabled with Bypass Rules",
+		"description": ""
+	},
+	"settings_SmartProfileType_IgnoreFailureRules": {
+		"message": "Ignore Failures Rules",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {

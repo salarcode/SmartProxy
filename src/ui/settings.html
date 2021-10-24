@@ -79,8 +79,8 @@
 					<a class="nav-link nav-smart-profile" id="menu-smart-profile" data-toggle="pill"
 						href="#tab-smart-profile" role="tab" aria-controls="tab-rules" aria-expanded="true">
 						<!--Smart Profile template-->
-						<i class="fas fa-magic fa-lg text-success" aria-hidden="true"></i>
-						<span>Smart Rules</span>
+						<i class="icon fa-lg" aria-hidden="true"></i>
+						<span>{profile-name}</span>
 					</a>
 
 					<a class="nav-link nav-smart-profile mb-2" id="btnAddNewSmartProfile" data-toggle=""
@@ -89,17 +89,6 @@
 						<span data-localize="settingsTabAAAAAAAAAAAAAAAA">Add new Smart Profile</span>
 					</a>
 
-					<a class="nav-link" id="tab-rules-tab" data-toggle="pill" href="#tab-rules" role="tab"
-						aria-controls="tab-rules" aria-expanded="true">
-						<i class="fas fa-magic fa-lg text-warning" aria-hidden="true"></i>
-						<span data-localize="settingsTabProxyRules">Proxy Rules</span>
-					</a>
-					<a class="nav-link" id="tab-rules-subscriptions-tab" data-toggle="pill"
-						href="#tab-rules-subscriptions" role="tab" aria-controls="tab-rules-subscriptions"
-						aria-expanded="true">
-						<i class="fas fa-book-open fa-lg text-warning"></i>
-						<span data-localize="settingsTabProxyRulesSubscription">Proxy Rules Subscriptions</span>
-					</a>
 					<a class="nav-link" id="tab-backup-tab" data-toggle="pill" href="#tab-backup" role="tab"
 						aria-controls="tab-backup" aria-expanded="true">
 						<i class="fas fa-life-ring text-success" aria-hidden="true"></i>
@@ -406,21 +395,30 @@
 						<!----------Smart Profiles Tab----------->
 						<h3>
 							<span>Smart Profile:</span>
-							<a id="lblProfileName" href="#">{profile-name}</a>
-							<input id="txtSmartProfileName" style="display: none;" class="form-control d-inline w-auto"
-								placeholder="Profile name to be used in menu" />
+							<a id="lblProfileName" href="#">{profile-name} <i class="fas fa-pencil-alt"></i></a>
+							<input id="txtSmartProfileName" class="form-control d-none w-auto"
+								placeholder="Name used in menu" />
 						</h3>
 						<hr class="afshin-line" />
-						<h4 id="label-profile-type">
-							Profile Type: {profile-type}
+						<h4>
+							<span>Profile Type:</span> 
+							<i id="lblProfileTypeIcon" class="fa-sm text-primary" aria-hidden="true"></i>
+							<span id="lblProfileType">{profile-type}</span>
 						</h4>
 						<p id="label-profile-rules-description">
-							In this profile no proxy is applied unless you define smart rules. You will define black
-							listed rules or in other words rules to apply proxy.
-							<br>
-							In this profile proxy servers are always applied define smart rules and skip them. You will
-							define white listed rule or in other words rules to skip proxy and do not apply proxy.
+							<span class="label-profile-type-description label-profile-type-description-for-SmartRules">
+								In this profile no proxy is applied unless you define smart rules. You will define black
+								listed rules or in other words rules to apply proxy.
+								</span>
+							<span class="label-profile-type-description label-profile-type-description-for-AlwaysEnabledBypassRules">
+								In this profile proxy servers are always applied define smart rules and skip them. You will
+								define white listed rule or in other words rules to skip proxy and do not apply proxy.
+							</span>
 						</p>
+						<hr class="afshin-line" />
+						<h3 class="mt-1">
+							<span>Rules</span>
+						</h3>
 						<p>
 						<div class="float-left">
 							<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">Add
@@ -439,10 +437,20 @@
 						<div class="clearfix"></div>
 						</p>
 						<table id="grdRules" class="table table-striped table-bordered table-hover"></table>
+						<div class="float-right">
+							<button id="btnClearProxyRules" class="btn btn-outline-danger"
+								title="Clear all the rules">
+								<i class="fas fa-trash" aria-hidden="true"></i>
+							</button>
+						</div>
+						<div class="clearfix"></div>
 
 
 						<div id="divSmartProfileSubscription">
 							<hr class="afshin-line" />
+							<h3 class="mt-1">
+								<span>Rules Subscriptions</span>
+							</h3>
 							<p class="mt-2" id="label-profile-subscription-description">
 								Here you can subscribe to rules lists.
 							</p>
@@ -457,6 +465,13 @@
 							</p>
 							<table id="grdRulesSubscriptions" class="table table-striped table-bordered table-hover">
 							</table>
+							<div class="float-right">
+								<button id="btnClearRulesSubscriptions" class="btn btn-outline-danger"
+									title="Clear all the subscriptions">
+									<i class="fas fa-trash" aria-hidden="true"></i>
+								</button>
+							</div>
+							<div class="clearfix"></div>
 						</div>
 						<p class="mt-2">
 						<div class="position-sticky-bottom">
@@ -467,16 +482,6 @@
 									</button>
 									<button id="btnRejectSmartProfile" class="btn btn-outline-secondary">
 										<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-									</button>
-								</div>
-								<div class="float-right">
-									<button id="btnClearProxyRules" class="btn btn-outline-danger"
-										title="Clear all the rules">
-										<i class="fas fa-trash" aria-hidden="true"></i>
-									</button>
-									<button id="btnClearRulesSubscriptions" class="btn btn-outline-danger"
-										title="Clear all the subscriptions">
-										<i class="fas fa-trash" aria-hidden="true"></i>
 									</button>
 								</div>
 								<div class="clearfix"></div>
@@ -804,104 +809,6 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="tab-pane fade" id="tab-rules" role="tabpanel" aria-labelledby="tab-rules-tab">
-						<!----------Proxy Rules----------->
-						<h3 data-localize="settingsTabProxyRules">Proxy Rules</h3>
-						<hr class="afshin-line" />
-						<h4 data-localize="settingsTabProxyRulesTitle">
-							Manage your proxy rules:
-						</h4>
-						<p data-localize="settingsTabProxyRulesDescription">
-							Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a
-							specific domain or
-							not.<br />
-							Rules are based on <a
-								href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns"
-								target="_blank">
-								Match
-								patterns
-							</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular
-								expressions</a>.
-						</p>
-						<p>
-						<div class="float-left">
-							<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">Add
-								Rule</button>
-							<button id="btnAddProxyMultipleRule" type="button" class="btn btn-info"
-								data-localize="settingsAddMultipleRulesButton" data-target="#modalAddMultipleRules">
-								Add Multiple Rules
-							</button>
-						</div>
-						<div class="float-right">
-							<button id="btnImportRulesOpen" type="button" class="btn btn-info" data-toggle="modal"
-								data-target="#modalImportRules" data-localize="settingsImportRulesButton">
-								Import Rules
-							</button>
-						</div>
-						<div class="clearfix"></div>
-						</p>
-						<table id="grdRules" class="table table-striped table-bordered table-hover"></table>
-
-						<p class="mt-2">
-						<div class="float-left">
-							<button id="btnSaveProxyRules" class="btn btn-primary">
-								<span data-localize="settingsSaveChangesButton">Save Changes</span>
-							</button>
-							<button id="btnRejectProxyRules" class="btn btn-outline-secondary">
-								<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-							</button>
-						</div>
-						<div class="float-right">
-							<button id="btnClearProxyRules" class="btn btn-outline-danger" title="Clear all the rules">
-								<i class="fas fa-trash" aria-hidden="true"></i>
-							</button>
-						</div>
-						<div class="clearfix"></div>
-						</p>
-					</div>
-
-					<div class="tab-pane fade" id="tab-rules-subscriptions" role="tabpanel"
-						aria-labelledby="tab-rules-subscriptions-tab">
-						<!----------Proxy Rules Subscriptions----------->
-						<h3 data-localize="settingsTabProxyRulesSubscription">Proxy Rules Subscriptions</h3>
-						<hr class="afshin-line" />
-
-						<h4 data-localize="settingsTabProxyRulesSubscriptionTitle">
-							Manage proxy rules subscriptions:
-						</h4>
-						<p data-localize="settingsTabProxyRulesSubscriptionDescription">
-							Here you can subscribe to rules lists. Based on these rules, proxies will apply.
-						</p>
-						<p>
-						<div class="float-left">
-							<button id="btnAddRulesSubscription" class="btn btn-info"
-								data-localize="settingsAddRulesSubscriptionButton">
-								Subscribe to a rules list
-							</button>
-						</div>
-						<div class="clearfix"></div>
-						</p>
-						<table id="grdRulesSubscriptions" class="table table-striped table-bordered table-hover">
-						</table>
-
-						<p class="mt-2">
-						<div class="float-left">
-							<button id="btnSaveRulesSubscriptionsChanges" class="btn btn-primary">
-								<span data-localize="settingsSaveChangesButton">Save Changes</span>
-							</button>
-							<button id="btnRejectRulesSubscriptionsChanges" class="btn btn-outline-secondary">
-								<span data-localize="settingsRejectChangesButton">Reject Changes</span>
-							</button>
-						</div>
-						<div class="float-right">
-							<button id="btnClearRulesSubscriptions" class="btn btn-outline-danger"
-								title="Clear all the subscriptions">
-								<i class="fas fa-trash" aria-hidden="true"></i>
-							</button>
-						</div>
-						<div class="clearfix"></div>
-						</p>
 					</div>
 
 					<div class="tab-pane fade" id="tab-server-subscriptions" role="tabpanel"
