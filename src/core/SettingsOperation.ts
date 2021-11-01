@@ -154,6 +154,7 @@ export class SettingsOperation {
 			onGetLocalError);
 
 	}
+
 	public static findProxyServerByName(name: string): ProxyServer {
 		let proxy = Settings.current.proxyServers.find(item => item.name === name);
 		if (proxy !== undefined)
@@ -161,6 +162,20 @@ export class SettingsOperation {
 
 		for (let subscription of Settings.current.proxyServerSubscriptions) {
 			proxy = subscription.proxies.find(item => item.name === name);
+			if (proxy !== undefined)
+				return proxy;
+		}
+
+		return null;
+	}
+
+	public static findProxyServerById(id: string): ProxyServer {
+		let proxy = Settings.current.proxyServers.find(item => item.id === id);
+		if (proxy !== undefined)
+			return proxy;
+
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			proxy = subscription.proxies.find(item => item.id === id);
 			if (proxy !== undefined)
 				return proxy;
 		}

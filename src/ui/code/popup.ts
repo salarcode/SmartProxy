@@ -218,7 +218,7 @@ export class popup {
 				dataForPopup.proxyServersSubscribed.forEach(proxyServer => {
 					// proxyServer
 					let $option = jQuery("<option>")
-						.attr("value", proxyServer.name)
+						.attr("value", proxyServer.id)
 						.text(proxyServer.name)
 						.appendTo(subscriptionGroup);
 
@@ -387,7 +387,7 @@ export class popup {
 
 	//#region Events
 	private static onSmartProfileClick(profile: SmartProfileBase, e: any) {
-		// 
+
 		if (popup.popupData.notAllowedSetProxySettings &&
 			profile.profileType == SmartProfileType.SystemProxy) {
 
@@ -401,11 +401,10 @@ export class popup {
 			return;
 		}
 		
-		// // change active profile
-		// PolyFill.runtimeSendMessage({
-		// 	command: CommandMessages.PopupChangeProxyMode,
-		// 	proxyMode: selectedProxyMode
-		// });
+		PolyFill.runtimeSendMessage({
+			command: CommandMessages.PopupChangeActiveProfile,
+			profileId: profile.profileId
+		});
 
 		if (profile.profileType != SmartProfileType.Direct &&
 			profile.profileType != SmartProfileType.SystemProxy &&
@@ -414,19 +413,18 @@ export class popup {
 			PolyFill.runtimeOpenOptionsPage();
 		}
 		popup.closeSelf();
-
 	}
 
 	private static onActiveProxyChange() {
 		let cmbActiveProxy = jQuery("#divActiveProxy #cmbActiveProxy");
 
-		let value = cmbActiveProxy.val();
-		if (!value) return;
+		let id = cmbActiveProxy.val();
+		if (!id) return;
 
 		PolyFill.runtimeSendMessage(
 			{
 				command: CommandMessages.PopupChangeActiveProxyServer,
-				name: value
+				id
 			});
 	}
 

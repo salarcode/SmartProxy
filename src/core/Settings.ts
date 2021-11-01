@@ -224,6 +224,7 @@ export class Settings {
 			active.activeProfile = ProfileOperations.compileSmartProfile(foundProfile);
 		}
 
+		// TODO: proxy server might be a subscription, does this line work?
 		let foundProxy = findProxyServerById(settings.activeProxyServerId, settings.proxyServers);
 		if (foundProxy) {
 			active.activeProxyServer = foundProxy;

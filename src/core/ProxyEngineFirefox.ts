@@ -81,8 +81,10 @@ export class ProxyEngineFirefox {
 			function (error: Error) {
 				Debug.error('updateFirefoxProxyConfig failed to set proxy settings', proxySettings, error?.message);
 				if (error && error['message']) {
-					if (error.message.includes('not supported')) environment.notSupported.setProxySettings = true;
-					if (error.message.includes('permission')) environment.notAllowed.setProxySettings = true;
+					if (error.message.includes('not supported'))
+						environment.notSupported.setProxySettings = true;
+					if (error.message.includes('permission'))
+						environment.notAllowed.setProxySettings = true;
 				}
 			},
 		);
@@ -161,7 +163,7 @@ export class ProxyEngineFirefox {
 						tabData.proxyServerFromRule = null;
 						tabData.proxifiedParentDocumentUrl = null;
 					} else {
-						
+
 						proxyLog.logType = ProxyableLogType.ProxyPerOrigin;
 						proxyLog.hostName = tabData.proxyRuleHostName;
 						proxyLog.proxied = true;

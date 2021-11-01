@@ -197,12 +197,12 @@ export class Core {
 			// }
 
 			case CommandMessages.PopupChangeActiveProxyServer: {
-				if (!message.name)
+				if (!message.id)
 					return;
 
-				let proxyName = message.name;
+				let proxyId = message.id;
 
-				let proxy = SettingsOperation.findProxyServerByName(proxyName);
+				let proxy = SettingsOperation.findProxyServerById(proxyId);
 				if (proxy != null) {
 					Core.ChangeActiveProxy(proxy);
 
