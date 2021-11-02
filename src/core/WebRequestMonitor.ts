@@ -89,13 +89,54 @@ export class WebRequestMonitor {
 		Debug.log(`${requestDetails.tabId}-${requestDetails.requestId}>`, message, requestDetails.url, additional || '');
 	}
 
+	private static findRequestByUrl(url) {
+		let requests = WebRequestMonitor.requests;
+		let matched = [];
+		for (const key in requests) {
+			let req = requests[key];
+
+			if (!req)
+				continue;
+
+			if (req["url"] === url)
+				matched.push(req);
+		}
+		return matched;
+	}
+
+	private static popArrayAndCallback(array: any[], callback: Function) {
+		while (array.length) {
+			// remove and return item
+			const item = array.shift();
+			try {
+				callback(item);
+			} catch (error) {
+				console.error('popArrayAndCallback failed for', item, error);
+			}
+		}
+	}
+
 	private static events = {
 		onBeforeRequest(requestDetails: any) {
+			let reqInfo = requestDetails;
+
 			if (requestDetails.tabId < 0) {
-				return;
+				let sameUrlRequests = WebRequestMonitor.findRequestByUrl(requestDetails.url);
+				if (!sameUrlRequests.length) {
+					// no related request in tabs, don't monitor
+					return;
+				}
+				reqInfo._relatedRequests = sameUrlRequests;
+
+				// referencing self to others
+				for (const req of sameUrlRequests) {
+					if (!req._relatedRequests)
+						req._relatedRequests = [reqInfo];
+					else
+						req._relatedRequests.push(reqInfo);
+				}
 			}
 
-			let reqInfo = requestDetails;
 			reqInfo._startTime = new Date();
 			reqInfo._isHealthy = false;
 
@@ -130,6 +171,7 @@ export class WebRequestMonitor {
 			}
 		},
 		onBeforeRedirect(requestDetails: any) {
+
 			let url = requestDetails.redirectUrl;
 			if (!url) return;
 
@@ -150,13 +192,35 @@ export class WebRequestMonitor {
 			if (Utils.isUrlLocal(url)) {
 				// request is completed when redirecting to local pages
 				WebRequestMonitor.events.onCompleted(requestDetails);
-			}
-		},
-		onCompleted(requestDetails: any) {
-			if (requestDetails.tabId < 0) {
 				return;
 			}
 
+			let req = WebRequestMonitor.requests[requestDetails.requestId];
+			if(req && req.url === url){
+				// if redirect url is same as the url itself, mark completed
+				WebRequestMonitor.events.onCompleted(requestDetails);
+			}
+		},
+		onCompleted(requestDetails: any) {
+			let req = WebRequestMonitor.requests[requestDetails.requestId];
+			if (!req) {
+				// not monitored request
+				return;
+			}
+
+			if (req._relatedRequests && req._relatedRequests.length) {
+				// calling related on complete events
+				WebRequestMonitor.popArrayAndCallback(req._relatedRequests, WebRequestMonitor.events.onCompleted);
+
+				// needs double check this request again
+				req = WebRequestMonitor.requests[requestDetails.requestId];
+				if (!req) {
+					// already removed from monitor
+					return;
+				}
+			}
+
+			// making sure there is no property, even no null one
 			delete WebRequestMonitor.requests[requestDetails.requestId];
 
 			// callback request-complete
@@ -170,6 +234,18 @@ export class WebRequestMonitor {
 			delete WebRequestMonitor.requests[requestDetails.requestId];
 
 			if (!req) return;
+
+			if (req._relatedRequests && req._relatedRequests.length) {
+				// calling related on complete events
+				WebRequestMonitor.popArrayAndCallback(req._relatedRequests, WebRequestMonitor.events.onErrorOccurred);
+
+				// needs double check this request again
+				req = WebRequestMonitor.requests[requestDetails.requestId];
+				if (!req) {
+					// already removed from monitor
+					return;
+				}
+			}
 
 			if (requestDetails.tabId < 0) {
 				return;
