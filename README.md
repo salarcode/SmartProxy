@@ -11,13 +11,13 @@
 
 #### Upcoming v1.0 new features 💥
 You can access to the work in progress in [Smart Profiles](https://github.com/salarcode/SmartProxy/tree/SmartProfiles) branch.
-- Introducing Profiles. Two different type of profile can be created by users, both supporting rules and subscriptions.
-- Profile for SmartProxy mode. In this profile type rules will be decide what domain/url in this request should have proxy applied.
+- Introducing Profiles. Two different type of profiles can be created by users, both supporting rules and subscriptions.
+- Profile for SmartProxy mode. In this profile type rules will decide what domain/url in the request should have proxy applied.
 - Profile for Always Enabled mode. In this profile type proxy will be applied to all requests excluding the rules that is defined.
-- Another profile type is for Error detection whitelist which is not selectable by user, rather is defined as built in. In this profile type for the specified rules there won't be a notification about requests errors.
+- Another profile type is for Error detection whitelist which can not be created by user and is defined as built in. In this profile type for the specified rules there won't be a notification about requests errors.
 - Different Proxy Server per profile. Each profile can use the default global proxy server or have its own specific one.
 - A rule can get its proxy from Default general or Profile Proxy or has its own setting.
-- New `displayMatchedRuleOnBadge` will display the applied rule to the tab.
+- New `displayMatchedRuleOnBadge` will display the applied rule to the tab in tooltip.
 - Theme support. Dark/Light theme plus custom theme can be selected.
 - Better UI foundation with Bootstrap 5.
 
