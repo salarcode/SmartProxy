@@ -15,12 +15,13 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Debug } from "../lib/Debug";
-import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType, CompiledProxyRuleSource, CompiledProxyRulesInfo, CompiledProxyRulesMatchedSource } from "./definitions";
+import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType, CompiledProxyRuleSource, CompiledProxyRulesInfo, CompiledProxyRulesMatchedSource, ProxyRuleSpecialProxyServer, SmartProfileBase } from "./definitions";
 import { Utils } from "../lib/Utils";
+import { SettingsOperation } from "./SettingsOperation";
 
 export class ProxyRules {
 
-	public static compileRules(proxyRules: ProxyRule[]): {
+	public static compileRules(profile: SmartProfileBase, proxyRules: ProxyRule[]): {
 		compiledList: CompiledProxyRule[],
 		compiledWhiteList: CompiledProxyRule[]
 	} {
@@ -41,6 +42,18 @@ export class ProxyRules {
 			newCompiled.whiteList = rule.whiteList;
 			newCompiled.hostName = rule.hostName;
 			newCompiled.proxy = rule.proxy;
+			if (rule.proxyServerId == ProxyRuleSpecialProxyServer.DefaultGeneral) {
+				newCompiled.proxy = null;
+			} else if (rule.proxyServerId == ProxyRuleSpecialProxyServer.ProfileProxy) {
+				if (profile.profileProxyServerId) {
+					// the proxy is derived from profile
+					let profileProxy = SettingsOperation.findProxyServerById(profile.profileProxyServerId);
+					if (profileProxy) {
+						newCompiled.proxy = profileProxy;
+					}
+				}
+			}
+
 			newCompiled.compiledRuleSource = CompiledProxyRuleSource.Manual;
 
 			switch (rule.ruleType) {

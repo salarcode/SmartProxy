@@ -40,7 +40,11 @@
 		"description": ""
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy:",
+		"message": "Active Proxy (this profile):",
+		"description": ""
+	},
+	"popupActiveProxyDefault": {
+		"message": "Active Proxy (Default Setting):",
 		"description": ""
 	},
 	"popupEnableProxyOn": {
@@ -392,7 +396,7 @@
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
-		"message": "Active Proxy Server:",
+		"message": "Default Proxy Server:",
 		"description": ""
 	},
 	"settingsAddServerButton": {
@@ -663,6 +667,9 @@
 		"message": "Import",
 		"description": ""
 	},
+	"settingsProfilesProxyServer": {
+		"message": "[Use Default Proxy Server]"
+	},
 	"settingsRuleSourceRequired": {
 		"message": "Please specify the source domain of the rule!",
 		"description": ""
@@ -728,7 +735,11 @@
 		"description": ""
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[General]",
+		"message": "[Use Default Proxy]",
+		"description": ""
+	},
+	"settingsRulesProxyFromProfile": {
+		"message": "[Use Profile Proxy]",
 		"description": ""
 	},
 	"settingsSaveProxyRulesSuccess": {
@@ -805,10 +816,6 @@
 	},
 	"settingsServerHostInvalid": {
 		"message": "Server host '{0}' is invalid",
-		"description": ""
-	},
-	"settingsProxyModeInvalid": {
-		"message": "Invalid proxy mode setting",
 		"description": ""
 	},
 	"settingsRestoreSettingsSuccess": {

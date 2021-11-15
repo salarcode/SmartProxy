@@ -40,7 +40,11 @@
 		"description": ""
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy:",
+		"message": "Active Proxy (this profile):",
+		"description": ""
+	},
+	"popupActiveProxyDefault": {
+		"message": "Active Proxy (Default Setting):",
 		"description": ""
 	},
 	"popupEnableProxyOn": {
@@ -215,10 +219,6 @@
 		"message": "Proxy Servers",
 		"description": ""
 	},
-	"settingsTabProxyRules": {
-		"message": "Proxy Rules",
-		"description": ""
-	},
 	"settingsTabProxyServerSubscriptions": {
 		"message": "Proxy Server Subscriptions",
 		"description": ""
@@ -383,14 +383,6 @@
 		"message": "Here is the list of proxy servers. You can define as many proxy as you want and switch between then from toolbar.",
 		"description": ""
 	},
-	"settingsTabProxyRulesTitle": {
-		"message": "Manage your proxy rules:",
-		"description": ""
-	},
-	"settingsTabProxyRulesDescription": {
-		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.",
-		"description": ""
-	},
 	"settingsTabBackupRestoreDescription": {
 		"message": "You can make either full or partial backup of your settings.",
 		"description": ""
@@ -404,7 +396,7 @@
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
-		"message": "Active Proxy Server:",
+		"message": "Default Proxy Server:",
 		"description": ""
 	},
 	"settingsAddServerButton": {
@@ -675,6 +667,9 @@
 		"message": "Import",
 		"description": ""
 	},
+	"settingsProfilesProxyServer": {
+		"message": "[Use Default Proxy Server]"
+	},
 	"settingsRuleSourceRequired": {
 		"message": "Please specify the source domain of the rule!",
 		"description": ""
@@ -740,7 +735,11 @@
 		"description": ""
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[General]",
+		"message": "[Use Default Proxy]",
+		"description": ""
+	},
+	"settingsRulesProxyFromProfile": {
+		"message": "[Use Profile Proxy]",
 		"description": ""
 	},
 	"settingsSaveProxyRulesSuccess": {
@@ -817,10 +816,6 @@
 	},
 	"settingsServerHostInvalid": {
 		"message": "Server host '{0}' is invalid",
-		"description": ""
-	},
-	"settingsProxyModeInvalid": {
-		"message": "Invalid proxy mode setting",
 		"description": ""
 	},
 	"settingsRestoreSettingsSuccess": {
@@ -1061,18 +1056,6 @@
 	},
 	"settingsFailedToSaveProxySubscriptions": {
 		"message": "Failed to save proxy servers subscriptions",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscription": {
-		"message": "Proxy Rules Subscriptions",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionTitle": {
-		"message": "Manage proxy rules subscriptions:",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionDescription": {
-		"message": "Here you can subscribe to rules lists. Based on these rules, proxies will apply.",
 		"description": ""
 	},
 	"settingsAddRulesSubscriptionButton": {

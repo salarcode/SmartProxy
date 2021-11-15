@@ -53,9 +53,9 @@ export class ProxyAuthentication {
 			return {};
 		}
 		let settingsActive = Settings.active;
-		let activeProxy = settingsActive.activeProxyServer;
+		let currentProxy = settingsActive.currentProxyServer;
 
-		if (!activeProxy) {
+		if (!currentProxy) {
 			if (asyncCallback)
 				asyncCallback({});
 			return {};
@@ -66,7 +66,7 @@ export class ProxyAuthentication {
 			(activeProfile.profileType !== SmartProfileType.SystemProxy);
 
 		if (applyAuthentication &&
-			activeProxy.username)
+			currentProxy.username)
 			applyAuthentication = true;
 		else
 			applyAuthentication = false;
@@ -94,7 +94,7 @@ export class ProxyAuthentication {
 			ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
 			asyncCallback({
-				authCredentials: { username: activeProxy.username, password: activeProxy.password }
+				authCredentials: { username: currentProxy.username, password: currentProxy.password }
 			});
 		} else {
 			// check if authentication is required
@@ -111,7 +111,7 @@ export class ProxyAuthentication {
 			ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
 			return {
-				authCredentials: { username: activeProxy.username, password: activeProxy.password }
+				authCredentials: { username: currentProxy.username, password: currentProxy.password }
 			};
 		}
 	}
@@ -130,7 +130,7 @@ export class ProxyAuthentication {
 		let applyAuthentication = (activeProfile != null) &&
 			(activeProfile.profileType !== SmartProfileType.Direct) &&
 			(activeProfile.profileType !== SmartProfileType.SystemProxy);
-		let activeProxy = settingsActive.activeProxyServer;
+		let currentProxy = settingsActive.currentProxyServer;
 
 		if (requestDetails.challenger) {
 			var serverHost = requestDetails.challenger.host + ":" + requestDetails.challenger.port;
@@ -151,13 +151,13 @@ export class ProxyAuthentication {
 			}
 		}
 
-		if (!activeProxy) {
+		if (!currentProxy) {
 			return {};
 		}
 
 		if (applyAuthentication &&
-			activeProxy &&
-			activeProxy.username)
+			currentProxy &&
+			currentProxy.username)
 			applyAuthentication = true;
 		else
 			applyAuthentication = false;
@@ -171,7 +171,7 @@ export class ProxyAuthentication {
 		ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
 		return {
-			authCredentials: { username: activeProxy.username, password: activeProxy.password }
+			authCredentials: { username: currentProxy.username, password: currentProxy.password }
 		};
 	}
 	private static onRequestFinished(requestDetails: any) {

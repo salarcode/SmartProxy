@@ -1,8 +1,12 @@
+import { Debug } from "../lib/Debug";
 import { Utils } from "../lib/Utils";
 import { CompiledProxyRulesInfo, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
+import { Settings } from "./Settings";
+import { SettingsOperation } from "./SettingsOperation";
 
 export class ProfileOperations {
+
 
 	public static profileTypeSupportsRules(profileType: SmartProfileType): boolean {
 		switch (profileType) {
@@ -31,6 +35,17 @@ export class ProfileOperations {
 		}
 	}
 
+	public static getActiveSmartProfile(): SmartProfile {
+		let settings = Settings.current;
+
+		let smartProfile = ProfileOperations.findSmartProfileById(settings.activeProfileId, settings.proxyProfiles);
+		if (smartProfile == null) {
+			Debug.warn(`No active profile found`);
+			return;
+		}
+		return smartProfile;
+	}
+
 	public static findSmartProfileById(id: string, profiles: SmartProfile[]): SmartProfile | null {
 		return profiles.find((a) => a.profileId === id);
 	}
@@ -41,6 +56,12 @@ export class ProfileOperations {
 		ProfileOperations.copySmartProfileBase(profile, compiledProfile);
 
 		ProfileOperations.compileSmartProfileRuleInternal(profile, compiledProfile);
+
+		if (compiledProfile.profileProxyServerId) {
+			// the proxy server is derived from what is available
+			compiledProfile.profileProxyServer = SettingsOperation.findProxyServerById(compiledProfile.profileProxyServerId);
+		}
+
 		return compiledProfile;
 	}
 
@@ -51,7 +72,7 @@ export class ProfileOperations {
 
 		if (profile.proxyRules && profile.proxyRules.length) {
 
-			let compiledInfo = ProxyRules.compileRules(profile.proxyRules);
+			let compiledInfo = ProxyRules.compileRules(profile, profile.proxyRules);
 
 			compiledProfile.compiledRules.Rules = compiledInfo?.compiledList ?? [];
 			compiledProfile.compiledRules.WhitelistRules = compiledInfo?.compiledWhiteList ?? [];
@@ -114,7 +135,7 @@ export class ProfileOperations {
 		toProfile.editable = fromProfile.editable;
 		toProfile.builtin = fromProfile.builtin;
 		toProfile.supportsSubscriptions = fromProfile.supportsSubscriptions;
-		toProfile.activeProxyServerId = fromProfile.activeProxyServerId;
+		toProfile.profileProxyServerId = fromProfile.profileProxyServerId;
 	}
 
 	public static copySmartProfile(fromProfile: SmartProfile, toProfile: SmartProfile) {

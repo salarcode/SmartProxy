@@ -2,6 +2,18 @@
 
 [![license](https://img.shields.io/github/license/salarcode/SmartProxy.svg)](https://github.com/salarcode/SmartProxy/blob/master/LICENSE) [![Travis](https://img.shields.io/travis/salarcode/SmartProxy.svg)]() [![Crowdin](https://d322cqt584bo4o.cloudfront.net/smartproxy/localized.svg)](https://crowdin.com/project/smartproxy)
 
+#### Upcoming v1.0 new features 💥
+This branch is focused on Smart Profiles:
+- Introducing Profiles. Two different type of profile can be created by users, both supporting rules and subscriptions.
+- Profile for SmartProxy mode. In this profile type rules will be decide what domain/url in this request should have proxy applied.
+- Profile for Always Enabled mode. In this profile type proxy will be applied to all requests excluding the rules that is defined.
+- Another profile type is for Error detection whitelist which is not selectable by user, rather is defined as built in. In this profile type for the specified rules there won't be a notification about requests errors.
+- Different Proxy Server per profile. Each profile can use the default global proxy server or have its own specific one.
+- A rule can get its proxy from Default general or Profile Proxy or has its own setting.
+- New `displayMatchedRuleOnBadge` will display the applied rule to the tab.
+- Theme support. Dark/Light theme plus custom theme can be selected.
+- Better UI foundation with Bootstrap 5.
+
 #### Download From Store
 
  * [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/) [Firefox Desktop & Firefox for Android Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy)

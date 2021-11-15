@@ -318,11 +318,10 @@ export class Core {
 				var saveData = message.saveData;
 
 				Settings.current.proxyServers = saveData.proxyServers;
-				Settings.current.activeProxyServerId = message.saveData.activeProxyServerId;
-
+				Settings.current.defaultProxyServerId = message.saveData.defaultProxyServerId;
 				SettingsOperation.saveProxyServers();
 				SettingsOperation.updateSmartProfilesRulesProxyServer();
-				SettingsOperation.saveActiveProxyServer();
+				SettingsOperation.saveDefaultProxyServer();
 				SettingsOperation.saveAllSync();
 
 				// notify
@@ -346,6 +345,7 @@ export class Core {
 				// TODO: 
 				return;
 			}
+
 			// case CommandMessages.SettingsPageSaveProxyRules: {
 			// 	if (!message.proxyRules)
 			// 		return;
@@ -514,6 +514,8 @@ export class Core {
 		SettingsOperation.saveActiveProfile();
 		SettingsOperation.saveAllSync();
 
+		Settings.updateActiveSettings();
+
 		// send it to the proxy server
 		ProxyEngine.updateBrowsersProxyConfig();
 
@@ -523,10 +525,36 @@ export class Core {
 
 	public static ChangeActiveProxy(proxy: ProxyServer) {
 
-		Settings.current.activeProxyServerId = proxy.id;
+		let smartProfile = ProfileOperations.getActiveSmartProfile();
+		if (smartProfile == null) {
+			// should never happen
+			updateDefaultProxyServer();
+		}
+		else if (smartProfile.profileProxyServerId) {
+			// profile proxy can be changed from Popup Action only if it is already set to something from settings tab
 
-		SettingsOperation.saveActiveProxyServer();
-		SettingsOperation.saveAllSync();
+
+			smartProfile.profileProxyServerId = proxy.id;
+
+			SettingsOperation.saveProxyProfiles();
+			SettingsOperation.saveAllSync();
+			SettingsOperation.updateSmartProfilesRulesProxyServer();
+		}
+		else {
+			// profile doesn't have preset value
+			// setting the global one
+			updateDefaultProxyServer();
+		}
+
+		function updateDefaultProxyServer() {
+			Settings.current.defaultProxyServerId = proxy.id;
+
+			SettingsOperation.saveDefaultProxyServer();
+			SettingsOperation.saveAllSync();
+			SettingsOperation.updateSmartProfilesRulesProxyServer();
+		}
+
+		Settings.updateActiveSettings();
 
 		// send it to the proxy server
 		ProxyEngine.updateBrowsersProxyConfig();
@@ -536,16 +564,18 @@ export class Core {
 	}
 
 	public static CycleToNextProxyServer(): ResultHolderGeneric<ProxyServer> {
-		let settings = Settings.current;
-		let activeServerId = settings.activeProxyServerId;
+		let settingsActive = Settings.active;
+		let currentServerId = 
+			settingsActive.activeProfile?.profileProxyServerId ??
+			Settings.current.defaultProxyServerId;
 		let resultProxy: ProxyServer;
 
-		if (!activeServerId) {
+		if (!currentServerId) {
 			resultProxy = SettingsOperation.getFirstProxyServer();
 		}
 
-		if (!resultProxy && activeServerId)
-			resultProxy = SettingsOperation.findNextProxyServerByCurrentProxyId(activeServerId);
+		if (!resultProxy && currentServerId)
+			resultProxy = SettingsOperation.findNextProxyServerByCurrentProxyId(currentServerId);
 
 		if (resultProxy) {
 			Core.ChangeActiveProxy(resultProxy);
@@ -563,16 +593,18 @@ export class Core {
 	}
 
 	public static CycleToPreviousProxyServer(): ResultHolderGeneric<ProxyServer> {
-		let settings = Settings.current;
-		let activeServerId = settings.activeProxyServerId;
+		let settingsActive = Settings.active;
+		let currentServerId = 
+			settingsActive.activeProfile?.profileProxyServerId ??
+			Settings.current.defaultProxyServerId;
 		let resultProxy: ProxyServer;
 
-		if (!activeServerId) {
+		if (!currentServerId) {
 			resultProxy = SettingsOperation.getFirstProxyServer();
 		}
 
-		if (!resultProxy && activeServerId)
-			resultProxy = SettingsOperation.findPreviousProxyServerByCurrentProxyId(activeServerId);
+		if (!resultProxy && currentServerId)
+			resultProxy = SettingsOperation.findPreviousProxyServerByCurrentProxyId(currentServerId);
 
 		if (resultProxy) {
 			Core.ChangeActiveProxy(resultProxy);
@@ -618,7 +650,9 @@ export class Core {
 		dataForPopup.activeProfileId = settings.activeProfileId;
 		dataForPopup.hasProxyServers = settings.proxyServers.length > 0;
 		dataForPopup.proxyServers = settings.proxyServers;
-		dataForPopup.activeProxyServerId = settings.activeProxyServerId;
+		dataForPopup.currentProxyServerId =
+			settingsActive.activeProfile?.profileProxyServerId ??
+			settings.defaultProxyServerId;
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
 		dataForPopup.proxyServersSubscribed = SettingsOperation.getAllSubscribedProxyServers();
@@ -863,8 +897,9 @@ export class Core {
 			}
 		}
 
-		if (Settings.active.activeProxyServer) {
-			proxyTitle += `\r\nProxy server: ${Settings.active.activeProxyServer.host} : ${Settings.active.activeProxyServer.port}`;
+		let activeProxyServer = Settings.active.activeProfile?.profileProxyServer;
+		if (activeProxyServer) {
+			proxyTitle += `\r\nProxy server: ${activeProxyServer.host} : ${activeProxyServer.port}`;
 		}
 
 		browser.browserAction.setTitle({ title: proxyTitle });

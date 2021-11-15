@@ -113,7 +113,7 @@ export class ProxyEngineFirefox {
 
 		let settings = Settings.current;
 		let settingsActive = Settings.active;
-		let activeProxyServer = settingsActive.activeProxyServer;
+		let currentProxyServer = settingsActive.currentProxyServer;
 
 		let result = (() => {
 			if (!requestDetails.url)
@@ -130,8 +130,8 @@ export class ProxyEngineFirefox {
 				if (specialRequest.applyMode == SpecialRequestApplyProxyMode.NoProxy) return { type: 'direct' };
 
 				if (specialRequest.applyMode == SpecialRequestApplyProxyMode.CurrentProxy) {
-					if (activeProxyServer) {
-						return ProxyEngineFirefox.getResultProxyInfo(activeProxyServer);
+					if (currentProxyServer) {
+						return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
 					} else {
 						return { type: 'direct' };
 					}
@@ -144,7 +144,7 @@ export class ProxyEngineFirefox {
 
 			if (activeProfileType === SmartProfileType.Direct ||
 				// if there is no active server, skip everything
-				!activeProxyServer)
+				!currentProxyServer)
 				return { type: 'direct' };
 
 			if (activeProfileType === SmartProfileType.SystemProxy) {
@@ -182,7 +182,7 @@ export class ProxyEngineFirefox {
 								);
 
 							// changing the active proxy server
-							activeProxyServer = tabData.proxyServerFromRule;
+							currentProxyServer = tabData.proxyServerFromRule;
 
 							// TODO: since we do not return here anymore, check effects of `proxyLog.proxied = tru`
 						}
@@ -225,7 +225,7 @@ export class ProxyEngineFirefox {
 					proxyLog.hostName = matchedRule.hostName;
 
 					proxyLog.logType = ProxyableLogType.AlwaysEnabledForcedByRules;
-					return ProxyEngineFirefox.getResultProxyInfo(activeProxyServer);
+					return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
 				}
 
 				//** Always Enabled is bypassed by a rule */
@@ -240,7 +240,7 @@ export class ProxyEngineFirefox {
 
 				// no rules are matched, going with proxy
 				proxyLog.logType = ProxyableLogType.AlwaysEnabled;
-				return ProxyEngineFirefox.getResultProxyInfo(activeProxyServer);
+				return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
 			}
 
 			if (activeProfileType == SmartProfileType.SmartRules) {
@@ -304,7 +304,7 @@ export class ProxyEngineFirefox {
 						return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
 					}
 
-					return ProxyEngineFirefox.getResultProxyInfo(activeProxyServer);
+					return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
 				}
 			}
 

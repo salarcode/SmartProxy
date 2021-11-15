@@ -175,7 +175,7 @@ export class PopupInternalDataType {
 	public activeProfileId: string;
 	public hasProxyServers: boolean;
 	public proxyServers: ProxyServer[];
-	public activeProxyServerId: string;
+	public currentProxyServerId: string;
 	public currentTabId: number;
 	public currentTabIndex: number;
 	public proxyServersSubscribed: ProxyServer[];
@@ -311,7 +311,7 @@ export class SettingsConfig implements Cloneable {
 	public version: string = '';
 	public proxyProfiles: SmartProfile[] = getBuiltinSmartProfiles();
 	public activeProfileId: string = SmartProfileTypeBuiltinIds.Direct;
-	public activeProxyServerId: string;
+	public defaultProxyServerId: string;
 
 	public proxyServers: ProxyServer[] = [];
 	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
@@ -321,7 +321,6 @@ export class SettingsConfig implements Cloneable {
 	CopyFrom(source: SettingsConfig): void {
 		this.proxyProfiles = Utils.deepClone(source.proxyProfiles);
 		this.activeProfileId = source.activeProfileId;
-		this.activeProxyServerId = source.activeProxyServerId;
 		this.proxyServers = Utils.deepClone(source.proxyServers);
 		this.proxyServerSubscriptions = Utils.deepClone(source.proxyServerSubscriptions);
 		this.firstEverInstallNotified = source.firstEverInstallNotified;
@@ -331,7 +330,10 @@ export class SettingsConfig implements Cloneable {
 
 export class SettingsActive {
 	public activeProfile: SmartProfileCompiled;
-	public activeProxyServer: ProxyServer;
+
+	/** Current proxy server is derived from 
+	 * Active Profile if it is set otherwise it is derived from Default Proxy Server */
+	public currentProxyServer: ProxyServer;
 }
 
 export class SmartProfileBase {
@@ -342,7 +344,8 @@ export class SmartProfileBase {
 	public editable: boolean;
 	public builtin: boolean;
 	public supportsSubscriptions: boolean;
-	public activeProxyServerId?: string;
+	public supportsProxySelection: boolean;
+	public profileProxyServerId?: string;
 }
 
 export class SmartProfile extends SmartProfileBase {
@@ -352,6 +355,7 @@ export class SmartProfile extends SmartProfileBase {
 
 export class SmartProfileCompiled extends SmartProfileBase {
 	public compiledRules: CompiledProxyRulesInfo;
+	public profileProxyServer: ProxyServer;
 }
 
 export function getBuiltinSmartProfiles(): SmartProfile[] {
@@ -364,7 +368,8 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			enabled: true,
 			builtin: true,
 			editable: false,
-			supportsSubscriptions: false
+			supportsSubscriptions: false,
+			supportsProxySelection: false,
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.SmartRules,
@@ -374,7 +379,8 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			enabled: true,
 			builtin: true,
 			editable: true,
-			supportsSubscriptions: true
+			supportsSubscriptions: true,
+			supportsProxySelection: true,
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.AlwaysEnabled,
@@ -384,7 +390,8 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			enabled: true,
 			builtin: true,
 			editable: true,
-			supportsSubscriptions: false
+			supportsSubscriptions: false,
+			supportsProxySelection: true,
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.SystemProxy,
@@ -394,7 +401,8 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			enabled: true,
 			builtin: true,
 			editable: false,
-			supportsSubscriptions: false
+			supportsSubscriptions: false,
+			supportsProxySelection: false,
 		},
 	];
 }
@@ -475,7 +483,13 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 
 export type RuleId = number;
 
+export enum ProxyRuleSpecialProxyServer {
+	DefaultGeneral = "-1",
+	ProfileProxy = "-2"
+}
+
 export class ProxyRule implements Cloneable {
+
 	constructor() {
 		this.ruleId = Utils.getNewUniqueIdNumber();
 	}
@@ -489,6 +503,7 @@ export class ProxyRule implements Cloneable {
 	public ruleExact: string;
 	public ruleSearch: string;
 	public proxy: ProxyServer;
+	public proxyServerId: string;
 	public enabled: boolean = true;
 	public whiteList: boolean = false;
 

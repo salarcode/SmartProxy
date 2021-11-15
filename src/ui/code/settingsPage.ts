@@ -21,7 +21,7 @@ import { environment, browser } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, proxyRulesSubscriptionFormat, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, proxyRulesSubscriptionFormat, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 
 export class settingsPage {
@@ -75,8 +75,9 @@ export class settingsPage {
 		this.loadSmartProfiles(this.currentSettings.proxyProfiles);
 		this.loadServersGrid(this.currentSettings.proxyServers);
 		this.loadServerSubscriptionsGrid(this.currentSettings.proxyServerSubscriptions);
-		this.loadActiveProxyServer(this.currentSettings.proxyServers, this.currentSettings.proxyServerSubscriptions);
+		this.loadDefaultProxyServer(this.currentSettings.proxyServers, this.currentSettings.proxyServerSubscriptions);
 		this.loadGeneralOptions(this.currentSettings.options);
+		CommonUi.onDocumentReady(this.loadAllProfilesProxyServers);
 
 		// make copy
 		this.originalSettings = new SettingsConfig();
@@ -512,9 +513,12 @@ export class settingsPage {
 
 		// the default value which is empty string
 		jQuery("<option>")
-			.attr("value", "")
-			// [General]
-			.text(browser.i18n.getMessage("settingsRulesProxyDefault"))
+			.attr("value", ProxyRuleSpecialProxyServer.DefaultGeneral)
+			.text(browser.i18n.getMessage("settingsRulesProxyDefault")) // [Use Default Proxy]
+			.appendTo(cmdRuleProxyServer);
+		jQuery("<option>")
+			.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)
+			.text(browser.i18n.getMessage("settingsRulesProxyFromProfile")) // [Use Profile Proxy]
 			.appendTo(cmdRuleProxyServer);
 
 		let dontIncludeAuthServers = false;
@@ -610,6 +614,7 @@ export class settingsPage {
 		ruleInfo.ruleRegex = modalContainer.find("#txtRuleUrlRegex").val();
 		ruleInfo.ruleExact = modalContainer.find("#txtRuleUrlExact").val();
 		ruleInfo.proxy = selectedProxy;
+		ruleInfo.proxyServerId = selectedProxyId;
 		ruleInfo.enabled = modalContainer.find("#chkRuleEnabled").prop("checked");
 		ruleInfo.whiteList = parseInt(modalContainer.find("#cmdRuleAction").val()) != 0;
 		return ruleInfo;
@@ -795,8 +800,8 @@ export class settingsPage {
 		this.refreshServersGridAllRows();
 	}
 
-	private static loadActiveProxyServer(proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
-		let activeProxyServerId = this.currentSettings.activeProxyServerId;
+	private static loadDefaultProxyServer(proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
+		let defaultProxyServerId = this.currentSettings.defaultProxyServerId;
 
 		let cmbActiveProxyServer = jQuery("#cmbActiveProxyServer");
 
@@ -804,7 +809,7 @@ export class settingsPage {
 		cmbActiveProxyServer.children().remove();
 
 		// populate
-		this.populateProxyServersToComboBox(cmbActiveProxyServer, activeProxyServerId, proxyServers, serverSubscriptions);
+		this.populateProxyServersToComboBox(cmbActiveProxyServer, defaultProxyServerId, proxyServers, serverSubscriptions);
 	}
 
 	private static readServers(): any[] {
@@ -908,12 +913,12 @@ export class settingsPage {
 	/** find proxy by Id from Servers or Subscriptions */
 	private static findProxyServerById(proxyServerId: string): ProxyServer | null {
 		let proxyServers = settingsPage.readServers();
-		let serverSubscriptions = settingsPage.readServerSubscriptions();
 
 		let proxy = proxyServers.find(item => item.id === proxyServerId);
 		if (proxy !== undefined)
 			return proxy;
 
+		let serverSubscriptions = settingsPage.readServerSubscriptions();
 		for (let subscription of serverSubscriptions) {
 			proxy = subscription.proxies.find(item => item.id === proxyServerId);
 			if (proxy !== undefined)
@@ -943,11 +948,23 @@ export class settingsPage {
 	//#endregion
 
 	//#region Smart Profiles tab functions ------------------------------
-	private static readSmartProfile(pageProfile: SettingsPageSmartProfile) {
-		//let smartProfile = pageProfile.smartProfile;
-		//smartProfile.activeProxyServerId
-		//smartProfile.
+	private static readSmartProfile(pageProfile: SettingsPageSmartProfile): SmartProfile {
+		let previousProfile = pageProfile.smartProfile;
+		let tabContainer = pageProfile.htmlProfileTab;
 
+		let smartProfile = new SmartProfile();
+		smartProfile.profileType = previousProfile.profileType;
+		smartProfile.editable = previousProfile.editable;
+		smartProfile.builtin = previousProfile.builtin;
+		smartProfile.supportsSubscriptions = previousProfile.supportsSubscriptions;
+		smartProfile.profileName = tabContainer.find("").val();
+		smartProfile.profileId = previousProfile.profileId;
+		smartProfile.profileProxyServerId = null;// ?????
+		smartProfile.enabled = tabContainer.find("").val();
+		smartProfile.proxyRules = this.readRules(pageProfile);
+		smartProfile.rulesSubscriptions = this.readRulesSubscriptions(pageProfile);
+
+		return smartProfile;
 	}
 
 	private static loadSmartProfiles(profiles: SmartProfile[]) {
@@ -1004,6 +1021,7 @@ export class settingsPage {
 				profileTab.find("#divSmartProfileSubscription").remove();
 			}
 
+
 			// -----
 			lastMenu.after(profileMenu);
 			lastTab.after(profileTab);
@@ -1013,6 +1031,10 @@ export class settingsPage {
 			// -----
 			this.initializeSmartProfileGrids(pageSmartProfile);
 			this.bindSmartProfileEvents(pageSmartProfile);
+
+			// NOTE: in this step we only keeping an empty profile proxy combobox
+			this.loadProfileProxyServer(pageSmartProfile, [], []);
+
 			profileMenu.show();
 
 			// -----
@@ -1022,6 +1044,29 @@ export class settingsPage {
 		profileTabTemplate.hide();
 	}
 
+
+	private static loadProfileProxyServer(pageProfile: SettingsPageSmartProfile, proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
+		let profileProxyServerId = pageProfile.smartProfile.profileProxyServerId;
+
+		let tabContainer = pageProfile.htmlProfileTab;
+		let cmbProfileProxyServer = tabContainer.find("#cmbProfileProxyServer");
+
+		// remove previous items
+		cmbProfileProxyServer.children().remove();
+		jQuery("<option>")
+			.attr("value", "")
+			.text(browser.i18n.getMessage("settingsProfilesProxyServer"))
+			.appendTo(cmbProfileProxyServer);
+
+		// populate
+		this.populateProxyServersToComboBox(cmbProfileProxyServer, profileProxyServerId, proxyServers, serverSubscriptions);
+	}
+
+	private static loadAllProfilesProxyServers() {
+		for (const pageProfile of settingsPage.pageSmartProfiles) {
+			settingsPage.loadProfileProxyServer(pageProfile);
+		}
+	}
 	private static initializeSmartProfileGrids(pageProfile: SettingsPageSmartProfile) {
 		let dataTableCustomDom = '<t><"row"<"col-sm-12 col-md-5"<"text-left float-left"f>><"col-sm-12 col-md-7"<"text-right"l>>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>';
 
@@ -1628,7 +1673,7 @@ export class settingsPage {
 
 			if (server) {
 				// this can be null
-				settingsPage.currentSettings.activeProxyServerId = server.id;
+				settingsPage.currentSettings.defaultProxyServerId = server.id;
 			}
 			else {
 				Debug.warn("Settings> Selected ActiveProxyServer ID not found!");
@@ -1704,7 +1749,7 @@ export class settingsPage {
 
 			modal.modal("hide");
 
-			settingsPage.loadActiveProxyServer();
+			settingsPage.loadDefaultProxyServer();
 		},
 		onServersEditClick(e: any) {
 			let item = settingsPage.readSelectedServer(e);
@@ -1732,7 +1777,7 @@ export class settingsPage {
 
 					settingsPage.changeTracking.servers = true;
 
-					settingsPage.loadActiveProxyServer();
+					settingsPage.loadDefaultProxyServer();
 				});
 		},
 		onClickSaveProxyServers() {
@@ -1741,7 +1786,7 @@ export class settingsPage {
 			jQuery("#cmbActiveProxyServer").trigger("change");
 			let saveData = {
 				proxyServers: settingsPage.readServers(),
-				activeProxyServerId: settingsPage.currentSettings.activeProxyServerId
+				defaultProxyServerId: settingsPage.currentSettings.defaultProxyServerId
 			};
 
 			PolyFill.runtimeSendMessage(
@@ -1757,7 +1802,7 @@ export class settingsPage {
 
 						// current server should become equal to saved servers
 						settingsPage.currentSettings.proxyServers = saveData.proxyServers;
-						settingsPage.currentSettings.activeProxyServerId = saveData.activeProxyServerId;
+						settingsPage.currentSettings.defaultProxyServerId = saveData.defaultProxyServerId;
 
 						settingsPage.changeTracking.servers = false;
 						settingsPage.changeTracking.activeProxy = false;
@@ -1776,7 +1821,7 @@ export class settingsPage {
 			// reset the data
 			settingsPage.currentSettings.proxyServers = settingsPage.originalSettings.proxyServers.slice();
 			settingsPage.loadServersGrid(settingsPage.currentSettings.proxyServers);
-			settingsPage.loadActiveProxyServer();
+			settingsPage.loadDefaultProxyServer();
 
 			settingsPage.changeTracking.servers = false;
 
@@ -1788,7 +1833,7 @@ export class settingsPage {
 			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServers"),
 				() => {
 					settingsPage.loadServersGrid([]);
-					settingsPage.loadActiveProxyServer();
+					settingsPage.loadDefaultProxyServer();
 
 					settingsPage.changeTracking.servers = true;
 
@@ -2206,12 +2251,15 @@ export class settingsPage {
 			let tabContainer = pageProfile.htmlProfileTab;
 			tabContainer.find("#lblProfileName").hide();
 			tabContainer.find("#txtSmartProfileName").addClass("d-inline").remove("d-none")
-				.focus();
+				.focus()
+				.select();
 		},
 		onClickSaveSmartProfile(pageProfile: SettingsPageSmartProfile) {
 
-			settingsPage.readSmartProfile(pageProfile);
+			let smartProfileModel = settingsPage.readSmartProfile(pageProfile);
 			let smartProfile = pageProfile.smartProfile;
+
+			jQuery.extend(smartProfile, smartProfileModel);
 
 
 			PolyFill.runtimeSendMessage(
@@ -2420,7 +2468,7 @@ export class settingsPage {
 						}
 
 						settingsPage.changeTracking.serverSubscriptions = true;
-						settingsPage.loadActiveProxyServer();
+						settingsPage.loadDefaultProxyServer();
 
 						// close the window
 						modal.modal("hide");
@@ -2522,7 +2570,7 @@ export class settingsPage {
 
 						settingsPage.changeTracking.serverSubscriptions = false;
 
-						settingsPage.loadActiveProxyServer();
+						settingsPage.loadDefaultProxyServer();
 					} else {
 						if (response.message)
 							messageBox.error(response.message);
@@ -2536,7 +2584,7 @@ export class settingsPage {
 			// reset the data
 			settingsPage.currentSettings.proxyServerSubscriptions = settingsPage.originalSettings.proxyServerSubscriptions.slice();
 			settingsPage.loadServerSubscriptionsGrid(settingsPage.currentSettings.proxyServerSubscriptions);
-			settingsPage.loadActiveProxyServer();
+			settingsPage.loadDefaultProxyServer();
 
 			settingsPage.changeTracking.serverSubscriptions = false;
 
@@ -2549,7 +2597,7 @@ export class settingsPage {
 			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServerSubscriptions"),
 				() => {
 					settingsPage.loadServerSubscriptionsGrid([]);
-					settingsPage.loadActiveProxyServer();
+					settingsPage.loadDefaultProxyServer();
 
 					settingsPage.changeTracking.serverSubscriptions = true;
 
@@ -2938,7 +2986,7 @@ export class settingsPage {
 
 						let servers = response.result;
 						settingsPage.loadServersGrid(servers);
-						settingsPage.loadActiveProxyServer();
+						settingsPage.loadDefaultProxyServer();
 
 						// close the window
 						modalContainer.modal("hide");
@@ -3157,9 +3205,9 @@ export class settingsPage {
 		}
 
 		return result;
-	}    
-	
-	private static getSmartProfileTypeName(profileType: SmartProfileType){
+	}
+
+	private static getSmartProfileTypeName(profileType: SmartProfileType) {
 		return browser.i18n.getMessage(`settings_SmartProfileType_${SmartProfileType[profileType]}`);
 	}
 	//#endregion

@@ -1,15 +1,13 @@
-import { Debug } from "../lib/Debug";
 import { Utils } from "../lib/Utils";
 import { ProxyRule, ProxyRuleType, RuleId, SmartProfile } from "./definitions";
 import { ProfileOperations } from "./ProfileOperations";
-import { Settings } from "./Settings";
 
 export class ProfileRules {
 
 
 	public static toggleRule(hostName: string, ruleId?: RuleId) {
 
-		let smartProfile = ProfileRules.getActiveSmartProfile();
+		let smartProfile = ProfileOperations.getActiveSmartProfile();
 		if (smartProfile == null)
 			return;
 
@@ -37,7 +35,7 @@ export class ProfileRules {
 		message: string,
 		rule: ProxyRule
 	} {
-		let smartProfile = ProfileRules.getActiveSmartProfile();
+		let smartProfile = ProfileOperations.getActiveSmartProfile();
 		if (smartProfile == null)
 			return;
 
@@ -69,7 +67,7 @@ export class ProfileRules {
 		if (!hostnameList || !hostnameList.length)
 			return;
 
-		let smartProfile = ProfileRules.getActiveSmartProfile();
+		let smartProfile = ProfileOperations.getActiveSmartProfile();
 		if (smartProfile == null)
 			return;
 
@@ -83,7 +81,7 @@ export class ProfileRules {
 		message: string,
 		rule: ProxyRule
 	} {
-		let smartProfile = ProfileRules.getActiveSmartProfile();
+		let smartProfile = ProfileOperations.getActiveSmartProfile();
 		if (smartProfile == null)
 			return;
 
@@ -123,17 +121,6 @@ export class ProfileRules {
 			message: null,
 			rule: rule
 		};
-	}
-
-	private static getActiveSmartProfile(): SmartProfile {
-		let settings = Settings.current;
-
-		let smartProfile = ProfileOperations.findSmartProfileById(settings.activeProfileId, settings.proxyProfiles);
-		if (smartProfile == null) {
-			Debug.warn(`No active profile found`);
-			return;
-		}
-		return smartProfile;
 	}
 
 	private static getRuleById(smartProfile: SmartProfile, ruleId: number) {

@@ -336,7 +336,7 @@
 						<h3 data-localize="settingsTabProxyServers">Proxy Servers</h3>
 						<hr class="afshin-line" />
 						<h5 data-localize="settingsActiveProxyServer">
-							Active Proxy Server:
+							Default Proxy Server:
 						</h5>
 						<div class="row mb-3">
 							<div class="col-6">
@@ -400,11 +400,11 @@
 								placeholder="Name used in menu" />
 						</h3>
 						<hr class="afshin-line" />
-						<h4>
+						<h5>
 							<span>Profile Type:</span> 
 							<i id="lblProfileTypeIcon" class="fa-sm text-primary" aria-hidden="true"></i>
 							<span id="lblProfileType">{profile-type}</span>
-						</h4>
+						</h5>
 						<p id="label-profile-rules-description">
 							<span class="label-profile-type-description label-profile-type-description-for-SmartRules">
 								In this profile no proxy is applied unless you define smart rules. You will define black
@@ -416,9 +416,24 @@
 							</span>
 						</p>
 						<hr class="afshin-line" />
-						<h3 class="mt-1">
-							<span>Rules</span>
-						</h3>
+						<div id="" style="display: block;">
+							<h5 data-localize="aaaaaaaaaaaaaaaa">
+								Profile Proxy Server:
+							</h5>
+							<div class="row mb-3">
+								<div class="col-6">
+									<select id="cmbProfileProxyServer" class="form-control custom-select">
+										<option value="0">(Use Default Proxy Server)</option>
+									</select>
+									<span class="form-text text-muted small" data-localize="aaaaaaaaaaaaaaaa">(While using this profile, this is going to be the active proxy server)</span>
+								</div>
+							</div>
+							<hr class="afshin-line" />
+						</div>
+
+						<h5 class="mt-1">
+							<span data-localize="aaaaaaaaaaaaaaaa">Rules</span>
+						</h5>
 						<p>
 						<div class="float-left">
 							<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">Add

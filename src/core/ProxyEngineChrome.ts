@@ -60,7 +60,7 @@ export class ProxyEngineChrome {
 
 		//let compiledRules = settingsActive.activeProfile.compiledRules;
 		let profileType = settingsActive.activeProfile.profileType;
-		let resultActiveProxy = this.convertActiveProxyServer(settingsActive.activeProxyServer);
+		let resultActiveProxy = this.convertActiveProxyServer(settingsActive.activeProfile.profileProxyServer);
 
 		let compiledRulesAsString = this.regexHostArrayToString([]).join(",");
 		let compiledWhitelistAsString = this.regexHostArrayToString([]).join(",");
@@ -69,7 +69,7 @@ export class ProxyEngineChrome {
 const compiledRules = [${compiledRulesAsString}];
 const compiledWhitelistRules = [${compiledWhitelistAsString}];
 const bypass = ${compiledBypass};
-const hasActiveProxyServer = ${((settingsActive.activeProxyServer) ? "true" : "false")};
+const hasActiveProxyServer = ${((settingsActive.activeProfile.profileProxyServer) ? "true" : "false")};
 const ProxyModeType = {
     Direct: 0,
     SmartProxy: 1,

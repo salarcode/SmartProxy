@@ -24,7 +24,7 @@ import {
 	SmartProfileTypeBuiltinIds,
 	getBuiltinSmartProfiles,
 	SettingsActive,
-	findProxyServerById,
+	SmartProfileCompiled,
 } from './definitions';
 import { Debug } from '../lib/Debug';
 import { SettingsOperation } from './SettingsOperation';
@@ -101,8 +101,8 @@ export class Settings {
 		if (config['activeProfileId'] == null) {
 			config.activeProfileId = SmartProfileTypeBuiltinIds.Direct;
 		}
-		if (config['activeProxyServerId'] == null) {
-			config.activeProxyServerId = null;
+		if (config['defaultProxyServerId'] == null) {
+			config.defaultProxyServerId = null;
 		}
 		if (config['options'] == null) {
 			config.options = new GeneralOptions();
@@ -150,7 +150,7 @@ export class Settings {
 		syncedConfig.options.syncActiveProfile = settings.options.syncActiveProfile;
 
 		if (!settings.options.syncActiveProxy) {
-			syncedConfig.activeProxyServerId = settings.activeProxyServerId;
+			syncedConfig.defaultProxyServerId = settings.defaultProxyServerId;
 		}
 		if (!settings.options.syncActiveProfile) {
 			syncedConfig.activeProfileId = settings.activeProfileId;
@@ -220,14 +220,23 @@ export class Settings {
 		if (!foundProfile && fallback) {
 			foundProfile = ProfileOperations.findSmartProfileById(SmartProfileTypeBuiltinIds.Direct, settings.proxyProfiles);
 		}
+
+		let activeProfile: SmartProfileCompiled = null;
 		if (foundProfile) {
 			active.activeProfile = ProfileOperations.compileSmartProfile(foundProfile);
+			activeProfile = active.activeProfile;
 		}
 
-		// TODO: proxy server might be a subscription, does this line work?
-		let foundProxy = findProxyServerById(settings.activeProxyServerId, settings.proxyServers);
-		if (foundProxy) {
-			active.activeProxyServer = foundProxy;
+		active.currentProxyServer = null;
+		if (activeProfile?.profileProxyServer) {
+			active.currentProxyServer = active.activeProfile.profileProxyServer;
+		}
+
+		if (!active.currentProxyServer) {
+			let foundProxy = SettingsOperation.findProxyServerById(settings.defaultProxyServerId);
+			if (foundProxy) {
+				active.currentProxyServer = foundProxy;
+			}
 		}
 	}
 }

@@ -180,6 +180,7 @@ export class popup {
 	private static populateActiveProxy(dataForPopup: PopupInternalDataType) {
 		let divActiveProxy = jQuery("#divActiveProxy");
 		let cmbActiveProxy = divActiveProxy.find("#cmbActiveProxy");
+		let lblActiveProxyLabel = jQuery("#lblActiveProxyLabel");
 
 		if (!dataForPopup.proxyServers)
 			dataForPopup.proxyServers = [];
@@ -189,13 +190,28 @@ export class popup {
 		// remove previous items
 		cmbActiveProxy.find("option").remove();
 
+		let isProfileProxyServer = false;
+		if (dataForPopup.activeProfileId) {
+			let activeProfile = dataForPopup.proxyProfiles.find(a => a.profileId == dataForPopup.activeProfileId);
+
+			if (activeProfile?.profileProxyServerId) {
+				isProfileProxyServer = true;
+			}
+		}
+		if (isProfileProxyServer) {
+			lblActiveProxyLabel.text(browser.i18n.getMessage("popupActiveProxy"));
+		}
+		else {
+			lblActiveProxyLabel.text(browser.i18n.getMessage("popupActiveProxyDefault"));
+		}
+
 		if (dataForPopup.proxyServers.length > 1 ||
 			dataForPopup.proxyServersSubscribed.length) {
 
 			// display select combo
 			divActiveProxy.show();
 
-			let activeProxyServerId = dataForPopup.activeProxyServerId;
+			let currentProxyServerId = dataForPopup.currentProxyServerId;
 
 			// display select options
 			jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
@@ -206,7 +222,7 @@ export class popup {
 					.text(proxyServer.name)
 					.appendTo(cmbActiveProxy);
 
-				$option.prop("selected", (proxyServer.id === activeProxyServerId));
+				$option.prop("selected", (proxyServer.id === currentProxyServerId));
 			});
 
 			if (dataForPopup.proxyServersSubscribed.length > 0) {
@@ -222,7 +238,7 @@ export class popup {
 						.text(proxyServer.name)
 						.appendTo(subscriptionGroup);
 
-					$option.prop("selected", (proxyServer.id === activeProxyServerId));
+					$option.prop("selected", (proxyServer.id === currentProxyServerId));
 				});
 			}
 
@@ -400,7 +416,7 @@ export class popup {
 			messageBox.error(message, 5000);
 			return;
 		}
-		
+
 		PolyFill.runtimeSendMessage({
 			command: CommandMessages.PopupChangeActiveProfile,
 			profileId: profile.profileId

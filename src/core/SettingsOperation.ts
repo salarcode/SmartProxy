@@ -373,15 +373,16 @@ export class SettingsOperation {
 	// 			Debug.error(`SettingsOperation.proxyRulesSubscriptions error: ${error.message}`);
 	// 		});
 	// }
-	public static saveActiveProxyServer() {
+
+	public static saveDefaultProxyServer() {
 		if (Settings.current.options.syncSettings)
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ activeProxyServerId: Settings.current.activeProxyServerId },
+		PolyFill.storageLocalSet({ defaultProxyServerId: Settings.current.defaultProxyServerId },
 			null,
 			(error: Error) => {
-				Debug.error(`SettingsOperation.saveActiveProxyServer error: ${error.message}`);
+				Debug.error(`SettingsOperation.saveDefaultProxyServer error: ${error.message}`);
 			});
 	}
 	public static saveActiveProfile() {
@@ -478,29 +479,23 @@ export class SettingsOperation {
 			return { success: true, result: upcomingProxyProfiles };
 		}
 
-		function restoreActiveServer(backupActiveProxyServer: any) {
+		function restoreDefaultProxyServer(defaultProxyServerId: any) {
 
-			let newActiveServer = new ProxyServer();
-			newActiveServer.CopyFrom(backupActiveProxyServer);
-
-			let validateResult = Settings.validateProxyServer(newActiveServer);
-			if (!validateResult.success &&
-				!validateResult.exist) {
-				// if validation failed
-
-				// not exist, then failed
-				return validateResult;
+			let proxy = SettingsOperation.findProxyServerById(defaultProxyServerId);
+			if (proxy == null) {
+				return { success: false, result: browser.i18n.getMessage("aaaaaaaaaaaaaaaaaaaaaaaaa") };
 			}
-			return { success: true, result: newActiveServer };
+
+			return { success: true, result: defaultProxyServerId };
 		}
 
-		function restoreProxyMode(backupProxyMode: any) {
+		function restoreActiveProfileId(backupActiveProfileId: any) {
 
-			if (backupProxyMode == null ||
-				backupProxyMode <= 0) {
-				return { success: false, message: browser.i18n.getMessage("settingsProxyModeInvalid") };
+			if (backupActiveProfileId == null ||
+				backupActiveProfileId <= 0) {
+				return { success: false, message: browser.i18n.getMessage("aaaaaaaaaaaaaaaaaaaaaaaaa") };
 			}
-			return { success: true, result: backupProxyMode };
+			return { success: true, result: backupActiveProfileId };
 		}
 
 		function restoreOptions(backupOptions: any) {
@@ -522,7 +517,7 @@ export class SettingsOperation {
 			let backupServers: ProxyServer[];
 			let backupServerSubscriptions: ProxyServerSubscription[];
 			let backupProxyProfiles: SmartProfile[];
-			let backupActiveServerId: string;
+			let backupDefaultProxyServerId: string;
 			let backupActiveProfileId: string;
 
 			// -----------------------------------
@@ -574,27 +569,27 @@ export class SettingsOperation {
 			}
 
 			// -----------------------------------
-			if (backupData["activeProxyServer"] != null &&
-				typeof (backupData.activeProxyServer) == "object") {
+			if (backupData["defaultProxyServerId"] != null &&
+				typeof (backupData.defaultProxyServerId) == "string") {
 
-				let restoreActiveServerResult = restoreActiveServer(backupData.activeProxyServer);
+				let restoreActiveServerResult = restoreDefaultProxyServer(backupData.defaultProxyServerId);
 
 				if (!restoreActiveServerResult.success)
 					return restoreActiveServerResult;
 
-				backupActiveServerId = restoreActiveServerResult.result;
+				backupDefaultProxyServerId = restoreActiveServerResult.result;
 			}
 
 			// -----------------------------------
-			if (backupData["proxyMode"] != null &&
-				typeof (backupData.proxyMode) == "string") {
+			if (backupData["activeProfileId"] != null &&
+				typeof (backupData.activeProfileId) == "string") {
 
-				let restoreProxyModeResult = restoreProxyMode(backupData.proxyMode);
+				let restoreActiveProfileIdResult = restoreActiveProfileId(backupData.activeProfileId);
 
-				if (!restoreProxyModeResult.success)
-					return restoreProxyModeResult;
+				if (!restoreActiveProfileIdResult.success)
+					return restoreActiveProfileIdResult;
 
-				backupActiveProfileId = restoreProxyModeResult.result;
+				backupActiveProfileId = restoreActiveProfileIdResult.result;
 			}
 
 			// everything is fine so far
@@ -628,11 +623,11 @@ export class SettingsOperation {
 				ProxyEngine.notifyProxyRulesChanged();
 			}
 
-			if (backupActiveServerId != null) {
+			if (backupDefaultProxyServerId != null) {
 
-				Settings.current.activeProxyServerId = backupActiveServerId;
+				Settings.current.defaultProxyServerId = backupDefaultProxyServerId;
 
-				SettingsOperation.saveActiveProxyServer();
+				SettingsOperation.saveDefaultProxyServer();
 			}
 
 			if (backupActiveProfileId != null) {
