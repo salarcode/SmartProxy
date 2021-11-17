@@ -398,10 +398,19 @@
 							<a id="lblProfileName" href="#">{profile-name} <i class="fas fa-pencil-alt"></i></a>
 							<input id="txtSmartProfileName" class="form-control d-none w-auto"
 								placeholder="Name used in menu" />
+							<div class="float-right">
+								<div class="form-check form-switch">
+									<label class="form-check-label">
+										Enabled
+										<input class="form-check-input" type="checkbox" role="switch" checked
+											id="chkSmartProfileEnabled">
+									</label>
+								</div>
+							</div>
 						</h3>
 						<hr class="afshin-line" />
 						<h5>
-							<span>Profile Type:</span> 
+							<span>Profile Type:</span>
 							<i id="lblProfileTypeIcon" class="fa-sm text-primary" aria-hidden="true"></i>
 							<span id="lblProfileType">{profile-type}</span>
 						</h5>
@@ -409,9 +418,11 @@
 							<span class="label-profile-type-description label-profile-type-description-for-SmartRules">
 								In this profile no proxy is applied unless you define smart rules. You will define black
 								listed rules or in other words rules to apply proxy.
-								</span>
-							<span class="label-profile-type-description label-profile-type-description-for-AlwaysEnabledBypassRules">
-								In this profile proxy servers are always applied define smart rules and skip them. You will
+							</span>
+							<span
+								class="label-profile-type-description label-profile-type-description-for-AlwaysEnabledBypassRules">
+								In this profile proxy servers are always applied define smart rules and skip them. You
+								will
 								define white listed rule or in other words rules to skip proxy and do not apply proxy.
 							</span>
 						</p>
@@ -425,7 +436,8 @@
 									<select id="cmbProfileProxyServer" class="form-control custom-select">
 										<option value="0">(Use Default Proxy Server)</option>
 									</select>
-									<span class="form-text text-muted small" data-localize="aaaaaaaaaaaaaaaa">(While using this profile, this is going to be the active proxy server)</span>
+									<span class="form-text text-muted small" data-localize="aaaaaaaaaaaaaaaa">(While
+										using this profile, this is going to be the active proxy server)</span>
 								</div>
 							</div>
 							<hr class="afshin-line" />
@@ -453,8 +465,7 @@
 						</p>
 						<table id="grdRules" class="table table-striped table-bordered table-hover"></table>
 						<div class="float-right">
-							<button id="btnClearProxyRules" class="btn btn-outline-danger"
-								title="Clear all the rules">
+							<button id="btnClearProxyRules" class="btn btn-outline-danger" title="Clear all the rules">
 								<i class="fas fa-trash" aria-hidden="true"></i>
 							</button>
 						</div>

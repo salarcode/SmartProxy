@@ -23,6 +23,7 @@ import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
 import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, proxyRulesSubscriptionFormat, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
+import { ProfileOperations } from "../../core/ProfileOperations";
 
 export class settingsPage {
 
@@ -953,14 +954,12 @@ export class settingsPage {
 		let tabContainer = pageProfile.htmlProfileTab;
 
 		let smartProfile = new SmartProfile();
-		smartProfile.profileType = previousProfile.profileType;
-		smartProfile.editable = previousProfile.editable;
-		smartProfile.builtin = previousProfile.builtin;
+		ProfileOperations.copySmartProfileBase(previousProfile, smartProfile);
+
 		smartProfile.supportsSubscriptions = previousProfile.supportsSubscriptions;
-		smartProfile.profileName = tabContainer.find("").val();
-		smartProfile.profileId = previousProfile.profileId;
-		smartProfile.profileProxyServerId = null;// ?????
-		smartProfile.enabled = tabContainer.find("").val();
+		smartProfile.profileName = tabContainer.find("#txtSmartProfileName").val();
+		smartProfile.profileProxyServerId = tabContainer.find("#cmbProfileProxyServer").val();
+		smartProfile.enabled = tabContainer.find("#chkSmartProfileEnabled").prop('checked');
 		smartProfile.proxyRules = this.readRules(pageProfile);
 		smartProfile.rulesSubscriptions = this.readRulesSubscriptions(pageProfile);
 
@@ -1016,6 +1015,7 @@ export class settingsPage {
 			profileTab.find("#lblProfileTypeIcon").addClass(getSmartProfileTypeIcon(profile.profileType));
 			profileTab.find(".label-profile-type-description").hide();
 			profileTab.find(`.label-profile-type-description-for-${SmartProfileType[profile.profileType]}`).show();
+			profileTab.find("#chkSmartProfileEnabled").prop("checked", profile.enabled);
 
 			if (!profile.supportsSubscriptions) {
 				profileTab.find("#divSmartProfileSubscription").remove();
