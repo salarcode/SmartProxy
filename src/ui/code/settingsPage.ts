@@ -956,7 +956,6 @@ export class settingsPage {
 		let smartProfile = new SmartProfile();
 		ProfileOperations.copySmartProfileBase(previousProfile, smartProfile);
 
-		smartProfile.supportsSubscriptions = previousProfile.supportsSubscriptions;
 		smartProfile.profileName = tabContainer.find("#txtSmartProfileName").val();
 		smartProfile.profileProxyServerId = tabContainer.find("#cmbProfileProxyServer").val();
 		smartProfile.enabled = tabContainer.find("#chkSmartProfileEnabled").prop('checked');
@@ -980,7 +979,7 @@ export class settingsPage {
 		let lastTab = profileTabTemplate;
 
 		for (const profile of profiles) {
-			if (!profile.editable)
+			if (!profile.profileTypeConfig.editable)
 				continue;
 			let pageSmartProfile = new SettingsPageSmartProfile();
 			pageSmartProfile.smartProfile = profile;
@@ -1017,7 +1016,7 @@ export class settingsPage {
 			profileTab.find(`.label-profile-type-description-for-${SmartProfileType[profile.profileType]}`).show();
 			profileTab.find("#chkSmartProfileEnabled").prop("checked", profile.enabled);
 
-			if (!profile.supportsSubscriptions) {
+			if (!profile.profileTypeConfig.supportsSubscriptions) {
 				profileTab.find("#divSmartProfileSubscription").remove();
 			}
 

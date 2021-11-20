@@ -132,10 +132,14 @@ export class ProfileOperations {
 		toProfile.profileId = fromProfile.profileId;
 		toProfile.profileName = fromProfile.profileName;
 		toProfile.enabled = fromProfile.enabled;
-		toProfile.editable = fromProfile.editable;
-		toProfile.builtin = fromProfile.builtin;
-		toProfile.supportsSubscriptions = fromProfile.supportsSubscriptions;
 		toProfile.profileProxyServerId = fromProfile.profileProxyServerId;
+		toProfile.profileTypeConfig = {
+			builtin: fromProfile.profileTypeConfig.builtin,
+			editable: fromProfile.profileTypeConfig.editable,
+			supportsSubscriptions: fromProfile.profileTypeConfig.supportsSubscriptions,
+			supportsProfileProxy: fromProfile.profileTypeConfig.supportsProfileProxy,
+			customProxyPerRule: fromProfile.profileTypeConfig.customProxyPerRule,
+		};
 	}
 
 	public static copySmartProfile(fromProfile: SmartProfile, toProfile: SmartProfile) {

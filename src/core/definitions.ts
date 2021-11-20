@@ -336,15 +336,21 @@ export class SettingsActive {
 	public currentProxyServer: ProxyServer;
 }
 
-export class SmartProfileBase {
-	public profileType: SmartProfileType;
-	public profileId: string;
-	public profileName: string;
-	public enabled: boolean = true;
+export class SmartProfileTypeConfig {
 	public editable: boolean;
 	public builtin: boolean;
 	public supportsSubscriptions: boolean;
-	public supportsProxySelection: boolean;
+	public supportsProfileProxy: boolean;
+	public customProxyPerRule: boolean;
+
+}
+
+export class SmartProfileBase {
+	public profileType: SmartProfileType;
+	public profileTypeConfig: SmartProfileTypeConfig;
+	public profileId: string;
+	public profileName: string;
+	public enabled: boolean = true;
 	public profileProxyServerId?: string;
 }
 
@@ -357,52 +363,85 @@ export class SmartProfileCompiled extends SmartProfileBase {
 	public compiledRules: CompiledProxyRulesInfo;
 	public profileProxyServer: ProxyServer;
 }
-
+export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartProfileTypeConfig {
+	switch (profileType) {
+		case SmartProfileType.Direct:
+			return {
+				builtin: true,
+				editable: false,
+				supportsSubscriptions: false,
+				supportsProfileProxy: false,
+				customProxyPerRule: false
+			}
+		case SmartProfileType.SmartRules:
+			return {
+				builtin: true,
+				editable: true,
+				supportsSubscriptions: true,
+				supportsProfileProxy: true,
+				customProxyPerRule: true
+			}
+		case SmartProfileType.AlwaysEnabledBypassRules:
+			return {
+				builtin: true,
+				editable: true,
+				supportsSubscriptions: false,
+				supportsProfileProxy: true,
+				customProxyPerRule: false
+			}
+		case SmartProfileType.SystemProxy:
+			return {
+				builtin: true,
+				editable: false,
+				supportsSubscriptions: false,
+				supportsProfileProxy: false,
+				customProxyPerRule: false
+			}
+		case SmartProfileType.IgnoreFailureRules:
+			return {
+				builtin: true,
+				editable: false,
+				supportsSubscriptions: true,
+				supportsProfileProxy: false,
+				customProxyPerRule: false
+			}
+		default:
+			break;
+	}
+}
 export function getBuiltinSmartProfiles(): SmartProfile[] {
 	return [
 		{
 			profileId: SmartProfileTypeBuiltinIds.Direct,
 			profileType: SmartProfileType.Direct,
+			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.Direct),
 			profileName: browser.i18n.getMessage('popupNoProxy'),
 			proxyRules: [],
 			enabled: true,
-			builtin: true,
-			editable: false,
-			supportsSubscriptions: false,
-			supportsProxySelection: false,
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.SmartRules,
 			profileType: SmartProfileType.SmartRules,
+			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.SmartRules),
 			profileName: browser.i18n.getMessage('popupSmartProxy'),
 			proxyRules: [],
 			enabled: true,
-			builtin: true,
-			editable: true,
-			supportsSubscriptions: true,
-			supportsProxySelection: true,
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.AlwaysEnabled,
 			profileType: SmartProfileType.AlwaysEnabledBypassRules,
+			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.AlwaysEnabledBypassRules),
 			profileName: browser.i18n.getMessage('popupAlwaysEnable'),
 			proxyRules: [],
 			enabled: true,
-			builtin: true,
-			editable: true,
-			supportsSubscriptions: false,
-			supportsProxySelection: true,
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.SystemProxy,
 			profileType: SmartProfileType.SystemProxy,
+			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.SystemProxy),
 			profileName: browser.i18n.getMessage('popupSystemProxy'),
 			proxyRules: [],
 			enabled: true,
-			builtin: true,
-			editable: false,
-			supportsSubscriptions: false,
-			supportsProxySelection: false,
 		},
 	];
 }
