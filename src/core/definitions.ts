@@ -340,9 +340,16 @@ export class SmartProfileTypeConfig {
 	public editable: boolean;
 	public builtin: boolean;
 	public supportsSubscriptions: boolean;
+	/** Can have customer proxy on Profile */
 	public supportsProfileProxy: boolean;
+	/** Can have custom proxy for each rule */
 	public customProxyPerRule: boolean;
-
+	/**  Enabled/Disabled */
+	public canBeDisabled: boolean;
+	/** Rule action can be Apply Whitelist/Apply Proxy */
+	public supportsRuleActionWhitelist: boolean;
+	/** If rule action is supported what is the default action? Is it whitelist */
+	public defaultRuleActionIsWhitelist?: boolean;
 }
 
 export class SmartProfileBase {
@@ -371,7 +378,10 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 				editable: false,
 				supportsSubscriptions: false,
 				supportsProfileProxy: false,
-				customProxyPerRule: false
+				customProxyPerRule: false,
+				canBeDisabled: false,
+				supportsRuleActionWhitelist: false,
+				defaultRuleActionIsWhitelist: null,
 			}
 		case SmartProfileType.SmartRules:
 			return {
@@ -379,7 +389,10 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 				editable: true,
 				supportsSubscriptions: true,
 				supportsProfileProxy: true,
-				customProxyPerRule: true
+				customProxyPerRule: true,
+				canBeDisabled: true,
+				supportsRuleActionWhitelist: true,
+				defaultRuleActionIsWhitelist: false,
 			}
 		case SmartProfileType.AlwaysEnabledBypassRules:
 			return {
@@ -387,7 +400,10 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 				editable: true,
 				supportsSubscriptions: false,
 				supportsProfileProxy: true,
-				customProxyPerRule: false
+				customProxyPerRule: false,
+				canBeDisabled: true,
+				supportsRuleActionWhitelist: true,
+				defaultRuleActionIsWhitelist: true,
 			}
 		case SmartProfileType.SystemProxy:
 			return {
@@ -395,7 +411,10 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 				editable: false,
 				supportsSubscriptions: false,
 				supportsProfileProxy: false,
-				customProxyPerRule: false
+				customProxyPerRule: false,
+				canBeDisabled: false,
+				supportsRuleActionWhitelist: false,
+				defaultRuleActionIsWhitelist: null,
 			}
 		case SmartProfileType.IgnoreFailureRules:
 			return {
@@ -403,10 +422,13 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 				editable: false,
 				supportsSubscriptions: true,
 				supportsProfileProxy: false,
-				customProxyPerRule: false
+				customProxyPerRule: false,
+				canBeDisabled: false,
+				supportsRuleActionWhitelist: false,
+				defaultRuleActionIsWhitelist: null,
 			}
 		default:
-			break;
+			return null;
 	}
 }
 export function getBuiltinSmartProfiles(): SmartProfile[] {

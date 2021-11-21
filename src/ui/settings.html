@@ -398,7 +398,7 @@
 							<a id="lblProfileName" href="#">{profile-name} <i class="fas fa-pencil-alt"></i></a>
 							<input id="txtSmartProfileName" class="form-control d-none w-auto"
 								placeholder="Name used in menu" />
-							<div class="float-right">
+							<div class="float-right" id="divSmartProfileEnabled">
 								<div class="form-check form-switch">
 									<label class="form-check-label">
 										Enabled
@@ -427,7 +427,7 @@
 							</span>
 						</p>
 						<hr class="afshin-line" />
-						<div id="" style="display: block;">
+						<div id="divProfileProxyServer" style="display: block;">
 							<h5 data-localize="aaaaaaaaaaaaaaaa">
 								Profile Proxy Server:
 							</h5>
@@ -593,7 +593,7 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="form-group col-sm-6">
+											<div class="form-group col-sm-6" id="divRuleProxyServer">
 												<label for="cmdRuleProxyServer"
 													data-localize="settingsRulesProxyServer">Proxy Server</label>
 												<select id="cmdRuleProxyServer"
@@ -606,8 +606,8 @@
 												<label for="cmdRuleAction"
 													data-localize="settingsRulesActionType">Action</label>
 												<select id="cmdRuleAction" class="form-control custom-select">
-													<option value="0" data-localize="settingsRuleActionApplyProxy">Apply
-														Proxy</option>
+													<option value="0" data-localize="settingsRuleActionApplyProxy">
+														Apply Proxy</option>
 													<option value="1" data-localize="settingsRuleActionWhitelist">
 														Whitelist (No proxy)</option>
 												</select>

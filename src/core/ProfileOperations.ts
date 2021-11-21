@@ -139,6 +139,9 @@ export class ProfileOperations {
 			supportsSubscriptions: fromProfile.profileTypeConfig.supportsSubscriptions,
 			supportsProfileProxy: fromProfile.profileTypeConfig.supportsProfileProxy,
 			customProxyPerRule: fromProfile.profileTypeConfig.customProxyPerRule,
+			canBeDisabled: fromProfile.profileTypeConfig.canBeDisabled,
+			supportsRuleActionWhitelist: fromProfile.profileTypeConfig.supportsRuleActionWhitelist,
+			defaultRuleActionIsWhitelist: fromProfile.profileTypeConfig.defaultRuleActionIsWhitelist,
 		};
 	}
 

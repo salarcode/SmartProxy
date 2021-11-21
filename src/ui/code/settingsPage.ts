@@ -511,16 +511,19 @@ export class settingsPage {
 		// populate servers
 		let cmdRuleProxyServer = modalContainer.find("#cmdRuleProxyServer");
 		cmdRuleProxyServer.empty();
+		let cmdRuleAction = modalContainer.find("#cmdRuleAction");
 
-		// the default value which is empty string
-		jQuery("<option>")
-			.attr("value", ProxyRuleSpecialProxyServer.DefaultGeneral)
-			.text(browser.i18n.getMessage("settingsRulesProxyDefault")) // [Use Default Proxy]
-			.appendTo(cmdRuleProxyServer);
-		jQuery("<option>")
-			.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)
-			.text(browser.i18n.getMessage("settingsRulesProxyFromProfile")) // [Use Profile Proxy]
-			.appendTo(cmdRuleProxyServer);
+		if (cmdRuleProxyServer.length) {
+			// the default value which is empty string
+			jQuery("<option>")
+				.attr("value", ProxyRuleSpecialProxyServer.DefaultGeneral)
+				.text(browser.i18n.getMessage("settingsRulesProxyDefault")) // [Use Default Proxy]
+				.appendTo(cmdRuleProxyServer);
+			jQuery("<option>")
+				.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)
+				.text(browser.i18n.getMessage("settingsRulesProxyFromProfile")) // [Use Profile Proxy]
+				.appendTo(cmdRuleProxyServer);
+		}
 
 		let dontIncludeAuthServers = false;
 		if (environment.chrome)
@@ -542,7 +545,8 @@ export class settingsPage {
 			if (proxyRule.proxy)
 				proxyServerId = proxyRule.proxy.id;
 
-			settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, proxyServerId, null, null, dontIncludeAuthServers);
+			if (cmdRuleProxyServer.length)
+				settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, proxyServerId, null, null, dontIncludeAuthServers);
 
 		} else {
 
@@ -554,9 +558,16 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val("");
 			modalContainer.find("#txtRuleUrlExact").val("");
 			modalContainer.find("#chkRuleEnabled").prop('checked', true);
-			modalContainer.find("#cmdRuleAction")[0].selectedIndex = 0;
 
-			settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, null, null, null, dontIncludeAuthServers);
+			if (cmdRuleAction.length) {
+				if (pageProfile.smartProfile.profileTypeConfig.defaultRuleActionIsWhitelist == true)
+					cmdRuleAction[0].selectedIndex = 1;
+				else
+					cmdRuleAction[0].selectedIndex = 0;
+			}
+
+			if (cmdRuleProxyServer.length)
+				settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, null, null, null, dontIncludeAuthServers);
 		}
 
 		settingsPage.updateProxyRuleModal(pageProfile.htmlProfileTab);
@@ -958,9 +969,11 @@ export class settingsPage {
 
 		smartProfile.profileName = tabContainer.find("#txtSmartProfileName").val();
 		smartProfile.profileProxyServerId = tabContainer.find("#cmbProfileProxyServer").val();
-		smartProfile.enabled = tabContainer.find("#chkSmartProfileEnabled").prop('checked');
 		smartProfile.proxyRules = this.readRules(pageProfile);
 		smartProfile.rulesSubscriptions = this.readRulesSubscriptions(pageProfile);
+		let chkSmartProfileEnabled = tabContainer.find("#chkSmartProfileEnabled");
+		if (chkSmartProfileEnabled.length)
+			smartProfile.enabled = chkSmartProfileEnabled.prop('checked');
 
 		return smartProfile;
 	}
@@ -1016,10 +1029,18 @@ export class settingsPage {
 			profileTab.find(`.label-profile-type-description-for-${SmartProfileType[profile.profileType]}`).show();
 			profileTab.find("#chkSmartProfileEnabled").prop("checked", profile.enabled);
 
+			if (!profile.profileTypeConfig.canBeDisabled) {
+				profileTab.find("#divSmartProfileEnabled").remove();
+			}
+			if (!profile.profileTypeConfig.supportsProfileProxy) {
+				profileTab.find("#divProfileProxyServer").remove();
+			}
 			if (!profile.profileTypeConfig.supportsSubscriptions) {
 				profileTab.find("#divSmartProfileSubscription").remove();
 			}
-
+			if (!profile.profileTypeConfig.customProxyPerRule) {
+				profileTab.find("#divRuleProxyServer").remove();
+			}
 
 			// -----
 			lastMenu.after(profileMenu);
@@ -1050,15 +1071,17 @@ export class settingsPage {
 		let tabContainer = pageProfile.htmlProfileTab;
 		let cmbProfileProxyServer = tabContainer.find("#cmbProfileProxyServer");
 
-		// remove previous items
-		cmbProfileProxyServer.children().remove();
-		jQuery("<option>")
-			.attr("value", "")
-			.text(browser.i18n.getMessage("settingsProfilesProxyServer"))
-			.appendTo(cmbProfileProxyServer);
+		if (cmbProfileProxyServer.length) {
+			// remove previous items
+			cmbProfileProxyServer.children().remove();
+			jQuery("<option>")
+				.attr("value", "")
+				.text(browser.i18n.getMessage("settingsProfilesProxyServer"))
+				.appendTo(cmbProfileProxyServer);
 
-		// populate
-		this.populateProxyServersToComboBox(cmbProfileProxyServer, profileProxyServerId, proxyServers, serverSubscriptions);
+			// populate
+			this.populateProxyServersToComboBox(cmbProfileProxyServer, profileProxyServerId, proxyServers, serverSubscriptions);
+		}
 	}
 
 	private static loadAllProfilesProxyServers() {

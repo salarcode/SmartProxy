@@ -143,6 +143,7 @@ export class ProxyEngineFirefox {
 			}
 
 			if (activeProfileType === SmartProfileType.Direct ||
+				// Direct proxy profile is selected or
 				// if there is no active server, skip everything
 				!currentProxyServer)
 				return { type: 'direct' };
@@ -191,31 +192,32 @@ export class ProxyEngineFirefox {
 			}
 
 			if (activeProfileType == SmartProfileType.AlwaysEnabledBypassRules) {
+				// NOTE: by default a proxy is applied in AlwaysEnabled profile
 
 				let compiledRules = settingsActive.activeProfile.compiledRules;
 
-				// user skip the bypass rules
-				let userWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistRules)
-				if (userWhitelistMatchedRule) {
-					return makeResultForAlwaysEnabledForced(userWhitelistMatchedRule)
-				}
-
-				// user bypass rules
+				// user skip the bypass rules/ apply proxy
 				let userMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.Rules);
 				if (userMatchedRule) {
 					return makeResultForAlwaysEnabledBypassed(userMatchedRule)
 				}
 
-				// subscription skip bypass rules
-				let subWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistSubscriptionRules)
-				if (subWhitelistMatchedRule) {
-					return makeResultForAlwaysEnabledForced(subWhitelistMatchedRule)
+				// user bypass rules/ don't apply proxy
+				let userWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistRules)
+				if (userWhitelistMatchedRule) {
+					return makeResultForAlwaysEnabledForced(userWhitelistMatchedRule)
 				}
 
-				// subscription bypass rules
+				// subscription skip bypass rules/ apply proxy
 				let subMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.SubscriptionRules);
 				if (subMatchedRule) {
 					return makeResultForAlwaysEnabledBypassed(subMatchedRule)
+				}
+
+				// subscription bypass rules/ don't apply proxy
+				let subWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistSubscriptionRules)
+				if (subWhitelistMatchedRule) {
+					return makeResultForAlwaysEnabledForced(subWhitelistMatchedRule)
 				}
 
 				//** Always Enabled is forced by a rule, so other rules can't skip it */
@@ -244,28 +246,29 @@ export class ProxyEngineFirefox {
 			}
 
 			if (activeProfileType == SmartProfileType.SmartRules) {
+				// NOTE: by default no proxy is applied in SmartRules profile
 
 				let compiledRules = settingsActive.activeProfile.compiledRules;
 
-				// user whitelist rules
+				// user whitelist rules/ don't apply proxy
 				let userWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistRules)
 				if (userWhitelistMatchedRule) {
 					return makeResultForWhitelistRule(userWhitelistMatchedRule);
 				}
 
-				// user rules
+				// user rules/ apply proxy
 				let userMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.Rules);
 				if (userMatchedRule) {
 					return makeResultForMatchedRule(userMatchedRule);
 				}
 
-				// subscription whitelist rules
+				// subscription whitelist rules/ dont' apply proxy
 				let subWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistSubscriptionRules)
 				if (subWhitelistMatchedRule) {
 					return makeResultForWhitelistRule(subWhitelistMatchedRule);
 				}
 
-				// subscription rules
+				// subscription rules/ apply proxy
 				let subMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.SubscriptionRules);
 				if (subMatchedRule) {
 					return makeResultForMatchedRule(subMatchedRule);

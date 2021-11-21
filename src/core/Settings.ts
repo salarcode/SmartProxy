@@ -25,6 +25,9 @@ import {
 	getBuiltinSmartProfiles,
 	SettingsActive,
 	SmartProfileCompiled,
+	SmartProfile,
+	SmartProfileType,
+	getSmartProfileTypeConfig,
 } from './definitions';
 import { Debug } from '../lib/Debug';
 import { SettingsOperation } from './SettingsOperation';
@@ -116,6 +119,9 @@ export class Settings {
 		if (config['proxyProfiles'] == null || !Array.isArray(config.proxyProfiles)) {
 			config.proxyProfiles = getBuiltinSmartProfiles();
 		}
+		else
+			config.proxyProfiles = Settings.setDefaultSettingsSmartProfiles(config.proxyProfiles);
+
 		if (config['proxyServerSubscriptions'] == null || !Array.isArray(config.proxyServerSubscriptions)) {
 			config.proxyServerSubscriptions = [];
 		}
@@ -131,6 +137,7 @@ export class Settings {
 		let oldConfig: any = config;
 
 		if (config.version < '0.9.11') {
+			// TODO: do the migration from old versions
 		} else if (config.version < '') {
 			if (oldConfig.proxyRules && oldConfig.proxyRules.length > 0) {
 				for (const rule of oldConfig.proxyRules) {
@@ -155,6 +162,74 @@ export class Settings {
 		if (!settings.options.syncActiveProfile) {
 			syncedConfig.activeProfileId = settings.activeProfileId;
 		}
+	}
+
+	/** Validates SmartProfiles and adds missing profile and properties */
+	static setDefaultSettingsSmartProfiles(proxyProfiles: SmartProfile[]): SmartProfile[] {
+
+		let hasDirect = false;
+		let hasSmartRule = false;
+		let hasSmartAlwaysEnabled = false;
+		let hasSystem = false;
+
+		let result: SmartProfile[] = [];
+
+		for (const profile of proxyProfiles) {
+			if (profile.profileType == null)
+				continue;
+
+			let profileTypeConfig = getSmartProfileTypeConfig(profile.profileType)
+			if (profileTypeConfig == null)
+				continue;
+
+			// checking for important profiles
+			if (profile.profileType == SmartProfileType.Direct)
+				hasDirect = true;
+			else if (profile.profileType == SmartProfileType.SmartRules)
+				hasSmartRule = true;
+			else if (profile.profileType == SmartProfileType.AlwaysEnabledBypassRules)
+				hasSmartAlwaysEnabled = true;
+			else if (profile.profileType == SmartProfileType.SystemProxy)
+				hasSystem = true;
+
+			let newProfile = new SmartProfile();
+			Object.assign(newProfile, profile);
+			newProfile.profileTypeConfig = profileTypeConfig;
+
+			if (!newProfile.profileName) {
+				// set name if missing
+				newProfile.profileName = `${SmartProfileType[newProfile.profileType]} - ${Utils.getNewUniqueIdNumber()}`;
+			}
+
+			result.push(newProfile);
+		}
+		let needsReorder = !hasDirect || !hasSmartRule || !hasSmartAlwaysEnabled || !hasSystem;
+		let builtinProfile: SmartProfile[];
+		if (needsReorder) {
+			builtinProfile = getBuiltinSmartProfiles();
+
+			if (!hasDirect)
+				result.push(builtinProfile.find(a => a.profileType == SmartProfileType.Direct));
+
+			if (!hasSmartRule)
+				result.push(builtinProfile.find(a => a.profileType == SmartProfileType.SmartRules));
+
+			if (!hasSmartAlwaysEnabled)
+				result.push(builtinProfile.find(a => a.profileType == SmartProfileType.AlwaysEnabledBypassRules));
+
+			if (!hasSystem)
+				result.push(builtinProfile.find(a => a.profileType == SmartProfileType.SystemProxy));
+
+			result.sort((a, b) => {
+				if (a.profileType < b.profileType)
+					return -1;
+				if (a.profileType > b.profileType)
+					return 1;
+				return 0;
+			})
+		}
+
+		return result;
 	}
 
 	public static validateProxyServer(
@@ -240,3 +315,4 @@ export class Settings {
 		}
 	}
 }
+

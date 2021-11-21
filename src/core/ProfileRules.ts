@@ -75,7 +75,7 @@ export class ProfileRules {
 			ProfileRules.enableByHostnameInternal(smartProfile, hostName);
 		}
 	}
-	
+
 	public static enableByHostname(hostname: string): {
 		success: boolean,
 		message: string,
@@ -156,6 +156,10 @@ export class ProfileRules {
 		rule.hostName = hostname;
 		rule.enabled = true;
 		rule.proxy = null;
+
+		if (smartProfile.profileTypeConfig.defaultRuleActionIsWhitelist == true)
+			// NOTE: in AlwaysEnabled mode the default rule type is Whitelist
+			rule.whiteList = true;
 
 		// add and save it
 		ProfileRules.addRule(smartProfile, rule);
