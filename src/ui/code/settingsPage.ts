@@ -39,7 +39,7 @@ export class settingsPage {
 
 	private static changeTracking = {
 		options: false,
-		rules: false,
+		smartProfiles: false,
 		servers: false,
 		activeProxy: false,
 		serverSubscriptions: false,
@@ -1959,8 +1959,6 @@ export class settingsPage {
 			// insert to the grid
 			settingsPage.insertNewRuleListInGrid(pageProfile, resultRuleList);
 
-			settingsPage.changeTracking.rules = true;
-
 			modal.modal("hide");
 		},
 		onClickAddProxyRule(pageProfile: SettingsPageSmartProfile) {
@@ -2185,8 +2183,6 @@ export class settingsPage {
 				settingsPage.insertNewRuleInGrid(pageProfile, ruleInfo);
 			}
 
-			settingsPage.changeTracking.rules = true;
-
 			modal.modal("hide");
 		},
 		onRulesEditClick(pageProfile: SettingsPageSmartProfile, e: any) {
@@ -2213,8 +2209,6 @@ export class settingsPage {
 
 					// remove then redraw the grid page
 					row.remove().draw('full-hold');
-
-					settingsPage.changeTracking.rules = true;
 				});
 		},
 		// onClickSaveProxyRules(pageProfile: SettingsPageSmartProfile) {
@@ -2263,8 +2257,6 @@ export class settingsPage {
 				() => {
 					settingsPage.loadRules(pageProfile, []);
 
-					settingsPage.changeTracking.rules = true;
-
 					// All rules are removed.<br/>You have to save to apply the changes.
 					messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
 				});
@@ -2281,8 +2273,7 @@ export class settingsPage {
 			let smartProfileModel = settingsPage.readSmartProfile(pageProfile);
 			let smartProfile = pageProfile.smartProfile;
 
-			jQuery.extend(smartProfile, smartProfileModel);
-
+			Object.assign(smartProfile, smartProfileModel);
 
 			PolyFill.runtimeSendMessage(
 				{
@@ -2290,7 +2281,20 @@ export class settingsPage {
 					smartProfile: smartProfile
 				},
 				(response: ResultHolder) => {
+					if (!response) return;
+					if (response.success) {
+						if (response.message)
+							messageBox.success(response.message);
 
+						settingsPage.changeTracking.smartProfiles = false;
+
+					} else {
+						if (response.message)
+							messageBox.error(response.message);
+					}
+				},
+				(error: Error) => {
+					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveSmartProfile") + " " + error.message);
 				});
 			// let rules = settingsPage.readRules(pageProfile);
 

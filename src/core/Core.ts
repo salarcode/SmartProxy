@@ -37,6 +37,7 @@ import {
 	ResultHolderGeneric,
 	SmartProfileType,
 	CompiledProxyRulesMatchedSource,
+	SmartProfile,
 } from './definitions';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
 import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
@@ -229,7 +230,7 @@ export class Core {
 				let ruleId = message.ruleId;
 				ProfileRules.toggleRule(domain, ruleId);
 
-				SettingsOperation.saveProxyProfiles();
+				SettingsOperation.saveSmartProfiles();
 				SettingsOperation.saveAllSync();
 
 				// notify the proxy script
@@ -255,7 +256,7 @@ export class Core {
 				// notify the proxy script
 				ProxyEngine.notifyProxyRulesChanged();
 
-				SettingsOperation.saveProxyProfiles();
+				SettingsOperation.saveSmartProfiles();
 				SettingsOperation.saveAllSync();
 
 				// update active proxy tab status
@@ -339,10 +340,23 @@ export class Core {
 				if (!message.smartProfile)
 					return;
 
-				//let smartProfile: SmartProfile = message.smartProfile;
+				let smartProfile: SmartProfile = message.smartProfile;
+				ProfileOperations.addUpdateProfile(smartProfile);
 
+				SettingsOperation.saveSmartProfiles();
+				SettingsOperation.saveAllSync();
 
-				// TODO: 
+				Settings.updateActiveSettings();
+				// notify
+				ProxyEngine.updateBrowsersProxyConfig();
+
+				if (sendResponse) {
+					sendResponse({
+						success: true,
+						// Proxy rules saved successfully.
+						message: browser.i18n.getMessage('settingsSaveSmartProfileSuccess'),
+					});
+				}
 				return;
 			}
 
@@ -474,7 +488,7 @@ export class Core {
 				};
 
 				if (ruleResult.success) {
-					SettingsOperation.saveProxyProfiles();
+					SettingsOperation.saveSmartProfiles();
 					SettingsOperation.saveAllSync();
 
 					// notify the proxy script
@@ -536,7 +550,7 @@ export class Core {
 
 			smartProfile.profileProxyServerId = proxy.id;
 
-			SettingsOperation.saveProxyProfiles();
+			SettingsOperation.saveSmartProfiles();
 			SettingsOperation.saveAllSync();
 			SettingsOperation.updateSmartProfilesRulesProxyServer();
 		}
@@ -565,7 +579,7 @@ export class Core {
 
 	public static CycleToNextProxyServer(): ResultHolderGeneric<ProxyServer> {
 		let settingsActive = Settings.active;
-		let currentServerId = 
+		let currentServerId =
 			settingsActive.activeProfile?.profileProxyServerId ??
 			Settings.current.defaultProxyServerId;
 		let resultProxy: ProxyServer;
@@ -594,7 +608,7 @@ export class Core {
 
 	public static CycleToPreviousProxyServer(): ResultHolderGeneric<ProxyServer> {
 		let settingsActive = Settings.active;
-		let currentServerId = 
+		let currentServerId =
 			settingsActive.activeProfile?.profileProxyServerId ??
 			Settings.current.defaultProxyServerId;
 		let resultProxy: ProxyServer;

@@ -174,7 +174,7 @@
 	"proxyableGridColStatus": {
 		"message": "Status",
 		"description": ""
-	},	
+	},
 	"proxyableGridData_LogType_NoneMatched": {
 		"message": "No Match",
 		"description": ""
@@ -543,10 +543,6 @@
 		"message": "Failed to save servers.",
 		"description": ""
 	},
-	"settingsErrorFailedToSaveRules": {
-		"message": "Failed to save rules.",
-		"description": ""
-	},
 	"settingsChangesReverted": {
 		"message": "Changes reverted successfully.",
 		"description": ""
@@ -670,6 +666,12 @@
 	"settingsProfilesProxyServer": {
 		"message": "[Use Default Proxy Server]"
 	},
+	"settingsSaveSmartProfileSuccess": {
+		"message": "Smart Profile saved successfully."
+	},
+	"settingsErrorFailedToSaveSmartProfile": {
+		"message": "Failed to save smart profile."
+	},
 	"settingsRuleSourceRequired": {
 		"message": "Please specify the source domain of the rule!",
 		"description": ""
@@ -740,10 +742,6 @@
 	},
 	"settingsRulesProxyFromProfile": {
 		"message": "[Use Profile Proxy]",
-		"description": ""
-	},
-	"settingsSaveProxyRulesSuccess": {
-		"message": "Proxy rules saved successfully.",
 		"description": ""
 	},
 	"settingsRulesModalTitle": {

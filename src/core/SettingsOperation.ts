@@ -329,7 +329,7 @@ export class SettingsOperation {
 	// 			Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
 	// 		});
 	// }
-	public static saveProxyProfiles() {
+	public static saveSmartProfiles() {
 		if (Settings.current.options.syncSettings)
 			// don't save in local when sync enabled
 			return;
@@ -399,6 +399,7 @@ export class SettingsOperation {
 
 	/** Updates the `proxy server` used in the proxy rules for all SmartProfiles*/
 	public static updateSmartProfilesRulesProxyServer() {
+		// TODO: ...
 		// let servers = Settings.current.proxyServers;
 		// let rules = Settings.current.proxyRules;
 
@@ -619,7 +620,7 @@ export class SettingsOperation {
 
 				Settings.current.proxyProfiles = backupProxyProfiles;
 
-				SettingsOperation.saveProxyProfiles();
+				SettingsOperation.saveSmartProfiles();
 				ProxyEngine.notifyProxyRulesChanged();
 			}
 

@@ -518,110 +518,114 @@
 						<div class="modal fade" id="modalModifyRule" tabindex="-1" role="dialog"
 							aria-labelledby="modalModifyRuleLabel">
 							<!-- Proxy Rule -->
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h4 class="modal-title" id="modalModifyRuleLabel"
-											data-localize="settingsRulesModalTitle">Rule Details</h4>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									</div>
-									<div class="modal-body">
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label for="txtRuleMatchPattern"
-													data-localize="settingsRulesRuleType">Rule Type</label>
-												<select id="cmdRuleType" class="form-control custom-select">
-													<option value="0">Host wildcard (Match Pattern)</option>
-													<option value="1">Url wildcard (Match Pattern)</option>
-													<option value="2">Host regex</option>
-													<option value="3">Url regex</option>
-													<option value="4">Exact Url</option>
-													<option value="5">Search Domain and Subdomain</option>
-												</select>
+							<form action="#" id="frmModifyRule">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title" id="modalModifyRuleLabel"
+												data-localize="settingsRulesModalTitle">Rule Details</h4>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										</div>
+										<div class="modal-body">
+											<div class="row">
+												<div class="form-group col-sm-6">
+													<label for="txtRuleMatchPattern"
+														data-localize="settingsRulesRuleType">Rule Type</label>
+													<select id="cmdRuleType" class="form-control custom-select">
+														<option value="0">Host wildcard (Match Pattern)</option>
+														<option value="1">Url wildcard (Match Pattern)</option>
+														<option value="2">Host regex</option>
+														<option value="3">Url regex</option>
+														<option value="4">Exact Url</option>
+														<option value="5">Search Domain and Subdomain</option>
+													</select>
+												</div>
+												<div class="form-group col-sm-6">
+													<br />
+													<div class="custom-control custom-checkbox">
+														<input type="checkbox" class="custom-control-input"
+															id="chkRuleEnabled">
+														<label class="custom-control-label" for="chkRuleEnabled"
+															data-localize="settingsRulesEnabled">Enabled</label>
+													</div>
+												</div>
 											</div>
-											<div class="form-group col-sm-6">
-												<br />
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input"
-														id="chkRuleEnabled">
-													<label class="custom-control-label" for="chkRuleEnabled"
-														data-localize="settingsRulesEnabled">Enabled</label>
+											<div class="row">
+												<div class="form-group col-sm-6">
+													<label for="txtRuleSource"
+														data-localize="settingsRulesSourceDomain">Rule Source
+														Domain</label>
+													<input type="text" id="txtRuleSource" class="form-control" required />
+													<span class="form-text text-muted small"
+														data-localize="settingsRulesSourceDomainDesc">(e.g.
+														google.com)</span>
+												</div>
+												<div class="form-group col-sm-6" id="divRuleGeneratePattern">
+													<br />
+													<div class="custom-control custom-checkbox">
+														<input checked type="checkbox" class="custom-control-input"
+															id="chkRuleGeneratePattern">
+														<label class="custom-control-label" for="chkRuleGeneratePattern"
+															data-localize="settingsRulesGeneratePattern">
+															Generate pattern automatically</label>
+													</div>
+												</div>
+											</div>
+											<div class="row" id="divRuleMatchPattern">
+												<div class="form-group col-sm-12">
+													<label for="txtRuleMatchPattern"
+														data-localize="settingsRulesPattern">Match Pattern</label>
+													<input disabled type="text" id="txtRuleMatchPattern"
+														class="form-control" />
+												</div>
+											</div>
+											<div class="row" id="divRuleUrlRegex">
+												<div class="form-group col-sm-12">
+													<label for="txtRuleUrlRegex" data-localize="settingsRulesRegex">Url
+														Regex</label>
+													<input type="text" id="txtRuleUrlRegex" class="form-control" />
+												</div>
+											</div>
+											<div class="row" id="divRuleUrlExact">
+												<div class="form-group col-sm-12">
+													<label for="txtRuleUrlExact"
+														data-localize="settingsRulesExactUrl">Exact
+														Url</label>
+													<input type="url" id="txtRuleUrlExact" class="form-control" />
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group col-sm-6" id="divRuleProxyServer">
+													<label for="cmdRuleProxyServer"
+														data-localize="settingsRulesProxyServer">Proxy Server</label>
+													<select id="cmdRuleProxyServer"
+														class="form-control custom-select"></select>
+													<span class="form-text text-muted small chrome-only"
+														data-localize="settingsRulesProxyServerNotAuth">
+														(Servers with authentication are not supported in Chrome)</span>
+												</div>
+												<div class="form-group col-sm-6">
+													<label for="cmdRuleAction"
+														data-localize="settingsRulesActionType">Action</label>
+													<select id="cmdRuleAction" class="form-control custom-select">
+														<option value="0" data-localize="settingsRuleActionApplyProxy">
+															Apply Proxy</option>
+														<option value="1" data-localize="settingsRuleActionWhitelist">
+															Whitelist (No proxy)</option>
+													</select>
 												</div>
 											</div>
 										</div>
-										<div class="row">
-											<div class="form-group col-sm-6">
-												<label for="txtRuleSource"
-													data-localize="settingsRulesSourceDomain">Rule Source Domain</label>
-												<input type="text" id="txtRuleSource" class="form-control" />
-												<span class="form-text text-muted small"
-													data-localize="settingsRulesSourceDomainDesc">(e.g.
-													google.com)</span>
-											</div>
-											<div class="form-group col-sm-6" id="divRuleGeneratePattern">
-												<br />
-												<div class="custom-control custom-checkbox">
-													<input checked type="checkbox" class="custom-control-input"
-														id="chkRuleGeneratePattern">
-													<label class="custom-control-label" for="chkRuleGeneratePattern"
-														data-localize="settingsRulesGeneratePattern">
-														Generate pattern automatically</label>
-												</div>
-											</div>
+										<div class="modal-footer">
+											<button type="submit" id="btnSubmitRule" class="btn btn-primary"
+												data-localize="settingsRulesModalSave">Save</button>
+											<button type="button" class="btn btn-secondary" data-dismiss="modal"
+												data-localize="settingsRulesModalCancel">Cancel</button>
 										</div>
-										<div class="row" id="divRuleMatchPattern">
-											<div class="form-group col-sm-12">
-												<label for="txtRuleMatchPattern"
-													data-localize="settingsRulesPattern">Match Pattern</label>
-												<input disabled type="text" id="txtRuleMatchPattern"
-													class="form-control" />
-											</div>
-										</div>
-										<div class="row" id="divRuleUrlRegex">
-											<div class="form-group col-sm-12">
-												<label for="txtRuleUrlRegex" data-localize="settingsRulesRegex">Url
-													Regex</label>
-												<input type="text" id="txtRuleUrlRegex" class="form-control" />
-											</div>
-										</div>
-										<div class="row" id="divRuleUrlExact">
-											<div class="form-group col-sm-12">
-												<label for="txtRuleUrlExact" data-localize="settingsRulesExactUrl">Exact
-													Url</label>
-												<input type="url" id="txtRuleUrlExact" class="form-control" />
-											</div>
-										</div>
-										<div class="row">
-											<div class="form-group col-sm-6" id="divRuleProxyServer">
-												<label for="cmdRuleProxyServer"
-													data-localize="settingsRulesProxyServer">Proxy Server</label>
-												<select id="cmdRuleProxyServer"
-													class="form-control custom-select"></select>
-												<span class="form-text text-muted small chrome-only"
-													data-localize="settingsRulesProxyServerNotAuth">
-													(Servers with authentication are not supported in Chrome)</span>
-											</div>
-											<div class="form-group col-sm-6">
-												<label for="cmdRuleAction"
-													data-localize="settingsRulesActionType">Action</label>
-												<select id="cmdRuleAction" class="form-control custom-select">
-													<option value="0" data-localize="settingsRuleActionApplyProxy">
-														Apply Proxy</option>
-													<option value="1" data-localize="settingsRuleActionWhitelist">
-														Whitelist (No proxy)</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="modal-footer">
-										<button type="button" id="btnSubmitRule" class="btn btn-primary"
-											data-localize="settingsRulesModalSave">Save</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal"
-											data-localize="settingsRulesModalCancel">Cancel</button>
 									</div>
 								</div>
-							</div>
+							</form>
 						</div>
 						<div class="modal fade" id="modalAddMultipleRules" tabindex="-1" role="dialog"
 							aria-labelledby="modalAddMultipleRulesLabel">

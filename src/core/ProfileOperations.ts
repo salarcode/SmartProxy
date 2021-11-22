@@ -7,6 +7,21 @@ import { SettingsOperation } from "./SettingsOperation";
 
 export class ProfileOperations {
 
+	public static addUpdateProfile(smartProfile: SmartProfile) {
+		let settings = Settings.current;
+
+		if (smartProfile.profileId) {
+			let existingProfile = ProfileOperations.findSmartProfileById(smartProfile.profileId, settings.proxyProfiles);
+
+			if (existingProfile) {
+				Object.assign(existingProfile, smartProfile);
+				return;
+			}
+		}
+		smartProfile.profileId = 'profile-' + Utils.getNewUniqueIdString();
+		settings.proxyProfiles.push(smartProfile);
+	}
+
 
 	public static profileTypeSupportsRules(profileType: SmartProfileType): boolean {
 		switch (profileType) {
