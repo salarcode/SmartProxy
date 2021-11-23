@@ -104,6 +104,8 @@ export class settingsPage {
 		// Smart profiles
 		jQuery("#btnAddNewSmartProfile").click(settingsPage.uiEvents.onClickAddNewSmartProfile);
 
+		jQuery("#btnSubmitContinueAddingProfile").click(settingsPage.uiEvents.onClickSubmitContinueAddingProfile);
+
 		// proxy servers
 		jQuery("#cmbActiveProxyServer").on("change", settingsPage.uiEvents.onChangeActiveProxyServer);
 
@@ -1012,7 +1014,7 @@ export class settingsPage {
 			pageSmartProfile.htmlProfileTab = profileTab;
 
 			// menu
-			profileMenu.find("span").text(profile.profileName);
+			profileMenu.find("#menu-smart-profile-name").text(profile.profileName);
 			profileMenu.find(".icon").addClass(getSmartProfileTypeIcon(profile.profileType));
 			profileMenu.attr("id", menuId);
 			profileMenu.attr("href", '#' + tabId);
@@ -1063,7 +1065,9 @@ export class settingsPage {
 		profileMenuTemplate.hide();
 		profileTabTemplate.hide();
 	}
-
+	private static updateProfileMenuName(pageProfile: SettingsPageSmartProfile) {
+		pageProfile.htmlProfileMenu.find("#menu-smart-profile-name").text(pageProfile.smartProfile.profileName);
+	}
 
 	private static loadProfileProxyServer(pageProfile: SettingsPageSmartProfile, proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
 		let profileProxyServerId = pageProfile.smartProfile.profileProxyServerId;
@@ -1686,7 +1690,11 @@ export class settingsPage {
 		},
 		onClickAddNewSmartProfile() {
 			// TODO: 
-			alert('TODO');
+
+		},
+		onClickSubmitContinueAddingProfile() {
+			// TODO: 
+			alert('to-do');
 		},
 		onChangeActiveProxyServer() {
 			let proxyServerId = jQuery("#cmbActiveProxyServer").val();
@@ -2288,6 +2296,8 @@ export class settingsPage {
 
 						settingsPage.changeTracking.smartProfiles = false;
 
+						// sync the change to menu
+						settingsPage.updateProfileMenuName(pageProfile);
 					} else {
 						if (response.message)
 							messageBox.error(response.message);

@@ -80,11 +80,11 @@
 						href="#tab-smart-profile" role="tab" aria-controls="tab-rules" aria-expanded="true">
 						<!--Smart Profile template-->
 						<i class="icon fa-lg" aria-hidden="true"></i>
-						<span>{profile-name}</span>
+						<span id="menu-smart-profile-name">{profile-name}</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile mb-2" id="btnAddNewSmartProfile" data-toggle=""
-						href="#new-smart-profile">
+					<a class="nav-link nav-smart-profile mb-2" id="btnAddNewSmartProfile" data-toggle="modal"
+						data-target="#modalAddNewSmartProfile" href="#new-smart-profile">
 						<i class="fas fa-folder-plus fa-lg text-info" aria-hidden="true"></i>
 						<span data-localize="settingsTabAAAAAAAAAAAAAAAA">Add new Smart Profile</span>
 					</a>
@@ -556,7 +556,8 @@
 													<label for="txtRuleSource"
 														data-localize="settingsRulesSourceDomain">Rule Source
 														Domain</label>
-													<input type="text" id="txtRuleSource" class="form-control" required />
+													<input type="text" id="txtRuleSource" class="form-control"
+														required />
 													<span class="form-text text-muted small"
 														data-localize="settingsRulesSourceDomainDesc">(e.g.
 														google.com)</span>
@@ -947,6 +948,63 @@
 		</div>
 	</div>
 	<!-- Modals -->
+
+	<div class="modal fade" id="modalAddNewSmartProfile" tabindex="-1" role="dialog"
+		aria-labelledby="modalAddNewSmartProfileLabel">
+		<!-- New Smart Profile -->
+		<form action="#" id="frmNewSmartProfile">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalAddNewSmartProfileLabel" data-localize="aaaaaaaa">
+							Add New Smart Profile</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+								aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body p-4">
+						<p class="lead">
+							Please select the <b>type of profile</b> you want to add:
+						</p>
+						<div class="form-check mb-4">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="SmartProfileType"
+									id="rbtnNewSmartProfile_SmartRules">
+								<i class="fas fa-magic fa-lg text-success" aria-hidden="true"></i>
+								<span class="font-weight-bold" data-localize="aaaaaaaa">Smart Rules</span>
+								<div class="form-text text-muted" data-localize="aaaaaaaa">
+									In this type of profile, proxy will be applied to the requests based on the
+									<em>rules</em> that you need to define.
+									To define these rule you can use the popup menu in the menu bar, you can do it from
+									settings and also you can add them from <em>Proxyable Resource</em> window.
+									<br>
+									Also you have the ability to subscribe to different rules list like Gfwlist.
+								</div>
+							</label>
+						</div>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="SmartProfileType"
+									id="rbtnNewSmartProfile_AlwaysEnabled">
+								<i class="fas fa-globe-americas text-primary" aria-hidden="true"></i>
+								<span class="font-weight-bold" data-localize="aaaaaaaa">Always Enabled</span>
+								<div class="form-text text-muted" data-localize="aaaaaaaaaa">
+									In this type of profile, proxy will always be applied to the requests unless you define
+									rules to bypass it.
+									Defining rules steps are same as in the SmartRule profile type.</div>
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="btnSubmitContinueAddingProfile" class="btn btn-primary"
+							data-localize="aaaaaaaaaaa">Continue</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal"
+							data-localize="aaaaaaaaaaa">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
 	<div class="modal fade" id="modalModifyProxyServer" tabindex="-1" role="dialog">
 		<!-- Proxy Server -->
 		<div class="modal-dialog" role="document">
