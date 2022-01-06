@@ -91,7 +91,8 @@ export class Settings {
 			Debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
 		}
 
-		if (Settings.onInitialized) Settings.onInitialized();
+		if (Settings.onInitialized)
+			Settings.onInitialized();
 	}
 
 	private static onInitializeGetSyncError(error: Error) {
@@ -192,9 +193,27 @@ export class Settings {
 			else if (profile.profileType == SmartProfileType.SystemProxy)
 				hasSystem = true;
 
+			let isBuiltin = profile.profileTypeConfig?.builtin ?? false;
 			let newProfile = new SmartProfile();
 			Object.assign(newProfile, profile);
 			newProfile.profileTypeConfig = profileTypeConfig;
+
+			if (!isBuiltin && profileTypeConfig.builtin) {
+				// trying to detect builtin vs user profiles
+				let existingTypeProfile = proxyProfiles.find(x => x.profileType == profile.profileType && x.profileId != profile.profileId);
+				if (!existingTypeProfile ||
+					!existingTypeProfile.profileTypeConfig?.builtin) {
+					// there is no existing one so this one needs to be marked builtin
+					// or the other is not built in, so this needs to be built in
+					newProfile.profileTypeConfig.builtin = true;
+					profile.profileTypeConfig.builtin = true;
+				}
+				else {
+					// unmark as builtin
+					newProfile.profileTypeConfig.builtin = false;
+					profile.profileTypeConfig.builtin = false;
+				}
+			}
 
 			if (!newProfile.profileName) {
 				// set name if missing
@@ -203,9 +222,10 @@ export class Settings {
 
 			result.push(newProfile);
 		}
-		let needsReorder = !hasDirect || !hasSmartRule || !hasSmartAlwaysEnabled || !hasSystem;
+		let missingBuiltin = !hasDirect || !hasSmartRule || !hasSmartAlwaysEnabled || !hasSystem;
+
 		let builtinProfile: SmartProfile[];
-		if (needsReorder) {
+		if (missingBuiltin) {
 			builtinProfile = getBuiltinSmartProfiles();
 
 			if (!hasDirect)

@@ -355,6 +355,7 @@ export class Core {
 						success: true,
 						// Proxy rules saved successfully.
 						message: browser.i18n.getMessage('settingsSaveSmartProfileSuccess'),
+						smartProfile: smartProfile
 					});
 				}
 				return;

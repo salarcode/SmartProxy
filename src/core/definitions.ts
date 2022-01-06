@@ -370,6 +370,11 @@ export class SmartProfileCompiled extends SmartProfileBase {
 	public compiledRules: CompiledProxyRulesInfo;
 	public profileProxyServer: ProxyServer;
 }
+export function getUserSmartProfileTypeConfig(profileType: SmartProfileType): SmartProfileTypeConfig {
+	let config = getSmartProfileTypeConfig(profileType);
+	config.builtin = false;
+	return config;
+}
 export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartProfileTypeConfig {
 	switch (profileType) {
 		case SmartProfileType.Direct:

@@ -419,7 +419,7 @@ export class SettingsOperation {
 	public static restoreBackup(fileData: string) {
 		if (fileData == null)
 			return { success: false, message: "Invalid data" };
-
+debugger;
 		function restoreServers(backupServers: any[]) {
 			let upcomingServers: ProxyServer[] = [];
 			for (let backServer of backupServers) {
@@ -561,7 +561,7 @@ export class SettingsOperation {
 			if (backupData["proxyProfiles"] != null &&
 				Array.isArray(backupData.proxyProfiles)) {
 
-				let restoreRulesResult = restoreProxyProfiles(backupData.proxyRules);
+				let restoreRulesResult = restoreProxyProfiles(backupData.proxyProfiles);
 
 				if (!restoreRulesResult.success)
 					return restoreRulesResult;
@@ -648,6 +648,7 @@ export class SettingsOperation {
 
 
 		} catch (e) {
+			Debug.error('Backup restore failed', e, fileData);
 			return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
 		}
 	}

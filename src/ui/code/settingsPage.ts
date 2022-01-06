@@ -21,7 +21,7 @@ import { environment, browser } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, proxyRulesSubscriptionFormat, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, proxyRulesSubscriptionFormat, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 
@@ -29,8 +29,6 @@ export class settingsPage {
 
 	private static grdServers: any;
 	private static grdServerSubscriptions: any;
-	//private static grdRules: any;	
-	//private static grdRulesSubscriptions: any;
 	private static currentSettings: SettingsConfig;
 	private static pageSmartProfiles: SettingsPageSmartProfile[] = [];
 
@@ -982,13 +980,8 @@ export class settingsPage {
 
 	private static loadSmartProfiles(profiles: SmartProfile[]) {
 		let jq = jQuery;
-		let profileMenuTemplate = jq("#menu-smart-profile");
-		let profileTabTemplate = jq("#tab-smart-profile");
-
-		// let modalModifyRuleTemplate = profileTabTemplate.find("#modalModifyRule").hide();
-		// let modalAddMultipleRulesTemplate = profileTabTemplate.find("#modalAddMultipleRules").hide();
-		// let modalRulesSubscriptionTemplate = profileTabTemplate.find("#modalRulesSubscription").hide();
-		// let modalImportRulesTemplate = profileTabTemplate.find("#modalImportRules").hide();
+		let profileMenuTemplate = jq("#menu-smart-profile").hide();
+		let profileTabTemplate = jq("#tab-smart-profile").hide();
 
 		let lastMenu = profileMenuTemplate;
 		let lastTab = profileTabTemplate;
@@ -996,53 +989,10 @@ export class settingsPage {
 		for (const profile of profiles) {
 			if (!profile.profileTypeConfig.editable)
 				continue;
-			let pageSmartProfile = new SettingsPageSmartProfile();
-			pageSmartProfile.smartProfile = profile;
 
-			let newId = 'smart-profile-' + Utils.getNewUniqueIdNumber();
-			let menuId = 'menu-' + newId;
-			let tabId = 'tab-' + newId;
-			let profileMenu = profileMenuTemplate.clone();
-			let profileTab = profileTabTemplate.clone();
-
-			pageSmartProfile.modalModifyRule = profileTab.find("#modalModifyRule").hide();
-			pageSmartProfile.modalAddMultipleRules = profileTab.find("#modalAddMultipleRules").hide();
-			pageSmartProfile.modalRulesSubscription = profileTab.find("#modalRulesSubscription").hide();
-			pageSmartProfile.modalImportRules = profileTab.find("#modalImportRules").hide();
-
-			pageSmartProfile.htmlProfileMenu = profileMenu;
-			pageSmartProfile.htmlProfileTab = profileTab;
-
-			// menu
-			profileMenu.find("#menu-smart-profile-name").text(profile.profileName);
-			profileMenu.find(".icon").addClass(getSmartProfileTypeIcon(profile.profileType));
-			profileMenu.attr("id", menuId);
-			profileMenu.attr("href", '#' + tabId);
-			profileMenu.addClass('nav-smart-profile-item');
-
-			// tab
-			profileTab.attr("id", tabId).attr('aria-labelledby', menuId);
-			profileTab.addClass('tab-smart-profile-item');
-			profileTab.find("#lblProfileName").html(profile.profileName + ` <i class="fas fa-pencil-alt fa-xs"></i>`);
-			profileTab.find("#txtSmartProfileName").val(profile.profileName);
-			profileTab.find("#lblProfileType").text(settingsPage.getSmartProfileTypeName(profile.profileType));
-			profileTab.find("#lblProfileTypeIcon").addClass(getSmartProfileTypeIcon(profile.profileType));
-			profileTab.find(".label-profile-type-description").hide();
-			profileTab.find(`.label-profile-type-description-for-${SmartProfileType[profile.profileType]}`).show();
-			profileTab.find("#chkSmartProfileEnabled").prop("checked", profile.enabled);
-
-			if (!profile.profileTypeConfig.canBeDisabled) {
-				profileTab.find("#divSmartProfileEnabled").remove();
-			}
-			if (!profile.profileTypeConfig.supportsProfileProxy) {
-				profileTab.find("#divProfileProxyServer").remove();
-			}
-			if (!profile.profileTypeConfig.supportsSubscriptions) {
-				profileTab.find("#divSmartProfileSubscription").remove();
-			}
-			if (!profile.profileTypeConfig.customProxyPerRule) {
-				profileTab.find("#divRuleProxyServer").remove();
-			}
+			let pageSmartProfile = this.createProfileContainer(profile, false);
+			let profileMenu = pageSmartProfile.htmlProfileMenu;
+			let profileTab = pageSmartProfile.htmlProfileTab;
 
 			// -----
 			lastMenu.after(profileMenu);
@@ -1051,20 +1001,177 @@ export class settingsPage {
 			lastTab = profileTab;
 
 			// -----
-			this.initializeSmartProfileGrids(pageSmartProfile);
-			this.bindSmartProfileEvents(pageSmartProfile);
-
-			// NOTE: in this step we only keeping an empty profile proxy combobox
-			this.loadProfileProxyServer(pageSmartProfile, [], []);
-
-			profileMenu.show();
-
-			// -----
 			this.pageSmartProfiles.push(pageSmartProfile);
 		}
-		profileMenuTemplate.hide();
-		profileTabTemplate.hide();
 	}
+
+	private static removePageSmartProfile(removedPageSmartProfile: SettingsPageSmartProfile) {
+		removedPageSmartProfile.modalAddMultipleRules.remove();
+		removedPageSmartProfile.modalAddMultipleRules = null;
+		removedPageSmartProfile.modalImportRules.remove();
+		removedPageSmartProfile.modalImportRules = null;
+		removedPageSmartProfile.modalModifyRule.remove();
+		removedPageSmartProfile.modalModifyRule = null;
+		removedPageSmartProfile.modalRulesSubscription.remove();
+		removedPageSmartProfile.modalRulesSubscription = null;
+
+		removedPageSmartProfile.htmlProfileMenu.remove();
+		removedPageSmartProfile.htmlProfileMenu = null;
+		removedPageSmartProfile.htmlProfileTab.remove();
+		removedPageSmartProfile.htmlProfileTab = null;
+		removedPageSmartProfile.grdRules = null;
+		removedPageSmartProfile.grdRulesSubscriptions = null;
+	}
+
+	private static removeUnsavedProfileAndReload(unsavedPageSmartProfile: SettingsPageSmartProfile, savedProfile: SmartProfile) {
+		// clean up
+		this.removePageSmartProfile(unsavedPageSmartProfile);
+
+		// adding the new one
+		let pageSmartProfile = this.createProfileContainer(savedProfile, false);
+		let profileMenu = pageSmartProfile.htmlProfileMenu;
+		let profileTab = pageSmartProfile.htmlProfileTab;
+
+		//let profileMenuTemplate = jQuery("#menu-smart-profile");
+		let profileTabTemplate = jQuery("#tab-smart-profile");
+		let btnAddNewSmartProfile = jQuery("#btnAddNewSmartProfile");
+		profileTabTemplate.after(profileTab);
+		btnAddNewSmartProfile.before(profileMenu);
+
+		// show the tab now
+		profileMenu.tab('show');
+	}
+
+	private static createNewUnsavedProfile(profileType: SmartProfileType): SettingsPageSmartProfile {
+		let newProfile = new SmartProfile();
+		newProfile.profileType = profileType;
+		newProfile.profileTypeConfig = getUserSmartProfileTypeConfig(profileType);
+		newProfile.profileName = '';
+
+		let pageSmartProfile = this.createProfileContainer(newProfile, true);
+		let profileTab = pageSmartProfile.htmlProfileTab;
+
+		let profileTabTemplate = jQuery("#tab-smart-profile");
+		profileTabTemplate.after(profileTab);
+
+
+		return pageSmartProfile;
+	}
+
+	private static createProfileContainer(profile: SmartProfile, isNewProfile: boolean = false): SettingsPageSmartProfile {
+		let pageSmartProfile = new SettingsPageSmartProfile();
+		pageSmartProfile.smartProfile = profile;
+
+		// tab
+		let newProfileTab = this.createProfileTab(profile, isNewProfile);
+		let tabId = newProfileTab.tabId;
+		let profileTab = newProfileTab.profileTab;
+
+		pageSmartProfile.modalModifyRule = profileTab.find("#modalModifyRule").hide();
+		pageSmartProfile.modalAddMultipleRules = profileTab.find("#modalAddMultipleRules").hide();
+		pageSmartProfile.modalRulesSubscription = profileTab.find("#modalRulesSubscription").hide();
+		pageSmartProfile.modalImportRules = profileTab.find("#modalImportRules").hide();
+
+		pageSmartProfile.htmlProfileTab = profileTab;
+
+		// menu
+		let profileMenu = this.createProfileMenu(profile, tabId);
+
+		pageSmartProfile.htmlProfileMenu = profileMenu;
+
+		// -----
+		this.initializeSmartProfileGrids(pageSmartProfile);
+		this.bindSmartProfileEvents(pageSmartProfile);
+
+		// NOTE: in this step we only keeping an empty profile proxy combobox
+		this.loadProfileProxyServer(pageSmartProfile, [], []);
+
+		if (!isNewProfile)
+			profileMenu.show();
+		profileTab.css('display', '');
+
+		return pageSmartProfile;
+	}
+
+	private static createProfileMenu(profile: SmartProfile, tabId: string) {
+		let profileMenuTemplate = jQuery("#menu-smart-profile");
+
+		let newId = 'smart-profile-' + Utils.getNewUniqueIdNumber();
+		let menuId = 'menu-' + newId;
+		let profileMenu = profileMenuTemplate.clone();
+
+		// menu
+		profileMenu.find("#menu-smart-profile-name").text(profile.profileName);
+		profileMenu.find(".icon").addClass(getSmartProfileTypeIcon(profile.profileType));
+		profileMenu.attr("id", menuId);
+		profileMenu.attr("href", '#' + tabId);
+		profileMenu.addClass('nav-smart-profile-item');
+
+		return profileMenu;
+	}
+
+	private static createProfileTab(profile: SmartProfile, isNewProfile: boolean = false): any {
+		let profileTabTemplate = jQuery("#tab-smart-profile");
+
+		let newId = 'smart-profile-' + Utils.getNewUniqueIdNumber();
+		let tabId = 'tab-' + newId;
+		let profileTab = profileTabTemplate.clone();
+
+		// tab
+		profileTab.attr("id", tabId);
+		profileTab.addClass('tab-smart-profile-item');
+		profileTab.find("#lblProfileName").html(profile.profileName + ` <i class="fas fa-pencil-alt fa-xs"></i>`);
+		profileTab.find("#txtSmartProfileName").val(profile.profileName);
+		profileTab.find("#lblProfileType").text(settingsPage.getSmartProfileTypeName(profile.profileType));
+		profileTab.find("#lblProfileTypeIcon").addClass(getSmartProfileTypeIcon(profile.profileType));
+		profileTab.find(".label-profile-type-description").hide();
+		profileTab.find(`.label-profile-type-description-for-${SmartProfileType[profile.profileType]}`).show();
+		profileTab.find("#chkSmartProfileEnabled").prop("checked", profile.enabled);
+
+		if (isNewProfile) {
+			this.showProfileNameEdit(profileTab);
+		}
+
+		if (isNewProfile ||
+			profile.profileTypeConfig.builtin) {
+			profileTab.find("#btnDeleteSmartProfile").remove();
+		}
+		if (!profile.profileTypeConfig.canBeDisabled) {
+			profileTab.find("#divSmartProfileEnabled").remove();
+		}
+		if (!profile.profileTypeConfig.supportsProfileProxy) {
+			profileTab.find("#divProfileProxyServer").remove();
+		}
+		if (!profile.profileTypeConfig.supportsSubscriptions) {
+			profileTab.find("#divSmartProfileSubscription").remove();
+		}
+		if (!profile.profileTypeConfig.customProxyPerRule) {
+			profileTab.find("#divRuleProxyServer").remove();
+		}
+
+		return {
+			profileTab,
+			tabId
+		};
+	}
+
+	private static showProfileTab(pageProfile: SettingsPageSmartProfile) {
+		let profileTab = pageProfile.htmlProfileTab;
+
+		jQuery("#tabSettingsContent").find('.tab-pane').removeClass('active show')
+		profileTab.css('display', '').tab('show');
+	}
+
+	private static showProfileNameEdit(htmlProfileTab: any) {
+		htmlProfileTab.find("#lblProfileName").hide();
+		htmlProfileTab.find("#txtSmartProfileName").addClass("d-inline").remove("d-none")
+			.focus()
+			.select();
+	}
+	private static selectAddNewProfileMenu() {
+		jQuery('#btnAddNewSmartProfile').tab('show');
+	}
+
 	private static updateProfileMenuName(pageProfile: SettingsPageSmartProfile) {
 		pageProfile.htmlProfileMenu.find("#menu-smart-profile-name").text(pageProfile.smartProfile.profileName);
 	}
@@ -1223,6 +1330,8 @@ export class settingsPage {
 		tabContainer.find("#btnSaveSmartProfile").click(() => settingsPage.uiEvents.onClickSaveSmartProfile(pageProfile));
 
 		tabContainer.find("#btnRejectSmartProfile").click(() => settingsPage.uiEvents.onClickRejectSmartProfile(pageProfile));
+
+		tabContainer.find("#btnDeleteSmartProfile").click(() => settingsPage.uiEvents.onClickDeleteSmartProfile(pageProfile));
 
 		jQuery("#tabSettings").on('shown.bs.tab', (e: any) => {
 			// DataTables columns are not adjusted when hidden, needs to be done manually
@@ -1689,12 +1798,36 @@ export class settingsPage {
 			return false;
 		},
 		onClickAddNewSmartProfile() {
-			// TODO: 
+			let modal = jQuery("#modalAddNewSmartProfile");
+			modal.find("#rbtnNewSmartProfile_SmartRules").prop("checked", true);
 
 		},
 		onClickSubmitContinueAddingProfile() {
-			// TODO: 
-			alert('to-do');
+			let modal = jQuery("#modalAddNewSmartProfile");
+			let profileTypeIsSmartRule = modal.find("#rbtnNewSmartProfile_SmartRules").prop("checked");
+			let profileTypeIsAlwaysEnabled = modal.find("#rbtnNewSmartProfile_AlwaysEnabled").prop("checked");
+
+			let profileType: SmartProfileType;
+
+			if (profileTypeIsSmartRule) {
+				profileType = SmartProfileType.SmartRules;
+			}
+			else if (profileTypeIsAlwaysEnabled) {
+				profileType = SmartProfileType.AlwaysEnabledBypassRules;
+			}
+			else {
+				// Message: Please select a profile type
+				messageBox.error(browser.i18n.getMessage("aaaaaaaaaaaaaaaaaa"));
+				return;
+			}
+
+			let pageSmartProfile = settingsPage.createNewUnsavedProfile(profileType);
+
+			settingsPage.showProfileTab(pageSmartProfile);
+			settingsPage.selectAddNewProfileMenu();
+
+			// ---
+			modal.modal("hide");
 		},
 		onChangeActiveProxyServer() {
 			let proxyServerId = jQuery("#cmbActiveProxyServer").val();
@@ -2271,33 +2404,53 @@ export class settingsPage {
 		},
 		onProfileNameClick(pageProfile: SettingsPageSmartProfile) {
 			let tabContainer = pageProfile.htmlProfileTab;
-			tabContainer.find("#lblProfileName").hide();
-			tabContainer.find("#txtSmartProfileName").addClass("d-inline").remove("d-none")
-				.focus()
-				.select();
+			settingsPage.showProfileNameEdit(tabContainer);
 		},
 		onClickSaveSmartProfile(pageProfile: SettingsPageSmartProfile) {
 
 			let smartProfileModel = settingsPage.readSmartProfile(pageProfile);
 			let smartProfile = pageProfile.smartProfile;
-
 			Object.assign(smartProfile, smartProfileModel);
+
+			debugger;
+			if (smartProfile.profileName.trim() == '') {
+				// Profile name is mandatory
+				messageBox.error(browser.i18n.getMessage("aaaaaaaaaa"));
+				return;
+			}
+
+			if (settingsPage.currentSettings.proxyProfiles.find(x => x.profileName == smartProfile.profileName &&
+				x.profileId != smartProfile.profileId) != null) {
+				// Profile name already exists, please enter another one
+				messageBox.error(browser.i18n.getMessage("aaaaaaaaaa"));
+				return;
+			}
+			debugger;
 
 			PolyFill.runtimeSendMessage(
 				{
 					command: CommandMessages.SettingsPageSaveSmartProfile,
 					smartProfile: smartProfile
 				},
-				(response: ResultHolder) => {
+				(response: any) => {
 					if (!response) return;
 					if (response.success) {
 						if (response.message)
 							messageBox.success(response.message);
+						let updatedProfile = response.smartProfile || smartProfile;
 
 						settingsPage.changeTracking.smartProfiles = false;
 
-						// sync the change to menu
-						settingsPage.updateProfileMenuName(pageProfile);
+						if (smartProfile.profileId) {
+							// sync the change to menu
+							settingsPage.updateProfileMenuName(pageProfile);
+						}
+						else {
+							// unsaved profile
+							settingsPage.currentSettings.proxyProfiles.push(updatedProfile);
+							settingsPage.removeUnsavedProfileAndReload(pageProfile, updatedProfile);
+						}
+
 					} else {
 						if (response.message)
 							messageBox.error(response.message);
@@ -2306,58 +2459,6 @@ export class settingsPage {
 				(error: Error) => {
 					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveSmartProfile") + " " + error.message);
 				});
-			// let rules = settingsPage.readRules(pageProfile);
-
-			// PolyFill.runtimeSendMessage(
-			// 	{
-			// 		command: CommandMessages.SettingsPageSaveProxyRules,
-			// 		proxyRules: rules
-			// 	},
-			// 	(response: ResultHolder) => {
-			// 		if (!response) return;
-			// 		if (response.success) {
-			// 			if (response.message)
-			// 				messageBox.success(response.message);
-
-			// 			// current rules should become equal to saved rules
-			// 			settingsPage.currentSettings.proxyRules = rules;
-
-			// 			settingsPage.changeTracking.rules = false;
-
-			// 		} else {
-			// 			if (response.message)
-			// 				messageBox.error(response.message);
-			// 		}
-			// 	},
-			// 	(error: Error) => {
-			// 		messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveRules") + " " + error.message);
-			// 	});
-
-			// 	let proxyRulesSubscriptions = settingsPage.readRulesSubscriptions(pageProfile);
-			// 	PolyFill.runtimeSendMessage(
-			// 		{
-			// 			command: CommandMessages.SettingsPageSaveProxyRulesSubscriptions,
-			// 			proxyRulesSubscriptions: proxyRulesSubscriptions
-			// 		},
-			// 		(response: any) => {
-			// 			if (!response) return;
-			// 			if (response.success) {
-			// 				if (response.message)
-			// 					messageBox.success(response.message);
-
-			// 				// current list should become equal to saved list
-			// 				settingsPage.currentSettings.proxyRulesSubscriptions = proxyRulesSubscriptions;
-
-			// 				settingsPage.changeTracking.rulesSubscriptions = false;
-
-			// 			} else {
-			// 				if (response.message)
-			// 					messageBox.error(response.message);
-			// 			}
-			// 		},
-			// 		(error: Error) => {
-			// 			messageBox.error(browser.i18n.getMessage("settingsFailedToSaveRulesSubscriptions") + " " + error.message);
-			// 		});			
 		},
 		onClickRejectSmartProfile(pageProfile: SettingsPageSmartProfile) {
 			// // reset the data
@@ -2378,6 +2479,20 @@ export class settingsPage {
 
 			// 	// Changes reverted successfully
 			// 	messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));			
+		},
+		onClickDeleteSmartProfile(pageProfile: SettingsPageSmartProfile) {
+			let profile = pageProfile.smartProfile;
+			if (!profile.profileId)
+				return;
+
+			if (profile.profileTypeConfig.builtin)
+				return;
+
+			// Are you sure to delete this profile? This action cannot be undone!
+			messageBox.confirm(browser.i18n.getMessage("aaaaaaaaaaa"),
+				() => {
+					
+				});
 		},
 		onClickAddServerSubscription() {
 			let modal = jQuery("#modalServerSubscription");
@@ -3102,7 +3217,6 @@ export class settingsPage {
 			CommonUi.downloadData(data, "SmartProxy-FullBackup.json");
 		},
 		onClickRestoreBackup() {
-
 			function callRestoreSettings(fileData: any) {
 				PolyFill.runtimeSendMessage(
 					{
