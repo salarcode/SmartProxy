@@ -122,6 +122,7 @@ export class CommandMessages {
 	public static SettingsPageSaveProxyServers = 'SettingsPage_SaveProxyServers';
 	public static SettingsPageSaveProxySubscriptions = 'SettingsPage_SaveProxySubscriptions';
 	public static SettingsPageSaveSmartProfile = 'SettingsPage_SaveSmartProfile';
+	public static SettingsPageDeleteSmartProfile = 'SettingsPage_DeleteSmartProfile';
 	//public static SettingsPageSaveProxyRules = 'SettingsPage_SaveProxyRules';
 	//public static SettingsPageSaveProxyRulesSubscriptions = 'SettingsPage_SaveProxyRulesSubscriptions';
 	//public static SettingsPageSaveBypass = 'SettingsPage_SaveBypass';

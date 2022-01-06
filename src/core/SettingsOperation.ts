@@ -419,7 +419,7 @@ export class SettingsOperation {
 	public static restoreBackup(fileData: string) {
 		if (fileData == null)
 			return { success: false, message: "Invalid data" };
-debugger;
+
 		function restoreServers(backupServers: any[]) {
 			let upcomingServers: ProxyServer[] = [];
 			for (let backServer of backupServers) {

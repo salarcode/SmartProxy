@@ -1023,6 +1023,17 @@ export class settingsPage {
 		removedPageSmartProfile.grdRulesSubscriptions = null;
 	}
 
+	private static removePageProfileAndReset(pageSmartProfile: SettingsPageSmartProfile) {
+
+		let prevProfileMenu = pageSmartProfile.htmlProfileMenu.prev();
+
+		// clean up
+		this.removePageSmartProfile(pageSmartProfile);
+
+		// show the tab now
+		prevProfileMenu.tab('show');
+	}
+
 	private static removeUnsavedProfileAndReload(unsavedPageSmartProfile: SettingsPageSmartProfile, savedProfile: SmartProfile) {
 		// clean up
 		this.removePageSmartProfile(unsavedPageSmartProfile);
@@ -1155,6 +1166,13 @@ export class settingsPage {
 		};
 	}
 
+	private static updateProfileGridsLayout(pageProfile: SettingsPageSmartProfile) {
+		// DataTables columns are not adjusted when hidden, needs to be done manually
+
+		pageProfile.grdRules.columns.adjust().draw();
+		pageProfile.grdRulesSubscriptions.columns.adjust().draw();
+	}
+
 	private static showProfileTab(pageProfile: SettingsPageSmartProfile) {
 		let profileTab = pageProfile.htmlProfileTab;
 
@@ -1173,7 +1191,8 @@ export class settingsPage {
 	}
 
 	private static updateProfileMenuName(pageProfile: SettingsPageSmartProfile) {
-		pageProfile.htmlProfileMenu.find("#menu-smart-profile-name").text(pageProfile.smartProfile.profileName);
+		pageProfile.htmlProfileMenu.find("#menu-smart-profile-name")
+			.text(pageProfile.smartProfile.profileName);
 	}
 
 	private static loadProfileProxyServer(pageProfile: SettingsPageSmartProfile, proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
@@ -1296,6 +1315,7 @@ export class settingsPage {
 
 	private static bindSmartProfileEvents(pageProfile: SettingsPageSmartProfile) {
 
+		let profileMenu = pageProfile.htmlProfileMenu;
 		let tabContainer = pageProfile.htmlProfileTab;
 
 		tabContainer.find("#lblProfileName").click(() => settingsPage.uiEvents.onProfileNameClick(pageProfile));
@@ -1307,9 +1327,11 @@ export class settingsPage {
 
 		tabContainer.find("#btnSubmitRule").click(() => settingsPage.uiEvents.onClickSubmitProxyRule(pageProfile));
 
-		tabContainer.find("#btnImportRules").click(() => settingsPage.uiEvents.onClickImportRules(pageProfile));
+		tabContainer.find("#btnImportRulesOpen").click(() => settingsPage.uiEvents.onClickImportRulesOpenDialog(pageProfile));
 
 		tabContainer.find("#btnAddProxyRule").click(() => settingsPage.uiEvents.onClickAddProxyRule(pageProfile));
+
+		tabContainer.find("#btnImportRules").click(() => settingsPage.uiEvents.onClickImportRules(pageProfile));
 
 		tabContainer.find("#btnAddProxyMultipleRule").click(() => settingsPage.uiEvents.onClickAddProxyMultipleRule(pageProfile));
 
@@ -1333,12 +1355,13 @@ export class settingsPage {
 
 		tabContainer.find("#btnDeleteSmartProfile").click(() => settingsPage.uiEvents.onClickDeleteSmartProfile(pageProfile));
 
-		jQuery("#tabSettings").on('shown.bs.tab', (e: any) => {
+		pageProfile.grdRules.columns.adjust().draw();
+		pageProfile.grdRulesSubscriptions.columns.adjust().draw();
+
+		profileMenu.on('shown.bs.tab', (e: any) => {
 			// DataTables columns are not adjusted when hidden, needs to be done manually
 
-			// TODO: need to check if we are not overriding the 'shown.bs.tab' event
-			pageProfile.grdRules.columns.adjust().draw();
-			pageProfile.grdRulesSubscriptions.columns.adjust().draw();
+			settingsPage.updateProfileGridsLayout(pageProfile);
 		});
 	}
 
@@ -1424,7 +1447,7 @@ export class settingsPage {
 	private static refreshRulesGridRowElement(pageProfile: SettingsPageSmartProfile, rowElement: any) {
 		if (!rowElement)
 			return;
-
+		debugger;
 		rowElement = jQuery(rowElement);
 
 		rowElement.find("#btnRulesRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesRemoveClick(pageProfile, e));
@@ -1824,6 +1847,7 @@ export class settingsPage {
 			let pageSmartProfile = settingsPage.createNewUnsavedProfile(profileType);
 
 			settingsPage.showProfileTab(pageSmartProfile);
+			settingsPage.updateProfileGridsLayout(pageSmartProfile);
 			settingsPage.selectAddNewProfileMenu();
 
 			// ---
@@ -2114,6 +2138,15 @@ export class settingsPage {
 			modal.modal("show");
 			modal.find("#txtRuleSource").focus();
 		},
+		onClickImportRulesOpenDialog(pageProfile: SettingsPageSmartProfile) {
+			let tabContainer = pageProfile.htmlProfileTab;
+
+			let modal = tabContainer.find("#modalImportRules");
+			modal.data("editing", null);
+
+			modal.modal("show");
+			modal.find("#txtRuleSource").focus();
+		},
 		onChangeRuleGeneratePattern(pageProfile: SettingsPageSmartProfile) {
 			settingsPage.updateProxyRuleModal(pageProfile.htmlProfileTab);
 		},
@@ -2137,6 +2170,7 @@ export class settingsPage {
 				}
 				return true;
 			}
+			debugger;
 
 			if (hostName) {
 				if (!Utils.isValidHost(hostName)) {
@@ -2327,7 +2361,7 @@ export class settingsPage {
 			modal.modal("hide");
 		},
 		onRulesEditClick(pageProfile: SettingsPageSmartProfile, e: any) {
-			let item = settingsPage.readSelectedRule(e);
+			let item = settingsPage.readSelectedRule(pageProfile, e);
 			if (!item)
 				return;
 			let tabContainer = pageProfile.htmlProfileTab;
@@ -2412,7 +2446,6 @@ export class settingsPage {
 			let smartProfile = pageProfile.smartProfile;
 			Object.assign(smartProfile, smartProfileModel);
 
-			debugger;
 			if (smartProfile.profileName.trim() == '') {
 				// Profile name is mandatory
 				messageBox.error(browser.i18n.getMessage("aaaaaaaaaa"));
@@ -2425,7 +2458,6 @@ export class settingsPage {
 				messageBox.error(browser.i18n.getMessage("aaaaaaaaaa"));
 				return;
 			}
-			debugger;
 
 			PolyFill.runtimeSendMessage(
 				{
@@ -2491,7 +2523,28 @@ export class settingsPage {
 			// Are you sure to delete this profile? This action cannot be undone!
 			messageBox.confirm(browser.i18n.getMessage("aaaaaaaaaaa"),
 				() => {
-					
+
+					PolyFill.runtimeSendMessage(
+						{
+							command: CommandMessages.SettingsPageDeleteSmartProfile,
+							smartProfileId: profile.profileId
+						},
+						(response: any) => {
+							if (!response) return;
+							if (response.success) {
+								if (response.message)
+									messageBox.success(response.message);
+
+								settingsPage.removePageProfileAndReset(pageProfile);
+							} else {
+								if (response.message)
+									messageBox.error(response.message);
+							}
+						},
+						(error: Error) => {
+							messageBox.error(browser.i18n.getMessage("settingsaaaaaaaa") + " " + error.message);
+						});
+
 				});
 		},
 		onClickAddServerSubscription() {

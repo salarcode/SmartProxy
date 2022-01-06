@@ -360,6 +360,41 @@ export class Core {
 				}
 				return;
 			}
+			case CommandMessages.SettingsPageDeleteSmartProfile: {
+				if (!message.smartProfileId)
+					return;
+
+				let smartProfileId: string = message.smartProfileId;
+				let deleteResult = ProfileOperations.deleteProfile(smartProfileId);
+
+				if (deleteResult.success) {
+					SettingsOperation.saveSmartProfiles();
+					SettingsOperation.saveAllSync();
+
+					Settings.updateActiveSettings();
+					// notify
+					ProxyEngine.updateBrowsersProxyConfig();
+
+					if (sendResponse) {
+						sendResponse({
+							success: true,
+							// The profile is removed successfully
+							message: browser.i18n.getMessage('settingsAAAAAaaaaa'),
+						});
+					}
+				}
+				else {
+					if (sendResponse) {
+						sendResponse({
+							success: false,
+							// Failed to delete the selected profile.
+							message: deleteResult.message ||
+								browser.i18n.getMessage('settingsAAAAAaaaaa'),
+						});
+					}
+				}
+				return;
+			}
 
 			// case CommandMessages.SettingsPageSaveProxyRules: {
 			// 	if (!message.proxyRules)

@@ -1,6 +1,6 @@
 import { Debug } from "../lib/Debug";
 import { Utils } from "../lib/Utils";
-import { CompiledProxyRulesInfo, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
+import { CompiledProxyRulesInfo, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { Settings } from "./Settings";
 import { SettingsOperation } from "./SettingsOperation";
@@ -22,6 +22,32 @@ export class ProfileOperations {
 		settings.proxyProfiles.push(smartProfile);
 	}
 
+	public static deleteProfile(smartProfileId: string): ResultHolder {
+		let result = new ResultHolder();
+		let settings = Settings.current;
+
+		let existingProfileIndex = ProfileOperations.findSmartProfileIndexById(smartProfileId, settings.proxyProfiles);
+		if (existingProfileIndex == -1) {
+			Debug.warn(`deleteProfile failed for profile id = ${smartProfileId}`);
+			result.success = false;
+
+			// Failed to delete the selected profile.
+			result.message = browser.i18n.getMessage('aaaaa');
+			return result;
+		}
+		let existingProfile = settings.proxyProfiles[existingProfileIndex];
+		if (existingProfile.profileTypeConfig.builtin) {
+			result.success = false;
+
+			// Cannot delete built in profiles
+			result.message = browser.i18n.getMessage('aaaaa');
+			return result;
+		}
+		settings.proxyProfiles.splice(existingProfileIndex, 1);
+
+		result.success = true;
+		return result;
+	}
 
 	public static profileTypeSupportsRules(profileType: SmartProfileType): boolean {
 		switch (profileType) {
@@ -63,6 +89,9 @@ export class ProfileOperations {
 
 	public static findSmartProfileById(id: string, profiles: SmartProfile[]): SmartProfile | null {
 		return profiles.find((a) => a.profileId === id);
+	}
+	static findSmartProfileIndexById(id: string, profiles: SmartProfile[]): number {
+		return profiles.findIndex((a) => a.profileId === id);
 	}
 
 	public static compileSmartProfile(profile: SmartProfile): SmartProfileCompiled {
