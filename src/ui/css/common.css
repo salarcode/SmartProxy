@@ -129,7 +129,13 @@ input:invalid {
 .has-list-with-muted-help li > small {
 	color: gray;
 }
-
+.form-switch .form-check-input {
+	border-radius: 2em;
+}
+.fa-stack.fa-stack-no-margin {
+	margin: -6px -7px 0 -6px;
+	transform: scale(0.9);
+}
 /* ============================== */
 /* Settings page styles */
 /* ------------------------------ */

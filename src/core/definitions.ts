@@ -23,7 +23,6 @@ export const proxyServerProtocols = ['HTTP', 'HTTPS', 'SOCKS4', 'SOCKS5'];
 export const proxyServerSubscriptionObfuscate = ['None', 'Base64'];
 export const proxyServerSubscriptionFormat = ['PlainText', 'JSON'];
 export const specialRequestApplyProxyModeKeys = ['NoProxy', 'CurrentProxy' /* , "SelectedProxy" */];
-export const proxyRulesSubscriptionFormat = ['AutoProxy/GFWList', 'SwitchyOmega (beta)'];
 export const proxyRulesActionTypes = [
 	browser.i18n.getMessage('settingsRuleActionApplyProxy'),
 	browser.i18n.getMessage('settingsRuleActionWhitelist'),

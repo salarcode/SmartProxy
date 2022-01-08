@@ -46,55 +46,55 @@
 				</h2>
 				<br class="d-none d-md-inline-block" />
 				<div class="nav flex-column nav-pills interactive" id="tabSettings" role="tablist">
-					<a class="nav-link active" id="tab-about-tab" data-toggle="pill" href="#tab-about" role="tab"
+					<a class="nav-link active" id="tab-about-tab" data-bs-toggle="pill" href="#tab-about" role="tab"
 						aria-controls="tab-about" aria-expanded="true">
 						<i class="fas fa-cog fa-lg text-primary" aria-hidden="true"></i>
 						<span data-localize="settingsTabAbout">About</span>
 					</a>
-					<a class="nav-link" id="tab-general-tab" data-toggle="pill" href="#tab-general" role="tab"
+					<a class="nav-link" id="tab-general-tab" data-bs-toggle="pill" href="#tab-general" role="tab"
 						aria-controls="tab-general" aria-expanded="true">
 						<i class="fas fa-wrench fa-lg text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabGeneral">General Options</span>
 					</a>
-					<a class="nav-link" id="tab-servers-tab" data-toggle="pill" href="#tab-servers" role="tab"
+					<a class="nav-link" id="tab-servers-tab" data-bs-toggle="pill" href="#tab-servers" role="tab"
 						aria-controls="tab-servers" aria-expanded="true">
 						<i class="fas fa-server fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServers">Proxy Servers</span>
 					</a>
-					<a class="nav-link" id="tab-server-subscriptions-tab" data-toggle="pill"
+					<a class="nav-link" id="tab-server-subscriptions-tab" data-bs-toggle="pill"
 						href="#tab-server-subscriptions" role="tab" aria-controls="tab-server-subscriptions"
 						aria-expanded="true">
 						<i class="fas fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
 					</a>
-					<a class="nav-link disabled" id="tab-rules-tab" data-toggle="pill" role="tab"
+					<a class="nav-link disabled" id="tab-rules-tab" data-bs-toggle="pill" role="tab"
 						aria-controls="tab-rules" aria-expanded="true">
-						<span class="fa-stack text-warning fa-sm">
+						<span class="fa-stack-no-margin fa-stack text-warning fa-sm">
 							<i class="fas fa-square fa-stack-2x"></i>
 							<i class="fas fa-tasks fa-stack-1x fa-inverse"></i>
 						</span>
 						<span data-localize="settingsTabAAAAAAAAAAAAAAAA">Smart Profiles</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile" id="menu-smart-profile" data-toggle="pill"
+					<a class="nav-link nav-smart-profile" id="menu-smart-profile" data-bs-toggle="pill"
 						href="#tab-smart-profile" role="tab" aria-controls="tab-rules" aria-expanded="true">
 						<!--Smart Profile template-->
 						<i class="icon fa-lg" aria-hidden="true"></i>
 						<span id="menu-smart-profile-name">{profile-name}</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile mb-2" id="btnAddNewSmartProfile" data-toggle="modal"
-						data-target="#modalAddNewSmartProfile" href="#new-smart-profile">
+					<a class="nav-link nav-smart-profile mb-2" id="btnAddNewSmartProfile" data-bs-toggle="modal"
+						data-bs-target="#modalAddNewSmartProfile" href="#new-smart-profile">
 						<i class="fas fa-folder-plus fa-lg text-info" aria-hidden="true"></i>
 						<span data-localize="settingsTabAAAAAAAAAAAAAAAA">Add new Smart Profile</span>
 					</a>
 
-					<a class="nav-link" id="tab-backup-tab" data-toggle="pill" href="#tab-backup" role="tab"
+					<a class="nav-link" id="tab-backup-tab" data-bs-toggle="pill" href="#tab-backup" role="tab"
 						aria-controls="tab-backup" aria-expanded="true">
 						<i class="fas fa-life-ring text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
 					</a>
-					<a class="nav-link" id="divUpdateIsAvailable" style="display: none" data-toggle="pill"
+					<a class="nav-link" id="divUpdateIsAvailable" style="display: none" data-bs-toggle="pill"
 						href="#tab-update" role="tab" aria-controls="tab-update" aria-expanded="true">
 						<i class="fas fa-star fa-lg text-danger" aria-hidden="true"></i>
 						<span>Update text</span>
@@ -186,8 +186,8 @@
 						<hr class="afshin-line" />
 						<div>
 							<h3 data-localize="settingsGeneralSmartFeatures">Smart Features</h3>
-							<label class="ml-2 mr-2">
-								<input id="chkProxyPerOrigin" checked type="checkbox" class="browser-style" />
+							<label class="mx-2">
+								<input id="chkProxyPerOrigin" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralProxyPerOrigin">Enable proxy per tab/origin</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralProxyPerOriginDesc">
 									If one of the rules matched the origin/the main url of the tab and that proxy is
@@ -207,9 +207,8 @@
 									<strong>Firefox only!</strong> Unfortunately this feature is not supported by
 									Chrome.
 								</span>
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
+								<button type="button" class="btn-close" data-dismiss="alert"
+									aria-label="Close"></button>
 							</div>
 							<div class="card-group" style="max-width: 35rem;">
 								<div class="card">
@@ -233,8 +232,8 @@
 						<div>
 							<hr class="afshin-line" />
 							<h3 data-localize="settingsGeneralSyncing">Syncing</h3>
-							<label class="ml-2 mr-2">
-								<input id="chkSyncSettings" checked type="checkbox" class="browser-style" />
+							<label class="mx-2">
+								<input id="chkSyncSettings" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralEnableSyncing">Enable settings syncing</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralEnableSyncingDesc">
 									By enabling syncing, your all settings including rules, servers and subscriptions
@@ -243,16 +242,16 @@
 								</div>
 							</label>
 							<br>
-							<label class="ml-4 mr-4">
-								<input id="chkSyncProxyMode" checked type="checkbox" class="browser-style" />
+							<label class="mx-4">
+								<input id="chkSyncProxyMode" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralSyncProxyMode">Enable syncing proxy-mode</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralSyncProxyModeDesc">
 									Check if you want the proxy activation mode to be synced.
 								</div>
 							</label>
 							<br>
-							<label class="ml-4 mr-4">
-								<input id="chkSyncActiveProxy" checked type="checkbox" class="browser-style" />
+							<label class="mx-4">
+								<input id="chkSyncActiveProxy" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralSyncActiveProxy">Enable syncing active proxy</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralSyncActiveProxyDesc">
 									Check if you want the selected proxy server to be synced
@@ -262,15 +261,15 @@
 						<div>
 							<hr class="afshin-line" />
 							<h3 data-localize="settingsGeneralErrorDetection">Error Detection</h3>
-							<label class="ml-2 mr-2">
-								<input id="chkDetectRequestFailures" checked type="checkbox" class="browser-style" />
+							<label class="mx-2">
+								<input id="chkDetectRequestFailures" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralDetectFailures">Detect request failures</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralDetectFailuresDesc">
 									Request failures detection will help you identify the domains that needs proxy.
 								</div>
 							</label>
 							<br>
-							<label class="ml-2 mr-2">
+							<label class="mx-2">
 								<span data-localize="settingsGeneralIgnoreRequestFailuresForDomains">Ignore failure
 									detection for these domains</span>
 								<button id="btnIgnoreRequestFailuresForDomains" class="btn btn-sm btn-outline-secondary"
@@ -282,17 +281,17 @@
 								</div>
 							</label>
 							<br>
-							<label class="ml-2 mr-2">
-								<input id="chkDisplayFailedOnBadge" checked type="checkbox" class="browser-style" />
+							<label class="mx-2">
+								<input id="chkDisplayFailedOnBadge" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralDisplayFailedOnBadge">Display failed requests count
-									on toolabr icon badge</span>
+									on toolbar icon badge</span>
 							</label>
 						</div>
 						<div>
 							<hr class="afshin-line" />
 							<h3 data-localize="settingsGeneralOtherSettings">Other Settings</h3>
-							<label class="ml-2 mr-2">
-								<input id="chkEnableShortcuts" checked type="checkbox" class="browser-style" />
+							<label class="mx-2">
+								<input id="chkEnableShortcuts" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralEnableShortcuts">Enable Shortcuts</span>
 								<div class="form-text text-muted">
 									<span data-localize="settingsGeneralEnableShortcutsDesc">You can configure shortcuts
@@ -302,15 +301,15 @@
 								</div>
 							</label>
 							<br>
-							<label class="ml-4 mr-4">
-								<input id="chkShortcutNotification" checked type="checkbox" class="browser-style" />
+							<label class="mx-4">
+								<input id="chkShortcutNotification" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralShortcutNotification">Enable shortcut
 									notification</span>
 							</label>
 							<br>
-							<label class="ml-2 mr-2">
+							<label class="mx-2">
 								<input id="chkDisplayAppliedProxyOnBadge" checked type="checkbox"
-									class="browser-style" />
+									class="form-check-input" />
 								<span data-localize="settingsGeneralDisplayAppliedProxyOnBadge">Display applied proxy on
 									badge</span>
 							</label>
@@ -340,7 +339,7 @@
 						</h5>
 						<div class="row mb-3">
 							<div class="col-6">
-								<select id="cmbActiveProxyServer" class="form-control custom-select">
+								<select id="cmbActiveProxyServer" class="form-select">
 									<option value="0">(Select)</option>
 								</select>
 							</div>
@@ -354,13 +353,14 @@
 							toolbar.
 						</p>
 						<p>
-						<div class="float-left">
+						<div class="float-start">
 							<button id="btnAddProxyServer" class="btn btn-info"
 								data-localize="settingsAddServerButton">Add Server</button>
 						</div>
-						<div class="float-right">
-							<button id="btnImportProxyServerOpen" type="button" class="btn btn-info" data-toggle="modal"
-								data-target="#modalImportProxyServer" data-localize="settingsImportProxiesButton">
+						<div class="float-end">
+							<button id="btnImportProxyServerOpen" type="button" class="btn btn-info"
+								data-bs-toggle="modal" data-bs-target="#modalImportProxyServer"
+								data-localize="settingsImportProxiesButton">
 								Import Proxies
 							</button>
 							<button id="btnExportProxyServerOpen" type="button" class="btn btn-info"
@@ -373,7 +373,7 @@
 						<table id="grdServers" class="table table-striped table-bordered table-hover"></table>
 
 						<p class="mt-4">
-						<div class="float-left">
+						<div class="float-start">
 							<button id="btnSaveProxyServers" class="btn btn-primary">
 								<span data-localize="settingsSaveChangesButton">Save Changes</span>
 							</button>
@@ -381,7 +381,7 @@
 								<span data-localize="settingsRejectChangesButton">Reject Changes</span>
 							</button>
 						</div>
-						<div class="float-right">
+						<div class="float-end">
 							<button id="btnClearProxyServers" class="btn btn-outline-danger"
 								title="Clear the servers list">
 								<i class="fas fa-trash" aria-hidden="true"></i>
@@ -398,10 +398,10 @@
 							<a id="lblProfileName" href="#">{profile-name} <i class="fas fa-pencil-alt"></i></a>
 							<input id="txtSmartProfileName" class="form-control d-none w-auto"
 								placeholder="Name used in menu" required />
-							<div class="float-right" id="divSmartProfileEnabled">
+							<div class="float-end" id="divSmartProfileEnabled">
 								<div class="form-check form-switch">
-									<label class="form-check-label">
-										Enabled
+									<label class="fs-5 form-check-label">
+										<span data-localize="aaaaaaaaaaaaaaaa" class="user-select-none">Enabled</span>
 										<input class="form-check-input" type="checkbox" role="switch" checked
 											id="chkSmartProfileEnabled">
 									</label>
@@ -415,11 +415,12 @@
 							<span id="lblProfileType">{profile-type}</span>
 						</h5>
 						<p id="label-profile-rules-description">
-							<span class="label-profile-type-description label-profile-type-description-for-SmartRules">
+							<span class="label-profile-type-description label-profile-type-description-for-SmartRules"
+								data-localize="aaaaaaaaaaaaaaaa">
 								In this profile no proxy is applied unless you define smart rules. You will define black
 								listed rules or in other words rules to apply proxy.
 							</span>
-							<span
+							<span data-localize="aaaaaaaaaaaaaaaa"
 								class="label-profile-type-description label-profile-type-description-for-AlwaysEnabledBypassRules">
 								In this profile proxy servers are always applied define smart rules and skip them. You
 								will
@@ -433,7 +434,7 @@
 							</h5>
 							<div class="row mb-3">
 								<div class="col-6">
-									<select id="cmbProfileProxyServer" class="form-control custom-select">
+									<select id="cmbProfileProxyServer" class="form-select">
 										<option value="0">(Use Default Proxy Server)</option>
 									</select>
 									<span class="form-text text-muted small" data-localize="aaaaaaaaaaaaaaaa">(While
@@ -447,16 +448,16 @@
 							<span data-localize="aaaaaaaaaaaaaaaa">Rules</span>
 						</h5>
 						<p>
-						<div class="float-left">
+						<div class="float-start">
 							<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">Add
 								Rule</button>
 							<button id="btnAddProxyMultipleRule" type="button" class="btn btn-info"
-								data-localize="settingsAddMultipleRulesButton" data-target="#modalAddMultipleRules">
+								data-localize="settingsAddMultipleRulesButton" data-bs-target="#modalAddMultipleRules">
 								Add Multiple Rules
 							</button>
 						</div>
-						<div class="float-right">
-							<button id="btnImportRulesOpen" type="button" class="btn btn-info" data-toggle="modal"
+						<div class="float-end">
+							<button id="btnImportRulesOpen" type="button" class="btn btn-info" data-bs-toggle="modal"
 								data-targetX="#modalImportRules" data-localize="settingsImportRulesButton">
 								Import Rules
 							</button>
@@ -464,7 +465,7 @@
 						<div class="clearfix"></div>
 						</p>
 						<table id="grdRules" class="table table-striped table-bordered table-hover"></table>
-						<div class="float-right">
+						<div class="float-end">
 							<button id="btnClearProxyRules" class="btn btn-outline-danger" title="Clear all the rules">
 								<i class="fas fa-trash" aria-hidden="true"></i>
 							</button>
@@ -481,7 +482,7 @@
 								Here you can subscribe to rules lists.
 							</p>
 							<p>
-							<div class="float-left">
+							<div class="float-start">
 								<button id="btnAddRulesSubscription" class="btn btn-info"
 									data-localize="settingsAddRulesSubscriptionButton">
 									Subscribe to a rules list
@@ -491,7 +492,7 @@
 							</p>
 							<table id="grdRulesSubscriptions" class="table table-striped table-bordered table-hover">
 							</table>
-							<div class="float-right">
+							<div class="float-end">
 								<button id="btnClearRulesSubscriptions" class="btn btn-outline-danger"
 									title="Clear all the subscriptions">
 									<i class="fas fa-trash" aria-hidden="true"></i>
@@ -502,7 +503,7 @@
 						<p class="mt-2">
 						<div class="position-sticky-bottom">
 							<div class="sticky-save-buttons-bar">
-								<div class="float-left">
+								<div class="float-start">
 									<button id="btnSaveSmartProfile" class="btn btn-primary">
 										<span data-localize="settingsSaveChangesButton">Save Changes</span>
 									</button>
@@ -510,7 +511,7 @@
 										<span data-localize="settingsRejectChangesButton">Reject Changes</span>
 									</button>
 								</div>
-								<div class="float-right">
+								<div class="float-end">
 									<button id="btnDeleteSmartProfile" class="btn btn-outline-danger">
 										<i class="fas fa-trash" aria-hidden="true"></i>
 										<span data-localize="aaaaaaaaaaaaaaaa">Delete</span>
@@ -530,15 +531,15 @@
 										<div class="modal-header">
 											<h4 class="modal-title" id="modalModifyRuleLabel"
 												data-localize="settingsRulesModalTitle">Rule Details</h4>
-											<button type="button" class="close" data-dismiss="modal"
-												aria-label="Close"><span aria-hidden="true">&times;</span></button>
+											<button type="button" class="btn-close" data-bs-dismiss="modal"
+												aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-											<div class="row">
+											<div class="row mb-3">
 												<div class="form-group col-sm-6">
-													<label for="txtRuleMatchPattern"
+													<label for="txtRuleMatchPattern" class="form-label"
 														data-localize="settingsRulesRuleType">Rule Type</label>
-													<select id="cmdRuleType" class="form-control custom-select">
+													<select id="cmdRuleType" class="form-select">
 														<option value="0">Host wildcard (Match Pattern)</option>
 														<option value="1">Url wildcard (Match Pattern)</option>
 														<option value="2">Host regex</option>
@@ -549,17 +550,15 @@
 												</div>
 												<div class="form-group col-sm-6">
 													<br />
-													<div class="custom-control custom-checkbox">
-														<input type="checkbox" class="custom-control-input"
-															id="chkRuleEnabled">
-														<label class="custom-control-label" for="chkRuleEnabled"
-															data-localize="settingsRulesEnabled">Enabled</label>
-													</div>
+													<label class="form-check-label mt-2">
+														<input class="form-check-input" type="checkbox" id="chkRuleEnabled">
+														<span data-localize="settingsRulesEnabled" class="user-select-none">Enabled</span>
+													</label>
 												</div>
 											</div>
-											<div class="row">
+											<div class="row mb-3">
 												<div class="form-group col-sm-6">
-													<label for="txtRuleSource"
+													<label for="txtRuleSource" class="form-label"
 														data-localize="settingsRulesSourceDomain">Rule Source
 														Domain</label>
 													<input type="text" id="txtRuleSource" class="form-control"
@@ -570,52 +569,49 @@
 												</div>
 												<div class="form-group col-sm-6" id="divRuleGeneratePattern">
 													<br />
-													<div class="custom-control custom-checkbox">
-														<input checked type="checkbox" class="custom-control-input"
-															id="chkRuleGeneratePattern">
-														<label class="custom-control-label" for="chkRuleGeneratePattern"
-															data-localize="settingsRulesGeneratePattern">
-															Generate pattern automatically</label>
-													</div>
+													<label class="form-check-label mt-2 text-nowrap">
+														<input class="form-check-input" type="checkbox" id="chkRuleGeneratePattern">
+														<span data-localize="settingsRulesGeneratePattern" class="user-select-none">Generate pattern automatically</span>
+													</label>
 												</div>
 											</div>
-											<div class="row" id="divRuleMatchPattern">
-												<div class="form-group col-sm-12">
-													<label for="txtRuleMatchPattern"
+											<div class="row mb-3" id="divRuleMatchPattern">
+												<div class="form-group col">
+													<label for="txtRuleMatchPattern" class="form-label"
 														data-localize="settingsRulesPattern">Match Pattern</label>
 													<input disabled type="text" id="txtRuleMatchPattern"
 														class="form-control" />
 												</div>
 											</div>
-											<div class="row" id="divRuleUrlRegex">
-												<div class="form-group col-sm-12">
-													<label for="txtRuleUrlRegex" data-localize="settingsRulesRegex">Url
-														Regex</label>
+											<div class="row mb-3" id="divRuleUrlRegex">
+												<div class="form-group col">
+													<label for="txtRuleUrlRegex" data-localize="settingsRulesRegex"
+														class="form-label">
+														Url Regex</label>
 													<input type="text" id="txtRuleUrlRegex" class="form-control" />
 												</div>
 											</div>
-											<div class="row" id="divRuleUrlExact">
-												<div class="form-group col-sm-12">
-													<label for="txtRuleUrlExact"
-														data-localize="settingsRulesExactUrl">Exact
-														Url</label>
+											<div class="row mb-3" id="divRuleUrlExact">
+												<div class="form-group col">
+													<label for="txtRuleUrlExact" class="form-label"
+														data-localize="settingsRulesExactUrl">
+														Exact Url</label>
 													<input type="url" id="txtRuleUrlExact" class="form-control" />
 												</div>
 											</div>
 											<div class="row">
 												<div class="form-group col-sm-6" id="divRuleProxyServer">
-													<label for="cmdRuleProxyServer"
+													<label for="cmdRuleProxyServer" class="form-label"
 														data-localize="settingsRulesProxyServer">Proxy Server</label>
-													<select id="cmdRuleProxyServer"
-														class="form-control custom-select"></select>
+													<select id="cmdRuleProxyServer" class="form-select"></select>
 													<span class="form-text text-muted small chrome-only"
 														data-localize="settingsRulesProxyServerNotAuth">
 														(Servers with authentication are not supported in Chrome)</span>
 												</div>
 												<div class="form-group col-sm-6">
-													<label for="cmdRuleAction"
+													<label for="cmdRuleAction" class="form-label"
 														data-localize="settingsRulesActionType">Action</label>
-													<select id="cmdRuleAction" class="form-control custom-select">
+													<select id="cmdRuleAction" class="form-select">
 														<option value="0" data-localize="settingsRuleActionApplyProxy">
 															Apply Proxy</option>
 														<option value="1" data-localize="settingsRuleActionWhitelist">
@@ -627,7 +623,7 @@
 										<div class="modal-footer">
 											<button type="button" id="btnSubmitRule" class="btn btn-primary"
 												data-localize="settingsRulesModalSave">Save</button>
-											<button type="button" class="btn btn-secondary" data-dismiss="modal"
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 												data-localize="settingsRulesModalCancel">Cancel</button>
 										</div>
 									</div>
@@ -642,14 +638,15 @@
 									<div class="modal-header">
 										<h4 class="modal-title" id="modalModifyRuleLabel"
 											data-localize="settingsAddMultipleRuleTitle">Add Multiple Rules</h4>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
 									</div>
 									<div class="modal-body">
-										<div class="form-group">
-											<label for="txtRuleMatchPattern" data-localize="settingsRulesRuleType">Rule
-												Type</label>
-											<select id="cmdMultipleRuleType" class="form-control custom-select">
+										<div class="form-group mb-3">
+											<label for="txtRuleMatchPattern" data-localize="settingsRulesRuleType"
+												class="form-label">
+												Rule Type</label>
+											<select id="cmdMultipleRuleType" class="form-select">
 												<option value="0">Host wildcard (Match Pattern)</option>
 												<option value="1">Url wildcard (Match Pattern)</option>
 												<!-- <option value="2">Host regex</option>
@@ -658,7 +655,7 @@
 											</select>
 										</div>
 										<div class="form-group">
-											<label for="txtMultipleRuleList"
+											<label for="txtMultipleRuleList" class="form-label"
 												data-localize="settingsMultipleRuleList">Host/Rule list:</label>
 											<textarea class="form-control direction-ltr" id="txtMultipleRuleList"
 												rows="10"></textarea>
@@ -669,7 +666,7 @@
 									<div class="modal-footer">
 										<button type="button" id="btnSubmitMultipleRule" class="btn btn-primary"
 											data-localize="settingsRulesModalSave">Save</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal"
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 											data-localize="settingsRulesModalCancel">Cancel</button>
 									</div>
 								</div>
@@ -684,27 +681,27 @@
 										<h4 class="modal-title" id="modalRulesSubscriptionLabel"
 											data-localize="settingsRulesSubscriptionsModalTitle">
 											Subscribe to a rules list</h4>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
 									</div>
 									<div class="modal-body">
-										<div class="form-group">
-											<label for="txtName"
+										<div class="form-group mb-3">
+											<label for="txtName" class="form-label"
 												data-localize="settingsRulesSubscriptionsName">Name:</label>
 											<input type="text" class="form-control" id="txtName" placeholder="Name"
 												required>
 										</div>
-										<div class="form-group">
-											<label for="txtUrl"
+										<div class="form-group mb-3">
+											<label for="txtUrl" class="form-label"
 												data-localize="settingsRulesSubscriptionsUrl">Url:</label>
 											<input type="url" class="form-control direction-ltr" id="txtUrl"
 												placeholder="Url" checked required>
 										</div>
-										<div class="row">
+										<div class="row mb-3">
 											<div class="form-group col-sm-6">
-												<label for="numRefreshRate"
-													data-localize="settingsRulesSubscriptionsRefreshRate">Refresh
-													Rate:</label>
+												<label for="numRefreshRate" class="form-label"
+													data-localize="settingsRulesSubscriptionsRefreshRate">
+													Refresh Rate:</label>
 												<input type="number" min="0" class="form-control" id="numRefreshRate"
 													placeholder="Refresh rate in minutes" required>
 												<span data-localize="settingsRulesSubscriptionsRefreshRateHelp"
@@ -713,35 +710,34 @@
 											</div>
 											<div class="form-group col-sm-6">
 												<br />
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input"
-														id="chkRulesSubscriptionEnabled" checked>
-													<label class="custom-control-label"
-														for="chkRulesSubscriptionEnabled"
-														data-localize="settingsRulesSubscriptionEnabled">Enabled</label>
-												</div>
+												<label class="form-check-label mt-2">
+													<input class="form-check-input" type="checkbox" id="chkRulesSubscriptionEnabled">
+													<span data-localize="settingsRulesSubscriptionEnabled" class="user-select-none">Enabled</span>
+												</label>
 											</div>
 										</div>
-										<div class="row">
+										<div class="row mb-3">
 											<div class="form-group col-sm-6">
-												<label for="cmbRulesSubscriptionObfuscation"
+												<label for="cmbRulesSubscriptionObfuscation" class="form-label"
 													data-localize="settingsRulesSubscriptionsObfuscation">Obfuscation:</label>
-												<select class="form-control" id="cmbRulesSubscriptionObfuscation"
+												<select class="form-select" id="cmbRulesSubscriptionObfuscation"
 													required></select>
 											</div>
 											<div class="form-group col-sm-6">
-												<label for="cmbRulesSubscriptionFormat"
+												<label for="cmbRulesSubscriptionFormat" class="form-label"
 													data-localize="settingsRulesSubscriptionsFormat">Format:</label>
-												<select class="form-control" id="cmbRulesSubscriptionFormat"
-													required></select>
+												<select class="form-select" id="cmbRulesSubscriptionFormat" required>
+													<option value="0">AutoProxy/GFWList</option>
+													<option value="1">SwitchyOmega (beta)</option>
+												</select>
 											</div>
 										</div>
-										<div class="row">
+										<div class="row mb-3">
 											<div class="form-group col-sm-6">
-												<label for="cmbRulesSubscriptionApplyProxy"
-													data-localize="settingsRulesSubscriptionsApplyProxy">Pass through
-													proxy:</label>
-												<select class="form-control" id="cmbRulesSubscriptionApplyProxy"
+												<label for="cmbRulesSubscriptionApplyProxy" class="form-label"
+													data-localize="settingsRulesSubscriptionsApplyProxy">
+													Pass through proxy:</label>
+												<select class="form-select" id="cmbRulesSubscriptionApplyProxy"
 													required></select>
 												<small data-localize="settingsRulesSubscriptionsApplyProxyHelpFirefox"
 													class="form-text text-muted firefox-only">
@@ -756,7 +752,7 @@
 										</div>
 										<div class="row">
 											<div class="form-group col-sm-6">
-												<label for="cmbRulesSubscriptionUsername"
+												<label for="cmbRulesSubscriptionUsername" class="form-label"
 													data-localize="settingsRulesSubscriptionsUsername">Username:</label>
 												<input type="text" class="form-control"
 													id="cmbRulesSubscriptionUsername">
@@ -765,7 +761,7 @@
 													(if the list requires authentication)</span>
 											</div>
 											<div class="form-group col-sm-6">
-												<label for="cmbRulesSubscriptionPassword"
+												<label for="cmbRulesSubscriptionPassword" class="form-label"
 													data-localize="settingsRulesSubscriptionsPassword">Password:</label>
 												<input type="password" class="form-control"
 													id="cmbRulesSubscriptionPassword" />
@@ -774,18 +770,18 @@
 									</div>
 									<div class="modal-footer">
 										<div class="fullwidth">
-											<div class="float-left">
+											<div class="float-start">
 												<button type="button" id="btnTestRulesSubscriptions"
 													class="btn btn-secondary"
 													data-localize="settingsRulesSubscriptionsTestButton">Test</button>
 											</div>
-											<div class="float-right">
+											<div class="float-end">
 												<button type="button" id="btnSaveRulesSubscriptions"
 													class="btn btn-primary"
 													data-localize="settingsRulesSubscriptionsSaveButton">
 													Save
 												</button>
-												<button type="button" class="btn btn-secondary" data-dismiss="modal"
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 													data-localize="settingsRulesSubscriptionsCancelButton">Cancel</button>
 											</div>
 										</div>
@@ -802,35 +798,35 @@
 									<div class="modal-header">
 										<h4 class="modal-title" id="modalImportRulesLabel"
 											data-localize="settingsImportRulesTitle">Import Rules</h4>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
 									</div>
 									<div class="modal-body">
-										<div class="form-group">
-											<label for="btnImportRulesSelectFile"
+										<div class="form-group mb-3">
+											<label for="btnImportRulesSelectFile" class="form-label"
 												data-localize="settingsImportRulesSelectButton">Rule Backup File</label>
 											<input type="file" id="btnImportRulesSelectFile" class="form-control" />
 										</div>
-										<div class="form-group">
-											<label for="cmbImportRulesFormat"
+										<div class="form-group mb-3">
+											<label for="cmbImportRulesFormat" class="form-label"
 												data-localize="settingsImportRulesFrom">From</label>
-											<select id="cmbImportRulesFormat" class="form-control custom-select">
+											<select id="cmbImportRulesFormat" class="form-select">
 												<!--<option value="">(Please select)</option>-->
 												<option value="autoproxy">AutoProxy</option>
 											</select>
 										</div>
 
 										<div class="radio">
-											<label>
-												<input checked type="radio" id="cmbImportRulesOverride_Append"
+											<label class="form-label">
+												<input checked type="radio" id="cmbImportRulesOverride_Append" class="form-check-input"
 													name="cmbImportRulesOverride" />
 												<span data-localize="settingsImportRulesOptionAppend">Append to existing
 													rules</span>
 											</label>
 										</div>
 										<div class="radio">
-											<label>
-												<input type="radio" id="cmbImportRulesOverride_Replace"
+											<label class="form-label">
+												<input type="radio" id="cmbImportRulesOverride_Replace" class="form-check-input"
 													name="cmbImportRulesOverride" />
 												<span data-localize="settingsImportRulesOptionOverride">Replace current
 													rules (use with caution)</span>
@@ -840,7 +836,7 @@
 									<div class="modal-footer">
 										<button type="button" id="btnImportRules" class="btn btn-primary"
 											data-localize="settingsImportRulesImportButton">Import</button>
-										<button type="button" class="btn btn-secondary" data-dismiss="modal"
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 											data-localize="settingsImportRulesCancelButton">Cancel</button>
 									</div>
 								</div>
@@ -863,7 +859,7 @@
 							cause failure in syncing data between devices.
 						</p>
 						<p>
-						<div class="float-left">
+						<div class="float-start">
 							<button id="btnAddServerSubscription" class="btn btn-info"
 								data-localize="settingsAddServerSubscriptionButton">
 								Subscribe to a list
@@ -875,7 +871,7 @@
 						</table>
 
 						<p class="mt-2">
-						<div class="float-left">
+						<div class="float-start">
 							<button id="btnSaveServerSubscriptionsChanges" class="btn btn-primary">
 								<span data-localize="settingsSaveChangesButton">Save Changes</span>
 							</button>
@@ -883,7 +879,7 @@
 								<span data-localize="settingsRejectChangesButton">Reject Changes</span>
 							</button>
 						</div>
-						<div class="float-right">
+						<div class="float-end">
 							<button id="btnClearServerSubscriptions" class="btn btn-outline-danger"
 								title="Clear all the subscriptions">
 								<i class="fas fa-trash" aria-hidden="true"></i>
@@ -928,7 +924,7 @@
 						</p>
 						<p>
 							<button id="btnImportProxyServerOpenBackup" class="btn btn-outline-secondary backup-buttons"
-								data-toggle="modal" data-target="#modalImportProxyServer">
+								data-bs-toggle="modal" data-bs-target="#modalImportProxyServer">
 								<i class="fas fa-download" aria-hidden="true"></i>
 								<span data-localize="settingsImportProxiesButtonBackup">Import Proxy Servers</span>
 							</button>
@@ -964,8 +960,7 @@
 					<div class="modal-header">
 						<h4 class="modal-title" id="modalAddNewSmartProfileLabel" data-localize="aaaaaaaa">
 							Add New Smart Profile</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-								aria-hidden="true">&times;</span></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body p-4">
 						<p class="lead">
@@ -973,7 +968,7 @@
 						</p>
 						<div class="form-check mb-4">
 							<label class="form-check-label">
-								<input class="form-check-input" type="radio" name="SmartProfileType" checked
+								<input type="radio" name="SmartProfileType" checked class="form-check-input"
 									id="rbtnNewSmartProfile_SmartRules">
 								<i class="fas fa-magic fa-lg text-success" aria-hidden="true"></i>
 								<span class="font-weight-bold" data-localize="aaaaaaaa">Smart Rules</span>
@@ -989,12 +984,13 @@
 						</div>
 						<div class="form-check">
 							<label class="form-check-label">
-								<input class="form-check-input" type="radio" name="SmartProfileType"
+								<input type="radio" name="SmartProfileType" class="form-check-input"
 									id="rbtnNewSmartProfile_AlwaysEnabled">
 								<i class="fas fa-globe-americas text-primary" aria-hidden="true"></i>
 								<span class="font-weight-bold" data-localize="aaaaaaaa">Always Enabled</span>
 								<div class="form-text text-muted" data-localize="aaaaaaaaaa">
-									In this type of profile, proxy will always be applied to the requests unless you define
+									In this type of profile, proxy will always be applied to the requests unless you
+									define
 									rules to bypass it.
 									Defining rules steps are same as in the SmartRule profile type.</div>
 							</label>
@@ -1003,7 +999,7 @@
 					<div class="modal-footer">
 						<button type="button" id="btnSubmitContinueAddingProfile" class="btn btn-primary"
 							data-localize="aaaaaaaaaaa">Continue</button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 							data-localize="aaaaaaaaaaa">Cancel</button>
 					</div>
 				</div>
@@ -1017,29 +1013,28 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" id="modalModifyProxyServerLabel" data-localize="settingsServersModalTitle">
-						Proxy Server
-						Details</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+						Proxy Server Details</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="row">
-						<div class="form-group col-sm-12">
-							<label for="txtServerName" data-localize="settingsServersServerName">Server Name</label>
+					<div class="row mb-3">
+						<div class="form-group col">
+							<label for="txtServerName" data-localize="settingsServersServerName" class="form-label">
+								Server Name</label>
 							<input type="text" id="txtServerName" class="form-control" />
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-3">
 						<div class="form-group col-sm-6">
-							<label for="txtServerAddress" data-localize="settingsServersSeverAddress">Sever
-								Address</label>
+							<label for="txtServerAddress" data-localize="settingsServersSeverAddress"
+								class="form-label">
+								Sever Address</label>
 							<input type="text" id="txtServerAddress" class="form-control" />
 						</div>
 						<div class="form-group col-sm-6">
-							<label for="cmdServerProtocol" data-localize="settingsServersProtocol">Proxy
-								Protocol</label>
-							<select id="cmdServerProtocol" class="form-control custom-select">
+							<label for="cmdServerProtocol" data-localize="settingsServersProtocol" class="form-label">
+								Proxy Protocol</label>
+							<select id="cmdServerProtocol" class="form-select">
 								<option value="HTTP">HTTP</option>
 								<option value="HTTPS">HTTPS</option>
 								<option value="SOCKS4">SOCKS4</option>
@@ -1047,39 +1042,42 @@
 							</select>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-3">
 						<div class="form-group col-sm-6">
-							<label for="txtServerPort" data-localize="settingsServersPort">Port</label>
-							<input type="number" id="txtServerPort" class="form-control" />
+							<label for="txtServerPort" data-localize="settingsServersPort" class="form-label">
+								Port</label>
+							<input type="number" id="txtServerPort" class="form-control" min="0" />
 						</div>
 						<div class="form-group col-sm-6 pr-1">
 							<br />
-							<div class="custom-control custom-checkbox" id="chkServerProxyDNS-Control">
-								<input type="checkbox" class="custom-control-input" id="chkServerProxyDNS">
-								<label class="custom-control-label" for="chkServerProxyDNS"
-									data-localize="settingsServersProxyDNS">Proxy DNS
-									when using SOCKS 5</label>
+							<div class="mt-2" id="chkServerProxyDNS-Control">
+								<label class="form-check-label">
+									<input class="form-check-input" type="checkbox" id="chkServerProxyDNS">
+									<span data-localize="settingsServersProxyDNS" class="user-select-none">Proxy DNS when using SOCKS 5</span>
+								</label>
 							</div>
 						</div>
 					</div>
-					<div class="row" id="chkServerProxy-Authentication">
+					<div class="row mb-3" id="chkServerProxy-Authentication">
 						<div class="form-group col-sm-6">
-							<label for="txtServerUsername" data-localize="settingsServersUsername">Username</label>
+							<label for="txtServerUsername" data-localize="settingsServersUsername" class="form-label">
+								Username</label>
 							<input type="text" id="txtServerUsername" class="form-control" />
 						</div>
 						<div class="form-group col-sm-6">
-							<label for="txtServerPassword" data-localize="settingsServersPassword">Password</label>
+							<label for="txtServerPassword" data-localize="settingsServersPassword" class="form-label">
+								Password</label>
 							<input type="password" id="txtServerPassword" class="form-control" />
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<!-- <button type="button" class="btn btn-primary">Save changes</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
 					<button type="button" class="btn btn-primary" id="btnSubmitProxyServer"
 						data-localize="settingsServersSave">Save
 						Changes</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal"
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 						data-localize="settingsServersCancel">Cancel</button>
 				</div>
 			</div>
@@ -1097,23 +1095,25 @@
 					<h4 class="modal-title" id="modalServerSubscriptionLabel"
 						data-localize="settingsServerSubscriptionModalTitle">Subscribe
 						to a proxy server list</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-							aria-hidden="true">&times;</span></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="form-group">
-						<label for="txtName" data-localize="settingsServerSubscriptionName">Name:</label>
+					<div class="form-group mb-3">
+						<label for="txtName" data-localize="settingsServerSubscriptionName"
+							class="form-label">Name:</label>
 						<input type="text" class="form-control" id="txtName" placeholder="Name" required>
 					</div>
-					<div class="form-group">
-						<label for="txtUrl" data-localize="settingsServerSubscriptionUrl">Url:</label>
+					<div class="form-group mb-3">
+						<label for="txtUrl" data-localize="settingsServerSubscriptionUrl"
+							class="form-label">Url:</label>
 						<input type="url" class="form-control direction-ltr" id="txtUrl" placeholder="Url" checked
 							required>
 					</div>
-					<div class="row">
+					<div class="row mb-3">
 						<div class="form-group col-sm-6">
-							<label for="numRefreshRate" data-localize="settingsServerSubscriptionRefreshRate">Refresh
-								Rate:</label>
+							<label for="numRefreshRate" data-localize="settingsServerSubscriptionRefreshRate"
+								class="form-label">
+								Refresh Rate:</label>
 							<input type="number" min="0" class="form-control" id="numRefreshRate"
 								placeholder="Refresh rate in minutes" required>
 							<span data-localize="settingsServerSubscriptionRefreshRateHelp"
@@ -1122,36 +1122,34 @@
 						</div>
 						<div class="form-group col-sm-6">
 							<br />
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" id="chkServerSubscriptionEnabled"
-									checked>
-								<label class="custom-control-label" for="chkServerSubscriptionEnabled"
-									data-localize="settingsServerSubscriptionEnabled">Enabled</label>
-							</div>
+							<label class="form-check-label mt-2">
+								<input class="form-check-input" type="checkbox" id="chkServerSubscriptionEnabled">
+								<span data-localize="settingsServerSubscriptionEnabled" class="user-select-none">Enabled</span>
+							</label>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-3">
 						<div class="form-group col-sm-6">
-							<label for="cmbServerSubscriptionProtocol"
+							<label for="cmbServerSubscriptionProtocol" class="form-label"
 								data-localize="settingsServerSubscriptionProtocol">Protocol:</label>
-							<select class="form-control" id="cmbServerSubscriptionProtocol"></select>
+							<select class="form-select" id="cmbServerSubscriptionProtocol"></select>
 						</div>
 						<div class="form-group col-sm-6">
-							<label for="cmbServerSubscriptionObfuscation"
+							<label for="cmbServerSubscriptionObfuscation" class="form-label"
 								data-localize="settingsServerSubscriptionObfuscation">Obfuscation:</label>
-							<select class="form-control" id="cmbServerSubscriptionObfuscation"></select>
+							<select class="form-select" id="cmbServerSubscriptionObfuscation"></select>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row mb-3">
 						<div class="form-group col-sm-6">
-							<label for="cmbServerSubscriptionFormat"
+							<label for="cmbServerSubscriptionFormat" class="form-label"
 								data-localize="settingsServerSubscriptionFormat">Format:</label>
-							<select class="form-control" id="cmbServerSubscriptionFormat"></select>
+							<select class="form-select" id="cmbServerSubscriptionFormat"></select>
 						</div>
 						<div class="form-group col-sm-6">
-							<label for="cmbServerSubscriptionApplyProxy"
+							<label for="cmbServerSubscriptionApplyProxy" class="form-label"
 								data-localize="settingsServerSubscriptionApplyProxy">Pass through proxy:</label>
-							<select class="form-control" id="cmbServerSubscriptionApplyProxy"></select>
+							<select class="form-select" id="cmbServerSubscriptionApplyProxy"></select>
 							<small data-localize="settingsServerSubscriptionApplyProxyHelpFirefox"
 								class="form-text text-muted firefox-only">
 								(Decide base on your access to the server)
@@ -1164,7 +1162,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-sm-6">
-							<label for="cmbServerSubscriptionUsername"
+							<label for="cmbServerSubscriptionUsername" class="form-label"
 								data-localize="settingsServerSubscriptionUsername">Username:</label>
 							<input type="text" class="form-control" id="cmbServerSubscriptionUsername">
 							<span data-localize="settingsServerSubscriptionAuthenticationHelp"
@@ -1172,7 +1170,7 @@
 								requires authentication)</span>
 						</div>
 						<div class="form-group col-sm-6">
-							<label for="cmbServerSubscriptionPassword"
+							<label for="cmbServerSubscriptionPassword" class="form-label"
 								data-localize="settingsServerSubscriptionPassword">Password:</label>
 							<input type="password" class="form-control" id="cmbServerSubscriptionPassword" />
 						</div>
@@ -1180,15 +1178,15 @@
 				</div>
 				<div class="modal-footer">
 					<div class="fullwidth">
-						<div class="float-left">
+						<div class="float-start">
 							<button type="button" id="btnTestServerSubscription" class="btn btn-secondary"
 								data-localize="settingsServerSubscriptionTestButton">Test</button>
 						</div>
-						<div class="float-right">
+						<div class="float-end">
 							<button type="button" id="btnSaveServerSubscription" class="btn btn-primary"
 								data-localize="settingsServerSubscriptionSaveButton">Save
 							</button>
-							<button type="button" class="btn btn-secondary" data-dismiss="modal"
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 								data-localize="settingsServerSubscriptionCancelButton">Cancel</button>
 						</div>
 					</div>
@@ -1209,36 +1207,35 @@
 					<h4 class="modal-title" id="modalImportProxyServerLabel" data-localize="settingsImportProxiesTitle">
 						Import Proxy
 						List</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-							aria-hidden="true">&times;</span></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<div class="form-group">
-						<label>
-							<input checked type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_File" />
+					<div class="form-group mb-3">
+						<label class="form-label">
+							<input checked type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_File" class="form-check-input" />
 							<span data-localize="settingsImportProxiesSelectFileButton">Proxy list file</span>
 						</label>
 						<input type="file" id="btnImportProxyServerSelectFile" class="form-control" />
 					</div>
-					<div class="form-group">
-						<label>
-							<input type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_Text" />
+					<div class="form-group mb-3">
+						<label class="form-label">
+							<input type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_Text" class="form-check-input" />
 							<span data-localize="settingsImportProxiesSelectTextButton">Proxy list text</span>
 						</label>
 						<textarea class="form-control direction-ltr" id="btnImportProxyServerListText"
 							rows="10"></textarea>
 					</div>
 
-					<div class="radio">
-						<label>
-							<input checked type="radio" id="cmbImportProxyServerOverride_Append"
+					<div class="form-group">
+						<label class="form-label">
+							<input checked type="radio" id="cmbImportProxyServerOverride_Append" class="form-check-input"
 								name="cmbImportProxyServerOverride" />
 							<span data-localize="settingsImportProxiesOptionAppend">Append to existing proxies</span>
 						</label>
 					</div>
-					<div class="radio">
-						<label>
-							<input type="radio" id="cmbImportProxyServerOverride_Replace"
+					<div class="form-group">
+						<label class="form-label">
+							<input type="radio" id="cmbImportProxyServerOverride_Replace" class="form-check-input"
 								name="cmbImportProxyServerOverride" />
 							<span data-localize="settingsImportProxiesOptionOverride">Replace current proxies (use with
 								caution)</span>
@@ -1248,7 +1245,7 @@
 				<div class="modal-footer">
 					<button type="button" id="btnImportProxyServer" class="btn btn-primary"
 						data-localize="settingsImportProxiesImportButton">Import</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal"
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 						data-localize="settingsImportProxiesCancelButton">Cancel</button>
 				</div>
 			</div>
@@ -1262,14 +1259,12 @@
 				<div class="modal-header">
 					<h4 class="modal-title" data-localize="settingsGeneralIgnoreRequestFailuresTitle">Ignore Request
 						Failures For Domains</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="form-group col-sm-12">
-							<label for="txtRequestFailuresIgnoredDomains"
+						<div class="form-group col">
+							<label for="txtRequestFailuresIgnoredDomains" class="form-label"
 								data-localize="settingsGeneralIgnoredDomains">Ignored domain list:</label>
 							<textarea autofocus id="txtRequestFailuresIgnoredDomains" class="form-control direction-ltr"
 								rows="10"></textarea>
@@ -1281,7 +1276,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" id="btnSubmitIgnoreRequestDomains"
 						data-localize="settingsGeneralSaveChanges">Save Changes</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal"
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 						data-localize="settingsGeneralCancelButton">Cancel</button>
 				</div>
 			</div>
@@ -1295,9 +1290,7 @@
 				<div class="modal-header">
 					<h4 class="modal-title" data-localize="settingsGeneralKeyboardShortcutsTitle">Keyboard shortcuts
 					</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<dl>
@@ -1305,7 +1298,7 @@
 					</dl>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal"
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
 						data-localize="settingsGeneralCloseButton">Close</button>
 				</div>
 			</div>
@@ -1318,9 +1311,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" data-localize="settingsWelcomeTitle">Welcome to SmartProxy</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body has-list-with-muted-help" data-localize="settingsWelcomeMessage">
 					<p>
@@ -1352,7 +1343,7 @@
 				</div>
 				<div class="modal-footer text-center">
 					<div class="" style="margin: 0 auto">
-						<button id="btnSkipWelcome" type="button" class="btn btn-primary" data-dismiss="modal"
+						<button id="btnSkipWelcome" type="button" class="btn btn-primary" data-bs-dismiss="modal"
 							data-localize="settingsWelcomeSkipButton">Got it</button>
 					</div>
 				</div>

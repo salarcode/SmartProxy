@@ -21,7 +21,7 @@ import { environment, browser } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, proxyRulesSubscriptionFormat, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 
@@ -290,34 +290,6 @@ export class settingsPage {
 		});
 		if (environment.chrome)
 			cmbServerSubscriptionApplyProxy.attr("disabled", "disabled");
-
-
-		// -- RulesSubscription --------
-		// applying the default values
-		let cmbRulesSubscriptionObfuscation = jQuery("#cmbRulesSubscriptionObfuscation");
-		let cmbRulesSubscriptionFormat = jQuery("#cmbRulesSubscriptionFormat");
-
-		proxyRulesSubscriptionFormat.forEach((item, index) => {
-			jQuery("<option>").attr("value", index)
-				.text(item)
-				.appendTo(cmbRulesSubscriptionFormat);
-		});
-
-		proxyServerSubscriptionObfuscate.forEach(item => {
-			jQuery("<option>").attr("value", item)
-				.text(item)
-				.appendTo(cmbRulesSubscriptionObfuscation);
-		});
-
-		let cmbRulesSubscriptionApplyProxy = jQuery("#cmbRulesSubscriptionApplyProxy");
-		specialRequestApplyProxyModeKeys.forEach((item, index) => {
-			jQuery("<option>").attr("value", index)
-				.text(browser.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
-				.appendTo(cmbRulesSubscriptionApplyProxy);
-		});
-		if (environment.chrome)
-			cmbRulesSubscriptionApplyProxy.attr("disabled", "disabled");
-
 	}
 
 	private static resizableMenu() {
@@ -1094,6 +1066,7 @@ export class settingsPage {
 		// -----
 		this.initializeSmartProfileGrids(pageSmartProfile);
 		this.bindSmartProfileEvents(pageSmartProfile);
+		this.initializeSmartProfileUi(pageSmartProfile);
 
 		// NOTE: in this step we only keeping an empty profile proxy combobox
 		if (isNewProfile)
@@ -1187,7 +1160,7 @@ export class settingsPage {
 
 	private static showProfileNameEdit(htmlProfileTab: any) {
 		htmlProfileTab.find("#lblProfileName").hide();
-		htmlProfileTab.find("#txtSmartProfileName").addClass("d-inline").remove("d-none")
+		htmlProfileTab.find("#txtSmartProfileName").addClass("d-inline").removeClass("d-none")
 			.focus()
 			.select();
 	}
@@ -1316,6 +1289,38 @@ export class settingsPage {
 		// -----
 		pageProfile.grdRules = grdRules;
 		pageProfile.grdRulesSubscriptions = grdRulesSubscriptions;
+	}
+
+	private static initializeSmartProfileUi(pageProfile: SettingsPageSmartProfile) {
+		let tabContainer = pageProfile.htmlProfileTab;
+		if (environment.chrome) {
+			tabContainer.find("#divAlertChrome").show();
+			tabContainer.find(".firefox-only").hide();
+			tabContainer.find(".chrome-only").show();
+		} else {
+			tabContainer.find("#divAlertFirefox").show();
+			tabContainer.find(".firefox-only").show();
+			tabContainer.find(".chrome-only").hide();
+		}
+		
+		// -- RulesSubscription --------
+		// applying the default values
+		let cmbRulesSubscriptionObfuscation = tabContainer.find("#cmbRulesSubscriptionObfuscation");
+
+		proxyServerSubscriptionObfuscate.forEach(item => {
+			jQuery("<option>").attr("value", item)
+				.text(item)
+				.appendTo(cmbRulesSubscriptionObfuscation);
+		});
+
+		let cmbRulesSubscriptionApplyProxy = tabContainer.find("#cmbRulesSubscriptionApplyProxy");
+		specialRequestApplyProxyModeKeys.forEach((item, index) => {
+			jQuery("<option>").attr("value", index)
+				.text(browser.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
+				.appendTo(cmbRulesSubscriptionApplyProxy);
+		});
+		if (environment.chrome)
+			cmbRulesSubscriptionApplyProxy.attr("disabled", "disabled");
 	}
 
 	private static bindSmartProfileEvents(pageProfile: SettingsPageSmartProfile) {
