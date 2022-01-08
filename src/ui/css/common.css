@@ -113,7 +113,7 @@ input:invalid {
 }
 .nav-link.nav-smart-profile {
 	margin-left: 20px;
-	background-color: rgba(228, 255, 245, 0.5);
+	border-left: 2px solid rgb(228, 255, 245);
 }
 
 .form-text.text-muted {
