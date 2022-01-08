@@ -136,6 +136,29 @@ input:invalid {
 	margin: -6px -7px 0 -6px;
 	transform: scale(0.9);
 }
+.text-left {
+	/* Needed for DataTables which hasn't migrated properly */
+	text-align: end !important;
+}
+.text-right {
+	/* Needed for DataTables which hasn't migrated properly */
+	text-align: end !important;
+}
+.float-left {
+	/* Needed for DataTables which hasn't migrated properly */
+	float: left !important;
+}
+.float-right {
+	/* Needed for DataTables which hasn't migrated properly */
+	float: right !important;
+}
+div.dataTables_scrollBody {
+	/* Needed for DataTables  */
+	border-left: 0px !important;
+}
+hr {
+	color: rgb(100, 100, 100);
+}
 /* ============================== */
 /* Settings page styles */
 /* ------------------------------ */
