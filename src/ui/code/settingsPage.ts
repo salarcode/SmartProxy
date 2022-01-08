@@ -71,11 +71,11 @@ export class settingsPage {
 	private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
 		this.currentSettings = settingsData.settings;
 		this.populateSettingsUiData(settingsData);
-		this.loadSmartProfiles(this.currentSettings.proxyProfiles);
 		this.loadServersGrid(this.currentSettings.proxyServers);
 		this.loadServerSubscriptionsGrid(this.currentSettings.proxyServerSubscriptions);
 		this.loadDefaultProxyServer(this.currentSettings.proxyServers, this.currentSettings.proxyServerSubscriptions);
 		this.loadGeneralOptions(this.currentSettings.options);
+		this.loadSmartProfiles(this.currentSettings.proxyProfiles);
 		CommonUi.onDocumentReady(this.loadAllProfilesProxyServers);
 
 		// make copy
@@ -1043,7 +1043,6 @@ export class settingsPage {
 		let profileMenu = pageSmartProfile.htmlProfileMenu;
 		let profileTab = pageSmartProfile.htmlProfileTab;
 
-		//let profileMenuTemplate = jQuery("#menu-smart-profile");
 		let profileTabTemplate = jQuery("#tab-smart-profile");
 		let btnAddNewSmartProfile = jQuery("#btnAddNewSmartProfile");
 		profileTabTemplate.after(profileTab);
@@ -1051,6 +1050,8 @@ export class settingsPage {
 
 		// show the tab now
 		profileMenu.tab('show');
+
+		settingsPage.loadProfileProxyServer(pageSmartProfile);
 	}
 
 	private static createNewUnsavedProfile(profileType: SmartProfileType): SettingsPageSmartProfile {
@@ -1095,7 +1096,11 @@ export class settingsPage {
 		this.bindSmartProfileEvents(pageSmartProfile);
 
 		// NOTE: in this step we only keeping an empty profile proxy combobox
-		this.loadProfileProxyServer(pageSmartProfile, [], []);
+		if (isNewProfile)
+			this.loadProfileProxyServer(pageSmartProfile);
+		else
+			// the list will be updated later
+			this.loadProfileProxyServer(pageSmartProfile, [], []);
 
 		if (!isNewProfile)
 			profileMenu.show();
@@ -2173,39 +2178,29 @@ export class settingsPage {
 			debugger;
 
 			if (hostName) {
+				// NOTE: if hostName is entered it must be a valid one, without RegEx or MatchPattern chars
 				if (!Utils.isValidHost(hostName)) {
 					// source is invalid, source name should be something like 'google.com'
 					messageBox.error(browser.i18n.getMessage("settingsRuleSourceInvalid"));
 					return;
 				}
 
-				if (Utils.urlHasSchema(hostName)) {
-					let extractedHost = Utils.extractHostFromUrl(hostName);
-					if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
-
-						// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
-						messageBox.error(
-							browser.i18n.getMessage("settingsRuleHostInvalid")
-								.replace("{0}", extractedHost)
-						);
-						return;
-					}
-					hostName = extractedHost;
-
-				} else {
-					// this extraction is to remove paths from rules, e.g. google.com/test/
-
-					let extractedHost = Utils.extractHostFromUrl("http://" + hostName);
-					if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
-
-						// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
-						messageBox.error(
-							browser.i18n.getMessage("settingsRuleHostInvalid")
-								.replace("{0}", extractedHost)
-						);
-						return;
-					}
+				let checkHostName = hostName;
+				if (!Utils.urlHasSchema(hostName)) {
+					checkHostName = "http://" + hostName;
 				}
+
+				let extractedHost = Utils.extractHostFromUrl(checkHostName);
+				if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
+
+					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
+					messageBox.error(
+						browser.i18n.getMessage("settingsRuleHostInvalid")
+							.replace("{0}", extractedHost || hostName)
+					);
+					return;
+				}
+				hostName = extractedHost;
 			}
 			ruleInfo.hostName = hostName;
 
