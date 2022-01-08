@@ -33,6 +33,8 @@
 	<script src="js/messageBox.js"></script>
 	<script src="js/pako.min.js"></script>
 	<script src="code/settingsPage.js"></script>
+	<!-- <link href="css/themes-cosmo-brown.css" rel="stylesheet" /> -->
+	<!-- <link href="css/themes-cosmo-dark.css" rel="stylesheet" /> -->
 </head>
 
 <body>
@@ -111,8 +113,7 @@
 						<hr class="afshin-line" />
 						<div id="divNoServersWarning" class="alert alert-danger alert-dismissible fade show"
 							role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-									aria-hidden="true">&times;</span></button>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 							<strong>
 								<i class="fas fa-info-circle" aria-hidden="true"></i>
 								<span data-localize="settingsErrNoServersTitle">No Servers!</span>
@@ -186,7 +187,7 @@
 						<hr class="afshin-line" />
 						<div>
 							<h3 data-localize="settingsGeneralSmartFeatures">Smart Features</h3>
-							<label class="mx-2 mb-2">
+							<label class="mx-2 form-label">
 								<input id="chkProxyPerOrigin" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralProxyPerOrigin">Enable proxy per tab/origin</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralProxyPerOriginDesc">
@@ -232,7 +233,7 @@
 						<div>
 							<hr class="afshin-line" />
 							<h3 data-localize="settingsGeneralSyncing">Syncing</h3>
-							<label class="mx-2 mb-2">
+							<label class="mx-2 form-label">
 								<input id="chkSyncSettings" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralEnableSyncing">Enable settings syncing</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralEnableSyncingDesc">
@@ -242,7 +243,7 @@
 								</div>
 							</label>
 							<br>
-							<label class="mx-4 mb-2">
+							<label class="mx-4 form-label">
 								<input id="chkSyncProxyMode" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralSyncProxyMode">Enable syncing proxy-mode</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralSyncProxyModeDesc">
@@ -250,7 +251,7 @@
 								</div>
 							</label>
 							<br>
-							<label class="mx-4 mb-2">
+							<label class="mx-4 form-label">
 								<input id="chkSyncActiveProxy" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralSyncActiveProxy">Enable syncing active proxy</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralSyncActiveProxyDesc">
@@ -261,7 +262,7 @@
 						<div>
 							<hr class="afshin-line" />
 							<h3 data-localize="settingsGeneralErrorDetection">Error Detection</h3>
-							<label class="mx-2 mb-2">
+							<label class="mx-2 form-label">
 								<input id="chkDetectRequestFailures" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralDetectFailures">Detect request failures</span>
 								<div class="form-text text-muted" data-localize="settingsGeneralDetectFailuresDesc">
@@ -269,7 +270,7 @@
 								</div>
 							</label>
 							<br>
-							<label class="mx-2 mb-2">
+							<label class="mx-2 form-label">
 								<span data-localize="settingsGeneralIgnoreRequestFailuresForDomains">Ignore failure
 									detection for these domains</span>
 								<button id="btnIgnoreRequestFailuresForDomains" class="btn btn-sm btn-outline-secondary"
@@ -281,7 +282,7 @@
 								</div>
 							</label>
 							<br>
-							<label class="mx-2 mb-2">
+							<label class="mx-2 form-label">
 								<input id="chkDisplayFailedOnBadge" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralDisplayFailedOnBadge">Display failed requests count
 									on toolbar icon badge</span>
@@ -289,8 +290,75 @@
 						</div>
 						<div>
 							<hr class="afshin-line" />
+							<h3 data-localize="aaaaaaaaaaa">Themes</h3>
+
+							<label class="mx-2 form-label">
+								<input checked type="radio" name="rbtnThemes_Selection"
+									id="rbtnThemesAutoSwitchBySystem" class="form-check-input">
+								<span data-localize="aaaaaaaaaaaaaaaa">Auto switch by the Browser theme</span>
+								<div class="form-text">
+									This follow your browsers theme which that can also follow the theme of your operation system.
+								</div>
+							</label>
+							<br />
+							<label class="mx-2 form-label">
+								<input type="radio" name="rbtnThemes_Selection" id="rbtnThemesLight"
+									class="form-check-input">
+								<span data-localize="aaaaaaaaaaaaaaaa">Light Theme</span>
+							</label>
+							<div class="mx-4">
+								<div class="row mb-3">
+									<div class="col-5">
+										<select id="cmbThemesLight" class="form-select">
+											<option value="">(Default)</option>
+											<option value="(Custom)">(Custom)</option>
+										</select>
+									</div>
+								</div>
+								<div class="row mb-3 d-none" id="divThemesLightCustom">
+									<div class="form-group col-5">
+										<label for="txtThemesLightCustomUrl" data-localize="aaaaaaaaaaa"
+											class="form-label">Custom Style Sheet (Css) Url:</label>
+										<input type="url" id="txtThemesLightCustomUrl" class="form-control">
+									</div>
+									<div class="form-text">
+										Url must be 'Https'. Be aware of imported fonts and other styles in the
+										following custom style, they can block/slow down the Popups in your browser.
+									</div>
+								</div>
+							</div>
+							<label class="mx-2 form-label">
+								<input type="radio" name="rbtnThemes_Selection" id="rbtnThemesDark"
+									class="form-check-input">
+								<span data-localize="aaaaaaaaaaaaaaaa">Dark Theme</span>
+							</label>
+							<div class="mx-4">
+								<div class="row mb-3">
+									<div class="col-5">
+										<select id="cmbThemesDark" class="form-select">
+											<option value="themes-cosmo-dark">Cosmo Dark</option>
+											<option value="themes-cosmo-brown">Cosmo Brown</option>
+											<option value="(Custom)">(Custom)</option>
+										</select>
+									</div>
+								</div>
+								<div class="row mb-3 d-none" id="divThemesDarkCustom">
+									<div class="form-group col-5">
+										<label for="txtThemesDarkCustomUrl" data-localize="aaaaaaaaaaa"
+											class="form-label">Custom Style Sheet (Css) Url:</label>
+										<input type="url" id="txtThemesDarkCustomUrl" class="form-control">
+									</div>
+									<div class="form-text">
+										Url must be 'Https'. Be aware of imported fonts and other styles in the
+										following custom style, they can block/slow down the Popups in your browser.
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<hr class="afshin-line" />
 							<h3 data-localize="settingsGeneralOtherSettings">Other Settings</h3>
-							<label class="mx-2 mb-2">
+							<label class="mx-2 form-label">
 								<input id="chkEnableShortcuts" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralEnableShortcuts">Enable Shortcuts</span>
 								<div class="form-text text-muted">
@@ -301,13 +369,13 @@
 								</div>
 							</label>
 							<br>
-							<label class="mx-4 mb-2">
+							<label class="mx-4 form-label">
 								<input id="chkShortcutNotification" checked type="checkbox" class="form-check-input" />
 								<span data-localize="settingsGeneralShortcutNotification">Enable shortcut
 									notification</span>
 							</label>
 							<br>
-							<label class="mx-2 mb-2">
+							<label class="mx-2 form-label">
 								<input id="chkDisplayAppliedProxyOnBadge" checked type="checkbox"
 									class="form-check-input" />
 								<span data-localize="settingsGeneralDisplayAppliedProxyOnBadge">Display applied proxy on
@@ -395,7 +463,8 @@
 						<!----------Smart Profiles Tab----------->
 						<h3>
 							<span>Smart Profile:</span>
-							<a id="lblProfileName" class="fs-5" href="#">{profile-name} <i class="fas fa-pencil-alt"></i></a>
+							<a id="lblProfileName" class="fs-5" href="#">{profile-name} <i
+									class="fas fa-pencil-alt"></i></a>
 							<input id="txtSmartProfileName" class="form-control d-none w-auto"
 								placeholder="Name used in menu" required />
 							<div class="float-end" id="divSmartProfileEnabled">
@@ -551,8 +620,10 @@
 												<div class="form-group col-sm-6">
 													<br />
 													<label class="form-check-label mt-2">
-														<input class="form-check-input" type="checkbox" id="chkRuleEnabled">
-														<span data-localize="settingsRulesEnabled" class="user-select-none">Enabled</span>
+														<input class="form-check-input" type="checkbox"
+															id="chkRuleEnabled">
+														<span data-localize="settingsRulesEnabled"
+															class="user-select-none">Enabled</span>
 													</label>
 												</div>
 											</div>
@@ -570,8 +641,11 @@
 												<div class="form-group col-sm-6" id="divRuleGeneratePattern">
 													<br />
 													<label class="form-check-label mt-2 text-nowrap">
-														<input class="form-check-input" type="checkbox" id="chkRuleGeneratePattern">
-														<span data-localize="settingsRulesGeneratePattern" class="user-select-none">Generate pattern automatically</span>
+														<input class="form-check-input" type="checkbox"
+															id="chkRuleGeneratePattern">
+														<span data-localize="settingsRulesGeneratePattern"
+															class="user-select-none">Generate pattern
+															automatically</span>
 													</label>
 												</div>
 											</div>
@@ -711,8 +785,10 @@
 											<div class="form-group col-sm-6">
 												<br />
 												<label class="form-check-label mt-2">
-													<input class="form-check-input" type="checkbox" id="chkRulesSubscriptionEnabled">
-													<span data-localize="settingsRulesSubscriptionEnabled" class="user-select-none">Enabled</span>
+													<input class="form-check-input" type="checkbox"
+														id="chkRulesSubscriptionEnabled">
+													<span data-localize="settingsRulesSubscriptionEnabled"
+														class="user-select-none">Enabled</span>
 												</label>
 											</div>
 										</div>
@@ -818,16 +894,16 @@
 
 										<div class="radio">
 											<label class="form-label">
-												<input checked type="radio" id="cmbImportRulesOverride_Append" class="form-check-input"
-													name="cmbImportRulesOverride" />
+												<input checked type="radio" id="cmbImportRulesOverride_Append"
+													class="form-check-input" name="cmbImportRulesOverride" />
 												<span data-localize="settingsImportRulesOptionAppend">Append to existing
 													rules</span>
 											</label>
 										</div>
 										<div class="radio">
 											<label class="form-label">
-												<input type="radio" id="cmbImportRulesOverride_Replace" class="form-check-input"
-													name="cmbImportRulesOverride" />
+												<input type="radio" id="cmbImportRulesOverride_Replace"
+													class="form-check-input" name="cmbImportRulesOverride" />
 												<span data-localize="settingsImportRulesOptionOverride">Replace current
 													rules (use with caution)</span>
 											</label>
@@ -1053,7 +1129,8 @@
 							<div class="mt-2" id="chkServerProxyDNS-Control">
 								<label class="form-check-label">
 									<input class="form-check-input" type="checkbox" id="chkServerProxyDNS">
-									<span data-localize="settingsServersProxyDNS" class="user-select-none">Proxy DNS when using SOCKS 5</span>
+									<span data-localize="settingsServersProxyDNS" class="user-select-none">Proxy DNS
+										when using SOCKS 5</span>
 								</label>
 							</div>
 						</div>
@@ -1124,7 +1201,8 @@
 							<br />
 							<label class="form-check-label mt-2">
 								<input class="form-check-input" type="checkbox" id="chkServerSubscriptionEnabled">
-								<span data-localize="settingsServerSubscriptionEnabled" class="user-select-none">Enabled</span>
+								<span data-localize="settingsServerSubscriptionEnabled"
+									class="user-select-none">Enabled</span>
 							</label>
 						</div>
 					</div>
@@ -1212,14 +1290,16 @@
 				<div class="modal-body">
 					<div class="form-group mb-3">
 						<label class="form-label">
-							<input checked type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_File" class="form-check-input" />
+							<input checked type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_File"
+								class="form-check-input" />
 							<span data-localize="settingsImportProxiesSelectFileButton">Proxy list file</span>
 						</label>
 						<input type="file" id="btnImportProxyServerSelectFile" class="form-control" />
 					</div>
 					<div class="form-group mb-3">
 						<label class="form-label">
-							<input type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_Text" class="form-check-input" />
+							<input type="radio" name="rbtnImportProxyServer" id="rbtnImportProxyServer_Text"
+								class="form-check-input" />
 							<span data-localize="settingsImportProxiesSelectTextButton">Proxy list text</span>
 						</label>
 						<textarea class="form-control direction-ltr" id="btnImportProxyServerListText"
@@ -1228,8 +1308,8 @@
 
 					<div class="form-group">
 						<label class="form-label">
-							<input checked type="radio" id="cmbImportProxyServerOverride_Append" class="form-check-input"
-								name="cmbImportProxyServerOverride" />
+							<input checked type="radio" id="cmbImportProxyServerOverride_Append"
+								class="form-check-input" name="cmbImportProxyServerOverride" />
 							<span data-localize="settingsImportProxiesOptionAppend">Append to existing proxies</span>
 						</label>
 					</div>
