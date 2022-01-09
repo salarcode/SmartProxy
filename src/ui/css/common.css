@@ -31,11 +31,13 @@ html.popup body {
 	font-weight: bold;
 	color: navy;
 }
-@media (prefers-color-scheme: dark) {
+/* 
+	TODO: firefox doesn't support `color-schema` css fully yet
+	@media (prefers-color-scheme: dark) {
 	.slogan {
 		color: white;
 	}
-}
+} */
 .font-url {
 	font-family: Segoe UI, Courier New, Courier, monospace;
 }
@@ -215,7 +217,9 @@ hr {
 	width: 70%;
 }
 
-@media (prefers-color-scheme: dark) {
+/* 
+	TODO: firefox doesn't support `color-schema` css fully yet
+	@media (prefers-color-scheme: dark) {
 	.position-sticky-bottom {
 		background-color: rgb(32, 34, 34);
 	}
@@ -225,7 +229,7 @@ hr {
 	.sticky-save-buttons-bar::after {
 		box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px;
 	}
-}
+} */
 /* ============================== */
 
 /* popup menu styles */
