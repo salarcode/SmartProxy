@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <!--
   - This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
-  - Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+  - Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
   -
   - SmartProxy is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -78,13 +78,13 @@
 				</div>
 			</div>
 		</div>
-		<div class="popup-menu-contents p-1">
+		<div class="popup-menu-contents p-1 list-group">
 			<div id="divUpdateIsAvailable" style="display: none" class="alert alert-success" role="alert">
 				<a href="#" target="_blank">Update text</a>
 			</div>
 			<h6 class="text-muted text-center" data-localize="popupTitle">SmartProxy Activation</h6>
 			<div id="divProxyProfiles" class="nav flex-column nav-pills interactive">
-				<a id="divProfileTemplate" href="#" class="nav-link">
+				<a id="divProfileTemplate" href="#" class="nav-link list-group-item list-group-item-action">
 					<i class="icon fa-lg " aria-hidden="true"></i>
 					<span>{profile-name}</span>
 				</a>
@@ -111,9 +111,9 @@
 			</div> -->
 			<div id="divFailedRequests" style="display: none">
 				<hr class="afshin-line" />
-				<ul class="nav flex-column nav-pills interactive direction-ltrXXX">
+				<ul class="nav flex-column nav-pills interactive">
 					<li>
-						<a href="#" class="nav-link">
+						<a href="#" class="nav-link list-group-item list-group-item-action">
 							<div class="row failedrequest-itemXXXX">
 								<div class="col-9 text-nowrap">
 									<i class="fas fa-exclamation-triangle text-danger" aria-hidden="true"></i>
@@ -145,7 +145,7 @@
 				<h6 class="px-2" data-localize="popupEnableProxyOn">Enable proxy on</h6>
 				<ul id="divProxyableDomains" class="nav flex-column nav-pills interactive direction-ltr">
 					<li id="divProxyableDomainItem" style="display: none">
-						<a class="nav-link" href="#">
+						<a class="nav-link list-group-item list-group-item-action" href="#">
 							<div class="row proxyable-item">
 								<div class="col-10 text-nowrap">
 									<i class="fas fa-globe-americas fa-lg text-primary"></i>
@@ -165,11 +165,11 @@
 			</div>
 			<hr class="afshin-line" />
 			<div class="nav flex-column nav-pills interactive">
-				<a href="#" style="display: none" id="openProxyable" class="nav-link">
+				<a href="#" style="display: none" id="openProxyable" class="nav-link list-group-item list-group-item-action">
 					<i class="fas fa-search fa-lg text-info" aria-hidden="true"></i>
 					<span data-localize="popupProxyableResources">Proxyable Resources</span>
 				</a>
-				<a href="#" id="openSettings" class="nav-link">
+				<a href="#" id="openSettings" class="nav-link list-group-item list-group-item-action">
 					<i class="fas fa-cog fa-lg text-success" aria-hidden="true"></i>
 					<span data-localize="popupSettings">Settings</span>
 				</a>

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <!--
   - This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
-  - Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+  - Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
   -
   - SmartProxy is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -45,29 +45,29 @@
 					SmartProxy
 				</h2>
 				<br class="d-none d-md-inline-block" />
-				<div class="nav flex-column nav-pills interactive" id="tabSettings" role="tablist">
-					<a class="nav-link active" id="tab-about-tab" data-bs-toggle="pill" href="#tab-about" role="tab"
+				<div class="nav flex-column nav-pills list-group interactive" id="tabSettings" role="tablist">
+					<a class="nav-link active list-group-item list-group-item-action" id="tab-about-tab" data-bs-toggle="pill" href="#tab-about" role="tab"
 						aria-controls="tab-about" aria-expanded="true">
 						<i class="fas fa-cog fa-lg text-primary" aria-hidden="true"></i>
 						<span data-localize="settingsTabAbout">About</span>
 					</a>
-					<a class="nav-link" id="tab-general-tab" data-bs-toggle="pill" href="#tab-general" role="tab"
+					<a class="nav-link list-group-item list-group-item-action" id="tab-general-tab" data-bs-toggle="pill" href="#tab-general" role="tab"
 						aria-controls="tab-general" aria-expanded="true">
 						<i class="fas fa-wrench fa-lg text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabGeneral">General Options</span>
 					</a>
-					<a class="nav-link" id="tab-servers-tab" data-bs-toggle="pill" href="#tab-servers" role="tab"
+					<a class="nav-link list-group-item list-group-item-action" id="tab-servers-tab" data-bs-toggle="pill" href="#tab-servers" role="tab"
 						aria-controls="tab-servers" aria-expanded="true">
 						<i class="fas fa-server fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServers">Proxy Servers</span>
 					</a>
-					<a class="nav-link" id="tab-server-subscriptions-tab" data-bs-toggle="pill"
+					<a class="nav-link list-group-item list-group-item-action" id="tab-server-subscriptions-tab" data-bs-toggle="pill"
 						href="#tab-server-subscriptions" role="tab" aria-controls="tab-server-subscriptions"
 						aria-expanded="true">
 						<i class="fas fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
 					</a>
-					<a class="nav-link disabled" id="tab-rules-tab" data-bs-toggle="pill" role="tab"
+					<a class="nav-link disabled list-group-item list-group-item-action" id="tab-rules-tab" data-bs-toggle="pill" role="tab"
 						aria-controls="tab-rules" aria-expanded="true">
 						<span class="fa-stack-no-margin fa-stack text-warning fa-sm">
 							<i class="fas fa-square fa-stack-2x"></i>
@@ -76,25 +76,25 @@
 						<span data-localize="settingsTabAAAAAAAAAAAAAAAA">Smart Profiles</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile" id="menu-smart-profile" data-bs-toggle="pill"
+					<a class="nav-link nav-smart-profile list-group-item list-group-item-action" id="menu-smart-profile" data-bs-toggle="pill"
 						href="#tab-smart-profile" role="tab" aria-controls="tab-rules" aria-expanded="true">
 						<!--Smart Profile template-->
 						<i class="icon fa-lg" aria-hidden="true"></i>
 						<span id="menu-smart-profile-name">{profile-name}</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile mb-2" id="btnAddNewSmartProfile" data-bs-toggle="modal"
+					<a class="nav-link nav-smart-profile mb-2 list-group-item list-group-item-action" id="btnAddNewSmartProfile" data-bs-toggle="modal"
 						data-bs-target="#modalAddNewSmartProfile" href="#new-smart-profile">
 						<i class="fas fa-folder-plus fa-lg text-info" aria-hidden="true"></i>
 						<span data-localize="settingsTabAAAAAAAAAAAAAAAA">Add new Smart Profile</span>
 					</a>
 
-					<a class="nav-link" id="tab-backup-tab" data-bs-toggle="pill" href="#tab-backup" role="tab"
+					<a class="nav-link list-group-item list-group-item-action" id="tab-backup-tab" data-bs-toggle="pill" href="#tab-backup" role="tab"
 						aria-controls="tab-backup" aria-expanded="true">
 						<i class="fas fa-life-ring text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
 					</a>
-					<a class="nav-link" id="divUpdateIsAvailable" style="display: none" data-bs-toggle="pill"
+					<a class="nav-link list-group-item list-group-item-action" id="divUpdateIsAvailable" style="display: none" data-bs-toggle="pill"
 						href="#tab-update" role="tab" aria-controls="tab-update" aria-expanded="true">
 						<i class="fas fa-star fa-lg text-danger" aria-hidden="true"></i>
 						<span>Update text</span>

@@ -2675,12 +2675,6 @@ input:invalid {
 .nav-pills > a.active .far {
     color: rgb(255, 255, 255) !important;
 }
-.nav-pills.interactive .nav-link:hover {
-    background-color: rgba(80, 84, 86, 0.3);
-}
-.nav-pills.interactive .nav-link.active:hover {
-    background-color: var(--darkreader-bg--bs-secondary);
-}
 .nav-link.nav-smart-profile {
     border-left-color: rgb(40, 130, 97);
 }
