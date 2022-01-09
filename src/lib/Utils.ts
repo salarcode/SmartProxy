@@ -177,6 +177,15 @@ export class Utils {
 		catch (e) { return false; }
 	}
 
+	public static isUrlHttps(url: string): boolean {
+		try {
+			const u = new URL(url);
+			if (u.protocol.toLowerCase().startsWith("https"))
+				return true;
+			return false;
+		}
+		catch (e) { return false; }
+	}
 	public static isUrlLocal(url: string): boolean {
 		try {
 			const u = new URL(url);

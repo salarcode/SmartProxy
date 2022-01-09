@@ -38,6 +38,7 @@ import {
 	SmartProfileType,
 	CompiledProxyRulesMatchedSource,
 	SmartProfile,
+	PartialThemeDataType,
 } from './definitions';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
 import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
@@ -711,6 +712,13 @@ export class Core {
 		dataForPopup.failedRequests = null;
 		dataForPopup.notSupportedSetProxySettings = environment.notSupported.setProxySettings;
 		dataForPopup.notAllowedSetProxySettings = environment.notAllowed.setProxySettings;
+		let themeData = new PartialThemeDataType();
+		themeData.themeType = settings.options.themeType;
+		themeData.themesLight = settings.options.themesLight;
+		themeData.themesLightCustomUrl = settings.options.themesLightCustomUrl;
+		themeData.themesDark = settings.options.themesDark;
+		themeData.themesDarkCustomUrl = settings.options.themesDarkCustomUrl;
+		dataForPopup.themeData = themeData;
 
 		if (UpdateManager.updateIsAvailable) {
 			// generate update text
@@ -847,9 +855,19 @@ export class Core {
 		if (tabData == null)
 			return null;
 
-		let result = new ProxyableInternalDataType();
+		let settings = Settings.current;
 
+		let result = new ProxyableInternalDataType();
 		result.url = tabData.url;
+
+		let themeData = new PartialThemeDataType();
+		themeData.themeType = settings.options.themeType;
+		themeData.themesLight = settings.options.themesLight;
+		themeData.themesLightCustomUrl = settings.options.themesLightCustomUrl;
+		themeData.themesDark = settings.options.themesDark;
+		themeData.themesDarkCustomUrl = settings.options.themesDarkCustomUrl;
+		result.themeData = themeData;
+
 		return result;
 	}
 

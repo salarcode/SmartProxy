@@ -112,6 +112,7 @@ export class popup {
 
 	private static populateDataForPopup(dataForPopup: PopupInternalDataType) {
 
+		CommonUi.applyThemes(dataForPopup.themeData);
 		popup.populateUpdateAvailable(dataForPopup);
 		popup.populateUnsupportedFeatures(dataForPopup);
 		popup.populateSmartProfiles(dataForPopup.proxyProfiles, dataForPopup.activeProfileId);

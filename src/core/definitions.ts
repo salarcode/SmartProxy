@@ -28,14 +28,9 @@ export const proxyRulesActionTypes = [
 	browser.i18n.getMessage('settingsRuleActionWhitelist'),
 ];
 export const monitorUrlsSchemaFilter = ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'];
-// TODO: REMOVE: 
-// export enum ProxyModeType {
-// 	// TODO: retire
-// 	Direct,
-// 	SmartProxy,
-// 	Always,
-// 	SystemProxy,
-// }
+export const themesCustomType = "0";
+export const themesDarkFix = "themes-darkfix.css";
+export const themesDataTablesDarkFix = "themes-datatables-darkfix.css";
 
 export enum SmartProfileType {
 	Direct,
@@ -184,8 +179,15 @@ export class PopupInternalDataType {
 	public failedRequests: FailedRequestType[];
 	public notSupportedSetProxySettings: boolean;
 	public notAllowedSetProxySettings: boolean;
+	public themeData: PartialThemeDataType;
 }
-
+export class PartialThemeDataType {
+	public themeType: ThemeType = ThemeType.Auto;
+	public themesLight: string;
+	public themesLightCustomUrl: string;
+	public themesDark: string;
+	public themesDarkCustomUrl: string;
+}
 export class FailedRequestType {
 	hasRule: boolean;
 	ruleId?: RuleId;
@@ -228,6 +230,7 @@ export class SettingsPageSmartProfile {
 
 export class ProxyableInternalDataType {
 	url: string;
+	themeData: PartialThemeDataType;
 }
 
 export enum ProxyableLogType {
@@ -472,6 +475,13 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 		},
 	];
 }
+
+export enum ThemeType {
+	Auto,
+	Light,
+	Dark
+}
+
 export class GeneralOptions implements Cloneable {
 	public syncSettings: boolean = false;
 	public syncActiveProfile: boolean = true;
@@ -485,6 +495,11 @@ export class GeneralOptions implements Cloneable {
 	public proxyPerOrigin: boolean = true;
 	public enableShortcuts: boolean = true;
 	public shortcutNotification: boolean = true;
+	public themeType: ThemeType = ThemeType.Auto;
+	public themesLight: string;
+	public themesLightCustomUrl: string;
+	public themesDark: string;
+	public themesDarkCustomUrl: string;
 
 	CopyFrom(source: any) {
 		if (source['syncSettings'] != null) this.syncSettings = source['syncSettings'] == true ? true : false;
@@ -504,6 +519,11 @@ export class GeneralOptions implements Cloneable {
 		if (source['enableShortcuts'] != null) this.enableShortcuts = source['enableShortcuts'] == true ? true : false;
 		if (source['shortcutNotification'] != null)
 			this.shortcutNotification = source['shortcutNotification'] == true ? true : false;
+		this.themeType = source['themeType'] ?? ThemeType.Auto;
+		this.themesLight = source['themesLight'];
+		this.themesLightCustomUrl = source['themesLightCustomUrl'];
+		this.themesDark = source['themesDark'];
+		this.themesDarkCustomUrl = source['themesDarkCustomUrl'];
 	}
 }
 

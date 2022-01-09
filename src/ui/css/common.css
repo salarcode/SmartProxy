@@ -31,7 +31,11 @@ html.popup body {
 	font-weight: bold;
 	color: navy;
 }
-
+@media (prefers-color-scheme: dark) {
+	.slogan {
+		color: white;
+	}
+}
 .font-url {
 	font-family: Segoe UI, Courier New, Courier, monospace;
 }
@@ -105,12 +109,13 @@ input:invalid {
 }
 
 .nav-pills.interactive .nav-link:hover {
-	background-color: whitesmoke;
+	background-color: rgba(192, 192, 192, 0.3);
 }
 
 .nav-pills.interactive .nav-link.active:hover {
-	background-color: #006ce0;
+	background-color: var(--bs-secondary);
 }
+
 .nav-link.nav-smart-profile {
 	margin-left: 20px;
 	border-left: 2px solid rgb(228, 255, 245);
@@ -133,7 +138,7 @@ input:invalid {
 	border-radius: 2em;
 }
 .fa-stack.fa-stack-no-margin {
-	margin: -6px -7px 0 -6px;
+	margin: -6px -6px 0 -6px;
 	transform: scale(0.9);
 }
 .text-left {
@@ -210,6 +215,17 @@ hr {
 	width: 70%;
 }
 
+@media (prefers-color-scheme: dark) {
+	.position-sticky-bottom {
+		background-color: rgb(32, 34, 34);
+	}
+	.sticky-save-buttons-bar {
+		background-color: rgb(32, 34, 34);
+	}
+	.sticky-save-buttons-bar::after {
+		box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px;
+	}
+}
 /* ============================== */
 
 /* popup menu styles */

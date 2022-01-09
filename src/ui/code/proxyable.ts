@@ -271,6 +271,8 @@ export class proxyable {
 		if (!dataForProxyable)
 			return;
 
+		CommonUi.applyThemes(dataForProxyable.themeData);
+
 		jQuery("#spanPageUrl")
 			.show()
 			.text(dataForProxyable.url);
@@ -353,7 +355,7 @@ export class proxyable {
 	private static onDisableSubdomainClick() {
 		let element = jQuery(this);
 		let domain = element.data("domain");
-		if (!domain) 
+		if (!domain)
 			return;
 		let ruleId = element.data("ruleId");
 
@@ -386,7 +388,7 @@ export class proxyable {
 						var rowData: ProxyableLogDataType = gridRow.data();
 						var rule = response.rule;
 
-						if(rowData) {
+						if (rowData) {
 							// Not a complete fix on displaying the rule. This is a temporary visual change, next time the rule should be displayed correctly
 							if (enableByDomain) {
 								if (rule)

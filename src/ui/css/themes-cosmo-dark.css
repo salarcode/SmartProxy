@@ -90,7 +90,7 @@ select:-webkit-autofill {
 
 /* Modified CSS */
 :root {
-    --bs-blue: #2780e3; --bs-indigo: #6610f2; --bs-purple: #613d7c; --bs-pink: #e83e8c; --bs-red: #ff0039; --bs-orange: #f0ad4e; --bs-yellow: #ff7518; --bs-green: #3fb618; --bs-teal: #20c997; --bs-cyan: #9954bb; --bs-white: #fff; --bs-gray: #868e96; --bs-gray-dark: #373a3c; --bs-gray-100: #f8f9fa; --bs-gray-200: #e9ecef; --bs-gray-300: #dee2e6; --bs-gray-400: #ced4da; --bs-gray-500: #adb5bd; --bs-gray-600: #868e96; --bs-gray-700: #495057; --bs-gray-800: #373a3c; --bs-gray-900: #212529; --bs-primary: #2780e3; --bs-secondary: #373a3c; --bs-success: #3fb618; --bs-info: #9954bb; --bs-warning: #ff7518; --bs-danger: #ff0039; --bs-light: #f8f9fa; --bs-dark: #373a3c; --darkreader-bg--bs-primary-rgb: 60, 119, 184; --darkreader-text--bs-primary-rgb: 114, 190, 254; --darkreader-bg--bs-secondary-rgb: 57, 61, 62; --darkreader-text--bs-secondary-rgb: 253, 249, 242; --darkreader-bg--bs-success-rgb: 97, 176, 72; --darkreader-text--bs-success-rgb: 192, 255, 163; --darkreader-bg--bs-info-rgb: 126, 80, 149; --darkreader-text--bs-info-rgb: 190, 138, 215; --darkreader-bg--bs-warning-rgb: 201, 108, 46; --darkreader-text--bs-warning-rgb: 255, 176, 106; --darkreader-bg--bs-danger-rgb: 190, 22, 60; --darkreader-text--bs-danger-rgb: 247, 59, 101; --darkreader-bg--bs-light-rgb: 36, 39, 40; --darkreader-text--bs-light-rgb: 255, 255, 255; --darkreader-bg--bs-dark-rgb: 57, 61, 62; --darkreader-text--bs-dark-rgb: 253, 249, 242; --darkreader-bg--bs-white-rgb: 32, 34, 34; --darkreader-text--bs-white-rgb: 255, 255, 255; --darkreader-bg--bs-black-rgb: 0, 0, 0; --darkreader-text--bs-black-rgb: 255, 255, 255; --darkreader-text--bs-body-color-rgb: 253, 249, 242; --darkreader-bg--bs-body-bg-rgb: 32, 34, 34; --bs-font-sans-serif: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; --bs-font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",
+    --bs-blue: #2780e3; --bs-indigo: #6610f2; --bs-purple: #613d7c; --bs-pink: #e83e8c; --bs-red: #ff0039; --bs-orange: #f0ad4e; --bs-yellow: #ff7518; --bs-green: #3fb618; --bs-teal: #20c997; --bs-cyan: #9954bb; --bs-white: #fff; --bs-gray: #868e96; --bs-gray-dark: #373a3c; --bs-gray-100: #f8f9fa; --bs-gray-200: #e9ecef; --bs-gray-300: #dee2e6; --bs-gray-400: #ced4da; --bs-gray-500: #adb5bd; --bs-gray-600: #868e96; --bs-gray-700: #495057; --bs-gray-800: #373a3c; --bs-gray-900: #212529; --bs-primary: #2780e3; --darkreader-bg--bs-secondary: #393d3e; --bs-success: #3fb618; --bs-info: #9954bb; --bs-warning: #ff7518; --bs-danger: #ff0039; --bs-light: #f8f9fa; --bs-dark: #373a3c; --darkreader-bg--bs-primary-rgb: 60, 119, 184; --darkreader-text--bs-primary-rgb: 114, 190, 254; --darkreader-bg--bs-secondary-rgb: 57, 61, 62; --darkreader-text--bs-secondary-rgb: 253, 249, 242; --darkreader-bg--bs-success-rgb: 97, 176, 72; --darkreader-text--bs-success-rgb: 192, 255, 163; --darkreader-bg--bs-info-rgb: 126, 80, 149; --darkreader-text--bs-info-rgb: 190, 138, 215; --darkreader-bg--bs-warning-rgb: 201, 108, 46; --darkreader-text--bs-warning-rgb: 255, 176, 106; --darkreader-bg--bs-danger-rgb: 190, 22, 60; --darkreader-text--bs-danger-rgb: 247, 59, 101; --darkreader-bg--bs-light-rgb: 36, 39, 40; --darkreader-text--bs-light-rgb: 255, 255, 255; --darkreader-bg--bs-dark-rgb: 57, 61, 62; --darkreader-text--bs-dark-rgb: 253, 249, 242; --darkreader-bg--bs-white-rgb: 32, 34, 34; --darkreader-text--bs-white-rgb: 255, 255, 255; --darkreader-bg--bs-black-rgb: 0, 0, 0; --darkreader-text--bs-black-rgb: 255, 255, 255; --darkreader-text--bs-body-color-rgb: 253, 249, 242; --darkreader-bg--bs-body-bg-rgb: 32, 34, 34; --bs-font-sans-serif: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; --bs-font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",
     monospace;
     --darkreader-bgimg--bs-gradient: linear-gradient(180deg,
     rgba(32, 34, 34, 0.15),
@@ -2658,6 +2658,11 @@ iframe {
 .slogan {
     color: rgb(186, 224, 255);
 }
+@media (prefers-color-scheme: dark) {
+    .slogan {
+        color: rgb(255, 255, 255);
+    }
+}
 input:invalid {
     border-color: rgba(165, 18, 18, 0.5);
 }
@@ -2671,13 +2676,13 @@ input:invalid {
     color: rgb(255, 255, 255) !important;
 }
 .nav-pills.interactive .nav-link:hover {
-    background-color: rgb(40, 41, 42);
+    background-color: rgba(80, 84, 86, 0.3);
 }
 .nav-pills.interactive .nav-link.active:hover {
-    background-color: rgb(36, 106, 182);
+    background-color: var(--darkreader-bg--bs-secondary);
 }
 .nav-link.nav-smart-profile {
-    background-color: rgba(25, 80, 65, 0.5);
+    border-left-color: rgb(40, 130, 97);
 }
 .subdomains-list.subdomains-list {
     box-shadow: rgba(0, 0, 0, 0.18) 0px 6px 12px;
@@ -2701,6 +2706,17 @@ hr {
 }
 .sticky-save-buttons-bar::after {
     box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px;
+}
+@media (prefers-color-scheme: dark) {
+    .position-sticky-bottom {
+        background-color: rgb(33, 35, 36);
+    }
+    .sticky-save-buttons-bar {
+        background-color: rgb(33, 35, 36);
+    }
+    .sticky-save-buttons-bar::after {
+        box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px;
+    }
 }
 .popup-menu-failed {
     border-right-color: rgb(88, 92, 94);

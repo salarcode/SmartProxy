@@ -21,7 +21,7 @@ import { environment, browser } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType} from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 
@@ -70,6 +70,7 @@ export class settingsPage {
 
 	private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
 		this.currentSettings = settingsData.settings;
+		CommonUi.applyThemes(this.currentSettings.options);
 		this.populateSettingsUiData(settingsData);
 		this.loadServersGrid(this.currentSettings.proxyServers);
 		this.loadServerSubscriptionsGrid(this.currentSettings.proxyServerSubscriptions);
@@ -98,6 +99,10 @@ export class settingsPage {
 		jQuery("#btnSubmitIgnoreRequestDomains").click(settingsPage.uiEvents.onClickSubmitIgnoreRequestDomains);
 
 		jQuery("#btnViewShortcuts").click(settingsPage.uiEvents.onClickViewShortcuts);
+
+		jQuery("#cmbThemesLight").change(settingsPage.uiEvents.onChangeThemesLight);
+
+		jQuery("#cmbThemesDark").change(settingsPage.uiEvents.onChangeThemesDark);
 
 		// Smart profiles
 		jQuery("#btnAddNewSmartProfile").click(settingsPage.uiEvents.onClickAddNewSmartProfile);
@@ -738,8 +743,18 @@ export class settingsPage {
 		divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked", options.displayAppliedProxyOnBadge || false);
 		divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked", options.displayMatchedRuleOnBadge || false);
 
-		// this is needed to enabled/disable syn check boxes based on settings
+		divGeneral.find("#rbtnThemesAutoSwitchBySystem").prop("checked", options.themeType == ThemeType.Auto);
+		divGeneral.find("#rbtnThemesLight").prop("checked", options.themeType == ThemeType.Light);
+		divGeneral.find("#rbtnThemesDark").prop("checked", options.themeType == ThemeType.Dark);
+		divGeneral.find("#cmbThemesLight").val(options.themesLight);
+		divGeneral.find("#txtThemesLightCustomUrl").val(options.themesLightCustomUrl);
+		divGeneral.find("#cmbThemesDark").val(options.themesDark);
+		divGeneral.find("#txtThemesDarkCustomUrl").val(options.themesDarkCustomUrl);
+
+		// this is needed to enabled/disable UI based on settings
 		settingsPage.uiEvents.onSyncSettingsChanged();
+		settingsPage.uiEvents.onChangeThemesLight();
+		settingsPage.uiEvents.onChangeThemesDark();
 
 		if (environment.chrome) {
 			divGeneral.find("#chkProxyPerOrigin").attr("disabled", "disabled")
@@ -766,6 +781,19 @@ export class settingsPage {
 		generalOptions.shortcutNotification = divGeneral.find("#chkShortcutNotification").prop("checked");
 		generalOptions.displayAppliedProxyOnBadge = divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked");
 		generalOptions.displayMatchedRuleOnBadge = divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked");
+		if (divGeneral.find("#rbtnThemesLight").prop("checked")) {
+			generalOptions.themeType = ThemeType.Light;
+		}
+		else if (divGeneral.find("#rbtnThemesDark").prop("checked")) {
+			generalOptions.themeType = ThemeType.Dark;
+		}
+		else {
+			generalOptions.themeType = ThemeType.Auto;
+		}
+		generalOptions.themesLight = divGeneral.find("#cmbThemesLight").val();
+		generalOptions.themesLightCustomUrl = divGeneral.find("#txtThemesLightCustomUrl").val();
+		generalOptions.themesDark = divGeneral.find("#cmbThemesDark").val();
+		generalOptions.themesDarkCustomUrl = divGeneral.find("#txtThemesDarkCustomUrl").val();
 
 		return generalOptions;
 	}
@@ -1302,7 +1330,7 @@ export class settingsPage {
 			tabContainer.find(".firefox-only").show();
 			tabContainer.find(".chrome-only").hide();
 		}
-		
+
 		// -- RulesSubscription --------
 		// applying the default values
 		let cmbRulesSubscriptionObfuscation = tabContainer.find("#cmbRulesSubscriptionObfuscation");
@@ -1750,6 +1778,29 @@ export class settingsPage {
 		onClickSaveGeneralOptions() {
 			let generalOptions = settingsPage.readGeneralOptions();
 
+			if (generalOptions.themesLight == themesCustomType) {
+				if (!Utils.isValidUrl(generalOptions.themesLightCustomUrl)) {
+					// Please enter a valid Light Theme and the url should be 'https'.
+					messageBox.error(browser.i18n.getMessage("aaaaaaaa"));
+					return;
+				}
+				if (!Utils.isUrlHttps(generalOptions.themesLightCustomUrl)) {
+					messageBox.error(browser.i18n.getMessage("aaaaaaaa"));
+					return;
+				}
+			}
+			if (generalOptions.themesDark == themesCustomType) {
+				if (!Utils.isValidUrl(generalOptions.themesDarkCustomUrl)) {
+					// // Please enter a valid Dark Theme and the url should be 'https'.
+					messageBox.error(browser.i18n.getMessage("aaaaaaaa"));
+					return;
+				}
+				if (!Utils.isUrlHttps(generalOptions.themesDarkCustomUrl)) {
+					messageBox.error(browser.i18n.getMessage("aaaaaaaa"));
+					return;
+				}
+			}
+
 			PolyFill.runtimeSendMessage(
 				{
 					command: CommandMessages.SettingsPageSaveOptions,
@@ -1830,10 +1881,27 @@ export class settingsPage {
 			});
 			return false;
 		},
+		onChangeThemesLight() {
+			var value = jQuery("#cmbThemesLight").val();
+			if (value == themesCustomType) {
+				jQuery("#divThemesLightCustom").removeClass('d-none');
+			}
+			else {
+				jQuery("#divThemesLightCustom").addClass('d-none');
+			}
+		},
+		onChangeThemesDark() {
+			var value = jQuery("#cmbThemesDark").val();
+			if (value == themesCustomType) {
+				jQuery("#divThemesDarkCustom").removeClass('d-none');
+			}
+			else {
+				jQuery("#divThemesDarkCustom").addClass('d-none');
+			}
+		},
 		onClickAddNewSmartProfile() {
 			let modal = jQuery("#modalAddNewSmartProfile");
 			modal.find("#rbtnNewSmartProfile_SmartRules").prop("checked", true);
-
 		},
 		onClickSubmitContinueAddingProfile() {
 			let modal = jQuery("#modalAddNewSmartProfile");
