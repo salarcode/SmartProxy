@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -931,7 +931,8 @@ export class Core {
 
 		// TODO: Because of bug #40 do not add additional in overflow menu
 
-		if (tabData == null) tabData = TabManager.getCurrentTab();
+		if (tabData == null)
+			tabData = TabManager.getCurrentTab();
 
 		if (tabData) {
 			let failedCount = 0;
@@ -961,7 +962,9 @@ export class Core {
 			}
 
 			if (Settings.current.options.displayMatchedRuleOnBadge && !environment.mobile) {
-				// TODO: displayMatchedRuleOnBadge
+				if (tabData.proxified && tabData.proxyMatchedRule) {
+					proxyTitle += `\r\n${browser.i18n.getMessage('toolbarTooltipEffectiveRulePattern')}  ${tabData.proxyMatchedRule.ruleText}`;
+				}
 			}
 		}
 
