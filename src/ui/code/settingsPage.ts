@@ -1066,7 +1066,6 @@ export class settingsPage {
 		let profileTabTemplate = jQuery("#tab-smart-profile");
 		profileTabTemplate.after(profileTab);
 
-
 		return pageSmartProfile;
 	}
 
@@ -1096,6 +1095,9 @@ export class settingsPage {
 		this.bindSmartProfileEvents(pageSmartProfile);
 		this.initializeSmartProfileUi(pageSmartProfile);
 
+		this.loadRulesSubscriptions(pageSmartProfile, profile.rulesSubscriptions);
+		this.loadRules(pageSmartProfile, profile.proxyRules);
+		
 		// NOTE: in this step we only keeping an empty profile proxy combobox
 		if (isNewProfile)
 			this.loadProfileProxyServer(pageSmartProfile);
@@ -1232,6 +1234,7 @@ export class settingsPage {
 
 		let grdRules = tabContainer.find("#grdRules").DataTable({
 			"dom": dataTableCustomDom,
+			data: [],
 			paging: true,
 			select: true,
 			scrollY: 300,

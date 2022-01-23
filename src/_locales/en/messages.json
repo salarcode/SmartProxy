@@ -12,13 +12,17 @@
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "In effect rule:",
+		"message": "Matched rule source:",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "In effect rule: none",
+		"message": "No matching rule",
 		"description": ""
 	},
+	"toolbarTooltipEffectiveRulePattern": {
+		"message": "Rule pattern:",
+		"description": ""
+	},	
 	"popupTitle": {
 		"message": "SmartProxy Activation",
 		"description": ""
@@ -49,6 +53,10 @@
 	},
 	"popupEnableProxyOn": {
 		"message": "Enable proxy on",
+		"description": ""
+	},
+	"popupIgnoreTheseDomains": {
+		"message": "Ignore these domains",
 		"description": ""
 	},
 	"popupRuleIsFromSubscription": {
@@ -348,7 +356,11 @@
 		"description": ""
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Display applied proxy on badge",
+		"message": "Display applied rule source on badge",
+		"description": ""
+	},
+	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
+		"message": "Display applied rule pattern on badge",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresTitle": {
