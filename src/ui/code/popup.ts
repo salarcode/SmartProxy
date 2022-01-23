@@ -23,6 +23,7 @@ import { Utils } from "../../lib/Utils";
 
 export class popup {
 	private static popupData: PopupInternalDataType = null;
+	private static activeProfile: SmartProfileBase;
 
 	public static initialize() {
 
@@ -113,12 +114,22 @@ export class popup {
 	private static populateDataForPopup(dataForPopup: PopupInternalDataType) {
 
 		CommonUi.applyThemes(dataForPopup.themeData);
+		popup.updateActiveProfile(dataForPopup);
 		popup.populateUpdateAvailable(dataForPopup);
 		popup.populateUnsupportedFeatures(dataForPopup);
 		popup.populateSmartProfiles(dataForPopup.proxyProfiles, dataForPopup.activeProfileId);
 		popup.populateActiveProxy(dataForPopup);
 		popup.populateProxyableDomainList(dataForPopup.proxyableDomains);
 		popup.populateFailedRequests(dataForPopup.failedRequests);
+	}
+
+	static updateActiveProfile(dataForPopup: PopupInternalDataType) {
+		// dataForPopup.proxyProfiles, dataForPopup.activeProfileId
+		if (dataForPopup.activeProfileId) {
+			popup.activeProfile = dataForPopup.proxyProfiles.find(a => a.profileId == dataForPopup.activeProfileId);
+		}
+		else
+			popup.activeProfile = null;
 	}
 
 	private static populateUpdateAvailable(dataForPopup: PopupInternalDataType) {
@@ -252,11 +263,19 @@ export class popup {
 	}
 
 	private static populateProxyableDomainList(proxyableDomainList: ProxyableDomainType[]) {
-		if (!proxyableDomainList || !proxyableDomainList.length) return;
+		if (!proxyableDomainList || !proxyableDomainList.length)
+			return;
 
 		var divProxyableContainer = jQuery("#divProxyableContainer");
 		var divProxyableDomain = divProxyableContainer.find("#divProxyableDomains");
 		var divProxyableDomainItem = divProxyableDomain.find("#divProxyableDomainItem");
+
+		if (popup.activeProfile && popup.activeProfile.profileType == SmartProfileType.AlwaysEnabledBypassRules) {
+			divProxyableContainer.find("#lblIgnoreTheseDomains").removeClass('d-none');
+		}
+		else {
+			divProxyableContainer.find("#lblEnableProxyOn").removeClass('d-none');
+		}
 
 		// display the list container
 		divProxyableContainer.show();
