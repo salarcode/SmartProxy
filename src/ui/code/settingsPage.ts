@@ -21,7 +21,7 @@ import { environment, browser } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType} from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 
@@ -1063,6 +1063,10 @@ export class settingsPage {
 		let pageSmartProfile = this.createProfileContainer(newProfile, true);
 		let profileTab = pageSmartProfile.htmlProfileTab;
 
+		let profileMenu = pageSmartProfile.htmlProfileMenu;
+		let profileMenuTemplate = jQuery("#menu-smart-profile");
+		profileMenuTemplate.after(profileMenu);
+
 		let profileTabTemplate = jQuery("#tab-smart-profile");
 		profileTabTemplate.after(profileTab);
 
@@ -1086,7 +1090,7 @@ export class settingsPage {
 		pageSmartProfile.htmlProfileTab = profileTab;
 
 		// menu
-		let profileMenu = this.createProfileMenu(profile, tabId);
+		let profileMenu = this.createProfileMenu(profile, tabId, isNewProfile);
 
 		pageSmartProfile.htmlProfileMenu = profileMenu;
 
@@ -1097,7 +1101,7 @@ export class settingsPage {
 
 		this.loadRulesSubscriptions(pageSmartProfile, profile.rulesSubscriptions);
 		this.loadRules(pageSmartProfile, profile.proxyRules);
-		
+
 		// NOTE: in this step we only keeping an empty profile proxy combobox
 		if (isNewProfile)
 			this.loadProfileProxyServer(pageSmartProfile);
@@ -1112,11 +1116,13 @@ export class settingsPage {
 		return pageSmartProfile;
 	}
 
-	private static createProfileMenu(profile: SmartProfile, tabId: string) {
+	private static createProfileMenu(profile: SmartProfile, tabId: string, isNewProfile: boolean = false) {
 		let profileMenuTemplate = jQuery("#menu-smart-profile");
 
 		let newId = 'smart-profile-' + Utils.getNewUniqueIdNumber();
 		let menuId = 'menu-' + newId;
+		if (isNewProfile)
+			menuId += '-new';
 		let profileMenu = profileMenuTemplate.clone();
 
 		// menu
@@ -1131,9 +1137,10 @@ export class settingsPage {
 
 	private static createProfileTab(profile: SmartProfile, isNewProfile: boolean = false): any {
 		let profileTabTemplate = jQuery("#tab-smart-profile");
-
 		let newId = 'smart-profile-' + Utils.getNewUniqueIdNumber();
 		let tabId = 'tab-' + newId;
+		if (isNewProfile)
+			tabId += '-new';
 		let profileTab = profileTabTemplate.clone();
 
 		// tab
@@ -1183,9 +1190,11 @@ export class settingsPage {
 
 	private static showProfileTab(pageProfile: SettingsPageSmartProfile) {
 		let profileTab = pageProfile.htmlProfileTab;
+		let profileMenu = pageProfile.htmlProfileMenu;
 
 		jQuery("#tabSettingsContent").find('.tab-pane').removeClass('active show')
-		profileTab.css('display', '').tab('show');
+		profileTab.css('display', '');
+		profileMenu.tab('show');
 	}
 
 	private static showProfileNameEdit(htmlProfileTab: any) {
