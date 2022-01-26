@@ -124,7 +124,7 @@ export class popup {
 	}
 
 	static updateActiveProfile(dataForPopup: PopupInternalDataType) {
-		// dataForPopup.proxyProfiles, dataForPopup.activeProfileId
+
 		if (dataForPopup.activeProfileId) {
 			popup.activeProfile = dataForPopup.proxyProfiles.find(a => a.profileId == dataForPopup.activeProfileId);
 		}
@@ -201,10 +201,12 @@ export class popup {
 
 		// remove previous items
 		cmbActiveProxy.find("option").remove();
-
+		
 		let isProfileProxyServer = false;
 		if (dataForPopup.activeProfileId) {
-			let activeProfile = dataForPopup.proxyProfiles.find(a => a.profileId == dataForPopup.activeProfileId);
+			let activeProfile = popup.activeProfile;
+			if (!activeProfile)
+				activeProfile = dataForPopup.proxyProfiles.find(a => a.profileId == dataForPopup.activeProfileId);
 
 			if (activeProfile?.profileProxyServerId) {
 				isProfileProxyServer = true;
