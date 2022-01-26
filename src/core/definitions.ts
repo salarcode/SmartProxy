@@ -165,7 +165,6 @@ export class ResultHolderGeneric<T> implements ResultHolder {
 
 export class PopupInternalDataType {
 	public proxyableDomains: ProxyableDomainType[];
-	//public proxyMode: ProxyModeType;
 	public proxyProfiles: SmartProfileBase[];
 	public activeProfileId: string;
 	public hasProxyServers: boolean;
@@ -519,7 +518,7 @@ export class GeneralOptions implements Cloneable {
 		if (source['enableShortcuts'] != null) this.enableShortcuts = source['enableShortcuts'] == true ? true : false;
 		if (source['shortcutNotification'] != null)
 			this.shortcutNotification = source['shortcutNotification'] == true ? true : false;
-		this.themeType = source['themeType'] ?? ThemeType.Auto;
+		this.themeType = source['themeType'] || ThemeType.Auto;
 		this.themesLight = source['themesLight'];
 		this.themesLightCustomUrl = source['themesLightCustomUrl'];
 		this.themesDark = source['themesDark'];
@@ -551,7 +550,7 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 	}
 
 	CopyFrom(source: any) {
-		this.id = source['id'] ?? Utils.getNewUniqueIdString();
+		this.id = source['id'] || Utils.getNewUniqueIdString();
 		this.name = source['name'];
 		this.host = source['host'];
 		this.port = +source['port'];

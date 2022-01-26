@@ -326,9 +326,9 @@ function extractHostFromUrl(url) {
 				search = 'null';
 
 			if (rule.proxy) {
-				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() ?? 'null'},ruleType:${rule.compiledRuleType},proxy:"${this.convertActiveProxyServer(rule.proxy)}"}`);
+				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},ruleType:${rule.compiledRuleType},proxy:"${this.convertActiveProxyServer(rule.proxy)}"}`);
 			} else {
-				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() ?? 'null'},ruleType:${rule.compiledRuleType}}`);
+				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},ruleType:${rule.compiledRuleType}}`);
 			}
 		}
 		return compiledRulesAsStringArray;

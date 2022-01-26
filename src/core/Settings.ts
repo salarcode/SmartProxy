@@ -193,7 +193,7 @@ export class Settings {
 			else if (profile.profileType == SmartProfileType.SystemProxy)
 				hasSystem = true;
 
-			let isBuiltin = profile.profileTypeConfig?.builtin ?? false;
+			let isBuiltin = profile.profileTypeConfig?.builtin || false;
 			let newProfile = new SmartProfile();
 			Object.assign(newProfile, profile);
 			newProfile.profileTypeConfig = profileTypeConfig;

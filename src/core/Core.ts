@@ -617,7 +617,7 @@ export class Core {
 	public static CycleToNextProxyServer(): ResultHolderGeneric<ProxyServer> {
 		let settingsActive = Settings.active;
 		let currentServerId =
-			settingsActive.activeProfile?.profileProxyServerId ??
+			settingsActive.activeProfile?.profileProxyServerId ||
 			Settings.current.defaultProxyServerId;
 		let resultProxy: ProxyServer;
 
@@ -646,7 +646,7 @@ export class Core {
 	public static CycleToPreviousProxyServer(): ResultHolderGeneric<ProxyServer> {
 		let settingsActive = Settings.active;
 		let currentServerId =
-			settingsActive.activeProfile?.profileProxyServerId ??
+			settingsActive.activeProfile?.profileProxyServerId ||
 			Settings.current.defaultProxyServerId;
 		let resultProxy: ProxyServer;
 
@@ -702,8 +702,9 @@ export class Core {
 		dataForPopup.hasProxyServers = settings.proxyServers.length > 0;
 		dataForPopup.proxyServers = settings.proxyServers;
 		dataForPopup.currentProxyServerId =
-			settingsActive.activeProfile?.profileProxyServerId ??
+			(settingsActive.activeProfile?.profileProxyServerId) ||
 			settings.defaultProxyServerId;
+
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
 		dataForPopup.proxyServersSubscribed = SettingsOperation.getAllSubscribedProxyServers();
@@ -801,7 +802,7 @@ export class Core {
 				let resultRuleInfo = multiTestResultList[i];
 				let resultRule = resultRuleInfo?.compiledRule;
 				let domain = proxyableDomainList[i];
-				let matchedHost = resultRule?.hostName ?? domain;
+				let matchedHost = resultRule?.hostName || domain;
 
 				let ruleIsForThisHost = false;
 				if (resultRule != null) {

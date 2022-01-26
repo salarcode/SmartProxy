@@ -82,7 +82,7 @@ export class ProfileOperations {
 		let smartProfile = ProfileOperations.findSmartProfileById(settings.activeProfileId, settings.proxyProfiles);
 		if (smartProfile == null) {
 			Debug.warn(`No active profile found`);
-			return;
+			return null;
 		}
 		return smartProfile;
 	}

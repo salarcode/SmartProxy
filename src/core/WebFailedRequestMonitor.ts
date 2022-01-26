@@ -200,7 +200,7 @@ export class WebFailedRequestMonitor {
 									let resultRuleInfo = multiTestResultList[i];
 									let resultRule = resultRuleInfo?.compiledRule;
 									let domain = proxyableDomainList[i];
-									let matchedHost = resultRule?.hostName ?? domain;
+									let matchedHost = resultRule?.hostName || domain;
 
 									failedInfo = new FailedRequestType();
 									failedInfo.url = requestDetails.url;

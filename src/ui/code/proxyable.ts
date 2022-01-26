@@ -286,8 +286,8 @@ export class proxyable {
 			let request = new ProxyableLogDataType();
 			Object.assign(request, newRequest);
 
-			request.hostName = request.hostName ?? "";
-			request.ruleText = request.ruleText ?? "";
+			request.hostName = request.hostName || "";
+			request.ruleText = request.ruleText || "";
 
 			let row = this.grdProxyable.row
 				.add(request)
