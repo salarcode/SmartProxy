@@ -91,7 +91,7 @@ export enum CompiledProxyRuleType {
 	SearchDomainSubdomainAndPath,
 }
 export enum CompiledProxyRuleSource {
-	Manual,
+	Rules,
 	Subscriptions,
 }
 export enum ProxyServerForProtocol {
@@ -232,78 +232,65 @@ export class ProxyableInternalDataType {
 	themeData: PartialThemeDataType;
 }
 
-export enum ProxyableLogType {
+export enum ProxyableMatchedRuleStatus {
 	NoneMatched,
-	MatchedRule,
 	Special,
-	Whitelisted,
-	AlwaysEnabledByPassed,
-	SystemProxyApplied,
-	AlwaysEnabled,
-	AlwaysEnabledForcedByRules,
 	ProxyPerOrigin,
+	// SmartRules profile
+	MatchedRule,
+	Whitelisted,
+
+	// AlwaysEnabled profile
+	AlwaysEnabledByPassed/* whitelisted, rule matched */,
+	AlwaysEnabledForcedByRules /* proxied, rule matched */
+
+}
+export enum ProxyableProxifiedStatus {
+	NoProxy,
+	Special,
+	ProxyPerOrigin,
+	MatchedRule,
+	AlwaysEnabled /* proxied, no rule matched */,
+	SystemProxyApplied /* unknown, system proxy will apply */
 }
 
 export class ProxyableLogDataType {
 	public tabId: number;
-	public logType: ProxyableLogType;
 	public url: string;
-	public hostName: string;
-	public ruleText: string;
 	public ruleId?: number;
+	public ruleHostName: string;
+	public rulePatternText: string;
 	public ruleSource?: CompiledProxyRuleSource;
-	public whitelist?: boolean;
+	public matchedRuleStatus: ProxyableMatchedRuleStatus;
+	public proxifiedStatus: ProxyableProxifiedStatus;
 
-	get logTypeName(): string {
-		return ProxyableLogType[this.logType];
+	get matchedRuleStatusName(): string {
+		return ProxyableMatchedRuleStatus[this.matchedRuleStatus];
 	}
 
-	private _proxied: boolean | null;
-
-	get proxied(): boolean {
-		if (this._proxied != null)
-			// if value is set explicitly
-			return this._proxied;
-
-		if (
-			this.logType == ProxyableLogType.AlwaysEnabled ||
-			this.logType == ProxyableLogType.AlwaysEnabledForcedByRules ||
-			this.logType == ProxyableLogType.MatchedRule ||
-			this.logType == ProxyableLogType.ProxyPerOrigin
-		)
-			return true;
-		return false;
+	get proxifiedStatusName(): string {
+		return ProxyableProxifiedStatus[this.proxifiedStatus];
 	}
-	set proxied(value: boolean) {
-		// setting value explicitly
-		this._proxied = value;
-	}
-	get statusCanBeDetermined(): boolean {
-		if (
-			this.logType == ProxyableLogType.AlwaysEnabled ||
-			this.logType == ProxyableLogType.AlwaysEnabledForcedByRules ||
-			this.logType == ProxyableLogType.Special ||
-			this.logType == ProxyableLogType.SystemProxyApplied ||
-			this.logType == ProxyableLogType.AlwaysEnabledByPassed
-		)
-			return false;
-		return true;
+
+	get proxified(): boolean {
+		return this.proxifiedStatus != ProxyableProxifiedStatus.NoProxy;
 	}
 
 	applyFromRule(rule: CompiledProxyRule) {
 		if (!rule)
 			return;
 
-		this.ruleText = rule.ruleText;
+		this.rulePatternText = rule.ruleText;
 		this.ruleId = rule.ruleId;
 		this.ruleSource = rule.compiledRuleSource;
-		if (!this.hostName)
-			this.hostName = rule.hostName;
+		if (!this.ruleHostName)
+			this.ruleHostName = rule.hostName;
 	}
 	removeRuleInfo() {
-		this.ruleText = null;
+		this.rulePatternText = '';
 		this.ruleId = null;
 		this.ruleSource = null;
+		this.ruleHostName = '';
 	}
 }
 

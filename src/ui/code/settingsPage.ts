@@ -494,7 +494,7 @@ export class settingsPage {
 			// the default value which is empty string
 			jQuery("<option>")
 				.attr("value", ProxyRuleSpecialProxyServer.DefaultGeneral)
-				.text(browser.i18n.getMessage("settingsRulesProxyDefault")) // [Use Default Proxy]
+				.text(browser.i18n.getMessage("settingsRulesProxyDefault")) // [Use Active Proxy]
 				.appendTo(cmdRuleProxyServer);
 			jQuery("<option>")
 				.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)

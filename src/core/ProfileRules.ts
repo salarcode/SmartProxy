@@ -39,6 +39,14 @@ export class ProfileRules {
 		if (smartProfile == null)
 			return;
 
+		if (!smartProfile.profileTypeConfig.editable) {
+			return {
+				success: false,
+				message: browser.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
+				rule: null
+			};
+		}
+
 		// get the rule for the source
 		let rule: ProxyRule;
 
@@ -84,6 +92,14 @@ export class ProfileRules {
 		let smartProfile = ProfileOperations.getActiveSmartProfile();
 		if (smartProfile == null)
 			return;
+
+		if (!smartProfile.profileTypeConfig.editable) {
+			return {
+				success: false,
+				message: browser.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
+				rule: null
+			};
+		}
 
 		return ProfileRules.enableByHostnameInternal(smartProfile, hostname);
 	}

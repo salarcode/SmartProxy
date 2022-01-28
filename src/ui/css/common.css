@@ -158,6 +158,9 @@ div.dataTables_scrollBody {
 hr {
 	color: rgb(100, 100, 100);
 }
+.vertical-align-middle {
+	vertical-align: middle;
+}
 /* ============================== */
 /* Settings page styles */
 /* ------------------------------ */
@@ -304,6 +307,9 @@ hr {
 /* ============================== */
 /* Proxyable page styles */
 /* ------------------------------ */
+.grid-vertical-align-middle td {
+	vertical-align: middle;
+}
 .grid-ellipsis-text-cell {
 	position: relative;
 }
@@ -315,4 +321,23 @@ hr {
 	overflow: hidden;
 	/* display: inline-block; */
 	width: 92%;
+}
+.grid-status-col-text .grid-ellipsis-text-link{
+	margin: 6px 2px 0 0;
+}
+.grid-col-nowrap {
+	font-size: 0.7rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.grid-status-col-text {
+	font-size: 0.7rem;
+}
+.grid-status-col-text .grid-col-maxwidth-100 {
+	display: inline-block;
+	max-width: 100px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }

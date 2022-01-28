@@ -54,7 +54,7 @@ export class ProxyRules {
 				}
 			}
 
-			newCompiled.compiledRuleSource = CompiledProxyRuleSource.Manual;
+			newCompiled.compiledRuleSource = CompiledProxyRuleSource.Rules;
 
 			switch (rule.ruleType) {
 				case ProxyRuleType.Exact:
