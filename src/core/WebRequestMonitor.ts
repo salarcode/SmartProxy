@@ -18,6 +18,7 @@ import { Debug } from '../lib/Debug';
 import { Utils } from '../lib/Utils';
 import { browser } from '../lib/environment';
 import { monitorUrlsSchemaFilter } from './definitions';
+import { TabDataType, TabManager } from './TabManager';
 
 export class WebRequestMonitor {
 	private static isMonitoring = false;
@@ -45,6 +46,9 @@ export class WebRequestMonitor {
 		browser.webRequest.onCompleted.addListener(WebRequestMonitor.events.onCompleted, {
 			urls: monitorUrlsSchemaFilter,
 		});
+		// unsubscribing when tab got removed
+		TabManager.TabRemoved.on(WebRequestMonitor.events.onTabRemovedInternal);
+
 		WebRequestMonitor.monitorCallback = callback;
 		WebRequestMonitor.isMonitoring = true;
 	}
@@ -61,7 +65,8 @@ export class WebRequestMonitor {
 
 			// get the request info
 			let req = WebRequestMonitor.requests[reqId];
-			if (!req) continue;
+			if (!req)
+				continue;
 
 			if (now - req._startTime < requestTimeoutTime) {
 				continue;
@@ -196,7 +201,7 @@ export class WebRequestMonitor {
 			}
 
 			let req = WebRequestMonitor.requests[requestDetails.requestId];
-			if(req && req.url === url){
+			if (req && req.url === url) {
 				// if redirect url is same as the url itself, mark completed
 				WebRequestMonitor.events.onCompleted(requestDetails);
 			}
@@ -297,6 +302,19 @@ export class WebRequestMonitor {
 			if (WebRequestMonitor.debugInfo)
 				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestError], requestDetails);
 		},
+		onTabRemovedInternal(tabData: TabDataType) {
+			let tabId = tabData?.tabId;
+			if (!tabId)
+				return;
+
+			for (const requestId in WebRequestMonitor.requests) {
+				const req = WebRequestMonitor.requests[requestId];
+			
+				if (req && req.tabId == tabId) {
+					delete WebRequestMonitor.requests[requestId];
+				}
+			}
+		}
 	};
 }
 

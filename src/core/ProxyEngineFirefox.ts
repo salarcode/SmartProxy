@@ -126,7 +126,7 @@ export class ProxyEngineFirefox {
 			const activeProfileType = activeProfile.profileType;
 
 			// checking if request is special
-			let specialRequest = ProxyEngineSpecialRequests.getProxyMode(requestDetails.url, true);
+			let specialRequest = ProxyEngineSpecialRequests.retrieveSpecialUrlMode(requestDetails.url, true);
 			if (specialRequest !== null) {
 				proxyLog.matchedRuleStatus = ProxyableMatchedRuleStatus.Special;
 				proxyLog.proxifiedStatus = ProxyableProxifiedStatus.NoProxy;

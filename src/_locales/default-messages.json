@@ -348,15 +348,15 @@
 		"description": ""
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Select Domains",
+		"message": "Enter Rules",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Ignore failure detection for these domains",
+		"message": "Ignore failure detection based on these rules",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Enter domain list you wish to disable failure detection.",
+		"message": "Add rules to disable failure detection.",
 		"description": ""
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
@@ -393,14 +393,6 @@
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
 		"message": "Display applied rule pattern on badge",
-		"description": ""
-	},
-	"settingsGeneralIgnoreRequestFailuresTitle": {
-		"message": "Ignore Request Failures For Domains",
-		"description": ""
-	},
-	"settingsGeneralIgnoredDomains": {
-		"message": "Ignored domain list:",
 		"description": ""
 	},
 	"settingsGeneralCancelButton": {
@@ -1262,14 +1254,6 @@
 	},
 	"settingsRulePatternIsEmpty": {
 		"message": "Rule doesn't have pattern defined",
-		"description": ""
-	},
-	"settingsBypassEnableForAlways": {
-		"message": "Enable for 'Always Enable' mode",
-		"description": ""
-	},
-	"settingsBypassListHint": {
-		"message": "(Use new line to separate entries)",
 		"description": ""
 	},
 	"settingsWelcomeTitle": {

@@ -77,7 +77,6 @@ export class WebFailedRequestMonitor {
 	}
 
 	private static requestMonitorCallback(eventType: RequestMonitorEvent, requestDetails: any) {
-
 		if (!Settings.current.options.detectRequestFailures)
 			return;
 
@@ -91,13 +90,12 @@ export class WebFailedRequestMonitor {
 			return;
 
 		let requestUrl = requestDetails.url;
-		let requestHost = Utils.extractHostFromUrl(requestUrl);
-
-		if (WebFailedRequestMonitor.checkIfDomainIgnored(requestHost)) {
+		if (WebFailedRequestMonitor.checkIfUrlIgnored(requestUrl)) {
 			// no logging or reporting requested to ignore domains
 			return;
 		}
 
+		let requestHost = Utils.extractHostFromUrl(requestUrl);
 		let failedRequests = tabData.failedRequests || (tabData.failedRequests = new Map<string, FailedRequestType>());
 
 		switch (eventType) {
@@ -227,7 +225,7 @@ export class WebFailedRequestMonitor {
 									}
 									failedInfo.isRootHost = requestHost == matchedHost;
 
-									WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, domain);
+									WebFailedRequestMonitor.markIgnoreDomain(failedInfo, domain);
 									// add to the list
 									failedRequests.set(domain, failedInfo);
 								}
@@ -240,7 +238,7 @@ export class WebFailedRequestMonitor {
 								failedInfo.hasRule = true;
 								failedInfo.ruleId = requestHostRule.ruleId;
 
-								WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, requestHost);
+								WebFailedRequestMonitor.markIgnoreDomain(failedInfo, requestHost);
 
 								// add to the list
 								failedRequests.set(requestHost, failedInfo);
@@ -274,7 +272,7 @@ export class WebFailedRequestMonitor {
 								failedInfo.ruleId = testResult.compiledRule.ruleId;
 							}
 
-							WebFailedRequestMonitor.checkIfFailureIgnored(failedInfo, requestHost);
+							WebFailedRequestMonitor.markIgnoreDomain(failedInfo, requestHost);
 
 							// add to the list
 							failedRequests.set(requestHost, failedInfo);
@@ -296,24 +294,39 @@ export class WebFailedRequestMonitor {
 		}
 	}
 
-	private static checkIfFailureIgnored(failedInfo: FailedRequestType, requestHost: string) {
+	private static markIgnoreDomain(failedInfo: FailedRequestType, requestHost: string) {
 
-		let ignoredDomains = Settings.current.options.ignoreRequestFailuresForDomains_REMOVED;
-		if (ignoredDomains && ignoredDomains.length) {
-
-			if (ignoredDomains.indexOf(requestHost) !== -1)
-				failedInfo.ignored = true;
+		if (WebFailedRequestMonitor.checkIfDomainIgnored(requestHost)) {
+			Debug.info("markIgnoreDomain=true", requestHost, failedInfo);
+			failedInfo.ignored = true;
 		}
+	}
+
+	private static checkIfUrlIgnored(requestUrl: string): boolean {
+
+		let ignoreFailureProfile = Settings.active.currentIgnoreFailureProfile;
+		if (!ignoreFailureProfile)
+			return false;
+
+		let matchedRule = ProxyRules.findMatchedUrlInRules(requestUrl, ignoreFailureProfile.compiledRules.Rules);
+		if (matchedRule) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private static checkIfDomainIgnored(requestHost: string): boolean {
 
-		let ignoredDomains = Settings.current.options.ignoreRequestFailuresForDomains_REMOVED;
-		if (ignoredDomains && ignoredDomains.length) {
+		let ignoreFailureProfile = Settings.active.currentIgnoreFailureProfile;
+		if (!ignoreFailureProfile)
+			return false;
 
-			if (ignoredDomains.indexOf(requestHost) !== -1)
-				return true;
+		let matchedRule = ProxyRules.findMatchedDomainRule(requestHost, ignoreFailureProfile.compiledRules.Rules);
+		if (matchedRule) {
+			return true;
 		}
+
 		return false;
 	}
 

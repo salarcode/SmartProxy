@@ -71,6 +71,19 @@ export class ProfileRules {
 		};
 	}
 
+	public static enableByHostnameListIgnoreFailureRules(hostnameList: string[]) {
+		if (!hostnameList || !hostnameList.length)
+			return;
+
+		let smartProfile = ProfileOperations.getIgnoreFailureRulesProfile();
+		if (smartProfile == null)
+			return;
+
+		for (let hostName of hostnameList) {
+			ProfileRules.enableByHostnameInternal(smartProfile, hostName);
+		}
+	}
+
 	public static enableByHostnameList(hostnameList: string[]) {
 		if (!hostnameList || !hostnameList.length)
 			return;
@@ -78,6 +91,15 @@ export class ProfileRules {
 		let smartProfile = ProfileOperations.getActiveSmartProfile();
 		if (smartProfile == null)
 			return;
+
+		if (!smartProfile.profileTypeConfig.editable ||
+			!ProfileOperations.profileTypeSupportsRules(smartProfile.profileType)) {
+			return {
+				success: false,
+				message: browser.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
+				rule: null
+			};
+		}
 
 		for (let hostName of hostnameList) {
 			ProfileRules.enableByHostnameInternal(smartProfile, hostName);
@@ -93,7 +115,8 @@ export class ProfileRules {
 		if (smartProfile == null)
 			return;
 
-		if (!smartProfile.profileTypeConfig.editable) {
+		if (!smartProfile.profileTypeConfig.editable ||
+			!ProfileOperations.profileTypeSupportsRules(smartProfile.profileType)) {
 			return {
 				success: false,
 				message: browser.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),

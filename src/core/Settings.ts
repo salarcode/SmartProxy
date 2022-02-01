@@ -333,6 +333,10 @@ export class Settings {
 				active.currentProxyServer = foundProxy;
 			}
 		}
+
+		let profileIgnoreFailureRules = ProfileOperations.getIgnoreFailureRulesProfile();
+		if (profileIgnoreFailureRules)
+			active.currentIgnoreFailureProfile = ProfileOperations.compileSmartProfile(profileIgnoreFailureRules);
 	}
 }
 

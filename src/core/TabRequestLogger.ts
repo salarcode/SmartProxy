@@ -58,7 +58,6 @@ export class TabRequestLogger {
 	}
 
 	private static handleTabRemovedInternal(tabData: TabDataType) {
-
 		// send notification first
 		TabRequestLogger.notifyProxyableOriginTabRemoved(tabData.tabId);
 
@@ -77,9 +76,6 @@ export class TabRequestLogger {
 		if (TabRequestLogger.subscribedTabList.indexOf(proxyLogData.tabId) == -1) {
 			return;
 		}
-
-		// TODO: REMOVE THIS
-		Debug.info("Firefox-Log", proxyLogData);
 
 		TabRequestLogger.sendProxyableRequestLog(proxyLogData);
 	}
@@ -124,9 +120,6 @@ export class TabRequestLogger {
 	private static async notifyProxyableLogRequestInternal(url: string, tabId: number) {
 		let proxyableData = TabRequestLogger.getProxyableDataForUrl(url);
 		proxyableData.tabId = tabId;
-
-		// TODO: REMOVE THIS
-		Debug.info("Chrome-Log", proxyableData);
 
 		TabRequestLogger.sendProxyableRequestLog(proxyableData);
 	}

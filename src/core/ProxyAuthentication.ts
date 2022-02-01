@@ -135,7 +135,7 @@ export class ProxyAuthentication {
 		if (requestDetails.challenger) {
 			var serverHost = requestDetails.challenger.host + ":" + requestDetails.challenger.port;
 
-			let specialRequest = ProxyEngineSpecialRequests.getProxyMode(serverHost, true);
+			let specialRequest = ProxyEngineSpecialRequests.retrieveSpecialUrlMode(serverHost, true);
 			if (specialRequest !== null) {
 
 				// value of `specialRequest.applyMode` is ignored, because this request is done by proxy handler itself

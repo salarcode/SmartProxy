@@ -1,6 +1,6 @@
 import { Debug } from "../lib/Debug";
 import { Utils } from "../lib/Utils";
-import { CompiledProxyRulesInfo, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
+import { CompiledProxyRulesInfo, getSmartProfileTypeConfig, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { Settings } from "./Settings";
 import { SettingsOperation } from "./SettingsOperation";
@@ -85,6 +85,24 @@ export class ProfileOperations {
 			return null;
 		}
 		return smartProfile;
+	}
+
+	public static getIgnoreFailureRulesProfile(): SmartProfile {
+		let settings = Settings.current;
+
+		let smartProfile = ProfileOperations.findFirstSmartProfileType(SmartProfileType.IgnoreFailureRules, settings.proxyProfiles);
+		if (smartProfile == null) {
+			smartProfile = new SmartProfile();
+			smartProfile.profileType = SmartProfileType.IgnoreFailureRules;
+			smartProfile.profileTypeConfig = getSmartProfileTypeConfig(SmartProfileType.IgnoreFailureRules);
+			smartProfile.profileName = 'Ignore Failure Rules';
+			settings.proxyProfiles.push(smartProfile);
+		}
+		return smartProfile;
+	}
+
+	static findFirstSmartProfileType(profileType: SmartProfileType, profiles: SmartProfile[]) {
+		return profiles.find((a) => a.profileType === profileType);
 	}
 
 	public static findSmartProfileById(id: string, profiles: SmartProfile[]): SmartProfile | null {
@@ -180,6 +198,7 @@ export class ProfileOperations {
 		toProfile.profileTypeConfig = {
 			builtin: fromProfile.profileTypeConfig.builtin,
 			editable: fromProfile.profileTypeConfig.editable,
+			selectable: fromProfile.profileTypeConfig.selectable,
 			supportsSubscriptions: fromProfile.profileTypeConfig.supportsSubscriptions,
 			supportsProfileProxy: fromProfile.profileTypeConfig.supportsProfileProxy,
 			customProxyPerRule: fromProfile.profileTypeConfig.customProxyPerRule,

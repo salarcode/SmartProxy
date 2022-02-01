@@ -117,9 +117,6 @@ export class CommandMessages {
 	public static SettingsPageSaveProxySubscriptions = 'SettingsPage_SaveProxySubscriptions';
 	public static SettingsPageSaveSmartProfile = 'SettingsPage_SaveSmartProfile';
 	public static SettingsPageDeleteSmartProfile = 'SettingsPage_DeleteSmartProfile';
-	//public static SettingsPageSaveProxyRules = 'SettingsPage_SaveProxyRules';
-	//public static SettingsPageSaveProxyRulesSubscriptions = 'SettingsPage_SaveProxyRulesSubscriptions';
-	//public static SettingsPageSaveBypass = 'SettingsPage_SaveBypass';
 	public static SettingsPageRestoreSettings = 'SettingsPage_RestoreSettings';
 	public static SettingsPageMakeRequestSpecial = 'SettingsPage_MakeRequestSpecial';
 	public static SettingsPageSkipWelcome = 'SettingsPage_SkipWelcome';
@@ -323,10 +320,12 @@ export class SettingsActive {
 	/** Current proxy server is derived from 
 	 * Active Profile if it is set otherwise it is derived from Default Proxy Server */
 	public currentProxyServer: ProxyServer;
+	public currentIgnoreFailureProfile: SmartProfileCompiled;
 }
 
 export class SmartProfileTypeConfig {
 	public editable: boolean;
+	public selectable: boolean;
 	public builtin: boolean;
 	public supportsSubscriptions: boolean;
 	/** Can have customer proxy on Profile */
@@ -370,6 +369,7 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 			return {
 				builtin: true,
 				editable: false,
+				selectable: true,
 				supportsSubscriptions: false,
 				supportsProfileProxy: false,
 				customProxyPerRule: false,
@@ -381,6 +381,7 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 			return {
 				builtin: true,
 				editable: true,
+				selectable: true,
 				supportsSubscriptions: true,
 				supportsProfileProxy: true,
 				customProxyPerRule: true,
@@ -392,6 +393,7 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 			return {
 				builtin: true,
 				editable: true,
+				selectable: true,
 				supportsSubscriptions: false,
 				supportsProfileProxy: true,
 				customProxyPerRule: false,
@@ -403,6 +405,7 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 			return {
 				builtin: true,
 				editable: false,
+				selectable: true,
 				supportsSubscriptions: false,
 				supportsProfileProxy: false,
 				customProxyPerRule: false,
@@ -414,7 +417,8 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 			return {
 				builtin: true,
 				editable: false,
-				supportsSubscriptions: true,
+				selectable: false,
+				supportsSubscriptions: false,
 				supportsProfileProxy: false,
 				customProxyPerRule: false,
 				canBeDisabled: false,
@@ -473,8 +477,6 @@ export class GeneralOptions implements Cloneable {
 	public syncActiveProfile: boolean = true;
 	public syncActiveProxy: boolean = true;
 	public detectRequestFailures: boolean = true;
-	//TODO: REMOVE/REPLACE with using Profiles
-	public ignoreRequestFailuresForDomains_REMOVED: string[];
 	public displayFailedOnBadge: boolean = true;
 	public displayAppliedProxyOnBadge: boolean = true;
 	public displayMatchedRuleOnBadge: boolean = true;
@@ -493,8 +495,6 @@ export class GeneralOptions implements Cloneable {
 		if (source['syncActiveProxy'] != null) this.syncActiveProxy = source['syncActiveProxy'] == true ? true : false;
 		if (source['detectRequestFailures'] != null)
 			this.detectRequestFailures = source['detectRequestFailures'] == true ? true : false;
-		if (source['ignoreRequestFailuresForDomains'] != null)
-			this.ignoreRequestFailuresForDomains_REMOVED = source['ignoreRequestFailuresForDomains'] || [];
 		if (source['displayFailedOnBadge'] != null)
 			this.displayFailedOnBadge = source['displayFailedOnBadge'] == true ? true : false;
 		if (source['displayAppliedProxyOnBadge'] != null)

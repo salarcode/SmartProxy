@@ -156,6 +156,8 @@ export class popup {
 		for (const profile of profiles) {
 			if (!profile.enabled)
 				continue;
+			if (!profile.profileTypeConfig.selectable)
+				continue;
 
 			let newId = 'smart-profile-' + profile.profileId;
 
@@ -175,20 +177,6 @@ export class popup {
 		}
 	}
 
-	// private static populateProxyMode(proxyMode: ProxyModeType) {
-	// 	let divProxyMode = jQuery("#divProxyMode");
-	// 	divProxyMode.find("li.disabled a").css("cursor", "default");
-
-	// 	divProxyMode.find(".nav-link").removeClass("active");
-
-	// 	divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
-	// 		.addClass("active")
-	// 		.parent("li");
-
-	// 	divProxyMode.find(".nav-link:not(.disabled)")
-	// 		.on("click", popup.onProxyModeClick);
-	// }
-
 	private static populateActiveProxy(dataForPopup: PopupInternalDataType) {
 		let divActiveProxy = jQuery("#divActiveProxy");
 		let cmbActiveProxy = divActiveProxy.find("#cmbActiveProxy");
@@ -201,7 +189,7 @@ export class popup {
 
 		// remove previous items
 		cmbActiveProxy.find("option").remove();
-		
+
 		let isProfileProxyServer = false;
 		if (dataForPopup.activeProfileId) {
 			let activeProfile = popup.activeProfile;

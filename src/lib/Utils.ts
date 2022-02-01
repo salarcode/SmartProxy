@@ -265,7 +265,7 @@ export class Utils {
 
 		result.reverse();
 
-		// checking top level domain lists
+		// removing top level extension if it is to be ignored, like .com.au
 		let topLevelDomainExtension = result[0];
 		if (topLevelDomainExtension) {
 

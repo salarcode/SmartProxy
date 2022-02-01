@@ -276,15 +276,17 @@ export class Core {
 				if (!message.domainList)
 					return;
 
-				let domainList = message.domainList;
+				let domainList: string[] = message.domainList;
 				let tabId = message.tabId;
 
-				Core.addFailedDomainsToIgnoredList(domainList);
+				ProfileRules.enableByHostnameListIgnoreFailureRules(domainList);
 
 				let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
 
-				SettingsOperation.saveOptions();
+				SettingsOperation.saveSmartProfiles();
 				SettingsOperation.saveAllSync();
+
+				Settings.updateActiveSettings();
 
 				// send the responses
 				if (updatedFailedRequests != null && sendResponse) {
@@ -396,30 +398,6 @@ export class Core {
 				}
 				return;
 			}
-
-			// case CommandMessages.SettingsPageSaveProxyRules: {
-			// 	if (!message.proxyRules)
-			// 		return;
-
-			// 	Settings.current.proxyRules = message.proxyRules;
-			// 	SettingsOperation.saveProxyProfiles();
-			// 	SettingsOperation.saveAllSync();
-
-			// 	ProxyEngine.notifyProxyRulesChanged();
-
-			// 	// update active proxy tab status
-			// 	Core.setBrowserActionStatus();
-
-			// 	if (sendResponse) {
-			// 		sendResponse({
-			// 			success: true,
-			// 			// Proxy rules saved successfully.
-			// 			message: browser.i18n.getMessage('settingsSaveProxyRulesSuccess'),
-			// 		});
-			// 	}
-
-			// 	return;
-			// }
 			case CommandMessages.SettingsPageSaveProxySubscriptions: {
 				if (!message.proxyServerSubscriptions)
 					return;
@@ -442,30 +420,6 @@ export class Core {
 				}
 				return;
 			}
-			// case CommandMessages.SettingsPageSaveProxyRulesSubscriptions: {
-			// 	if (!message.proxyRulesSubscriptions)
-			// 		return;
-			// 	Settings.current.proxyRulesSubscriptions = message.proxyRulesSubscriptions;
-			// 	SettingsOperation.saveProxyRulesSubscriptions();
-			// 	SettingsOperation.saveAllSync();
-
-			// 	// update the timers
-			// 	SubscriptionUpdater.updateRulesSubscriptions();
-
-			// 	ProxyEngine.notifyProxyRulesChanged();
-
-			// 	// update active proxy tab status
-			// 	Core.setBrowserActionStatus();
-
-			// 	if (sendResponse) {
-			// 		sendResponse({
-			// 			success: true,
-			// 			// Proxy rule subscriptions saved successfully.
-			// 			message: browser.i18n.getMessage('settingsSaveProxyRulesSubscriptionsSuccess'),
-			// 		});
-			// 	}
-			// 	return;
-			// }
 			case CommandMessages.SettingsPageRestoreSettings: {
 				if (!message.fileData) return;
 				let fileData = message.fileData;
@@ -694,7 +648,6 @@ export class Core {
 
 		let settingsActive = Settings.active;
 		let settings = Settings.current;
-
 		let dataForPopup = new PopupInternalDataType();
 		dataForPopup.proxyableDomains = [];
 		dataForPopup.proxyProfiles = ProfileOperations.getSmartProfileBaseList(settings.proxyProfiles);
@@ -872,16 +825,11 @@ export class Core {
 		return result;
 	}
 
-	private static addFailedDomainsToIgnoredList(domainList: string[]) {
-		let ignoredDomains = Settings.current.options.ignoreRequestFailuresForDomains_REMOVED || [];
-		let uniqueMerged = [...new Set([...ignoredDomains, ...domainList])];
-
-		Settings.current.options.ignoreRequestFailuresForDomains_REMOVED = uniqueMerged;
-	}
-
 	public static setBrowserActionStatus(tabData?: TabDataType) {
 		let extensionName = browser.i18n.getMessage('extensionName');
 		let proxyTitle = '';
+		if (!Settings.active || !Settings.active.activeProfile)
+			return;
 		switch (Settings.active.activeProfile.profileType) {
 			case SmartProfileType.Direct:
 				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupNoProxy')}`;

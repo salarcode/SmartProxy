@@ -29,7 +29,7 @@ export class ProxyEngineSpecialRequests {
 		};
 	}
 
-	public static getProxyMode(url: string, removeSpecial: boolean = true): {
+	public static retrieveSpecialUrlMode(url: string, removeSpecial: boolean = true): {
 		applyMode: SpecialRequestApplyProxyMode,
 		selectedProxy: ProxyServer
 	} | null {
