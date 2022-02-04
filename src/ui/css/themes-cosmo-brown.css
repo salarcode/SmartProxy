@@ -656,6 +656,10 @@ iframe {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23373a3c' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
     border-color: rgb(130, 115, 90);
 }
+.form-select option{
+    color: rgb(255, 255, 255);
+    background-color: rgb(52, 46, 36);
+}
 .form-select:focus {
     border-color: rgb(122, 108, 84);
     outline-color: currentcolor;
