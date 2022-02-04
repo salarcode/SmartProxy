@@ -1794,22 +1794,22 @@ export class settingsPage {
 			if (generalOptions.themesLight == themesCustomType) {
 				if (!Utils.isValidUrl(generalOptions.themesLightCustomUrl)) {
 					// Please enter a valid Light Theme and the url should be 'https'.
-					messageBox.error(browser.i18n.getMessage("aaaaaaaa"));
+					messageBox.error(browser.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
 					return;
 				}
 				if (!Utils.isUrlHttps(generalOptions.themesLightCustomUrl)) {
-					messageBox.error(browser.i18n.getMessage("aaaaaaaa"));
+					messageBox.error(browser.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
 					return;
 				}
 			}
 			if (generalOptions.themesDark == themesCustomType) {
 				if (!Utils.isValidUrl(generalOptions.themesDarkCustomUrl)) {
-					// // Please enter a valid Dark Theme and the url should be 'https'.
-					messageBox.error(browser.i18n.getMessage("aaaaaaaa"));
+					// Please enter a valid Dark Theme and the url should be 'https'.
+					messageBox.error(browser.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
 					return;
 				}
 				if (!Utils.isUrlHttps(generalOptions.themesDarkCustomUrl)) {
-					messageBox.error(browser.i18n.getMessage("aaaaaaaa"));
+					messageBox.error(browser.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
 					return;
 				}
 			}
@@ -1939,7 +1939,7 @@ export class settingsPage {
 			}
 			else {
 				// Message: Please select a profile type
-				messageBox.error(browser.i18n.getMessage("aaaaaaaaaaaaaaaaaa"));
+				messageBox.error(browser.i18n.getMessage("settingsProfilesAddErrorTypeRequired"));
 				return;
 			}
 
@@ -2496,14 +2496,14 @@ export class settingsPage {
 
 			if (smartProfile.profileName.trim() == '') {
 				// Profile name is mandatory
-				messageBox.error(browser.i18n.getMessage("aaaaaaaaaa"));
+				messageBox.error(browser.i18n.getMessage("settingsProfilesAddErrorNameRequired"));
 				return;
 			}
 
 			if (settingsPage.currentSettings.proxyProfiles.find(x => x.profileName == smartProfile.profileName &&
 				x.profileId != smartProfile.profileId) != null) {
 				// Profile name already exists, please enter another one
-				messageBox.error(browser.i18n.getMessage("aaaaaaaaaa"));
+				messageBox.error(browser.i18n.getMessage("settingsProfilesAddErrorNameExists"));
 				return;
 			}
 
@@ -2568,8 +2568,8 @@ export class settingsPage {
 			if (profile.profileTypeConfig.builtin)
 				return;
 
-			// Are you sure to delete this profile? This action cannot be undone!
-			messageBox.confirm(browser.i18n.getMessage("aaaaaaaaaaa"),
+			// Are you sure to delete this profile? Warning, this action cannot be undone!
+			messageBox.confirm(browser.i18n.getMessage("settingsProfilesDeleteConfirm"),
 				() => {
 
 					PolyFill.runtimeSendMessage(
@@ -2590,7 +2590,8 @@ export class settingsPage {
 							}
 						},
 						(error: Error) => {
-							messageBox.error(browser.i18n.getMessage("settingsaaaaaaaa") + " " + error.message);
+							// message: Failed to delete the profile with error: 
+							messageBox.error(browser.i18n.getMessage("settingsProfilesDeleteFailed") + " " + error.message);
 						});
 
 				});

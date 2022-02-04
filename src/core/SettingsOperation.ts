@@ -484,7 +484,7 @@ export class SettingsOperation {
 
 			let proxy = SettingsOperation.findProxyServerById(defaultProxyServerId);
 			if (proxy == null) {
-				return { success: false, result: browser.i18n.getMessage("aaaaaaaaaaaaaaaaaaaaaaaaa") };
+				return { success: false, result: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalidDefaultProxyServer") };
 			}
 
 			return { success: true, result: defaultProxyServerId };
@@ -494,7 +494,7 @@ export class SettingsOperation {
 
 			if (backupActiveProfileId == null ||
 				backupActiveProfileId <= 0) {
-				return { success: false, message: browser.i18n.getMessage("aaaaaaaaaaaaaaaaaaaaaaaaa") };
+				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalidActiveProfile") };
 			}
 			return { success: true, result: backupActiveProfileId };
 		}

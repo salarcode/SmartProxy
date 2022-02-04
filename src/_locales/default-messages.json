@@ -255,8 +255,16 @@
 		"message": "General Options",
 		"description": ""
 	},
+	"settingsTabSmartProfiles": {
+		"message": "Smart Profiles",
+		"description": ""
+	},
+	"settingsTabAddSmartProfile": {
+		"message": "Add new Smart Profile",
+		"description": ""
+	},
 	"settingsTabProxyServers": {
-		"message": "Proxy Servers",
+		"message": "Add new Smart Profile",
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptions": {
@@ -361,6 +369,50 @@
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
 		"message": "Display failed requests count on toolbar icon badge",
+		"description": ""
+	},
+	"settingsGeneralThemes": {
+		"message": "Themes",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitch": {
+		"message": "Auto switch by the Browser theme",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitchDesc": {
+		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system.",
+		"description": ""
+	},
+	"settingsGeneralThemesLight": {
+		"message": "Light Theme",
+		"description": ""
+	},
+	"settingsGeneralThemes_Default": {
+		"message": "(Default)",
+		"description": ""
+	},
+	"settingsGeneralThemes_Custom": {
+		"message": "(Custom)",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrl": {
+		"message": "Custom Styles (Css) Url:",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrlDesc": {
+		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency.",
+		"description": ""
+	},
+	"settingsGeneralThemesDark": {
+		"message": "Dark Theme",
+		"description": ""
+	},
+	"settingsGeneralThemesLight_ErrorValidUrl": {
+		"message": "Please enter a valid Light Theme and the url should be 'https'.",
+		"description": ""
+	},
+	"settingsGeneralThemesDark_ErrorValidUrl": {
+		"message": "Please enter a valid Dark Theme and the url should be 'https'.",
 		"description": ""
 	},
 	"settingsGeneralOtherSettings": {
@@ -699,6 +751,84 @@
 		"message": "Import",
 		"description": ""
 	},
+	"settingsProfilesNameTitle": {
+		"message": "Smart Profile:"
+	},
+	"settingsProfilesEnabled": {
+		"message": "Enabled"
+	},
+	"settingsProfilesTypeTitle": {
+		"message": "Profile Type:"
+	},
+	"settingsProfilesTypeDesc_SmartRules": {
+		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+	},
+	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
+		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+	},
+	"settingsProfilesTypeDesc_IgnoreFailureRules": {
+		"message": "Ignore failure detection for these domains by adding rules."
+	},
+	"settingsProfilesProfileProxyServer": {
+		"message": "Profile Proxy Server:"
+	},
+	"settingsProfilesDefaultProfileProxyServer": {
+		"message": "(Use Default Proxy Server)"
+	},
+	"settingsProfilesProfileProxyServerDesc": {
+		"message": "(While using this profile, this is going to be the active proxy server)"
+	},
+	"settingsProfilesRulesSection": {
+		"message": "Rules"
+	},
+	"settingsProfilesDelete": {
+		"message": "Delete"
+	},
+	"settingsProfilesAddNewLabel": {
+		"message": "Add New Smart Profile"
+	},
+	"settingsProfilesAddNewTypeLead": {
+		"message": "Please select the <b>type of profile</b> you want to add:"
+	},
+	"settingsProfilesAddNewType_SmartRules": {
+		"message": "Smart Rules"
+	},
+	"settingsProfilesAddNewType_SmartRulesDesc": {
+		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+	},
+	"settingsProfilesAddNewType_AlwaysEnabled": {
+		"message": "Always Enabled"
+	},
+	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
+		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
+	},
+	"settingsProfilesAddNewBtnContinue": {
+		"message": "Continue"
+	},
+	"settingsProfilesAddNewBtnCancel": {
+		"message": "Cancel"
+	},
+	"settingsProfilesAddErrorTypeRequired": {
+		"message": "Please select a profile type"
+	},
+	"settingsProfilesAddErrorNameRequired": {
+		"message": "Profile name is mandatory"
+	},
+	"settingsProfilesAddErrorNameExists": {
+		"message": "Profile name already exists, please enter another one"
+	},
+	"settingsProfilesDeleteConfirm": {
+		"message": "Are you sure to delete this profile? Warning, this action cannot be undone!"
+	},
+	"settingsProfilesDeleteFailed": {
+		"message": "Failed to delete the selected profile."
+	},
+	"settingsProfilesDeleteDone": {
+		"message": "The profile is deleted successfully"
+	},
+	"settingsProfilesDeleteBuiltinFail": {
+		"message": "Cannot delete built-in profiles"
+	},
 	"settingsProfilesProxyServer": {
 		"message": "[Use Default Proxy Server]"
 	},
@@ -858,6 +988,14 @@
 	},
 	"settingsRestoreSettingsFailed": {
 		"message": "There was an error in restoring the settings",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidActiveProfile": {
+		"message": "Invalid data provided for active profile",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
+		"message": "Invalid data provided for default proxy server",
 		"description": ""
 	},
 	"settingsEnableByDomainInvalid": {

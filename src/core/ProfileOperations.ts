@@ -32,15 +32,15 @@ export class ProfileOperations {
 			result.success = false;
 
 			// Failed to delete the selected profile.
-			result.message = browser.i18n.getMessage('aaaaa');
+			result.message = browser.i18n.getMessage('settingsProfilesDeleteFailed');
 			return result;
 		}
 		let existingProfile = settings.proxyProfiles[existingProfileIndex];
 		if (existingProfile.profileTypeConfig.builtin) {
 			result.success = false;
 
-			// Cannot delete built in profiles
-			result.message = browser.i18n.getMessage('aaaaa');
+			// Cannot delete built-in profiles
+			result.message = browser.i18n.getMessage('settingsProfilesDeleteBuiltinFail');
 			return result;
 		}
 		settings.proxyProfiles.splice(existingProfileIndex, 1);

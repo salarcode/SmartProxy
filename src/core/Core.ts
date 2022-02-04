@@ -381,8 +381,8 @@ export class Core {
 					if (sendResponse) {
 						sendResponse({
 							success: true,
-							// The profile is removed successfully
-							message: browser.i18n.getMessage('settingsAAAAAaaaaa'),
+							// The profile is deleted successfully
+							message: browser.i18n.getMessage('settingsProfilesDeleteDone'),
 						});
 					}
 				}
@@ -392,7 +392,7 @@ export class Core {
 							success: false,
 							// Failed to delete the selected profile.
 							message: deleteResult.message ||
-								browser.i18n.getMessage('settingsAAAAAaaaaa'),
+								browser.i18n.getMessage('settingsProfilesDeleteFailed'),
 						});
 					}
 				}
