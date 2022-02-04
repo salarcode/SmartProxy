@@ -264,7 +264,7 @@
 		"description": ""
 	},
 	"settingsTabProxyServers": {
-		"message": "Add new Smart Profile",
+		"message": "Proxy Servers",
 		"description": ""
 	},
 	"settingsTabProxyServerSubscriptions": {
@@ -408,11 +408,11 @@
 		"description": ""
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "Please enter a valid Light Theme and the url should be 'https'.",
+		"message": "Please enter a valid css url for Light Theme and the url should be 'https'.",
 		"description": ""
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "Please enter a valid Dark Theme and the url should be 'https'.",
+		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'.",
 		"description": ""
 	},
 	"settingsGeneralOtherSettings": {

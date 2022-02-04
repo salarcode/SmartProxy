@@ -71,6 +71,9 @@ export class ProxyEngineFirefox {
 				break;
 		}
 
+		if (environment.notAllowed.setProxySettings)
+			return;
+
 		PolyFill.browserSetProxySettings(
 			{
 				value: proxySettings,
