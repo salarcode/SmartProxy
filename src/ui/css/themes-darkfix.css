@@ -1,5 +1,5 @@
 .form-select {
-	background-blend-mode: screen;
+	background-blend-mode: revert;
 }
 .slogan {
 	color: white;

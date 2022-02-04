@@ -58,8 +58,10 @@ export class settingsPage {
 				if (!dataForSettings)
 					return;
 
-				settingsPage.populateDataForSettings(dataForSettings);
-
+				CommonUi.applyThemes(dataForSettings.settings.options);
+				CommonUi.onDocumentReady(() => 
+					settingsPage.populateDataForSettings(dataForSettings)
+				);
 				CommonUi.onDocumentReady(settingsPage.showNewUserWelcome);
 			},
 			(error: Error) => {
