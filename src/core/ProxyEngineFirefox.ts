@@ -106,6 +106,14 @@ export class ProxyEngineFirefox {
 			if (!requestDetails.url)
 				return { type: "direct" };
 
+			// Check if we should proxy the request because we're running in incognito mode
+			if (settings.proxyMode != ProxyModeType.Direct
+				&& settings.options.alwaysProxyIncognito
+				&& TabManager.getTab(requestDetails.tabId).incognito) {
+				proxyLog.logType = ProxyableLogType.AlwaysEnabledIncognito;
+				return ProxyEngineFirefox.getResultProxyInfo(settings.activeProxyServer);
+			}
+
 			// checking if request is special
 			let specialRequest = ProxyEngineSpecialRequests.getProxyMode(requestDetails.url, true);
 			if (specialRequest !== null) {

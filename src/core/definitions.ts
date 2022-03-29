@@ -183,7 +183,8 @@ export enum ProxyableLogType {
 	ByPassed,
 	SystemProxyApplied,
 	AlwaysEnabled,
-	ProxyPerOrigin
+	ProxyPerOrigin,
+	AlwaysEnabledIncognito
 }
 
 export class ProxyableLogDataType {
@@ -210,7 +211,8 @@ export class ProxyableLogDataType {
 
 		if (this.logType == ProxyableLogType.AlwaysEnabled ||
 			this.logType == ProxyableLogType.MatchedRule ||
-			this.logType == ProxyableLogType.ProxyPerOrigin)
+			this.logType == ProxyableLogType.ProxyPerOrigin ||
+			this.logType == ProxyableLogType.AlwaysEnabledIncognito)
 			return true;
 		return false;
 	}
@@ -222,7 +224,8 @@ export class ProxyableLogDataType {
 		if (this.logType == ProxyableLogType.AlwaysEnabled ||
 			this.logType == ProxyableLogType.Special ||
 			this.logType == ProxyableLogType.SystemProxyApplied ||
-			this.logType == ProxyableLogType.ByPassed)
+			this.logType == ProxyableLogType.ByPassed ||
+			this.logType == ProxyableLogType.AlwaysEnabledIncognito)
 			return false;
 		return true;
 	}
@@ -271,6 +274,7 @@ export class GeneralOptions implements Cloneable {
 	public displayFailedOnBadge: boolean = true;
 	public displayAppliedProxyOnBadge: boolean = true;
 	public proxyPerOrigin: boolean = true;
+	public alwaysProxyIncognito: boolean = false;
 	public enableShortcuts: boolean = true;
 	public shortcutNotification: boolean = true;
 
@@ -291,6 +295,8 @@ export class GeneralOptions implements Cloneable {
 			this.displayAppliedProxyOnBadge = source["displayAppliedProxyOnBadge"] == true ? true : false;
 		if (source["proxyPerOrigin"] != null)
 			this.proxyPerOrigin = source["proxyPerOrigin"] == true ? true : false;
+		if (source["alwaysProxyIncognito"] != null)
+			this.alwaysProxyIncognito = source["alwaysProxyIncognito"] == true ? true : false;
 		if (source["enableShortcuts"] != null)
 			this.enableShortcuts = source["enableShortcuts"] == true ? true : false;
 		if (source["shortcutNotification"] != null)

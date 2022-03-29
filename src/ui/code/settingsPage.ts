@@ -878,6 +878,7 @@ export class settingsPage {
 		let divGeneral = jQuery("#tab-general");
 
 		divGeneral.find("#chkProxyPerOrigin").prop("checked", options.proxyPerOrigin || false);
+		divGeneral.find("#chkAlwaysProxyIncognito").prop("checked", options.alwaysProxyIncognito || false);
 
 		divGeneral.find("#chkSyncSettings").prop("checked", options.syncSettings || false);
 		divGeneral.find("#chkSyncProxyMode").prop("checked", options.syncProxyMode || false);
@@ -896,6 +897,8 @@ export class settingsPage {
 		if (environment.chrome) {
 			divGeneral.find("#chkProxyPerOrigin").attr("disabled", "disabled")
 				.parents("label").attr("disabled", "disabled");
+			divGeneral.find("#chkAlwaysProxyIncognito").attr("disabled", "disabled")
+				.parents("label").attr("disabled", "disabled");
 		}
 	}
 
@@ -905,6 +908,7 @@ export class settingsPage {
 		let divGeneral = jQuery("#tab-general");
 
 		generalOptions.proxyPerOrigin = divGeneral.find("#chkProxyPerOrigin").prop("checked");
+		generalOptions.alwaysProxyIncognito = divGeneral.find("#chkAlwaysProxyIncognito").prop("checked");
 
 		generalOptions.syncSettings = divGeneral.find("#chkSyncSettings").prop("checked");
 		generalOptions.syncProxyMode = divGeneral.find("#chkSyncProxyMode").prop("checked");

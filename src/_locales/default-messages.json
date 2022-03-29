@@ -199,6 +199,10 @@
 		"message": "Always Mode",
 		"description": ""
 	},
+	"proxyableGridData_LogType_AlwaysEnabledIncognito": {
+		"message": "Always Incognito Mode",
+		"description": ""
+	},
 	"proxyableGridData_LogType_ProxyPerOrigin": {
 		"message": "From Parent Tab",
 		"description": ""
@@ -265,6 +269,14 @@
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy per tab/origin disabled",
+		"description": ""
+	},
+	"settingsGeneralAlwaysProxyIncognito": {
+		"message": "Always enabled proxy for incognito mode",
+		"description": ""
+	},
+	"settingsGeneralAlwaysProxyIncognitoDesc": {
+		"message": "Check if you want to switch to 'Always Enabled' in Private Browsing mode. This option has no effect in 'Direct' proxy mode.",
 		"description": ""
 	},
 	"settingsGeneralSyncing": {
