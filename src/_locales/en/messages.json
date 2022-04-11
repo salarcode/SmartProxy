@@ -171,10 +171,6 @@
 		"message": "Request Url",
 		"description": ""
 	},
-	"proxyableGridColEnabled": {
-		"message": "Proxied",
-		"description": ""
-	},
 	"proxyableGridColRuleStatus": {
 		"message": "Rule status",
 		"description": ""
@@ -200,7 +196,7 @@
 		"description": ""
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent rab",
+		"message": "From parent tab",
 		"description": ""
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
@@ -208,7 +204,7 @@
 		"description": ""
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "AlwaysEnabled",
+		"message": "Always Enabled",
 		"description": ""
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
@@ -296,7 +292,7 @@
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If one of the rules matched the origin/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
+		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually.",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
@@ -328,11 +324,11 @@
 		"description": ""
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Enable syncing proxy-mode",
+		"message": "Enable syncing active profile",
 		"description": ""
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Check if you want the proxy activation mode to be synced.",
+		"message": "Check if you want the active profile to be synced.",
 		"description": ""
 	},
 	"settingsGeneralSyncActiveProxy": {
