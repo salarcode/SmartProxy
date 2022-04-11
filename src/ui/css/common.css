@@ -161,6 +161,10 @@ hr {
 .vertical-align-middle {
 	vertical-align: middle;
 }
+
+.list-style-type-check {
+	list-style-type: "\2705";
+}
 /* ============================== */
 /* Settings page styles */
 /* ------------------------------ */
