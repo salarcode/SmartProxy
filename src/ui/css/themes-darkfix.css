@@ -1,0 +1,19 @@
+.form-select {
+	background-blend-mode: multiply;
+}
+.slogan {
+	color: white;
+}
+.btn-close {
+	filter: invert(1);
+}
+
+.position-sticky-bottom {
+	background-color: rgb(32, 34, 34);
+}
+.sticky-save-buttons-bar {
+	background-color: rgb(32, 34, 34);
+}
+.sticky-save-buttons-bar::after {
+	box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px;
+}

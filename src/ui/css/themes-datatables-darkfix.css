@@ -1,0 +1,447 @@
+/*
+                        _______
+                       /       \
+                      .==.    .==.
+                     ((  ))==((  ))
+                    / "=="    "=="\
+                   /____|| || ||___\
+       ________     ____    ________  ___    ___
+       |  ___  \   /    \   |  ___  \ |  |  /  /
+       |  |  \  \ /  /\  \  |  |  \  \|  |_/  /
+       |  |   )  /  /__\  \ |  |__/  /|  ___  \
+       |  |__/  /  ______  \|  ____  \|  |  \  \
+_______|_______/__/ ____ \__\__|___\__\__|___\__\____
+|  ___  \ |  ____/ /    \   |  ___  \ |  ____|  ___  \
+|  |  \  \|  |___ /  /\  \  |  |  \  \|  |___|  |  \  \
+|  |__/  /|  ____/  /__\  \ |  |   )  |  ____|  |__/  /
+|  ____  \|  |__/  ______  \|  |__/  /|  |___|  ____  \
+|__|   \__\____/__/      \__\_______/ |______|__|   \__\
+                https://darkreader.org
+*/
+
+/*! Dark reader generated CSS | Licensed under MIT https://github.com/darkreader/darkreader/blob/master/LICENSE */
+
+/* Modified CSS */
+td.dt-control {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("https://www.datatables.net/examples/resources/details_open.png");
+}
+tr.dt-hasChild td.dt-control {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("https://www.datatables.net/examples/resources/details_close.png");
+}
+table.dataTable > thead > tr > th:active,
+table.dataTable > thead > tr > td:active {
+    outline-color: currentcolor;
+}
+div.dataTables_scrollBody > table {
+    border-top-color: currentcolor;
+}
+div.dataTables_scrollBody > table > tbody tr:first-child th,
+div.dataTables_scrollBody > table > tbody tr:first-child td {
+    border-top-color: currentcolor;
+}
+div.dataTables_scrollFoot > .dataTables_scrollFootInner > table {
+    border-top-color: currentcolor;
+}
+table.dataTable.table-striped > tbody > tr:nth-of-type(2n+1) {
+    --bs-table-accent-bg: transparent;
+}
+table.dataTable.table-striped > tbody > tr.odd {
+    --bs-table-accent-bg: var(--bs-table-striped-bg);
+}
+div.dt-autofill-handle {
+    background-color: rgb(36, 100, 195);
+    background-image: none;
+}
+div.dtk-focus-alt div.dt-autofill-handle {
+    background-color: rgb(185, 105, 43);
+    background-image: none;
+}
+div.dt-autofill-select {
+    background-color: rgb(36, 100, 195);
+    background-image: repeating-linear-gradient(45deg,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0) 5px,
+    rgba(32, 34, 34, 0.5) 5px,
+    rgba(32, 34, 34, 0.5) 10px);
+}
+div.dt-autofill-list {
+    background-color: rgb(32, 34, 34);
+    box-shadow: rgb(85, 89, 92) 0px 0px 5px;
+    border-color: rgb(150, 142, 132);
+}
+div.dt-autofill-list ul {
+    list-style-image: none;
+}
+div.dt-autofill-list ul li:last-child div.dt-autofill-question,
+div.dt-autofill-list ul li:last-child div.dt-autofill-button {
+    border-bottom-color: currentcolor;
+}
+div.dt-autofill-list ul li:hover {
+    background-color: rgb(39, 41, 42);
+}
+div.dt-autofill-list div.dt-autofill-question {
+    border-bottom-color: rgb(83, 88, 89);
+}
+div.dt-autofill-list div.dt-autofill-button {
+    border-bottom-color: rgb(83, 88, 89);
+}
+div.dt-autofill-background {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: radial-gradient(rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.7) 100%);
+}
+div.dt-button-info {
+    background-color: rgb(32, 34, 34);
+    border-color: rgb(170, 163, 151);
+    box-shadow: rgba(0, 0, 0, 0.3) 3px 4px 10px 1px;
+}
+div.dt-button-info h2 {
+    border-bottom-color: rgb(77, 80, 83);
+    background-color: rgb(41, 43, 44);
+}
+span.dt-button-spacer.bar {
+    border-left-color: rgba(178, 170, 157, 0.3);
+}
+div.dt-button-collection span.dt-button-spacer.bar {
+    border-left-color: currentcolor;
+    border-bottom-color: rgba(178, 170, 157, 0.3);
+}
+div.dt-button-collection div.dt-button-collection-title {
+    background-color: rgb(32, 34, 34);
+    border-color: rgba(178, 170, 157, 0.15);
+}
+div.dt-button-collection button.dt-btn-split-drop-button {
+    color: rgb(255, 255, 255);
+    border-color: currentcolor;
+    background-color: rgb(32, 34, 34);
+}
+div.dt-button-collection button.dt-btn-split-drop-button:focus {
+    border-color: currentcolor;
+    outline-color: currentcolor;
+}
+div.dt-button-collection button.dt-btn-split-drop-button:hover {
+    background-color: rgb(47, 49, 50);
+}
+div.dt-button-collection button.dt-btn-split-drop-button:active {
+    background-color: rgb(41, 121, 208) !important;
+}
+div.dt-buttons button.btn.processing,
+div.dt-buttons div.btn.processing,
+div.dt-buttons a.btn.processing {
+    color: rgba(255, 255, 255, 0.2);
+}
+div.dt-buttons button.btn.processing::after,
+div.dt-buttons div.btn.processing::after,
+div.dt-buttons a.btn.processing::after {
+    border-color: rgb(161, 154, 142) transparent;
+}
+div.dt-btn-split-wrapper:active:not(.disabled) button,
+div.dt-btn-split-wrapper.active:not(.disabled) button {
+    background-color: rgb(97, 102, 105);
+    border-color: rgb(140, 133, 123);
+}
+div.dt-btn-split-wrapper:active:not(.disabled) button.dt-btn-split-drop,
+div.dt-btn-split-wrapper.active:not(.disabled) button.dt-btn-split-drop {
+    box-shadow: none;
+    background-color: rgb(117, 123, 126);
+    border-color: rgb(129, 123, 114);
+}
+div.dt-btn-split-wrapper:active:not(.disabled) button:hover,
+div.dt-btn-split-wrapper.active:not(.disabled) button:hover {
+    background-color: rgb(97, 102, 105);
+    border-color: rgb(140, 133, 123);
+}
+div.dataTables_wrapper div.dt-buttons.btn-group div.btn-group button.dt-btn-split-drop:last-child {
+    border-color: rgb(129, 123, 114);
+}
+div.dataTables_wrapper div.dt-buttons.btn-group div.btn-group div.dt-btn-split-wrapper {
+    border-color: currentcolor;
+}
+div.dt-button-collection div.btn-group button.dt-btn-split-drop:last-child {
+    border-color: rgb(129, 123, 114);
+}
+div.dt-button-collection div.btn-group div.dt-btn-split-wrapper {
+    border-color: currentcolor;
+}
+tr.even td {
+    background-color: rgb(32, 34, 34);
+}
+tr.odd td {
+    background-color: rgb(36, 39, 40);
+}
+tr.selected td {
+    background-color: rgb(43, 132, 177);
+}
+thead th {
+    background-color: rgb(32, 34, 34);
+}
+tfoot th {
+    background-color: rgb(32, 34, 34);
+}
+div.dtfc-right-top-blocker,
+div.dtfc-left-top-blocker {
+    border-bottom-color: rgb(77, 80, 83) !important;
+}
+table.dataTable.table-bordered.dtfc-has-left {
+    border-left-color: currentcolor;
+}
+div.dataTables_scroll.dtfc-has-left table.table-bordered {
+    border-left-color: currentcolor;
+}
+div.dataTables_scrollBody {
+    border-left-color: rgb(77, 80, 83) !important;
+}
+div.dataTables_scrollFootInner table.table-bordered tr th:first-child,
+div.dataTables_scrollHeadInner table.table-bordered tr th:first-child {
+    border-left-color: rgb(77, 80, 83) !important;
+}
+tr.dt-rowReorder-moving td.dtfc-fixed-left,
+tr.dt-rowReorder-moving td.dtfc-fixed-right {
+    border-top-color: rgb(109, 114, 117) !important;
+    border-bottom-color: rgb(109, 114, 117) !important;
+}
+tr.dt-rowReorder-moving td.dtfc-fixed-left:first-child {
+    border-left-color: rgb(109, 114, 117) !important;
+}
+tr.dt-rowReorder-moving td.dtfc-fixed-right:last-child {
+    border-right-color: rgb(109, 114, 117) !important;
+}
+table.dataTable.table-striped.DTFC_Cloned tbody {
+    background-color: rgb(32, 34, 34);
+}
+table.dataTable th {
+    border-bottom-color: rgb(75, 79, 80);
+    background-color: rgb(32, 34, 34);
+}
+table.dataTable.table-bordered.dtfc-has-left tr td {
+    border-left-color: currentcolor;
+}
+table.dataTable.fixedHeader-floating,
+table.dataTable.fixedHeader-locked {
+    background-color: rgb(32, 34, 34);
+}
+table.dataTable tbody th.focus,
+table.dataTable tbody td.focus {
+    box-shadow: rgb(36, 100, 195) 0px 0px 1px 2px inset;
+}
+div.dtk-focus-alt table.dataTable tbody th.focus,
+div.dtk-focus-alt table.dataTable tbody td.focus {
+    box-shadow: rgb(185, 105, 43) 0px 0px 1px 2px inset;
+}
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control::before {
+    color: rgb(255, 255, 255);
+    border-color: rgb(64, 67, 69);
+    box-shadow: rgb(68, 71, 74) 0px 0px 0.2em;
+    background-color: rgb(36, 100, 195);
+}
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control::before,
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th.dtr-control::before {
+    background-color: rgb(164, 59, 59);
+}
+table.dataTable.dtr-column > tbody > tr > td.dtr-control::before,
+table.dataTable.dtr-column > tbody > tr > th.dtr-control::before,
+table.dataTable.dtr-column > tbody > tr > td.control::before,
+table.dataTable.dtr-column > tbody > tr > th.control::before {
+    color: rgb(255, 255, 255);
+    border-color: rgb(64, 67, 69);
+    box-shadow: rgb(68, 71, 74) 0px 0px 0.2em;
+    background-color: rgb(36, 100, 195);
+}
+table.dataTable.dtr-column > tbody > tr.parent td.dtr-control::before,
+table.dataTable.dtr-column > tbody > tr.parent th.dtr-control::before,
+table.dataTable.dtr-column > tbody > tr.parent td.control::before,
+table.dataTable.dtr-column > tbody > tr.parent th.control::before {
+    background-color: rgb(164, 59, 59);
+}
+table.dataTable > tbody > tr.child:hover {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+table.dataTable > tbody > tr.child ul.dtr-details > li {
+    border-bottom-color: rgb(70, 74, 75);
+}
+table.dataTable > tbody > tr.child ul.dtr-details > li:last-child {
+    border-bottom-color: currentcolor;
+}
+div.dtr-modal div.dtr-modal-display {
+    background-color: rgb(39, 41, 42);
+    border-color: rgb(178, 170, 157);
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 12px 30px;
+}
+div.dtr-modal div.dtr-modal-close {
+    border-color: rgb(72, 75, 78);
+    background-color: rgb(36, 39, 40);
+}
+div.dtr-modal div.dtr-modal-close:hover {
+    background-color: rgb(48, 50, 51);
+}
+div.dtr-modal div.dtr-modal-background {
+    background-color: rgba(0, 0, 0, 0.6);
+    background-image: none;
+}
+div.dtr-bs-modal table.table tr:first-child td {
+    border-top-color: currentcolor;
+}
+table.dataTable tr.dtrg-group td {
+    background-color: rgb(56, 58, 60);
+}
+table.dataTable tr.dtrg-group.dtrg-level-1 td,
+table.dataTable tr.dtrg-group.dtrg-level-2 td,
+table.dataTable tr.dtrg-group.dtrg-level-3 td,
+table.dataTable tr.dtrg-group.dtrg-level-4 td,
+table.dataTable tr.dtrg-group.dtrg-level-5 td {
+    background-color: rgb(43, 45, 47);
+}
+table.dataTable tr.dtrg-group.dtrg-level-2 td {
+    background-color: rgb(41, 43, 44);
+}
+table.dataTable tr.dtrg-group.dtrg-level-3 td {
+    background-color: rgb(41, 43, 44);
+}
+table.dataTable tr.dtrg-group.dtrg-level-4 td {
+    background-color: rgb(41, 43, 44);
+}
+table.dataTable tr.dtrg-group.dtrg-level-5 td {
+    background-color: rgb(41, 43, 44);
+}
+table.dataTable.table-striped tr.dtrg-level-0 {
+    background-color: rgb(56, 58, 60);
+}
+table.dataTable.table-striped tr.dtrg-level-1 {
+    background-color: rgb(43, 45, 47);
+}
+table.dataTable.table-striped tr.dtrg-level-2,
+table.dataTable.table-striped tr.dtrg-level-3,
+table.dataTable.table-striped tr.dtrg-level-4,
+table.dataTable.table-striped tr.dtrg-level-5 {
+    background-color: rgb(41, 43, 44);
+}
+table.dataTable.table-striped tr.dtrg-level-1 tr.dtrg-level-2 td,
+table.dataTable.table-striped tr.dtrg-level-3 td,
+table.dataTable.table-striped tr.dtrg-level-4 td,
+table.dataTable.table-striped tr.dtrg-level-5 td {
+    background-color: transparent;
+}
+table.dt-rowReorder-float {
+    outline-color: rgb(31, 89, 173);
+}
+tr.dt-rowReorder-moving {
+    outline-color: rgb(109, 114, 117);
+}
+div.dts div.dts_label {
+    background-color: rgba(0, 0, 0, 0.8);
+    background-image: none;
+    color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.5) 3px 3px 10px;
+}
+div.dts div.dataTables_scrollBody {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: repeating-linear-gradient(45deg,
+    rgb(39, 41, 42),
+    rgb(39, 41, 42) 10px,
+    rgb(32, 34, 34) 10px,
+    rgb(32, 34, 34) 20px);
+}
+div.DTS div.dataTables_scrollBody table {
+    background-color: rgb(32, 34, 34);
+}
+table.dataTable tbody > tr.selected,
+table.dataTable tbody > tr > .selected {
+    background-color: rgb(36, 100, 195);
+}
+table.dataTable.stripe tbody > tr.odd.selected,
+table.dataTable.stripe tbody > tr.odd > .selected,
+table.dataTable.display tbody > tr.odd.selected,
+table.dataTable.display tbody > tr.odd > .selected {
+    background-color: rgb(41, 103, 195);
+}
+table.dataTable.hover tbody > tr.selected:hover,
+table.dataTable.hover tbody > tr > .selected:hover,
+table.dataTable.display tbody > tr.selected:hover,
+table.dataTable.display tbody > tr > .selected:hover {
+    background-color: rgb(44, 104, 195);
+}
+table.dataTable.order-column tbody > tr.selected > .sorting_1,
+table.dataTable.order-column tbody > tr.selected > .sorting_2,
+table.dataTable.order-column tbody > tr.selected > .sorting_3,
+table.dataTable.order-column tbody > tr > .selected,
+table.dataTable.display tbody > tr.selected > .sorting_1,
+table.dataTable.display tbody > tr.selected > .sorting_2,
+table.dataTable.display tbody > tr.selected > .sorting_3,
+table.dataTable.display tbody > tr > .selected {
+    background-color: rgb(41, 103, 195);
+}
+table.dataTable.display tbody > tr.odd.selected > .sorting_1,
+table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_1 {
+    background-color: rgb(44, 104, 193);
+}
+table.dataTable.display tbody > tr.odd.selected > .sorting_2,
+table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_2 {
+    background-color: rgb(45, 105, 195);
+}
+table.dataTable.display tbody > tr.odd.selected > .sorting_3,
+table.dataTable.order-column.stripe tbody > tr.odd.selected > .sorting_3 {
+    background-color: rgb(45, 107, 196);
+}
+table.dataTable.display tbody > tr.even.selected > .sorting_1,
+table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_1 {
+    background-color: rgb(41, 103, 195);
+}
+table.dataTable.display tbody > tr.even.selected > .sorting_2,
+table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_2 {
+    background-color: rgb(38, 101, 195);
+}
+table.dataTable.display tbody > tr.even.selected > .sorting_3,
+table.dataTable.order-column.stripe tbody > tr.even.selected > .sorting_3 {
+    background-color: rgb(37, 101, 195);
+}
+table.dataTable.display tbody > tr.odd > .selected,
+table.dataTable.order-column.stripe tbody > tr.odd > .selected {
+    background-color: rgb(44, 104, 193);
+}
+table.dataTable.display tbody > tr.even > .selected,
+table.dataTable.order-column.stripe tbody > tr.even > .selected {
+    background-color: rgb(41, 103, 195);
+}
+table.dataTable.display tbody > tr.selected:hover > .sorting_1,
+table.dataTable.order-column.hover tbody > tr.selected:hover > .sorting_1 {
+    background-color: rgb(44, 102, 188);
+}
+table.dataTable.display tbody > tr.selected:hover > .sorting_2,
+table.dataTable.order-column.hover tbody > tr.selected:hover > .sorting_2 {
+    background-color: rgb(44, 103, 189);
+}
+table.dataTable.display tbody > tr.selected:hover > .sorting_3,
+table.dataTable.order-column.hover tbody > tr.selected:hover > .sorting_3 {
+    background-color: rgb(44, 103, 191);
+}
+table.dataTable.display tbody > tr:hover > .selected,
+table.dataTable.display tbody > tr > .selected:hover,
+table.dataTable.order-column.hover tbody > tr:hover > .selected,
+table.dataTable.order-column.hover tbody > tr > .selected:hover {
+    background-color: rgb(44, 102, 188);
+}
+table.dataTable tbody td.select-checkbox::before,
+table.dataTable tbody th.select-checkbox::before {
+    border-color: rgb(178, 170, 157);
+}
+table.dataTable tr.selected td.select-checkbox::after,
+table.dataTable tr.selected th.select-checkbox::after {
+    text-shadow: rgb(57, 70, 93) 1px 1px,
+    rgb(57, 70, 93) -1px -1px,
+    rgb(57, 70, 93) 1px -1px,
+    rgb(57, 70, 93) -1px 1px;
+}
+table.dataTable tbody tr.selected,
+table.dataTable tbody th.selected,
+table.dataTable tbody td.selected {
+    color: rgb(255, 255, 255);
+}
+table.dataTable tbody tr.selected a,
+table.dataTable tbody th.selected a,
+table.dataTable tbody td.selected a {
+    color: rgb(214, 255, 255);
+}

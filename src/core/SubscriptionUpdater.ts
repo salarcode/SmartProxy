@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -20,297 +20,305 @@ import { ProxyImporter } from "../lib/ProxyImporter";
 import { SettingsOperation } from "./SettingsOperation";
 import { RuleImporter } from "../lib/RuleImporter";
 import { ProxyEngine } from "./ProxyEngine";
-import { ProxyServer, SubscriptionProxyRule } from "./definitions";
+import { ProxyRulesSubscription, ProxyServer, SubscriptionProxyRule } from "./definitions";
 
 export class SubscriptionUpdater {
-    private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
-    private static rulesSubscriptionTimers: SubscriptionTimerType[] = [{ id: null, name: null, refreshRate: null }];
+	private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ timerId: null, subscriptionId: null, refreshRate: null }];
+	private static rulesSubscriptionTimers: SubscriptionTimerType[] = [{ timerId: null, subscriptionId: null, refreshRate: null }];
 
-    public static async reloadEmptyServerSubscriptions() {
-        /// Read subscriptions that are enabled but have no proxy
-        /// This method is async to prevent unnecessary blocking
+	public static async reloadEmptyServerSubscriptions() {
+		/// Read subscriptions that are enabled but have no proxy
+		/// This method is async to prevent unnecessary blocking
 
-        for (let subscription of Settings.current.proxyServerSubscriptions) {
-            if (!subscription.enabled)
-                continue;
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			if (!subscription.enabled)
+				continue;
 
-            // ignore if already have proxies
-            if (subscription.proxies != null && subscription.proxies.length)
-                continue;
+			// ignore if already have proxies
+			if (subscription.proxies != null && subscription.proxies.length)
+				continue;
 
-            SubscriptionUpdater.readServerSubscription(subscription.name);
-        }
-    }
+			SubscriptionUpdater.readServerSubscription(subscription.name);
+		}
+	}
 
-    public static updateServerSubscriptions() {
+	public static updateServerSubscriptions() {
 
-        // -------------------------
-        // Proxy Server Subscriptions
-        let serverExistingNames: string[] = [];
-        for (let subscription of Settings.current.proxyServerSubscriptions) {
-            if (!subscription.enabled)
-                continue;
+		// -------------------------
+		// Proxy Server Subscriptions
+		let serverExistingNames: string[] = [];
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			if (!subscription.enabled)
+				continue;
 
-            // refresh is not requested
-            if (!(subscription.refreshRate > 0))
-                continue;
+			// refresh is not requested
+			if (!(subscription.refreshRate > 0))
+				continue;
 
-            // it should be active, don't remove it
-            serverExistingNames.push(subscription.name);
+			// it should be active, don't remove it
+			serverExistingNames.push(subscription.name);
 
-            let shouldCreate = false;
-            let serverTimerInfo = SubscriptionUpdater.getServerSubscriptionTimer(subscription.name);
-            if (serverTimerInfo == null) {
-                // should be created
-                shouldCreate = true;
-            } else {
+			let shouldCreate = false;
+			let serverTimerInfo = SubscriptionUpdater.getServerSubscriptionIdTimer(subscription.name);
+			if (serverTimerInfo == null) {
+				// should be created
+				shouldCreate = true;
+			} else {
 
-                // should be updated if rates are changed
-                if (serverTimerInfo.timer.refreshRate != subscription.refreshRate) {
-                    shouldCreate = true;
-                    clearInterval(serverTimerInfo.timer.id);
+				// should be updated if rates are changed
+				if (serverTimerInfo.timer.refreshRate != subscription.refreshRate) {
+					shouldCreate = true;
+					clearInterval(serverTimerInfo.timer.timerId);
 
-                    // remove from array
-                    SubscriptionUpdater.serverSubscriptionTimers.splice(serverTimerInfo.index, 1);
-                }
-            }
+					// remove from array
+					SubscriptionUpdater.serverSubscriptionTimers.splice(serverTimerInfo.index, 1);
+				}
+			}
 
-            if (shouldCreate) {
-                let internal = subscription.refreshRate * 60 * 1000;
-                //internal = 1000;
+			if (shouldCreate) {
+				let timeout = subscription.refreshRate * 60 * 1000;
+				//internal = 1000;
 
-                let id = setInterval(
-                    SubscriptionUpdater.readServerSubscription,
-                    internal,
-                    subscription.name);
+				let id = setInterval(
+					SubscriptionUpdater.readServerSubscription,
+					timeout,
+					subscription.name);
 
-                SubscriptionUpdater.serverSubscriptionTimers.push({
-                    id: id,
-                    name: subscription.name,
-                    refreshRate: subscription.refreshRate
-                });
-            }
-        }
-        // remove the remaining timers
-        let remainingTimers = SubscriptionUpdater.serverSubscriptionTimers.filter(timer => {
-            // not used or removed. Just unregister it then remove it
-            if (serverExistingNames.indexOf(timer.name) === -1) {
-                clearInterval(timer.id);
-                return false;
-            }
+				SubscriptionUpdater.serverSubscriptionTimers.push({
+					timerId: id,
+					subscriptionId: subscription.name,
+					refreshRate: subscription.refreshRate
+				});
+			}
+		}
+		// remove the remaining timers
+		let remainingTimers = SubscriptionUpdater.serverSubscriptionTimers.filter(timer => {
+			// not used or removed. Just unregister it then remove it
+			if (serverExistingNames.indexOf(timer.subscriptionId) === -1) {
+				clearInterval(timer.timerId);
+				return false;
+			}
 
-            // it is created or updated, don't remove it
-            return true;
-        });
-        SubscriptionUpdater.serverSubscriptionTimers = remainingTimers;
-    }
+			// it is created or updated, don't remove it
+			return true;
+		});
+		SubscriptionUpdater.serverSubscriptionTimers = remainingTimers;
+	}
 
-    private static readServerSubscription(subscriptionName: string) {
-        Debug.log("readServerSubscription", subscriptionName);
-        if (!subscriptionName)
-            return;
+	private static readServerSubscription(subscriptionName: string) {
+		Debug.log("readServerSubscription", subscriptionName);
+		if (!subscriptionName)
+			return;
 
-        let subscription = Settings.current.proxyServerSubscriptions.find(item => item.name === subscriptionName);
-        if (!subscription) {
-            // the subscription is removed.
-            //remove the timer
-            let serverTimerInfo = SubscriptionUpdater.getServerSubscriptionTimer(subscriptionName);
+		let subscription = Settings.current.proxyServerSubscriptions.find(item => item.name === subscriptionName);
+		if (!subscription) {
+			// the subscription is removed.
+			//remove the timer
+			let serverTimerInfo = SubscriptionUpdater.getServerSubscriptionIdTimer(subscriptionName);
 
-            if (!serverTimerInfo)
-                return;
+			if (!serverTimerInfo)
+				return;
 
-            clearInterval(serverTimerInfo.timer.id);
-            SubscriptionUpdater.serverSubscriptionTimers.splice(serverTimerInfo.index, 1);
-            return;
-        }
+			clearInterval(serverTimerInfo.timer.timerId);
+			SubscriptionUpdater.serverSubscriptionTimers.splice(serverTimerInfo.index, 1);
+			return;
+		}
 
-        ProxyImporter.readFromServer(subscription,
-            function (response: {
-                success: boolean,
-                message: string,
-                result: ProxyServer[]
-            }) {
-                if (!response) return;
+		ProxyImporter.readFromServer(subscription,
+			function (response: {
+				success: boolean,
+				message: string,
+				result: ProxyServer[]
+			}) {
+				if (!response) return;
 
-                if (response.success) {
-                    let count = response.result.length;
+				if (response.success) {
+					let count = response.result.length;
 
-                    subscription.proxies = response.result;
-                    subscription.totalCount = count;
+					subscription.proxies = response.result;
+					subscription.totalCount = count;
 
-                    SettingsOperation.saveProxyServerSubscriptions();
-                    SettingsOperation.saveAllSync(false);
+					SettingsOperation.saveProxyServerSubscriptions();
+					SettingsOperation.saveAllSync(false);
 
-                } else {
-                    Debug.warn("Failed to read proxy server subscription: " + subscriptionName);
-                }
-            },
-            function (error: Error) {
-                Debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, error);
-            });
-    }
+				} else {
+					Debug.warn("Failed to read proxy server subscription: " + subscriptionName);
+				}
+			},
+			function (error: Error) {
+				Debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, error);
+			});
+	}
 
-    public static async reloadEmptyRulesSubscriptions() {
-        /// Read subscriptions that are enabled but have no rules defined
-        /// This method is async to prevent unnecessary blocking
+	public static async reloadEmptyRulesSubscriptions() {
+		/// Read subscriptions that are enabled but have no rules defined
+		/// This method is async to prevent unnecessary blocking
 
-        for (let subscription of Settings.current.proxyRulesSubscriptions) {
-            if (!subscription.enabled)
-                continue;
+		for (const profile of Settings.current.proxyProfiles) {
+			if (!profile.rulesSubscriptions)
+				continue;
 
-            // ignore if already have proxies
-            if ((subscription.proxyRules != null && subscription.proxyRules.length) ||
-                (subscription.whitelistRules != null && subscription.whitelistRules.length))
-                continue;
+			for (const subscription of profile.rulesSubscriptions) {
+				if (!subscription.enabled)
+					continue;
 
-            SubscriptionUpdater.readRulesSubscription(subscription.name);
-        }
-    }
+				// ignore if already have proxies
+				if ((subscription.proxyRules != null && subscription.proxyRules.length) ||
+					(subscription.whitelistRules != null && subscription.whitelistRules.length))
+					continue;
 
-    public static updateRulesSubscriptions() {
+				SubscriptionUpdater.readRulesSubscription(subscription);
+			}
+		}
+	}
 
-        // -------------------------
-        // Proxy Rules Subscriptions
-        let ruleExistingNames: string[] = [];
-        for (let subscription of Settings.current.proxyRulesSubscriptions) {
-            if (!subscription.enabled)
-                continue;
+	public static updateRulesSubscriptions() {
 
-            // refresh is not requested
-            if (!(subscription.refreshRate > 0))
-                continue;
+		// -------------------------
+		// Proxy Rules Subscriptions
+		let ruleExistingIds: string[] = [];
+		for (const profile of Settings.current.proxyProfiles) {
+			if (!profile.rulesSubscriptions)
+				continue;
 
-            // it should be active, don't remove it
-            ruleExistingNames.push(subscription.name);
+			for (const subscription of profile.rulesSubscriptions) {
+				if (!subscription.enabled)
+					continue;
 
-            let shouldCreate = false;
-            let ruleTimerInfo = SubscriptionUpdater.getRulesSubscriptionTimer(subscription.name);
-            if (ruleTimerInfo == null) {
-                // should be created
-                shouldCreate = true;
-            } else {
+				// refresh is not requested
+				if (!(subscription.refreshRate > 0))
+					continue;
 
-                // should be updated if rates are changed
-                if (ruleTimerInfo.timer.refreshRate != subscription.refreshRate) {
-                    shouldCreate = true;
-                    clearInterval(ruleTimerInfo.timer.id);
+				// it should be active, don't remove it
+				ruleExistingIds.push(subscription.id);
 
-                    // remove from array
-                    SubscriptionUpdater.rulesSubscriptionTimers.splice(ruleTimerInfo.index, 1);
-                }
-            }
+				let shouldCreate = false;
+				let ruleTimerInfo = SubscriptionUpdater.getRulesSubscriptionIdTimer(subscription.id);
+				if (ruleTimerInfo == null) {
+					// should be created
+					shouldCreate = true;
+				} else {
 
-            if (shouldCreate) {
-                let internal = subscription.refreshRate * 60 * 1000;
-                //internal = 1000;
+					// should be updated if rates are changed
+					if (ruleTimerInfo.timer.refreshRate != subscription.refreshRate) {
+						shouldCreate = true;
+						clearInterval(ruleTimerInfo.timer.timerId);
 
-                let id = setInterval(
-                    SubscriptionUpdater.readRulesSubscription,
-                    internal,
-                    subscription.name);
+						// remove from array
+						SubscriptionUpdater.rulesSubscriptionTimers.splice(ruleTimerInfo.index, 1);
+					}
+				}
 
-                SubscriptionUpdater.rulesSubscriptionTimers.push({
-                    id: id,
-                    name: subscription.name,
-                    refreshRate: subscription.refreshRate
-                });
-            }
-        }
-        // remove the remaining timers
-        let remainingTimers = SubscriptionUpdater.rulesSubscriptionTimers.filter(timer => {
-            // not used or removed. Just unregister it then remove it
-            if (ruleExistingNames.indexOf(timer.name) === -1) {
-                clearInterval(timer.id);
-                return false;
-            }
+				if (shouldCreate) {
+					let timeout = subscription.refreshRate * 60 * 1000;
+					//internal = 1000;
 
-            // it is created or updated, don't remove it
-            return true;
-        });
-        SubscriptionUpdater.rulesSubscriptionTimers = remainingTimers;
+					let id = setInterval(
+						SubscriptionUpdater.readRulesSubscription,
+						timeout,
+						subscription);
 
-    }
+					SubscriptionUpdater.rulesSubscriptionTimers.push({
+						timerId: id,
+						subscriptionId: subscription.id,
+						refreshRate: subscription.refreshRate
+					});
+				}
+			}
+		}
+		// remove the remaining timers
+		let remainingTimers = SubscriptionUpdater.rulesSubscriptionTimers.filter(timer => {
+			// not used or removed. Just unregister it then remove it
+			if (ruleExistingIds.indexOf(timer.subscriptionId) === -1) {
+				clearInterval(timer.timerId);
+				return false;
+			}
 
-    private static readRulesSubscription(subscriptionName: string) {
-        Debug.log("readRulesSubscription", subscriptionName);
-        if (!subscriptionName)
-            return;
+			// it is created or updated, don't remove it
+			return true;
+		});
+		SubscriptionUpdater.rulesSubscriptionTimers = remainingTimers;
+	}
 
-        let subscription = Settings.current.proxyRulesSubscriptions.find(item => item.name === subscriptionName);
-        if (!subscription) {
-            // the subscription is removed.
-            //remove the timer
-            let rulesTimerInfo = SubscriptionUpdater.getRulesSubscriptionTimer(subscriptionName);
+	private static readRulesSubscription(subscription: ProxyRulesSubscription) {
+		Debug.log("readRulesSubscription", subscription.name);
+		if (!subscription || !subscription.name)
+			return;
 
-            if (!rulesTimerInfo)
-                return;
+		if (!subscription) {
+			// the subscription is removed.
+			//remove the timer
+			let rulesTimerInfo = SubscriptionUpdater.getRulesSubscriptionIdTimer(subscription.id);
 
-            clearInterval(rulesTimerInfo.timer.id);
-            SubscriptionUpdater.rulesSubscriptionTimers.splice(rulesTimerInfo.index, 1);
-            return;
-        }
+			if (!rulesTimerInfo)
+				return;
 
-        RuleImporter.readFromServer(subscription,
-            function (response: {
-                success: boolean,
-                message: string,
-                result: {
-                    whiteList: SubscriptionProxyRule[],
-                    blackList: SubscriptionProxyRule[]
-                }
-            }) {
-                if (!response) return;
+			clearInterval(rulesTimerInfo.timer.timerId);
+			SubscriptionUpdater.rulesSubscriptionTimers.splice(rulesTimerInfo.index, 1);
+			return;
+		}
 
-                if (response.success) {
+		RuleImporter.readFromServer(subscription,
+			function (response: {
+				success: boolean,
+				message: string,
+				result: {
+					whiteList: SubscriptionProxyRule[],
+					blackList: SubscriptionProxyRule[]
+				}
+			}) {
+				if (!response) return;
 
-                    subscription.proxyRules = response.result.blackList;
-                    subscription.whitelistRules = response.result.whiteList;
-                    subscription.totalCount = response.result.blackList.length + response.result.whiteList.length;
+				if (response.success) {
 
-                    SettingsOperation.saveProxyServerSubscriptions();
-                    SettingsOperation.saveAllSync(false);
+					subscription.proxyRules = response.result.blackList;
+					subscription.whitelistRules = response.result.whiteList;
+					subscription.totalCount = response.result.blackList.length + response.result.whiteList.length;
 
-                    ProxyEngine.notifyProxyRulesChanged();
+					SettingsOperation.saveProxyServerSubscriptions();
+					SettingsOperation.saveAllSync(false);
 
-                } else {
-                    Debug.warn("Failed to read proxy rules subscription: " + subscriptionName);
-                }
-            },
-            function (error: Error) {
-                Debug.warn("Failed to read proxy rules subscription: " + subscriptionName, subscription, error);
-            });
-    }
+					ProxyEngine.notifyProxyRulesChanged();
 
-    private static _getSubscriptionTimer(timers: SubscriptionTimerType[], name: string)
-        : {
-            timer: SubscriptionTimerType,
-            index: number
-        } {
-        let index = timers.findIndex(timer => timer.name === name);
-        if (index >= 0) {
-            return {
-                timer: timers[index],
-                index: index
-            };
-        }
-        return null;
-    }
+				} else {
+					Debug.warn("Failed to read proxy rules subscription: " + subscription.name);
+				}
+			},
+			function (error: Error) {
+				Debug.warn("Failed to read proxy rules subscription: " + subscription.name, subscription, error);
+			});
+	}
 
-    private static getServerSubscriptionTimer(name: string)
-        : {
-            timer: SubscriptionTimerType,
-            index: number
-        } {
-        return SubscriptionUpdater._getSubscriptionTimer(SubscriptionUpdater.serverSubscriptionTimers, name);
-    }
+	private static _getSubscriptionIdTimer(timers: SubscriptionTimerType[], id: string)
+		: {
+			timer: SubscriptionTimerType,
+			index: number
+		} {
+		let index = timers.findIndex(timer => timer.subscriptionId === id);
+		if (index >= 0) {
+			return {
+				timer: timers[index],
+				index: index
+			};
+		}
+		return null;
+	}
 
-    private static getRulesSubscriptionTimer(name: string)
-        : {
-            timer: SubscriptionTimerType,
-            index: number
-        } {
-        return SubscriptionUpdater._getSubscriptionTimer(SubscriptionUpdater.rulesSubscriptionTimers, name);
-    }
+	private static getServerSubscriptionIdTimer(id: string)
+		: {
+			timer: SubscriptionTimerType,
+			index: number
+		} {
+		return SubscriptionUpdater._getSubscriptionIdTimer(SubscriptionUpdater.serverSubscriptionTimers, id);
+	}
+
+	private static getRulesSubscriptionIdTimer(id: string)
+		: {
+			timer: SubscriptionTimerType,
+			index: number
+		} {
+		return SubscriptionUpdater._getSubscriptionIdTimer(SubscriptionUpdater.rulesSubscriptionTimers, id);
+	}
 }
 
-type SubscriptionTimerType = { id: number, name: string, refreshRate: number };
+type SubscriptionTimerType = { timerId: number, subscriptionId: string, refreshRate: number };

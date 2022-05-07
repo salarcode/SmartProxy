@@ -12,11 +12,15 @@
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "پراکسی اعمال شده:",
+		"message": "Matched rule source:",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "پراکسی اعمال نشده",
+		"message": "No matching rule",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRulePattern": {
+		"message": "Rule pattern:",
 		"description": ""
 	},
 	"popupTitle": {
@@ -40,11 +44,19 @@
 		"description": ""
 	},
 	"popupActiveProxy": {
-		"message": "پراکسی فعال:",
+		"message": "Active Proxy (this profile):",
+		"description": ""
+	},
+	"popupActiveProxyDefault": {
+		"message": "Active Proxy (Default Setting):",
 		"description": ""
 	},
 	"popupEnableProxyOn": {
 		"message": "فعال کردن پراکسی برای",
+		"description": ""
+	},
+	"popupIgnoreTheseDomains": {
+		"message": "Ignore these domains",
 		"description": ""
 	},
 	"popupRuleIsFromSubscription": {
@@ -92,7 +104,7 @@
 		"description": ""
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "آیا از افزودن موارد انتخابی به لیست نادیده گرفته ها مطمئن هستید؟ اگر بله در این صورت دیگر خطایی از آنها نمایش داده نمی شود. شما می توانید این موارد را از تنظیمات هم بعدا تغییر بدهید.",
+		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later.",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
@@ -163,44 +175,72 @@
 		"message": "پراکسی اعمال شده",
 		"description": ""
 	},
-	"proxyableGridColSource": {
-		"message": "قانون در حال استفاده",
+	"proxyableGridColRuleStatus": {
+		"message": "Rule status",
 		"description": ""
 	},
-	"proxyableGridColStatus": {
-		"message": "وضعیت",
+	"proxyableGridColProxifiedStatus": {
+		"message": "Proxy status",
 		"description": ""
 	},
-	"proxyableGridData_LogType_NoneMatched": {
-		"message": "بردون پراکسی",
+	"proxyableGridColRuleHost": {
+		"message": "Rule domain",
 		"description": ""
 	},
-	"proxyableGridData_LogType_MatchedRule": {
-		"message": "قانون یافت و اعمال شد",
+	"proxyableGridColRulePattern": {
+		"message": "Rule pattern",
 		"description": ""
 	},
-	"proxyableGridData_LogType_Special": {
-		"message": "ویژه",
+	"proxyableGridCol_ProxifiedStatus_NoProxy": {
+		"message": "No Proxy",
 		"description": ""
 	},
-	"proxyableGridData_LogType_Whitelisted": {
-		"message": "نادیده گرفته شد (بدون پراکسی)",
+	"proxyableGridCol_ProxifiedStatus_Special": {
+		"message": "Special",
 		"description": ""
 	},
-	"proxyableGridData_LogType_ByPassed": {
-		"message": "نادیده گرفته شد",
+	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
+		"message": "From parent rab",
 		"description": ""
 	},
-	"proxyableGridData_LogType_SystemProxyApplied": {
-		"message": "تصمیم توسط سیستم عامل",
+	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
+		"message": "Matched",
 		"description": ""
 	},
-	"proxyableGridData_LogType_AlwaysEnabled": {
-		"message": "همیشه اعمال",
+	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
+		"message": "AlwaysEnabled",
 		"description": ""
 	},
-	"proxyableGridData_LogType_ProxyPerOrigin": {
-		"message": "از صفحه مبدا\\والد",
+	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
+		"message": "System Proxy Applied",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_NoneMatched": {
+		"message": "No Match",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_Special": {
+		"message": "Special",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
+		"message": "From parent tab",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_MatchedRule": {
+		"message": "Matched",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_Whitelisted": {
+		"message": "Whitelisted",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
+		"message": "AlwaysEnabled <br> Bypassed",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
+		"message": "AlwaysEnabled <br> Forced By Rules",
 		"description": ""
 	},
 	"settingsTitle": {
@@ -215,20 +255,20 @@
 		"message": "تنظیمات عمومی",
 		"description": ""
 	},
+	"settingsTabSmartProfiles": {
+		"message": "Smart Profiles",
+		"description": ""
+	},
+	"settingsTabAddSmartProfile": {
+		"message": "Add new Smart Profile",
+		"description": ""
+	},
 	"settingsTabProxyServers": {
 		"message": "پروکسی سرورها",
 		"description": ""
 	},
-	"settingsTabProxyRules": {
-		"message": "قوانین اعمال",
-		"description": ""
-	},
 	"settingsTabProxyServerSubscriptions": {
 		"message": "اشتراکات پراکسی لیست",
-		"description": ""
-	},
-	"settingsTabBypass": {
-		"message": "لیست نادیده گرفته ها",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -316,19 +356,63 @@
 		"description": ""
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "انتخاب دامنه ها",
+		"message": "Enter Rules",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "نادیده گرفتن درخواستهای ناموفق برای این دامنه ها",
+		"message": "Ignore failure detection based on these rules",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "لیست دامنه هایی که مایل هستید شناسایی درخواست های ناموفق در آنها غیر فعال شود را وارد کنید.",
+		"message": "Add rules to disable failure detection.",
 		"description": ""
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
 		"message": "نمایش تعداد درخواست های ناموفق در صفحه در روی آیکون افزونه",
+		"description": ""
+	},
+	"settingsGeneralThemes": {
+		"message": "Themes",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitch": {
+		"message": "Auto switch by the Browser theme",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitchDesc": {
+		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system.",
+		"description": ""
+	},
+	"settingsGeneralThemesLight": {
+		"message": "Light Theme",
+		"description": ""
+	},
+	"settingsGeneralThemes_Default": {
+		"message": "(Default)",
+		"description": ""
+	},
+	"settingsGeneralThemes_Custom": {
+		"message": "(Custom)",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrl": {
+		"message": "Custom Styles (Css) Url:",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrlDesc": {
+		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency.",
+		"description": ""
+	},
+	"settingsGeneralThemesDark": {
+		"message": "Dark Theme",
+		"description": ""
+	},
+	"settingsGeneralThemesLight_ErrorValidUrl": {
+		"message": "Please enter a valid css url for Light Theme and the url should be 'https'.",
+		"description": ""
+	},
+	"settingsGeneralThemesDark_ErrorValidUrl": {
+		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'.",
 		"description": ""
 	},
 	"settingsGeneralOtherSettings": {
@@ -356,15 +440,11 @@
 		"description": ""
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "نمایش نام پراکسی در حال استفاده در آیکون افزودنه",
+		"message": "Display applied rule source on badge",
 		"description": ""
 	},
-	"settingsGeneralIgnoreRequestFailuresTitle": {
-		"message": "نادیده گرفتن نمایش خطاهای درخواست از سرور برای این دامنه ها",
-		"description": ""
-	},
-	"settingsGeneralIgnoredDomains": {
-		"message": "دامنه های نادیده گرفته شده:",
+	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
+		"message": "Display applied rule pattern on badge",
 		"description": ""
 	},
 	"settingsGeneralCancelButton": {
@@ -391,18 +471,6 @@
 		"message": "در اینجا لیست پراکسی ها را مشاهده می کنید. به هر تعداد که مایل بودید می توانید پراکسی تعریف کنید و سپس مابین آنها از طریق تولبار سوئیچ کنید.",
 		"description": ""
 	},
-	"settingsTabProxyRulesTitle": {
-		"message": "مدیریت قوانین پروکسی:",
-		"description": ""
-	},
-	"settingsTabProxyRulesDescription": {
-		"message": "در ایجا لیست قوانینی را مشاهده می کنید که به SmartProxy این اجازه را میده که برای فعال و غیر فعال کردن پراکسی برای سایت های مختلف تصمیم گیری کند.<br /> قالب قوانین از <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> و <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a> تبعیت می کند.",
-		"description": ""
-	},
-	"settingsTabBypassDescription": {
-		"message": "لیست زیر شامل دامنه هایی است که نباید پراکسی به آنها اعمال شود.",
-		"description": ""
-	},
 	"settingsTabBackupRestoreDescription": {
 		"message": "شما می توانید پشتیبانی کامل و یا پشتیبان از بخشی از تنظیمات تهیه کنید.",
 		"description": ""
@@ -416,7 +484,7 @@
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
-		"message": "پراکسی فعال:",
+		"message": "Default Proxy Server:",
 		"description": ""
 	},
 	"settingsAddServerButton": {
@@ -439,14 +507,6 @@
 		"message": "تهیه پشتیبان کامل (شامل قوانین و پراکسی ها).",
 		"description": ""
 	},
-	"settingsRulesBackupButton": {
-		"message": "تهیه پشتیبان از قوانین",
-		"description": ""
-	},
-	"settingsRulesBackupButtonDesc": {
-		"message": "از همه قوانین یک پشتیبان تهیه کنید.",
-		"description": ""
-	},
 	"settingsRestoreBackupButton": {
 		"message": "بازیابی پشتیبان",
 		"description": ""
@@ -456,7 +516,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "وارد کردن/پشتیبانی گیری از لیست پراکسی سرور هاو قوانین.",
+		"message": "Import/Export individual list of proxies servers.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -465,10 +525,6 @@
 	},
 	"settingsExportProxiesButtonBackup": {
 		"message": "تهیه خروجی پراکسی ها",
-		"description": ""
-	},
-	"settingsImportRulesButtonBackup": {
-		"message": "وارد کردن قوانین",
 		"description": ""
 	},
 	"settingsAddRuleButton": {
@@ -573,10 +629,6 @@
 	},
 	"settingsErrorFailedToSaveServers": {
 		"message": "مشکلی در ذخیره پراکسی سرور ها پیش آمده است.",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveRules": {
-		"message": "مشکلی در ذخیره قوانین پیش آمده است.",
 		"description": ""
 	},
 	"settingsChangesReverted": {
@@ -699,6 +751,93 @@
 		"message": "واردکردن",
 		"description": ""
 	},
+	"settingsProfilesNameTitle": {
+		"message": "Smart Profile:"
+	},
+	"settingsProfilesEnabled": {
+		"message": "Enabled"
+	},
+	"settingsProfilesTypeTitle": {
+		"message": "Profile Type:"
+	},
+	"settingsProfilesTypeDesc_SmartRules": {
+		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+	},
+	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
+		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+	},
+	"settingsProfilesTypeDesc_IgnoreFailureRules": {
+		"message": "Ignore failure detection for these domains by adding rules."
+	},
+	"settingsProfilesProfileProxyServer": {
+		"message": "Profile Proxy Server:"
+	},
+	"settingsProfilesDefaultProfileProxyServer": {
+		"message": "(Use Default Proxy Server)"
+	},
+	"settingsProfilesProfileProxyServerDesc": {
+		"message": "(While using this profile, this is going to be the active proxy server)"
+	},
+	"settingsProfilesRulesSection": {
+		"message": "Rules"
+	},
+	"settingsProfilesDelete": {
+		"message": "Delete"
+	},
+	"settingsProfilesAddNewLabel": {
+		"message": "Add New Smart Profile"
+	},
+	"settingsProfilesAddNewTypeLead": {
+		"message": "Please select the <b>type of profile</b> you want to add:"
+	},
+	"settingsProfilesAddNewType_SmartRules": {
+		"message": "Smart Rules"
+	},
+	"settingsProfilesAddNewType_SmartRulesDesc": {
+		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+	},
+	"settingsProfilesAddNewType_AlwaysEnabled": {
+		"message": "Always Enabled"
+	},
+	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
+		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
+	},
+	"settingsProfilesAddNewBtnContinue": {
+		"message": "Continue"
+	},
+	"settingsProfilesAddNewBtnCancel": {
+		"message": "Cancel"
+	},
+	"settingsProfilesAddErrorTypeRequired": {
+		"message": "Please select a profile type"
+	},
+	"settingsProfilesAddErrorNameRequired": {
+		"message": "Profile name is mandatory"
+	},
+	"settingsProfilesAddErrorNameExists": {
+		"message": "Profile name already exists, please enter another one"
+	},
+	"settingsProfilesDeleteConfirm": {
+		"message": "Are you sure to delete this profile? Warning, this action cannot be undone!"
+	},
+	"settingsProfilesDeleteFailed": {
+		"message": "Failed to delete the selected profile."
+	},
+	"settingsProfilesDeleteDone": {
+		"message": "The profile is deleted successfully"
+	},
+	"settingsProfilesDeleteBuiltinFail": {
+		"message": "Cannot delete built-in profiles"
+	},
+	"settingsProfilesProxyServer": {
+		"message": "[Use Default Proxy Server]"
+	},
+	"settingsSaveSmartProfileSuccess": {
+		"message": "Smart Profile saved successfully."
+	},
+	"settingsErrorFailedToSaveSmartProfile": {
+		"message": "Failed to save smart profile."
+	},
 	"settingsRuleSourceRequired": {
 		"message": "لطفا آدرس دامنه را وارد کنید!",
 		"description": ""
@@ -764,11 +903,11 @@
 		"description": ""
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[عمومی]",
+		"message": "[Use Active Proxy]",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSuccess": {
-		"message": "قوانین پروکسی با موفقیت ذخیره.",
+	"settingsRulesProxyFromProfile": {
+		"message": "[Use Profile Proxy]",
 		"description": ""
 	},
 	"settingsRulesModalTitle": {
@@ -843,16 +982,20 @@
 		"message": "آدرس سرور '{0}' نامعتبر است",
 		"description": ""
 	},
-	"settingsProxyModeInvalid": {
-		"message": "حالت پراکسی نامعتبر می باشد",
-		"description": ""
-	},
 	"settingsRestoreSettingsSuccess": {
 		"message": "تنظیمات با موفقیت بازیابی شد",
 		"description": ""
 	},
 	"settingsRestoreSettingsFailed": {
 		"message": "خطایی در بازگرداندن تنظیمات پیش آمده است",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidActiveProfile": {
+		"message": "Invalid data provided for active profile",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
+		"message": "Invalid data provided for default proxy server",
 		"description": ""
 	},
 	"settingsEnableByDomainInvalid": {
@@ -863,12 +1006,12 @@
 		"message": "قانونی برای دامنه مورد نظر از قبل وجود دارد",
 		"description": ""
 	},
-	"settingsNoRuleFoundForDomain": {
-		"message": "هیچ قانونی برای '{0}' وجود ندارد",
+	"settingsEnableByDomainSmartProfileNonEditable": {
+		"message": "The current profile '{0}' cannot be updated with rules",
 		"description": ""
 	},
-	"settingsRuleSourceIsEmpty": {
-		"message": "'مرجع' برای قانون مورد نظر وارد نشده است",
+	"settingsNoRuleFoundForDomain": {
+		"message": "هیچ قانونی برای '{0}' وجود ندارد",
 		"description": ""
 	},
 	"importerImportSuccess": {
@@ -1091,18 +1234,6 @@
 		"message": "مشکلی در حذف اشتراک پیش آمده",
 		"description": ""
 	},
-	"settingsTabProxyRulesSubscription": {
-		"message": "اشتراکات قوانین پراکسی",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionTitle": {
-		"message": "مدیریت اشتراکات قوانین:",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionDescription": {
-		"message": "در اینجا می توانید اشتراکات قوانین را مدیریت کنید. با استفاده از این قوانین پراکسی اعمال خواهد شد.",
-		"description": ""
-	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "ایجاد اشتراک قوانین",
 		"description": ""
@@ -1263,34 +1394,6 @@
 		"message": "الگوی قانون تعریف نشده",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSubscriptionsSuccess": {
-		"message": "تنظیمات اشتراک قوانین موفقیت ذخیره شد.",
-		"description": ""
-	},
-	"settingsBypassEnableForAlways": {
-		"message": "فعال کردن برای حالت 'همیشه فعال'",
-		"description": ""
-	},
-	"settingsBypassList": {
-		"message": "لیست نادیده گرفته ها:",
-		"description": ""
-	},
-	"settingsBypassListHint": {
-		"message": "(در هر سطر فقط یک آدرس وارد کنید)",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveBypass": {
-		"message": "مشکلی در ذخیره تنظیمات نادیده گرفته ها پیش آمده است.",
-		"description": ""
-	},
-	"settingsSaveBypassSuccess": {
-		"message": "لیست نادیده گرفته ها با موفقیت ذخیره شد.",
-		"description": ""
-	},
-	"settingsBypassInvalid": {
-		"message": "تنظیمات لیست نادیده گرفته ها نامعتبر می باشد",
-		"description": ""
-	},
 	"settingsWelcomeTitle": {
 		"message": "به SmartProxy خوش آمدید",
 		"description": ""
@@ -1301,6 +1404,26 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "گرفتم",
+		"description": ""
+	},
+	"settings_SmartProfileType_Direct": {
+		"message": "Direct",
+		"description": ""
+	},
+	"settings_SmartProfileType_SystemProxy": {
+		"message": "System Proxy",
+		"description": ""
+	},
+	"settings_SmartProfileType_SmartRules": {
+		"message": "Smart Rules",
+		"description": ""
+	},
+	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
+		"message": "Always Enabled with Bypass Rules",
+		"description": ""
+	},
+	"settings_SmartProfileType_IgnoreFailureRules": {
+		"message": "Ignore Failures Rules",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {
@@ -1322,5 +1445,17 @@
 	"notificationShortcutProxyServerChanged": {
 		"message": "پراکسی سرور به {0} تغییر پیدا کرد",
 		"description": ""
+	},
+	"helpTabName": {
+		"message": "Help Center"
+	},
+	"helpIntro": {
+		"message": "Welcome to Help Center, please navigate to the section that you need help or if you're new to SmartProxy start with Get Started guide."
+	},
+	"helpGettingStarted": {
+		"message": "Getting Started"
+	},
+	"helpProxyModes": {
+		"message": "Proxy Modes"
 	}
 }

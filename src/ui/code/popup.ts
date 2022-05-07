@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -16,19 +16,20 @@
  */
 import { browser, environment } from "../../lib/environment";
 import { jQuery, messageBox } from "../../lib/External";
-import { Messages, PopupInternalDataType, ProxyModeType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource } from "../../core/definitions";
+import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType, getSmartProfileTypeIcon } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
 
 export class popup {
 	private static popupData: PopupInternalDataType = null;
+	private static activeProfile: SmartProfileBase;
 
 	public static initialize() {
 
 		popup.onDocumentReady(popup.bindEvents);
 
-		PolyFill.runtimeSendMessage(Messages.PopupGetInitialData,
+		PolyFill.runtimeSendMessage(CommandMessages.PopupGetInitialData,
 			(dataForPopup: PopupInternalDataType) => {
 
 				if (dataForPopup != null) {
@@ -50,7 +51,7 @@ export class popup {
 
 		if (typeof (message) == "object") {
 
-			if (message["command"] === Messages.WebFailedRequestNotification) {
+			if (message["command"] === CommandMessages.WebFailedRequestNotification) {
 				if (message["tabId"] == null)
 					return;
 
@@ -112,12 +113,23 @@ export class popup {
 
 	private static populateDataForPopup(dataForPopup: PopupInternalDataType) {
 
+		CommonUi.applyThemes(dataForPopup.themeData);
+		popup.updateActiveProfile(dataForPopup);
 		popup.populateUpdateAvailable(dataForPopup);
 		popup.populateUnsupportedFeatures(dataForPopup);
-		popup.populateProxyMode(dataForPopup.proxyMode);
+		popup.populateSmartProfiles(dataForPopup.proxyProfiles, dataForPopup.activeProfileId);
 		popup.populateActiveProxy(dataForPopup);
 		popup.populateProxyableDomainList(dataForPopup.proxyableDomains);
 		popup.populateFailedRequests(dataForPopup.failedRequests);
+	}
+
+	static updateActiveProfile(dataForPopup: PopupInternalDataType) {
+
+		if (dataForPopup.activeProfileId) {
+			popup.activeProfile = dataForPopup.proxyProfiles.find(a => a.profileId == dataForPopup.activeProfileId);
+		}
+		else
+			popup.activeProfile = null;
 	}
 
 	private static populateUpdateAvailable(dataForPopup: PopupInternalDataType) {
@@ -135,23 +147,40 @@ export class popup {
 		}
 	}
 
-	private static populateProxyMode(proxyMode: ProxyModeType) {
-		let divProxyMode = jQuery("#divProxyMode");
-		divProxyMode.find("li.disabled a").css("cursor", "default");
+	private static populateSmartProfiles(profiles: SmartProfileBase[], activeProfileId: string) {
+		let divProxyProfiles = jQuery("#divProxyProfiles");
+		let divProfileTemplate = divProxyProfiles.find("#divProfileTemplate").hide();
 
-		divProxyMode.find(".nav-link").removeClass("active");
+		let lastMenu = divProfileTemplate;
 
-		divProxyMode.find(`.nav-link[data-proxyMode=${proxyMode}]`)
-			.addClass("active")
-			.parent("li");
+		for (const profile of profiles) {
+			if (!profile.enabled)
+				continue;
+			if (!profile.profileTypeConfig.selectable)
+				continue;
 
-		divProxyMode.find(".nav-link:not(.disabled)")
-			.on("click", popup.onProxyModeClick);
+			let newId = 'smart-profile-' + profile.profileId;
+
+			let profileMenu = divProfileTemplate.clone();
+			profileMenu.find("span").text(profile.profileName);
+			profileMenu.find(".icon").addClass(getSmartProfileTypeIcon(profile.profileType));
+			profileMenu.attr("id", newId);
+
+			if (profile.profileId == activeProfileId)
+				profileMenu.addClass('active');
+
+			profileMenu.show();
+			profileMenu.on("click", (e: any) => popup.onSmartProfileClick(profile, e));
+
+			lastMenu.after(profileMenu);
+			lastMenu = profileMenu;
+		}
 	}
 
 	private static populateActiveProxy(dataForPopup: PopupInternalDataType) {
 		let divActiveProxy = jQuery("#divActiveProxy");
 		let cmbActiveProxy = divActiveProxy.find("#cmbActiveProxy");
+		let lblActiveProxyLabel = jQuery("#lblActiveProxyLabel");
 
 		if (!dataForPopup.proxyServers)
 			dataForPopup.proxyServers = [];
@@ -161,27 +190,41 @@ export class popup {
 		// remove previous items
 		cmbActiveProxy.find("option").remove();
 
+		let isProfileProxyServer = false;
+		if (dataForPopup.activeProfileId) {
+			let activeProfile = popup.activeProfile;
+			if (!activeProfile)
+				activeProfile = dataForPopup.proxyProfiles.find(a => a.profileId == dataForPopup.activeProfileId);
+
+			if (activeProfile?.profileProxyServerId) {
+				isProfileProxyServer = true;
+			}
+		}
+		if (isProfileProxyServer) {
+			lblActiveProxyLabel.text(browser.i18n.getMessage("popupActiveProxy"));
+		}
+		else {
+			lblActiveProxyLabel.text(browser.i18n.getMessage("popupActiveProxyDefault"));
+		}
+
 		if (dataForPopup.proxyServers.length > 1 ||
 			dataForPopup.proxyServersSubscribed.length) {
 
 			// display select combo
 			divActiveProxy.show();
 
-			let activeProxyName = "";
-			if (dataForPopup.activeProxyServer != null) {
-				activeProxyName = dataForPopup.activeProxyServer.name;
-			}
+			let currentProxyServerId = dataForPopup.currentProxyServerId;
 
 			// display select options
 			jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
 
 				// proxyServer
 				let $option = jQuery("<option>")
-					.attr("value", proxyServer.name)
+					.attr("value", proxyServer.id)
 					.text(proxyServer.name)
 					.appendTo(cmbActiveProxy);
 
-				$option.prop("selected", (proxyServer.name === activeProxyName));
+				$option.prop("selected", (proxyServer.id === currentProxyServerId));
 			});
 
 			if (dataForPopup.proxyServersSubscribed.length > 0) {
@@ -193,11 +236,11 @@ export class popup {
 				dataForPopup.proxyServersSubscribed.forEach(proxyServer => {
 					// proxyServer
 					let $option = jQuery("<option>")
-						.attr("value", proxyServer.name)
+						.attr("value", proxyServer.id)
 						.text(proxyServer.name)
 						.appendTo(subscriptionGroup);
 
-					$option.prop("selected", (proxyServer.name === activeProxyName));
+					$option.prop("selected", (proxyServer.id === currentProxyServerId));
 				});
 			}
 
@@ -210,11 +253,19 @@ export class popup {
 	}
 
 	private static populateProxyableDomainList(proxyableDomainList: ProxyableDomainType[]) {
-		if (!proxyableDomainList || !proxyableDomainList.length) return;
+		if (!proxyableDomainList || !proxyableDomainList.length)
+			return;
 
 		var divProxyableContainer = jQuery("#divProxyableContainer");
 		var divProxyableDomain = divProxyableContainer.find("#divProxyableDomains");
 		var divProxyableDomainItem = divProxyableDomain.find("#divProxyableDomainItem");
+
+		if (popup.activeProfile && popup.activeProfile.profileType == SmartProfileType.AlwaysEnabledBypassRules) {
+			divProxyableContainer.find("#lblIgnoreTheseDomains").removeClass('d-none');
+		}
+		else {
+			divProxyableContainer.find("#lblEnableProxyOn").removeClass('d-none');
+		}
 
 		// display the list container
 		divProxyableContainer.show();
@@ -237,12 +288,12 @@ export class popup {
 			if (proxyableDomain.ruleSource == CompiledProxyRuleSource.Subscriptions) {
 				// disabling the item for subscriptions since these rules can't be disabled/enabled individually
 
-				if(proxyableDomain.ruleHasWhiteListMatch){
+				if (proxyableDomain.ruleHasWhiteListMatch) {
 					itemIcon.removeClass("fa-square")
 						.addClass("far fa-hand-paper fa-sm");
 					item.attr("title", browser.i18n.getMessage("settingsRuleActionWhitelist"));
 				}
-				else{
+				else {
 					itemIcon.removeClass("fa-square")
 						.addClass("fas fa-check fa-sm");
 				}
@@ -361,13 +412,10 @@ export class popup {
 	}
 
 	//#region Events
-
-	private static onProxyModeClick() {
-		let element = jQuery(this);
-		let selectedProxyMode = element.attr("data-proxyMode");
+	private static onSmartProfileClick(profile: SmartProfileBase, e: any) {
 
 		if (popup.popupData.notAllowedSetProxySettings &&
-			selectedProxyMode == ProxyModeType.SystemProxy) {
+			profile.profileType == SmartProfileType.SystemProxy) {
 
 			let message: string;
 			if (environment.chrome)
@@ -379,14 +427,13 @@ export class popup {
 			return;
 		}
 
-		// change proxy mode
 		PolyFill.runtimeSendMessage({
-			command: Messages.PopupChangeProxyMode,
-			proxyMode: selectedProxyMode
+			command: CommandMessages.PopupChangeActiveProfile,
+			profileId: profile.profileId
 		});
 
-		if (selectedProxyMode != ProxyModeType.Direct &&
-			selectedProxyMode != ProxyModeType.SystemProxy &&
+		if (profile.profileType != SmartProfileType.Direct &&
+			profile.profileType != SmartProfileType.SystemProxy &&
 			!popup.popupData.hasProxyServers) {
 			// open the settings page
 			PolyFill.runtimeOpenOptionsPage();
@@ -397,13 +444,13 @@ export class popup {
 	private static onActiveProxyChange() {
 		let cmbActiveProxy = jQuery("#divActiveProxy #cmbActiveProxy");
 
-		let value = cmbActiveProxy.val();
-		if (!value) return;
+		let id = cmbActiveProxy.val();
+		if (!id) return;
 
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.PopupChangeActiveProxyServer,
-				name: value
+				command: CommandMessages.PopupChangeActiveProxyServer,
+				id
 			});
 	}
 
@@ -420,8 +467,8 @@ export class popup {
 		if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
 			PolyFill.runtimeSendMessage(`proxyable-host-name: ${domain}`);
 
-		PolyFill.runtimeSendMessage({
-				command: Messages.PopupToggleProxyForDomain,
+			PolyFill.runtimeSendMessage({
+				command: CommandMessages.PopupToggleProxyForDomain,
 				domain: domain,
 				ruleId: proxyableDomain.ruleId
 			});
@@ -444,7 +491,7 @@ export class popup {
 		return domainList;
 	}
 	private static onAddFailedRequestsClick() {
-		
+
 		let domainList = popup.getSelectedFailedRequests();
 
 		if (domainList.length)
@@ -455,7 +502,8 @@ export class popup {
 				// send message to the core
 				PolyFill.runtimeSendMessage(
 					{
-						command: Messages.PopupAddDomainListToProxyRule,
+						// TODO: change, should include active or previous profile id
+						command: CommandMessages.PopupAddDomainListToProxyRule,
 						domainList: domainList,
 						tabId: popup.popupData.currentTabId
 					},
@@ -473,7 +521,7 @@ export class popup {
 	}
 
 	private static onAddIgnoredFailuresClick() {
-		
+
 		let domainList = popup.getSelectedFailedRequests();
 
 		if (domainList.length)
@@ -484,7 +532,8 @@ export class popup {
 				// send message to the core
 				PolyFill.runtimeSendMessage(
 					{
-						command: Messages.PopupAddDomainListToIgnored,
+						// TODO: change, should include active or previous profile id
+						command: CommandMessages.PopupAddDomainListToIgnored,
 						domainList: domainList,
 						tabId: popup.popupData.currentTabId
 					},

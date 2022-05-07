@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,10 +19,11 @@ import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyRule, ProxyModeType, BypassOptions, ProxyRulesSubscription, ProxyServerSubscription, SettingsConfig } from "./definitions";
+import { GeneralOptions, ProxyServer, ProxyServerSubscription, SettingsConfig, SmartProfile } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
+import { ProfileOperations } from "./ProfileOperations";
 
 export class SettingsOperation {
 
@@ -153,13 +154,30 @@ export class SettingsOperation {
 			onGetLocalError);
 
 	}
+
 	public static findProxyServerByName(name: string): ProxyServer {
 		let proxy = Settings.current.proxyServers.find(item => item.name === name);
-		if (proxy !== undefined) return proxy;
+		if (proxy !== undefined)
+			return proxy;
 
 		for (let subscription of Settings.current.proxyServerSubscriptions) {
 			proxy = subscription.proxies.find(item => item.name === name);
-			if (proxy !== undefined) return proxy;
+			if (proxy !== undefined)
+				return proxy;
+		}
+
+		return null;
+	}
+
+	public static findProxyServerById(id: string): ProxyServer {
+		let proxy = Settings.current.proxyServers.find(item => item.id === id);
+		if (proxy !== undefined)
+			return proxy;
+
+		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			proxy = subscription.proxies.find(item => item.id === id);
+			if (proxy !== undefined)
+				return proxy;
 		}
 
 		return null;
@@ -194,16 +212,16 @@ export class SettingsOperation {
 		return null;
 	}
 
-	public static findNextProxyServerByCurrentProxyName(currentProxyName: string): ProxyServer {
+	public static findNextProxyServerByCurrentProxyId(currentProxyId: string): ProxyServer {
 		let settings = Settings.current;
 
-		let proxyIndex = settings.proxyServers.findIndex(item => item.name === currentProxyName);
+		let proxyIndex = settings.proxyServers.findIndex(item => item.id === currentProxyId);
 		if (proxyIndex > -1 && proxyIndex + 1 < settings.proxyServers.length) {
 			return settings.proxyServers[proxyIndex + 1];
 		}
 
 		for (let subscription of Settings.current.proxyServerSubscriptions) {
-			proxyIndex = subscription.proxies.findIndex(item => item.name === currentProxyName);
+			proxyIndex = subscription.proxies.findIndex(item => item.id === currentProxyId);
 			if (proxyIndex > -1 && proxyIndex + 1 < subscription.proxies.length) {
 				return subscription.proxies[proxyIndex + 1];
 			}
@@ -211,16 +229,16 @@ export class SettingsOperation {
 		return null;
 	}
 
-	public static findPreviousProxyServerByCurrentProxyName(currentProxyName: string): ProxyServer {
+	public static findPreviousProxyServerByCurrentProxyId(currentProxyId: string): ProxyServer {
 		let settings = Settings.current;
 
-		let proxyIndex = settings.proxyServers.findIndex(item => item.name === currentProxyName);
+		let proxyIndex = settings.proxyServers.findIndex(item => item.id === currentProxyId);
 		if (proxyIndex > 0) {
 			return settings.proxyServers[proxyIndex - 1];
 		}
 
 		for (let subscription of Settings.current.proxyServerSubscriptions) {
-			proxyIndex = subscription.proxies.findIndex(item => item.name === currentProxyName);
+			proxyIndex = subscription.proxies.findIndex(item => item.id === currentProxyId);
 			if (proxyIndex > 0) {
 				return subscription.proxies[proxyIndex - 1];
 			}
@@ -300,15 +318,26 @@ export class SettingsOperation {
 				Debug.error(`SettingsOperation.saveOptions error: ${error.message}`);
 			});
 	}
-	public static saveRules() {
+	// public static saveRules() {
+	// 	if (Settings.current.options.syncSettings)
+	// 		// don't save in local when sync enabled
+	// 		return;
+
+	// 	PolyFill.storageLocalSet({ proxyRules: Settings.current.proxyRules },
+	// 		null,
+	// 		(error: Error) => {
+	// 			Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
+	// 		});
+	// }
+	public static saveSmartProfiles() {
 		if (Settings.current.options.syncSettings)
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ proxyRules: Settings.current.proxyRules },
+		PolyFill.storageLocalSet({ proxyProfiles: Settings.current.proxyProfiles },
 			null,
 			(error: Error) => {
-				Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
+				Debug.error(`SettingsOperation.saveProxyProfiles error: ${error.message}`);
 			});
 	}
 	public static saveProxyServers() {
@@ -333,70 +362,61 @@ export class SettingsOperation {
 				Debug.error(`SettingsOperation.proxyServerSubscriptions error: ${error.message}`);
 			});
 	}
-	public static saveProxyRulesSubscriptions() {
+	// public static saveProxyRulesSubscriptions() {
+	// 	if (Settings.current.options.syncSettings)
+	// 		// don't save in local when sync enabled
+	// 		return;
+
+	// 	PolyFill.storageLocalSet({ proxyRulesSubscriptions: Settings.current.proxyRulesSubscriptions },
+	// 		null,
+	// 		(error: Error) => {
+	// 			Debug.error(`SettingsOperation.proxyRulesSubscriptions error: ${error.message}`);
+	// 		});
+	// }
+
+	public static saveDefaultProxyServer() {
 		if (Settings.current.options.syncSettings)
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ proxyRulesSubscriptions: Settings.current.proxyRulesSubscriptions },
+		PolyFill.storageLocalSet({ defaultProxyServerId: Settings.current.defaultProxyServerId },
 			null,
 			(error: Error) => {
-				Debug.error(`SettingsOperation.proxyRulesSubscriptions error: ${error.message}`);
+				Debug.error(`SettingsOperation.saveDefaultProxyServer error: ${error.message}`);
 			});
 	}
-	public static saveBypass() {
+	public static saveActiveProfile() {
 		if (Settings.current.options.syncSettings)
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ bypass: Settings.current.bypass },
+		PolyFill.storageLocalSet({ activeProfileId: Settings.current.activeProfileId },
 			null,
 			(error: Error) => {
-				Debug.error(`SettingsOperation.bypass error: ${error.message}`);
-			});
-	}
-	public static saveActiveProxyServer() {
-		if (Settings.current.options.syncSettings)
-			// don't save in local when sync enabled
-			return;
-
-		PolyFill.storageLocalSet({ activeProxyServer: Settings.current.activeProxyServer },
-			null,
-			(error: Error) => {
-				Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
-			});
-	}
-	public static saveProxyMode() {
-		if (Settings.current.options.syncSettings)
-			// don't save in local when sync enabled
-			return;
-
-		PolyFill.storageLocalSet({ proxyMode: Settings.current.proxyMode },
-			null,
-			(error: Error) => {
-				Debug.error(`SettingsOperation.saveProxyMode error: ${error.message}`);
+				Debug.error(`SettingsOperation.saveActiveProfile error: ${error.message}`);
 			});
 	}
 
-	/** Updates the `proxy server` used in the proxy rules */
-	public static updateProxyRulesServers() {
-		let servers = Settings.current.proxyServers;
-		let rules = Settings.current.proxyRules;
+	/** Updates the `proxy server` used in the proxy rules for all SmartProfiles*/
+	public static updateSmartProfilesRulesProxyServer() {
+		// TODO: ...
+		// let servers = Settings.current.proxyServers;
+		// let rules = Settings.current.proxyRules;
 
-		for (const server of servers) {
-			for (const rule of rules) {
-				if (!rule.proxy)
-					continue;
+		// for (const server of servers) {
+		// 	for (const rule of rules) {
+		// 		if (!rule.proxy)
+		// 			continue;
 
-				if (rule.proxy.name != server.name)
-					continue;
+		// 		if (rule.proxy.name != server.name)
+		// 			continue;
 
-				rule.proxy = server;
-			}
-		}
+		// 		rule.proxy = server;
+		// 	}
+		// }
 	}
 
-	public static restoreSettings(fileData: string) {
+	public static restoreBackup(fileData: string) {
 		if (fileData == null)
 			return { success: false, message: "Invalid data" };
 
@@ -437,79 +457,46 @@ export class SettingsOperation {
 			return { success: true, result: upcomingSubscriptions };
 		}
 
-		function restoreRules(backupRules: any[]) {
-			let upcomingRules: ProxyRule[] = [];
-			for (let backRule of backupRules) {
+		function restoreProxyProfiles(backupProfiles: any[]) {
+			let upcomingProxyProfiles: SmartProfile[] = [];
+			for (let backProxyProfile of backupProfiles) {
 
-				let newRule = new ProxyRule();
-				newRule.CopyFrom(backRule);
+				let newProfile = new SmartProfile();
+				ProfileOperations.copySmartProfile(newProfile, backProxyProfile);
 
-				let validateResult = ProxyRules.validateRule(newRule);
-				if (!validateResult.success) {
-					// if validation failed
-					// not exist, then failed
-					return validateResult;
+				for (const newRule of newProfile.proxyRules) {
+					let validateResult = ProxyRules.validateRule(newRule);
+					if (!validateResult.success) {
+						// if validation failed
+						// not exist, then failed
+						return validateResult;
+					}
 				}
 
 				// -----------
-				upcomingRules.push(newRule);
+				upcomingProxyProfiles.push(newProfile);
 			}
 
-			return { success: true, result: upcomingRules };
+			return { success: true, result: upcomingProxyProfiles };
 		}
 
-		function restoreRulesSubscriptions(backupRulesSubscriptions: any[]) {
-			let upcomingRulesSubscriptions: ProxyRulesSubscription[] = [];
-			for (let subscription of backupRulesSubscriptions) {
+		function restoreDefaultProxyServer(defaultProxyServerId: any) {
 
-				let newSubscription = new ProxyRulesSubscription();
-				newSubscription.CopyFrom(subscription);
-
-				upcomingRulesSubscriptions.push(newSubscription);
+			let proxy = SettingsOperation.findProxyServerById(defaultProxyServerId);
+			if (proxy == null) {
+				return { success: false, result: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalidDefaultProxyServer") };
 			}
 
-			return { success: true, result: upcomingRulesSubscriptions };
+			return { success: true, result: defaultProxyServerId };
 		}
 
-		function restoreActiveServer(backupActiveProxyServer: any) {
+		function restoreActiveProfileId(backupActiveProfileId: any) {
 
-			let newActiveServer = new ProxyServer();
-			newActiveServer.CopyFrom(backupActiveProxyServer);
-
-			let validateResult = Settings.validateProxyServer(newActiveServer);
-			if (!validateResult.success &&
-				!validateResult.exist) {
-				// if validation failed
-
-				// not exist, then failed
-				return validateResult;
+			if (backupActiveProfileId == null ||
+				backupActiveProfileId <= 0) {
+				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalidActiveProfile") };
 			}
-			return { success: true, result: newActiveServer };
-		}
-
-		function restoreProxyMode(backupProxyMode: any) {
-
-			if (backupProxyMode == null ||
-				backupProxyMode <= 0) {
-				return { success: false, message: browser.i18n.getMessage("settingsProxyModeInvalid") };
-			}
-			return { success: true, result: backupProxyMode };
-		}
-
-		function restoreBypass(backupBypass: any) {
-
-			if (backupBypass == null ||
-				(backupBypass.bypassList == null && !Array.isArray(backupBypass.bypassList))) {
-				return { success: false, message: browser.i18n.getMessage("settingsBypassInvalid") };
-			}
-
-			let newByPass = new BypassOptions();
-			newByPass.CopyFrom(backupBypass);
-
-			backupBypass.enableForAlways = backupBypass.enableForAlways || false;
-			backupBypass.enableForSystem = backupBypass.enableForSystem || false;
-
-			return { success: true, result: backupBypass };
+			return { success: true, result: backupActiveProfileId };
 		}
 
 		function restoreOptions(backupOptions: any) {
@@ -530,11 +517,9 @@ export class SettingsOperation {
 			let backupOptions: GeneralOptions;
 			let backupServers: ProxyServer[];
 			let backupServerSubscriptions: ProxyServerSubscription[];
-			let backupRules: ProxyRule[];
-			let backupRulesSubscriptions: ProxyRulesSubscription[];
-			let backupActiveServer: ProxyServer;
-			let backupProxyMode: ProxyModeType;
-			let backupBypass: BypassOptions;
+			let backupProxyProfiles: SmartProfile[];
+			let backupDefaultProxyServerId: string;
+			let backupActiveProfileId: string;
 
 			// -----------------------------------
 			if (backupData["options"] != null &&
@@ -573,64 +558,39 @@ export class SettingsOperation {
 			}
 
 			// -----------------------------------
-			if (backupData["proxyRules"] != null &&
-				Array.isArray(backupData.proxyRules)) {
+			if (backupData["proxyProfiles"] != null &&
+				Array.isArray(backupData.proxyProfiles)) {
 
-				let restoreRulesResult = restoreRules(backupData.proxyRules);
+				let restoreRulesResult = restoreProxyProfiles(backupData.proxyProfiles);
 
 				if (!restoreRulesResult.success)
 					return restoreRulesResult;
 
-				backupRules = restoreRulesResult.result;
+				backupProxyProfiles = restoreRulesResult.result;
 			}
 
 			// -----------------------------------
-			if (backupData["proxyRulesSubscriptions"] != null &&
-				Array.isArray(backupData.proxyRulesSubscriptions)) {
+			if (backupData["defaultProxyServerId"] != null &&
+				typeof (backupData.defaultProxyServerId) == "string") {
 
-				let restoreRulesSubscriptionsResult = restoreRulesSubscriptions(backupData.proxyRulesSubscriptions);
-
-				if (!restoreRulesSubscriptionsResult.success)
-					return restoreRulesSubscriptionsResult;
-
-				backupRulesSubscriptions = restoreRulesSubscriptionsResult.result;
-			}
-
-			// -----------------------------------
-			if (backupData["activeProxyServer"] != null &&
-				typeof (backupData.activeProxyServer) == "object") {
-
-				let restoreActiveServerResult = restoreActiveServer(backupData.activeProxyServer);
+				let restoreActiveServerResult = restoreDefaultProxyServer(backupData.defaultProxyServerId);
 
 				if (!restoreActiveServerResult.success)
 					return restoreActiveServerResult;
 
-				backupActiveServer = restoreActiveServerResult.result;
+				backupDefaultProxyServerId = restoreActiveServerResult.result;
 			}
 
 			// -----------------------------------
-			if (backupData["proxyMode"] != null &&
-				typeof (backupData.proxyMode) == "string") {
+			if (backupData["activeProfileId"] != null &&
+				typeof (backupData.activeProfileId) == "string") {
 
-				let restoreProxyModeResult = restoreProxyMode(backupData.proxyMode);
+				let restoreActiveProfileIdResult = restoreActiveProfileId(backupData.activeProfileId);
 
-				if (!restoreProxyModeResult.success)
-					return restoreProxyModeResult;
+				if (!restoreActiveProfileIdResult.success)
+					return restoreActiveProfileIdResult;
 
-				backupProxyMode = restoreProxyModeResult.result;
-			}
-
-			// -----------------------------------
-			if (backupData["bypass"] != null &&
-				typeof (backupData.bypass) == "object" &&
-				Array.isArray(backupData.bypass.bypassList)) {
-
-				let restoreProxyModeResult = restoreBypass(backupData.bypass);
-
-				if (!restoreProxyModeResult.success)
-					return restoreProxyModeResult;
-
-				backupBypass = restoreProxyModeResult.result;
+				backupActiveProfileId = restoreActiveProfileIdResult.result;
 			}
 
 			// everything is fine so far
@@ -656,44 +616,26 @@ export class SettingsOperation {
 				SubscriptionUpdater.updateServerSubscriptions();
 			}
 
-			if (backupRules != null) {
+			if (backupProxyProfiles != null) {
 
-				Settings.current.proxyRules = backupRules;
+				Settings.current.proxyProfiles = backupProxyProfiles;
 
-				SettingsOperation.saveRules();
+				SettingsOperation.saveSmartProfiles();
 				ProxyEngine.notifyProxyRulesChanged();
 			}
 
-			if (backupRulesSubscriptions != null) {
+			if (backupDefaultProxyServerId != null) {
 
-				Settings.current.proxyRulesSubscriptions = backupRulesSubscriptions;
-				SettingsOperation.saveProxyRulesSubscriptions();
+				Settings.current.defaultProxyServerId = backupDefaultProxyServerId;
 
-				// update the timers
-				SubscriptionUpdater.updateRulesSubscriptions();
-
-				ProxyEngine.notifyProxyRulesChanged();
+				SettingsOperation.saveDefaultProxyServer();
 			}
 
-			if (backupActiveServer != null) {
+			if (backupActiveProfileId != null) {
 
-				Settings.current.activeProxyServer = backupActiveServer;
+				Settings.current.activeProfileId = backupActiveProfileId;
 
-				SettingsOperation.saveActiveProxyServer();
-			}
-
-			if (backupProxyMode != null) {
-
-				Settings.current.proxyMode = backupProxyMode;
-
-				SettingsOperation.saveProxyMode();
-			}
-
-			if (backupBypass != null) {
-
-				Settings.current.bypass = backupBypass;
-
-				SettingsOperation.saveBypass();
+				SettingsOperation.saveActiveProfile();
 			}
 
 			// save synced if needed
@@ -706,6 +648,7 @@ export class SettingsOperation {
 
 
 		} catch (e) {
+			Debug.error('Backup restore failed', e, fileData);
 			return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
 		}
 	}

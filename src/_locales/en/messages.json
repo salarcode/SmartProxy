@@ -12,11 +12,15 @@
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "In effect rule:",
+		"message": "Matched rule source:",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "In effect rule: none",
+		"message": "No matching rule",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRulePattern": {
+		"message": "Rule pattern:",
 		"description": ""
 	},
 	"popupTitle": {
@@ -40,11 +44,19 @@
 		"description": ""
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy:",
+		"message": "Active Proxy (this profile):",
+		"description": ""
+	},
+	"popupActiveProxyDefault": {
+		"message": "Active Proxy (Default Setting):",
 		"description": ""
 	},
 	"popupEnableProxyOn": {
 		"message": "Enable proxy on",
+		"description": ""
+	},
+	"popupIgnoreTheseDomains": {
+		"message": "Ignore these domains",
 		"description": ""
 	},
 	"popupRuleIsFromSubscription": {
@@ -159,48 +171,72 @@
 		"message": "Request Url",
 		"description": ""
 	},
-	"proxyableGridColEnabled": {
-		"message": "Proxied",
+	"proxyableGridColRuleStatus": {
+		"message": "Rule status",
 		"description": ""
 	},
-	"proxyableGridColSource": {
-		"message": "In effect rule",
+	"proxyableGridColProxifiedStatus": {
+		"message": "Proxy status",
 		"description": ""
 	},
-	"proxyableGridColStatus": {
-		"message": "Status",
-		"description": ""
-	},	
-	"proxyableGridData_LogType_NoneMatched": {
-		"message": "No Match",
+	"proxyableGridColRuleHost": {
+		"message": "Rule domain",
 		"description": ""
 	},
-	"proxyableGridData_LogType_MatchedRule": {
-		"message": "Rule Matched",
+	"proxyableGridColRulePattern": {
+		"message": "Rule pattern",
 		"description": ""
 	},
-	"proxyableGridData_LogType_Special": {
+	"proxyableGridCol_ProxifiedStatus_NoProxy": {
+		"message": "No Proxy",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_Special": {
 		"message": "Special",
 		"description": ""
 	},
-	"proxyableGridData_LogType_Whitelisted": {
+	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
+		"message": "From parent tab",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
+		"message": "Matched",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
+		"message": "Always Enabled",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
+		"message": "System Proxy Applied",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_NoneMatched": {
+		"message": "No Match",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_Special": {
+		"message": "Special",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
+		"message": "From parent tab",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_MatchedRule": {
+		"message": "Matched",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_Whitelisted": {
 		"message": "Whitelisted",
 		"description": ""
 	},
-	"proxyableGridData_LogType_ByPassed": {
-		"message": "By Passed",
+	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
+		"message": "AlwaysEnabled <br> Bypassed",
 		"description": ""
 	},
-	"proxyableGridData_LogType_SystemProxyApplied": {
-		"message": "System Mode",
-		"description": ""
-	},
-	"proxyableGridData_LogType_AlwaysEnabled": {
-		"message": "Always Mode",
-		"description": ""
-	},
-	"proxyableGridData_LogType_ProxyPerOrigin": {
-		"message": "From Parent Tab",
+	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
+		"message": "AlwaysEnabled <br> Forced By Rules",
 		"description": ""
 	},
 	"settingsTitle": {
@@ -215,20 +251,20 @@
 		"message": "General Options",
 		"description": ""
 	},
+	"settingsTabSmartProfiles": {
+		"message": "Smart Profiles",
+		"description": ""
+	},
+	"settingsTabAddSmartProfile": {
+		"message": "Add new Smart Profile",
+		"description": ""
+	},
 	"settingsTabProxyServers": {
 		"message": "Proxy Servers",
 		"description": ""
 	},
-	"settingsTabProxyRules": {
-		"message": "Proxy Rules",
-		"description": ""
-	},
 	"settingsTabProxyServerSubscriptions": {
 		"message": "Proxy Server Subscriptions",
-		"description": ""
-	},
-	"settingsTabBypass": {
-		"message": "Bypass List",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -256,7 +292,7 @@
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If one of the rules matched the origin/the main url of the tab and that proxy is applied to it, every other request from that origin will also use that proxy; this will result in having the whole tab proxied to a certain proxy. Also this eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, still proxy rules can apply to other requests to other domains individually.",
+		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually.",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
@@ -288,11 +324,11 @@
 		"description": ""
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Enable syncing proxy-mode",
+		"message": "Enable syncing active profile",
 		"description": ""
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Check if you want the proxy activation mode to be synced.",
+		"message": "Check if you want the active profile to be synced.",
 		"description": ""
 	},
 	"settingsGeneralSyncActiveProxy": {
@@ -316,19 +352,63 @@
 		"description": ""
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Select Domains",
+		"message": "Enter Rules",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Ignore failure detection for these domains",
+		"message": "Ignore failure detection based on these rules",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Enter domain list you wish to disable failure detection.",
+		"message": "Add rules to disable failure detection.",
 		"description": ""
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
 		"message": "Display failed requests count on toolbar icon badge",
+		"description": ""
+	},
+	"settingsGeneralThemes": {
+		"message": "Themes",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitch": {
+		"message": "Auto switch by the Browser theme",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitchDesc": {
+		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system.",
+		"description": ""
+	},
+	"settingsGeneralThemesLight": {
+		"message": "Light Theme",
+		"description": ""
+	},
+	"settingsGeneralThemes_Default": {
+		"message": "(Default)",
+		"description": ""
+	},
+	"settingsGeneralThemes_Custom": {
+		"message": "(Custom)",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrl": {
+		"message": "Custom Styles (Css) Url:",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrlDesc": {
+		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency.",
+		"description": ""
+	},
+	"settingsGeneralThemesDark": {
+		"message": "Dark Theme",
+		"description": ""
+	},
+	"settingsGeneralThemesLight_ErrorValidUrl": {
+		"message": "Please enter a valid css url for Light Theme and the url should be 'https'.",
+		"description": ""
+	},
+	"settingsGeneralThemesDark_ErrorValidUrl": {
+		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'.",
 		"description": ""
 	},
 	"settingsGeneralOtherSettings": {
@@ -356,15 +436,11 @@
 		"description": ""
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Display applied proxy on badge",
+		"message": "Display applied rule source on badge",
 		"description": ""
 	},
-	"settingsGeneralIgnoreRequestFailuresTitle": {
-		"message": "Ignore Request Failures For Domains",
-		"description": ""
-	},
-	"settingsGeneralIgnoredDomains": {
-		"message": "Ignored domain list:",
+	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
+		"message": "Display applied rule pattern on badge",
 		"description": ""
 	},
 	"settingsGeneralCancelButton": {
@@ -391,18 +467,6 @@
 		"message": "Here is the list of proxy servers. You can define as many proxy as you want and switch between then from toolbar.",
 		"description": ""
 	},
-	"settingsTabProxyRulesTitle": {
-		"message": "Manage your proxy rules:",
-		"description": ""
-	},
-	"settingsTabProxyRulesDescription": {
-		"message": "Here is the list of rules that will let SmartProxy to decide whether to enable proxy for a specific domain or not.<br />Rules are based on <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>Match patterns</a> and <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>Regular expressions</a>.",
-		"description": ""
-	},
-	"settingsTabBypassDescription": {
-		"message": "The following list is the list of hosts that proxy should not be applied to.",
-		"description": ""
-	},
 	"settingsTabBackupRestoreDescription": {
 		"message": "You can make either full or partial backup of your settings.",
 		"description": ""
@@ -416,7 +480,7 @@
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
-		"message": "Active Proxy Server:",
+		"message": "Default Proxy Server:",
 		"description": ""
 	},
 	"settingsAddServerButton": {
@@ -439,14 +503,6 @@
 		"message": "Make a full backup of the options (including proxy servers and rules).",
 		"description": ""
 	},
-	"settingsRulesBackupButton": {
-		"message": "Create rules backup",
-		"description": ""
-	},
-	"settingsRulesBackupButtonDesc": {
-		"message": "Make backup of the proxy rules.",
-		"description": ""
-	},
 	"settingsRestoreBackupButton": {
 		"message": "Restore backup",
 		"description": ""
@@ -456,7 +512,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import/Export individual list of proxies and rules.",
+		"message": "Import/Export individual list of proxies servers.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -465,10 +521,6 @@
 	},
 	"settingsExportProxiesButtonBackup": {
 		"message": "Export Proxy Servers",
-		"description": ""
-	},
-	"settingsImportRulesButtonBackup": {
-		"message": "Import Proxy Rules",
 		"description": ""
 	},
 	"settingsAddRuleButton": {
@@ -573,10 +625,6 @@
 	},
 	"settingsErrorFailedToSaveServers": {
 		"message": "Failed to save servers.",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveRules": {
-		"message": "Failed to save rules.",
 		"description": ""
 	},
 	"settingsChangesReverted": {
@@ -699,6 +747,93 @@
 		"message": "Import",
 		"description": ""
 	},
+	"settingsProfilesNameTitle": {
+		"message": "Smart Profile:"
+	},
+	"settingsProfilesEnabled": {
+		"message": "Enabled"
+	},
+	"settingsProfilesTypeTitle": {
+		"message": "Profile Type:"
+	},
+	"settingsProfilesTypeDesc_SmartRules": {
+		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+	},
+	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
+		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+	},
+	"settingsProfilesTypeDesc_IgnoreFailureRules": {
+		"message": "Ignore failure detection for these domains by adding rules."
+	},
+	"settingsProfilesProfileProxyServer": {
+		"message": "Profile Proxy Server:"
+	},
+	"settingsProfilesDefaultProfileProxyServer": {
+		"message": "(Use Default Proxy Server)"
+	},
+	"settingsProfilesProfileProxyServerDesc": {
+		"message": "(While using this profile, this is going to be the active proxy server)"
+	},
+	"settingsProfilesRulesSection": {
+		"message": "Rules"
+	},
+	"settingsProfilesDelete": {
+		"message": "Delete"
+	},
+	"settingsProfilesAddNewLabel": {
+		"message": "Add New Smart Profile"
+	},
+	"settingsProfilesAddNewTypeLead": {
+		"message": "Please select the <b>type of profile</b> you want to add:"
+	},
+	"settingsProfilesAddNewType_SmartRules": {
+		"message": "Smart Rules"
+	},
+	"settingsProfilesAddNewType_SmartRulesDesc": {
+		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+	},
+	"settingsProfilesAddNewType_AlwaysEnabled": {
+		"message": "Always Enabled"
+	},
+	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
+		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
+	},
+	"settingsProfilesAddNewBtnContinue": {
+		"message": "Continue"
+	},
+	"settingsProfilesAddNewBtnCancel": {
+		"message": "Cancel"
+	},
+	"settingsProfilesAddErrorTypeRequired": {
+		"message": "Please select a profile type"
+	},
+	"settingsProfilesAddErrorNameRequired": {
+		"message": "Profile name is mandatory"
+	},
+	"settingsProfilesAddErrorNameExists": {
+		"message": "Profile name already exists, please enter another one"
+	},
+	"settingsProfilesDeleteConfirm": {
+		"message": "Are you sure to delete this profile? Warning, this action cannot be undone!"
+	},
+	"settingsProfilesDeleteFailed": {
+		"message": "Failed to delete the selected profile."
+	},
+	"settingsProfilesDeleteDone": {
+		"message": "The profile is deleted successfully"
+	},
+	"settingsProfilesDeleteBuiltinFail": {
+		"message": "Cannot delete built-in profiles"
+	},
+	"settingsProfilesProxyServer": {
+		"message": "[Use Default Proxy Server]"
+	},
+	"settingsSaveSmartProfileSuccess": {
+		"message": "Smart Profile saved successfully."
+	},
+	"settingsErrorFailedToSaveSmartProfile": {
+		"message": "Failed to save smart profile."
+	},
 	"settingsRuleSourceRequired": {
 		"message": "Please specify the source domain of the rule!",
 		"description": ""
@@ -764,11 +899,11 @@
 		"description": ""
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[General]",
+		"message": "[Use Active Proxy]",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSuccess": {
-		"message": "Proxy rules saved successfully.",
+	"settingsRulesProxyFromProfile": {
+		"message": "[Use Profile Proxy]",
 		"description": ""
 	},
 	"settingsRulesModalTitle": {
@@ -843,10 +978,6 @@
 		"message": "Server host '{0}' is invalid",
 		"description": ""
 	},
-	"settingsProxyModeInvalid": {
-		"message": "Invalid proxy mode setting",
-		"description": ""
-	},
 	"settingsRestoreSettingsSuccess": {
 		"message": "Settings are restored successfully",
 		"description": ""
@@ -855,12 +986,24 @@
 		"message": "There was an error in restoring the settings",
 		"description": ""
 	},
+	"settingsRestoreSettingsFailedInvalidActiveProfile": {
+		"message": "Invalid data provided for active profile",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
+		"message": "Invalid data provided for default proxy server",
+		"description": ""
+	},
 	"settingsEnableByDomainInvalid": {
 		"message": "The selected domain is not valid",
 		"description": ""
 	},
 	"settingsEnableByDomainExists": {
 		"message": "Rule for the domain already exists",
+		"description": ""
+	},
+	"settingsEnableByDomainSmartProfileNonEditable": {
+		"message": "The current profile '{0}' cannot be updated with rules",
 		"description": ""
 	},
 	"settingsNoRuleFoundForDomain": {
@@ -1087,18 +1230,6 @@
 		"message": "Failed to save proxy servers subscriptions",
 		"description": ""
 	},
-	"settingsTabProxyRulesSubscription": {
-		"message": "Proxy Rules Subscriptions",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionTitle": {
-		"message": "Manage proxy rules subscriptions:",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionDescription": {
-		"message": "Here you can subscribe to rules lists. Based on these rules, proxies will apply.",
-		"description": ""
-	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Subscribe to a rules list",
 		"description": ""
@@ -1259,34 +1390,6 @@
 		"message": "Rule doesn't have pattern defined",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSubscriptionsSuccess": {
-		"message": "Proxy rules subscriptions saved successfully.",
-		"description": ""
-	},
-	"settingsBypassEnableForAlways": {
-		"message": "Enable for 'Always Enable' mode",
-		"description": ""
-	},
-	"settingsBypassList": {
-		"message": "Bypass list:",
-		"description": ""
-	},
-	"settingsBypassListHint": {
-		"message": "(Use new line to separate entries)",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveBypass": {
-		"message": "Failed to save bypass settings.",
-		"description": ""
-	},
-	"settingsSaveBypassSuccess": {
-		"message": "Bypass list saved successfully.",
-		"description": ""
-	},
-	"settingsBypassInvalid": {
-		"message": "Invalid bypass settings",
-		"description": ""
-	},
 	"settingsWelcomeTitle": {
 		"message": "Welcome to SmartProxy",
 		"description": ""
@@ -1297,6 +1400,26 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "Got it",
+		"description": ""
+	},
+	"settings_SmartProfileType_Direct": {
+		"message": "Direct",
+		"description": ""
+	},
+	"settings_SmartProfileType_SystemProxy": {
+		"message": "System Proxy",
+		"description": ""
+	},
+	"settings_SmartProfileType_SmartRules": {
+		"message": "Smart Rules",
+		"description": ""
+	},
+	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
+		"message": "Always Enabled with Bypass Rules",
+		"description": ""
+	},
+	"settings_SmartProfileType_IgnoreFailureRules": {
+		"message": "Ignore Failures Rules",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {
@@ -1318,5 +1441,17 @@
 	"notificationShortcutProxyServerChanged": {
 		"message": "Proxy server changed to {0}",
 		"description": ""
+	},
+	"helpTabName": {
+		"message": "Help Center"
+	},
+	"helpIntro": {
+		"message": "Welcome to Help Center, please navigate to the section that you need help or if you're new to SmartProxy start with Get Started guide."
+	},
+	"helpGettingStarted": {
+		"message": "Getting Started"
+	},
+	"helpProxyModes": {
+		"message": "Proxy Modes"
 	}
 }

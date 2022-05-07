@@ -12,11 +12,15 @@
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "正在使用的规则：",
+		"message": "匹配的规则来源：",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "生效规则：无",
+		"message": "没有匹配的规则",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRulePattern": {
+		"message": "规则模式：",
 		"description": ""
 	},
 	"popupTitle": {
@@ -40,11 +44,19 @@
 		"description": ""
 	},
 	"popupActiveProxy": {
-		"message": "当前代理：",
+		"message": "活动代理（本配置档）：",
+		"description": ""
+	},
+	"popupActiveProxyDefault": {
+		"message": "活动代理（默认设置）：",
 		"description": ""
 	},
 	"popupEnableProxyOn": {
 		"message": "以下页面使用代理",
+		"description": ""
+	},
+	"popupIgnoreTheseDomains": {
+		"message": "忽略这些域",
 		"description": ""
 	},
 	"popupRuleIsFromSubscription": {
@@ -92,7 +104,7 @@
 		"description": ""
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "确定忽略选中的失败？忽略后将不再收到它们的错误。之后也可以更改此设置。",
+		"message": "确定忽略选中的失败？忽略后将不再接收有关它们的错误。可以在设置中改变此决定。",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
@@ -163,44 +175,72 @@
 		"message": "已代理",
 		"description": ""
 	},
-	"proxyableGridColSource": {
-		"message": "对应规则",
+	"proxyableGridColRuleStatus": {
+		"message": "规则状态",
 		"description": ""
 	},
-	"proxyableGridColStatus": {
-		"message": "状态",
+	"proxyableGridColProxifiedStatus": {
+		"message": "代理状态",
 		"description": ""
 	},
-	"proxyableGridData_LogType_NoneMatched": {
-		"message": "无匹配",
+	"proxyableGridColRuleHost": {
+		"message": "规则域名",
 		"description": ""
 	},
-	"proxyableGridData_LogType_MatchedRule": {
-		"message": "规则匹配",
+	"proxyableGridColRulePattern": {
+		"message": "规则模式",
 		"description": ""
 	},
-	"proxyableGridData_LogType_Special": {
+	"proxyableGridCol_ProxifiedStatus_NoProxy": {
+		"message": "无代理",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_Special": {
 		"message": "特殊",
 		"description": ""
 	},
-	"proxyableGridData_LogType_Whitelisted": {
-		"message": "白名单规则",
-		"description": ""
-	},
-	"proxyableGridData_LogType_ByPassed": {
-		"message": "跳过列表",
-		"description": ""
-	},
-	"proxyableGridData_LogType_SystemProxyApplied": {
-		"message": "系统模式",
-		"description": ""
-	},
-	"proxyableGridData_LogType_AlwaysEnabled": {
-		"message": "总是模式",
-		"description": ""
-	},
-	"proxyableGridData_LogType_ProxyPerOrigin": {
+	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
 		"message": "遵循父标签页",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
+		"message": "匹配",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
+		"message": "总是启用",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
+		"message": "系统代理已应用",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_NoneMatched": {
+		"message": "无匹配",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_Special": {
+		"message": "特殊",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
+		"message": "遵循父标签页",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_MatchedRule": {
+		"message": "匹配",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_Whitelisted": {
+		"message": "白名单",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
+		"message": "总是启用 <br> 绕过",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
+		"message": "总是启用 <br> 按规则强制使用",
 		"description": ""
 	},
 	"settingsTitle": {
@@ -215,20 +255,20 @@
 		"message": "常规",
 		"description": ""
 	},
+	"settingsTabSmartProfiles": {
+		"message": "智能配置档",
+		"description": ""
+	},
+	"settingsTabAddSmartProfile": {
+		"message": "新增智能配置档",
+		"description": ""
+	},
 	"settingsTabProxyServers": {
 		"message": "代理服务器",
 		"description": ""
 	},
-	"settingsTabProxyRules": {
-		"message": "代理规则",
-		"description": ""
-	},
 	"settingsTabProxyServerSubscriptions": {
 		"message": "代理服务器订阅",
-		"description": ""
-	},
-	"settingsTabBypass": {
-		"message": "跳过列表",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -316,19 +356,63 @@
 		"description": ""
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "选择域名",
+		"message": "输入规则",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "忽略对这些域名的失败检测",
+		"message": "基于这些规则忽略失败检测",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "输入您想禁用失败检测的域名列表。",
+		"message": "添加禁用失败检测的规则。",
 		"description": ""
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
 		"message": "在工具栏图标徽章上显示请求失败的次数",
+		"description": ""
+	},
+	"settingsGeneralThemes": {
+		"message": "主题",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitch": {
+		"message": "按浏览器主题自动切换",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitchDesc": {
+		"message": "在下面选定的主题间自动切换。这遵循您的浏览器主题，这也可以遵循您的操作系统的主题。",
+		"description": ""
+	},
+	"settingsGeneralThemesLight": {
+		"message": "浅色主题",
+		"description": ""
+	},
+	"settingsGeneralThemes_Default": {
+		"message": "(默认)",
+		"description": ""
+	},
+	"settingsGeneralThemes_Custom": {
+		"message": "(自定义)",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrl": {
+		"message": "自定义样式（CSS）网址：",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrlDesc": {
+		"message": "URL必须是“Https”。 在以下自定义样式中了解导入的字体和其他样式，他们可以在您的浏览器中屏蔽/减缓弹出窗口。 您可以从 bootswatch.com 尝试主题，但是知道他们的谷歌字体依赖性。",
+		"description": ""
+	},
+	"settingsGeneralThemesDark": {
+		"message": "深色主题",
+		"description": ""
+	},
+	"settingsGeneralThemesLight_ErrorValidUrl": {
+		"message": "请为浅色主题输入一个有效的 CSS URL，网址应该是“https”为开头。",
+		"description": ""
+	},
+	"settingsGeneralThemesDark_ErrorValidUrl": {
+		"message": "请为深色主题输入一个有效的 CSS URL，网址应该是“https”为开头。",
 		"description": ""
 	},
 	"settingsGeneralOtherSettings": {
@@ -356,15 +440,11 @@
 		"description": ""
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "在徽章上显示应用的代理",
+		"message": "在图标上显示已应用的规则源",
 		"description": ""
 	},
-	"settingsGeneralIgnoreRequestFailuresTitle": {
-		"message": "忽略域名的失败请求",
-		"description": ""
-	},
-	"settingsGeneralIgnoredDomains": {
-		"message": "忽略域名列表：",
+	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
+		"message": "在图标上显示已应用的规则模式",
 		"description": ""
 	},
 	"settingsGeneralCancelButton": {
@@ -391,18 +471,6 @@
 		"message": "此处为代理服务器列表。可定义任意数量的代理，通过工具栏按钮即可切换。",
 		"description": ""
 	},
-	"settingsTabProxyRulesTitle": {
-		"message": "管理您的代理规则：",
-		"description": ""
-	},
-	"settingsTabProxyRulesDescription": {
-		"message": "下列是SmartProxy用于决定是否为一个特定域名开启代理的规则列表。<br />规则语法基于<a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>扩展匹配模式</a>以及<a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>正则表达式</a>。",
-		"description": ""
-	},
-	"settingsTabBypassDescription": {
-		"message": "下列名单是不应使用代理的主机列表。",
-		"description": ""
-	},
 	"settingsTabBackupRestoreDescription": {
 		"message": "您可以备份您的部分或全部设置。",
 		"description": ""
@@ -416,7 +484,7 @@
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
-		"message": "激活的代理服务器：",
+		"message": "默认代理服务器：",
 		"description": ""
 	},
 	"settingsAddServerButton": {
@@ -439,16 +507,8 @@
 		"message": "完整备份你的偏好设置（包含代理服务器与规则）",
 		"description": ""
 	},
-	"settingsRulesBackupButton": {
-		"message": "创建规则备份",
-		"description": ""
-	},
-	"settingsRulesBackupButtonDesc": {
-		"message": "备份你的代理规则",
-		"description": ""
-	},
 	"settingsRestoreBackupButton": {
-		"message": "从备份还原",
+		"message": "还原备份",
 		"description": ""
 	},
 	"settingsRestoreBackupButtonDesc": {
@@ -456,19 +516,15 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "导入/导出代理服务器和规则",
+		"message": "导入/导出各个代理服务器的列表。",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
-		"message": "导入代理服务器设置",
+		"message": "导入代理服务器",
 		"description": ""
 	},
 	"settingsExportProxiesButtonBackup": {
-		"message": "导出代理服务器设置",
-		"description": ""
-	},
-	"settingsImportRulesButtonBackup": {
-		"message": "导入代理规则",
+		"message": "导出代理服务器",
 		"description": ""
 	},
 	"settingsAddRuleButton": {
@@ -573,10 +629,6 @@
 	},
 	"settingsErrorFailedToSaveServers": {
 		"message": "保存服务器失败。",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveRules": {
-		"message": "保存规则失败。",
 		"description": ""
 	},
 	"settingsChangesReverted": {
@@ -699,6 +751,93 @@
 		"message": "导入",
 		"description": ""
 	},
+	"settingsProfilesNameTitle": {
+		"message": "智能配置档："
+	},
+	"settingsProfilesEnabled": {
+		"message": "启用"
+	},
+	"settingsProfilesTypeTitle": {
+		"message": "配置档类型："
+	},
+	"settingsProfilesTypeDesc_SmartRules": {
+		"message": "在这个配置档中，除非您定义了智能规则，否则不应用代理服务器。您需要定义需应用代理的规则。"
+	},
+	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
+		"message": "在这个配置档中，代理服务器总是被应用，除非有智能规则要求跳过。即定义白名单规则来决定不应用代理的情况。"
+	},
+	"settingsProfilesTypeDesc_IgnoreFailureRules": {
+		"message": "通过添加规则来忽略这些域名的失败检测。"
+	},
+	"settingsProfilesProfileProxyServer": {
+		"message": "配置档的代理服务器："
+	},
+	"settingsProfilesDefaultProfileProxyServer": {
+		"message": "(使用默认的代理服务器)"
+	},
+	"settingsProfilesProfileProxyServerDesc": {
+		"message": "（使用此方案时，这将作为当前的代理服务器）"
+	},
+	"settingsProfilesRulesSection": {
+		"message": "规则"
+	},
+	"settingsProfilesDelete": {
+		"message": "删除"
+	},
+	"settingsProfilesAddNewLabel": {
+		"message": "新增智能配置档"
+	},
+	"settingsProfilesAddNewTypeLead": {
+		"message": "请选择你想要添加的<b>配置档类型</b>："
+	},
+	"settingsProfilesAddNewType_SmartRules": {
+		"message": "智能规则"
+	},
+	"settingsProfilesAddNewType_SmartRulesDesc": {
+		"message": "在这个类型的配置档中，代理将基于您需要定义的<em>规则</em>来应用到请求。要定义这些规则，您可以使用菜单栏中的弹出式菜单，可以从设置中实现，还可以从 <em>可代理资源</em> 窗口中添加它们。<br>您也可以订阅不同的规则列表，如 Gfwlist。"
+	},
+	"settingsProfilesAddNewType_AlwaysEnabled": {
+		"message": "总是启用"
+	},
+	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
+		"message": "在这个类型的配置档中，代理将总是应用到请求，除非你定义了绕过它的规则。定义规则的步骤和智能规则配置档类型一样。"
+	},
+	"settingsProfilesAddNewBtnContinue": {
+		"message": "继续"
+	},
+	"settingsProfilesAddNewBtnCancel": {
+		"message": "取消"
+	},
+	"settingsProfilesAddErrorTypeRequired": {
+		"message": "请选择一个配置档类型"
+	},
+	"settingsProfilesAddErrorNameRequired": {
+		"message": "配置档名称是必需的"
+	},
+	"settingsProfilesAddErrorNameExists": {
+		"message": "配置档名称已存在，请输入另一个"
+	},
+	"settingsProfilesDeleteConfirm": {
+		"message": "确定删除这个配置档？警告，这个操作不能撤销！"
+	},
+	"settingsProfilesDeleteFailed": {
+		"message": "删除选定配置档失败。"
+	},
+	"settingsProfilesDeleteDone": {
+		"message": "配置档成功删除"
+	},
+	"settingsProfilesDeleteBuiltinFail": {
+		"message": "不能删除内置配置档"
+	},
+	"settingsProfilesProxyServer": {
+		"message": "[使用默认的代理服务器]"
+	},
+	"settingsSaveSmartProfileSuccess": {
+		"message": "智能配置档保存成功。"
+	},
+	"settingsErrorFailedToSaveSmartProfile": {
+		"message": "保存智能配置档失败。"
+	},
 	"settingsRuleSourceRequired": {
 		"message": "请指定代理规则源域名！",
 		"description": ""
@@ -764,11 +903,11 @@
 		"description": ""
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[通用]",
+		"message": "[使用活动代理]",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSuccess": {
-		"message": "成功保存代理规则。",
+	"settingsRulesProxyFromProfile": {
+		"message": "[使用配置档代理]",
 		"description": ""
 	},
 	"settingsRulesModalTitle": {
@@ -843,16 +982,20 @@
 		"message": "服务器主机名 '{0}' 无效",
 		"description": ""
 	},
-	"settingsProxyModeInvalid": {
-		"message": "无效的代理模式设置",
-		"description": ""
-	},
 	"settingsRestoreSettingsSuccess": {
 		"message": "成功还原设置",
 		"description": ""
 	},
 	"settingsRestoreSettingsFailed": {
 		"message": "还原设置时出错",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidActiveProfile": {
+		"message": "为活动配置档提供了无效的数据",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
+		"message": "为默认代理服务器提供了无效的数据",
 		"description": ""
 	},
 	"settingsEnableByDomainInvalid": {
@@ -863,12 +1006,12 @@
 		"message": "该域名的规则已经存在",
 		"description": ""
 	},
-	"settingsNoRuleFoundForDomain": {
-		"message": "没有对域名 '{0}' 的规则",
+	"settingsEnableByDomainSmartProfileNonEditable": {
+		"message": "无法用这些规则更新当前方案 {0}",
 		"description": ""
 	},
-	"settingsRuleSourceIsEmpty": {
-		"message": "规则 '设定' 为空",
+	"settingsNoRuleFoundForDomain": {
+		"message": "没有对域名 '{0}' 的规则",
 		"description": ""
 	},
 	"importerImportSuccess": {
@@ -1091,18 +1234,6 @@
 		"message": "保存代理服务器订阅失败",
 		"description": ""
 	},
-	"settingsTabProxyRulesSubscription": {
-		"message": "代理规则订阅",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionTitle": {
-		"message": "管理代理规则订阅：",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionDescription": {
-		"message": "你可以在此订阅规则列表。代理将应用这些规则。",
-		"description": ""
-	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "订阅规则列表",
 		"description": ""
@@ -1263,34 +1394,6 @@
 		"message": "规则未定义模板",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSubscriptionsSuccess": {
-		"message": "代理规则订阅保存成功。",
-		"description": ""
-	},
-	"settingsBypassEnableForAlways": {
-		"message": "“总是启用”模式下生效",
-		"description": ""
-	},
-	"settingsBypassList": {
-		"message": "跳过列表：",
-		"description": ""
-	},
-	"settingsBypassListHint": {
-		"message": "(每条规则占一行)",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveBypass": {
-		"message": "保存跳过设置失败。",
-		"description": ""
-	},
-	"settingsSaveBypassSuccess": {
-		"message": "白名单保存成功。",
-		"description": ""
-	},
-	"settingsBypassInvalid": {
-		"message": "无效的跳过设置",
-		"description": ""
-	},
 	"settingsWelcomeTitle": {
 		"message": "欢迎使用 SmartProxy",
 		"description": ""
@@ -1301,6 +1404,26 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "明白",
+		"description": ""
+	},
+	"settings_SmartProfileType_Direct": {
+		"message": "直连",
+		"description": ""
+	},
+	"settings_SmartProfileType_SystemProxy": {
+		"message": "系统代理",
+		"description": ""
+	},
+	"settings_SmartProfileType_SmartRules": {
+		"message": "智能规则",
+		"description": ""
+	},
+	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
+		"message": "总是使用「绕过规则」来启用",
+		"description": ""
+	},
+	"settings_SmartProfileType_IgnoreFailureRules": {
+		"message": "忽略失败的规则",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {
@@ -1322,5 +1445,17 @@
 	"notificationShortcutProxyServerChanged": {
 		"message": "代理服务器更改为 {0}",
 		"description": ""
+	},
+	"helpTabName": {
+		"message": "帮助中心"
+	},
+	"helpIntro": {
+		"message": "欢迎造访帮助中心，请查阅您需要的部分，SmartProxy 的新用户请从“开始使用”入门。"
+	},
+	"helpGettingStarted": {
+		"message": "开始使用"
+	},
+	"helpProxyModes": {
+		"message": "代理模式"
 	}
 }

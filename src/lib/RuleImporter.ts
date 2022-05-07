@@ -26,8 +26,8 @@ import { ProxyEngineSpecialRequests } from '../core/ProxyEngineSpecialRequests';
 import * as ruleImporterSwitchyScript from './RuleImporterSwitchy';
 
 export const RuleImporter = {
-	readFromServer(subscriptionDetail: ProxyRulesSubscription, success?: Function, fail?: Function) {
-		if (!subscriptionDetail || !subscriptionDetail.url) {
+	readFromServer(subscription: ProxyRulesSubscription, success?: Function, fail?: Function) {
+		if (!subscription || !subscription.url) {
 			if (fail) fail();
 			return;
 		}
@@ -57,20 +57,20 @@ export const RuleImporter = {
 				(error: Error) => {
 					if (fail) fail(error);
 				},
-				subscriptionDetail,
+				subscription,
 			);
 		}
 
-		if (subscriptionDetail.applyProxy !== null)
+		if (subscription.applyProxy !== null)
 			// mark this request as special
-			ProxyEngineSpecialRequests.setSpecialUrl(subscriptionDetail.url, subscriptionDetail.applyProxy);
+			ProxyEngineSpecialRequests.setSpecialUrl(subscription.url, subscription.applyProxy);
 
 		let xhr = new XMLHttpRequest();
-		xhr.open('GET', subscriptionDetail.url);
+		xhr.open('GET', subscription.url);
 
-		if (subscriptionDetail.username) {
-			let pass = atob(subscriptionDetail.password);
-			xhr.setRequestHeader('Authorization', 'Basic ' + btoa(subscriptionDetail.username + ':' + pass));
+		if (subscription.username) {
+			let pass = atob(subscription.password);
+			xhr.setRequestHeader('Authorization', 'Basic ' + btoa(subscription.username + ':' + pass));
 		}
 
 		xhr.onload = () => {

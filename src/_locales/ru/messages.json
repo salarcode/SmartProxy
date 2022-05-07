@@ -12,11 +12,15 @@
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Правило действия:",
+		"message": "Объект совпадения правила:",
 		"description": ""
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "Правило действия: нет",
+		"message": "Нет совпадающего правила",
+		"description": ""
+	},
+	"toolbarTooltipEffectiveRulePattern": {
+		"message": "Шаблон правила:",
 		"description": ""
 	},
 	"popupTitle": {
@@ -40,11 +44,19 @@
 		"description": ""
 	},
 	"popupActiveProxy": {
-		"message": "Активный прокси:",
+		"message": "Активный прокси (этот профиль):",
+		"description": ""
+	},
+	"popupActiveProxyDefault": {
+		"message": "Активный прокси (по умолчанию):",
 		"description": ""
 	},
 	"popupEnableProxyOn": {
 		"message": "Включить прокси для:",
+		"description": ""
+	},
+	"popupIgnoreTheseDomains": {
+		"message": "Игнорировать эти домены",
 		"description": ""
 	},
 	"popupRuleIsFromSubscription": {
@@ -92,7 +104,7 @@
 		"description": ""
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Вы уверены, что хотите проигнорировать данные ошибки? Если вы это сделаете, то больше не получите уведомлений об их возникновении. Позже свой выбор можно будет изменить в настройках.",
+		"message": "Игнорировать выбранные сбои? Если вы согласитесь, то больше не будете получать от них уведомлений. Позже выбор можно изменить в настройках.",
 		"description": ""
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
@@ -163,44 +175,72 @@
 		"message": "Через прокси",
 		"description": ""
 	},
-	"proxyableGridColSource": {
-		"message": "Правило",
+	"proxyableGridColRuleStatus": {
+		"message": "Статус правила",
 		"description": ""
 	},
-	"proxyableGridColStatus": {
-		"message": "Статус",
+	"proxyableGridColProxifiedStatus": {
+		"message": "Статус прокси",
 		"description": ""
 	},
-	"proxyableGridData_LogType_NoneMatched": {
-		"message": "Нет соответствий",
+	"proxyableGridColRuleHost": {
+		"message": "Домен правила",
 		"description": ""
 	},
-	"proxyableGridData_LogType_MatchedRule": {
-		"message": "Соответствие правилу",
+	"proxyableGridColRulePattern": {
+		"message": "Шаблон правила",
 		"description": ""
 	},
-	"proxyableGridData_LogType_Special": {
-		"message": "Особое",
+	"proxyableGridCol_ProxifiedStatus_NoProxy": {
+		"message": "Без прокси",
 		"description": ""
 	},
-	"proxyableGridData_LogType_Whitelisted": {
+	"proxyableGridCol_ProxifiedStatus_Special": {
+		"message": "Особый",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
+		"message": "Из родительской вкладки",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
+		"message": "Совпадение",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
+		"message": "Всегда включено",
+		"description": ""
+	},
+	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
+		"message": "Использован системный прокси",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_NoneMatched": {
+		"message": "Нет совпадений",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_Special": {
+		"message": "Особый",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
+		"message": "Из родительской вкладки",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_MatchedRule": {
+		"message": "Совпадение",
+		"description": ""
+	},
+	"proxyableGridCol_RuleStatus_Whitelisted": {
 		"message": "Исключение",
 		"description": ""
 	},
-	"proxyableGridData_LogType_ByPassed": {
-		"message": "Пропущено",
+	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
+		"message": "Всегда включено<br>Пропущено",
 		"description": ""
 	},
-	"proxyableGridData_LogType_SystemProxyApplied": {
-		"message": "Системный режим",
-		"description": ""
-	},
-	"proxyableGridData_LogType_AlwaysEnabled": {
-		"message": "Постоянный режим",
-		"description": ""
-	},
-	"proxyableGridData_LogType_ProxyPerOrigin": {
-		"message": "Из родительской вкладки",
+	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
+		"message": "Всегда включено<br>Принудительно по правилам",
 		"description": ""
 	},
 	"settingsTitle": {
@@ -215,20 +255,20 @@
 		"message": "Общие настройки",
 		"description": ""
 	},
+	"settingsTabSmartProfiles": {
+		"message": "Умные профили",
+		"description": ""
+	},
+	"settingsTabAddSmartProfile": {
+		"message": "Добавление нового умного профиля",
+		"description": ""
+	},
 	"settingsTabProxyServers": {
 		"message": "Прокси-серверы",
 		"description": ""
 	},
-	"settingsTabProxyRules": {
-		"message": "Правила проксирования",
-		"description": ""
-	},
 	"settingsTabProxyServerSubscriptions": {
 		"message": "Подписки на прокси-сервер",
-		"description": ""
-	},
-	"settingsTabBypass": {
-		"message": "Список обхода",
 		"description": ""
 	},
 	"settingsTabBackupRestore": {
@@ -316,19 +356,63 @@
 		"description": ""
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Выбрать домены",
+		"message": "Введите правила",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Игнорировать обнаружения сбоя для этих доменов",
+		"message": "Игнорировать обнаружение сбоя на основе этих правил",
 		"description": ""
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Укажите домены, для которых вы хотите отключить обнаружение ошибок.",
+		"message": "Добавьте правила для отключения обнаружения сбоев.",
 		"description": ""
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
 		"message": "Показывать количество неудачных запросов на значке в панели инструментов",
+		"description": ""
+	},
+	"settingsGeneralThemes": {
+		"message": "Темы",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitch": {
+		"message": "Автопереключение на тему браузера",
+		"description": ""
+	},
+	"settingsGeneralThemesAutoSwitchDesc": {
+		"message": "Автоматическое переключение между выбранными ниже темами. Это позволяет следовать теме браузера, которая в свою очередь может соответствовать теме операционной системы.",
+		"description": ""
+	},
+	"settingsGeneralThemesLight": {
+		"message": "Светлая тема",
+		"description": ""
+	},
+	"settingsGeneralThemes_Default": {
+		"message": "(По умолчанию)",
+		"description": ""
+	},
+	"settingsGeneralThemes_Custom": {
+		"message": "(Настроить)",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrl": {
+		"message": "URL пользовательского стиля (CSS):",
+		"description": ""
+	},
+	"settingsGeneralThemes_CustomUrlDesc": {
+		"message": "URL должен быть «HTTPS». Обратите внимание на импортируемые шрифты и другие стили в пользовательском оформлении: они могут блокировать/замедлять всплывающие окна браузера. Вы можете попробовать темы с bootswatch.com, но помните об их зависимости от шрифтов Google.",
+		"description": ""
+	},
+	"settingsGeneralThemesDark": {
+		"message": "Тёмная тема",
+		"description": ""
+	},
+	"settingsGeneralThemesLight_ErrorValidUrl": {
+		"message": "Введите правильный URL-адрес CSS-стиля светлой темы. Адрес должен быть «HTTPS».",
+		"description": ""
+	},
+	"settingsGeneralThemesDark_ErrorValidUrl": {
+		"message": "Введите правильный URL-адрес CSS-стиля тёмной темы. Адрес должен быть «HTTPS».",
 		"description": ""
 	},
 	"settingsGeneralOtherSettings": {
@@ -356,15 +440,11 @@
 		"description": ""
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Отображать прокси на значке",
+		"message": "Отображать объект применения правила на значке",
 		"description": ""
 	},
-	"settingsGeneralIgnoreRequestFailuresTitle": {
-		"message": "Игнорировать ошибки запроса для доменов",
-		"description": ""
-	},
-	"settingsGeneralIgnoredDomains": {
-		"message": "Список игнорируемых доменов:",
+	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
+		"message": "Отображать шаблон применения правила на значке",
 		"description": ""
 	},
 	"settingsGeneralCancelButton": {
@@ -391,18 +471,6 @@
 		"message": "Вот список прокси-серверов. Вы можете определить столько прокси-серверов, сколько хотите, и переключиться между ними с панели инструментов.",
 		"description": ""
 	},
-	"settingsTabProxyRulesTitle": {
-		"message": "Управление своими прокси-правилами:",
-		"description": ""
-	},
-	"settingsTabProxyRulesDescription": {
-		"message": "Список правил, указывающих SmartProxy, включать ли прокси для определённого домена или нет.<br />Правила основываются на <a href='https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns' target='_blank'>шаблонах совпадений</a> и <a href='https://en.wikipedia.org/wiki/Regular_expression' target='_blank'>регулярных выражениях</a>.",
-		"description": ""
-	},
-	"settingsTabBypassDescription": {
-		"message": "Следующий список - это список хостов, к которым не должен применяться прокси.",
-		"description": ""
-	},
 	"settingsTabBackupRestoreDescription": {
 		"message": "Вы можете выполнить полное или частичное резервное копирование своих настроек.",
 		"description": ""
@@ -416,7 +484,7 @@
 		"description": ""
 	},
 	"settingsActiveProxyServer": {
-		"message": "Активный прокси-сервер:",
+		"message": "Прокси-сервер по умолчанию:",
 		"description": ""
 	},
 	"settingsAddServerButton": {
@@ -439,14 +507,6 @@
 		"message": "Создание полной резервной копии настроек (включая прокси-серверы и правила).",
 		"description": ""
 	},
-	"settingsRulesBackupButton": {
-		"message": "Создать резервную копию правил",
-		"description": ""
-	},
-	"settingsRulesBackupButtonDesc": {
-		"message": "Создание резервной копии правил прокси.",
-		"description": ""
-	},
 	"settingsRestoreBackupButton": {
 		"message": "Восстановить из резервной копии",
 		"description": ""
@@ -456,7 +516,7 @@
 		"description": ""
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Импортирование/экспортирование отдельных списков прокси и правил.",
+		"message": "Импортирование/экспортирование отдельных списков прокси.",
 		"description": ""
 	},
 	"settingsImportProxiesButtonBackup": {
@@ -465,10 +525,6 @@
 	},
 	"settingsExportProxiesButtonBackup": {
 		"message": "Экспортировать прокси",
-		"description": ""
-	},
-	"settingsImportRulesButtonBackup": {
-		"message": "Импортировать правила прокси",
 		"description": ""
 	},
 	"settingsAddRuleButton": {
@@ -573,10 +629,6 @@
 	},
 	"settingsErrorFailedToSaveServers": {
 		"message": "Не удалось сохранить серверы.",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveRules": {
-		"message": "Не удалось сохранить правила.",
 		"description": ""
 	},
 	"settingsChangesReverted": {
@@ -699,6 +751,93 @@
 		"message": "Импортировать",
 		"description": ""
 	},
+	"settingsProfilesNameTitle": {
+		"message": "Умный профиль:"
+	},
+	"settingsProfilesEnabled": {
+		"message": "Включено"
+	},
+	"settingsProfilesTypeTitle": {
+		"message": "Тип профиля:"
+	},
+	"settingsProfilesTypeDesc_SmartRules": {
+		"message": "В этом профиле прокси не применяется, если не настроены умные правила. Настройте правила чёрного списка или, другими словами, правила применения прокси."
+	},
+	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
+		"message": "В этом профиле прокси всегда применяется, умные правила определяют параметры его обхода. Настройте правила белого списка или, другими словами, правила для пропуска (обхода) прокси."
+	},
+	"settingsProfilesTypeDesc_IgnoreFailureRules": {
+		"message": "Игнорировать обнаружение сбоя для этих доменов путём добавления правил."
+	},
+	"settingsProfilesProfileProxyServer": {
+		"message": "Профиль прокси:"
+	},
+	"settingsProfilesDefaultProfileProxyServer": {
+		"message": "(Использовать прокси по умолчанию)"
+	},
+	"settingsProfilesProfileProxyServerDesc": {
+		"message": "(При использовании данного профиля это будет активный прокси-сервер)"
+	},
+	"settingsProfilesRulesSection": {
+		"message": "Правила"
+	},
+	"settingsProfilesDelete": {
+		"message": "Удалить"
+	},
+	"settingsProfilesAddNewLabel": {
+		"message": "Добавить новый умный профиль"
+	},
+	"settingsProfilesAddNewTypeLead": {
+		"message": "Выберите <b>тип профиля</b>, который хотите добавить:"
+	},
+	"settingsProfilesAddNewType_SmartRules": {
+		"message": "Умные правила"
+	},
+	"settingsProfilesAddNewType_SmartRulesDesc": {
+		"message": "В этом типе профиля прокси будет применяться к запросам на основе <em>правил</em>, которые вам необходимо настроить. Для определения этих правил вы можете использовать пункт на панели меню, соответствующий раздел настроек, а также добавить их из окна <em>Проксируемые элементы</em>.<br>Также можно подписаться на различные списки правил, например, Gfwlist."
+	},
+	"settingsProfilesAddNewType_AlwaysEnabled": {
+		"message": "Всегда включён"
+	},
+	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
+		"message": "В этом типе профиля прокси всегда будет применяться к запросам, если вы не определите пропуска (обхода). Шаги настройки правил такие же, как и в типе профиля «Умные правила»."
+	},
+	"settingsProfilesAddNewBtnContinue": {
+		"message": "Далее"
+	},
+	"settingsProfilesAddNewBtnCancel": {
+		"message": "Отмена"
+	},
+	"settingsProfilesAddErrorTypeRequired": {
+		"message": "Выберите тип профиля"
+	},
+	"settingsProfilesAddErrorNameRequired": {
+		"message": "Имя профиля обязательно"
+	},
+	"settingsProfilesAddErrorNameExists": {
+		"message": "Профиль с таким именем уже существует, выберите другое"
+	},
+	"settingsProfilesDeleteConfirm": {
+		"message": "Вы уверены, что хотите удалить профиль? Это действие не может быть отменено!"
+	},
+	"settingsProfilesDeleteFailed": {
+		"message": "Невозможно удалить выбранный профиль."
+	},
+	"settingsProfilesDeleteDone": {
+		"message": "Профиль успешно удалён"
+	},
+	"settingsProfilesDeleteBuiltinFail": {
+		"message": "Невозможно удалить встроенные профили"
+	},
+	"settingsProfilesProxyServer": {
+		"message": "[Использовать прокси по умолчанию]"
+	},
+	"settingsSaveSmartProfileSuccess": {
+		"message": "Умный профиль успешно сохранён."
+	},
+	"settingsErrorFailedToSaveSmartProfile": {
+		"message": "Невозможно сохранить умный профиль."
+	},
 	"settingsRuleSourceRequired": {
 		"message": "Пожалуйста, укажите исходный домен правила!",
 		"description": ""
@@ -764,11 +903,11 @@
 		"description": ""
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[Общий]",
+		"message": "[Использовать активный прокси]",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSuccess": {
-		"message": "Правила прокси-сервера успешно сохранены.",
+	"settingsRulesProxyFromProfile": {
+		"message": "[Использовать прокси профиля]",
 		"description": ""
 	},
 	"settingsRulesModalTitle": {
@@ -843,16 +982,20 @@
 		"message": "Хост сервера '{0}' неправильный",
 		"description": ""
 	},
-	"settingsProxyModeInvalid": {
-		"message": "Неправильная настройка режима прокси",
-		"description": ""
-	},
 	"settingsRestoreSettingsSuccess": {
 		"message": "Настройки успешно восстановлены",
 		"description": ""
 	},
 	"settingsRestoreSettingsFailed": {
 		"message": "При восстановлении настроек произошла ошибка",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidActiveProfile": {
+		"message": "Недопустимые данные для активного профиля",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
+		"message": "Недопустимые данные для прокси-сервера по умолчанию",
 		"description": ""
 	},
 	"settingsEnableByDomainInvalid": {
@@ -863,12 +1006,12 @@
 		"message": "Правило для домена уже существует",
 		"description": ""
 	},
-	"settingsNoRuleFoundForDomain": {
-		"message": "Нет никакого правила для '{0}'",
+	"settingsEnableByDomainSmartProfileNonEditable": {
+		"message": "Текущий профиль «{0}» не может быть обновлён правилами",
 		"description": ""
 	},
-	"settingsRuleSourceIsEmpty": {
-		"message": "'Источник' правила пустой",
+	"settingsNoRuleFoundForDomain": {
+		"message": "Нет никакого правила для '{0}'",
 		"description": ""
 	},
 	"importerImportSuccess": {
@@ -1091,18 +1234,6 @@
 		"message": "Не удалось сохранить подписку на правила прокси",
 		"description": ""
 	},
-	"settingsTabProxyRulesSubscription": {
-		"message": "Подписки на правила прокси",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionTitle": {
-		"message": "Управление подписками на правила:",
-		"description": ""
-	},
-	"settingsTabProxyRulesSubscriptionDescription": {
-		"message": "Здесь можно подписаться на списки правил. На основе этих правил будут применяться прокси.",
-		"description": ""
-	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Подписаться на список",
 		"description": ""
@@ -1263,34 +1394,6 @@
 		"message": "Правило не имеет шаблона",
 		"description": ""
 	},
-	"settingsSaveProxyRulesSubscriptionsSuccess": {
-		"message": "Подписки на правила прокси успешно сохранены.",
-		"description": ""
-	},
-	"settingsBypassEnableForAlways": {
-		"message": "Включить режим 'Всегда включён'",
-		"description": ""
-	},
-	"settingsBypassList": {
-		"message": "Список обхода:",
-		"description": ""
-	},
-	"settingsBypassListHint": {
-		"message": "(Используйте новую строку для разделения записей)",
-		"description": ""
-	},
-	"settingsErrorFailedToSaveBypass": {
-		"message": "Не удалось сохранить настройки обхода.",
-		"description": ""
-	},
-	"settingsSaveBypassSuccess": {
-		"message": "Список обхода успешно сохранён.",
-		"description": ""
-	},
-	"settingsBypassInvalid": {
-		"message": "Недопустимые настройки обхода",
-		"description": ""
-	},
 	"settingsWelcomeTitle": {
 		"message": "Добро пожаловать в SmartProxy",
 		"description": ""
@@ -1301,6 +1404,26 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "Ясно",
+		"description": ""
+	},
+	"settings_SmartProfileType_Direct": {
+		"message": "Прямое соединение",
+		"description": ""
+	},
+	"settings_SmartProfileType_SystemProxy": {
+		"message": "Системный прокси",
+		"description": ""
+	},
+	"settings_SmartProfileType_SmartRules": {
+		"message": "Умные правила",
+		"description": ""
+	},
+	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
+		"message": "Всегда включён с правилами обхода",
+		"description": ""
+	},
+	"settings_SmartProfileType_IgnoreFailureRules": {
+		"message": "Игнорировать правила сбоев",
 		"description": ""
 	},
 	"notificationNoNextProxyServer": {
@@ -1322,5 +1445,17 @@
 	"notificationShortcutProxyServerChanged": {
 		"message": "Прокси-сервер изменён на {0}",
 		"description": ""
+	},
+	"helpTabName": {
+		"message": "Помощь"
+	},
+	"helpIntro": {
+		"message": "Добро пожаловать в Справочный центр. Перейдите к разделу, в котором вам нужна помощь, или, если вы новичок в SmartProxy, начните с руководства «Начало работы»."
+	},
+	"helpGettingStarted": {
+		"message": "Начало работы"
+	},
+	"helpProxyModes": {
+		"message": "Режимы прокси"
 	}
 }

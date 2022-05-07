@@ -18,6 +18,17 @@ import { environment } from "./environment";
 import { pako } from "./External";
 import { SettingsConfig } from "../core/definitions";
 export class Utils {
+	private static readonly invalidHostSchemas = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
+
+	public static getNewUniqueIdNumber(): number {
+		return +Math.random()
+			.toString(10)
+			.substr(2 + Math.random() * 10);
+	}
+
+	public static getNewUniqueIdString() {
+		return (Math.random().toString(36).substr(2, 5) + Date.now().toString(36)).toLowerCase();
+	}
 
 	public static encodeSyncData(inputObject: SettingsConfig) {
 		let settingStr = JSON.stringify(inputObject);
@@ -144,10 +155,10 @@ export class Utils {
 			.join(""));
 	}
 
+
 	public static isValidHost(host: string): boolean {
 		if (host) {
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
-			if (skip.indexOf(host) >= 0)
+			if (Utils.invalidHostSchemas.indexOf(host) >= 0)
 				return false;
 
 			return true;
@@ -158,8 +169,7 @@ export class Utils {
 	public static isValidUrl(url: string): boolean {
 		try {
 			const u = new URL(url);
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
-			if (skip.indexOf(u.protocol) >= 0)
+			if (Utils.invalidHostSchemas.indexOf(u.protocol) >= 0)
 				return false;
 
 			return true;
@@ -167,11 +177,19 @@ export class Utils {
 		catch (e) { return false; }
 	}
 
+	public static isUrlHttps(url: string): boolean {
+		try {
+			const u = new URL(url);
+			if (u.protocol.toLowerCase().startsWith("https"))
+				return true;
+			return false;
+		}
+		catch (e) { return false; }
+	}
 	public static isUrlLocal(url: string): boolean {
 		try {
 			const u = new URL(url);
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
-			if (skip.indexOf(u.protocol) >= 0)
+			if (Utils.invalidHostSchemas.indexOf(u.protocol) >= 0)
 				return true;
 
 			return false;
@@ -208,8 +226,7 @@ export class Utils {
 	public static extractHostFromUrl(url: string): string | null {
 		try {
 			const u = new URL(url);
-			const skip = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
-			if (skip.indexOf(u.protocol) >= 0)
+			if (Utils.invalidHostSchemas.indexOf(u.protocol) >= 0)
 				return null;
 			let host = u.host;
 
@@ -248,7 +265,7 @@ export class Utils {
 
 		result.reverse();
 
-		// checking top level domain lists
+		// removing top level extension if it is to be ignored, like .com.au
 		let topLevelDomainExtension = result[0];
 		if (topLevelDomainExtension) {
 
@@ -329,6 +346,10 @@ export class Utils {
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
 				+ ")$");
 		}
+	}
+
+	public static deepClone<T>(array: T[]): T[] {
+		return JSON.parse(JSON.stringify(array));
 	}
 
 	private static readonly IgnoreDomainExtensions: string[] = [

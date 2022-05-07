@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { ProxyRules } from "./ProxyRules";
 import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { environment } from "../lib/environment";
 import { ProxyEngineChrome } from "./ProxyEngineChrome";
+import { Settings } from "./Settings";
 
 export class ProxyEngine {
 
@@ -30,7 +30,7 @@ export class ProxyEngine {
         }
 
         // update proxy rules
-        ProxyRules.compileRules();
+        Settings.updateActiveSettings();
 
         // Updates Firefox & Chrome proxy configurations also registers Chrome Engine
         this.updateBrowsersProxyConfig();
@@ -49,7 +49,7 @@ export class ProxyEngine {
     public static notifyProxyRulesChanged() {
 
         // update proxy rules
-        ProxyRules.compileRules();
+        Settings.updateActiveSettings();
 
         // update proxy rules
         this.updateBrowsersProxyConfig();

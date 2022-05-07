@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2020 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,7 +19,7 @@ import { Utils } from "../lib/Utils";
 import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { ProxyRules } from "./ProxyRules";
-import { Messages, ProxyableLogDataType, ProxyableLogType, ProxyModeType } from "./definitions";
+import { CommandMessages, ProxyableLogDataType, CompiledProxyRulesMatchedSource, SmartProfileType, monitorUrlsSchemaFilter, ProxyableProxifiedStatus, ProxyableMatchedRuleStatus, CompiledProxyRuleSource } from "./definitions";
 import { browser, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 
@@ -36,7 +36,7 @@ export class TabRequestLogger {
 
 			browser.webRequest.onBeforeRequest.addListener(
 				TabRequestLogger.onBeforeRequestLogRequestInternal,
-				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
+				{ urls: monitorUrlsSchemaFilter }
 			);
 		}
 	}
@@ -44,7 +44,7 @@ export class TabRequestLogger {
 	public static subscribeProxyableLogs(tabId: number) {
 		let index = TabRequestLogger.subscribedTabList.indexOf(tabId);
 
-		// only one instance
+		// allowing only one instance for a tab at a time
 		if (index == -1) {
 			TabRequestLogger.subscribedTabList.push(tabId);
 		}
@@ -58,7 +58,6 @@ export class TabRequestLogger {
 	}
 
 	private static handleTabRemovedInternal(tabData: TabDataType) {
-
 		// send notification first
 		TabRequestLogger.notifyProxyableOriginTabRemoved(tabData.tabId);
 
@@ -73,7 +72,7 @@ export class TabRequestLogger {
 		if (TabRequestLogger.subscribedTabList.length == 0)
 			return;
 
-			// checking if this tab requested
+		// checking if this tab requested
 		if (TabRequestLogger.subscribedTabList.indexOf(proxyLogData.tabId) == -1) {
 			return;
 		}
@@ -84,7 +83,7 @@ export class TabRequestLogger {
 	private static async sendProxyableRequestLog(logData: ProxyableLogDataType) {
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.ProxyableRequestLog,
+				command: CommandMessages.ProxyableRequestLog,
 				tabId: logData.tabId,
 				logInfo: logData
 			},
@@ -134,7 +133,7 @@ export class TabRequestLogger {
 
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.ProxyableOriginTabRemoved,
+				command: CommandMessages.ProxyableOriginTabRemoved,
 				tabId: tabId
 			},
 			null,
@@ -142,43 +141,61 @@ export class TabRequestLogger {
 				Debug.error("notifyProxyableOriginTabRemoved failed for ", tabId, error);
 			});
 	}
+
+	//** get proxyable log info -> this is a Chrome specific way of logging */
 	private static getProxyableDataForUrl(url: string): ProxyableLogDataType {
 
-		let settings = Settings.current;
+		// TODO: This method needs to be removed/replaced with a better implementation that shares the logic between Firefox and Chrome
 
-		let testResult = ProxyRules.testSingleRule(url);
+		let settingsActive = Settings.active;
+
+		let activeSmartProfile = settingsActive.activeProfile;
+		if (!activeSmartProfile) {
+
+			let result = new ProxyableLogDataType();
+			result.url = url;
+			result.ruleHostName = "";
+			result.rulePatternText = "";
+			result.proxifiedStatus = ProxyableProxifiedStatus.NoProxy;
+			result.matchedRuleStatus = ProxyableMatchedRuleStatus.NoneMatched;
+
+			return result;
+		}
+
+		let testResultInfo = ProxyRules.findMatchedUrlInRulesInfo(url, activeSmartProfile.compiledRules);
+		let testResultRule = testResultInfo?.compiledRule;
 
 		let result = new ProxyableLogDataType();
-
 		result.url = url;
-		result.hostName = "";
-		result.ruleText = "";
-		result.logType = ProxyableLogType.NoneMatched;
+		result.ruleHostName = "";
+		result.rulePatternText = "";
+		result.proxifiedStatus = ProxyableProxifiedStatus.NoProxy;
+		result.matchedRuleStatus = ProxyableMatchedRuleStatus.NoneMatched;
 
-		if (testResult.rule) {
-			result.applyFromRule(testResult.rule);
-			result.hostName = testResult.rule.hostName;
-			result.logType = ProxyableLogType.MatchedRule;
-			result.whitelist = testResult.rule.whiteList;
-		}
-		else {
-			testResult = ProxyRules.testSingleWhiteListRule(url);
+		if (testResultRule != null) {
+			result.applyFromRule(testResultRule);
+			result.ruleHostName = testResultRule.hostName;
+			result.proxifiedStatus = ProxyableProxifiedStatus.MatchedRule;
+			result.matchedRuleStatus = ProxyableMatchedRuleStatus.MatchedRule;
+			result.ruleSource = CompiledProxyRuleSource.Rules;
 
-			if (testResult.rule) {
-				result.applyFromRule(testResult.rule);
-				result.hostName = testResult.rule.hostName;
-				result.logType = ProxyableLogType.Whitelisted;
-				result.whitelist = testResult.rule.whiteList;
+			if (testResultRule.whiteList) {
+				result.matchedRuleStatus = ProxyableMatchedRuleStatus.Whitelisted;
+				result.proxifiedStatus = ProxyableProxifiedStatus.NoProxy;
+			}
+			if (activeSmartProfile.profileType == SmartProfileType.AlwaysEnabledBypassRules) {
+				result.matchedRuleStatus = ProxyableMatchedRuleStatus.AlwaysEnabledByPassed;
+			}
+
+			if (testResultInfo.matchedRuleSource == CompiledProxyRulesMatchedSource.SubscriptionRules ||
+				testResultInfo.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistSubscriptionRules) {
+				result.ruleSource = CompiledProxyRuleSource.Subscriptions;
 			}
 		}
 
-		if (result.whitelist)
-			result.proxied = false;
-		else if (settings.proxyMode == ProxyModeType.Always)
-			result.proxied = true;
-		else if (settings.proxyMode == ProxyModeType.Direct ||
-			settings.proxyMode == ProxyModeType.SystemProxy)
-			result.proxied = false;
+		if (activeSmartProfile.profileType == SmartProfileType.SystemProxy) {
+			result.proxifiedStatus = ProxyableProxifiedStatus.SystemProxyApplied;
+		}
 
 		return result;
 	}

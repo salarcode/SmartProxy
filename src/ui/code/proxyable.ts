@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { CommonUi } from "./CommonUi";
-import { Messages, ProxyableInternalDataType, ProxyableLogDataType, ProxyableLogType, CompiledProxyRule, CompiledProxyRuleSource } from "../../core/definitions";
+import { CommandMessages, ProxyableInternalDataType, ProxyableLogDataType, CompiledProxyRule, CompiledProxyRuleSource, ProxyableProxifiedStatus } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { jQuery, messageBox } from "../../lib/External";
 import { browser } from "../../lib/environment";
@@ -44,7 +44,7 @@ export class proxyable {
 
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.ProxyableGetInitialData,
+				command: CommandMessages.ProxyableGetInitialData,
 				tabId: proxyable.sourceTabId,
 			},
 			(dataForProxyable: ProxyableInternalDataType) => {
@@ -78,7 +78,7 @@ export class proxyable {
 	private static stopListeningToLogger() {
 		// request log for this page
 		PolyFill.runtimeSendMessage({
-			command: Messages.ProxyableRemoveProxyableLog,
+			command: CommandMessages.ProxyableRemoveProxyableLog,
 			tabId: proxyable.sourceTabId
 		});
 	}
@@ -87,7 +87,7 @@ export class proxyable {
 
 		if (typeof (message) != "object")
 			return;
-		if (message["command"] === Messages.ProxyableRequestLog &&
+		if (message["command"] === CommandMessages.ProxyableRequestLog &&
 			message["tabId"] != null) {
 
 			let tabId = message.tabId;
@@ -105,7 +105,7 @@ export class proxyable {
 			return;
 		}
 
-		if (message["command"] === Messages.ProxyableOriginTabRemoved &&
+		if (message["command"] === CommandMessages.ProxyableOriginTabRemoved &&
 			message["tabId"] != null) {
 
 			let tabId = message.tabId;
@@ -181,51 +181,52 @@ export class proxyable {
 					},
 				},
 				{
-					name: "logType", data: "logTypeName", title: browser.i18n.getMessage("proxyableGridColStatus"), width: 100, className: 'small',
+					name: "proxifiedStatus", data: "proxifiedStatusName", title: browser.i18n.getMessage("proxyableGridColProxifiedStatus"), width: 100, className: 'grid-col-nowrap vertical-align-middle',
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
-						return browser.i18n.getMessage(`proxyableGridData_LogType_${row.logTypeName}`);
+						let reason = browser.i18n.getMessage(`proxyableGridCol_ProxifiedStatus_${row.proxifiedStatusName}`);
+						if (row.proxified) {
+							return '<i class="fas fa-check text-success"></i> ' + reason;
+						}
+						else {
+							return '<i class="fas fa-minus text-danger"></i> ' + reason;
+						}
 					}
 				},
 				{
-					name: "proxied", data: "proxied", title: browser.i18n.getMessage("proxyableGridColEnabled"), width: 50, className: 'text-center',
+					name: "matchedRuleStatus", data: "matchedRuleStatusName", title: browser.i18n.getMessage("proxyableGridColRuleStatus"), width: 100, className: 'grid-col-nowrap vertical-align-middle',
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
-						if (row.proxied) {
-							return '<i class="fas fa-check text-success"></i>';
-						}
-						else if (row.logType == ProxyableLogType.Whitelisted) {
-							return `<i class="far fa-hand-paper text-warning" title="${row.logTypeName}"></i>`;
-						}
-						else if (row.logType == ProxyableLogType.ByPassed) {
-							return `<i class="far fa-hand-paper text-secondary" title="${row.logTypeName}"></i>`;
-						}
-						else if (row.logType == ProxyableLogType.SystemProxyApplied) {
-							return `<i class="fas fa-cog text-information" title="${row.logTypeName}"></i>`;
-						}
-						return '<i class="fas fa-minus text-danger"></i>';
+						return browser.i18n.getMessage(`proxyableGridCol_RuleStatus_${row.matchedRuleStatusName}`);
 					}
 				},
 				{
-					name: "hostName", data: "hostName", title: browser.i18n.getMessage("proxyableGridColSource"),
+					name: "ruleHostName", data: "ruleHostName", title: browser.i18n.getMessage("proxyableGridColRuleHost"), className: 'grid-status-col-text grid-col-nowrap vertical-align-middle',
+					render: function (data: any, type: any, row: ProxyableLogDataType): string {
+						return `<div class='wordwrap-anywhere grid-col-maxwidth-100' title="${data}">${data||''}</div>`;
+					}
 				},
 				{
-					name: "enabled", width: 100, title: '', className: 'text-center',
+					name: "rulePatternText", data: "rulePatternText", title: browser.i18n.getMessage("proxyableGridColRulePattern"), className: "grid-status-col-text grid-col-nowrap vertical-align-middle",
+					render: function (data: any, type: any, row: ProxyableLogDataType): string {
+						return `<div class='wordwrap-anywhere grid-col-maxwidth-100' title="${data}">${data||''}</div>`;
+					}
+				},
+				{
+					name: "enabled", width: 100, title: '', className: 'text-center vertical-align-middle',
 					render: (data: any, type: any, row: ProxyableLogDataType): string => {
 						let url = row.url;
 						if (!url)
 							return "";
-						if (!row.statusCanBeDetermined)
-							return "";
 						if (row.ruleSource == CompiledProxyRuleSource.Subscriptions) {
-							return `<small>${browser.i18n.getMessage("proxyableSubscriptionRule")}</small>`;
+							return `<small class="grid-status-col-text grid-col-maxwidth-100 grid-col-nowrap">${browser.i18n.getMessage("proxyableSubscriptionRule")}</small>`;
 						}
-						if (row.ruleText) {
-							return `<button id='btnDisable' data-domain="${row.hostName}" data-ruleId="${row.ruleId}" class="btn btn-sm btn-danger whitespace-nowrap">
+						if (row.ruleId) {
+							return `<button id='btnDisable' data-domain="${row.ruleHostName}" data-ruleId="${row.ruleId}" class="btn btn-sm btn-danger whitespace-nowrap">
 									<i class="fa fa-times" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableDisableButton")}</button>`;
 						}
 						else {
-							if (row.proxied) {
-								return '<i class="fas fa-minus text-danger"></i>';
-							}
+							// if (row.proxied) {
+							// 	return '<i class="fas fa-minus text-danger"></i>';
+							// }
 							let subDomains: string[];
 							if (row["subDomains"])
 								subDomains = row["subDomains"];
@@ -234,14 +235,14 @@ export class proxyable {
 
 							if (subDomains && subDomains.length) {
 								const template =
-									`<div><div class="btn-group dropleft">
-										<button type="button" class="btn btn-sm btn-success dropdown-toggle whitespace-nowrap" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									`<div><div class="btn-group dropstart">
+										<button type="button" class="btn btn-sm btn-success dropdown-toggle whitespace-nowrap" data-bs-toggle="dropdown">
 											${browser.i18n.getMessage("proxyableEnableButton")}
 											<i class="fa fa-plus" aria-hidden="true"></i>
 										</button>
-										<div class="subdomains-list dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item" href="#">(none)</a>
-										</div>
+										<ul class="subdomains-list dropdown-menu dropdown-menu-end">
+											<li><a class="dropdown-item" href="#">(none)</a></li>
+										</ul>
 									</div></div>`;
 
 								let templateElement = jQuery(template);
@@ -249,8 +250,8 @@ export class proxyable {
 								subdomainContainer.empty();
 
 								for (let domain of subDomains) {
-									let domainElement = jQuery(`<a class="dropdown-item" data-domain="${domain}" href="#"><small>${browser.i18n.getMessage("proxyableEnableButtonDomain")} 
-																<b class='font-url'>${domain}</b></small></a>`);
+									let domainElement = jQuery(`<li><a class="dropdown-item" data-domain="${domain}" href="#"><small>${browser.i18n.getMessage("proxyableEnableButtonDomain")} 
+																<b class='font-url'>${domain}</b></small></a></li>`);
 
 									subdomainContainer.append(domainElement);
 								}
@@ -261,7 +262,7 @@ export class proxyable {
 
 						return "";
 					}
-				}
+				},
 			],
 		});
 		proxyable.grdProxyable.draw();
@@ -270,6 +271,8 @@ export class proxyable {
 	private static populateDataForProxyable(dataForProxyable: ProxyableInternalDataType) {
 		if (!dataForProxyable)
 			return;
+
+		CommonUi.applyThemes(dataForProxyable.themeData);
 
 		jQuery("#spanPageUrl")
 			.show()
@@ -284,8 +287,8 @@ export class proxyable {
 			let request = new ProxyableLogDataType();
 			Object.assign(request, newRequest);
 
-			request.hostName = request.hostName ?? "";
-			request.ruleText = request.ruleText ?? "";
+			request.ruleHostName = request.ruleHostName || "";
+			request.rulePatternText = request.rulePatternText || "";
 
 			let row = this.grdProxyable.row
 				.add(request)
@@ -353,7 +356,7 @@ export class proxyable {
 	private static onDisableSubdomainClick() {
 		let element = jQuery(this);
 		let domain = element.data("domain");
-		if (!domain) 
+		if (!domain)
 			return;
 		let ruleId = element.data("ruleId");
 
@@ -368,7 +371,7 @@ export class proxyable {
 	private static toggleProxyableRequest(enableByDomain: string, removeBySource?: string, ruleId?: string, gridRow?: any) {
 		PolyFill.runtimeSendMessage(
 			{
-				command: Messages.ProxyableToggleProxyableDomain,
+				command: CommandMessages.ProxyableToggleProxyableDomain,
 				enableByDomain: enableByDomain,
 				removeBySource: removeBySource,
 				ruleId: ruleId,
@@ -386,19 +389,18 @@ export class proxyable {
 						var rowData: ProxyableLogDataType = gridRow.data();
 						var rule = response.rule;
 
-						if(rowData) {
+						if (rowData) {
 							// Not a complete fix on displaying the rule. This is a temporary visual change, next time the rule should be displayed correctly
 							if (enableByDomain) {
 								if (rule)
 									rowData.applyFromRule(rule);
-								rowData.proxied = true;
+								rowData.proxifiedStatus = ProxyableProxifiedStatus.MatchedRule;
 							}
 							else if (removeBySource) {
 								rowData.removeRuleInfo();
-								rowData.proxied = false;
+								rowData.proxifiedStatus = ProxyableProxifiedStatus.NoProxy;
 							}
 						}
-
 						proxyable.refreshGridRow(gridRow, true);
 					}
 					else

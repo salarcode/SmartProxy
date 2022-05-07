@@ -1,6 +1,6 @@
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2019 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -16,7 +16,7 @@
  */
 import { browser, environment } from "../lib/environment";
 import { Settings } from "./Settings";
-import { ProxyModeType } from "./definitions";
+import { monitorUrlsSchemaFilter, SmartProfileType } from "./definitions";
 import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
 
 export class ProxyAuthentication {
@@ -26,24 +26,24 @@ export class ProxyAuthentication {
 		if (environment.chrome) {
 			// chrome supports asyncBlocking
 			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
-				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] },
+				{ urls: monitorUrlsSchemaFilter },
 				["asyncBlocking"]
 			);
 		} else {
 			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
-				{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] },
+				{ urls: monitorUrlsSchemaFilter },
 				["blocking"]
 			);
 
 		}
 		browser.webRequest.onCompleted.addListener(
 			ProxyAuthentication.onRequestFinished,
-			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
+			{ urls: monitorUrlsSchemaFilter }
 		);
 
 		browser.webRequest.onErrorOccurred.addListener(
 			ProxyAuthentication.onRequestFinished,
-			{ urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'] }
+			{ urls: monitorUrlsSchemaFilter }
 		);
 	}
 
@@ -52,21 +52,21 @@ export class ProxyAuthentication {
 			asyncCallback({});
 			return {};
 		}
-		let settings = Settings.current;
+		let settingsActive = Settings.active;
+		let currentProxy = settingsActive.currentProxyServer;
 
-		let applyAuthentication = (settings.proxyMode !== ProxyModeType.Direct) &&
-			(settings.proxyMode !== ProxyModeType.SystemProxy);
-
-		let activeProxy = settings.activeProxyServer;
-
-		if (!activeProxy) {
+		if (!currentProxy) {
 			if (asyncCallback)
 				asyncCallback({});
 			return {};
 		}
+		let activeProfile = settingsActive.activeProfile;
+		let applyAuthentication = (activeProfile != null) &&
+			(activeProfile.profileType !== SmartProfileType.Direct) &&
+			(activeProfile.profileType !== SmartProfileType.SystemProxy);
 
 		if (applyAuthentication &&
-			activeProxy.username)
+			currentProxy.username)
 			applyAuthentication = true;
 		else
 			applyAuthentication = false;
@@ -94,7 +94,7 @@ export class ProxyAuthentication {
 			ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
 			asyncCallback({
-				authCredentials: { username: activeProxy.username, password: activeProxy.password }
+				authCredentials: { username: currentProxy.username, password: currentProxy.password }
 			});
 		} else {
 			// check if authentication is required
@@ -111,7 +111,7 @@ export class ProxyAuthentication {
 			ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
 			return {
-				authCredentials: { username: activeProxy.username, password: activeProxy.password }
+				authCredentials: { username: currentProxy.username, password: currentProxy.password }
 			};
 		}
 	}
@@ -120,22 +120,22 @@ export class ProxyAuthentication {
 		if (!requestDetails.isProxy) {
 			return {};
 		}
-		let settings = Settings.current;
-
-		let applyAuthentication = (settings.proxyMode !== ProxyModeType.Direct) &&
-			(settings.proxyMode !== ProxyModeType.SystemProxy);
 
 		// check if authentication is already provided
 		if (ProxyAuthentication.pendingRequests[requestDetails.requestId]) {
 			return { cancel: true };
 		}
-
-		let proxyServer = settings.activeProxyServer;
+		let settingsActive = Settings.active;
+		let activeProfile = settingsActive.activeProfile;
+		let applyAuthentication = (activeProfile != null) &&
+			(activeProfile.profileType !== SmartProfileType.Direct) &&
+			(activeProfile.profileType !== SmartProfileType.SystemProxy);
+		let currentProxy = settingsActive.currentProxyServer;
 
 		if (requestDetails.challenger) {
 			var serverHost = requestDetails.challenger.host + ":" + requestDetails.challenger.port;
 
-			let specialRequest = ProxyEngineSpecialRequests.getProxyMode(serverHost, true);
+			let specialRequest = ProxyEngineSpecialRequests.retrieveSpecialUrlMode(serverHost, true);
 			if (specialRequest !== null) {
 
 				// value of `specialRequest.applyMode` is ignored, because this request is done by proxy handler itself
@@ -151,13 +151,13 @@ export class ProxyAuthentication {
 			}
 		}
 
-		if (!proxyServer) {
+		if (!currentProxy) {
 			return {};
 		}
 
 		if (applyAuthentication &&
-			proxyServer &&
-			proxyServer.username)
+			currentProxy &&
+			currentProxy.username)
 			applyAuthentication = true;
 		else
 			applyAuthentication = false;
@@ -171,7 +171,7 @@ export class ProxyAuthentication {
 		ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
 		return {
-			authCredentials: { username: proxyServer.username, password: proxyServer.password }
+			authCredentials: { username: currentProxy.username, password: currentProxy.password }
 		};
 	}
 	private static onRequestFinished(requestDetails: any) {
