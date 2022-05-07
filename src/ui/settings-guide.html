@@ -187,11 +187,18 @@
 <p><code>[SmartProxy Servers]</code></p>
 <p><code>127.0.0.1:9991 [HTTP] [ASProxyWing]</code></p>
 <p><code>127.0.0.1:8888 [HTTP] [Fiddler]</code></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<h4>Importing Proxies</h4>
+<p>If you have a list of proxies file or have found a linst in internet you can easily import them in SmartProxy. From the Import Proxy List modal you have two options of eaither selecting the physical list file from your or just pasting them in Proxy list text box.</p>
+<p>Then you can select to how import should work:</p>
+<ul>
+<li><span data-localize="settingsImportProxiesOptionAppend">Append to existing proxies: will just add new proxy to the list.</span></li>
+<li><span data-localize="settingsImportProxiesOptionOverride">Replace current proxies: will delete whatever proxy list you have replace them with the new ones. Be sure to have a backup of your long proxy list before doing this.</span></li>
+</ul>
+<p><span data-localize="settingsImportProxiesOptionAppend">Note that in both cases the duplicate proxies will not be imported. A proxy will be considered duplicate if eaither of Server, Port, Username or Password match.</span></p>
+<p>Now that you've filled the form, just press the Import button and don't forget to press Save Changes.</p>
 <hr />
 <h3 data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</h3>
+<p>&nbsp;</p>
 <hr />
 <h3 data-localize="settingsTabSmartProfiles">Smart Profiles</h3>
 <hr />
