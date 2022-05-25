@@ -60,8 +60,7 @@ export class SettingsOperation {
 					syncedSettings.options) {
 
 					if (syncedSettings.options.syncSettings) {
-						Settings.setDefaultSettings(syncedSettings);
-						Settings.migrateFromOldVersion(syncedSettings);
+						syncedSettings = Settings.getRestorableSettings(syncedSettings);
 						Settings.revertSyncOptions(syncedSettings);
 						// use synced settings
 						Settings.current = syncedSettings;
@@ -69,8 +68,7 @@ export class SettingsOperation {
 					} else {
 						// sync is disabled
 						syncedSettings.options.syncSettings = false;
-						Settings.setDefaultSettings(syncedSettings);
-						Settings.migrateFromOldVersion(syncedSettings);
+						syncedSettings = Settings.getRestorableSettings(syncedSettings);
 					}
 
 					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
@@ -88,12 +86,12 @@ export class SettingsOperation {
 		}
 	}
 
+	// DEAD CODE????? =================================
 	public static initialize(success: Function) {
 		///<summary>The initialization method</summary>
 		function onGetLocalData(data: any) {
-			// all the settings
-			Settings.setDefaultSettings(data);
-			Settings.migrateFromOldVersion(data);
+			// all the settings			
+			data = Settings.getRestorableSettings(data);
 			Settings.current = data;
 
 			// read all the synced data along with synced ones
@@ -114,16 +112,14 @@ export class SettingsOperation {
 					if (syncedSettings.options.syncSettings) {
 
 						// use synced settings
-						Settings.setDefaultSettings(syncedSettings);
-						Settings.migrateFromOldVersion(syncedSettings);
+						syncedSettings = Settings.getRestorableSettings(syncedSettings);
 						Settings.revertSyncOptions(syncedSettings);
 						Settings.current = syncedSettings;
 
 					} else {
 						// sync is disabled
 						syncedSettings.options.syncSettings = false;
-						Settings.setDefaultSettings(syncedSettings);
-						Settings.migrateFromOldVersion(syncedSettings);
+						syncedSettings = Settings.getRestorableSettings(syncedSettings);
 					}
 
 					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
@@ -153,6 +149,23 @@ export class SettingsOperation {
 			onGetLocalData,
 			onGetLocalError);
 
+	}
+
+	public static findProxyServerByIdFromList(id: string, proxyServers: ProxyServer[], proxyServerSubs: ProxyServerSubscription[]): ProxyServer {
+		if (proxyServers) {
+			let proxy = proxyServers.find(item => item.id === id);
+			if (proxy !== undefined)
+				return proxy;
+		}
+
+		if (proxyServerSubs)
+			for (let subscription of proxyServerSubs) {
+				let proxy = subscription.proxies.find(item => item.id === id);
+				if (proxy !== undefined)
+					return proxy;
+			}
+
+		return null;
 	}
 
 	public static findProxyServerByName(name: string): ProxyServer {
@@ -415,8 +428,136 @@ export class SettingsOperation {
 		// 	}
 		// }
 	}
-
 	public static restoreBackup(fileData: string) {
+		if (fileData == null)
+			return { success: false, message: "Invalid data" };
+
+		let restoreResult = SettingsOperation.restoreBackupFromFile(fileData);
+		if (!restoreResult.success) {
+			return restoreResult;
+		}
+		let restoredConfig = restoreResult.config;
+		Settings.current = restoredConfig;
+
+		// save synced if needed
+		SettingsOperation.saveAllSync();
+
+		// update proxy rules/config
+		ProxyEngine.updateBrowsersProxyConfig();
+
+		Settings.updateActiveSettings();
+
+		return { success: true, message: browser.i18n.getMessage("settingsRestoreSettingsSuccess") }
+	}
+
+	private static restoreBackupFromFile(fileData: string): {
+		success: boolean,
+		message?: string,
+		config?: SettingsConfig
+	} {
+		debugger;
+		let currentSettings = Settings.current;
+		let backupConfig: SettingsConfig;
+		try {
+			try {
+				backupConfig = JSON.parse(fileData);
+			} catch (error) {
+				Debug.error('Backup data is invalid or corrupted', error, fileData);
+				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalid") };
+			}
+
+			if (!backupConfig.version) {
+				Debug.error('Backup data is missing `Version` field', fileData);
+				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalid") };
+			}
+			
+			let settingsCopy = new SettingsConfig();
+			settingsCopy.CopyFrom(currentSettings);
+
+			if (backupConfig.version < '0.9.999') {
+				Object.assign(settingsCopy, backupConfig);
+
+				settingsCopy = Settings.migrateFromVersion09x(settingsCopy);
+				return { success: true, config: settingsCopy };
+			}
+
+			if (backupConfig.options) {
+				settingsCopy.options.CopyFrom(backupConfig.options);
+			}
+
+			if (backupConfig.proxyServers &&
+				Array.isArray(backupConfig.proxyServers)) {
+
+				let newProxyServers: ProxyServer[] = [];
+				for (const backupProxy of backupConfig.proxyServers) {
+					let newProxy = new ProxyServer();
+					newProxy.CopyFrom(backupProxy);
+
+					if (newProxy.isValid())
+						newProxyServers.push(newProxy);
+				}
+				settingsCopy.proxyServers = newProxyServers;
+			}
+
+			if (backupConfig.proxyServerSubscriptions &&
+				Array.isArray(backupConfig.proxyServerSubscriptions)) {
+
+				let newSubs: ProxyServerSubscription[] = [];
+				for (let backupSub of backupConfig.proxyServerSubscriptions) {
+
+					let newSubscription = new ProxyServerSubscription();
+					newSubscription.CopyFrom(backupSub);
+
+					newSubs.push(newSubscription);
+				}
+
+				settingsCopy.proxyServerSubscriptions = newSubs;
+			}
+
+			if (backupConfig.proxyProfiles &&
+				Array.isArray(backupConfig.proxyProfiles)) {
+
+				let newProxyProfiles: SmartProfile[] = [];
+
+				for (let backProxyProfile of backupConfig.proxyProfiles) {
+					let newProfile = new SmartProfile();
+					ProfileOperations.copySmartProfile(backProxyProfile, newProfile);
+
+					newProxyProfiles.push(newProfile);
+				}
+
+				settingsCopy.proxyProfiles = newProxyProfiles;
+			}
+
+			if (backupConfig.activeProfileId && settingsCopy.proxyProfiles) {
+				let activeProfile = settingsCopy.proxyProfiles.find(v => v.profileId == backupConfig.activeProfileId);
+				if (activeProfile) {
+					// yes it is valid
+					settingsCopy.activeProfileId = activeProfile.profileId;
+				}
+			}
+
+			if (backupConfig.defaultProxyServerId) {
+				let proxyServerSub = SettingsOperation.findProxyServerByIdFromList(
+					backupConfig.defaultProxyServerId,
+					settingsCopy.proxyServers,
+					settingsCopy.proxyServerSubscriptions
+				);
+				if (proxyServerSub) {
+					// yes it is valid
+					settingsCopy.defaultProxyServerId = proxyServerSub.id;
+				}
+			}
+
+			return { success: true, config: backupConfig };
+			
+		} catch (e) {
+			Debug.error('Backup restore failed', e, fileData);
+			return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
+		}
+	}
+
+	public static restoreBackup_OLD(fileData: string) {
 		if (fileData == null)
 			return { success: false, message: "Invalid data" };
 
@@ -462,7 +603,7 @@ export class SettingsOperation {
 			for (let backProxyProfile of backupProfiles) {
 
 				let newProfile = new SmartProfile();
-				ProfileOperations.copySmartProfile(newProfile, backProxyProfile);
+				ProfileOperations.copySmartProfile(backProxyProfile, newProfile);
 
 				for (const newRule of newProfile.proxyRules) {
 					let validateResult = ProxyRules.validateRule(newRule);
@@ -500,12 +641,6 @@ export class SettingsOperation {
 		}
 
 		function restoreOptions(backupOptions: any) {
-
-			if (backupOptions == null ||
-				(backupOptions.ignoreRequestFailuresForDomains && !Array.isArray(backupOptions.ignoreRequestFailuresForDomains))) {
-				return { success: false, message: "Invalid data provided for general options" };
-			}
-
 			let newOptions = new GeneralOptions();
 			newOptions.CopyFrom(backupOptions);
 
@@ -643,6 +778,8 @@ export class SettingsOperation {
 
 			// update proxy rules/config
 			ProxyEngine.updateBrowsersProxyConfig();
+
+			Settings.updateActiveSettings();
 
 			return { success: true, message: browser.i18n.getMessage("settingsRestoreSettingsSuccess") }
 

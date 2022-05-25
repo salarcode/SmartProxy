@@ -986,6 +986,10 @@
 		"message": "There was an error in restoring the settings",
 		"description": ""
 	},
+	"settingsRestoreSettingsFailedInvalid": {
+		"message": "Backup data is invalid or corrupted",
+		"description": ""
+	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
 		"message": "Invalid data provided for active profile",
 		"description": ""

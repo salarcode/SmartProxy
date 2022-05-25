@@ -1,6 +1,6 @@
 import { Debug } from "../lib/Debug";
 import { Utils } from "../lib/Utils";
-import { CompiledProxyRulesInfo, getSmartProfileTypeConfig, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
+import { CompiledProxyRulesInfo, getSmartProfileTypeConfig, ProxyRule, ProxyRulesSubscription, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { Settings } from "./Settings";
 import { SettingsOperation } from "./SettingsOperation";
@@ -209,10 +209,26 @@ export class ProfileOperations {
 	}
 
 	public static copySmartProfile(fromProfile: SmartProfile, toProfile: SmartProfile) {
-
 		ProfileOperations.copySmartProfileBase(fromProfile, toProfile);
 
-		toProfile.proxyRules = Utils.deepClone(fromProfile.proxyRules);
-		toProfile.rulesSubscriptions = Utils.deepClone(fromProfile.rulesSubscriptions);
+		let proxyRules: ProxyRule[] = [];
+		for (const srcRule of fromProfile.proxyRules) {
+			let copyRule = new ProxyRule();
+			copyRule.CopyFrom(srcRule);
+
+			if (copyRule.isValid())
+				proxyRules.push(copyRule);
+		}
+		toProfile.proxyRules = proxyRules;
+
+		let ruleSubs: ProxyRulesSubscription[] = [];
+		for (const ruleSub of fromProfile.rulesSubscriptions) {
+			let copyRuleSub = new ProxyRulesSubscription();
+			copyRuleSub.CopyFrom(ruleSub);
+
+			if (copyRuleSub.isValid())
+				ruleSubs.push(copyRuleSub);
+		}
+		toProfile.rulesSubscriptions = ruleSubs;
 	}
 }

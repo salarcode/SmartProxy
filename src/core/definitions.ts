@@ -1,7 +1,7 @@
 ﻿import { Settings } from './Settings';
 import { browser } from '../lib/environment';
-import { jQuery } from '../lib/External';
 import { Utils } from '../lib/Utils';
+import { ProfileOperations } from './ProfileOperations';
 
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
@@ -305,12 +305,41 @@ export class SettingsConfig implements Cloneable {
 	public firstEverInstallNotified: boolean = false;
 
 	CopyFrom(source: SettingsConfig): void {
-		this.proxyProfiles = Utils.deepClone(source.proxyProfiles);
+		this.options = new GeneralOptions();
+		this.options.CopyFrom(source.options);
+
+		let copyProxyProfiles: SmartProfile[] = [];
+		for (const sourceProfile of source.proxyProfiles) {
+			let copyProfile = new SmartProfile();
+			ProfileOperations.copySmartProfile(sourceProfile, copyProfile);
+
+			copyProxyProfiles.push(copyProfile);
+		}
+		this.proxyProfiles = copyProxyProfiles;
 		this.activeProfileId = source.activeProfileId;
-		this.proxyServers = Utils.deepClone(source.proxyServers);
-		this.proxyServerSubscriptions = Utils.deepClone(source.proxyServerSubscriptions);
+
+		let copyProxyServers: ProxyServer[] = [];
+		for (const sourceProxy of source.proxyProfiles) {
+			let copyProxy = new ProxyServer();
+			copyProxy.CopyFrom(sourceProxy);
+
+			if (copyProxy.isValid())
+				copyProxyServers.push(copyProxy);
+		}
+		this.proxyServers = copyProxyServers;
+		this.defaultProxyServerId = source.defaultProxyServerId;
+
+		let copyProxySubs: ProxyServerSubscription[] = [];
+		for (const srcProxySub of source.proxyServerSubscriptions) {
+			let copyProxySub = new ProxyServerSubscription();
+			copyProxySub.CopyFrom(srcProxySub);
+
+			if (copyProxySub.isValid())
+				copyProxySubs.push(copyProxySub);
+		}
+		this.proxyServerSubscriptions = copyProxySubs;
+
 		this.firstEverInstallNotified = source.firstEverInstallNotified;
-		this.options = jQuery.extend({}, source.options);
 	}
 }
 
@@ -492,6 +521,7 @@ export class GeneralOptions implements Cloneable {
 	CopyFrom(source: any) {
 		if (source['syncSettings'] != null) this.syncSettings = source['syncSettings'] == true ? true : false;
 		if (source['syncProxyMode'] != null) this.syncActiveProfile = source['syncProxyMode'] == true ? true : false;
+		if (source['syncActiveProfile'] != null) this.syncActiveProfile = source['syncActiveProfile'] == true ? true : false;
 		if (source['syncActiveProxy'] != null) this.syncActiveProxy = source['syncActiveProxy'] == true ? true : false;
 		if (source['detectRequestFailures'] != null)
 			this.detectRequestFailures = source['detectRequestFailures'] == true ? true : false;
@@ -528,7 +558,7 @@ class ProxyServerConnectDetails {
 
 export class ProxyServer extends ProxyServerConnectDetails implements Cloneable {
 	public id: string;
-	public name: string;
+	public name: string = '';
 	public failoverTimeout: number;
 
 	constructor() {
@@ -550,6 +580,18 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 		if (!this.protocol) {
 			this.protocol = 'HTTP';
 		}
+	}
+
+	public isValid(): boolean {
+
+		if (!this.name || !this.protocol)
+			return false;
+		if (!this.port || this.port <= 0 || this.port >= 65535)
+			return false;
+		if (!this.host || !Utils.isValidHost(this.host))
+			return false;
+
+		return true;
 	}
 }
 
@@ -573,6 +615,7 @@ export class ProxyRule implements Cloneable {
 	public rulePattern: string;
 	public ruleRegex: string;
 	public ruleExact: string;
+	/** Used with DomainSubdomain */
 	public ruleSearch: string;
 	public proxy: ProxyServer;
 	public proxyServerId: string;
@@ -654,6 +697,12 @@ export class ProxyRule implements Cloneable {
 			if (this.autoGeneratePattern == null)
 				this.autoGeneratePattern = false;
 		}
+	}
+
+	public isValid(): boolean {
+		if (!this.rule || !this.hostName || this.ruleType == null)
+			return false;
+		return true;
 	}
 }
 
@@ -769,8 +818,16 @@ export class ProxyServerSubscription implements Cloneable {
 				var server = new ProxyServer();
 				server.CopyFrom(sourceServer);
 
-				if (Settings.validateProxyServer(server).success) this.proxies.push(server);
+				if (server.isValid())
+					this.proxies.push(server);
 			}
+	}
+
+	public isValid(): boolean {
+
+		if (!this.name || !this.url || !this.proxyProtocol || !this.format)
+			return false;
+		return true;
 	}
 }
 
@@ -856,6 +913,13 @@ export class ProxyRulesSubscription {
 		if (source['proxyRules'] != null && Array.isArray(source['proxyRules'])) this.proxyRules = source['proxyRules'];
 		if (source['whitelistRules'] != null && Array.isArray(source['whitelistRules']))
 			this.whitelistRules = source['whitelistRules'];
+	}
+
+	public isValid(): boolean {
+		if (!this.name || !this.url)
+			return false;
+
+		return true;
 	}
 }
 

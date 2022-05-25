@@ -225,5 +225,4 @@ export class ProfileRules {
 			smartProfile.proxyRules.splice(itemIndex, 1);
 		}
 	}
-
 }
