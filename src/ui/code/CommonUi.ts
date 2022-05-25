@@ -84,7 +84,6 @@ export class CommonUi {
 	}
 
 	public static applyThemes(options: GeneralOptions | PartialThemeDataType) {
-
 		if (options.themeType == ThemeType.Auto) {
 			insertColorSchema("dark light");
 			if (options.themesDark == themesCustomType &&
