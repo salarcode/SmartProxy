@@ -59,7 +59,7 @@ export class settingsPage {
 					return;
 
 				CommonUi.applyThemes(dataForSettings.settings.options);
-				CommonUi.onDocumentReady(() => 
+				CommonUi.onDocumentReady(() =>
 					settingsPage.populateDataForSettings(dataForSettings)
 				);
 				CommonUi.onDocumentReady(settingsPage.showNewUserWelcome);
@@ -132,6 +132,8 @@ export class settingsPage {
 		jQuery("#btnBackupComplete").click(settingsPage.uiEvents.onClickBackupComplete);
 
 		jQuery("#btnRestoreBackup").click(settingsPage.uiEvents.onClickRestoreBackup);
+
+		jQuery("#btnFactoryReset").click(settingsPage.uiEvents.onClickFactoryReset);
 
 		// proxy server subscriptions
 		jQuery("#btnAddServerSubscription").click(settingsPage.uiEvents.onClickAddServerSubscription);
@@ -444,7 +446,7 @@ export class settingsPage {
 			else
 				modal.find("#chkServerProxy-Authentication").show();
 		}
-		else{
+		else {
 			modal.find("#chkServerProxy-Authentication").show();
 		}
 	}
@@ -3279,6 +3281,35 @@ export class settingsPage {
 					if (error && error.message)
 						message = error.message;
 					messageBox.error(browser.i18n.getMessage("settingsImportRulesFailed") + " " + message);
+				});
+		},
+		onClickFactoryReset() {
+			// Are you sure to reset EVERYTHING ? Sure? There is no way back!
+			messageBox.confirm(browser.i18n.getMessage("settingsFactoryResetConfirm"),
+				() => {
+					PolyFill.runtimeSendMessage(
+						{
+							command: CommandMessages.SettingsPageFactoryReset,
+						},
+						(response: ResultHolder) => {
+							if (response.success) {
+								if (response.message) {
+									messageBox.success(response.message,
+										800,
+										() => {
+											// reload the current settings page
+											document.location.reload();
+										});
+								} else {
+									// reload the current settings page
+									document.location.reload();
+								}
+							} else {
+								if (response.message) {
+									messageBox.error(response.message);
+								}
+							}
+						});
 				});
 		},
 		onClickBackupComplete() {

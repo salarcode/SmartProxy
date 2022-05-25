@@ -470,7 +470,7 @@ export class SettingsOperation {
 				Debug.error('Backup data is missing `Version` field', fileData);
 				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalid") };
 			}
-			
+
 			let settingsCopy = new SettingsConfig();
 			settingsCopy.CopyFrom(currentSettings);
 
@@ -550,11 +550,26 @@ export class SettingsOperation {
 			}
 
 			return { success: true, config: backupConfig };
-			
+
 		} catch (e) {
 			Debug.error('Backup restore failed', e, fileData);
 			return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
 		}
+	}
+
+	public static factoryReset() {
+		let newConfig = new SettingsConfig();
+		Settings.setDefaultSettings(newConfig);
+
+		Settings.current = newConfig;
+
+		// save synced if needed
+		SettingsOperation.saveAllSync();
+
+		// update proxy rules/config
+		ProxyEngine.updateBrowsersProxyConfig();
+
+		Settings.updateActiveSettings();
 	}
 
 	public static restoreBackup_OLD(fileData: string) {

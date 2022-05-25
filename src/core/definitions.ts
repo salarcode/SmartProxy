@@ -120,6 +120,7 @@ export class CommandMessages {
 	public static SettingsPageRestoreSettings = 'SettingsPage_RestoreSettings';
 	public static SettingsPageMakeRequestSpecial = 'SettingsPage_MakeRequestSpecial';
 	public static SettingsPageSkipWelcome = 'SettingsPage_SkipWelcome';
+	public static SettingsPageFactoryReset = 'SettingsPage_FactoryReset';
 
 	// Request Logger
 	public static ProxyableRequestLog = 'Proxyable_RequestLog';

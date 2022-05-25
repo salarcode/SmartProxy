@@ -430,7 +430,17 @@ export class Core {
 				}
 				return;
 			}
-			case CommandMessages.SettingsPageMakeRequestSpecial: {
+			case CommandMessages.SettingsPageFactoryReset: {
+				SettingsOperation.factoryReset();
+
+				if (sendResponse) {
+					sendResponse({
+						success: true,
+						message: browser.i18n.getMessage('settingsFactoryResetSuccess')
+					});
+				}
+				return;
+			} case CommandMessages.SettingsPageMakeRequestSpecial: {
 				if (!message.url)
 					return;
 

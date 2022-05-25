@@ -511,6 +511,26 @@
 		"message": "Restore your previously taken backup from a local file",
 		"description": ""
 	},
+	"settingsDangerZoneDesc": {
+		"message": "Danger zone",
+		"description": ""
+	},
+	"settingsFactoryResetButton": {
+		"message": "Factory Reset",
+		"description": ""
+	},
+	"settingsFactoryResetDesc": {
+		"message": "Reset everything. This will remove all rules and proxy servers and reset the options. Permanently.",
+		"description": ""
+	},
+	"settingsFactoryResetConfirm": {
+		"message": "Are you sure to reset EVERYTHING ? Sure? There is no way back!",
+		"description": ""
+	},
+	"settingsFactoryResetSuccess": {
+		"message": "Factory reset is completed successfully",
+		"description": ""
+	},
 	"settingsImportExportProxiesDesc": {
 		"message": "Import/Export individual list of proxies servers.",
 		"description": ""
@@ -984,6 +1004,10 @@
 	},
 	"settingsRestoreSettingsFailed": {
 		"message": "There was an error in restoring the settings",
+		"description": ""
+	},
+	"settingsRestoreSettingsFailedInvalid": {
+		"message": "Backup data is invalid or corrupted",
 		"description": ""
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
