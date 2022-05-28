@@ -413,13 +413,16 @@
 						<p class="mt-4"></p>
 						<div class="position-sticky-bottom">
 							<div class="sticky-save-buttons-bar">
-								<div class="pull-left">
+								<div class="float-start">
 									<button id="btnSaveGeneralOptions" class="btn btn-primary">
 										<span data-localize="settingsSaveGeneralOptionsButton">Save Changes</span>
 									</button>
 									<button id="btnRejectGeneralOptions" class="btn btn-outline-secondary">
 										<span data-localize="settingsRejectGeneralOptionsButton">Reject Changes</span>
 									</button>
+									<a title="Help" href="https://github.com/salarcode/SmartProxy/wiki/General-Options" target="_blank" class="btn btn-outline-info">
+										<i class="fas fa-question"></i>
+									</a>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -475,6 +478,10 @@
 							<button id="btnRejectProxyServers" class="btn btn-outline-secondary">
 								<span data-localize="settingsRejectChangesButton">Reject Changes</span>
 							</button>
+							<a title="Help" href="https://github.com/salarcode/SmartProxy/wiki/Proxy-Servers" target="_blank"
+								class="btn btn-outline-info">
+								<i class="fas fa-question"></i>
+							</a>
 						</div>
 						<div class="float-end">
 							<button id="btnClearProxyServers" class="btn btn-outline-danger"
@@ -613,6 +620,9 @@
 									<button id="btnRejectSmartProfile" class="btn btn-outline-secondary">
 										<span data-localize="settingsRejectChangesButton">Reject Changes</span>
 									</button>
+									<a title="Help" href="https://github.com/salarcode/SmartProxy/wiki/Smart-Profiles" target="_blank" class="btn btn-outline-info">
+										<i class="fas fa-question"></i>
+									</a>									
 								</div>
 								<div class="float-end">
 									<button id="btnDeleteSmartProfile" class="btn btn-outline-danger">
@@ -728,11 +738,18 @@
 												</div>
 											</div>
 										</div>
-										<div class="modal-footer">
-											<button type="button" id="btnSubmitRule" class="btn btn-primary"
-												data-localize="settingsRulesModalSave">Save</button>
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-												data-localize="settingsRulesModalCancel">Cancel</button>
+										<div class="p-3">
+											<div class="float-end">
+												<button type="button" id="btnSubmitRule" class="btn btn-primary"
+													data-localize="settingsRulesModalSave">Save</button>
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+													data-localize="settingsRulesModalCancel">Cancel</button>
+											</div>
+											<div class="float-start">
+												<a title="Help" href="https://github.com/salarcode/SmartProxy/wiki/Proxy-Rules" target="_blank" class="btn btn-info">
+													<i class="fas fa-question"></i>
+												</a>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -943,11 +960,19 @@
 											</label>
 										</div>
 									</div>
-									<div class="modal-footer">
-										<button type="button" id="btnImportRules" class="btn btn-primary"
-											data-localize="settingsImportRulesImportButton">Import</button>
-										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-											data-localize="settingsImportRulesCancelButton">Cancel</button>
+									<div class="p-3">
+										<div class="float-end">
+											<button type="button" id="btnImportRules" class="btn btn-primary"
+												data-localize="settingsImportRulesImportButton">Import</button>
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+												data-localize="settingsImportRulesCancelButton">Cancel</button>
+										</div>
+										<div class="float-start">
+											<a title="Help" href="https://github.com/salarcode/SmartProxy/wiki/Import-Rules" target="_blank"
+												class="btn btn-info">
+												<i class="fas fa-question"></i>
+											</a>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -988,6 +1013,10 @@
 							<button id="btnRejectServerSubscriptionsChanges" class="btn btn-outline-secondary">
 								<span data-localize="settingsRejectChangesButton">Reject Changes</span>
 							</button>
+							<a title="Help" href="https://github.com/salarcode/SmartProxy/wiki/Proxy-Server-Subscriptions" target="_blank"
+								class="btn btn-outline-info">
+								<i class="fas fa-question"></i>
+							</a>
 						</div>
 						<div class="float-end">
 							<button id="btnClearServerSubscriptions" class="btn btn-outline-danger"
@@ -1073,7 +1102,11 @@
 								</div>
 							</div>
 						</div>
-						
+						<div class="py-3 float-end">
+							<a title="Help" href="https://github.com/salarcode/SmartProxy/wiki/Backup-Restore" target="_blank" class="btn btn-info">
+								<i class="fas fa-question"></i>
+							</a>
+						</div>
 					</div>
 
 					<div class="tab-pane fade" id="tab-help" role="tabpanel" aria-labelledby="tab-help-tab">
@@ -1388,11 +1421,19 @@
 							</label>
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" id="btnSubmitContinueAddingProfile" class="btn btn-primary"
+					<div class="p-3">
+						<div class="float-end">
+							<button type="button" id="btnSubmitContinueAddingProfile" class="btn btn-primary"
 							data-localize="settingsProfilesAddNewBtnContinue">Continue</button>
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-							data-localize="settingsProfilesAddNewBtnCancel">Cancel</button>
+							data-localize="settingsProfilesAddNewBtnCancel">Cancel</button>	
+						</div>
+
+						<div class="float-start">
+							<a title="Help" href="https://github.com/salarcode/SmartProxy/wiki/Add-New-Smart-Profile" target="_blank" class="btn btn-info">
+								<i class="fas fa-question"></i>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
