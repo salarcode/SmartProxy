@@ -22,7 +22,8 @@
     "build-ed:watch": "webpack --watch --env.browser=edge",
     "build-op": "webpack --env.browser=opera",
     "build-op:watch": "webpack --watch --env.browser=opera",
-    "test": "npm run lint"
+    "test:builds": "npm run build-ch && npm run build-ff && npm run build-ff-unlisted && npm run build-ed && npm run  build-op",
+    "test": "npm run lint && npm run test:builds"
   },
   "license": "GPL-3.0",
   "dependencies": {
