@@ -5,7 +5,7 @@
     "es6": true,
     "webextensions": true
   },
-  "ignorePatterns": ["*.min.js", "datatables.js"],
+  "ignorePatterns": ["*.min.js", "datatables.js", "src/lib/RuleImporterSwitchy.js"],
   "extends": "eslint:recommended",
   "globals": {
     "$": false,
