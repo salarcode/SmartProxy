@@ -1,3 +1,4 @@
 language: node_js
-node_js: stable
+node_js:
+  - 16
 sudo: false
