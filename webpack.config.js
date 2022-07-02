@@ -22,6 +22,7 @@ let plugins = [
 module.exports = function (args) {
 
   let browserType = args["browser"] || "chrome";
+  let isDev = args["dev"] || false;
   plugins.push(new CopyWebpackPlugin([{ from: `./src/manifest-${browserType}.json`, to: 'manifest.json' }]));
 
   return {
@@ -51,7 +52,7 @@ module.exports = function (args) {
       path: path.resolve(__dirname, 'build'),
     },
     optimization: {
-      minimize: true
+      minimize: !isDev
     },
     plugins: plugins
   }
