@@ -4,6 +4,7 @@
   "devDependencies": {
     "clean-webpack-plugin": "^1.0.1",
     "copy-webpack-plugin": "^5.1.1",
+    "decompress": "^4.2.1",
     "eslint": "^8.6.0",
     "terser-webpack-plugin": "^1.4.3",
     "ts-loader": "^5.4.5",

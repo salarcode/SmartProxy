@@ -1,5 +1,5 @@
 const path = require('path');
-const TerserPlugin = require('terser-webpack-plugin');
+const decompress = require('decompress');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -19,41 +19,45 @@ let plugins = [
   ]),
 ];
 
+const unzipPromise = decompress('src/ui/js/libs-unzip-before-build.zip', 'src/ui/js/');
+
 module.exports = function (args) {
 
   let browserType = args["browser"] || "chrome";
   let isDev = args["dev"] || false;
   plugins.push(new CopyWebpackPlugin([{ from: `./src/manifest-${browserType}.json`, to: 'manifest.json' }]));
 
-  return {
-    mode: ENV,
-    entry: {
-      'core': ['./src/core/Core.ts', `./src/core/browsers/${browserType}.ts`],
-      'ui/code/popup': ['./src/ui/code/popup.ts', `./src/core/browsers/${browserType}.ts`],
-      'ui/code/proxyable': ['./src/ui/code/proxyable.ts', `./src/core/browsers/${browserType}.ts`],
-      'ui/code/settingsPage': ['./src/ui/code/settingsPage.ts', `./src/core/browsers/${browserType}.ts`],
-    },
-    devtool: '',
-    // devtool: 'inline-source-map',
-    module: {
-      rules: [
-        {
-          test: /\.tsx?$/,
-          use: 'ts-loader',
-          exclude: /node_modules/
-        }
-      ]
-    },
-    resolve: {
-      extensions: ['.ts', '.js']
-    },
-    output: {
-      filename: '[name].js',
-      path: path.resolve(__dirname, 'build'),
-    },
-    optimization: {
-      minimize: !isDev
-    },
-    plugins: plugins
-  }
+  return unzipPromise.then(() => {
+    return {
+      mode: ENV,
+      entry: {
+        'core': ['./src/core/Core.ts', `./src/core/browsers/${browserType}.ts`],
+        'ui/code/popup': ['./src/ui/code/popup.ts', `./src/core/browsers/${browserType}.ts`],
+        'ui/code/proxyable': ['./src/ui/code/proxyable.ts', `./src/core/browsers/${browserType}.ts`],
+        'ui/code/settingsPage': ['./src/ui/code/settingsPage.ts', `./src/core/browsers/${browserType}.ts`],
+      },
+      devtool: '',
+      // devtool: 'inline-source-map',
+      module: {
+        rules: [
+          {
+            test: /\.tsx?$/,
+            use: 'ts-loader',
+            exclude: /node_modules/
+          }
+        ]
+      },
+      resolve: {
+        extensions: ['.ts', '.js']
+      },
+      output: {
+        filename: '[name].js',
+        path: path.resolve(__dirname, 'build'),
+      },
+      optimization: {
+        minimize: !isDev
+      },
+      plugins: plugins
+    }
+  });
 };
