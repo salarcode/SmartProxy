@@ -294,7 +294,7 @@ export class Utils {
 		let u = new URL(url);
 		let schemaLength = (u.protocol + '//').length;
 
-		return url.substr(schemaLength, url.length - schemaLength);
+		return url.substring(schemaLength, url.length);
 	}
 
 	public static matchPatternToRegExp(pattern: string, completeUrl = true): RegExp | null {

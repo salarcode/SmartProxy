@@ -247,6 +247,20 @@ export class ProxyEngineFirefox {
 					proxyLog.proxifiedStatus = ProxyableProxifiedStatus.MatchedRule;
 					proxyLog.applyFromRule(matchedRule);
 
+					if (requestDetails.tabId > -1) {
+						// storing the proxy & rule in tab
+						ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule);
+					}
+
+					if (matchedRule.proxy) {
+						if (matchedRule.proxy.username)
+							// Requires authentication. Mark as special and store authentication info.
+							// TODO: use proxyAuthorizationHeader
+							ProxyEngineSpecialRequests.setSpecialUrl(`${matchedRule.proxy.host}:${matchedRule.proxy.port}`, null, matchedRule.proxy);
+
+						return ProxyEngineFirefox.getResultProxyInfo(matchedRule.proxy);
+					}
+
 					return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
 				}
 
@@ -259,7 +273,7 @@ export class ProxyEngineFirefox {
 					return { type: "direct" };
 				}
 
-				// no rules are matched, going with proxy
+				// no rule is matched, going with proxy
 				proxyLog.matchedRuleStatus = ProxyableMatchedRuleStatus.NoneMatched;
 				proxyLog.proxifiedStatus = ProxyableProxifiedStatus.AlwaysEnabled;
 				return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
@@ -377,8 +391,10 @@ export class ProxyEngineFirefox {
 			tabData.proxyMatchedRule = matchedRule;
 			tabData.proxyRuleHostName = matchedRule.hostName;
 
-			if (matchedRule.proxy) tabData.proxyServerFromRule = matchedRule.proxy;
-			else tabData.proxyServerFromRule = null;
+			if (matchedRule.proxy) 
+				tabData.proxyServerFromRule = matchedRule.proxy;
+			else 
+				tabData.proxyServerFromRule = null;
 		}
 	}
 

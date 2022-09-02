@@ -8,7 +8,7 @@ export class ProxyEngineChrome {
 	/**  Chrome only. Updating Chrome proxy config. */
 	public static updateChromeProxyConfig() {
 		let settingsActive = Settings.active;
-
+		
 		if (settingsActive.activeProfile.profileType == SmartProfileType.SystemProxy) {
 
 			let config = {
@@ -58,200 +58,264 @@ export class ProxyEngineChrome {
 		//let settings = Settings.current;
 		let settingsActive = Settings.active;
 
-		//let compiledRules = settingsActive.activeProfile.compiledRules;
 		let profileType = settingsActive.activeProfile.profileType;
-		let resultActiveProxy = this.convertActiveProxyServer(settingsActive.activeProfile.profileProxyServer);
+		let resultCurrentProxyServer = this.convertActiveProxyServer(settingsActive.currentProxyServer);
 
-		let compiledRulesAsString = this.regexHostArrayToString([]).join(",");
-		let compiledWhitelistAsString = this.regexHostArrayToString([]).join(",");
-		let compiledBypass = '{}';
-		let pacTemplateString = `const proxyMode = +"${profileType}";
-const compiledRules = [${compiledRulesAsString}];
-const compiledWhitelistRules = [${compiledWhitelistAsString}];
-const bypass = ${compiledBypass};
-const hasActiveProxyServer = ${((settingsActive.activeProfile.profileProxyServer) ? "true" : "false")};
-const ProxyModeType = {
-    Direct: 0,
-    SmartProxy: 1,
-    Always: 2,
-    SystemProxy: 3
+		let compiledRules = settingsActive.activeProfile.compiledRules;
+		let compiledRules_WhitelistRules = this.regexHostArrayToString(compiledRules.WhitelistRules).join(",");
+		let compiledRules_Rules = this.regexHostArrayToString(compiledRules.Rules).join(",");
+		let compiledRules_WhitelistSubscriptionRules = this.regexHostArrayToString(compiledRules.WhitelistSubscriptionRules).join(",");
+		let compiledRules_SubscriptionRules = this.regexHostArrayToString(compiledRules.SubscriptionRules).join(",");
+
+		debugger;
+		let pacTemplateString = `
+const compiledRules = {
+	/** User defined whitelist rules. P2 */
+	WhitelistRules: [${compiledRules_WhitelistRules}],
+	/** User defined rules. P1 */
+	Rules: [${compiledRules_Rules}],
+	/** Subscription whitelist rules. P3  */
+	WhitelistSubscriptionRules: [${compiledRules_WhitelistSubscriptionRules}],
+	/** Subscription rules. P4 */
+	SubscriptionRules: [${compiledRules_SubscriptionRules}]
+};
+const SmartProfileType = {
+	Direct: 0,
+	SystemProxy: 1,
+	SmartRules: 2,
+	AlwaysEnabledBypassRules: 3,
+	IgnoreFailureRules: 4,
 }
 const CompiledProxyRuleType = {
 	RegexHost: 0,
 	RegexUrl: 1,
 	Exact: 2,
-	SearchUrl: 3,	
+	SearchUrl: 3,
 	SearchDomain: 4,
 	SearchDomainSubdomain: 5,
 	SearchDomainAndPath: 6,
 	SearchDomainSubdomainAndPath: 7
 }
-const resultActiveProxy = "${resultActiveProxy}";
+const activeProfileType = +'${profileType}';
+const currentProxyServer = "${resultCurrentProxyServer}";
 const resultDirect = "DIRECT";
 const resultSystem = "SYSTEM";
 // -------------------------
 // required PAC function that will be called to determine
 // if a proxy should be used.
 function FindProxyForURL(url, host) {
-	// BUGFIX: we need implicit conversion (==) instead of (===), since proxy mode comes from different places and i'm lazy to track it
-	if (proxyMode == ProxyModeType.Direct)
+	
+	if (activeProfileType == SmartProfileType.SystemProxy)
+		return resultSystem;
+		
+	if (activeProfileType == SmartProfileType.Direct)
 		return resultDirect;
 
-	host = host.toLowerCase();
+	// applying ProxyPerOrigin
+	// not applicable for Chromium
 
-	if (proxyMode == ProxyModeType.Always) {
-		// should bypass this host?
-		if (bypass.enableForAlways === true &&
-			bypass.bypassList.indexOf(host) !== -1)
-			return resultDirect;
-		else
-			return resultActiveProxy;
-	}
+	if (activeProfileType == SmartProfileType.AlwaysEnabledBypassRules) {
 
-	try {
-		if (compiledWhitelistRules.length > 0) {
-			let matchedRule = FindProxyForUrlInternal(url, host, compiledWhitelistRules);
-			if (matchedRule)
-				return resultDirect;
+		// user skip the bypass rules/ don't apply proxy
+		let userMatchedRule = findMatchedUrlInRules(url, host, compiledRules.Rules);
+		if (userMatchedRule) {
+			return makeResultForAlwaysEnabledForced(userMatchedRule)
 		}
-	} catch (e) {
-		return "";
-	}
 
-	// in chrome system mode is not controlled here
-	if (proxyMode == ProxyModeType.SystemProxy)
-		// bypass list should be checked here if Chrome supported this model
-		return resultSystem;
+		// user bypass rules/ apply proxy by force
+		let userWhitelistMatchedRule = findMatchedUrlInRules(url, host, compiledRules.WhitelistRules)
+		if (userWhitelistMatchedRule) {
+			return resultDirect;
+		}
 
-	// there should be active proxy
-	if (!hasActiveProxyServer)
-		// let the browser decide
-		return "";
+		// subscription skip bypass rules/ don't apply proxy
+		let subMatchedRule = findMatchedUrlInRules(url, host, compiledRules.SubscriptionRules);
+		if (subMatchedRule) {
+			return makeResultForAlwaysEnabledForced(userMatchedRule)
+		}
 
-	try {
-		let matchedRule = FindProxyForUrlInternal(url, host, compiledRules);
-		if (matchedRule) {
+		// subscription bypass rules/ apply proxy by force
+		let subWhitelistMatchedRule = findMatchedUrlInRules(url, host, compiledRules.WhitelistSubscriptionRules)
+		if (subWhitelistMatchedRule) {
+			return resultDirect;
+		}
+
+		//** Always Enabled is forced by a rule, so other rules can't skip it */
+		const makeResultForAlwaysEnabledForced = (matchedRule) => {
+
 			if (matchedRule.proxy)
 				// this rule has its own proxy setup
 				return matchedRule.proxy;
-			return resultActiveProxy;
+			return currentProxyServer;
 		}
 
-	} catch (e) {
-		return "";
+		// no rule is matched, going with proxy
+		return currentProxyServer;
+	}
+
+	if (activeProfileType == SmartProfileType.SmartRules) {
+
+		// user whitelist rules/ don't apply proxy
+		let userWhitelistMatchedRule = findMatchedUrlInRules(url, host, compiledRules.WhitelistRules)
+		if (userWhitelistMatchedRule) {
+			return makeResultForWhitelistRule(userWhitelistMatchedRule);
+		}
+
+		// user rules/ apply proxy
+		let userMatchedRule = findMatchedUrlInRules(url, host, compiledRules.Rules);
+		if (userMatchedRule) {
+			return makeResultForMatchedRule(userMatchedRule);
+		}
+
+		// subscription whitelist rules/ don't apply proxy
+		let subWhitelistMatchedRule = findMatchedUrlInRules(url, host, compiledRules.WhitelistSubscriptionRules)
+		if (subWhitelistMatchedRule) {
+			return makeResultForWhitelistRule(subWhitelistMatchedRule);
+		}
+
+		// subscription rules/ apply proxy
+		let subMatchedRule = findMatchedUrlInRules(url, host, compiledRules.SubscriptionRules);
+		if (subMatchedRule) {
+			return makeResultForMatchedRule(subMatchedRule);
+		}
+
+		/**
+		 * Generate result for matched whitelist rule
+		 */
+		const makeResultForWhitelistRule = () => {
+			return resultDirect;
+		}
+
+		/**
+		 * Generate result for matched proxy rule
+		 */
+		const makeResultForMatchedRule = (matchedRule) => {
+			if (matchedRule.proxy)
+				// this rule has its own proxy setup
+				return matchedRule.proxy;
+			return currentProxyServer;
+		}
+	}
+
+	if (activeProfileType == SmartProfileType.IgnoreFailureRules) {
+		// NOTE: this is not a proxy profile, it is used elsewhere
+		// No logic is needed here
 	}
 
 	// let the browser decide
 	return "";
 }
 
-function FindProxyForUrlInternal(url, host, compiledRules) {
-	if (!compiledRules)
+function findMatchedUrlInRules(searchUrl, domainHost, rules) {
+	if (searchUrl == null || rules == null || rules.length == 0)
 		return null;
 
-	let lowerCaseUrl;
-	let schemaLessUrl;
-	for (let i = 0; i < compiledRules.length; i++) {
-		let rule = compiledRules[i];
-		let matched = false;
+	let schemaLessUrl = null;
+	let url = searchUrl.toLowerCase();
 
-		switch (+rule.ruleType) {
-			case CompiledProxyRuleType.Exact:
-				if (lowerCaseUrl == null)
-					lowerCaseUrl = url.toLowerCase();
+	try {
+		for (let rule of rules) {
 
-				if (lowerCaseUrl == rule.search)
-					matched = true;
-				break;
+			switch (rule.compiledRuleType) {
+				case CompiledProxyRuleType.Exact:
 
-			case CompiledProxyRuleType.RegexHost:
+					if (url == rule.search)
+						return rule;
+					break;
 
-				if (rule.regex.test(host))
-					matched = true;
-				break;
-
-			case CompiledProxyRuleType.RegexUrl:
-
-				if (rule.regex.test(url))
-					matched = true;
-				break;
-
-			case CompiledProxyRuleType.SearchUrl:
-
-				if (url.startsWith(rule.search))
-					matched = true;
-				break;
-
-			case CompiledProxyRuleType.SearchDomain:
-
-				if (rule.search == host)
-					matched = true;
-				break;
-
-			case CompiledProxyRuleType.SearchDomainSubdomain:
-
-				// domain
-				if (host == rule.search)
-					matched = true;
-
-				// subdomains
-				else if (host.endsWith('.' + rule.search))
-					matched = true;
-
-				break;
-
-			case CompiledProxyRuleType.SearchDomainAndPath:
-
-				if (schemaLessUrl == null) {
-					schemaLessUrl = removeSchemaFromUrl(url);
-					if (schemaLessUrl == null) {
+				case CompiledProxyRuleType.RegexHost:
+					if (domainHost == null) {
 						continue;
 					}
-					schemaLessUrl = schemaLessUrl.toLowerCase();
-				}
 
-				if (schemaLessUrl.startsWith(rule.search))
-					matched = true;
+					if (rule.regex.test(domainHost))
+						return rule;
+					break;
 
-				break;
+				case CompiledProxyRuleType.RegexUrl:
 
-			case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
+					if (rule.regex.test(url))
+						return rule;
+					break;
 
-				if (schemaLessUrl == null) {
-					schemaLessUrl = removeSchemaFromUrl(url);
-					if (schemaLessUrl == null) {
+				case CompiledProxyRuleType.SearchUrl:
+
+					if (url.startsWith(rule.search))
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.SearchDomain:
+
+					if (domainHost == null) {
 						continue;
 					}
-					schemaLessUrl = schemaLessUrl.toLowerCase();
-				}
+					if (rule.search == domainHost)
+						return rule;
+					break;
 
-				if (schemaLessUrl.startsWith(rule.search))
-					matched = true;
+				case CompiledProxyRuleType.SearchDomainSubdomain:
 
-				else {
-
-					let ruleSearchHost = extractHostFromInvalidUrl(rule.search);
-					if (ruleSearchHost != null) {
-
-						// should be the same
-						if (ruleSearchHost != host && !host.endsWith('.' + ruleSearchHost))
-							continue;
-
-						// after this state, we are sure that the url is for the same domain, now just checking the path
+					if (domainHost == null) {
+						continue;
 					}
+					// domain
+					if (domainHost == rule.search)
+						return rule;
 
 					// subdomains
-					if (schemaLessUrl.includes('.' + rule.search))
-						matched = true;
-				}
-				break;
-		}
+					if (domainHost.endsWith('.' + rule.search))
+						return rule;
 
-		if (matched) {
-			return rule;
+					break;
+
+				case CompiledProxyRuleType.SearchDomainAndPath:
+
+					if (schemaLessUrl == null) {
+						schemaLessUrl = removeSchemaFromUrl(url);
+						if (schemaLessUrl == null) {
+							continue;
+						}
+					}
+					if (schemaLessUrl.startsWith(rule.search))
+						return rule;
+
+					break;
+
+				case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
+					{
+						if (schemaLessUrl == null) {
+							schemaLessUrl = removeSchemaFromUrl(url);
+							if (schemaLessUrl == null) {
+								continue;
+							}
+						}
+						if (schemaLessUrl.startsWith(rule.search))
+							return rule;
+
+						let ruleSearchHost = extractHostFromInvalidUrl(rule.search);
+						if (ruleSearchHost != null) {
+
+							if (domainHost == null) {
+								continue;
+							}
+
+							// should be the same
+							if (ruleSearchHost != domainHost && !domainHost.endsWith('.' + ruleSearchHost))
+								continue;
+
+							// after this state, we are sure that the url is for the same domain, now just checking the path
+						}
+
+						// subdomains
+						if (schemaLessUrl.includes('.' + rule.search))
+							return rule;
+						break;
+					}
+			}
 		}
+	} catch (e) {
+		console.warn('SmartProxy> findMatchForUrl failed for ' + url, e);
 	}
-	// nothing found
 	return null;
 }
 
@@ -259,10 +323,9 @@ function removeSchemaFromUrl(url) {
 	if (url == null)
 		return url;
 	const schemaSep = '://';
-	const schemaSepLength = 3;
 	let index = url.indexOf(schemaSep);
 	if (index > -1)
-		return url.substr(index + schemaSepLength, url.length - (index + schemaSepLength));
+		return url.substring(index + schemaSep.length, url.length);
 	else
 		return url;
 }
@@ -276,7 +339,7 @@ function extractHostFromInvalidUrl(url) {
 	catch (e) { return null; }
 }
 function extractHostFromUrl(url) {
-	const matchPattern = (/^(?:(?:\\*|https?|file|ftp|app):\\/\\/(\\*|(?:\\*\\.)?[^\\/\\*?&#]+|)\\/?(?:.*))$/i);
+	const matchPattern = (/^/i);
 
 	const match = matchPattern.exec(url);
 	if (!match) {
@@ -326,9 +389,9 @@ function extractHostFromUrl(url) {
 				search = 'null';
 
 			if (rule.proxy) {
-				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},ruleType:${rule.compiledRuleType},proxy:"${this.convertActiveProxyServer(rule.proxy)}"}`);
+				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},compiledRuleType:${rule.compiledRuleType},proxy:"${this.convertActiveProxyServer(rule.proxy)}"}`);
 			} else {
-				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},ruleType:${rule.compiledRuleType}}`);
+				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},compiledRuleType:${rule.compiledRuleType}}`);
 			}
 		}
 		return compiledRulesAsStringArray;

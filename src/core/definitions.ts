@@ -376,12 +376,12 @@ export class SmartProfileBase {
 	public profileId: string;
 	public profileName: string;
 	public enabled: boolean = true;
-	public profileProxyServerId?: string;
+	public profileProxyServerId: string;
 }
 
 export class SmartProfile extends SmartProfileBase {
 	public proxyRules: ProxyRule[] = [];
-	public rulesSubscriptions?: ProxyRulesSubscription[] = [];
+	public rulesSubscriptions: ProxyRulesSubscription[] = [];
 }
 
 export class SmartProfileCompiled extends SmartProfileBase {
@@ -468,6 +468,8 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileName: browser.i18n.getMessage('popupNoProxy'),
 			proxyRules: [],
 			enabled: true,
+			rulesSubscriptions: [],
+			profileProxyServerId: null
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.SmartRules,
@@ -476,6 +478,8 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileName: browser.i18n.getMessage('popupSmartProxy'),
 			proxyRules: [],
 			enabled: true,
+			rulesSubscriptions: [],
+			profileProxyServerId: null
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.AlwaysEnabled,
@@ -484,6 +488,8 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileName: browser.i18n.getMessage('popupAlwaysEnable'),
 			proxyRules: [],
 			enabled: true,
+			rulesSubscriptions: [],
+			profileProxyServerId: null
 		},
 		{
 			profileId: SmartProfileTypeBuiltinIds.SystemProxy,
@@ -492,6 +498,8 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileName: browser.i18n.getMessage('popupSystemProxy'),
 			proxyRules: [],
 			enabled: true,
+			rulesSubscriptions: [],
+			profileProxyServerId: null
 		},
 	];
 }
