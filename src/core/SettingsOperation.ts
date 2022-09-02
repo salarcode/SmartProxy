@@ -455,7 +455,6 @@ export class SettingsOperation {
 		message?: string,
 		config?: SettingsConfig
 	} {
-		debugger;
 		let currentSettings = Settings.current;
 		let backupConfig: SettingsConfig;
 		try {

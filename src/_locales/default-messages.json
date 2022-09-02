@@ -1465,17 +1465,5 @@
 	"notificationShortcutProxyServerChanged": {
 		"message": "Proxy server changed to {0}",
 		"description": ""
-	},
-	"helpTabName": {
-		"message": "Help Center"
-	},
-	"helpIntro": {
-		"message": "Welcome to Help Center, please navigate to the section that you need help or if you're new to SmartProxy start with Get Started guide."
-	},
-	"helpGettingStarted": {
-		"message": "Getting Started"
-	},
-	"helpProxyModes": {
-		"message": "Proxy Modes"
 	}
 }
