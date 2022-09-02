@@ -286,8 +286,13 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-/src/manifest.json
 /build
+/build-firefox
+/build-firefox-unlisted
+/build-chrome
+/build-edge
+/build-opera
+/src/manifest.json
 /src/manifest.json
 *.map
 *.js

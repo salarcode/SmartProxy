@@ -52,7 +52,7 @@ module.exports = function (args) {
       },
       output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'build'),
+        path: path.resolve(__dirname, 'build' + (isDev ? '-' + browserType : '')),
       },
       optimization: {
         minimize: !isDev
