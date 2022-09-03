@@ -18,6 +18,8 @@ import { PolyFill } from "../lib/PolyFill";
 import { LiteEvent } from "../lib/LiteEvent";
 import { CompiledProxyRule, FailedRequestType, ProxyServer } from "./definitions";
 import { browser } from "../lib/environment";
+import { Settings } from "./Settings";
+import { ProxyRules } from "./ProxyRules";
 
 export class TabManager {
 
@@ -86,8 +88,12 @@ export class TabManager {
 		}
 		if (tabData.proxifiedParentDocumentUrl != tabInfo.url) {
 
+
 			tabData.proxyServerFromRule = null;
 			tabData.proxified = false;
+
+			// apply `proxified` value
+			TabManager.setRuleForProxyPerOrigin(tabData, tabInfo.url);
 		}
 		tabData.updated = new Date();
 		tabData.incognito = tabInfo.incognito;
@@ -102,6 +108,46 @@ export class TabManager {
 		TabManager.onTabUpdated.trigger(tabData);
 
 		return tabData;
+	}
+
+	public static setTabDataProxied(tabData: TabDataType, requestUrl: string, matchedRule?: CompiledProxyRule) {
+		if (matchedRule) {
+			tabData.proxified = true;
+			tabData.proxifiedParentDocumentUrl = requestUrl;
+			tabData.proxyMatchedRule = matchedRule;
+			tabData.proxyRuleHostName = matchedRule.hostName;
+
+			if (matchedRule.proxy)
+				tabData.proxyServerFromRule = matchedRule.proxy;
+			else
+				tabData.proxyServerFromRule = null;
+		}
+		else {
+			tabData.proxyServerFromRule = null;
+			tabData.proxified = false;
+		}
+	}
+
+	private static setRuleForProxyPerOrigin(tabData: TabDataType, newRequestUrl: string) {
+		// trying to set the proxified value
+		if (!Settings.current.options.proxyPerOrigin)
+			// not enabled
+			return;
+
+		let settingsActive = Settings.active;
+		if (!settingsActive)
+			return;
+		let activeSmartProfile = settingsActive.activeProfile;
+
+
+		let testResult = ProxyRules.findMatchedUrlInRulesInfo(newRequestUrl, activeSmartProfile.compiledRules);
+		if (testResult != null) {
+
+			let matchedRule = testResult.compiledRule;
+
+			// set `tabData.proxified = true` 
+			TabManager.setTabDataProxied(tabData, newRequestUrl, matchedRule);
+		}
 	}
 
 	private static updateActiveTab() {

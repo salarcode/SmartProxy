@@ -169,6 +169,7 @@ export class ProxyEngineFirefox {
 			// applying ProxyPerOrigin
 			if (settings.options.proxyPerOrigin && requestDetails.tabId > -1) {
 				let tabData = TabManager.getTab(requestDetails.tabId);
+
 				if (tabData != null && tabData.proxified) {
 					if (!requestDetails.documentUrl) {
 						// document url is being changed, resetting the settings for that
@@ -386,15 +387,9 @@ export class ProxyEngineFirefox {
 			// on Firefox top-level doesn't have documentUrl
 			!requestDetails.documentUrl
 		) {
-			tabData.proxified = true;
-			tabData.proxifiedParentDocumentUrl = requestDetails.url;
-			tabData.proxyMatchedRule = matchedRule;
-			tabData.proxyRuleHostName = matchedRule.hostName;
 
-			if (matchedRule.proxy) 
-				tabData.proxyServerFromRule = matchedRule.proxy;
-			else 
-				tabData.proxyServerFromRule = null;
+			// set `tabData.proxified = true` 
+			TabManager.setTabDataProxied(tabData, requestDetails.url, matchedRule);
 		}
 	}
 
