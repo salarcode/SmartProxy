@@ -104,10 +104,10 @@ const resultSystem = "SYSTEM";
 // required PAC function that will be called to determine
 // if a proxy should be used.
 function FindProxyForURL(url, host) {
-	
+
 	if (activeProfileType == SmartProfileType.SystemProxy)
 		return resultSystem;
-		
+
 	if (activeProfileType == SmartProfileType.Direct)
 		return resultDirect;
 
@@ -141,7 +141,7 @@ function FindProxyForURL(url, host) {
 		}
 
 		//** Always Enabled is forced by a rule, so other rules can't skip it */
-		const makeResultForAlwaysEnabledForced = (matchedRule) => {
+		function makeResultForAlwaysEnabledForced(matchedRule) {
 
 			if (matchedRule.proxy)
 				// this rule has its own proxy setup
@@ -189,7 +189,7 @@ function FindProxyForURL(url, host) {
 		/**
 		 * Generate result for matched proxy rule
 		 */
-		const makeResultForMatchedRule = (matchedRule) => {
+		function makeResultForMatchedRule(matchedRule) {
 			if (matchedRule.proxy)
 				// this rule has its own proxy setup
 				return matchedRule.proxy;
