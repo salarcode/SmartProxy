@@ -67,7 +67,6 @@ export class ProxyEngineChrome {
 		let compiledRules_WhitelistSubscriptionRules = this.regexHostArrayToString(compiledRules.WhitelistSubscriptionRules).join(",");
 		let compiledRules_SubscriptionRules = this.regexHostArrayToString(compiledRules.SubscriptionRules).join(",");
 
-		debugger;
 		let pacTemplateString = `
 const compiledRules = {
 	/** User defined whitelist rules. P2 */

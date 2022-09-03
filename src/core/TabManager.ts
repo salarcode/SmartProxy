@@ -17,7 +17,7 @@
 import { PolyFill } from "../lib/PolyFill";
 import { LiteEvent } from "../lib/LiteEvent";
 import { CompiledProxyRule, FailedRequestType, ProxyServer } from "./definitions";
-import { browser } from "../lib/environment";
+import { browser, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 import { ProxyRules } from "./ProxyRules";
 
@@ -88,7 +88,6 @@ export class TabManager {
 		}
 		if (tabData.proxifiedParentDocumentUrl != tabInfo.url) {
 
-
 			tabData.proxyServerFromRule = null;
 			tabData.proxified = false;
 
@@ -129,7 +128,12 @@ export class TabManager {
 	}
 
 	private static setRuleForProxyPerOrigin(tabData: TabDataType, newRequestUrl: string) {
-		// trying to set the proxified value
+		///** trying to set the proxified value */
+
+		if (environment.chrome)
+			// not supported in chromium browsers
+			return;
+
 		if (!Settings.current.options.proxyPerOrigin)
 			// not enabled
 			return;
@@ -138,7 +142,6 @@ export class TabManager {
 		if (!settingsActive)
 			return;
 		let activeSmartProfile = settingsActive.activeProfile;
-
 
 		let testResult = ProxyRules.findMatchedUrlInRulesInfo(newRequestUrl, activeSmartProfile.compiledRules);
 		if (testResult != null) {
