@@ -426,7 +426,7 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 				selectable: true,
 				supportsSubscriptions: false,
 				supportsProfileProxy: true,
-				customProxyPerRule: false,
+				customProxyPerRule: true,
 				canBeDisabled: true,
 				supportsRuleActionWhitelist: true,
 				defaultRuleActionIsWhitelist: true,
