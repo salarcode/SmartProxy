@@ -114,7 +114,7 @@ export class ProfileOperations {
 
 	public static compileSmartProfile(profile: SmartProfile): SmartProfileCompiled {
 		let compiledProfile = new SmartProfileCompiled();
-		
+
 		ProfileOperations.copySmartProfileBase(profile, compiledProfile);
 
 		ProfileOperations.compileSmartProfileRuleInternal(profile, compiledProfile);
@@ -189,27 +189,29 @@ export class ProfileOperations {
 		return baseProfile;
 	}
 
-	public static copySmartProfileBase(fromProfile: SmartProfileBase, toProfile: SmartProfileBase) {
+	public static copySmartProfileBase(fromProfile: SmartProfileBase, toProfile: SmartProfileBase, copyConfig: boolean = true) {
 		toProfile.profileType = fromProfile.profileType;
 		toProfile.profileId = fromProfile.profileId;
 		toProfile.profileName = fromProfile.profileName;
 		toProfile.enabled = fromProfile.enabled;
 		toProfile.profileProxyServerId = fromProfile.profileProxyServerId;
-		toProfile.profileTypeConfig = {
-			builtin: fromProfile.profileTypeConfig.builtin,
-			editable: fromProfile.profileTypeConfig.editable,
-			selectable: fromProfile.profileTypeConfig.selectable,
-			supportsSubscriptions: fromProfile.profileTypeConfig.supportsSubscriptions,
-			supportsProfileProxy: fromProfile.profileTypeConfig.supportsProfileProxy,
-			customProxyPerRule: fromProfile.profileTypeConfig.customProxyPerRule,
-			canBeDisabled: fromProfile.profileTypeConfig.canBeDisabled,
-			supportsRuleActionWhitelist: fromProfile.profileTypeConfig.supportsRuleActionWhitelist,
-			defaultRuleActionIsWhitelist: fromProfile.profileTypeConfig.defaultRuleActionIsWhitelist,
-		};
+		if (copyConfig) {
+			toProfile.profileTypeConfig = {
+				builtin: fromProfile.profileTypeConfig.builtin,
+				editable: fromProfile.profileTypeConfig.editable,
+				selectable: fromProfile.profileTypeConfig.selectable,
+				supportsSubscriptions: fromProfile.profileTypeConfig.supportsSubscriptions,
+				supportsProfileProxy: fromProfile.profileTypeConfig.supportsProfileProxy,
+				customProxyPerRule: fromProfile.profileTypeConfig.customProxyPerRule,
+				canBeDisabled: fromProfile.profileTypeConfig.canBeDisabled,
+				supportsRuleActionWhitelist: fromProfile.profileTypeConfig.supportsRuleActionWhitelist,
+				defaultRuleActionIsWhitelist: fromProfile.profileTypeConfig.defaultRuleActionIsWhitelist,
+			};
+		}
 	}
 
-	public static copySmartProfile(fromProfile: SmartProfile, toProfile: SmartProfile) {
-		ProfileOperations.copySmartProfileBase(fromProfile, toProfile);
+	public static copySmartProfile(fromProfile: SmartProfile, toProfile: SmartProfile, copyConfig: boolean = true) {
+		ProfileOperations.copySmartProfileBase(fromProfile, toProfile, copyConfig);
 
 		let proxyRules: ProxyRule[] = [];
 		if (fromProfile.proxyRules) {
@@ -234,5 +236,12 @@ export class ProfileOperations {
 			}
 		}
 		toProfile.rulesSubscriptions = ruleSubs;
+	}
+
+	public static resetProfileTypeConfig(profile: SmartProfile) {
+		let profileTypeConfig = getSmartProfileTypeConfig(profile.profileType);
+		if (profileTypeConfig) {
+			profile.profileTypeConfig = profileTypeConfig;
+		}
 	}
 }

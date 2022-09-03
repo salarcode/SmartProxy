@@ -520,7 +520,9 @@ export class SettingsOperation {
 
 				for (let backProxyProfile of backupConfig.proxyProfiles) {
 					let newProfile = new SmartProfile();
-					ProfileOperations.copySmartProfile(backProxyProfile, newProfile);
+					ProfileOperations.copySmartProfile(backProxyProfile, newProfile, false);
+
+					ProfileOperations.resetProfileTypeConfig(newProfile);
 
 					newProxyProfiles.push(newProfile);
 				}
@@ -548,7 +550,7 @@ export class SettingsOperation {
 				}
 			}
 
-			return { success: true, config: backupConfig };
+			return { success: true, config: settingsCopy };
 
 		} catch (e) {
 			Debug.error('Backup restore failed', e, fileData);
@@ -617,7 +619,7 @@ export class SettingsOperation {
 			for (let backProxyProfile of backupProfiles) {
 
 				let newProfile = new SmartProfile();
-				ProfileOperations.copySmartProfile(backProxyProfile, newProfile);
+				ProfileOperations.copySmartProfile(backProxyProfile, newProfile, false);
 
 				for (const newRule of newProfile.proxyRules) {
 					let validateResult = ProxyRules.validateRule(newRule);
