@@ -524,7 +524,7 @@ export class GeneralOptions implements Cloneable {
 	public themeType: ThemeType = ThemeType.Auto;
 	public themesLight: string;
 	public themesLightCustomUrl: string;
-	public themesDark: string;
+	public themesDark: string = "themes-cosmo-dark";
 	public themesDarkCustomUrl: string;
 
 	CopyFrom(source: any) {
