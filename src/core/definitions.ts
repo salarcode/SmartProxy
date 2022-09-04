@@ -1,5 +1,5 @@
 ﻿import { Settings } from './Settings';
-import { browser } from '../lib/environment';
+import { api } from '../lib/environment';
 import { Utils } from '../lib/Utils';
 import { ProfileOperations } from './ProfileOperations';
 
@@ -24,8 +24,8 @@ export const proxyServerSubscriptionObfuscate = ['None', 'Base64'];
 export const proxyServerSubscriptionFormat = ['PlainText', 'JSON'];
 export const specialRequestApplyProxyModeKeys = ['NoProxy', 'CurrentProxy' /* , "SelectedProxy" */];
 export const proxyRulesActionTypes = [
-	browser.i18n.getMessage('settingsRuleActionApplyProxy'),
-	browser.i18n.getMessage('settingsRuleActionWhitelist'),
+	api.i18n.getMessage('settingsRuleActionApplyProxy'),
+	api.i18n.getMessage('settingsRuleActionWhitelist'),
 ];
 export const monitorUrlsSchemaFilter = ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'];
 export const themesCustomType = "0";
@@ -465,7 +465,7 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileId: SmartProfileTypeBuiltinIds.Direct,
 			profileType: SmartProfileType.Direct,
 			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.Direct),
-			profileName: browser.i18n.getMessage('popupNoProxy'),
+			profileName: api.i18n.getMessage('popupNoProxy'),
 			proxyRules: [],
 			enabled: true,
 			rulesSubscriptions: [],
@@ -475,7 +475,7 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileId: SmartProfileTypeBuiltinIds.SmartRules,
 			profileType: SmartProfileType.SmartRules,
 			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.SmartRules),
-			profileName: browser.i18n.getMessage('popupSmartProxy'),
+			profileName: api.i18n.getMessage('popupSmartProxy'),
 			proxyRules: [],
 			enabled: true,
 			rulesSubscriptions: [],
@@ -485,7 +485,7 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileId: SmartProfileTypeBuiltinIds.AlwaysEnabled,
 			profileType: SmartProfileType.AlwaysEnabledBypassRules,
 			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.AlwaysEnabledBypassRules),
-			profileName: browser.i18n.getMessage('popupAlwaysEnable'),
+			profileName: api.i18n.getMessage('popupAlwaysEnable'),
 			proxyRules: [],
 			enabled: true,
 			rulesSubscriptions: [],
@@ -495,7 +495,7 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileId: SmartProfileTypeBuiltinIds.SystemProxy,
 			profileType: SmartProfileType.SystemProxy,
 			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.SystemProxy),
-			profileName: browser.i18n.getMessage('popupSystemProxy'),
+			profileName: api.i18n.getMessage('popupSystemProxy'),
 			proxyRules: [],
 			enabled: true,
 			rulesSubscriptions: [],

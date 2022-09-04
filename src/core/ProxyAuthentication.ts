@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser, environment } from "../lib/environment";
+import { api, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 import { monitorUrlsSchemaFilter, SmartProfileType } from "./definitions";
 import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
@@ -23,25 +23,30 @@ export class ProxyAuthentication {
 	private static pendingRequests: { [index: string]: any } = {};
 
 	public static startMonitor() {
+		debugger;
 		if (environment.chrome) {
 			// chrome supports asyncBlocking
-			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+			api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
 				{ urls: monitorUrlsSchemaFilter },
-				["asyncBlocking"]
+				[]
 			);
+			// api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+			// 	{ urls: monitorUrlsSchemaFilter },
+			// 	["asyncBlocking"]
+			// );			
 		} else {
-			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
+			api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
 				{ urls: monitorUrlsSchemaFilter },
 				["blocking"]
 			);
 
 		}
-		browser.webRequest.onCompleted.addListener(
+		api.webRequest.onCompleted.addListener(
 			ProxyAuthentication.onRequestFinished,
 			{ urls: monitorUrlsSchemaFilter }
 		);
 
-		browser.webRequest.onErrorOccurred.addListener(
+		api.webRequest.onErrorOccurred.addListener(
 			ProxyAuthentication.onRequestFinished,
 			{ urls: monitorUrlsSchemaFilter }
 		);

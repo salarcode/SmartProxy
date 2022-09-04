@@ -17,7 +17,7 @@
 import { CommonUi } from "./CommonUi";
 import { PolyFill } from "../../lib/PolyFill";
 import { messageBox, jQuery } from "../../lib/External";
-import { environment, browser } from "../../lib/environment";
+import { environment, api } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
@@ -66,7 +66,7 @@ export class settingsPage {
 			},
 			(error: Error) => {
 				PolyFill.runtimeSendMessage("SettingsPageGetInitialData failed! > " + error);
-				messageBox.error(browser.i18n.getMessage("settingsInitializeFailed"));
+				messageBox.error(api.i18n.getMessage("settingsInitializeFailed"));
 			});
 	}
 
@@ -162,16 +162,16 @@ export class settingsPage {
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			columns: [
 				{
-					name: "name", data: "name", title: browser.i18n.getMessage("settingsServersGridColName")
+					name: "name", data: "name", title: api.i18n.getMessage("settingsServersGridColName")
 				},
 				{
-					name: "protocol", data: "protocol", title: browser.i18n.getMessage("settingsServersGridColProtocol"),
+					name: "protocol", data: "protocol", title: api.i18n.getMessage("settingsServersGridColProtocol"),
 				},
 				{
-					name: "host", data: "host", title: browser.i18n.getMessage("settingsServersGridColServer"),
+					name: "host", data: "host", title: api.i18n.getMessage("settingsServersGridColServer"),
 				},
 				{
-					name: "port", data: "port", type: "num", title: browser.i18n.getMessage("settingsServersGridColPort"),
+					name: "port", data: "port", type: "num", title: api.i18n.getMessage("settingsServersGridColPort"),
 				},
 				{
 					"width": "70px",
@@ -199,16 +199,16 @@ export class settingsPage {
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			columns: [
 				{
-					name: "name", data: "name", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColName")
+					name: "name", data: "name", title: api.i18n.getMessage("settingsServerSubscriptionsGridColName")
 				},
 				{
-					name: "url", data: "url", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColUrl")
+					name: "url", data: "url", title: api.i18n.getMessage("settingsServerSubscriptionsGridColUrl")
 				},
 				{
-					name: "totalCount", data: "totalCount", type: "num", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColCount")
+					name: "totalCount", data: "totalCount", type: "num", title: api.i18n.getMessage("settingsServerSubscriptionsGridColCount")
 				},
 				{
-					name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsServerSubscriptionsGridColEnabled"),
+					name: "enabled", data: "enabled", title: api.i18n.getMessage("settingsServerSubscriptionsGridColEnabled"),
 				},
 				{
 					"width": "70px",
@@ -268,7 +268,7 @@ export class settingsPage {
 
 		jQuery("<option>").attr("value", "")
 			// (Auto detect with HTTP fallback)
-			.text(browser.i18n.getMessage("settingsServerSubscriptionProtocolDefault"))
+			.text(api.i18n.getMessage("settingsServerSubscriptionProtocolDefault"))
 			.appendTo(cmbServerSubscriptionProtocol);
 		proxyServerProtocols.forEach(item => {
 			jQuery("<option>").attr("value", item)
@@ -292,7 +292,7 @@ export class settingsPage {
 		let cmbServerSubscriptionApplyProxy = jQuery("#cmbServerSubscriptionApplyProxy");
 		specialRequestApplyProxyModeKeys.forEach((item, index) => {
 			jQuery("<option>").attr("value", index)
-				.text(browser.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
+				.text(api.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
 				.appendTo(cmbServerSubscriptionApplyProxy);
 		});
 		if (environment.chrome)
@@ -386,7 +386,7 @@ export class settingsPage {
 		if (serverSubscriptions && serverSubscriptions.length > 0) {
 			let subscriptionGroup = jQuery("<optgroup>")
 				// -Subscriptions-
-				.attr("label", browser.i18n.getMessage("settingsActiveProxyServerSubscriptions"))
+				.attr("label", api.i18n.getMessage("settingsActiveProxyServerSubscriptions"))
 				.appendTo(comboBox);
 
 			let added = false;
@@ -499,11 +499,11 @@ export class settingsPage {
 			// the default value which is empty string
 			jQuery("<option>")
 				.attr("value", ProxyRuleSpecialProxyServer.DefaultGeneral)
-				.text(browser.i18n.getMessage("settingsRulesProxyDefault")) // [Use Active Proxy]
+				.text(api.i18n.getMessage("settingsRulesProxyDefault")) // [Use Active Proxy]
 				.appendTo(cmdRuleProxyServer);
 			jQuery("<option>")
 				.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)
-				.text(browser.i18n.getMessage("settingsRulesProxyFromProfile")) // [Use Profile Proxy]
+				.text(api.i18n.getMessage("settingsRulesProxyFromProfile")) // [Use Profile Proxy]
 				.appendTo(cmdRuleProxyServer);
 		}
 
@@ -1225,7 +1225,7 @@ export class settingsPage {
 			cmbProfileProxyServer.children().remove();
 			jQuery("<option>")
 				.attr("value", "")
-				.text(browser.i18n.getMessage("settingsProfilesProxyServer"))
+				.text(api.i18n.getMessage("settingsProfilesProxyServer"))
 				.appendTo(cmbProfileProxyServer);
 
 			// populate
@@ -1245,19 +1245,19 @@ export class settingsPage {
 
 		let grdRulesColumns = [
 			{
-				name: "ruleType", data: "ruleTypeName", title: browser.i18n.getMessage("settingsRulesGridColRuleType"),
+				name: "ruleType", data: "ruleTypeName", title: api.i18n.getMessage("settingsRulesGridColRuleType"),
 			},
 			{
-				name: "hostName", data: "hostName", title: browser.i18n.getMessage("settingsRulesGridColSource")
+				name: "hostName", data: "hostName", title: api.i18n.getMessage("settingsRulesGridColSource")
 			},
 			{
-				name: "rule", data: "rule", title: browser.i18n.getMessage("settingsRulesGridColRule")
+				name: "rule", data: "rule", title: api.i18n.getMessage("settingsRulesGridColRule")
 			},
 			{
-				name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsRulesGridColEnabled"),
+				name: "enabled", data: "enabled", title: api.i18n.getMessage("settingsRulesGridColEnabled"),
 				render: function (data, type, row: ProxyRule) {
 					if (row && row.whiteList)
-						return `${data} <i class="far fa-hand-paper" title="${browser.i18n.getMessage("settingsRuleActionWhitelist")}"></i>`;
+						return `${data} <i class="far fa-hand-paper" title="${api.i18n.getMessage("settingsRuleActionWhitelist")}"></i>`;
 					return data;
 				},
 			},
@@ -1268,8 +1268,8 @@ export class settingsPage {
 				"defaultContent": "<button class='btn btn-sm btn-success' id='btnRulesEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnRulesRemove'><i class='fas fa-times'></button>",
 			},
 			{
-				name: "proxy", data: "proxyName", title: browser.i18n.getMessage("settingsRulesGridColProxy"),
-				defaultContent: browser.i18n.getMessage("settingsRulesProxyDefault")
+				name: "proxy", data: "proxyName", title: api.i18n.getMessage("settingsRulesGridColProxy"),
+				defaultContent: api.i18n.getMessage("settingsRulesProxyDefault")
 			}
 		];
 		if (!pageProfile.smartProfile.profileTypeConfig.customProxyPerRule) {
@@ -1305,16 +1305,16 @@ export class settingsPage {
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			columns: [
 				{
-					name: "name", data: "name", title: browser.i18n.getMessage("settingsRulesSubscriptionsGridColName")
+					name: "name", data: "name", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColName")
 				},
 				{
-					name: "url", data: "url", className: "text-break-word", title: browser.i18n.getMessage("settingsRulesSubscriptionsGridColUrl")
+					name: "url", data: "url", className: "text-break-word", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColUrl")
 				},
 				{
-					name: "totalCount", data: "totalCount", type: "num", title: browser.i18n.getMessage("settingsRulesSubscriptionsGridColCount")
+					name: "totalCount", data: "totalCount", type: "num", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColCount")
 				},
 				{
-					name: "enabled", data: "enabled", title: browser.i18n.getMessage("settingsRulesSubscriptionsGridColEnabled"),
+					name: "enabled", data: "enabled", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColEnabled"),
 				},
 				{
 					"width": "100px",
@@ -1363,7 +1363,7 @@ export class settingsPage {
 		let cmbRulesSubscriptionApplyProxy = tabContainer.find("#cmbRulesSubscriptionApplyProxy");
 		specialRequestApplyProxyModeKeys.forEach((item, index) => {
 			jQuery("<option>").attr("value", index)
-				.text(browser.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
+				.text(api.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
 				.appendTo(cmbRulesSubscriptionApplyProxy);
 		});
 		if (environment.chrome)
@@ -1801,22 +1801,22 @@ export class settingsPage {
 			if (generalOptions.themesLight == themesCustomType) {
 				if (!Utils.isValidUrl(generalOptions.themesLightCustomUrl)) {
 					// Please enter a valid Light Theme and the url should be 'https'.
-					messageBox.error(browser.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
+					messageBox.error(api.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
 					return;
 				}
 				if (!Utils.isUrlHttps(generalOptions.themesLightCustomUrl)) {
-					messageBox.error(browser.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
+					messageBox.error(api.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
 					return;
 				}
 			}
 			if (generalOptions.themesDark == themesCustomType) {
 				if (!Utils.isValidUrl(generalOptions.themesDarkCustomUrl)) {
 					// Please enter a valid Dark Theme and the url should be 'https'.
-					messageBox.error(browser.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
+					messageBox.error(api.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
 					return;
 				}
 				if (!Utils.isUrlHttps(generalOptions.themesDarkCustomUrl)) {
-					messageBox.error(browser.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
+					messageBox.error(api.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
 					return;
 				}
 			}
@@ -1840,7 +1840,7 @@ export class settingsPage {
 					}
 				},
 				(error: Error) => {
-					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveGeneral") + " " + error.message);
+					messageBox.error(api.i18n.getMessage("settingsErrorFailedToSaveGeneral") + " " + error.message);
 				});
 		},
 		onClickRejectGeneralOptions() {
@@ -1851,7 +1851,7 @@ export class settingsPage {
 			settingsPage.changeTracking.options = false;
 
 			// Changes reverted successfully
-			messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+			messageBox.info(api.i18n.getMessage("settingsChangesReverted"));
 		},
 		onSyncSettingsChanged() {
 			// reset the data
@@ -1900,7 +1900,7 @@ export class settingsPage {
 			PolyFill.browserCommandsGetAll((commands: any[]) => {
 				let content = `<dl>`;
 				for (const cmd of commands) {
-					content += `<dt>${cmd.description}</dt><dd>${browser.i18n.getMessage("settingsGeneralViewShortcutKeys")} : <span class='text-primary'>${cmd.shortcut}</span></dd>`;
+					content += `<dt>${cmd.description}</dt><dd>${api.i18n.getMessage("settingsGeneralViewShortcutKeys")} : <span class='text-primary'>${cmd.shortcut}</span></dd>`;
 				}
 				content += `</dl>`;
 				modal.find('.modal-body').html(content);
@@ -1946,7 +1946,7 @@ export class settingsPage {
 			}
 			else {
 				// Message: Please select a profile type
-				messageBox.error(browser.i18n.getMessage("settingsProfilesAddErrorTypeRequired"));
+				messageBox.error(api.i18n.getMessage("settingsProfilesAddErrorTypeRequired"));
 				return;
 			}
 
@@ -1993,7 +1993,7 @@ export class settingsPage {
 			let serverInputInfo = settingsPage.readServerModel(modal);
 
 			if (!serverInputInfo.name) {
-				messageBox.error(browser.i18n.getMessage("settingsServerNameRequired"));
+				messageBox.error(api.i18n.getMessage("settingsServerNameRequired"));
 				return;
 			}
 
@@ -2008,22 +2008,22 @@ export class settingsPage {
 			});
 			if (serverExists) {
 				// A Server with the same name already exists!
-				messageBox.error(browser.i18n.getMessage("settingsServerNameExists"));
+				messageBox.error(api.i18n.getMessage("settingsServerNameExists"));
 				return;
 			}
 
 			// ------------------
 			if (!serverInputInfo.host) {
-				messageBox.error(browser.i18n.getMessage("settingsServerServerAddressIsEmpty"));
+				messageBox.error(api.i18n.getMessage("settingsServerServerAddressIsEmpty"));
 				return;
 			}
 			if (!serverInputInfo.port || serverInputInfo.port <= 0) {
-				messageBox.error(browser.i18n.getMessage("settingsServerPortNoInvalid"));
+				messageBox.error(api.i18n.getMessage("settingsServerPortNoInvalid"));
 				return;
 			}
 
 			if (!serverInputInfo.username && serverInputInfo.password) {
-				messageBox.error(browser.i18n.getMessage("settingsServerAuthenticationInvalid"));
+				messageBox.error(api.i18n.getMessage("settingsServerAuthenticationInvalid"));
 				return;
 			}
 			if (editingModel) {
@@ -2062,7 +2062,7 @@ export class settingsPage {
 			if (!row)
 				return;
 
-			messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveProxyServer"),
+			messageBox.confirm(api.i18n.getMessage("settingsConfirmRemoveProxyServer"),
 				() => {
 
 					// remove then redraw the grid page
@@ -2106,7 +2106,7 @@ export class settingsPage {
 					}
 				},
 				(error: Error) => {
-					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveServers") + " " + error.message);
+					messageBox.error(api.i18n.getMessage("settingsErrorFailedToSaveServers") + " " + error.message);
 				});
 
 		},
@@ -2119,11 +2119,11 @@ export class settingsPage {
 			settingsPage.changeTracking.servers = false;
 
 			// Changes reverted successfully
-			messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+			messageBox.info(api.i18n.getMessage("settingsChangesReverted"));
 		},
 		onClickClearProxyServers() {
 			// Are you sure to remove all the servers?
-			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServers"),
+			messageBox.confirm(api.i18n.getMessage("settingsRemoveAllProxyServers"),
 				() => {
 					settingsPage.loadServersGrid([]);
 					settingsPage.loadDefaultProxyServer();
@@ -2131,7 +2131,7 @@ export class settingsPage {
 					settingsPage.changeTracking.servers = true;
 
 					// All the proxy servers are removed.<br/>You have to save to apply the changes.
-					messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServersSuccess"));
+					messageBox.info(api.i18n.getMessage("settingsRemoveAllProxyServersSuccess"));
 				});
 		},
 		onClickAddProxyMultipleRule(pageProfile: SettingsPageSmartProfile) {
@@ -2169,7 +2169,7 @@ export class settingsPage {
 				if (ruleType == ProxyRuleType.Exact) {
 					if (!Utils.isValidUrl(ruleLine)) {
 						messageBox.error(
-							browser.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleLine)
+							api.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleLine)
 						);
 						return;
 					}
@@ -2184,7 +2184,7 @@ export class settingsPage {
 					hostName = Utils.extractHostFromUrl(ruleLine);
 
 					if (!Utils.isValidHost(hostName)) {
-						messageBox.error(browser.i18n.getMessage("settingsMultipleRuleInvalidHost").replace("{0}", hostName));
+						messageBox.error(api.i18n.getMessage("settingsMultipleRuleInvalidHost").replace("{0}", hostName));
 						return;
 					}
 
@@ -2194,7 +2194,7 @@ export class settingsPage {
 				else if (ruleType == ProxyRuleType.MatchPatternUrl) {
 
 					if (!Utils.isValidUrl(ruleLine)) {
-						messageBox.error(browser.i18n.getMessage("settingsRuleUrlInvalid"));
+						messageBox.error(api.i18n.getMessage("settingsRuleUrlInvalid"));
 						return;
 					}
 
@@ -2223,7 +2223,7 @@ export class settingsPage {
 			}
 
 			if (!resultRuleList.length) {
-				messageBox.error(browser.i18n.getMessage("settingsMultipleRuleNoNewRuleAdded"));
+				messageBox.error(api.i18n.getMessage("settingsMultipleRuleNoNewRuleAdded"));
 				return;
 			}
 
@@ -2271,7 +2271,7 @@ export class settingsPage {
 			function checkHostName(): boolean {
 				if (!hostName) {
 					// Please specify the source of the rule!
-					messageBox.error(browser.i18n.getMessage("settingsRuleSourceRequired"));
+					messageBox.error(api.i18n.getMessage("settingsRuleSourceRequired"));
 					return false;
 				}
 				return true;
@@ -2281,7 +2281,7 @@ export class settingsPage {
 				// NOTE: if hostName is entered it must be a valid one, without RegEx or MatchPattern chars
 				if (!Utils.isValidHost(hostName)) {
 					// source is invalid, source name should be something like 'google.com'
-					messageBox.error(browser.i18n.getMessage("settingsRuleSourceInvalid"));
+					messageBox.error(api.i18n.getMessage("settingsRuleSourceInvalid"));
 					return;
 				}
 
@@ -2295,7 +2295,7 @@ export class settingsPage {
 
 					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
 					messageBox.error(
-						browser.i18n.getMessage("settingsRuleHostInvalid")
+						api.i18n.getMessage("settingsRuleHostInvalid")
 							.replace("{0}", extractedHost || hostName)
 					);
 					return;
@@ -2316,7 +2316,7 @@ export class settingsPage {
 				else if (hostName && !ruleInfo.rulePattern.includes(hostName)) {
 					// The rule does not match the source domain '{0}'
 					messageBox.error(
-						browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", hostName)
+						api.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", hostName)
 					);
 					return;
 				}
@@ -2333,7 +2333,7 @@ export class settingsPage {
 				else if (hostName && !ruleInfo.rulePattern.includes(hostName)) {
 					// The rule does not match the source domain '{0}'
 					messageBox.error(
-						browser.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", hostName)
+						api.i18n.getMessage("settingsRuleDoesntIncludeDomain").replace("{0}", hostName)
 					);
 					return;
 				}
@@ -2343,7 +2343,7 @@ export class settingsPage {
 				try {
 					if (!ruleInfo.ruleRegex) {
 						messageBox.error(
-							browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
+							api.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
 						);
 						return;
 					}
@@ -2353,7 +2353,7 @@ export class settingsPage {
 						if (!regex.test(hostName)) {
 							// Regex rule does not match the source domain '{0}'
 							messageBox.error(
-								browser.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", hostName)
+								api.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", hostName)
 							);
 							return;
 						}
@@ -2362,7 +2362,7 @@ export class settingsPage {
 				} catch (error) {
 					// Regex rule '{0}' is not valid
 					messageBox.error(
-						browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
+						api.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
 					);
 					return;
 				}
@@ -2372,7 +2372,7 @@ export class settingsPage {
 				try {
 					if (!ruleInfo.ruleRegex) {
 						messageBox.error(
-							browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
+							api.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
 						);
 						return;
 					}
@@ -2383,7 +2383,7 @@ export class settingsPage {
 						if (!regex.test(hostName)) {
 							// Regex rule does not match the source domain '{0}'
 							messageBox.error(
-								browser.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", hostName)
+								api.i18n.getMessage("settingsRuleRegexNotMatchDomain").replace("{0}", hostName)
 							);
 							return;
 						}
@@ -2391,7 +2391,7 @@ export class settingsPage {
 				} catch (error) {
 					// Regex rule '{0}' is not valid
 					messageBox.error(
-						browser.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
+						api.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
 					);
 					return;
 				}
@@ -2406,7 +2406,7 @@ export class settingsPage {
 			else {
 				if (!Utils.isValidUrl(ruleInfo.ruleExact)) {
 					messageBox.error(
-						browser.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleInfo.ruleExact)
+						api.i18n.getMessage("settingsRuleExactUrlInvalid").replace("{0}", ruleInfo.ruleExact)
 					);
 					return;
 				}
@@ -2426,7 +2426,7 @@ export class settingsPage {
 
 			if (ruleExists) {
 				// A Rule with the same source already exists!
-				messageBox.error(browser.i18n.getMessage("settingsRuleSourceAlreadyExists"));
+				messageBox.error(api.i18n.getMessage("settingsRuleSourceAlreadyExists"));
 				return;
 			}
 
@@ -2474,7 +2474,7 @@ export class settingsPage {
 			if (!row)
 				return;
 
-			messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveProxyRule"),
+			messageBox.confirm(api.i18n.getMessage("settingsConfirmRemoveProxyRule"),
 				() => {
 
 					// remove then redraw the grid page
@@ -2483,12 +2483,12 @@ export class settingsPage {
 		},
 		onClickClearProxyRules(pageProfile: SettingsPageSmartProfile) {
 			// Are you sure to remove all the rules?
-			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllRules"),
+			messageBox.confirm(api.i18n.getMessage("settingsRemoveAllRules"),
 				() => {
 					settingsPage.loadRules(pageProfile, []);
 
 					// All rules are removed.<br/>You have to save to apply the changes.
-					messageBox.info(browser.i18n.getMessage("settingsRemoveAllRulesSuccess"));
+					messageBox.info(api.i18n.getMessage("settingsRemoveAllRulesSuccess"));
 				});
 		},
 		onProfileNameClick(pageProfile: SettingsPageSmartProfile) {
@@ -2503,14 +2503,14 @@ export class settingsPage {
 
 			if (smartProfile.profileName.trim() == '') {
 				// Profile name is mandatory
-				messageBox.error(browser.i18n.getMessage("settingsProfilesAddErrorNameRequired"));
+				messageBox.error(api.i18n.getMessage("settingsProfilesAddErrorNameRequired"));
 				return;
 			}
 
 			if (settingsPage.currentSettings.proxyProfiles.find(x => x.profileName == smartProfile.profileName &&
 				x.profileId != smartProfile.profileId) != null) {
 				// Profile name already exists, please enter another one
-				messageBox.error(browser.i18n.getMessage("settingsProfilesAddErrorNameExists"));
+				messageBox.error(api.i18n.getMessage("settingsProfilesAddErrorNameExists"));
 				return;
 			}
 
@@ -2544,7 +2544,7 @@ export class settingsPage {
 					}
 				},
 				(error: Error) => {
-					messageBox.error(browser.i18n.getMessage("settingsErrorFailedToSaveSmartProfile") + " " + error.message);
+					messageBox.error(api.i18n.getMessage("settingsErrorFailedToSaveSmartProfile") + " " + error.message);
 				});
 		},
 		onClickRejectSmartProfile(pageProfile: SettingsPageSmartProfile) {
@@ -2556,7 +2556,7 @@ export class settingsPage {
 			// settingsPage.changeTracking.rules = false;
 
 			// // Changes reverted successfully
-			// messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+			// messageBox.info(api.i18n.getMessage("settingsChangesReverted"));
 
 			// 	// reset the data
 			// 	settingsPage.currentSettings.proxyRulesSubscriptions = settingsPage.originalSettings.proxyRulesSubscriptions.slice();
@@ -2565,7 +2565,7 @@ export class settingsPage {
 			// 	settingsPage.changeTracking.rulesSubscriptions = false;
 
 			// 	// Changes reverted successfully
-			// 	messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));			
+			// 	messageBox.info(api.i18n.getMessage("settingsChangesReverted"));			
 		},
 		onClickDeleteSmartProfile(pageProfile: SettingsPageSmartProfile) {
 			let profile = pageProfile.smartProfile;
@@ -2576,7 +2576,7 @@ export class settingsPage {
 				return;
 
 			// Are you sure to delete this profile? Warning, this action cannot be undone!
-			messageBox.confirm(browser.i18n.getMessage("settingsProfilesDeleteConfirm"),
+			messageBox.confirm(api.i18n.getMessage("settingsProfilesDeleteConfirm"),
 				() => {
 
 					PolyFill.runtimeSendMessage(
@@ -2598,7 +2598,7 @@ export class settingsPage {
 						},
 						(error: Error) => {
 							// message: Failed to delete the profile with error: 
-							messageBox.error(browser.i18n.getMessage("settingsProfilesDeleteFailed") + " " + error.message);
+							messageBox.error(api.i18n.getMessage("settingsProfilesDeleteFailed") + " " + error.message);
 						});
 
 				});
@@ -2637,7 +2637,7 @@ export class settingsPage {
 			if (!row)
 				return;
 
-			messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveServerSubscription"),
+			messageBox.confirm(api.i18n.getMessage("settingsConfirmRemoveServerSubscription"),
 				() => {
 					// remove then redraw the grid page
 					row.remove().draw('full-hold');
@@ -2651,12 +2651,12 @@ export class settingsPage {
 
 			if (!modal.find("form")[0].checkValidity()) {
 				// Please fill the required fields in the right format
-				messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionIncompleteForm"));
+				messageBox.error(api.i18n.getMessage("settingsServerSubscriptionIncompleteForm"));
 				return;
 			}
 			let subscriptionModel = settingsPage.readServerSubscriptionModel(modal);
 			if (!subscriptionModel) {
-				messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionInvalidForm"));
+				messageBox.error(api.i18n.getMessage("settingsServerSubscriptionInvalidForm"));
 				return;
 			}
 
@@ -2683,13 +2683,13 @@ export class settingsPage {
 					// check for duplicate
 					if (nameIsDuplicate) {
 						// The entered name is already used, please enter another name.
-						messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionDuplicateName"));
+						messageBox.error(api.i18n.getMessage("settingsServerSubscriptionDuplicateName"));
 						return;
 					}
 			}
 
 			// Saving...
-			jQuery("#btnSaveServerSubscription").attr("data-loading-text", browser.i18n.getMessage("settingsServerSubscriptionSavingButton"));
+			jQuery("#btnSaveServerSubscription").attr("data-loading-text", api.i18n.getMessage("settingsServerSubscriptionSavingButton"));
 			jQuery("#btnSaveServerSubscription").button("loading");
 
 			ProxyImporter.readFromServer(subscriptionModel,
@@ -2717,14 +2717,14 @@ export class settingsPage {
 							settingsPage.refreshServerSubscriptionsGrid();
 
 							// The subscription is updated with {0} proxies in it. <br/>Don't forget to save the changes.
-							messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionSaveUpdated").replace("{0}", count));
+							messageBox.success(api.i18n.getMessage("settingsServerSubscriptionSaveUpdated").replace("{0}", count));
 						} else {
 
 							// insert to the grid
 							settingsPage.insertNewServerSubscriptionInGrid(subscriptionModel);
 
 							// The subscription is added with {0} proxies in it. <br/>Don't forget to save the changes.
-							messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionSaveAdded").replace("{0}", count));
+							messageBox.success(api.i18n.getMessage("settingsServerSubscriptionSaveAdded").replace("{0}", count));
 						}
 
 						settingsPage.changeTracking.serverSubscriptions = true;
@@ -2734,11 +2734,11 @@ export class settingsPage {
 						modal.modal("hide");
 
 					} else {
-						messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
+						messageBox.error(api.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
 					}
 				},
 				() => {
-					messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
+					messageBox.error(api.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
 					jQuery("#btnSaveServerSubscription").button('reset');
 				});
 		},
@@ -2747,19 +2747,19 @@ export class settingsPage {
 
 			if (!modal.find("form")[0].checkValidity()) {
 				// Please fill the required fields in the right format
-				messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionIncompleteForm"));
+				messageBox.error(api.i18n.getMessage("settingsServerSubscriptionIncompleteForm"));
 				return;
 			}
 
 			let subscriptionModel = settingsPage.readServerSubscriptionModel(modal);
 
 			if (!subscriptionModel) {
-				messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionInvalidForm"));
+				messageBox.error(api.i18n.getMessage("settingsServerSubscriptionInvalidForm"));
 				return;
 			}
 
 			// Testing...
-			jQuery("#btnTestServerSubscription").attr("data-loading-text", browser.i18n.getMessage("settingsServerSubscriptionTestingButton"));
+			jQuery("#btnTestServerSubscription").attr("data-loading-text", api.i18n.getMessage("settingsServerSubscriptionTestingButton"));
 			jQuery("#btnTestServerSubscription").button("loading");
 
 			// mark this request as special
@@ -2796,18 +2796,18 @@ export class settingsPage {
 							if (response.success) {
 								let count = response.result.length;
 
-								messageBox.success(browser.i18n.getMessage("settingsServerSubscriptionTestSuccess").replace("{0}", count));
+								messageBox.success(api.i18n.getMessage("settingsServerSubscriptionTestSuccess").replace("{0}", count));
 							} else {
-								messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
+								messageBox.error(api.i18n.getMessage("settingsServerSubscriptionTestFailed"));
 							}
 						},
 						() => {
-							messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
+							messageBox.error(api.i18n.getMessage("settingsServerSubscriptionTestFailed"));
 							jQuery("#btnTestServerSubscription").button('reset');
 						});
 				},
 				(error: Error) => {
-					messageBox.error(browser.i18n.getMessage("settingsServerSubscriptionTestFailed"));
+					messageBox.error(api.i18n.getMessage("settingsServerSubscriptionTestFailed"));
 					jQuery("#btnTestServerSubscription").button('reset');
 				});
 		},
@@ -2837,7 +2837,7 @@ export class settingsPage {
 					}
 				},
 				(error: Error) => {
-					messageBox.error(browser.i18n.getMessage("settingsFailedToSaveProxySubscriptions") + " " + error.message);
+					messageBox.error(api.i18n.getMessage("settingsFailedToSaveProxySubscriptions") + " " + error.message);
 				});
 		},
 		onClickRejectServerSubscriptionsChanges() {
@@ -2849,12 +2849,12 @@ export class settingsPage {
 			settingsPage.changeTracking.serverSubscriptions = false;
 
 			// Changes reverted successfully
-			messageBox.info(browser.i18n.getMessage("settingsChangesReverted"));
+			messageBox.info(api.i18n.getMessage("settingsChangesReverted"));
 		},
 		onClickClearServerSubscriptions() {
 
 			// Are you sure to remove all the proxy server subscriptions?
-			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyServerSubscriptions"),
+			messageBox.confirm(api.i18n.getMessage("settingsRemoveAllProxyServerSubscriptions"),
 				() => {
 					settingsPage.loadServerSubscriptionsGrid([]);
 					settingsPage.loadDefaultProxyServer();
@@ -2862,7 +2862,7 @@ export class settingsPage {
 					settingsPage.changeTracking.serverSubscriptions = true;
 
 					// All the proxy server subscriptions are removed.<br/>You have to save to apply the changes.
-					messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyServerSubscriptionsSuccess"));
+					messageBox.info(api.i18n.getMessage("settingsRemoveAllProxyServerSubscriptionsSuccess"));
 				});
 		},
 		onClickAddRulesSubscription(pageProfile: SettingsPageSmartProfile) {
@@ -2903,7 +2903,7 @@ export class settingsPage {
 			if (!row)
 				return;
 
-			messageBox.confirm(browser.i18n.getMessage("settingsConfirmRemoveRulesSubscription"),
+			messageBox.confirm(api.i18n.getMessage("settingsConfirmRemoveRulesSubscription"),
 				() => {
 					// remove then redraw the grid page
 					row.remove().draw('full-hold');
@@ -2919,7 +2919,7 @@ export class settingsPage {
 			if (!editingSubscription)
 				return;
 			if (!editingSubscription.enabled) {
-				messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionRefreshOnDisabled"));
+				messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionRefreshOnDisabled"));
 				return;
 			}
 
@@ -2948,18 +2948,18 @@ export class settingsPage {
 						settingsPage.refreshRulesSubscriptionsGrid(pageProfile);
 
 						// The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
-						messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
+						messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
 							.replace("{0}", response.result.blackList.length)
 							.replace("{1}", response.result.whiteList.length));
 
 						settingsPage.changeTracking.rulesSubscriptions = true;
 
 					} else {
-						messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
+						messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					}
 				},
 				() => {
-					messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
+					messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 				});
 		},
 		onClickSaveRulesSubscription(pageProfile: SettingsPageSmartProfile) {
@@ -2968,12 +2968,12 @@ export class settingsPage {
 
 			if (!modal.find("form")[0].checkValidity()) {
 				// Please fill the required fields in the right format
-				messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionIncompleteForm"));
+				messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionIncompleteForm"));
 				return;
 			}
 			let subscriptionModel = settingsPage.readRulesSubscriptionModel(modal);
 			if (!subscriptionModel) {
-				messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionInvalidForm"));
+				messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionInvalidForm"));
 				return;
 			}
 
@@ -3000,13 +3000,13 @@ export class settingsPage {
 					// check for duplicate
 					if (nameIsDuplicate) {
 						// The entered name is already used, please enter another name.
-						messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionDuplicateName"));
+						messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionDuplicateName"));
 						return;
 					}
 			}
 
 			// Saving...
-			tabContainer.find("#btnSaveRulesSubscriptions").attr("data-loading-text", browser.i18n.getMessage("settingsRulesSubscriptionSavingButton"));
+			tabContainer.find("#btnSaveRulesSubscriptions").attr("data-loading-text", api.i18n.getMessage("settingsRulesSubscriptionSavingButton"));
 			tabContainer.find("#btnSaveRulesSubscriptions").button("loading");
 
 			RuleImporter.readFromServer(subscriptionModel,
@@ -3041,7 +3041,7 @@ export class settingsPage {
 							settingsPage.refreshRulesSubscriptionsGrid(pageProfile);
 
 							// The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
-							messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
+							messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
 								.replace("{0}", response.result.blackList.length)
 								.replace("{1}", response.result.whiteList.length));
 						} else {
@@ -3050,7 +3050,7 @@ export class settingsPage {
 							settingsPage.insertNewRulesSubscriptionInGrid(pageProfile, subscriptionModel);
 
 							// The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
-							messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionSaveAdded")
+							messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveAdded")
 								.replace("{0}", response.result.blackList.length)
 								.replace("{1}", response.result.whiteList.length));
 						}
@@ -3061,11 +3061,11 @@ export class settingsPage {
 						modal.modal("hide");
 
 					} else {
-						messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
+						messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					}
 				},
 				() => {
-					messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
+					messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					tabContainer.find("#btnSaveRulesSubscriptions").button('reset');
 				});
 		},
@@ -3075,19 +3075,19 @@ export class settingsPage {
 
 			if (!modal.find("form")[0].checkValidity()) {
 				// Please fill the required fields in the right format
-				messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionIncompleteForm"));
+				messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionIncompleteForm"));
 				return;
 			}
 
 			let subscriptionModel = settingsPage.readRulesSubscriptionModel(modal);
 
 			if (!subscriptionModel) {
-				messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionInvalidForm"));
+				messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionInvalidForm"));
 				return;
 			}
 
 			// Testing...
-			tabContainer.find("#btnTestRulesSubscriptions").attr("data-loading-text", browser.i18n.getMessage("settingsRulesSubscriptionTestingButton"));
+			tabContainer.find("#btnTestRulesSubscriptions").attr("data-loading-text", api.i18n.getMessage("settingsRulesSubscriptionTestingButton"));
 			tabContainer.find("#btnTestRulesSubscriptions").button("loading");
 
 			// mark this request as special
@@ -3125,34 +3125,34 @@ export class settingsPage {
 
 							if (response.success) {
 
-								messageBox.success(browser.i18n.getMessage("settingsRulesSubscriptionTestSuccess")
+								messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionTestSuccess")
 									.replace("{0}", response.result.blackList.length)
 									.replace("{1}", response.result.whiteList.length));
 							} else {
-								messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
+								messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
 							}
 						},
 						() => {
-							messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
+							messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
 							tabContainer.find("#btnTestRulesSubscriptions").button('reset');
 						});
 				},
 				(error: Error) => {
-					messageBox.error(browser.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
+					messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
 					tabContainer.find("#btnTestRulesSubscriptions").button('reset');
 				});
 		},
 		onClickClearRulesSubscriptions(pageProfile: SettingsPageSmartProfile) {
 
 			// Are you sure to remove all the proxy rules subscriptions?
-			messageBox.confirm(browser.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptions"),
+			messageBox.confirm(api.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptions"),
 				() => {
 					settingsPage.loadRulesSubscriptions(pageProfile, []);
 
 					settingsPage.changeTracking.rulesSubscriptions = true;
 
 					// All the proxy server subscriptions are removed.<br/>You have to save to apply the changes.
-					messageBox.info(browser.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptionsSuccess"));
+					messageBox.info(api.i18n.getMessage("settingsRemoveAllProxyRulesSubscriptionsSuccess"));
 				});
 		},
 		onClickExportProxyServerOpenBackup() {
@@ -3172,7 +3172,7 @@ export class settingsPage {
 
 				if (selectFileElement.files.length == 0) {
 					// Please select a proxy list file
-					messageBox.error(browser.i18n.getMessage("settingsImportProxiesFileNotSelected"));
+					messageBox.error(api.i18n.getMessage("settingsImportProxiesFileNotSelected"));
 					return;
 				}
 				file = selectFileElement.files[0];
@@ -3181,7 +3181,7 @@ export class settingsPage {
 				let proxyServerListText = modalContainer.find("#btnImportProxyServerListText").val().trim();
 				if (proxyServerListText == "") {
 					// Please enter proxy list
-					messageBox.error(browser.i18n.getMessage("settingsImportProxyListTextIsEmpty"));
+					messageBox.error(api.i18n.getMessage("settingsImportProxyListTextIsEmpty"));
 					return;
 				}
 				text = proxyServerListText;
@@ -3222,7 +3222,7 @@ export class settingsPage {
 					let message = "";
 					if (error && error.message)
 						message = error.message;
-					messageBox.error(browser.i18n.getMessage("settingsImportProxyServersFailed") + " " + message);
+					messageBox.error(api.i18n.getMessage("settingsImportProxyServersFailed") + " " + message);
 				});
 
 		},
@@ -3234,7 +3234,7 @@ export class settingsPage {
 
 			if (selectFileElement.files.length == 0) {
 				// Please select a rules file
-				messageBox.error(browser.i18n.getMessage("settingsRulesFileNotSelected"));
+				messageBox.error(api.i18n.getMessage("settingsRulesFileNotSelected"));
 				return;
 			}
 
@@ -3249,7 +3249,7 @@ export class settingsPage {
 			if (sourceType == "autoproxy") {
 				importFunction = RuleImporter.importAutoProxy;
 			} else {
-				messageBox.warning(browser.i18n.getMessage("settingsSourceTypeNotSelected"));
+				messageBox.warning(api.i18n.getMessage("settingsSourceTypeNotSelected"));
 				return;
 			}
 
@@ -3280,12 +3280,12 @@ export class settingsPage {
 					let message = "";
 					if (error && error.message)
 						message = error.message;
-					messageBox.error(browser.i18n.getMessage("settingsImportRulesFailed") + " " + message);
+					messageBox.error(api.i18n.getMessage("settingsImportRulesFailed") + " " + message);
 				});
 		},
 		onClickFactoryReset() {
 			// Are you sure to reset EVERYTHING ? Sure? There is no way back!
-			messageBox.confirm(browser.i18n.getMessage("settingsFactoryResetConfirm"),
+			messageBox.confirm(api.i18n.getMessage("settingsFactoryResetConfirm"),
 				() => {
 					PolyFill.runtimeSendMessage(
 						{
@@ -3345,7 +3345,7 @@ export class settingsPage {
 					},
 					(error: Error) => {
 						// There was an error in restoring the backup
-						messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFailed"));
+						messageBox.error(api.i18n.getMessage("settingsRestoreBackupFailed"));
 						PolyFill.runtimeSendMessage("restoreSettings failed with> " + error.message);
 					});
 			}
@@ -3358,7 +3358,7 @@ export class settingsPage {
 					let reader = new FileReader();
 					reader.onerror = event => {
 						// Failed to read the selected file
-						messageBox.error(browser.i18n.getMessage("settingsRestoreBackupFileError"));
+						messageBox.error(api.i18n.getMessage("settingsRestoreBackupFileError"));
 					};
 					reader.onload = event => {
 						//let textFile = event.target;
@@ -3459,7 +3459,7 @@ export class settingsPage {
 	}
 
 	private static getSmartProfileTypeName(profileType: SmartProfileType) {
-		return browser.i18n.getMessage(`settings_SmartProfileType_${SmartProfileType[profileType]}`);
+		return api.i18n.getMessage(`settings_SmartProfileType_${SmartProfileType[profileType]}`);
 	}
 	//#endregion
 

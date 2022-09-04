@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Utils } from "./Utils";
-import { browser } from "./environment";
+import { api } from "./environment";
 import { ProxyServerSubscription, ProxyServer, ProxyServerSubscriptionFormat } from "../core/definitions";
 import { Debug } from "./Debug";
 import { Settings } from "../core/Settings";
@@ -148,7 +148,7 @@ export const ProxyImporter = {
 				}
 
 				// Total ${appendedProxyCount} out of ${appendedProxyList.length} proxies are appended.<br>Don't forget to save the changes.
-				let message = browser.i18n.getMessage("importerImportProxySuccess")
+				let message = api.i18n.getMessage("importerImportProxySuccess")
 					.replace("{0}", appendedProxyCount.toString())
 					.replace("{1}", importedProxies.length.toString());
 
@@ -164,7 +164,7 @@ export const ProxyImporter = {
 			} else {
 
 				// Total ${importedRuleList.length} out of ${parsedRuleList.length} proxies are imported.<br>Don't forget to save the changes.
-				let message = browser.i18n.getMessage("importerImportProxySuccess")
+				let message = api.i18n.getMessage("importerImportProxySuccess")
 					.replace("{0}", importedProxies.length.toString())
 					.replace("{1}", parsedProxies.length.toString());
 

@@ -34,7 +34,7 @@ import {
 } from './definitions';
 import { Debug } from '../lib/Debug';
 import { SettingsOperation } from './SettingsOperation';
-import { browser } from '../lib/environment';
+import { api } from '../lib/environment';
 import { Utils } from '../lib/Utils';
 import { ProfileOperations } from './ProfileOperations';
 
@@ -53,7 +53,7 @@ export class Settings {
 		PolyFill.storageLocalGet(null, Settings.onInitializeGetLocalData, Settings.onInitializeGetLocalError);
 
 		// handle synced settings changes
-		browser.storage.onChanged.addListener(SettingsOperation.syncOnChanged);
+		api.storage.onChanged.addListener(SettingsOperation.syncOnChanged);
 	}
 
 	private static onInitializeGetLocalData(data: any) {
@@ -385,19 +385,19 @@ export class Settings {
 		if (server.port <= 0 || server.port >= 65535) {
 			return {
 				success: false,
-				message: browser.i18n.getMessage('settingsServerPortInvalid').replace('{0}', `${server.host}:${server.port}`),
+				message: api.i18n.getMessage('settingsServerPortInvalid').replace('{0}', `${server.host}:${server.port}`),
 			};
 		}
 
 		if (!server.host || !Utils.isValidHost(server.host)) {
 			return {
 				success: false,
-				message: browser.i18n.getMessage('settingsServerHostInvalid').replace('{0}', `${server.host}:${server.port}`),
+				message: api.i18n.getMessage('settingsServerHostInvalid').replace('{0}', `${server.host}:${server.port}`),
 			};
 		}
 
 		if (!server.name) {
-			return { success: false, message: browser.i18n.getMessage('settingsServerNameRequired') };
+			return { success: false, message: api.i18n.getMessage('settingsServerNameRequired') };
 		} else if (Settings.current) {
 			if (checkExistingName) {
 				const currentServers = Settings.current.proxyServers;

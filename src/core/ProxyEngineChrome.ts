@@ -1,5 +1,5 @@
 import { ProxyServer, CompiledProxyRule, SmartProfileType } from "./definitions";
-import { chrome } from "../lib/environment";
+import { api } from "../lib/environment";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 
@@ -14,11 +14,11 @@ export class ProxyEngineChrome {
 			let config = {
 				mode: "system"
 			};
-			chrome.proxy.settings.set(
+			api.proxy.settings.set(
 				{ value: config, scope: "regular" },
 				function () {
-					if (chrome.runtime.lastError) {
-						Debug.error("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
+					if (api.runtime.lastError) {
+						Debug.error("updateChromeProxyConfig failed with ", api.runtime.lastError);
 					}
 				});
 			return;
@@ -27,11 +27,11 @@ export class ProxyEngineChrome {
 			let config = {
 				mode: "direct"
 			};
-			chrome.proxy.settings.set(
+			api.proxy.settings.set(
 				{ value: config, scope: "regular" },
 				function () {
-					if (chrome.runtime.lastError) {
-						Debug.error("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
+					if (api.runtime.lastError) {
+						Debug.error("updateChromeProxyConfig failed with ", api.runtime.lastError);
 					}
 				});
 			return;
@@ -45,11 +45,11 @@ export class ProxyEngineChrome {
 				data: pacScript
 			}
 		};
-		chrome.proxy.settings.set(
+		api.proxy.settings.set(
 			{ value: config, scope: "regular" },
 			function () {
-				if (chrome.runtime.lastError) {
-					Debug.error("updateChromeProxyConfig failed with ", chrome.runtime.lastError);
+				if (api.runtime.lastError) {
+					Debug.error("updateChromeProxyConfig failed with ", api.runtime.lastError);
 				}
 			});
 	}

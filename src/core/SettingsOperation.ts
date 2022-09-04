@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser } from "../lib/environment";
+import { api } from "../lib/environment";
 import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
@@ -447,7 +447,7 @@ export class SettingsOperation {
 
 		Settings.updateActiveSettings();
 
-		return { success: true, message: browser.i18n.getMessage("settingsRestoreSettingsSuccess") }
+		return { success: true, message: api.i18n.getMessage("settingsRestoreSettingsSuccess") }
 	}
 
 	private static restoreBackupFromFile(fileData: string): {
@@ -462,12 +462,12 @@ export class SettingsOperation {
 				backupConfig = JSON.parse(fileData);
 			} catch (error) {
 				Debug.error('Backup data is invalid or corrupted', error, fileData);
-				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalid") };
+				return { success: false, message: api.i18n.getMessage("settingsRestoreSettingsFailedInvalid") };
 			}
 
 			if (!backupConfig.version) {
 				Debug.error('Backup data is missing `Version` field', fileData);
-				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalid") };
+				return { success: false, message: api.i18n.getMessage("settingsRestoreSettingsFailedInvalid") };
 			}
 
 			let settingsCopy = new SettingsConfig();
@@ -554,7 +554,7 @@ export class SettingsOperation {
 
 		} catch (e) {
 			Debug.error('Backup restore failed', e, fileData);
-			return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
+			return { success: false, message: api.i18n.getMessage("settingsRestoreSettingsFailed") };
 		}
 	}
 
@@ -641,7 +641,7 @@ export class SettingsOperation {
 
 			let proxy = SettingsOperation.findProxyServerById(defaultProxyServerId);
 			if (proxy == null) {
-				return { success: false, result: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalidDefaultProxyServer") };
+				return { success: false, result: api.i18n.getMessage("settingsRestoreSettingsFailedInvalidDefaultProxyServer") };
 			}
 
 			return { success: true, result: defaultProxyServerId };
@@ -651,7 +651,7 @@ export class SettingsOperation {
 
 			if (backupActiveProfileId == null ||
 				backupActiveProfileId <= 0) {
-				return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailedInvalidActiveProfile") };
+				return { success: false, message: api.i18n.getMessage("settingsRestoreSettingsFailedInvalidActiveProfile") };
 			}
 			return { success: true, result: backupActiveProfileId };
 		}
@@ -797,12 +797,12 @@ export class SettingsOperation {
 
 			Settings.updateActiveSettings();
 
-			return { success: true, message: browser.i18n.getMessage("settingsRestoreSettingsSuccess") }
+			return { success: true, message: api.i18n.getMessage("settingsRestoreSettingsSuccess") }
 
 
 		} catch (e) {
 			Debug.error('Backup restore failed', e, fileData);
-			return { success: false, message: browser.i18n.getMessage("settingsRestoreSettingsFailed") };
+			return { success: false, message: api.i18n.getMessage("settingsRestoreSettingsFailed") };
 		}
 	}
 }

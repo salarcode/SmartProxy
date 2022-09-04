@@ -1,4 +1,5 @@
 import { Debug } from "../lib/Debug";
+import { api } from "../lib/environment";
 import { Utils } from "../lib/Utils";
 import { CompiledProxyRulesInfo, getSmartProfileTypeConfig, ProxyRule, ProxyRulesSubscription, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
@@ -32,7 +33,7 @@ export class ProfileOperations {
 			result.success = false;
 
 			// Failed to delete the selected profile.
-			result.message = browser.i18n.getMessage('settingsProfilesDeleteFailed');
+			result.message = api.i18n.getMessage('settingsProfilesDeleteFailed');
 			return result;
 		}
 		let existingProfile = settings.proxyProfiles[existingProfileIndex];
@@ -40,7 +41,7 @@ export class ProfileOperations {
 			result.success = false;
 
 			// Cannot delete built-in profiles
-			result.message = browser.i18n.getMessage('settingsProfilesDeleteBuiltinFail');
+			result.message = api.i18n.getMessage('settingsProfilesDeleteBuiltinFail');
 			return result;
 		}
 		settings.proxyProfiles.splice(existingProfileIndex, 1);

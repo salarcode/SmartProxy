@@ -18,6 +18,7 @@ import { Debug } from "../lib/Debug";
 import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType, CompiledProxyRuleSource, CompiledProxyRulesInfo, CompiledProxyRulesMatchedSource, ProxyRuleSpecialProxyServer, SmartProfileBase } from "./definitions";
 import { Utils } from "../lib/Utils";
 import { SettingsOperation } from "./SettingsOperation";
+import { api } from "../lib/environment";
 
 export class ProxyRules {
 
@@ -383,13 +384,13 @@ export class ProxyRules {
 		if (rule.hostName) {
 			if (!Utils.isValidHost(rule.hostName)) {
 				// 'source' is not valid '${rule.source}
-				return { success: false, message: browser.i18n.getMessage("settingsRuleSourceInvalidFormat").replace("{0}", rule.hostName) };
+				return { success: false, message: api.i18n.getMessage("settingsRuleSourceInvalidFormat").replace("{0}", rule.hostName) };
 			}
 		}
 
 		if (!rule.rule)
 			// Rule doesn't have pattern defined
-			return { success: false, message: browser.i18n.getMessage("settingsRulePatternIsEmpty") };
+			return { success: false, message: api.i18n.getMessage("settingsRulePatternIsEmpty") };
 
 		if (rule["enabled"] == null)
 			rule.enabled = true;

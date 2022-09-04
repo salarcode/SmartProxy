@@ -15,7 +15,25 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-export var pako: any = window["pako"];
-export var bootstrap: any = window["bootstrap"];
-export var jQuery: any = window["jQuery"];
-export var messageBox: any = window["messageBox"];
+// export var pako: any = window["pako"];
+// export var bootstrap: any = window["bootstrap"];
+// export var jQuery: any = window["jQuery"];
+// export var messageBox: any = window["messageBox"];
+
+export var pako: any;
+export var bootstrap: any;
+export var jQuery: any;
+export var messageBox: any;
+
+if (typeof (window) != 'undefined') {
+	pako = window["pako"];
+	bootstrap = window["bootstrap"];
+	jQuery = window["jQuery"];
+	messageBox = window["messageBox"];
+}
+else {
+	pako = {};
+	bootstrap = {};
+	jQuery = {};
+	messageBox = {};
+}

@@ -1,3 +1,4 @@
+import { api } from "../lib/environment";
 import { Utils } from "../lib/Utils";
 import { ProxyRule, ProxyRuleType, RuleId, SmartProfile } from "./definitions";
 import { ProfileOperations } from "./ProfileOperations";
@@ -42,7 +43,7 @@ export class ProfileRules {
 		if (!smartProfile.profileTypeConfig.editable) {
 			return {
 				success: false,
-				message: browser.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
+				message: api.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
 				rule: null
 			};
 		}
@@ -66,7 +67,7 @@ export class ProfileRules {
 		}
 		return {
 			success: false,
-			message: browser.i18n.getMessage("settingsNoRuleFoundForDomain").replace("{0}", hostName),
+			message: api.i18n.getMessage("settingsNoRuleFoundForDomain").replace("{0}", hostName),
 			rule: null
 		};
 	}
@@ -96,7 +97,7 @@ export class ProfileRules {
 			!ProfileOperations.profileTypeSupportsRules(smartProfile.profileType)) {
 			return {
 				success: false,
-				message: browser.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
+				message: api.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
 				rule: null
 			};
 		}
@@ -119,7 +120,7 @@ export class ProfileRules {
 			!ProfileOperations.profileTypeSupportsRules(smartProfile.profileType)) {
 			return {
 				success: false,
-				message: browser.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
+				message: api.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
 				rule: null
 			};
 		}
@@ -137,7 +138,7 @@ export class ProfileRules {
 			// The selected domain is not valid
 			return {
 				success: false,
-				message: browser.i18n.getMessage("settingsEnableByDomainInvalid"),
+				message: api.i18n.getMessage("settingsEnableByDomainInvalid"),
 				rule: null
 			};
 
@@ -148,7 +149,7 @@ export class ProfileRules {
 			// Rule for the domain already exists
 			return {
 				success: true,
-				message: browser.i18n.getMessage("settingsEnableByDomainExists"),
+				message: api.i18n.getMessage("settingsEnableByDomainExists"),
 				rule: rule
 			};
 		}
