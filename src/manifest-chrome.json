@@ -38,7 +38,7 @@
 		}
 	},
 	"background": {
-		"service_worker": "core-worker.js"
+		"service_worker": "core.js"
 	},
 	"options_ui": {
 		"page": "ui/settings.html",

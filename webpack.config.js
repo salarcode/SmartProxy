@@ -25,18 +25,26 @@ module.exports = function (args) {
 
   let browserType = args["browser"] || "chrome";
   let isDev = args["dev"] || false;
+  let coreIsServiceWorker = args["service_worker"] || false;
   plugins.push(new CopyWebpackPlugin([{ from: `./src/manifest-${browserType}.json`, to: 'manifest.json' }]));
+
+  let codeEntries = {
+    'core': [],
+    'ui/code/popup': ['./src/ui/code/popup.ts', `./src/core/browsers/${browserType}.ts`],
+    'ui/code/proxyable': ['./src/ui/code/proxyable.ts', `./src/core/browsers/${browserType}.ts`],
+    'ui/code/settingsPage': ['./src/ui/code/settingsPage.ts', `./src/core/browsers/${browserType}.ts`],
+  };
+  if (coreIsServiceWorker) {
+    codeEntries["core"] = ['./src/core/ServiceWorker/CoreServiceWorker.ts']
+  }
+  else {
+    codeEntries["core"] = ['./src/core/Core.ts', `./src/core/browsers/${browserType}.ts`]
+  }
 
   return unzipPromise.then(() => {
     return {
       mode: ENV,
-      entry: {
-        'core': ['./src/core/Core.ts', `./src/core/browsers/${browserType}.ts`],
-        'core-worker': ['./src/core/ServiceWorker/CoreServiceWorker.ts'],
-        'ui/code/popup': ['./src/ui/code/popup.ts', `./src/core/browsers/${browserType}.ts`],
-        'ui/code/proxyable': ['./src/ui/code/proxyable.ts', `./src/core/browsers/${browserType}.ts`],
-        'ui/code/settingsPage': ['./src/ui/code/settingsPage.ts', `./src/core/browsers/${browserType}.ts`],
-      },
+      entry: codeEntries,
       devtool: '',
       // devtool: 'inline-source-map',
       module: {
