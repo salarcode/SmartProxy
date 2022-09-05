@@ -290,6 +290,8 @@ __pycache__/
 /build-firefox
 /build-firefox-unlisted
 /build-chrome
+/build-chrome-mv2
+/build-chrome-mv3
 /build-edge
 /build-opera
 /src/manifest.json
