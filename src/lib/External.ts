@@ -14,10 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-import * as pakoImport from '../ui/js/pako.min.js';
-
-export var pako: any = pakoImport;
 export var bootstrap: any;
 export var jQuery: any;
 export var messageBox: any;

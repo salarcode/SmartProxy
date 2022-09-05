@@ -38,7 +38,6 @@
 	},
 	"background": {
 		"scripts": [
-			"ui/js/pako.min.js",
 			"core.js"
 		]
 	},

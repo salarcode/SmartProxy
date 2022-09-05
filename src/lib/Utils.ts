@@ -15,8 +15,8 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { environment } from "./environment";
-import { pako } from "./External";
 import { SettingsConfig } from "../core/definitions";
+import * as pako from "pako";
 export class Utils {
 	private static readonly invalidHostSchemas = ["moz-extension:", "chrome-extension:", "about:", "data:", "chrome:", "opera:", "edge:"];
 
@@ -38,8 +38,8 @@ export class Utils {
 		let settingArray = enc.encode(settingStr);
 
 		// compress
-		let compressResultStr = pako.deflateRaw(settingArray, { to: "string" });
-		compressResultStr = Utils.b64EncodeUnicode(compressResultStr);
+		let compressResultStr = pako.deflateRaw(settingArray, {}) as unknown as string;
+		compressResultStr = Utils.b64EncodeUnicode(compressResultStr as string);
 
 		let saveObject = {};
 
@@ -79,10 +79,8 @@ export class Utils {
 		let compressResultStr = chunks.join("");
 
 		// convert from base64 string
-		compressResultStr = Utils.b64DecodeUnicode(compressResultStr);
-
-		// decompress
-		let settingArray = pako.inflateRaw(compressResultStr);
+		let compressResult = Utils.b64DecodeUnicodeArray(compressResultStr);
+		let settingArray = pako.inflateRaw(compressResult);
 
 		// decode array to string
 		let dec = new TextDecoder();
@@ -155,6 +153,14 @@ export class Utils {
 			.join(""));
 	}
 
+	public static b64DecodeUnicodeArray(str: string): any {
+		// Going backwards: from byte-stream, to percent-encoding, to original string.
+		let result = Utils.b64DecodeUnicode(str);
+		if (typeof (result) === 'string') {
+			return new Uint16Array(result.split(',') as unknown as number[])
+		}
+		return result;
+	}
 
 	public static isValidHost(host: string): boolean {
 		if (host) {

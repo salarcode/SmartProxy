@@ -90,8 +90,6 @@ export class Core {
 
 		// listen to shortcut events
 		KeyboardShortcuts.startMonitor();
-
-		console.log("initializeApp call finished!");
 	}
 
 	public static initializeFromServiceWorker() {
