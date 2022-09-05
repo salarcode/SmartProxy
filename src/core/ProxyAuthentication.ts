@@ -23,7 +23,6 @@ export class ProxyAuthentication {
 	private static pendingRequests: { [index: string]: any } = {};
 
 	public static startMonitor() {
-		debugger;
 		if (environment.chrome) {
 			// chrome supports asyncBlocking
 			api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,

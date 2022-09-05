@@ -90,6 +90,13 @@ export class Core {
 
 		// listen to shortcut events
 		KeyboardShortcuts.startMonitor();
+
+		console.log("initializeApp call finished!");
+	}
+
+	public static initializeFromServiceWorker() {
+		// nothing yet!
+		
 	}
 
 	private static handleMessages(message: any, sender: any, sendResponse: Function) {
@@ -896,7 +903,7 @@ export class Core {
 		if (tabData) {
 			let failedCount = 0;
 
-			if (Settings.current.options.displayFailedOnBadge)
+			if (Settings.current?.options?.displayFailedOnBadge == true)
 				failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);
 
 			if (failedCount > 0) {
