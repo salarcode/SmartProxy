@@ -399,6 +399,18 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
+
+	public static extensionGetURL(path: string) {
+		if (environment.chrome) {
+
+			if (api.extension["getURL"])
+				return api.extension.getURL(path);
+
+			return api.runtime.getURL(path);
+		} else {
+			return api.extension.getURL(path);
+		}
+	}
 }
 
 PolyFill.runtimeGetBrowserInfo((response: any) => {

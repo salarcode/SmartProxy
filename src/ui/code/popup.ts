@@ -97,7 +97,7 @@ export class popup {
 				{
 					active: true,
 					//openerTabId: null,
-					url: api.extension.getURL(`ui/proxyable.html?id=${sourceTabId}`)
+					url: PolyFill.extensionGetURL(`ui/proxyable.html?id=${sourceTabId}`)
 				}
 			);
 			popup.closeSelf();

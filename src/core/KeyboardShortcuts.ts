@@ -23,7 +23,7 @@ export class KeyboardShortcuts {
                     KeyboardShortcuts.displayShortcutNotification(
                         api.i18n.getMessage("notificationShortcutProxyServerChanged").replace("{0}", nextResult.value.name),
                         "cycle-proxy-server",
-                        api.extension.getURL("icons/smartproxy-48.png"));
+                        PolyFill.extensionGetURL("icons/smartproxy-48.png"));
                 }
                 else {
                     KeyboardShortcuts.displayShortcutNotification(
@@ -40,7 +40,7 @@ export class KeyboardShortcuts {
                     KeyboardShortcuts.displayShortcutNotification(
                         api.i18n.getMessage("notificationShortcutProxyServerChanged").replace("{0}", previousResult.value.name),
                         "cycle-proxy-server",
-                        api.extension.getURL("icons/smartproxy-48.png"));
+                        PolyFill.extensionGetURL("icons/smartproxy-48.png"));
                 }
                 else {
                     KeyboardShortcuts.displayShortcutNotification(
@@ -57,7 +57,7 @@ export class KeyboardShortcuts {
             //     KeyboardShortcuts.displayShortcutNotification(
             //         api.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.Direct]),
             //         CommandMessages.PopupChangeProxyMode,
-            //         api.extension.getURL("icons/proxymode-disabled-48.png"));
+            //         PolyFill.extensionGetURL("icons/proxymode-disabled-48.png"));
             //     break;
 
             // case ShortcutCommands.BuiltinProfileSmart:
@@ -67,7 +67,7 @@ export class KeyboardShortcuts {
             //     KeyboardShortcuts.displayShortcutNotification(
             //         api.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.SmartProxy]),
             //         CommandMessages.PopupChangeProxyMode,
-            //         api.extension.getURL("icons/smartproxy-48.png"));
+            //         PolyFill.extensionGetURL("icons/smartproxy-48.png"));
             //     break;
 
             // case ShortcutCommands.BuiltinProfileAlways:
@@ -77,7 +77,7 @@ export class KeyboardShortcuts {
             //     KeyboardShortcuts.displayShortcutNotification(
             //         api.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.Always]),
             //         CommandMessages.PopupChangeProxyMode,
-            //         api.extension.getURL("icons/proxymode-always-48.png"));
+            //         PolyFill.extensionGetURL("icons/proxymode-always-48.png"));
             //     break;
 
             // case ShortcutCommands.BuiltinProfileSystem:
@@ -87,7 +87,7 @@ export class KeyboardShortcuts {
             //     KeyboardShortcuts.displayShortcutNotification(
             //         api.i18n.getMessage("notificationShortcutProxyModeMessage").replace("{0}", ProxyModeType[ProxyModeType.SystemProxy]),
             //         CommandMessages.PopupChangeProxyMode,
-            //         api.extension.getURL("icons/proxymode-system-48.png"));
+            //         PolyFill.extensionGetURL("icons/proxymode-system-48.png"));
             //     break;
         }
     }
@@ -98,7 +98,7 @@ export class KeyboardShortcuts {
 
         if (environment.chrome) {
             if (iconUrl)
-                iconUrl = api.extension.getURL("icons/smartproxy-48.png");
+                iconUrl = PolyFill.extensionGetURL("icons/smartproxy-48.png");
         }
 
         PolyFill.browserNotificationsCreate(id, {
