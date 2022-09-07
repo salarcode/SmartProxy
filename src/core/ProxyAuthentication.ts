@@ -24,21 +24,25 @@ export class ProxyAuthentication {
 
 	public static startMonitor() {
 		if (environment.chrome) {
-			// chrome supports asyncBlocking
-			api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
-				{ urls: monitorUrlsSchemaFilter },
-				[]
-			);
-			// api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
-			// 	{ urls: monitorUrlsSchemaFilter },
-			// 	["asyncBlocking"]
-			// );			
+
+			if (environment.manifestV3) {
+				// In manifest v3 it is not possible to block, so this is useless mostly I think.
+				api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+					{ urls: monitorUrlsSchemaFilter }
+				);
+			}
+			else {
+				// chrome supports asyncBlocking
+				api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+					{ urls: monitorUrlsSchemaFilter },
+					["asyncBlocking"]
+				);
+			}
 		} else {
 			api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
 				{ urls: monitorUrlsSchemaFilter },
 				["blocking"]
 			);
-
 		}
 		api.webRequest.onCompleted.addListener(
 			ProxyAuthentication.onRequestFinished,

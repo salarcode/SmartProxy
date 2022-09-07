@@ -5,3 +5,4 @@ environment.browserConfig = {
     marketName: "Chrome Web Store",
     marketUrl: "https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj"
 };
+environment.manifestV3 = true;

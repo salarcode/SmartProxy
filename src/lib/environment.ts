@@ -19,6 +19,7 @@ export let environment = {
 	name: "general",
 	version: 1.0,
 	mobile: false,
+	manifestV3: false,
 	notSupported: {
 		setProxySettings: false
 	},
