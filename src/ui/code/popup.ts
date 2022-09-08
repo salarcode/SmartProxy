@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser, environment } from "../../lib/environment";
+import { api, environment } from "../../lib/environment";
 import { jQuery, messageBox } from "../../lib/External";
 import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType, getSmartProfileTypeIcon } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
@@ -42,7 +42,7 @@ export class popup {
 			});
 
 		// start handling messages
-		browser.runtime.onMessage.addListener(popup.handleMessages);
+		api.runtime.onMessage.addListener(popup.handleMessages);
 
 		popup.onDocumentReady(CommonUi.localizeHtmlPage);
 	}
@@ -93,11 +93,11 @@ export class popup {
 				return;
 
 			var sourceTabId = popup.popupData.currentTabId;
-			browser.tabs.create(
+			api.tabs.create(
 				{
 					active: true,
 					//openerTabId: null,
-					url: browser.extension.getURL(`ui/proxyable.html?id=${sourceTabId}`)
+					url: PolyFill.extensionGetURL(`ui/proxyable.html?id=${sourceTabId}`)
 				}
 			);
 			popup.closeSelf();
@@ -201,10 +201,10 @@ export class popup {
 			}
 		}
 		if (isProfileProxyServer) {
-			lblActiveProxyLabel.text(browser.i18n.getMessage("popupActiveProxy"));
+			lblActiveProxyLabel.text(api.i18n.getMessage("popupActiveProxy"));
 		}
 		else {
-			lblActiveProxyLabel.text(browser.i18n.getMessage("popupActiveProxyDefault"));
+			lblActiveProxyLabel.text(api.i18n.getMessage("popupActiveProxyDefault"));
 		}
 
 		if (dataForPopup.proxyServers.length > 1 ||
@@ -230,7 +230,7 @@ export class popup {
 			if (dataForPopup.proxyServersSubscribed.length > 0) {
 				let subscriptionGroup = jQuery("<optgroup>")
 					// -Subscriptions-
-					.attr("label", browser.i18n.getMessage("popupSubscriptions"))
+					.attr("label", api.i18n.getMessage("popupSubscriptions"))
 					.appendTo(cmbActiveProxy);
 
 				dataForPopup.proxyServersSubscribed.forEach(proxyServer => {
@@ -291,7 +291,7 @@ export class popup {
 				if (proxyableDomain.ruleHasWhiteListMatch) {
 					itemIcon.removeClass("fa-square")
 						.addClass("far fa-hand-paper fa-sm");
-					item.attr("title", browser.i18n.getMessage("settingsRuleActionWhitelist"));
+					item.attr("title", api.i18n.getMessage("settingsRuleActionWhitelist"));
 				}
 				else {
 					itemIcon.removeClass("fa-square")
@@ -419,9 +419,9 @@ export class popup {
 
 			let message: string;
 			if (environment.chrome)
-				message = browser.i18n.getMessage("popupNotAllowedSetProxySettingsChrome");
+				message = api.i18n.getMessage("popupNotAllowedSetProxySettingsChrome");
 			else
-				message = browser.i18n.getMessage("popupNotAllowedSetProxySettingsFirefox");
+				message = api.i18n.getMessage("popupNotAllowedSetProxySettingsFirefox");
 
 			messageBox.error(message, 5000);
 			return;
@@ -497,7 +497,7 @@ export class popup {
 		if (domainList.length)
 			// Add the selected domains to rule list?
 			if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
-				confirm(browser.i18n.getMessage("popupAddFailedRequestsConfirm"))) {
+				confirm(api.i18n.getMessage("popupAddFailedRequestsConfirm"))) {
 
 				// send message to the core
 				PolyFill.runtimeSendMessage(
@@ -527,7 +527,7 @@ export class popup {
 		if (domainList.length)
 			// Add the selected domains to rule list?
 			if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
-				confirm(browser.i18n.getMessage("popupAddIgnoredFailuresConfirm"))) {
+				confirm(api.i18n.getMessage("popupAddIgnoredFailuresConfirm"))) {
 
 				// send message to the core
 				PolyFill.runtimeSendMessage(

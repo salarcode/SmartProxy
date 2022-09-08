@@ -14,31 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { environment, chrome, browser } from "./environment";
+import { environment, api } from "./environment";
 
 export class PolyFill {
 	public static lastError() {
 		if (environment.chrome) {
-			// chrome.extension.lastError Deprecated since Chrome 58
-			return chrome.runtime.lastError;
+			// api.extension.lastError Deprecated since Chrome 58
+			return api.runtime.lastError;
 		} else {
-			return browser.runtime.lastError;
+			return api.runtime.lastError;
 		}
 	}
 	public static onProxyError() {
 		if (environment.chrome) {
-			return chrome.proxy.onProxyError;
+			return api.proxy.onProxyError;
 		} else {
-			if (browser.proxy.onError)
+			if (api.proxy.onError)
 				// this is under consideration for future version of Firefox #1388619
-				return browser.proxy.onError;
+				return api.proxy.onError;
 			else
-				return browser.proxy.onProxyError;
+				return api.proxy.onProxyError;
 		}
 	}
 	public static tabsGet(tabId: number, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.tabs.get(tabId,
+			api.tabs.get(tabId,
 				(tabInfo: any) => {
 					const error = PolyFill.lastError();
 					if (error) {
@@ -50,13 +50,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.tabs.get(tabId)
+			api.tabs.get(tabId)
 				.then(success, fail);
 		}
 	}
 	public static tabsGetCurrent(success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.tabs.getCurrent(
+			api.tabs.getCurrent(
 				(tabInfo: any) => {
 					const error = PolyFill.lastError();
 					if (error) {
@@ -68,13 +68,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.tabs.getCurrent()
+			api.tabs.getCurrent()
 				.then(success, fail);
 		}
 	}
 	public static tabsRemove(tabIds: number | number[], success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.tabs.remove(tabIds,
+			api.tabs.remove(tabIds,
 				(tabInfo: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -86,14 +86,14 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.tabs.remove(tabIds)
+			api.tabs.remove(tabIds)
 				.then(success, fail);
 		}
 	}
 
 	public static tabsReload(tabId: number, success?: Function, fail?: Function, reloadProperties?: any) {
 		if (environment.chrome) {
-			chrome.tabs.reload(tabId, reloadProperties,
+			api.tabs.reload(tabId, reloadProperties,
 				(tabInfo: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -103,13 +103,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.tabs.reload(tabId, reloadProperties)
+			api.tabs.reload(tabId, reloadProperties)
 				.then(success, fail);
 		}
 	}
 	public static tabsQuery(queryInfo: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.tabs.query(queryInfo,
+			api.tabs.query(queryInfo,
 				(tabs: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -119,13 +119,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.tabs.query(queryInfo)
+			api.tabs.query(queryInfo)
 				.then(success, fail);
 		}
 	}
 	public static tabsCreate(createProperties: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.tabs.create(createProperties,
+			api.tabs.create(createProperties,
 				(tabInfo: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -135,7 +135,7 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.tabs.create(createProperties)
+			api.tabs.create(createProperties)
 				.then(success, fail);
 		}
 	}
@@ -145,7 +145,7 @@ export class PolyFill {
 				// deleting firefox specific property of sending message to PAC
 				delete options["toProxyScript"];
 			}
-			chrome.runtime.sendMessage(extensionId,
+			api.runtime.sendMessage(extensionId,
 				message,
 				options,
 				(response: any) => {
@@ -157,7 +157,7 @@ export class PolyFill {
 					}
 				});
 		} else {
-			let promise = browser.runtime.sendMessage(
+			let promise = api.runtime.sendMessage(
 				extensionId,
 				message,
 				options
@@ -168,7 +168,7 @@ export class PolyFill {
 	}
 	public static managementGetSelf(success: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.management.getSelf(
+			api.management.getSelf(
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -178,13 +178,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.management.getSelf()
+			api.management.getSelf()
 				.then(success, fail);
 		}
 	}
 	public static storageLocalGet(keys: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.storage.local.get(keys,
+			api.storage.local.get(keys,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -194,13 +194,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.storage.local.get(keys)
+			api.storage.local.get(keys)
 				.then(success, fail);
 		}
 	}
 	public static storageLocalSet(items: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.storage.local.set(items,
+			api.storage.local.set(items,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -210,13 +210,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.storage.local.set(items)
+			api.storage.local.set(items)
 				.then(success, fail);
 		}
 	}
 	public static storageSyncGet(keys: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.storage.sync.get(keys,
+			api.storage.sync.get(keys,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -226,13 +226,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.storage.sync.get(keys)
+			api.storage.sync.get(keys)
 				.then(success, fail);
 		}
 	}
 	public static storageSyncSet(items: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.storage.sync.set(items,
+			api.storage.sync.set(items,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -242,7 +242,7 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.storage.sync.set(items)
+			api.storage.sync.set(items)
 				.then(success, fail);
 		}
 	}
@@ -251,7 +251,7 @@ export class PolyFill {
 			// No implemented in chrome yet!
 			if (fail) fail({ message: "getBrowserInfo is not implemented" });
 
-			//chrome.runtime.getBrowserInfo(
+			//api.runtime.getBrowserInfo(
 			//	function (response) {
 			//		const error = polyfill.lastError();
 			//		if (error) {
@@ -261,13 +261,13 @@ export class PolyFill {
 			//		}
 			//	});
 		} else {
-			browser.runtime.getBrowserInfo()
+			api.runtime.getBrowserInfo()
 				.then(success, fail);
 		}
 	}
 	public static runtimeOpenOptionsPage(success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.runtime.openOptionsPage(
+			api.runtime.openOptionsPage(
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -277,13 +277,13 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.runtime.openOptionsPage()
+			api.runtime.openOptionsPage()
 				.then(success, fail);
 		}
 	}
 	public static browserActionSetIcon(details: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.browserAction.setIcon(details,
+			api.browserAction.setIcon(details,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -293,14 +293,14 @@ export class PolyFill {
 					}
 				});
 		} else {
-			if (browser.browserAction["setIcon"])
-				browser.browserAction.setIcon(details)
+			if (api.browserAction["setIcon"])
+				api.browserAction.setIcon(details)
 					.then(success, fail);
 		}
 	}
 	public static browserActionSetBadgeText(details: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.browserAction.setBadgeText(details,
+			api.browserAction.setBadgeText(details,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -310,14 +310,14 @@ export class PolyFill {
 					}
 				});
 		} else {
-			if (browser.browserAction["setBadgeText"])
-				browser.browserAction.setBadgeText(details)
+			if (api.browserAction["setBadgeText"])
+				api.browserAction.setBadgeText(details)
 					.then(success, fail);
 		}
 	}
 	public static browserActionSetBadgeBackgroundColor(details: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.browserAction.setBadgeBackgroundColor(details,
+			api.browserAction.setBadgeBackgroundColor(details,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -327,14 +327,14 @@ export class PolyFill {
 					}
 				});
 		} else {
-			if (browser.browserAction["setBadgeBackgroundColor"])
-				browser.browserAction.setBadgeBackgroundColor(details)
+			if (api.browserAction["setBadgeBackgroundColor"])
+				api.browserAction.setBadgeBackgroundColor(details)
 					.then(success, fail);
 		}
 	}
 	public static browserGetProxySettings(success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.proxy.settings.get(
+			api.proxy.settings.get(
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -345,13 +345,13 @@ export class PolyFill {
 				});
 		} else {
 			// doc: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/types/BrowserSetting/get
-			browser.proxy.settings.get({})
+			api.proxy.settings.get({})
 				.then(success, fail);
 		}
 	}
 	public static browserSetProxySettings(details: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.proxy.settings.set(details,
+			api.proxy.settings.set(details,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -362,13 +362,13 @@ export class PolyFill {
 				});
 		} else {
 			// doc: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/types/BrowserSetting/set
-			browser.proxy.settings.set(details)
+			api.proxy.settings.set(details)
 				.then(success, fail);
 		}
 	}
 	public static browserCommandsGetAll(success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.commands.getAll(
+			api.commands.getAll(
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -378,14 +378,14 @@ export class PolyFill {
 					}
 				});
 		} else {
-			if (browser["commands"])
-				browser.commands.getAll()
+			if (api["commands"])
+				api.commands.getAll()
 					.then(success, fail);
 		}
 	}
 	public static browserNotificationsCreate(notificationId: string, options: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
-			chrome.notifications.create(notificationId, options,
+			api.notifications.create(notificationId, options,
 				(response: any) => {
 					let error = PolyFill.lastError();
 					if (error) {
@@ -395,8 +395,20 @@ export class PolyFill {
 					}
 				});
 		} else {
-			browser.notifications.create(notificationId, options)
+			api.notifications.create(notificationId, options)
 				.then(success, fail);
+		}
+	}
+
+	public static extensionGetURL(path: string) {
+		if (environment.chrome) {
+
+			if (api.extension["getURL"])
+				return api.extension.getURL(path);
+
+			return api.runtime.getURL(path);
+		} else {
+			return api.extension.getURL(path);
 		}
 	}
 }

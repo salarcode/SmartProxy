@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Utils } from './Utils';
-import { browser } from './environment';
+import { api } from './environment';
 import {
 	ProxyRulesSubscription,
 	ProxyRulesSubscriptionFormat,
@@ -158,7 +158,7 @@ export const RuleImporter = {
 				// TODO:
 			} else {
 				// Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes.
-				let message = browser.i18n
+				let message = api.i18n
 					.getMessage('importerImportRulesSuccess')
 					.replace('{0}', rules.blackList.length)
 					.replace('{1}', rules.whiteList.length);
@@ -233,7 +233,7 @@ export const RuleImporter = {
 					}
 
 					// Total ${appendedRuleCount} out of ${parsedRuleList.length} rules are appended.<br>Don't forget to save the changes.
-					let message = browser.i18n
+					let message = api.i18n
 						.getMessage('importerImportSuccess')
 						.replace('{0}', appendedRuleCount.toString())
 						.replace('{1}', parsedRuleList.length.toString());
@@ -248,7 +248,7 @@ export const RuleImporter = {
 					}
 				} else {
 					// Total ${importedRuleList.length} out of ${parsedRuleList.length} rules are imported.<br>Don't forget to save the changes.
-					let message = browser.i18n
+					let message = api.i18n
 						.getMessage('importerImportSuccess')
 						.replace('{0}', importedRuleList.length.toString())
 						.replace('{1}', parsedRuleList.length.toString());

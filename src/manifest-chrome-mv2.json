@@ -1,7 +1,7 @@
 {
 	"name": "__MSG_extensionName__",
 	"version": "0.9.999",
-	"manifest_version": 3,
+	"manifest_version": 2,
 	"author": "Salar Khalilzadeh",
 	"description": "__MSG_extensionDescription__",
 	"homepage_url": "https://github.com/salarcode/SmartProxy",
@@ -14,19 +14,18 @@
 		"128": "icons/smartproxy-128.png"
 	},
 	"permissions": [
+		"<all_urls>",
 		"activeTab",
 		"tabs",
 		"proxy",
 		"webRequest",
+		"webRequestBlocking",
 		"storage",
 		"unlimitedStorage",
 		"notifications"
 	],
-	"host_permissions": [
-		"<all_urls>"
-	],
-	"action": {
-		"browser_style": true,
+	"browser_action": {
+		"chrome_style": true,
 		"default_title": "__MSG_extensionName__",
 		"default_popup": "ui/popup.html",
 		"default_icon": {
@@ -38,11 +37,14 @@
 		}
 	},
 	"background": {
-		"service_worker": "core.js"
+		"scripts": [
+			"core.js"
+		]
 	},
 	"options_ui": {
 		"page": "ui/settings.html",
-		"open_in_tab": true
+		"open_in_tab": true,
+		"chrome_style": false
 	},
 	"commands": {
 		"next-proxy-server": {

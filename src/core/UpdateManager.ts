@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Debug } from "../lib/Debug";
-import { browser } from "../lib/environment";
+import { api } from "../lib/environment";
 
 export class UpdateManager {
     private static updateInfoUrl: "https://raw.githubusercontent.com/salarcode/SmartProxy/master/updateinfo.json";
@@ -25,7 +25,7 @@ export class UpdateManager {
 
     public static readUpdateInfo() {
 
-        let addonId = browser.runtime.id || "";
+        let addonId = api.runtime.id || "";
 
         // IMPORTANT NOTE:
         // this code will not run in listed versions (listed in AMO or WebStore)
@@ -61,7 +61,7 @@ export class UpdateManager {
 
         function checkForUpdate(updateInfo: UpdateInfoType) {
 
-            let manifest = browser.runtime.getManifest();
+            let manifest = api.runtime.getManifest();
 
             if (updateInfo && updateInfo.version > manifest.version) {
                 UpdateManager.updateIsAvailable = true;

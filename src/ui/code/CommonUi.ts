@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { jQuery } from "../../lib/External";
-import { browser } from "../../lib/environment";
+import { api } from "../../lib/environment";
 import { GeneralOptions, PartialThemeDataType, themesCustomType, themesDarkFix, themesDataTablesDarkFix, ThemeType } from "../../core/definitions";
 import { Utils } from "../../lib/Utils";
 
@@ -61,13 +61,13 @@ export class CommonUi {
 	public static localizeHtmlPage() {
 
 		function replace_i18n(obj: any, tag: string) {
-			let msg = browser.i18n.getMessage(tag.trim());
+			let msg = api.i18n.getMessage(tag.trim());
 
 			if (msg && msg != tag) obj.innerHTML = msg;
 		}
 
 		// page direction
-		let dir = browser.i18n.getMessage("uiDirection");
+		let dir = api.i18n.getMessage("uiDirection");
 		if (dir) {
 			jQuery(document.body).addClass(dir).css("direction", dir);
 		}

@@ -18,7 +18,7 @@ import { CommonUi } from "./CommonUi";
 import { CommandMessages, ProxyableInternalDataType, ProxyableLogDataType, CompiledProxyRule, CompiledProxyRuleSource, ProxyableProxifiedStatus } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { jQuery, messageBox } from "../../lib/External";
-import { browser } from "../../lib/environment";
+import { api } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 
 export class proxyable {
@@ -50,7 +50,7 @@ export class proxyable {
 			(dataForProxyable: ProxyableInternalDataType) => {
 				if (dataForProxyable == null) {
 					// Source tab not found!
-					messageBox.error(browser.i18n.getMessage("proxyableErrNoSourceTab"));
+					messageBox.error(api.i18n.getMessage("proxyableErrNoSourceTab"));
 					return;
 				}
 
@@ -71,7 +71,7 @@ export class proxyable {
 
 
 		// start handling messages
-		browser.runtime.onMessage.addListener(proxyable.handleMessages);
+		api.runtime.onMessage.addListener(proxyable.handleMessages);
 
 		CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
 	}
@@ -175,15 +175,15 @@ export class proxyable {
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			columns: [
 				{
-					name: "url", data: "url", title: browser.i18n.getMessage("proxyableGridColUrl"), className: "grid-ellipsis-text-cell", width: '60%',
+					name: "url", data: "url", title: api.i18n.getMessage("proxyableGridColUrl"), className: "grid-ellipsis-text-cell", width: '60%',
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
 						return `<a class='wordwrap-anywhere grid-ellipsis-text-link' href="${data}" target="_blank">${data}</a>`;
 					},
 				},
 				{
-					name: "proxifiedStatus", data: "proxifiedStatusName", title: browser.i18n.getMessage("proxyableGridColProxifiedStatus"), width: 100, className: 'grid-col-nowrap vertical-align-middle',
+					name: "proxifiedStatus", data: "proxifiedStatusName", title: api.i18n.getMessage("proxyableGridColProxifiedStatus"), width: 100, className: 'grid-col-nowrap vertical-align-middle',
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
-						let reason = browser.i18n.getMessage(`proxyableGridCol_ProxifiedStatus_${row.proxifiedStatusName}`);
+						let reason = api.i18n.getMessage(`proxyableGridCol_ProxifiedStatus_${row.proxifiedStatusName}`);
 						if (row.proxified) {
 							return '<i class="fas fa-check text-success"></i> ' + reason;
 						}
@@ -193,19 +193,19 @@ export class proxyable {
 					}
 				},
 				{
-					name: "matchedRuleStatus", data: "matchedRuleStatusName", title: browser.i18n.getMessage("proxyableGridColRuleStatus"), width: 100, className: 'grid-col-nowrap vertical-align-middle',
+					name: "matchedRuleStatus", data: "matchedRuleStatusName", title: api.i18n.getMessage("proxyableGridColRuleStatus"), width: 100, className: 'grid-col-nowrap vertical-align-middle',
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
-						return browser.i18n.getMessage(`proxyableGridCol_RuleStatus_${row.matchedRuleStatusName}`);
+						return api.i18n.getMessage(`proxyableGridCol_RuleStatus_${row.matchedRuleStatusName}`);
 					}
 				},
 				{
-					name: "ruleHostName", data: "ruleHostName", title: browser.i18n.getMessage("proxyableGridColRuleHost"), className: 'grid-status-col-text grid-col-nowrap vertical-align-middle',
+					name: "ruleHostName", data: "ruleHostName", title: api.i18n.getMessage("proxyableGridColRuleHost"), className: 'grid-status-col-text grid-col-nowrap vertical-align-middle',
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
 						return `<div class='wordwrap-anywhere grid-col-maxwidth-100' title="${data}">${data||''}</div>`;
 					}
 				},
 				{
-					name: "rulePatternText", data: "rulePatternText", title: browser.i18n.getMessage("proxyableGridColRulePattern"), className: "grid-status-col-text grid-col-nowrap vertical-align-middle",
+					name: "rulePatternText", data: "rulePatternText", title: api.i18n.getMessage("proxyableGridColRulePattern"), className: "grid-status-col-text grid-col-nowrap vertical-align-middle",
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
 						return `<div class='wordwrap-anywhere grid-col-maxwidth-100' title="${data}">${data||''}</div>`;
 					}
@@ -217,11 +217,11 @@ export class proxyable {
 						if (!url)
 							return "";
 						if (row.ruleSource == CompiledProxyRuleSource.Subscriptions) {
-							return `<small class="grid-status-col-text grid-col-maxwidth-100 grid-col-nowrap">${browser.i18n.getMessage("proxyableSubscriptionRule")}</small>`;
+							return `<small class="grid-status-col-text grid-col-maxwidth-100 grid-col-nowrap">${api.i18n.getMessage("proxyableSubscriptionRule")}</small>`;
 						}
 						if (row.ruleId) {
 							return `<button id='btnDisable' data-domain="${row.ruleHostName}" data-ruleId="${row.ruleId}" class="btn btn-sm btn-danger whitespace-nowrap">
-									<i class="fa fa-times" aria-hidden="true"></i> ${browser.i18n.getMessage("proxyableDisableButton")}</button>`;
+									<i class="fa fa-times" aria-hidden="true"></i> ${api.i18n.getMessage("proxyableDisableButton")}</button>`;
 						}
 						else {
 							// if (row.proxied) {
@@ -237,7 +237,7 @@ export class proxyable {
 								const template =
 									`<div><div class="btn-group dropstart">
 										<button type="button" class="btn btn-sm btn-success dropdown-toggle whitespace-nowrap" data-bs-toggle="dropdown">
-											${browser.i18n.getMessage("proxyableEnableButton")}
+											${api.i18n.getMessage("proxyableEnableButton")}
 											<i class="fa fa-plus" aria-hidden="true"></i>
 										</button>
 										<ul class="subdomains-list dropdown-menu dropdown-menu-end">
@@ -250,7 +250,7 @@ export class proxyable {
 								subdomainContainer.empty();
 
 								for (let domain of subDomains) {
-									let domainElement = jQuery(`<li><a class="dropdown-item" data-domain="${domain}" href="#"><small>${browser.i18n.getMessage("proxyableEnableButtonDomain")} 
+									let domainElement = jQuery(`<li><a class="dropdown-item" data-domain="${domain}" href="#"><small>${api.i18n.getMessage("proxyableEnableButtonDomain")} 
 																<b class='font-url'>${domain}</b></small></a></li>`);
 
 									subdomainContainer.append(domainElement);
@@ -347,7 +347,7 @@ export class proxyable {
 
 		let gridRow = proxyable.grdProxyable.row(element.parents('tr'));
 
-		messageBox.confirm(`${browser.i18n.getMessage("proxyableCreateRuleConfirm")} <b>'${domain}'</b>?`,
+		messageBox.confirm(`${api.i18n.getMessage("proxyableCreateRuleConfirm")} <b>'${domain}'</b>?`,
 			() => {
 				proxyable.toggleProxyableRequest(domain, null, ruleId, gridRow);
 			});
@@ -362,7 +362,7 @@ export class proxyable {
 
 		let gridRow = proxyable.grdProxyable.row(element.parents('tr'));
 
-		messageBox.confirm(`${browser.i18n.getMessage("proxyableDeleteRuleConfirm")} <b>'${domain}'</b>?`,
+		messageBox.confirm(`${api.i18n.getMessage("proxyableDeleteRuleConfirm")} <b>'${domain}'</b>?`,
 			() => {
 				proxyable.toggleProxyableRequest(null, domain, ruleId, gridRow);
 			});

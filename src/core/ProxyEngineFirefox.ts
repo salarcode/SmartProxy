@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser, environment } from '../lib/environment';
+import { api, environment } from '../lib/environment';
 import { Debug } from '../lib/Debug';
 import {
 	BrowserProxySettingsType as FirefoxProxySettingsType,
@@ -37,14 +37,14 @@ import { TabRequestLogger } from './TabRequestLogger';
 export class ProxyEngineFirefox {
 	/** If Firefox API available, registers proxy */
 	public static register(): boolean {
-		if (browser['proxy'] && browser.proxy['onRequest']) {
+		if (api['proxy'] && api.proxy['onRequest']) {
 			// onRequest is Used for HTTP and HTTPS protocols only (WSS included), source: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/RequestFilter
 			// Smart features are available here only
-			browser.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest, {
+			api.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest, {
 				urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'],
 			});
 
-			browser.proxy.onError.addListener(ProxyEngineFirefox.onProxyError);
+			api.proxy.onError.addListener(ProxyEngineFirefox.onProxyError);
 
 			return true;
 		}

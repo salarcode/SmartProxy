@@ -16,7 +16,7 @@
  */
 import { Debug } from '../lib/Debug';
 import { Utils } from '../lib/Utils';
-import { browser } from '../lib/environment';
+import { api } from '../lib/environment';
 import { monitorUrlsSchemaFilter } from './definitions';
 import { TabDataType, TabManager } from './TabManager';
 
@@ -31,19 +31,19 @@ export class WebRequestMonitor {
 	public static startMonitor(callback: Function) {
 		if (WebRequestMonitor.isMonitoring) return;
 
-		browser.webRequest.onBeforeRequest.addListener(WebRequestMonitor.events.onBeforeRequest, {
+		api.webRequest.onBeforeRequest.addListener(WebRequestMonitor.events.onBeforeRequest, {
 			urls: monitorUrlsSchemaFilter,
 		});
-		browser.webRequest.onHeadersReceived.addListener(WebRequestMonitor.events.onHeadersReceived, {
+		api.webRequest.onHeadersReceived.addListener(WebRequestMonitor.events.onHeadersReceived, {
 			urls: monitorUrlsSchemaFilter,
 		});
-		browser.webRequest.onBeforeRedirect.addListener(WebRequestMonitor.events.onBeforeRedirect, {
+		api.webRequest.onBeforeRedirect.addListener(WebRequestMonitor.events.onBeforeRedirect, {
 			urls: monitorUrlsSchemaFilter,
 		});
-		browser.webRequest.onErrorOccurred.addListener(WebRequestMonitor.events.onErrorOccurred, {
+		api.webRequest.onErrorOccurred.addListener(WebRequestMonitor.events.onErrorOccurred, {
 			urls: monitorUrlsSchemaFilter,
 		});
-		browser.webRequest.onCompleted.addListener(WebRequestMonitor.events.onCompleted, {
+		api.webRequest.onCompleted.addListener(WebRequestMonitor.events.onCompleted, {
 			urls: monitorUrlsSchemaFilter,
 		});
 		// unsubscribing when tab got removed

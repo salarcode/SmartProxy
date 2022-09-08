@@ -20,7 +20,7 @@ import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { ProxyRules } from "./ProxyRules";
 import { CommandMessages, ProxyableLogDataType, CompiledProxyRulesMatchedSource, SmartProfileType, monitorUrlsSchemaFilter, ProxyableProxifiedStatus, ProxyableMatchedRuleStatus, CompiledProxyRuleSource } from "./definitions";
-import { browser, environment } from "../lib/environment";
+import { api, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 
 export class TabRequestLogger {
@@ -34,7 +34,7 @@ export class TabRequestLogger {
 		if (environment.chrome) {
 			// this is a Chrome specific way of logging
 
-			browser.webRequest.onBeforeRequest.addListener(
+			api.webRequest.onBeforeRequest.addListener(
 				TabRequestLogger.onBeforeRequestLogRequestInternal,
 				{ urls: monitorUrlsSchemaFilter }
 			);
@@ -96,7 +96,7 @@ export class TabRequestLogger {
 			});
 	}
 
-	/** browser.webRequest.onBeforeRequest -> this is a Chrome specific way of logging */
+	/** api.webRequest.onBeforeRequest -> this is a Chrome specific way of logging */
 	private static onBeforeRequestLogRequestInternal(requestDetails: any) {
 		let tabId = requestDetails.tabId;
 		if (!(tabId > -1))
@@ -116,7 +116,7 @@ export class TabRequestLogger {
 		}
 	}
 
-	/** browser.webRequest.onBeforeRequest -> this is a Chrome specific way of logging */
+	/** api.webRequest.onBeforeRequest -> this is a Chrome specific way of logging */
 	private static async notifyProxyableLogRequestInternal(url: string, tabId: number) {
 		let proxyableData = TabRequestLogger.getProxyableDataForUrl(url);
 		proxyableData.tabId = tabId;

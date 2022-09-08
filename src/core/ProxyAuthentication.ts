@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser, environment } from "../lib/environment";
+import { api, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 import { monitorUrlsSchemaFilter, SmartProfileType } from "./definitions";
 import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
@@ -24,24 +24,32 @@ export class ProxyAuthentication {
 
 	public static startMonitor() {
 		if (environment.chrome) {
-			// chrome supports asyncBlocking
-			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
-				{ urls: monitorUrlsSchemaFilter },
-				["asyncBlocking"]
-			);
+
+			if (environment.manifestV3) {
+				// In manifest v3 it is not possible to block, so this is useless mostly I think.
+				api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+					{ urls: monitorUrlsSchemaFilter }
+				);
+			}
+			else {
+				// chrome supports asyncBlocking
+				api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+					{ urls: monitorUrlsSchemaFilter },
+					["asyncBlocking"]
+				);
+			}
 		} else {
-			browser.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
+			api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
 				{ urls: monitorUrlsSchemaFilter },
 				["blocking"]
 			);
-
 		}
-		browser.webRequest.onCompleted.addListener(
+		api.webRequest.onCompleted.addListener(
 			ProxyAuthentication.onRequestFinished,
 			{ urls: monitorUrlsSchemaFilter }
 		);
 
-		browser.webRequest.onErrorOccurred.addListener(
+		api.webRequest.onErrorOccurred.addListener(
 			ProxyAuthentication.onRequestFinished,
 			{ urls: monitorUrlsSchemaFilter }
 		);

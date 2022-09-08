@@ -17,7 +17,7 @@
 import { PolyFill } from "../lib/PolyFill";
 import { LiteEvent } from "../lib/LiteEvent";
 import { CompiledProxyRule, FailedRequestType, ProxyServer } from "./definitions";
-import { browser, environment } from "../lib/environment";
+import { api, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 import { ProxyRules } from "./ProxyRules";
 
@@ -37,18 +37,18 @@ export class TabManager {
 	public static initializeTracking() {
 
 		// listen to tab switching
-		browser.tabs.onActivated.addListener(TabManager.updateActiveTab);
+		api.tabs.onActivated.addListener(TabManager.updateActiveTab);
 
 		// update tab status
-		browser.tabs.onUpdated.addListener(TabManager.handleTabUpdated);
+		api.tabs.onUpdated.addListener(TabManager.handleTabUpdated);
 		// listen to tab URL changes
-		browser.tabs.onUpdated.addListener(TabManager.updateActiveTab);
+		api.tabs.onUpdated.addListener(TabManager.updateActiveTab);
 
-		browser.tabs.onRemoved.addListener(TabManager.handleTabRemoved);
+		api.tabs.onRemoved.addListener(TabManager.handleTabRemoved);
 
 		// listen for window switching
-		if (browser["windows"])
-			browser.windows.onFocusChanged.addListener(TabManager.updateActiveTab);
+		if (api["windows"])
+			api.windows.onFocusChanged.addListener(TabManager.updateActiveTab);
 
 		// read the active tab
 		TabManager.updateActiveTab();

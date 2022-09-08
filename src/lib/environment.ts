@@ -19,6 +19,7 @@ export let environment = {
 	name: "general",
 	version: 1.0,
 	mobile: false,
+	manifestV3: false,
 	notSupported: {
 		setProxySettings: false
 	},
@@ -49,21 +50,30 @@ export let environment = {
 	}
 };
 
-export var chrome: any = window["chrome"];
-export var browser: any = window["browser"];
+export var api: any = {};
+declare var chrome: any;
 
-// Google Chrome polyfill
-if (typeof browser === "undefined" || browser == null) {
-	browser = chrome;
+if (typeof (browser) != 'undefined') {
+	api = browser;
+}
+else if (typeof (chrome) != 'undefined') {
+	api = chrome;
 	environment.chrome = true;
 }
-if (!browser["windows"]) {
+
+// browserAction refill
+if (api["browserAction"])
+	api.action = api["browserAction"];
+else if (api["action"])
+	api.browserAction = api["action"];
+
+if (!api["windows"]) {
 	environment.mobile = true;
 }
 else {
-	if (browser.runtime["getBrowserInfo"])
+	if (api.runtime["getBrowserInfo"])
 		// getBrowserInfo is Firefox only API 
-		browser.runtime.getBrowserInfo().then(details => {
+		api.runtime.getBrowserInfo().then(details => {
 			if (details.name == "Fennec")
 				environment.mobile = true;
 		});

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser, environment } from '../lib/environment';
+import { api, environment } from '../lib/environment';
 import { ProxyAuthentication } from './ProxyAuthentication';
 import { Debug } from '../lib/Debug';
 import { SettingsOperation } from './SettingsOperation';
@@ -90,6 +90,11 @@ export class Core {
 
 		// listen to shortcut events
 		KeyboardShortcuts.startMonitor();
+	}
+
+	public static initializeFromServiceWorker() {
+		// nothing yet!
+		
 	}
 
 	private static handleMessages(message: any, sender: any, sendResponse: Function) {
@@ -310,7 +315,7 @@ export class Core {
 					sendResponse({
 						success: true,
 						// General options saved successfully.
-						message: browser.i18n.getMessage('settingsSaveOptionsSuccess'),
+						message: api.i18n.getMessage('settingsSaveOptionsSuccess'),
 					});
 				}
 				return;
@@ -357,7 +362,7 @@ export class Core {
 					sendResponse({
 						success: true,
 						// Proxy rules saved successfully.
-						message: browser.i18n.getMessage('settingsSaveSmartProfileSuccess'),
+						message: api.i18n.getMessage('settingsSaveSmartProfileSuccess'),
 						smartProfile: smartProfile
 					});
 				}
@@ -382,7 +387,7 @@ export class Core {
 						sendResponse({
 							success: true,
 							// The profile is deleted successfully
-							message: browser.i18n.getMessage('settingsProfilesDeleteDone'),
+							message: api.i18n.getMessage('settingsProfilesDeleteDone'),
 						});
 					}
 				}
@@ -392,7 +397,7 @@ export class Core {
 							success: false,
 							// Failed to delete the selected profile.
 							message: deleteResult.message ||
-								browser.i18n.getMessage('settingsProfilesDeleteFailed'),
+								api.i18n.getMessage('settingsProfilesDeleteFailed'),
 						});
 					}
 				}
@@ -415,7 +420,7 @@ export class Core {
 					sendResponse({
 						success: true,
 						// Proxy server subscriptions saved successfully.
-						message: browser.i18n.getMessage('settingsSaveProxyServerSubscriptionsSuccess'),
+						message: api.i18n.getMessage('settingsSaveProxyServerSubscriptionsSuccess'),
 					});
 				}
 				return;
@@ -436,7 +441,7 @@ export class Core {
 				if (sendResponse) {
 					sendResponse({
 						success: true,
-						message: browser.i18n.getMessage('settingsFactoryResetSuccess')
+						message: api.i18n.getMessage('settingsFactoryResetSuccess')
 					});
 				}
 				return;
@@ -603,7 +608,7 @@ export class Core {
 
 		let result = new ResultHolderGeneric<ProxyServer>();
 		result.success = false;
-		result.message = browser.i18n.getMessage('notificationNoNextProxyServer');
+		result.message = api.i18n.getMessage('notificationNoNextProxyServer');
 		return result;
 	}
 
@@ -632,7 +637,7 @@ export class Core {
 
 		let result = new ResultHolderGeneric<ProxyServer>();
 		result.success = false;
-		result.message = browser.i18n.getMessage('notificationNoPreviousProxyServer');
+		result.message = api.i18n.getMessage('notificationNoPreviousProxyServer');
 		return result;
 	}
 
@@ -645,7 +650,7 @@ export class Core {
 
 		if (UpdateManager.updateIsAvailable) {
 			// generate update text
-			dataForSettingsUi.updateAvailableText = browser.i18n
+			dataForSettingsUi.updateAvailableText = api.i18n
 				.getMessage('settingsTabUpdateText')
 				.replace('{0}', UpdateManager.updateInfo.versionName);
 			dataForSettingsUi.updateInfo = UpdateManager.updateInfo;
@@ -686,7 +691,7 @@ export class Core {
 
 		if (UpdateManager.updateIsAvailable) {
 			// generate update text
-			dataForPopup.updateAvailableText = browser.i18n
+			dataForPopup.updateAvailableText = api.i18n
 				.getMessage('popupUpdateText')
 				.replace('{0}', UpdateManager.updateInfo.versionName);
 			dataForPopup.updateInfo = UpdateManager.updateInfo;
@@ -836,13 +841,13 @@ export class Core {
 	}
 
 	public static setBrowserActionStatus(tabData?: TabDataType) {
-		let extensionName = browser.i18n.getMessage('extensionName');
+		let extensionName = api.i18n.getMessage('extensionName');
 		let proxyTitle = '';
 		if (!Settings.active || !Settings.active.activeProfile)
 			return;
 		switch (Settings.active.activeProfile.profileType) {
 			case SmartProfileType.Direct:
-				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupNoProxy')}`;
+				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupNoProxy')}`;
 				PolyFill.browserActionSetIcon({
 					path: {
 						16: 'icons/proxymode-disabled-16.png',
@@ -853,7 +858,7 @@ export class Core {
 				break;
 
 			case SmartProfileType.AlwaysEnabledBypassRules:
-				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupAlwaysEnable')}`;
+				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupAlwaysEnable')}`;
 				PolyFill.browserActionSetIcon({
 					path: {
 						16: 'icons/proxymode-always-16.png',
@@ -864,7 +869,7 @@ export class Core {
 				break;
 
 			case SmartProfileType.SystemProxy:
-				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupSystemProxy')}`;
+				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupSystemProxy')}`;
 				PolyFill.browserActionSetIcon({
 					path: {
 						16: 'icons/proxymode-system-16.png',
@@ -876,7 +881,7 @@ export class Core {
 
 			case SmartProfileType.SmartRules:
 			default:
-				proxyTitle = `${extensionName} : ${browser.i18n.getMessage('popupSmartProxy')}`;
+				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupSmartProxy')}`;
 				PolyFill.browserActionSetIcon({
 					path: {
 						16: 'icons/smartproxy-16.png',
@@ -896,7 +901,7 @@ export class Core {
 		if (tabData) {
 			let failedCount = 0;
 
-			if (Settings.current.options.displayFailedOnBadge)
+			if (Settings.current?.options?.displayFailedOnBadge == true)
 				failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);
 
 			if (failedCount > 0) {
@@ -914,15 +919,15 @@ export class Core {
 
 			if (Settings.current.options.displayAppliedProxyOnBadge && !environment.mobile) {
 				if (tabData.proxified) {
-					proxyTitle += `\r\n${browser.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
+					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
 				} else {
-					proxyTitle += `\r\n${browser.i18n.getMessage('toolbarTooltipEffectiveRuleNone')}`;
+					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRuleNone')}`;
 				}
 			}
 
 			if (Settings.current.options.displayMatchedRuleOnBadge && !environment.mobile) {
 				if (tabData.proxified && tabData.proxyMatchedRule) {
-					proxyTitle += `\r\n${browser.i18n.getMessage('toolbarTooltipEffectiveRulePattern')}  ${tabData.proxyMatchedRule.ruleText}`;
+					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRulePattern')}  ${tabData.proxyMatchedRule.ruleText}`;
 				}
 			}
 		}
@@ -932,7 +937,7 @@ export class Core {
 			proxyTitle += `\r\nProxy server: ${activeProxyServer.host} : ${activeProxyServer.port}`;
 		}
 
-		browser.browserAction.setTitle({ title: proxyTitle });
+		api.browserAction.setTitle({ title: proxyTitle });
 	}
 
 	private static onTabUpdatedUpdateActionStatus(tabData: TabDataType) {
@@ -942,7 +947,7 @@ export class Core {
 
 	private static registerMessageReader() {
 		// start handling messages
-		browser.runtime.onMessage.addListener(Core.handleMessages);
+		api.runtime.onMessage.addListener(Core.handleMessages);
 	}
 }
 // start the application

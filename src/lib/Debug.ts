@@ -29,26 +29,26 @@ export class Debug {
 
 	public static log(msg: string, ...args: any) {
 		if (!this.enabled) return;
-		window.console.log.apply(null, arguments);
+		console.log.apply(null, arguments);
 	}
 
 	public static error(msg: string, ...args: any) {
 		if (!this.enabled) return;
-		window.console.error.apply(null, arguments);
+		console.error.apply(null, arguments);
 	}
 
 	public static info(msg: string, ...args: any) {
 		if (!this.enabled) return;
-		window.console.info.apply(null, arguments);
+		console.info.apply(null, arguments);
 	}
 
 	public static warn(msg: string, ...args: any) {
 		if (!this.enabled) return;
-		window.console.warn.apply(null, arguments);
+		console.warn.apply(null, arguments);
 	}
 
 	public static trace(msg: string, ...args: any) {
 		if (!this.enabled) return;
-		window.console.trace.apply(null, arguments);
+		console.trace.apply(null, arguments);
 	}
 }
