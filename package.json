@@ -10,7 +10,8 @@
     "terser-webpack-plugin": "^1.4.3",
     "ts-loader": "^5.4.5",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "web-ext-types": "^3.2.1"
   },
   "scripts": {
     "lint": "eslint ./src",
@@ -18,8 +19,8 @@
     "build-ff": "webpack --env.browser=firefox",
     "build-ff:watch": "webpack --watch --env.browser=firefox --env.dev=true",
     "build-ff-unlisted": "webpack --env.browser=firefox-unlisted",
-    "build-ch-mv3": "webpack --env.browser=chrome-mv3 --env.service_worker=true",
-    "build-ch-mv3:watch": "webpack --watch --env.browser=chrome-mv3 --env.service_worker=true --env.dev=true",
+    "build-ch": "webpack --env.browser=chrome --env.service_worker=true",
+    "build-ch:watch": "webpack --watch --env.browser=chrome --env.service_worker=true --env.dev=true",
     "build-ch-mv2": "webpack --env.browser=chrome-mv2",
     "build-ch-mv2:watch": "webpack --watch --env.browser=chrome-mv2 --env.dev=true",
     "build-ed": "webpack --env.browser=edge",
@@ -32,7 +33,6 @@
   "dependencies": {
     "pako": "^1.0.11",
     "tsc": "^1.20150623.0",
-    "typescript": "^3.7.4",
-    "web-ext-types": "^3.2.1"
+    "typescript": "^3.7.4"
   }
 }
