@@ -35,7 +35,7 @@ module.exports = function (args) {
     'ui/code/settingsPage': ['./src/ui/code/settingsPage.ts', `./src/core/browsers/${browserType}.ts`],
   };
   if (coreIsServiceWorker) {
-    codeEntries["core"] = ['./src/core/ServiceWorker/CoreServiceWorker.ts']
+    codeEntries["core"] = ['./src/core/ServiceWorker/CoreServiceWorker.ts', `./src/core/browsers/${browserType}.ts`]
   }
   else {
     codeEntries["core"] = ['./src/core/Core.ts', `./src/core/browsers/${browserType}.ts`]
