@@ -252,12 +252,19 @@ export class Utils {
 	public static extractSubdomainListFromHost(host: string): string[] {
 		if (!host)
 			return null;
+			
 		let parts = host.split(".");
 		if (parts.length <= 2)
 			return [host];
 
-		if (parts.length <= 2)
-			return [parts.join(".")];
+		if (parts.length == 4) {
+			// check if it is ip
+			let lastPart = +parts[3].split(':')[0];
+			if (lastPart >= 0) {
+				// it is an IP
+				return [host];
+			}
+		}
 
 		let result = new Array<string>();
 		for (let i = 0; i < parts.length; i++) {
