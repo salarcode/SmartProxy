@@ -45,32 +45,41 @@ import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
 import { ProfileOperations } from './ProfileOperations';
 import { ProfileRules } from './ProfileRules';
 
+const subscriptionUpdaterLib = SubscriptionUpdater;
+const proxyEngineLib = ProxyEngine;
+const settingsLib = Settings;
+const settingsOperationLib = SettingsOperation;
+
 export class Core {
 	/** Start the application */
 	public static initializeApp() {
 		// comment for debugging
 		//Debug.disable();
 
-		Settings.onInitialized = () => {
+		const settingReadComplete = () => {
 			// on settings read success
+			// Note: this might run twice, one for local, one for remotely synced data
 
 			// register the proxy when config is ready
-			ProxyEngine.registerEngine();
+			proxyEngineLib.registerEngine();
 
 			// set the title
 			Core.setBrowserActionStatus();
 
 			// update the timers
-			SubscriptionUpdater.updateServerSubscriptions();
-			SubscriptionUpdater.reloadEmptyServerSubscriptions();
+			subscriptionUpdaterLib.updateServerSubscriptions();
+			subscriptionUpdaterLib.reloadEmptyServerSubscriptions();
 
-			SubscriptionUpdater.updateRulesSubscriptions();
-			SubscriptionUpdater.reloadEmptyRulesSubscriptions();
+			subscriptionUpdaterLib.updateRulesSubscriptions();
+			subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
 
 			// check for updates, only in unlisted version
 			UpdateManager.readUpdateInfo();
 		};
-		Settings.initialize();
+
+		settingsLib.onInitializedLocally = settingReadComplete;
+		settingsLib.onInitializedRemoteSync = settingReadComplete;
+		settingsLib.initialize();
 
 		// start handling messages
 		Core.registerMessageReader();
@@ -94,7 +103,7 @@ export class Core {
 
 	public static initializeFromServiceWorker() {
 		// nothing yet!
-		
+
 	}
 
 	private static handleMessages(message: any, sender: any, sendResponse: Function) {
@@ -209,7 +218,7 @@ export class Core {
 
 				let proxyId = message.id;
 
-				let proxy = SettingsOperation.findProxyServerById(proxyId);
+				let proxy = settingsOperationLib.findProxyServerById(proxyId);
 				if (proxy != null) {
 					Core.ChangeActiveProxy(proxy);
 
@@ -236,11 +245,11 @@ export class Core {
 				let ruleId = message.ruleId;
 				ProfileRules.toggleRule(domain, ruleId);
 
-				SettingsOperation.saveSmartProfiles();
-				SettingsOperation.saveAllSync();
+				settingsOperationLib.saveSmartProfiles();
+				settingsOperationLib.saveAllSync();
 
 				// notify the proxy script
-				ProxyEngine.notifyProxyRulesChanged();
+				proxyEngineLib.notifyProxyRulesChanged();
 
 				// update active proxy tab status
 				Core.setBrowserActionStatus();
@@ -260,10 +269,10 @@ export class Core {
 				let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
 
 				// notify the proxy script
-				ProxyEngine.notifyProxyRulesChanged();
+				proxyEngineLib.notifyProxyRulesChanged();
 
-				SettingsOperation.saveSmartProfiles();
-				SettingsOperation.saveAllSync();
+				settingsOperationLib.saveSmartProfiles();
+				settingsOperationLib.saveAllSync();
 
 				// update active proxy tab status
 				Core.setBrowserActionStatus();
@@ -288,10 +297,10 @@ export class Core {
 
 				let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
 
-				SettingsOperation.saveSmartProfiles();
-				SettingsOperation.saveAllSync();
+				settingsOperationLib.saveSmartProfiles();
+				settingsOperationLib.saveAllSync();
 
-				Settings.updateActiveSettings();
+				settingsLib.updateActiveSettings();
 
 				// send the responses
 				if (updatedFailedRequests != null && sendResponse) {
@@ -304,12 +313,12 @@ export class Core {
 			case CommandMessages.SettingsPageSaveOptions: {
 				if (!message.options)
 					return;
-				Settings.current.options = message.options;
-				SettingsOperation.saveOptions();
-				SettingsOperation.saveAllSync();
+				settingsLib.current.options = message.options;
+				settingsOperationLib.saveOptions();
+				settingsOperationLib.saveAllSync();
 
 				// update proxy rules
-				ProxyEngine.updateBrowsersProxyConfig();
+				proxyEngineLib.updateBrowsersProxyConfig();
 
 				if (sendResponse) {
 					sendResponse({
@@ -326,15 +335,15 @@ export class Core {
 					return;
 				var saveData = message.saveData;
 
-				Settings.current.proxyServers = saveData.proxyServers;
-				Settings.current.defaultProxyServerId = message.saveData.defaultProxyServerId;
-				SettingsOperation.saveProxyServers();
-				SettingsOperation.updateSmartProfilesRulesProxyServer();
-				SettingsOperation.saveDefaultProxyServer();
-				SettingsOperation.saveAllSync();
+				settingsLib.current.proxyServers = saveData.proxyServers;
+				settingsLib.current.defaultProxyServerId = message.saveData.defaultProxyServerId;
+				settingsOperationLib.saveProxyServers();
+				settingsOperationLib.updateSmartProfilesRulesProxyServer();
+				settingsOperationLib.saveDefaultProxyServer();
+				settingsOperationLib.saveAllSync();
 
 				// notify
-				ProxyEngine.updateBrowsersProxyConfig();
+				proxyEngineLib.updateBrowsersProxyConfig();
 
 				if (sendResponse) {
 					sendResponse({
@@ -351,12 +360,12 @@ export class Core {
 				let smartProfile: SmartProfile = message.smartProfile;
 				ProfileOperations.addUpdateProfile(smartProfile);
 
-				SettingsOperation.saveSmartProfiles();
-				SettingsOperation.saveAllSync();
+				settingsOperationLib.saveSmartProfiles();
+				settingsOperationLib.saveAllSync();
 
-				Settings.updateActiveSettings();
+				settingsLib.updateActiveSettings();
 				// notify
-				ProxyEngine.updateBrowsersProxyConfig();
+				proxyEngineLib.updateBrowsersProxyConfig();
 
 				if (sendResponse) {
 					sendResponse({
@@ -376,12 +385,12 @@ export class Core {
 				let deleteResult = ProfileOperations.deleteProfile(smartProfileId);
 
 				if (deleteResult.success) {
-					SettingsOperation.saveSmartProfiles();
-					SettingsOperation.saveAllSync();
+					settingsOperationLib.saveSmartProfiles();
+					settingsOperationLib.saveAllSync();
 
-					Settings.updateActiveSettings();
+					settingsLib.updateActiveSettings();
 					// notify
-					ProxyEngine.updateBrowsersProxyConfig();
+					proxyEngineLib.updateBrowsersProxyConfig();
 
 					if (sendResponse) {
 						sendResponse({
@@ -406,15 +415,15 @@ export class Core {
 			case CommandMessages.SettingsPageSaveProxySubscriptions: {
 				if (!message.proxyServerSubscriptions)
 					return;
-				Settings.current.proxyServerSubscriptions = message.proxyServerSubscriptions;
-				SettingsOperation.saveProxyServerSubscriptions();
-				SettingsOperation.saveAllSync();
+				settingsLib.current.proxyServerSubscriptions = message.proxyServerSubscriptions;
+				settingsOperationLib.saveProxyServerSubscriptions();
+				settingsOperationLib.saveAllSync();
 
 				// update the timers
-				SubscriptionUpdater.updateServerSubscriptions();
+				subscriptionUpdaterLib.updateServerSubscriptions();
 
 				// it is possible that active proxy is changed
-				ProxyEngine.updateBrowsersProxyConfig();
+				proxyEngineLib.updateBrowsersProxyConfig();
 
 				if (sendResponse) {
 					sendResponse({
@@ -428,7 +437,7 @@ export class Core {
 			case CommandMessages.SettingsPageRestoreSettings: {
 				if (!message.fileData) return;
 				let fileData = message.fileData;
-				let result = SettingsOperation.restoreBackup(fileData);
+				let result = settingsOperationLib.restoreBackup(fileData);
 
 				if (sendResponse) {
 					sendResponse(result);
@@ -436,7 +445,7 @@ export class Core {
 				return;
 			}
 			case CommandMessages.SettingsPageFactoryReset: {
-				SettingsOperation.factoryReset();
+				settingsOperationLib.factoryReset();
 
 				if (sendResponse) {
 					sendResponse({
@@ -463,8 +472,8 @@ export class Core {
 				return;
 			}
 			case CommandMessages.SettingsPageSkipWelcome: {
-				Settings.current.firstEverInstallNotified = true;
-				SettingsOperation.saveAllSync();
+				settingsLib.current.firstEverInstallNotified = true;
+				settingsOperationLib.saveAllSync();
 
 				if (sendResponse) {
 					sendResponse({
@@ -494,11 +503,11 @@ export class Core {
 				};
 
 				if (ruleResult.success) {
-					SettingsOperation.saveSmartProfiles();
-					SettingsOperation.saveAllSync();
+					settingsOperationLib.saveSmartProfiles();
+					settingsOperationLib.saveAllSync();
 
 					// notify the proxy script
-					ProxyEngine.notifyProxyRulesChanged();
+					proxyEngineLib.notifyProxyRulesChanged();
 				}
 
 				// send the responses
@@ -522,22 +531,22 @@ export class Core {
 	public static ChangeActiveProfileId(profileId: string) {
 		// TODO: rename to `ChangeProxyProfile`
 
-		let profile = ProfileOperations.findSmartProfileById(profileId, Settings.current.proxyProfiles);
+		let profile = ProfileOperations.findSmartProfileById(profileId, settingsLib.current.proxyProfiles);
 		if (profile == null) {
 			Debug.warn(`Requested profile id '${profileId}' not found, change tor profile failed`);
 			return;
 		}
 
-		Settings.current.activeProfileId = profileId;
+		settingsLib.current.activeProfileId = profileId;
 
 		// save the changes
-		SettingsOperation.saveActiveProfile();
-		SettingsOperation.saveAllSync();
+		settingsOperationLib.saveActiveProfile();
+		settingsOperationLib.saveAllSync();
 
-		Settings.updateActiveSettings();
+		settingsLib.updateActiveSettings();
 
 		// send it to the proxy server
-		ProxyEngine.updateBrowsersProxyConfig();
+		proxyEngineLib.updateBrowsersProxyConfig();
 
 		// update active proxy tab status
 		Core.setBrowserActionStatus();
@@ -556,9 +565,9 @@ export class Core {
 
 			smartProfile.profileProxyServerId = proxy.id;
 
-			SettingsOperation.saveSmartProfiles();
-			SettingsOperation.saveAllSync();
-			SettingsOperation.updateSmartProfilesRulesProxyServer();
+			settingsOperationLib.saveSmartProfiles();
+			settingsOperationLib.saveAllSync();
+			settingsOperationLib.updateSmartProfilesRulesProxyServer();
 		}
 		else {
 			// profile doesn't have preset value
@@ -567,35 +576,35 @@ export class Core {
 		}
 
 		function updateDefaultProxyServer() {
-			Settings.current.defaultProxyServerId = proxy.id;
+			settingsLib.current.defaultProxyServerId = proxy.id;
 
-			SettingsOperation.saveDefaultProxyServer();
-			SettingsOperation.saveAllSync();
-			SettingsOperation.updateSmartProfilesRulesProxyServer();
+			settingsOperationLib.saveDefaultProxyServer();
+			settingsOperationLib.saveAllSync();
+			settingsOperationLib.updateSmartProfilesRulesProxyServer();
 		}
 
-		Settings.updateActiveSettings();
+		settingsLib.updateActiveSettings();
 
 		// send it to the proxy server
-		ProxyEngine.updateBrowsersProxyConfig();
+		proxyEngineLib.updateBrowsersProxyConfig();
 
 		// update active proxy tab status
 		Core.setBrowserActionStatus();
 	}
 
 	public static CycleToNextProxyServer(): ResultHolderGeneric<ProxyServer> {
-		let settingsActive = Settings.active;
+		let settingsActive = settingsLib.active;
 		let currentServerId =
 			settingsActive.activeProfile?.profileProxyServerId ||
-			Settings.current.defaultProxyServerId;
+			settingsLib.current.defaultProxyServerId;
 		let resultProxy: ProxyServer;
 
 		if (!currentServerId) {
-			resultProxy = SettingsOperation.getFirstProxyServer();
+			resultProxy = settingsOperationLib.getFirstProxyServer();
 		}
 
 		if (!resultProxy && currentServerId)
-			resultProxy = SettingsOperation.findNextProxyServerByCurrentProxyId(currentServerId);
+			resultProxy = settingsOperationLib.findNextProxyServerByCurrentProxyId(currentServerId);
 
 		if (resultProxy) {
 			Core.ChangeActiveProxy(resultProxy);
@@ -613,18 +622,18 @@ export class Core {
 	}
 
 	public static CycleToPreviousProxyServer(): ResultHolderGeneric<ProxyServer> {
-		let settingsActive = Settings.active;
+		let settingsActive = settingsLib.active;
 		let currentServerId =
 			settingsActive.activeProfile?.profileProxyServerId ||
-			Settings.current.defaultProxyServerId;
+			settingsLib.current.defaultProxyServerId;
 		let resultProxy: ProxyServer;
 
 		if (!currentServerId) {
-			resultProxy = SettingsOperation.getFirstProxyServer();
+			resultProxy = settingsOperationLib.getFirstProxyServer();
 		}
 
 		if (!resultProxy && currentServerId)
-			resultProxy = SettingsOperation.findPreviousProxyServerByCurrentProxyId(currentServerId);
+			resultProxy = settingsOperationLib.findPreviousProxyServerByCurrentProxyId(currentServerId);
 
 		if (resultProxy) {
 			Core.ChangeActiveProxy(resultProxy);
@@ -643,7 +652,7 @@ export class Core {
 
 	private static getSettingsPageInitialData(): SettingsPageInternalDataType {
 		let dataForSettingsUi: SettingsPageInternalDataType = {
-			settings: Settings.current,
+			settings: settingsLib.current,
 			updateAvailableText: null,
 			updateInfo: null,
 		};
@@ -661,8 +670,8 @@ export class Core {
 
 	private static getPopupInitialData(): PopupInternalDataType {
 
-		let settingsActive = Settings.active;
-		let settings = Settings.current;
+		let settingsActive = settingsLib.active;
+		let settings = settingsLib.current;
 		let dataForPopup = new PopupInternalDataType();
 		dataForPopup.proxyableDomains = [];
 		dataForPopup.proxyProfiles = ProfileOperations.getSmartProfileBaseList(settings.proxyProfiles);
@@ -675,7 +684,7 @@ export class Core {
 
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
-		dataForPopup.proxyServersSubscribed = SettingsOperation.getAllSubscribedProxyServers();
+		dataForPopup.proxyServersSubscribed = settingsOperationLib.getAllSubscribedProxyServers();
 		dataForPopup.updateAvailableText = null;
 		dataForPopup.updateInfo = null;
 		dataForPopup.failedRequests = null;
@@ -824,7 +833,7 @@ export class Core {
 		if (tabData == null)
 			return null;
 
-		let settings = Settings.current;
+		let settings = settingsLib.current;
 
 		let result = new ProxyableInternalDataType();
 		result.url = tabData.url;
@@ -843,9 +852,9 @@ export class Core {
 	public static setBrowserActionStatus(tabData?: TabDataType) {
 		let extensionName = api.i18n.getMessage('extensionName');
 		let proxyTitle = '';
-		if (!Settings.active || !Settings.active.activeProfile)
+		if (!settingsLib.active || !settingsLib.active.activeProfile)
 			return;
-		switch (Settings.active.activeProfile.profileType) {
+		switch (settingsLib.active.activeProfile.profileType) {
 			case SmartProfileType.Direct:
 				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupNoProxy')}`;
 				PolyFill.browserActionSetIcon({
@@ -901,7 +910,7 @@ export class Core {
 		if (tabData) {
 			let failedCount = 0;
 
-			if (Settings.current?.options?.displayFailedOnBadge == true)
+			if (settingsLib.current?.options?.displayFailedOnBadge == true)
 				failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);
 
 			if (failedCount > 0) {
@@ -917,7 +926,7 @@ export class Core {
 				});
 			}
 
-			if (Settings.current.options.displayAppliedProxyOnBadge && !environment.mobile) {
+			if (settingsLib.current.options.displayAppliedProxyOnBadge && !environment.mobile) {
 				if (tabData.proxified) {
 					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
 				} else {
@@ -925,14 +934,14 @@ export class Core {
 				}
 			}
 
-			if (Settings.current.options.displayMatchedRuleOnBadge && !environment.mobile) {
+			if (settingsLib.current.options.displayMatchedRuleOnBadge && !environment.mobile) {
 				if (tabData.proxified && tabData.proxyMatchedRule) {
 					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRulePattern')}  ${tabData.proxyMatchedRule.ruleText}`;
 				}
 			}
 		}
 
-		let activeProxyServer = Settings.active.activeProfile?.profileProxyServer;
+		let activeProxyServer = settingsLib.active.activeProfile?.profileProxyServer;
 		if (activeProxyServer) {
 			proxyTitle += `\r\nProxy server: ${activeProxyServer.host} : ${activeProxyServer.port}`;
 		}

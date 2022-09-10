@@ -34,17 +34,19 @@ import { Settings } from './Settings';
 import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
 import { TabRequestLogger } from './TabRequestLogger';
 
+const apiLib = api;
+
 export class ProxyEngineFirefox {
 	/** If Firefox API available, registers proxy */
 	public static register(): boolean {
-		if (api['proxy'] && api.proxy['onRequest']) {
+		if (apiLib['proxy'] && apiLib.proxy['onRequest']) {
 			// onRequest is Used for HTTP and HTTPS protocols only (WSS included), source: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/RequestFilter
 			// Smart features are available here only
-			api.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest, {
+			apiLib.proxy.onRequest.addListener(ProxyEngineFirefox.handleProxyRequest, {
 				urls: ['*://*/*', 'ws://*/*', 'wss://*/*', 'ftp://*/*'],
 			});
 
-			api.proxy.onError.addListener(ProxyEngineFirefox.onProxyError);
+			apiLib.proxy.onError.addListener(ProxyEngineFirefox.onProxyError);
 
 			return true;
 		}

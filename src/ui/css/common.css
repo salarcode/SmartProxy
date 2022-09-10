@@ -188,6 +188,15 @@ hr {
 #tabSettings .nav-link {
 	min-width: 160px;
 }
+#tabSettings .nav-link .fa,
+#tabSettings .nav-link .fas,
+#tabSettings .nav-link .fa-stack{
+	width: 23px;
+	text-align: center;
+}
+#tabSettings .nav-link .fa-stack{
+	margin: 0;
+}
 
 .position-sticky-bottom {
 	position: sticky;

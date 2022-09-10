@@ -45,7 +45,8 @@ export class Settings {
 
 	public static currentOptionsSyncSettings: boolean = true;
 
-	public static onInitialized: Function = null;
+	public static onInitializedLocally: Function = null;
+	public static onInitializedRemoteSync: Function = null;
 
 	public static initialize() {
 		Settings.current = new SettingsConfig();
@@ -64,13 +65,16 @@ export class Settings {
 
 		// read all the synced data along with synced ones
 		PolyFill.storageSyncGet(null, Settings.onInitializeGetSyncData, Settings.onInitializeGetSyncError);
+
+		if (Settings.onInitializedLocally)
+			Settings.onInitializedLocally();
 	}
 
 	private static onInitializeGetLocalError(error: any) {
 		Debug.error(`settingsOperation.initialize error: ${error.message}`);
 
-		if (Settings.onInitialized)
-			Settings.onInitialized();
+		if (Settings.onInitializedLocally)
+			Settings.onInitializedLocally();
 	}
 
 	private static onInitializeGetSyncData(data: any) {
@@ -97,8 +101,8 @@ export class Settings {
 			Debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
 		}
 
-		if (Settings.onInitialized)
-			Settings.onInitialized();
+		if (Settings.onInitializedRemoteSync)
+			Settings.onInitializedRemoteSync();
 	}
 
 	private static onInitializeGetSyncError(error: Error) {

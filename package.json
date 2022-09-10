@@ -9,9 +9,9 @@
     "eslint": "^8.6.0",
     "terser-webpack-plugin": "^1.4.3",
     "ts-loader": "^5.4.5",
+    "web-ext-types": "^3.2.1",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "web-ext-types": "^3.2.1"
+    "webpack-cli": "^3.3.10"
   },
   "scripts": {
     "lint": "eslint ./src",

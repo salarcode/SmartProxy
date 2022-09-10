@@ -16,7 +16,7 @@ let plugins = [
     { from: './src/_locales/', to: '_locales', ignore: ['default-messages.json'], },
     { from: './src/icons', to: 'icons' },
     { from: './src/ui', to: 'ui', ignore: ['code/*', '*.zip'] },
-  ]),
+  ])
 ];
 
 const unzipPromise = decompress('src/ui/js/libs-unzip-before-build.zip', 'src/ui/js/');
