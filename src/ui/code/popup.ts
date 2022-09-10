@@ -158,6 +158,9 @@ export class popup {
 				continue;
 			if (!profile.profileTypeConfig.selectable)
 				continue;
+			if (profile.profileType === SmartProfileType.SystemProxy &&
+				popup.popupData.notSupportedSetProxySettings)
+				continue;
 
 			let newId = 'smart-profile-' + profile.profileId;
 

@@ -27,6 +27,8 @@
     "build-ed:watch": "webpack --watch --env.browser=edge --env.dev=true",
     "build-op": "webpack --env.browser=opera",
     "build-op:watch": "webpack --watch --env.browser=opera --env.dev=true",
+    "build-th": "webpack --env.browser=thunderbird",
+    "build-th:watch": "webpack --watch --env.browser=thunderbird --env.dev=true",
     "test": "npm run lint"
   },
   "license": "GPL-3.0",

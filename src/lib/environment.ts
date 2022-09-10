@@ -31,6 +31,10 @@ export let environment = {
 		firefoxConfirmInPopupWorks: 57,
 		firefoxNewPacScriptReturnData: 57
 	},
+	initialConfig: {
+		// special/different config for the environment
+		displayTooltipOnBadge: true
+	},
 	storageQuota: {
 		syncQuotaBytesPerItem() {
 			if (environment.chrome) {

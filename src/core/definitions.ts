@@ -1,5 +1,5 @@
 ﻿import { Settings } from './Settings';
-import { api } from '../lib/environment';
+import { api, environment } from '../lib/environment';
 import { Utils } from '../lib/Utils';
 import { ProfileOperations } from './ProfileOperations';
 
@@ -516,8 +516,8 @@ export class GeneralOptions implements Cloneable {
 	public syncActiveProxy: boolean = true;
 	public detectRequestFailures: boolean = true;
 	public displayFailedOnBadge: boolean = true;
-	public displayAppliedProxyOnBadge: boolean = true;
-	public displayMatchedRuleOnBadge: boolean = true;
+	public displayAppliedProxyOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
+	public displayMatchedRuleOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public proxyPerOrigin: boolean = true;
 	public enableShortcuts: boolean = true;
 	public shortcutNotification: boolean = true;
