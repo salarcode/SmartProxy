@@ -248,12 +248,15 @@ export class settingsPage {
 
 	private static initializeUi() {
 		if (environment.chrome) {
-			jQuery("#divAlertChrome").show();
+			jQuery("#divAlertChrome").show().remove('d-none');
 			jQuery(".firefox-only").hide();
-			jQuery(".chrome-only").show();
+			jQuery(".chrome-only").show().remove('d-none');
+			if (environment.manifestV3) {
+				jQuery(".chrome-mv3-only").show().remove('d-none');
+			}
 		} else {
-			jQuery("#divAlertFirefox").show();
-			jQuery(".firefox-only").show();
+			jQuery("#divAlertFirefox").show().remove('d-none');
+			jQuery(".firefox-only").show().remove('d-none');
 			jQuery(".chrome-only").hide();
 		}
 		jQuery("#linkAddonsMarket")
@@ -338,13 +341,13 @@ export class settingsPage {
 
 			divNoServersWarning.hide();
 		} else {
-			divNoServersWarning.show();
+			divNoServersWarning.show().remove('d-none');
 		}
 
 		jQuery("#spanVersion").text("Version: " + currentSettings.version);
 
 		if (settingsData.updateAvailableText && settingsData.updateInfo) {
-			jQuery("#divUpdateIsAvailable").show()
+			jQuery("#divUpdateIsAvailable").show().remove('d-none')
 				.find("a")
 				.attr("href", settingsData.updateInfo.downloadPage)
 				.find("span")
@@ -433,7 +436,7 @@ export class settingsPage {
 		let serverInputInfo = settingsPage.readServerModel(modal);
 
 		if (serverInputInfo.protocol == "SOCKS5")
-			modal.find("#chkServerProxyDNS-Control").show();
+			modal.find("#chkServerProxyDNS-Control").show().remove('d-none');
 		else
 			modal.find("#chkServerProxyDNS-Control").hide();
 
@@ -444,10 +447,10 @@ export class settingsPage {
 				modal.find("#chkServerProxy-Authentication").hide();
 			}
 			else
-				modal.find("#chkServerProxy-Authentication").show();
+				modal.find("#chkServerProxy-Authentication").show().remove('d-none');
 		}
 		else {
-			modal.find("#chkServerProxy-Authentication").show();
+			modal.find("#chkServerProxy-Authentication").show().remove('d-none');
 		}
 	}
 
@@ -1112,7 +1115,7 @@ export class settingsPage {
 			this.loadProfileProxyServer(pageSmartProfile, [], []);
 
 		if (displayInMenu)
-			profileMenu.show();
+			profileMenu.show().remove('d-none');
 		profileTab.css('display', '');
 
 		return pageSmartProfile;
@@ -1341,12 +1344,15 @@ export class settingsPage {
 	private static initializeSmartProfileUi(pageProfile: SettingsPageSmartProfile) {
 		let tabContainer = pageProfile.htmlProfileTab;
 		if (environment.chrome) {
-			tabContainer.find("#divAlertChrome").show();
+			tabContainer.find("#divAlertChrome").show().remove('d-none');
 			tabContainer.find(".firefox-only").hide();
-			tabContainer.find(".chrome-only").show();
+			tabContainer.find(".chrome-only").show().remove('d-none');
+			if (environment.manifestV3) {
+				tabContainer.find(".chrome-mv3-only").show().remove('d-none');
+			}
 		} else {
-			tabContainer.find("#divAlertFirefox").show();
-			tabContainer.find(".firefox-only").show();
+			tabContainer.find("#divAlertFirefox").show().remove('d-none');
+			tabContainer.find(".firefox-only").show().remove('d-none');
 			tabContainer.find(".chrome-only").hide();
 		}
 
