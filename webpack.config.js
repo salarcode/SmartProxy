@@ -35,10 +35,10 @@ module.exports = function (args) {
     'ui/code/settingsPage': ['./src/ui/code/settingsPage.ts', `./src/core/browsers/${browserType}.ts`],
   };
   if (coreIsServiceWorker) {
-    codeEntries["core"] = ['./src/core/ServiceWorker/CoreServiceWorker.ts', `./src/core/browsers/${browserType}.ts`]
+    codeEntries["core"] = [`./src/core/browsers/${browserType}.ts`, './src/core/ServiceWorker/CoreServiceWorker.ts']
   }
   else {
-    codeEntries["core"] = ['./src/core/Core.ts', `./src/core/browsers/${browserType}.ts`]
+    codeEntries["core"] = [`./src/core/browsers/${browserType}.ts`, './src/core/Core.ts',]
   }
 
   return unzipPromise.then(() => {

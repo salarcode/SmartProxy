@@ -19,37 +19,40 @@ import { Settings } from "./Settings";
 import { monitorUrlsSchemaFilter, SmartProfileType } from "./definitions";
 import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
 
+const apiLib = api;
+const environmentLib = environment;
+
 export class ProxyAuthentication {
 	private static pendingRequests: { [index: string]: any } = {};
 
 	public static startMonitor() {
-		if (environment.chrome) {
 
-			if (environment.manifestV3) {
+		if (environmentLib.chrome) {
+			if (environmentLib.manifestV3) {
 				// In manifest v3 it is not possible to block, so this is useless mostly I think.
-				api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+				apiLib.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
 					{ urls: monitorUrlsSchemaFilter }
 				);
 			}
 			else {
 				// chrome supports asyncBlocking
-				api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+				apiLib.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
 					{ urls: monitorUrlsSchemaFilter },
 					["asyncBlocking"]
 				);
 			}
 		} else {
-			api.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
+			apiLib.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
 				{ urls: monitorUrlsSchemaFilter },
 				["blocking"]
 			);
 		}
-		api.webRequest.onCompleted.addListener(
+		apiLib.webRequest.onCompleted.addListener(
 			ProxyAuthentication.onRequestFinished,
 			{ urls: monitorUrlsSchemaFilter }
 		);
 
-		api.webRequest.onErrorOccurred.addListener(
+		apiLib.webRequest.onErrorOccurred.addListener(
 			ProxyAuthentication.onRequestFinished,
 			{ urls: monitorUrlsSchemaFilter }
 		);
