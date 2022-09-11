@@ -341,6 +341,7 @@ export class SettingsConfig implements Cloneable {
 		this.proxyServerSubscriptions = copyProxySubs;
 
 		this.firstEverInstallNotified = source.firstEverInstallNotified;
+		this.version = source.version;
 	}
 }
 

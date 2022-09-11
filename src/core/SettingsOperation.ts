@@ -25,6 +25,11 @@ import { ProxyRules } from "./ProxyRules";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
 import { ProfileOperations } from "./ProfileOperations";
 
+const subscriptionUpdaterLib = SubscriptionUpdater;
+const proxyEngineLib = ProxyEngine;
+const polyFillLib = PolyFill;
+const utilsLib = Utils;
+
 export class SettingsOperation {
 
 	public static getStrippedSyncableSettings(settings: SettingsConfig): SettingsConfig {
@@ -46,20 +51,20 @@ export class SettingsOperation {
 
 	public static readSyncedSettings(success: Function) {
 		// getting synced data
-		PolyFill.storageSyncGet(null,
+		polyFillLib.storageSyncGet(null,
 			onGetSyncData,
 			onGetSyncError);
 
 		function onGetSyncData(data: any) {
-
 			try {
-				let syncedSettings = Utils.decodeSyncData(data);
+				let syncedSettings = utilsLib.decodeSyncData(data);
 
 				// only if sync settings is enabled
 				if (syncedSettings &&
 					syncedSettings.options) {
 
 					if (syncedSettings.options.syncSettings) {
+
 						syncedSettings = Settings.getRestorableSettings(syncedSettings);
 						Settings.revertSyncOptions(syncedSettings);
 						// use synced settings
@@ -72,6 +77,7 @@ export class SettingsOperation {
 					}
 
 					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
+					Settings.updateActiveSettings();
 
 					if (success)
 						success();
@@ -95,7 +101,7 @@ export class SettingsOperation {
 			Settings.current = data;
 
 			// read all the synced data along with synced ones
-			PolyFill.storageSyncGet(null,
+			polyFillLib.storageSyncGet(null,
 				onGetSyncData,
 				onGetSyncError);
 		}
@@ -103,13 +109,14 @@ export class SettingsOperation {
 		function onGetSyncData(data: any) {
 
 			try {
-				let syncedSettings = Utils.decodeSyncData(data);
+				let syncedSettings = utilsLib.decodeSyncData(data);
 
 				// only if sync settings is enabled
 				if (syncedSettings &&
 					syncedSettings.options) {
 
 					if (syncedSettings.options.syncSettings) {
+
 
 						// use synced settings
 						syncedSettings = Settings.getRestorableSettings(syncedSettings);
@@ -123,6 +130,7 @@ export class SettingsOperation {
 					}
 
 					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
+					Settings.updateActiveSettings();
 				}
 			} catch (e) {
 				Debug.error(`SettingsOperation.onGetSyncData error: ${e} \r\n ${data}`);
@@ -145,7 +153,7 @@ export class SettingsOperation {
 				success();
 			}
 		}
-		PolyFill.storageLocalGet(null,
+		polyFillLib.storageLocalGet(null,
 			onGetLocalData,
 			onGetLocalError);
 
@@ -274,11 +282,11 @@ export class SettingsOperation {
 			SettingsOperation.saveAllLocal(true);
 
 			// Compile rules & Updates Firefox/Chrome proxy configurations
-			ProxyEngine.notifyProxyRulesChanged();
+			proxyEngineLib.notifyProxyRulesChanged();
 
 			// reload the subscriptions
-			SubscriptionUpdater.reloadEmptyServerSubscriptions();
-			SubscriptionUpdater.reloadEmptyRulesSubscriptions();
+			subscriptionUpdaterLib.reloadEmptyServerSubscriptions();
+			subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
 		});
 	}
 	public static saveAllSync(saveToSyncServer: boolean = true) {
@@ -292,12 +300,10 @@ export class SettingsOperation {
 
 		if (saveToSyncServer) {
 			var strippedSettings = SettingsOperation.getStrippedSyncableSettings(Settings.current);
-			let saveObject = Utils.encodeSyncData(strippedSettings);
-
+			let saveObject = utilsLib.encodeSyncData(strippedSettings);
 			try {
-				PolyFill.storageSyncSet(saveObject,
+				polyFillLib.storageSyncSet(saveObject,
 					() => {
-
 						Settings.currentOptionsSyncSettings = Settings.current.options.syncSettings;
 					},
 					(error: Error) => {
@@ -314,7 +320,7 @@ export class SettingsOperation {
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet(Settings.current,
+		polyFillLib.storageLocalSet(Settings.current,
 			null,
 			(error: Error) => {
 				Debug.error(`SettingsOperation.saveAllLocal error: ${error.message}`);
@@ -325,7 +331,7 @@ export class SettingsOperation {
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ options: Settings.current.options },
+		polyFillLib.storageLocalSet({ options: Settings.current.options },
 			null,
 			(error: Error) => {
 				Debug.error(`SettingsOperation.saveOptions error: ${error.message}`);
@@ -336,7 +342,7 @@ export class SettingsOperation {
 	// 		// don't save in local when sync enabled
 	// 		return;
 
-	// 	PolyFill.storageLocalSet({ proxyRules: Settings.current.proxyRules },
+	// 	polyFillLib.storageLocalSet({ proxyRules: Settings.current.proxyRules },
 	// 		null,
 	// 		(error: Error) => {
 	// 			Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
@@ -347,7 +353,7 @@ export class SettingsOperation {
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ proxyProfiles: Settings.current.proxyProfiles },
+		polyFillLib.storageLocalSet({ proxyProfiles: Settings.current.proxyProfiles },
 			null,
 			(error: Error) => {
 				Debug.error(`SettingsOperation.saveProxyProfiles error: ${error.message}`);
@@ -358,7 +364,7 @@ export class SettingsOperation {
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ proxyServers: Settings.current.proxyServers },
+		polyFillLib.storageLocalSet({ proxyServers: Settings.current.proxyServers },
 			null,
 			(error: Error) => {
 				Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
@@ -369,7 +375,7 @@ export class SettingsOperation {
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ proxyServerSubscriptions: Settings.current.proxyServerSubscriptions },
+		polyFillLib.storageLocalSet({ proxyServerSubscriptions: Settings.current.proxyServerSubscriptions },
 			null,
 			(error: Error) => {
 				Debug.error(`SettingsOperation.proxyServerSubscriptions error: ${error.message}`);
@@ -380,7 +386,7 @@ export class SettingsOperation {
 	// 		// don't save in local when sync enabled
 	// 		return;
 
-	// 	PolyFill.storageLocalSet({ proxyRulesSubscriptions: Settings.current.proxyRulesSubscriptions },
+	// 	polyFillLib.storageLocalSet({ proxyRulesSubscriptions: Settings.current.proxyRulesSubscriptions },
 	// 		null,
 	// 		(error: Error) => {
 	// 			Debug.error(`SettingsOperation.proxyRulesSubscriptions error: ${error.message}`);
@@ -392,7 +398,7 @@ export class SettingsOperation {
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ defaultProxyServerId: Settings.current.defaultProxyServerId },
+		polyFillLib.storageLocalSet({ defaultProxyServerId: Settings.current.defaultProxyServerId },
 			null,
 			(error: Error) => {
 				Debug.error(`SettingsOperation.saveDefaultProxyServer error: ${error.message}`);
@@ -403,7 +409,7 @@ export class SettingsOperation {
 			// don't save in local when sync enabled
 			return;
 
-		PolyFill.storageLocalSet({ activeProfileId: Settings.current.activeProfileId },
+		polyFillLib.storageLocalSet({ activeProfileId: Settings.current.activeProfileId },
 			null,
 			(error: Error) => {
 				Debug.error(`SettingsOperation.saveActiveProfile error: ${error.message}`);
@@ -431,7 +437,6 @@ export class SettingsOperation {
 	public static restoreBackup(fileData: string) {
 		if (fileData == null)
 			return { success: false, message: "Invalid data" };
-
 		let restoreResult = SettingsOperation.restoreBackupFromFile(fileData);
 		if (!restoreResult.success) {
 			return restoreResult;
@@ -443,9 +448,11 @@ export class SettingsOperation {
 		SettingsOperation.saveAllSync();
 
 		// update proxy rules/config
-		ProxyEngine.updateBrowsersProxyConfig();
+		proxyEngineLib.updateBrowsersProxyConfig();
 
 		Settings.updateActiveSettings();
+
+		
 
 		return { success: true, message: api.i18n.getMessage("settingsRestoreSettingsSuccess") }
 	}
@@ -469,9 +476,12 @@ export class SettingsOperation {
 				Debug.error('Backup data is missing `Version` field', fileData);
 				return { success: false, message: api.i18n.getMessage("settingsRestoreSettingsFailedInvalid") };
 			}
-
 			let settingsCopy = new SettingsConfig();
 			settingsCopy.CopyFrom(currentSettings);
+
+			PolyFill.managementGetSelf((info: any) => {
+				settingsCopy.version = info.version;
+			}, null);
 
 			if (backupConfig.version < '0.9.999') {
 				Object.assign(settingsCopy, backupConfig);
@@ -568,7 +578,7 @@ export class SettingsOperation {
 		SettingsOperation.saveAllSync();
 
 		// update proxy rules/config
-		ProxyEngine.updateBrowsersProxyConfig();
+		proxyEngineLib.updateBrowsersProxyConfig();
 
 		Settings.updateActiveSettings();
 	}
@@ -764,7 +774,7 @@ export class SettingsOperation {
 
 				SettingsOperation.saveProxyServerSubscriptions();
 				// update the timers
-				SubscriptionUpdater.updateServerSubscriptions();
+				subscriptionUpdaterLib.updateServerSubscriptions();
 			}
 
 			if (backupProxyProfiles != null) {
@@ -772,7 +782,7 @@ export class SettingsOperation {
 				Settings.current.proxyProfiles = backupProxyProfiles;
 
 				SettingsOperation.saveSmartProfiles();
-				ProxyEngine.notifyProxyRulesChanged();
+				proxyEngineLib.notifyProxyRulesChanged();
 			}
 
 			if (backupDefaultProxyServerId != null) {
@@ -793,7 +803,7 @@ export class SettingsOperation {
 			SettingsOperation.saveAllSync();
 
 			// update proxy rules/config
-			ProxyEngine.updateBrowsersProxyConfig();
+			proxyEngineLib.updateBrowsersProxyConfig();
 
 			Settings.updateActiveSettings();
 
