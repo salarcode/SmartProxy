@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { api } from "../lib/environment";
+import { api, environment } from "../lib/environment";
 import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
@@ -452,7 +452,7 @@ export class SettingsOperation {
 
 		Settings.updateActiveSettings();
 
-		
+
 
 		return { success: true, message: api.i18n.getMessage("settingsRestoreSettingsSuccess") }
 	}
@@ -479,9 +479,7 @@ export class SettingsOperation {
 			let settingsCopy = new SettingsConfig();
 			settingsCopy.CopyFrom(currentSettings);
 
-			PolyFill.managementGetSelf((info: any) => {
-				settingsCopy.version = info.version;
-			}, null);
+			settingsCopy.version = environment.extensionVersion;
 
 			if (backupConfig.version < '0.9.999') {
 				Object.assign(settingsCopy, backupConfig);

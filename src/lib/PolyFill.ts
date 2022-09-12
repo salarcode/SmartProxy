@@ -417,3 +417,6 @@ PolyFill.runtimeGetBrowserInfo((response: any) => {
 	environment.version = parseInt(response.version) || 1.0;
 	environment.name = response.name;
 });
+PolyFill.managementGetSelf((info: any) => {
+	environment.extensionVersion = info.version;
+}, null);

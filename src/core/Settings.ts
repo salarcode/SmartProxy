@@ -34,7 +34,7 @@ import {
 } from './definitions';
 import { Debug } from '../lib/Debug';
 import { SettingsOperation } from './SettingsOperation';
-import { api } from '../lib/environment';
+import { api, environment } from '../lib/environment';
 import { Utils } from '../lib/Utils';
 import { ProfileOperations } from './ProfileOperations';
 
@@ -147,10 +147,7 @@ export class Settings {
 		if (config['proxyServerSubscriptions'] == null || !Array.isArray(config.proxyServerSubscriptions)) {
 			config.proxyServerSubscriptions = [];
 		}
-
-		PolyFill.managementGetSelf((info: any) => {
-			config.version = info.version;
-		}, null);
+		config.version = environment.extensionVersion;
 	}
 
 	public static migrateFromVersion09x(oldConfig: any): SettingsConfig {
