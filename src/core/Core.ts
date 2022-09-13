@@ -676,6 +676,7 @@ export class Core {
 		dataForPopup.proxyableDomains = [];
 		dataForPopup.proxyProfiles = ProfileOperations.getSmartProfileBaseList(settings.proxyProfiles);
 		dataForPopup.activeProfileId = settings.activeProfileId;
+		dataForPopup.activeIncognitoProfileId = settings.options.activeIncognitoProfileId;
 		dataForPopup.hasProxyServers = settings.proxyServers.length > 0;
 		dataForPopup.proxyServers = settings.proxyServers;
 		dataForPopup.currentProxyServerId =
@@ -713,6 +714,7 @@ export class Core {
 		// tab info
 		dataForPopup.currentTabId = currentTabData.tabId;
 		dataForPopup.currentTabIndex = currentTabData.index;
+		dataForPopup.currentTabIsIncognito = currentTabData.incognito;
 
 		// failed requests
 		dataForPopup.failedRequests = WebFailedRequestMonitor.convertFailedRequestsToArray(currentTabData.failedRequests);
@@ -849,58 +851,68 @@ export class Core {
 		return result;
 	}
 
-	public static setBrowserActionStatus(tabData?: TabDataType) {
+	private static getBrowserActionIconAndTitle(profileType: SmartProfileType) {
 		let extensionName = api.i18n.getMessage('extensionName');
-		let proxyTitle = '';
-		if (!settingsLib.active || !settingsLib.active.activeProfile)
-			return;
-		switch (settingsLib.active.activeProfile.profileType) {
+		switch (profileType) {
 			case SmartProfileType.Direct:
-				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupNoProxy')}`;
-				PolyFill.browserActionSetIcon({
-					path: {
-						16: 'icons/proxymode-disabled-16.png',
-						32: 'icons/proxymode-disabled-32.png',
-						48: 'icons/proxymode-disabled-48.png',
-					},
-				});
-				break;
+				return {
+					title: `${extensionName} : ${api.i18n.getMessage('popupNoProxy')}`,
+					icons: {
+						path: {
+							16: 'icons/proxymode-disabled-16.png',
+							32: 'icons/proxymode-disabled-32.png',
+							48: 'icons/proxymode-disabled-48.png',
+						}
+					}
+				};
 
 			case SmartProfileType.AlwaysEnabledBypassRules:
-				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupAlwaysEnable')}`;
-				PolyFill.browserActionSetIcon({
-					path: {
-						16: 'icons/proxymode-always-16.png',
-						32: 'icons/proxymode-always-32.png',
-						48: 'icons/proxymode-always-48.png',
-					},
-				});
-				break;
+				return {
+					title: `${extensionName} : ${api.i18n.getMessage('popupAlwaysEnable')}`,
+					icons: {
+						path: {
+							16: 'icons/proxymode-always-16.png',
+							32: 'icons/proxymode-always-32.png',
+							48: 'icons/proxymode-always-48.png',
+						}
+					}
+				};
 
 			case SmartProfileType.SystemProxy:
-				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupSystemProxy')}`;
-				PolyFill.browserActionSetIcon({
-					path: {
-						16: 'icons/proxymode-system-16.png',
-						32: 'icons/proxymode-system-32.png',
-						48: 'icons/proxymode-system-48.png',
-					},
-				});
-				break;
+				return {
+					title: `${extensionName} : ${api.i18n.getMessage('popupSystemProxy')}`,
+					icons: {
+						path: {
+							16: 'icons/proxymode-system-16.png',
+							32: 'icons/proxymode-system-32.png',
+							48: 'icons/proxymode-system-48.png',
+						}
+					}
+				};
 
 			case SmartProfileType.SmartRules:
 			default:
-				proxyTitle = `${extensionName} : ${api.i18n.getMessage('popupSmartProxy')}`;
-				PolyFill.browserActionSetIcon({
-					path: {
-						16: 'icons/smartproxy-16.png',
-						24: 'icons/smartproxy-24.png',
-						48: 'icons/smartproxy-48.png',
-						96: 'icons/smartproxy-96.png',
-					},
-				});
-				break;
+				return {
+					title: `${extensionName} : ${api.i18n.getMessage('popupSmartProxy')}`,
+					icons: {
+						path: {
+							16: 'icons/smartproxy-16.png',
+							24: 'icons/smartproxy-24.png',
+							48: 'icons/smartproxy-48.png',
+							96: 'icons/smartproxy-96.png',
+						}
+					}
+				};
 		}
+	}
+
+	public static setBrowserActionStatus(tabData?: TabDataType) {
+		if (!settingsLib.active || !settingsLib.active.activeProfile)
+			return;
+		let info = Core.getBrowserActionIconAndTitle(settingsLib.active.activeProfile.profileType);
+		let proxyTitle = info.title;
+
+		PolyFill.browserActionSetIcon(info.icons);
 
 		// TODO: Because of bug #40 do not add additional in overflow menu
 
@@ -909,6 +921,17 @@ export class Core {
 
 		if (tabData) {
 			let failedCount = 0;
+
+			if (tabData.incognito && settingsLib.active.activeIncognitoProfile) {
+				// private browsing mode has special profile, setting icon for that
+
+				info = Core.getBrowserActionIconAndTitle(settingsLib.active.activeIncognitoProfile.profileType);
+				proxyTitle = info.title;
+
+				// limiting to this tab only
+				info.icons["tabId"] = tabData.tabId;
+				PolyFill.browserActionSetIcon(info.icons);
+			}
 
 			if (settingsLib.current?.options?.displayFailedOnBadge == true)
 				failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);

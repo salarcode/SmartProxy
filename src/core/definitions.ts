@@ -165,11 +165,13 @@ export class PopupInternalDataType {
 	public proxyableDomains: ProxyableDomainType[];
 	public proxyProfiles: SmartProfileBase[];
 	public activeProfileId: string;
+	public activeIncognitoProfileId: string;
 	public hasProxyServers: boolean;
 	public proxyServers: ProxyServer[];
 	public currentProxyServerId: string;
 	public currentTabId: number;
 	public currentTabIndex: number;
+	public currentTabIsIncognito: boolean;
 	public proxyServersSubscribed: ProxyServer[];
 	public updateAvailableText: string;
 	public updateInfo: any;
@@ -347,6 +349,7 @@ export class SettingsConfig implements Cloneable {
 
 export class SettingsActive {
 	public activeProfile: SmartProfileCompiled;
+	public activeIncognitoProfile: SmartProfileCompiled;
 
 	/** Current proxy server is derived from 
 	 * Active Profile if it is set otherwise it is derived from Default Proxy Server */
@@ -520,6 +523,7 @@ export class GeneralOptions implements Cloneable {
 	public displayAppliedProxyOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public displayMatchedRuleOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public proxyPerOrigin: boolean = true;
+	public activeIncognitoProfileId: string;
 	public enableShortcuts: boolean = true;
 	public shortcutNotification: boolean = true;
 	public themeType: ThemeType = ThemeType.Auto;

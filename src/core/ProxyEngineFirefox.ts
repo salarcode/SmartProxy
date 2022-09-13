@@ -28,7 +28,7 @@ import {
 	CompiledProxyRuleSource,
 } from './definitions';
 import { ProxyRules } from './ProxyRules';
-import { TabManager } from './TabManager';
+import { TabDataType, TabManager } from './TabManager';
 import { PolyFill } from '../lib/PolyFill';
 import { Settings } from './Settings';
 import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
@@ -127,8 +127,8 @@ export class ProxyEngineFirefox {
 			if (!requestDetails.url)
 				return { type: 'direct' };
 
-			const activeProfile = settingsActive.activeProfile;
-			const activeProfileType = activeProfile.profileType;
+			let activeProfile = settingsActive.activeProfile;
+			let activeProfileType = activeProfile.profileType;
 
 			// checking if request is special
 			let specialRequest = ProxyEngineSpecialRequests.retrieveSpecialUrlMode(requestDetails.url, true);
@@ -155,6 +155,19 @@ export class ProxyEngineFirefox {
 				}
 			}
 
+			let tabData: TabDataType = null;
+			if (requestDetails.tabId > -1) {
+				tabData = TabManager.getTab(requestDetails.tabId);
+
+				if (tabData != null && tabData.incognito && settingsActive.activeIncognitoProfile != null) {
+					const activeIncognitoProfile = settingsActive.activeIncognitoProfile;
+
+					// in incognito tab/window switching to use the specified profile
+					activeProfile = activeIncognitoProfile;
+					activeProfileType = activeIncognitoProfile.profileType;
+				}
+			}
+
 			if (activeProfileType === SmartProfileType.Direct ||
 				// Direct proxy profile is selected or
 				// if there is no active server, skip everything
@@ -169,8 +182,7 @@ export class ProxyEngineFirefox {
 			}
 
 			// applying ProxyPerOrigin
-			if (settings.options.proxyPerOrigin && requestDetails.tabId > -1) {
-				let tabData = TabManager.getTab(requestDetails.tabId);
+			if (tabData != null && settings.options.proxyPerOrigin) {
 
 				if (tabData != null && tabData.proxified) {
 					if (!requestDetails.documentUrl) {

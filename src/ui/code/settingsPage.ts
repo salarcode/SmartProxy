@@ -77,8 +77,8 @@ export class settingsPage {
 		this.loadServersGrid(this.currentSettings.proxyServers);
 		this.loadServerSubscriptionsGrid(this.currentSettings.proxyServerSubscriptions);
 		this.loadDefaultProxyServer(this.currentSettings.proxyServers, this.currentSettings.proxyServerSubscriptions);
-		this.loadGeneralOptions(this.currentSettings.options);
 		this.loadSmartProfiles(this.currentSettings.proxyProfiles);
+		this.loadGeneralOptions(this.currentSettings.options);
 		CommonUi.onDocumentReady(this.loadAllProfilesProxyServers);
 
 		// make copy
@@ -89,6 +89,8 @@ export class settingsPage {
 	private static bindEvents() {
 		// general options
 		jQuery("#btnSkipWelcome").click(settingsPage.uiEvents.onClickSkipWelcome);
+
+		jQuery("#cmbGeneralIncognitoProfile").on('focus', settingsPage.uiEvents.onGeneralIncognitoProfileFocus);
 
 		jQuery("#btnSaveGeneralOptions").click(settingsPage.uiEvents.onClickSaveGeneralOptions);
 
@@ -725,6 +727,10 @@ export class settingsPage {
 		let divGeneral = jQuery("#tab-general");
 
 		divGeneral.find("#chkProxyPerOrigin").prop("checked", options.proxyPerOrigin || false);
+		if (options.activeIncognitoProfileId) {
+			this.populateIncognitoProfileDropDown(options.activeIncognitoProfileId);
+		}
+		divGeneral.find("#cmbGeneralIncognitoProfile").val(options.activeIncognitoProfileId || '');
 
 		divGeneral.find("#chkSyncSettings").prop("checked", options.syncSettings || false);
 		divGeneral.find("#chkSyncProxyMode").prop("checked", options.syncActiveProfile || false);
@@ -754,6 +760,8 @@ export class settingsPage {
 		if (environment.chrome) {
 			divGeneral.find("#chkProxyPerOrigin").attr("disabled", "disabled")
 				.parents("label").attr("disabled", "disabled");
+			divGeneral.find("#cmbGeneralIncognitoProfile").attr("disabled", "disabled")
+				.parents("label").attr("disabled", "disabled");
 		}
 	}
 
@@ -763,6 +771,7 @@ export class settingsPage {
 		let divGeneral = jQuery("#tab-general");
 
 		generalOptions.proxyPerOrigin = divGeneral.find("#chkProxyPerOrigin").prop("checked");
+		generalOptions.activeIncognitoProfileId = divGeneral.find("#cmbGeneralIncognitoProfile").val();
 
 		generalOptions.syncSettings = divGeneral.find("#chkSyncSettings").prop("checked");
 		generalOptions.syncActiveProfile = divGeneral.find("#chkSyncProxyMode").prop("checked");
@@ -791,6 +800,29 @@ export class settingsPage {
 
 		return generalOptions;
 	}
+
+	private static populateIncognitoProfileDropDown(selectedId?: string) {
+		const jq = jQuery;
+
+		const cmbGeneralIncognitoProfile = jQuery("#cmbGeneralIncognitoProfile");
+		const selectedValue = selectedId || cmbGeneralIncognitoProfile.val();
+		cmbGeneralIncognitoProfile.empty();
+
+		jq("<option>").attr("value", "")
+			// (Auto detect with HTTP fallback)
+			.text(api.i18n.getMessage("settingsGeneralIncognitoProfileDisabled"))
+			.appendTo(cmbGeneralIncognitoProfile);
+
+		for (const pgProfile of settingsPage.pageSmartProfiles) {
+			const smartProfile = pgProfile.smartProfile;
+
+			jQuery("<option>").attr("value", smartProfile.profileId)
+				.text(smartProfile.profileName)
+				.appendTo(cmbGeneralIncognitoProfile);
+		}
+		cmbGeneralIncognitoProfile.val(selectedValue);
+	}
+
 
 	//#endregion
 
@@ -1800,6 +1832,9 @@ export class settingsPage {
 				{
 					command: CommandMessages.SettingsPageSkipWelcome
 				});
+		},
+		onGeneralIncognitoProfileFocus() {
+			settingsPage.populateIncognitoProfileDropDown();
 		},
 		onClickSaveGeneralOptions() {
 			let generalOptions = settingsPage.readGeneralOptions();

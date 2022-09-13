@@ -433,14 +433,14 @@ export class Settings {
 
 		let active = Settings.active ?? (Settings.active = new SettingsActive());
 
-		let foundProfile = ProfileOperations.findSmartProfileById(settings.activeProfileId, settings.proxyProfiles);
-		if (!foundProfile && fallback) {
-			foundProfile = ProfileOperations.findSmartProfileById(SmartProfileTypeBuiltinIds.Direct, settings.proxyProfiles);
+		let foundActiveProfile = ProfileOperations.findSmartProfileById(settings.activeProfileId, settings.proxyProfiles);
+		if (!foundActiveProfile && fallback) {
+			foundActiveProfile = ProfileOperations.findSmartProfileById(SmartProfileTypeBuiltinIds.Direct, settings.proxyProfiles);
 		}
 
 		let activeProfile: SmartProfileCompiled = null;
-		if (foundProfile) {
-			active.activeProfile = ProfileOperations.compileSmartProfile(foundProfile);
+		if (foundActiveProfile) {
+			active.activeProfile = ProfileOperations.compileSmartProfile(foundActiveProfile);
 			activeProfile = active.activeProfile;
 		}
 
@@ -455,6 +455,20 @@ export class Settings {
 				active.currentProxyServer = foundProxy;
 			}
 		}
+
+		let activeIncognitoProfile: SmartProfileCompiled = null;
+		if (settings.options.activeIncognitoProfileId) {
+			if (foundActiveProfile.profileId == settings.options.activeIncognitoProfileId) {
+				activeIncognitoProfile = activeProfile;
+			}
+			else {
+				const incognitoProfile = ProfileOperations.findSmartProfileById(settings.options.activeIncognitoProfileId, settings.proxyProfiles);
+				if (incognitoProfile) {
+					activeIncognitoProfile = ProfileOperations.compileSmartProfile(incognitoProfile);
+				}
+			}
+		}
+		active.activeIncognitoProfile = activeIncognitoProfile;
 
 		let profileIgnoreFailureRules = ProfileOperations.getIgnoreFailureRulesProfile();
 		if (profileIgnoreFailureRules)

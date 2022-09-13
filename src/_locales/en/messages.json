@@ -27,6 +27,10 @@
 		"message": "SmartProxy Activation",
 		"description": ""
 	},
+	"popupPrivateBrowsingMode": {
+		"message": "Private Browsing Mode",
+		"description": ""
+	},
 	"popupNoProxy": {
 		"message": "Direct (No Proxy)",
 		"description": ""
@@ -284,7 +288,7 @@
 		"description": ""
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong>Firefox only!</strong> Unfortunately this feature is not supported by Chrome.</span>",
+		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome.",
 		"description": ""
 	},
 	"settingsGeneralProxyPerOrigin": {
@@ -303,8 +307,16 @@
 		"message": "Proxy per tab/origin disabled",
 		"description": ""
 	},
-	"settingsGeneralSyncing": {
-		"message": "Syncing",
+	"settingsGeneralIncognitoProfile": {
+		"message": "Private Browsing Profile",
+		"description": ""
+	},
+	"settingsGeneralIncognitoProfileDisabled": {
+		"message": "(Disabled)",
+		"description": ""
+	},
+	"settingsGeneralIncognitoProfileDesc": {
+		"message": "Select a private browsing profile if you want to force it to be used when tab/window is in Private Browsing mode. This option will override the active profile.",
 		"description": ""
 	},
 	"settingsGeneralEnableSyncing": {

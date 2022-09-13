@@ -162,7 +162,7 @@ hr {
 }
 
 .list-style-type-check {
-	list-style-type: "\2705";
+	list-style-type: '\2705';
 }
 /* ============================== */
 /* Settings page styles */
@@ -190,11 +190,11 @@ hr {
 }
 #tabSettings .nav-link .fa,
 #tabSettings .nav-link .fas,
-#tabSettings .nav-link .fa-stack{
+#tabSettings .nav-link .fa-stack {
 	width: 23px;
 	text-align: center;
 }
-#tabSettings .nav-link .fa-stack{
+#tabSettings .nav-link .fa-stack {
 	margin: 0;
 }
 
@@ -316,6 +316,30 @@ hr {
 	right: 0;
 	top: 4px;
 }
+.private-browsing-mode-head {
+	background: var(--bs-info);
+	color: var(--bs-gray-100);
+	background-image: none;
+	padding: 4px 4px;
+	border-radius: 10px 10px 0 0;
+	margin: 0;
+}
+.proxy-profiles-incognito-mode {
+	padding: 4px 0;
+	border-radius: 0 0 10px 10px;
+	background: var(--bs-info);
+	margin: 0;
+}
+.proxy-profiles-incognito-mode a {
+	margin: 2px 5px;
+	border-radius: 5px;
+	width: auto;
+	color: var(--bs-gray-100);
+}
+
+.proxy-profiles-incognito-mode a:not(.active):hover {
+	color: var(--bs-info);
+}
 /* ============================== */
 /* Proxyable page styles */
 /* ------------------------------ */
@@ -334,7 +358,7 @@ hr {
 	/* display: inline-block; */
 	width: 92%;
 }
-.grid-status-col-text .grid-ellipsis-text-link{
+.grid-status-col-text .grid-ellipsis-text-link {
 	margin: 6px 2px 0 0;
 }
 .grid-col-nowrap {

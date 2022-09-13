@@ -150,8 +150,31 @@ export class popup {
 	private static populateSmartProfiles(profiles: SmartProfileBase[], activeProfileId: string) {
 		let divProxyProfiles = jQuery("#divProxyProfiles");
 		let divProfileTemplate = divProxyProfiles.find("#divProfileTemplate").hide();
-
+		let popupData = popup.popupData;
 		let lastMenu = divProfileTemplate;
+
+		if (popupData.currentTabIsIncognito && popupData.activeIncognitoProfileId) {
+			let incognitoProfile = profiles.find(a => a.profileId == popupData.activeIncognitoProfileId);
+			if (incognitoProfile != null) {
+				jQuery("#divIncognitoProxyProfileHead").removeClass("d-none").show();
+				divProxyProfiles.addClass("proxy-profiles-incognito-mode");
+
+				let profileMenu = createMenuItem(incognitoProfile);
+				profileMenu.addClass('active');
+				profileMenu.show();
+
+				profileMenu.on("click", (e: any) => {
+					PolyFill.runtimeOpenOptionsPage();
+					popup.closeSelf();
+				});
+
+				lastMenu.after(profileMenu);
+				lastMenu = profileMenu;
+
+				// completed
+				return;
+			}
+		}
 
 		for (const profile of profiles) {
 			if (!profile.enabled)
@@ -159,15 +182,10 @@ export class popup {
 			if (!profile.profileTypeConfig.selectable)
 				continue;
 			if (profile.profileType === SmartProfileType.SystemProxy &&
-				popup.popupData.notSupportedSetProxySettings)
+				popupData.notSupportedSetProxySettings)
 				continue;
 
-			let newId = 'smart-profile-' + profile.profileId;
-
-			let profileMenu = divProfileTemplate.clone();
-			profileMenu.find("span").text(profile.profileName);
-			profileMenu.find(".icon").addClass(getSmartProfileTypeIcon(profile.profileType));
-			profileMenu.attr("id", newId);
+			let profileMenu = createMenuItem(profile);
 
 			if (profile.profileId == activeProfileId)
 				profileMenu.addClass('active');
@@ -177,6 +195,17 @@ export class popup {
 
 			lastMenu.after(profileMenu);
 			lastMenu = profileMenu;
+		}
+
+		function createMenuItem(profile: SmartProfileBase): any {
+			let newId = 'smart-profile-' + profile.profileId;
+
+			let profileMenu = divProfileTemplate.clone();
+			profileMenu.find("span").text(profile.profileName);
+			profileMenu.find(".icon").addClass(getSmartProfileTypeIcon(profile.profileType));
+			profileMenu.attr("id", newId);
+
+			return profileMenu;
 		}
 	}
 
