@@ -17,7 +17,8 @@ This branch is focused on Smart Profiles:
 
 #### Download From Store
 
- * [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/) [Firefox Desktop & Firefox for Android Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy)
+ * [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/) [Firefox Desktop Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy)
+* [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/) [Firefox for Android Extension](https://github.com/salarcode/SmartProxy/wiki/Install-on-Firefox-Android)
  * [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/jogcnplbkgkfdakgdenhlpcfhjioidoj.svg)](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj) [Chrome Extension](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj)
 
 * [Edge Extension](https://microsoftedge.microsoft.com/addons/detail/canbjhbbhfggbdfgpddpnckdjgfcbnpb)
