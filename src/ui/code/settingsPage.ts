@@ -333,6 +333,17 @@ export class settingsPage {
 		tabSettingsOffCanvas.hide();
 	}
 
+	private static windowScrollToTop(delayed?: boolean) {
+		if (delayed) {
+			setTimeout(() => {
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			}, 300);
+		}
+		else {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+	}
+
 	private static populateSettingsUiData(settingsData: SettingsPageInternalDataType) {
 		let currentSettings = settingsData.settings;
 
@@ -1164,7 +1175,10 @@ export class settingsPage {
 		profileMenu.attr("id", menuId);
 		profileMenu.attr("href", '#' + tabId);
 		profileMenu.addClass('nav-smart-profile-item');
-		profileMenu.click(settingsPage.hideMenuOffCanvas);
+		profileMenu.click(() => {
+			settingsPage.hideMenuOffCanvas();
+			settingsPage.windowScrollToTop(true);
+		});
 
 		return profileMenu;
 	}
@@ -1826,6 +1840,7 @@ export class settingsPage {
 	private static uiEvents = {
 		onClickMenuOffCanvas() {
 			settingsPage.hideMenuOffCanvas();
+			settingsPage.windowScrollToTop(true);
 		},
 		onClickSkipWelcome() {
 			PolyFill.runtimeSendMessage(
