@@ -203,15 +203,6 @@ export class Core {
 				return;
 			}
 
-			// TODO: REMOVE
-			// case CommandMessages.PopupChangeProxyMode: {
-			// 	if (message.proxyMode === null || message.proxyMode === undefined) return;
-
-			// 	Core.ChangeActiveProfileId(+message.proxyMode);
-
-			// 	return;
-			// }
-
 			case CommandMessages.PopupChangeActiveProxyServer: {
 				if (!message.id)
 					return;
@@ -529,7 +520,6 @@ export class Core {
 	}
 
 	public static ChangeActiveProfileId(profileId: string) {
-		// TODO: rename to `ChangeProxyProfile`
 
 		let profile = ProfileOperations.findSmartProfileById(profileId, settingsLib.current.proxyProfiles);
 		if (profile == null) {

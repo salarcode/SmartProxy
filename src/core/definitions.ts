@@ -936,8 +936,3 @@ export class ProxyRulesSubscription {
 		return true;
 	}
 }
-
-
-export function findProxyServerById(id: string, servers: ProxyServer[]): ProxyServer | null {
-	return servers.find((a) => a.id === id);
-}

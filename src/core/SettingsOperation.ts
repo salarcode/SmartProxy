@@ -418,9 +418,33 @@ export class SettingsOperation {
 
 	/** Updates the `proxy server` used in the proxy rules for all SmartProfiles*/
 	public static updateSmartProfilesRulesProxyServer() {
-		// TODO: ...
-		// let servers = Settings.current.proxyServers;
-		// let rules = Settings.current.proxyRules;
+		const proxyServers = Settings.current.proxyServers;
+		const proxyServerSubs = Settings.current.proxyServerSubscriptions;
+		const profiles = Settings.current.proxyProfiles;
+
+		for (const profile of profiles) {
+			if (!profile.proxyRules)
+				continue;
+			for (const rule of profile.proxyRules) {
+				if (!rule.proxyServerId) {
+					rule.proxy = null;
+					continue;
+				}
+				let proxyServer = SettingsOperation.findProxyServerByIdFromList(
+					rule.proxyServerId,
+					proxyServers,
+					proxyServerSubs
+				)
+				if (proxyServer) {
+					rule.proxy = proxyServer;
+				}
+				else {
+					rule.proxy = null;
+					rule.proxyServerId = null;
+				}
+			}
+		}
+
 
 		// for (const server of servers) {
 		// 	for (const rule of rules) {
