@@ -164,6 +164,10 @@ hr {
 .list-style-type-check {
 	list-style-type: '\2705';
 }
+
+.alert a{
+	color: inherit;
+}
 /* ============================== */
 /* Settings page styles */
 /* ------------------------------ */
