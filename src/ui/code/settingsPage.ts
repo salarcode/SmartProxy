@@ -327,6 +327,12 @@ export class settingsPage {
 	//#region Populate UI ----------------------
 
 	/** Display General UI data */
+
+	private static hideMenuOffCanvas() {
+		const tabSettingsOffCanvas = bootstrap.Offcanvas.getInstance(jq("#tabSettingsOffCanvas"));
+		tabSettingsOffCanvas.hide();
+	}
+
 	private static populateSettingsUiData(settingsData: SettingsPageInternalDataType) {
 		let currentSettings = settingsData.settings;
 
@@ -1158,6 +1164,7 @@ export class settingsPage {
 		profileMenu.attr("id", menuId);
 		profileMenu.attr("href", '#' + tabId);
 		profileMenu.addClass('nav-smart-profile-item');
+		profileMenu.click(settingsPage.hideMenuOffCanvas);
 
 		return profileMenu;
 	}
@@ -1818,8 +1825,7 @@ export class settingsPage {
 	//#region Events --------------------------
 	private static uiEvents = {
 		onClickMenuOffCanvas() {
-			const tabSettingsOffCanvas = bootstrap.Offcanvas.getInstance(jq("#tabSettingsOffCanvas"));
-			tabSettingsOffCanvas.hide();
+			settingsPage.hideMenuOffCanvas();
 		},
 		onClickSkipWelcome() {
 			PolyFill.runtimeSendMessage(
