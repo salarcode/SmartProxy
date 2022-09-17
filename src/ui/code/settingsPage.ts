@@ -366,7 +366,6 @@ export class settingsPage {
 			serverSubscriptions = settingsPage.readServerSubscriptions();
 
 		let hasSelectedItem = false;
-
 		// adding select options
 		proxyServers.forEach((proxyServer: ProxyServer) => {
 
@@ -379,7 +378,7 @@ export class settingsPage {
 				.attr("value", proxyServer.id)
 				.text(proxyServer.name)
 				.appendTo(comboBox);
-
+				
 			let selected = (proxyServer.id === selectedProxyId);
 			option.prop("selected", selected);
 
@@ -425,7 +424,6 @@ export class settingsPage {
 				subscriptionGroup.remove();
 			}
 		}
-
 		if (!hasSelectedItem) {
 			// first item
 			comboBox[0].selectedIndex = 0;
@@ -2029,7 +2027,7 @@ export class settingsPage {
 		onClickSubmitProxyServer() {
 
 			let modal = jQuery("#modalModifyProxyServer");
-			let editingModel = modal.data("editing");
+			let editingModel: ProxyServer = modal.data("editing");
 
 			let serverInputInfo = settingsPage.readServerModel(modal);
 
@@ -2067,9 +2065,12 @@ export class settingsPage {
 				messageBox.error(api.i18n.getMessage("settingsServerAuthenticationInvalid"));
 				return;
 			}
+			
 			if (editingModel) {
 				// just copy the values
+				const proxyServerId = editingModel.id;
 				jQuery.extend(editingModel, serverInputInfo);
+				editingModel.id = proxyServerId;
 
 				settingsPage.refreshServersGrid();
 
