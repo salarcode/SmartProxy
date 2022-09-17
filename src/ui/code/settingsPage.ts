@@ -159,7 +159,7 @@ export class settingsPage {
 
 		let dataTableCustomDom = '<t><"row"<"col-sm-12 col-md-5"<"text-left float-left"f>><"col-sm-12 col-md-7"<"text-right"l>>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>';
 
-		settingsPage.grdServers = jQuery("#grdServers").DataTable({
+		settingsPage.grdServers = jq("#grdServers").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
 			select: true,
@@ -196,7 +196,7 @@ export class settingsPage {
 		);
 		settingsPage.grdServers.draw();
 
-		settingsPage.grdServerSubscriptions = jQuery("#grdServerSubscriptions").DataTable({
+		settingsPage.grdServerSubscriptions = jq("#grdServerSubscriptions").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
 			select: true,
@@ -245,7 +245,7 @@ export class settingsPage {
 			settingsPage.loadServerSubscriptionsGrid([]);
 		}
 
-		jQuery("#tabSettings").on('shown.bs.tab', (e: any) => {
+		jq("#tabSettings").on('shown.bs.tab', (e: any) => {
 			// DataTables columns are not adjusted when hidden, needs to be done manually
 			settingsPage.grdServers.columns.adjust().draw();
 			settingsPage.grdServerSubscriptions.columns.adjust().draw();
@@ -254,53 +254,53 @@ export class settingsPage {
 
 	private static initializeUi() {
 		if (environment.chrome) {
-			jQuery("#divAlertChrome").show().remove('d-none');
-			jQuery(".firefox-only").hide();
-			jQuery(".chrome-only").show().remove('d-none');
+			jq("#divAlertChrome").show().remove('d-none');
+			jq(".firefox-only").hide();
+			jq(".chrome-only").show().remove('d-none');
 			if (environment.manifestV3) {
-				jQuery(".chrome-mv3-only").show().remove('d-none');
+				jq(".chrome-mv3-only").show().remove('d-none');
 			}
 		} else {
-			jQuery("#divAlertFirefox").show().remove('d-none');
-			jQuery(".firefox-only").show().remove('d-none');
-			jQuery(".chrome-only").hide();
+			jq("#divAlertFirefox").show().remove('d-none');
+			jq(".firefox-only").show().remove('d-none');
+			jq(".chrome-only").hide();
 		}
-		jQuery("#linkAddonsMarket")
+		jq("#linkAddonsMarket")
 			.text(environment.browserConfig.marketName)
 			.attr("href", environment.browserConfig.marketUrl || "#");
 
 
 		// -- ServerSubscription --------
 		// applying the default values
-		let cmbServerSubscriptionProtocol = jQuery("#cmbServerSubscriptionProtocol");
-		let cmbServerSubscriptionObfuscation = jQuery("#cmbServerSubscriptionObfuscation");
+		let cmbServerSubscriptionProtocol = jq("#cmbServerSubscriptionProtocol");
+		let cmbServerSubscriptionObfuscation = jq("#cmbServerSubscriptionObfuscation");
 
-		jQuery("<option>").attr("value", "")
+		jq("<option>").attr("value", "")
 			// (Auto detect with HTTP fallback)
 			.text(api.i18n.getMessage("settingsServerSubscriptionProtocolDefault"))
 			.appendTo(cmbServerSubscriptionProtocol);
 		proxyServerProtocols.forEach(item => {
-			jQuery("<option>").attr("value", item)
+			jq("<option>").attr("value", item)
 				.text(item)
 				.appendTo(cmbServerSubscriptionProtocol);
 		});
 
 		proxyServerSubscriptionObfuscate.forEach(item => {
-			jQuery("<option>").attr("value", item)
+			jq("<option>").attr("value", item)
 				.text(item)
 				.appendTo(cmbServerSubscriptionObfuscation);
 		});
 
-		let cmbServerSubscriptionFormat = jQuery("#cmbServerSubscriptionFormat");
+		let cmbServerSubscriptionFormat = jq("#cmbServerSubscriptionFormat");
 		proxyServerSubscriptionFormat.forEach((item, index) => {
-			jQuery("<option>").attr("value", index)
+			jq("<option>").attr("value", index)
 				.text(item)
 				.appendTo(cmbServerSubscriptionFormat);
 		});
 
-		let cmbServerSubscriptionApplyProxy = jQuery("#cmbServerSubscriptionApplyProxy");
+		let cmbServerSubscriptionApplyProxy = jq("#cmbServerSubscriptionApplyProxy");
 		specialRequestApplyProxyModeKeys.forEach((item, index) => {
-			jQuery("<option>").attr("value", index)
+			jq("<option>").attr("value", index)
 				.text(api.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
 				.appendTo(cmbServerSubscriptionApplyProxy);
 		});
@@ -311,7 +311,7 @@ export class settingsPage {
 		var ww = document.body.clientWidth;
 		if (ww < 576) {
 			// show off-canvas on mobile
-			const tabSettingsOffCanvas = bootstrap.Offcanvas.getOrCreateInstance(jQuery("#tabSettingsOffCanvas"));
+			const tabSettingsOffCanvas = bootstrap.Offcanvas.getOrCreateInstance(jq("#tabSettingsOffCanvas"));
 			tabSettingsOffCanvas.show();
 		}
 	}
@@ -320,7 +320,7 @@ export class settingsPage {
 		if (settingsPage.currentSettings.firstEverInstallNotified === true ||
 			(settingsPage.currentSettings.proxyServers != null && settingsPage.currentSettings.proxyServers.length > 0))
 			return;
-		let modal = jQuery("#modalWelcome");
+		let modal = jq("#modalWelcome");
 		modal.modal("show");
 	}
 
@@ -330,7 +330,7 @@ export class settingsPage {
 	private static populateSettingsUiData(settingsData: SettingsPageInternalDataType) {
 		let currentSettings = settingsData.settings;
 
-		let divNoServersWarning = jQuery("#divNoServersWarning");
+		let divNoServersWarning = jq("#divNoServersWarning");
 		if (currentSettings.proxyServers.length > 0 ||
 			(currentSettings.proxyServerSubscriptions && currentSettings.proxyServerSubscriptions.length > 0)) {
 
@@ -339,10 +339,10 @@ export class settingsPage {
 			divNoServersWarning.show().remove('d-none');
 		}
 
-		jQuery("#spanVersion").text("Version: " + currentSettings.version);
+		jq("#spanVersion").text("Version: " + currentSettings.version);
 
 		if (settingsData.updateAvailableText && settingsData.updateInfo) {
-			jQuery(".menu-update-available").show().remove('d-none')
+			jq(".menu-update-available").show().remove('d-none')
 				.find("a")
 				.attr("href", settingsData.updateInfo.downloadPage)
 				.find("span")
@@ -367,7 +367,7 @@ export class settingsPage {
 				return;
 
 			// proxyServer
-			let option = jQuery("<option>")
+			let option = jq("<option>")
 				.attr("value", proxyServer.id)
 				.text(proxyServer.name)
 				.appendTo(comboBox);
@@ -381,7 +381,7 @@ export class settingsPage {
 		});
 
 		if (serverSubscriptions && serverSubscriptions.length > 0) {
-			let subscriptionGroup = jQuery("<optgroup>")
+			let subscriptionGroup = jq("<optgroup>")
 				// -Subscriptions-
 				.attr("label", api.i18n.getMessage("settingsActiveProxyServerSubscriptions"))
 				.appendTo(comboBox);
@@ -398,7 +398,7 @@ export class settingsPage {
 						// exit loop
 						return;
 
-					let option = jQuery("<option>")
+					let option = jq("<option>")
 						.attr("value", proxyServer.name)
 						.text(proxyServer.id)
 						.appendTo(subscriptionGroup);
@@ -425,7 +425,7 @@ export class settingsPage {
 	}
 
 	private static populateServerProtocol() {
-		let modal = jQuery("#modalModifyProxyServer");
+		let modal = jq("#modalModifyProxyServer");
 		let serverInputInfo = settingsPage.readServerModel(modal);
 
 		if (serverInputInfo.protocol == "SOCKS5")
@@ -493,11 +493,11 @@ export class settingsPage {
 
 		if (cmdRuleProxyServer.length) {
 			// the default value which is empty string
-			jQuery("<option>")
+			jq("<option>")
 				.attr("value", ProxyRuleSpecialProxyServer.DefaultGeneral)
 				.text(api.i18n.getMessage("settingsRulesProxyDefault")) // [Use Active Proxy]
 				.appendTo(cmdRuleProxyServer);
-			jQuery("<option>")
+			jq("<option>")
 				.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)
 				.text(api.i18n.getMessage("settingsRulesProxyFromProfile")) // [Use Profile Proxy]
 				.appendTo(cmdRuleProxyServer);
@@ -715,7 +715,7 @@ export class settingsPage {
 	private static loadGeneralOptions(options: GeneralOptions) {
 		if (!options)
 			return;
-		let divGeneral = jQuery("#tab-general");
+		let divGeneral = jq("#tab-general");
 
 		divGeneral.find("#chkProxyPerOrigin").prop("checked", options.proxyPerOrigin || false);
 		if (options.activeIncognitoProfileId) {
@@ -759,7 +759,7 @@ export class settingsPage {
 	private static readGeneralOptions(generalOptions?: GeneralOptions): GeneralOptions {
 		if (!generalOptions)
 			generalOptions = new GeneralOptions();
-		let divGeneral = jQuery("#tab-general");
+		let divGeneral = jq("#tab-general");
 
 		generalOptions.proxyPerOrigin = divGeneral.find("#chkProxyPerOrigin").prop("checked");
 		generalOptions.activeIncognitoProfileId = divGeneral.find("#cmbGeneralIncognitoProfile").val();
@@ -794,7 +794,7 @@ export class settingsPage {
 
 	private static populateIncognitoProfileDropDown(selectedId?: string) {
 
-		const cmbGeneralIncognitoProfile = jQuery("#cmbGeneralIncognitoProfile");
+		const cmbGeneralIncognitoProfile = jq("#cmbGeneralIncognitoProfile");
 		const selectedValue = selectedId || cmbGeneralIncognitoProfile.val();
 		cmbGeneralIncognitoProfile.empty();
 
@@ -806,7 +806,7 @@ export class settingsPage {
 		for (const pgProfile of settingsPage.pageSmartProfiles) {
 			const smartProfile = pgProfile.smartProfile;
 
-			jQuery("<option>").attr("value", smartProfile.profileId)
+			jq("<option>").attr("value", smartProfile.profileId)
 				.text(smartProfile.profileName)
 				.appendTo(cmbGeneralIncognitoProfile);
 		}
@@ -831,7 +831,7 @@ export class settingsPage {
 	private static loadDefaultProxyServer(proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
 		let defaultProxyServerId = this.currentSettings.defaultProxyServerId;
 
-		let cmbActiveProxyServer = jQuery("#cmbActiveProxyServer");
+		let cmbActiveProxyServer = jq("#cmbActiveProxyServer");
 
 		// remove previous items
 		cmbActiveProxyServer.children().remove();
@@ -848,7 +848,7 @@ export class settingsPage {
 		let dataItem;
 
 		if (e && e.target) {
-			let rowElement = jQuery(e.target).parents('tr');
+			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child')) {
 				this.grdServers.rows().deselect();
 				dataItem = this.grdServers.row(rowElement.prev('tr.parent')).select().data();
@@ -864,7 +864,7 @@ export class settingsPage {
 
 	private static readSelectedServerRow(e: any): any {
 		if (e && e.target) {
-			let rowElement = jQuery(e.target).parents('tr');
+			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child'))
 				return this.grdServers.row({ selected: true });
 			else
@@ -893,7 +893,7 @@ export class settingsPage {
 		if (invalidate)
 			row.invalidate();
 
-		let rowElement = jQuery(row.node());
+		let rowElement = jq(row.node());
 
 		// NOTE: to display update data the row should be invalidated
 		// and invalidated row loosed the event bindings.
@@ -906,7 +906,7 @@ export class settingsPage {
 	private static refreshServersGridRowElement(rowElement: any, invalidate?: boolean) {
 		if (!rowElement)
 			return;
-		rowElement = jQuery(rowElement);
+		rowElement = jq(rowElement);
 
 		rowElement.find("#btnServersRemove").on("click", settingsPage.uiEvents.onServersRemoveClick);
 		rowElement.find("#btnServersEdit").on("click", settingsPage.uiEvents.onServersEditClick);
@@ -915,7 +915,7 @@ export class settingsPage {
 	private static refreshServersGridAllRows() {
 		var nodes = this.grdServers.rows().nodes();
 		for (let index = 0; index < nodes.length; index++) {
-			const rowElement = jQuery(nodes[index]);
+			const rowElement = jq(nodes[index]);
 
 			rowElement.find("#btnServersRemove").on("click", settingsPage.uiEvents.onServersRemoveClick);
 			rowElement.find("#btnServersEdit").on("click", settingsPage.uiEvents.onServersEditClick);
@@ -1064,8 +1064,8 @@ export class settingsPage {
 		let profileMenu = pageSmartProfile.htmlProfileMenu;
 		let profileTab = pageSmartProfile.htmlProfileTab;
 
-		let profileTabTemplate = jQuery("#tab-smart-profile");
-		let btnAddNewSmartProfile = jQuery(".menu-add-smart-profile");
+		let profileTabTemplate = jq("#tab-smart-profile");
+		let btnAddNewSmartProfile = jq(".menu-add-smart-profile");
 		profileTabTemplate.after(profileTab);
 		btnAddNewSmartProfile.before(profileMenu);
 
@@ -1090,8 +1090,8 @@ export class settingsPage {
 		let profileMenu = pageSmartProfile.htmlProfileMenu;
 		let profileTab = pageSmartProfile.htmlProfileTab;
 
-		let profileTabTemplate = jQuery("#tab-smart-profile");
-		let btnAddNewSmartProfile = jQuery(".menu-add-smart-profile");
+		let profileTabTemplate = jq("#tab-smart-profile");
+		let btnAddNewSmartProfile = jq(".menu-add-smart-profile");
 		profileTabTemplate.after(profileTab);
 		btnAddNewSmartProfile.before(profileMenu);
 
@@ -1144,7 +1144,7 @@ export class settingsPage {
 	}
 
 	private static createProfileMenu(profile: SmartProfile, tabId: string, isNewProfile: boolean = false) {
-		let profileMenuTemplate = jQuery(".menu-smart-profile");
+		let profileMenuTemplate = jq(".menu-smart-profile");
 
 		let newId = 'smart-profile-' + Utils.getNewUniqueIdNumber();
 		let menuId = 'menu-' + newId;
@@ -1163,7 +1163,7 @@ export class settingsPage {
 	}
 
 	private static createProfileTab(profile: SmartProfile, isNewProfile: boolean = false): any {
-		let profileTabTemplate = jQuery("#tab-smart-profile");
+		let profileTabTemplate = jq("#tab-smart-profile");
 		let newId = 'smart-profile-' + Utils.getNewUniqueIdNumber();
 		let tabId = 'tab-' + newId;
 		if (isNewProfile)
@@ -1219,7 +1219,7 @@ export class settingsPage {
 		let profileTab = pageProfile.htmlProfileTab;
 		let profileMenu = pageProfile.htmlProfileMenu;
 
-		jQuery("#tabSettingsContent").find('.tab-pane').removeClass('active show')
+		jq("#tabSettingsContent").find('.tab-pane').removeClass('active show')
 		profileTab.css('display', '');
 		profileMenu.tab('show');
 	}
@@ -1231,7 +1231,7 @@ export class settingsPage {
 			.select();
 	}
 	private static selectAddNewProfileMenu() {
-		jQuery('.menu-add-smart-profile').first().tab('show');
+		jq('.menu-add-smart-profile').first().tab('show');
 	}
 
 	private static updateProfileMenuName(pageProfile: SettingsPageSmartProfile) {
@@ -1248,7 +1248,7 @@ export class settingsPage {
 		if (cmbProfileProxyServer.length) {
 			// remove previous items
 			cmbProfileProxyServer.children().remove();
-			jQuery("<option>")
+			jq("<option>")
 				.attr("value", "")
 				.text(api.i18n.getMessage("settingsProfilesProxyServer"))
 				.appendTo(cmbProfileProxyServer);
@@ -1383,14 +1383,14 @@ export class settingsPage {
 		let cmbRulesSubscriptionObfuscation = tabContainer.find("#cmbRulesSubscriptionObfuscation");
 
 		proxyServerSubscriptionObfuscate.forEach(item => {
-			jQuery("<option>").attr("value", item)
+			jq("<option>").attr("value", item)
 				.text(item)
 				.appendTo(cmbRulesSubscriptionObfuscation);
 		});
 
 		let cmbRulesSubscriptionApplyProxy = tabContainer.find("#cmbRulesSubscriptionApplyProxy");
 		specialRequestApplyProxyModeKeys.forEach((item, index) => {
-			jQuery("<option>").attr("value", index)
+			jq("<option>").attr("value", index)
 				.text(api.i18n.getMessage("settingsServerSubscriptionApplyProxy_" + item))
 				.appendTo(cmbRulesSubscriptionApplyProxy);
 		});
@@ -1474,7 +1474,7 @@ export class settingsPage {
 	private static readSelectedRule(pageProfile: SettingsPageSmartProfile, e?: any): ProxyRule {
 		let dataItem;
 		if (e && e.target) {
-			let rowElement = jQuery(e.target).parents('tr');
+			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child')) {
 				pageProfile.grdRules.rows().deselect();
 				dataItem = pageProfile.grdRules.row(rowElement.prev('tr.parent')).select().data();
@@ -1490,7 +1490,7 @@ export class settingsPage {
 
 	private static readSelectedRuleRow(pageProfile: SettingsPageSmartProfile, e: any): any {
 		if (e && e.target) {
-			let rowElement = jQuery(e.target).parents('tr');
+			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child'))
 				return pageProfile.grdRules.row({ selected: true });
 			else
@@ -1519,7 +1519,7 @@ export class settingsPage {
 		if (invalidate)
 			row.invalidate();
 
-		let rowElement = jQuery(row.node());
+		let rowElement = jq(row.node());
 
 		// NOTE: to display update data the row should be invalidated
 		// and invalidated row loosed the event bindings.
@@ -1533,7 +1533,7 @@ export class settingsPage {
 		if (!rowElement)
 			return;
 
-		rowElement = jQuery(rowElement);
+		rowElement = jq(rowElement);
 
 		rowElement.find("#btnRulesRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesRemoveClick(pageProfile, e));
 		rowElement.find("#btnRulesEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesEditClick(pageProfile, e));
@@ -1542,7 +1542,7 @@ export class settingsPage {
 	private static refreshRulesGridAllRows(pageProfile: SettingsPageSmartProfile) {
 		var nodes = pageProfile.grdRules.rows().nodes();
 		for (let index = 0; index < nodes.length; index++) {
-			const rowElement = jQuery(nodes[index]);
+			const rowElement = jq(nodes[index]);
 
 			rowElement.find("#btnRulesRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesRemoveClick(pageProfile, e));
 			rowElement.find("#btnRulesEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesEditClick(pageProfile, e));
@@ -1607,7 +1607,7 @@ export class settingsPage {
 		let dataItem;
 
 		if (e && e.target) {
-			let rowElement = jQuery(e.target).parents('tr');
+			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child')) {
 				this.grdServerSubscriptions.rows().deselect();
 				dataItem = this.grdServerSubscriptions.row(rowElement.prev('tr.parent')).select().data();
@@ -1623,7 +1623,7 @@ export class settingsPage {
 
 	private static readSelectedServerSubscriptionRow(e: any): any {
 		if (e && e.target) {
-			let rowElement = jQuery(e.target).parents('tr');
+			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child'))
 				return this.grdServerSubscriptions.row({ selected: true });
 			else
@@ -1652,7 +1652,7 @@ export class settingsPage {
 		if (invalidate)
 			row.invalidate();
 
-		let rowElement = jQuery(row.node());
+		let rowElement = jq(row.node());
 
 		// NOTE: to display update data the row should be invalidated
 		// and invalidated row loosed the event bindings.
@@ -1666,7 +1666,7 @@ export class settingsPage {
 		if (!rowElement)
 			return;
 
-		rowElement = jQuery(rowElement);
+		rowElement = jq(rowElement);
 
 		rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
 		rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
@@ -1675,7 +1675,7 @@ export class settingsPage {
 	private static refreshServerSubscriptionsGridAllRows() {
 		var nodes = this.grdServerSubscriptions.rows().nodes();
 		for (let index = 0; index < nodes.length; index++) {
-			const rowElement = jQuery(nodes[index]);
+			const rowElement = jq(nodes[index]);
 
 			rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
 			rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
@@ -1720,7 +1720,7 @@ export class settingsPage {
 		let dataItem;
 
 		if (e && e.target) {
-			let rowElement = jQuery(e.target).parents('tr');
+			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child')) {
 				pageProfile.grdRulesSubscriptions.rows().deselect();
 				dataItem = pageProfile.grdRulesSubscriptions.row(rowElement.prev('tr.parent')).select().data();
@@ -1736,7 +1736,7 @@ export class settingsPage {
 
 	private static readSelectedRulesSubscriptionRow(pageProfile: SettingsPageSmartProfile, e: any): any {
 		if (e && e.target) {
-			let rowElement = jQuery(e.target).parents('tr');
+			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child'))
 				return pageProfile.grdRulesSubscriptions.row({ selected: true });
 			else
@@ -1765,7 +1765,7 @@ export class settingsPage {
 		if (invalidate)
 			row.invalidate();
 
-		let rowElement = jQuery(row.node());
+		let rowElement = jq(row.node());
 
 		// NOTE: to display update data the row should be invalidated
 		// and invalidated row loosed the event bindings.
@@ -1780,7 +1780,7 @@ export class settingsPage {
 		if (!rowElement)
 			return;
 
-		rowElement = jQuery(rowElement);
+		rowElement = jq(rowElement);
 
 		rowElement.find("#btnRuleSubscriptionsRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRemoveClick(pageProfile, e));
 		rowElement.find("#btnRuleSubscriptionsEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionEditClick(pageProfile, e));
@@ -1790,7 +1790,7 @@ export class settingsPage {
 	private static refreshRulesSubscriptionsGridAllRows(pageProfile: SettingsPageSmartProfile) {
 		var nodes = pageProfile.grdRulesSubscriptions.rows().nodes();
 		for (let index = 0; index < nodes.length; index++) {
-			const rowElement = jQuery(nodes[index]);
+			const rowElement = jq(nodes[index]);
 
 			rowElement.find("#btnRuleSubscriptionsRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRemoveClick(pageProfile, e));
 			rowElement.find("#btnRuleSubscriptionsEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionEditClick(pageProfile, e));
@@ -1818,7 +1818,7 @@ export class settingsPage {
 	//#region Events --------------------------
 	private static uiEvents = {
 		onClickMenuOffCanvas() {
-			const tabSettingsOffCanvas = bootstrap.Offcanvas.getInstance(jQuery("#tabSettingsOffCanvas"));
+			const tabSettingsOffCanvas = bootstrap.Offcanvas.getInstance(jq("#tabSettingsOffCanvas"));
 			tabSettingsOffCanvas.hide();
 		},
 		onClickSkipWelcome() {
@@ -1890,14 +1890,14 @@ export class settingsPage {
 		},
 		onSyncSettingsChanged() {
 			// reset the data
-			var checked = jQuery("#chkSyncSettings").prop("checked")
+			var checked = jq("#chkSyncSettings").prop("checked")
 			if (checked) {
-				jQuery("#chkSyncProxyMode").removeAttr("disabled");
-				jQuery("#chkSyncActiveProxy").removeAttr("disabled");
+				jq("#chkSyncProxyMode").removeAttr("disabled");
+				jq("#chkSyncActiveProxy").removeAttr("disabled");
 			}
 			else {
-				jQuery("#chkSyncProxyMode").attr("disabled", "disabled");
-				jQuery("#chkSyncActiveProxy").attr("disabled", "disabled");
+				jq("#chkSyncProxyMode").attr("disabled", "disabled");
+				jq("#chkSyncActiveProxy").attr("disabled", "disabled");
 			}
 		},
 		onClickIgnoreRequestFailuresForDomains() {
@@ -1930,7 +1930,7 @@ export class settingsPage {
 			}
 		},
 		onClickViewShortcuts(): boolean {
-			let modal = jQuery("#modalShortcuts");
+			let modal = jq("#modalShortcuts");
 
 			PolyFill.browserCommandsGetAll((commands: any[]) => {
 				let content = `<dl>`;
@@ -1945,29 +1945,29 @@ export class settingsPage {
 			return false;
 		},
 		onChangeThemesLight() {
-			var value = jQuery("#cmbThemesLight").val();
+			var value = jq("#cmbThemesLight").val();
 			if (value == themesCustomType) {
-				jQuery("#divThemesLightCustom").removeClass('d-none');
+				jq("#divThemesLightCustom").removeClass('d-none');
 			}
 			else {
-				jQuery("#divThemesLightCustom").addClass('d-none');
+				jq("#divThemesLightCustom").addClass('d-none');
 			}
 		},
 		onChangeThemesDark() {
-			var value = jQuery("#cmbThemesDark").val();
+			var value = jq("#cmbThemesDark").val();
 			if (value == themesCustomType) {
-				jQuery("#divThemesDarkCustom").removeClass('d-none');
+				jq("#divThemesDarkCustom").removeClass('d-none');
 			}
 			else {
-				jQuery("#divThemesDarkCustom").addClass('d-none');
+				jq("#divThemesDarkCustom").addClass('d-none');
 			}
 		},
 		onClickAddNewSmartProfile() {
-			let modal = jQuery("#modalAddNewSmartProfile");
+			let modal = jq("#modalAddNewSmartProfile");
 			modal.find("#rbtnNewSmartProfile_SmartRules").prop("checked", true);
 		},
 		onClickSubmitContinueAddingProfile() {
-			let modal = jQuery("#modalAddNewSmartProfile");
+			let modal = jq("#modalAddNewSmartProfile");
 			let profileTypeIsSmartRule = modal.find("#rbtnNewSmartProfile_SmartRules").prop("checked");
 			let profileTypeIsAlwaysEnabled = modal.find("#rbtnNewSmartProfile_AlwaysEnabled").prop("checked");
 
@@ -1995,7 +1995,7 @@ export class settingsPage {
 			modal.modal("hide");
 		},
 		onChangeActiveProxyServer() {
-			let proxyServerId = jQuery("#cmbActiveProxyServer").val();
+			let proxyServerId = jq("#cmbActiveProxyServer").val();
 
 			let server = settingsPage.findProxyServerById(proxyServerId);
 
@@ -2009,7 +2009,7 @@ export class settingsPage {
 		},
 		onClickAddProxyServer() {
 
-			let modal = jQuery("#modalModifyProxyServer");
+			let modal = jq("#modalModifyProxyServer");
 			modal.data("editing", null);
 
 			settingsPage.populateServerModal(modal, null);
@@ -2022,7 +2022,7 @@ export class settingsPage {
 		},
 		onClickSubmitProxyServer() {
 
-			let modal = jQuery("#modalModifyProxyServer");
+			let modal = jq("#modalModifyProxyServer");
 			let editingModel: ProxyServer = modal.data("editing");
 
 			let serverInputInfo = settingsPage.readServerModel(modal);
@@ -2087,7 +2087,7 @@ export class settingsPage {
 			if (!item)
 				return;
 
-			let modal = jQuery("#modalModifyProxyServer");
+			let modal = jq("#modalModifyProxyServer");
 			modal.data("editing", item);
 
 			settingsPage.populateServerModal(modal, item);
@@ -2114,7 +2114,7 @@ export class settingsPage {
 		onClickSaveProxyServers() {
 
 			// update the active proxy server data
-			jQuery("#cmbActiveProxyServer").trigger("change");
+			jq("#cmbActiveProxyServer").trigger("change");
 			let saveData = {
 				proxyServers: settingsPage.readServers(),
 				defaultProxyServerId: settingsPage.currentSettings.defaultProxyServerId
@@ -2642,7 +2642,7 @@ export class settingsPage {
 				});
 		},
 		onClickAddServerSubscription() {
-			let modal = jQuery("#modalServerSubscription");
+			let modal = jq("#modalServerSubscription");
 			modal.data("editing", null);
 
 			// empty the form
@@ -2663,7 +2663,7 @@ export class settingsPage {
 			if (!item)
 				return;
 
-			let modal = jQuery("#modalServerSubscription");
+			let modal = jq("#modalServerSubscription");
 			modal.data("editing", item);
 
 			settingsPage.populateServerSubscriptionsModal(modal, item);
@@ -2684,7 +2684,7 @@ export class settingsPage {
 				});
 		},
 		onClickSaveServerSubscription() {
-			let modal = jQuery("#modalServerSubscription");
+			let modal = jq("#modalServerSubscription");
 
 
 			if (!modal.find("form")[0].checkValidity()) {
@@ -2727,8 +2727,8 @@ export class settingsPage {
 			}
 
 			// Saving...
-			jQuery("#btnSaveServerSubscription").attr("data-loading-text", api.i18n.getMessage("settingsServerSubscriptionSavingButton"));
-			jQuery("#btnSaveServerSubscription").button("loading");
+			jq("#btnSaveServerSubscription").attr("data-loading-text", api.i18n.getMessage("settingsServerSubscriptionSavingButton"));
+			jq("#btnSaveServerSubscription").button("loading");
 
 			ProxyImporter.readFromServer(subscriptionModel,
 				(response: {
@@ -2736,7 +2736,7 @@ export class settingsPage {
 					message: string,
 					result: ProxyServer[]
 				}) => {
-					jQuery("#btnSaveServerSubscription").button('reset');
+					jq("#btnSaveServerSubscription").button('reset');
 
 					if (response.success) {
 						let count = response.result.length;
@@ -2777,11 +2777,11 @@ export class settingsPage {
 				},
 				() => {
 					messageBox.error(api.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
-					jQuery("#btnSaveServerSubscription").button('reset');
+					jq("#btnSaveServerSubscription").button('reset');
 				});
 		},
 		onClickTestServerSubscription() {
-			let modal = jQuery("#modalServerSubscription");
+			let modal = jq("#modalServerSubscription");
 
 			if (!modal.find("form")[0].checkValidity()) {
 				// Please fill the required fields in the right format
@@ -2797,8 +2797,8 @@ export class settingsPage {
 			}
 
 			// Testing...
-			jQuery("#btnTestServerSubscription").attr("data-loading-text", api.i18n.getMessage("settingsServerSubscriptionTestingButton"));
-			jQuery("#btnTestServerSubscription").button("loading");
+			jq("#btnTestServerSubscription").attr("data-loading-text", api.i18n.getMessage("settingsServerSubscriptionTestingButton"));
+			jq("#btnTestServerSubscription").button("loading");
 
 			// mark this request as special
 			var applyProxyMode = subscriptionModel.applyProxy;
@@ -2829,7 +2829,7 @@ export class settingsPage {
 							result: ProxyServer[]
 						}) => {
 
-							jQuery("#btnTestServerSubscription").button('reset');
+							jq("#btnTestServerSubscription").button('reset');
 
 							if (response.success) {
 								let count = response.result.length;
@@ -2841,12 +2841,12 @@ export class settingsPage {
 						},
 						() => {
 							messageBox.error(api.i18n.getMessage("settingsServerSubscriptionTestFailed"));
-							jQuery("#btnTestServerSubscription").button('reset');
+							jq("#btnTestServerSubscription").button('reset');
 						});
 				},
 				(error: Error) => {
 					messageBox.error(api.i18n.getMessage("settingsServerSubscriptionTestFailed"));
-					jQuery("#btnTestServerSubscription").button('reset');
+					jq("#btnTestServerSubscription").button('reset');
 				});
 		},
 		onClickSaveServerSubscriptionsChanges() {
@@ -3199,7 +3199,7 @@ export class settingsPage {
 			CommonUi.downloadData(proxyList, "SmartProxy-Servers.txt");
 		},
 		onClickImportProxyServer() {
-			let modalContainer = jQuery("#modalImportProxyServer");
+			let modalContainer = jq("#modalImportProxyServer");
 			let append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
 			let file, text;
 
@@ -3388,7 +3388,7 @@ export class settingsPage {
 					});
 			}
 
-			CommonUi.selectFileOnTheFly(jQuery("#frmRestoreBackup")[0],
+			CommonUi.selectFileOnTheFly(jq("#frmRestoreBackup")[0],
 				"restore-file",
 				(inputElement: any, files: any[]) => {
 					let file = files[0];
