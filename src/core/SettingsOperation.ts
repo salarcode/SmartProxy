@@ -444,19 +444,6 @@ export class SettingsOperation {
 				}
 			}
 		}
-
-
-		// for (const server of servers) {
-		// 	for (const rule of rules) {
-		// 		if (!rule.proxy)
-		// 			continue;
-
-		// 		if (rule.proxy.name != server.name)
-		// 			continue;
-
-		// 		rule.proxy = server;
-		// 	}
-		// }
 	}
 	public static restoreBackup(fileData: string) {
 		if (fileData == null)
@@ -475,8 +462,6 @@ export class SettingsOperation {
 		proxyEngineLib.updateBrowsersProxyConfig();
 
 		Settings.updateActiveSettings();
-
-
 
 		return { success: true, message: api.i18n.getMessage("settingsRestoreSettingsSuccess") }
 	}

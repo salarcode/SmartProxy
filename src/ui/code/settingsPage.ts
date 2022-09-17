@@ -16,7 +16,7 @@
  */
 import { CommonUi } from "./CommonUi";
 import { PolyFill } from "../../lib/PolyFill";
-import { messageBox, jQuery } from "../../lib/External";
+import { messageBox, jQuery, bootstrap } from "../../lib/External";
 import { environment, api } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
@@ -24,6 +24,8 @@ import { RuleImporter } from "../../lib/RuleImporter";
 import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
+
+const jq = jQuery;
 
 export class settingsPage {
 
@@ -47,7 +49,6 @@ export class settingsPage {
 	public static initialize() {
 
 		CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
-		CommonUi.onDocumentReady(settingsPage.resizableMenu);
 
 		CommonUi.onDocumentReady(this.bindEvents);
 		CommonUi.onDocumentReady(this.initializeGrids);
@@ -87,68 +88,71 @@ export class settingsPage {
 	}
 
 	private static bindEvents() {
+		// off canvas
+		jq("#tabSettingsOffCanvas .nav-link").click(settingsPage.uiEvents.onClickMenuOffCanvas)
+
 		// general options
-		jQuery("#btnSkipWelcome").click(settingsPage.uiEvents.onClickSkipWelcome);
+		jq("#btnSkipWelcome").click(settingsPage.uiEvents.onClickSkipWelcome);
 
-		jQuery("#cmbGeneralIncognitoProfile").on('focus', settingsPage.uiEvents.onGeneralIncognitoProfileFocus);
+		jq("#cmbGeneralIncognitoProfile").on('focus', settingsPage.uiEvents.onGeneralIncognitoProfileFocus);
 
-		jQuery("#btnSaveGeneralOptions").click(settingsPage.uiEvents.onClickSaveGeneralOptions);
+		jq("#btnSaveGeneralOptions").click(settingsPage.uiEvents.onClickSaveGeneralOptions);
 
-		jQuery("#btnRejectGeneralOptions").click(settingsPage.uiEvents.onClickRejectGeneralOptions);
+		jq("#btnRejectGeneralOptions").click(settingsPage.uiEvents.onClickRejectGeneralOptions);
 
-		jQuery("#chkSyncSettings").change(settingsPage.uiEvents.onSyncSettingsChanged);
+		jq("#chkSyncSettings").change(settingsPage.uiEvents.onSyncSettingsChanged);
 
-		jQuery("#btnIgnoreRequestFailuresForDomains").click(settingsPage.uiEvents.onClickIgnoreRequestFailuresForDomains);
+		jq("#btnIgnoreRequestFailuresForDomains").click(settingsPage.uiEvents.onClickIgnoreRequestFailuresForDomains);
 
-		jQuery("#btnViewShortcuts").click(settingsPage.uiEvents.onClickViewShortcuts);
+		jq("#btnViewShortcuts").click(settingsPage.uiEvents.onClickViewShortcuts);
 
-		jQuery("#cmbThemesLight").change(settingsPage.uiEvents.onChangeThemesLight);
+		jq("#cmbThemesLight").change(settingsPage.uiEvents.onChangeThemesLight);
 
-		jQuery("#cmbThemesDark").change(settingsPage.uiEvents.onChangeThemesDark);
+		jq("#cmbThemesDark").change(settingsPage.uiEvents.onChangeThemesDark);
 
 		// Smart profiles
-		jQuery("#btnAddNewSmartProfile").click(settingsPage.uiEvents.onClickAddNewSmartProfile);
+		jq(".menu-add-smart-profile").click(settingsPage.uiEvents.onClickAddNewSmartProfile);
 
-		jQuery("#btnSubmitContinueAddingProfile").click(settingsPage.uiEvents.onClickSubmitContinueAddingProfile);
+		jq("#btnSubmitContinueAddingProfile").click(settingsPage.uiEvents.onClickSubmitContinueAddingProfile);
 
 		// proxy servers
-		jQuery("#cmbActiveProxyServer").on("change", settingsPage.uiEvents.onChangeActiveProxyServer);
+		jq("#cmbActiveProxyServer").on("change", settingsPage.uiEvents.onChangeActiveProxyServer);
 
-		jQuery("#btnAddProxyServer").click(settingsPage.uiEvents.onClickAddProxyServer);
+		jq("#btnAddProxyServer").click(settingsPage.uiEvents.onClickAddProxyServer);
 
-		jQuery("#cmdServerProtocol").on("change", settingsPage.uiEvents.onChangeServerProtocol);
+		jq("#cmdServerProtocol").on("change", settingsPage.uiEvents.onChangeServerProtocol);
 
-		jQuery("#btnSubmitProxyServer").click(settingsPage.uiEvents.onClickSubmitProxyServer);
+		jq("#btnSubmitProxyServer").click(settingsPage.uiEvents.onClickSubmitProxyServer);
 
-		jQuery("#btnSaveProxyServers").click(settingsPage.uiEvents.onClickSaveProxyServers);
+		jq("#btnSaveProxyServers").click(settingsPage.uiEvents.onClickSaveProxyServers);
 
-		jQuery("#btnRejectProxyServers").click(settingsPage.uiEvents.onClickRejectProxyServers);
+		jq("#btnRejectProxyServers").click(settingsPage.uiEvents.onClickRejectProxyServers);
 
-		jQuery("#btnClearProxyServers").click(settingsPage.uiEvents.onClickClearProxyServers);
+		jq("#btnClearProxyServers").click(settingsPage.uiEvents.onClickClearProxyServers);
 
-		jQuery("#btnExportProxyServerOpen,#btnExportProxyServerOpenBackup").click(settingsPage.uiEvents.onClickExportProxyServerOpenBackup);
+		jq("#btnExportProxyServerOpen,#btnExportProxyServerOpenBackup").click(settingsPage.uiEvents.onClickExportProxyServerOpenBackup);
 
-		jQuery("#btnImportProxyServer").click(settingsPage.uiEvents.onClickImportProxyServer);
+		jq("#btnImportProxyServer").click(settingsPage.uiEvents.onClickImportProxyServer);
 
 		// backup
-		jQuery("#btnBackupComplete").click(settingsPage.uiEvents.onClickBackupComplete);
+		jq("#btnBackupComplete").click(settingsPage.uiEvents.onClickBackupComplete);
 
-		jQuery("#btnRestoreBackup").click(settingsPage.uiEvents.onClickRestoreBackup);
+		jq("#btnRestoreBackup").click(settingsPage.uiEvents.onClickRestoreBackup);
 
-		jQuery("#btnFactoryReset").click(settingsPage.uiEvents.onClickFactoryReset);
+		jq("#btnFactoryReset").click(settingsPage.uiEvents.onClickFactoryReset);
 
 		// proxy server subscriptions
-		jQuery("#btnAddServerSubscription").click(settingsPage.uiEvents.onClickAddServerSubscription);
+		jq("#btnAddServerSubscription").click(settingsPage.uiEvents.onClickAddServerSubscription);
 
-		jQuery("#btnSaveServerSubscription").click(settingsPage.uiEvents.onClickSaveServerSubscription);
+		jq("#btnSaveServerSubscription").click(settingsPage.uiEvents.onClickSaveServerSubscription);
 
-		jQuery("#btnTestServerSubscription").click(settingsPage.uiEvents.onClickTestServerSubscription);
+		jq("#btnTestServerSubscription").click(settingsPage.uiEvents.onClickTestServerSubscription);
 
-		jQuery("#btnClearServerSubscriptions").click(settingsPage.uiEvents.onClickClearServerSubscriptions);
+		jq("#btnClearServerSubscriptions").click(settingsPage.uiEvents.onClickClearServerSubscriptions);
 
-		jQuery("#btnSaveServerSubscriptionsChanges").click(settingsPage.uiEvents.onClickSaveServerSubscriptionsChanges);
+		jq("#btnSaveServerSubscriptionsChanges").click(settingsPage.uiEvents.onClickSaveServerSubscriptionsChanges);
 
-		jQuery("#btnRejectServerSubscriptionsChanges").click(settingsPage.uiEvents.onClickRejectServerSubscriptionsChanges);
+		jq("#btnRejectServerSubscriptionsChanges").click(settingsPage.uiEvents.onClickRejectServerSubscriptionsChanges);
 	}
 
 	private static initializeGrids() {
@@ -302,25 +306,14 @@ export class settingsPage {
 		});
 		if (environment.chrome)
 			cmbServerSubscriptionApplyProxy.attr("disabled", "disabled");
-	}
 
-	private static resizableMenu() {
 
-		var alterMenuCss = function () {
-			var ww = document.body.clientWidth;
-			// sm = 576px
-			if (ww < 576) {
-				jQuery('#tabSettings').removeClass('flex-column');
-			} else if (ww >= 576) {
-				jQuery('#tabSettings').addClass('flex-column');
-			};
-		};
-		jQuery(window).resize(function () {
-			alterMenuCss();
-		});
-
-		//Fire it when the page first loads:
-		alterMenuCss();
+		var ww = document.body.clientWidth;
+		if (ww < 576) {
+			// show off-canvas on mobile
+			const tabSettingsOffCanvas = bootstrap.Offcanvas.getOrCreateInstance(jQuery("#tabSettingsOffCanvas"));
+			tabSettingsOffCanvas.show();
+		}
 	}
 
 	private static showNewUserWelcome() {
@@ -349,7 +342,7 @@ export class settingsPage {
 		jQuery("#spanVersion").text("Version: " + currentSettings.version);
 
 		if (settingsData.updateAvailableText && settingsData.updateInfo) {
-			jQuery("#divUpdateIsAvailable").show().remove('d-none')
+			jQuery(".menu-update-available").show().remove('d-none')
 				.find("a")
 				.attr("href", settingsData.updateInfo.downloadPage)
 				.find("span")
@@ -378,7 +371,7 @@ export class settingsPage {
 				.attr("value", proxyServer.id)
 				.text(proxyServer.name)
 				.appendTo(comboBox);
-				
+
 			let selected = (proxyServer.id === selectedProxyId);
 			option.prop("selected", selected);
 
@@ -800,7 +793,6 @@ export class settingsPage {
 	}
 
 	private static populateIncognitoProfileDropDown(selectedId?: string) {
-		const jq = jQuery;
 
 		const cmbGeneralIncognitoProfile = jQuery("#cmbGeneralIncognitoProfile");
 		const selectedValue = selectedId || cmbGeneralIncognitoProfile.val();
@@ -1003,8 +995,8 @@ export class settingsPage {
 	}
 
 	private static loadSmartProfiles(profiles: SmartProfile[]) {
-		let jq = jQuery;
-		let profileMenuTemplate = jq("#menu-smart-profile").hide();
+
+		let profileMenuTemplate = jq(".menu-smart-profile").hide();
 		let profileTabTemplate = jq("#tab-smart-profile").hide();
 
 		let lastMenu = profileMenuTemplate;
@@ -1022,9 +1014,9 @@ export class settingsPage {
 			let profileTab = pageSmartProfile.htmlProfileTab;
 
 			// -----
-			lastMenu.after(profileMenu);
+			let newProfileMenuList = profileMenu.insertAfter(lastMenu);
 			lastTab.after(profileTab);
-			lastMenu = profileMenu;
+			lastMenu = newProfileMenuList;
 			lastTab = profileTab;
 
 			// -----
@@ -1073,7 +1065,7 @@ export class settingsPage {
 		let profileTab = pageSmartProfile.htmlProfileTab;
 
 		let profileTabTemplate = jQuery("#tab-smart-profile");
-		let btnAddNewSmartProfile = jQuery("#btnAddNewSmartProfile");
+		let btnAddNewSmartProfile = jQuery(".menu-add-smart-profile");
 		profileTabTemplate.after(profileTab);
 		btnAddNewSmartProfile.before(profileMenu);
 
@@ -1099,7 +1091,7 @@ export class settingsPage {
 		let profileTab = pageSmartProfile.htmlProfileTab;
 
 		let profileTabTemplate = jQuery("#tab-smart-profile");
-		let btnAddNewSmartProfile = jQuery("#btnAddNewSmartProfile");
+		let btnAddNewSmartProfile = jQuery(".menu-add-smart-profile");
 		profileTabTemplate.after(profileTab);
 		btnAddNewSmartProfile.before(profileMenu);
 
@@ -1152,13 +1144,13 @@ export class settingsPage {
 	}
 
 	private static createProfileMenu(profile: SmartProfile, tabId: string, isNewProfile: boolean = false) {
-		let profileMenuTemplate = jQuery("#menu-smart-profile");
+		let profileMenuTemplate = jQuery(".menu-smart-profile");
 
 		let newId = 'smart-profile-' + Utils.getNewUniqueIdNumber();
 		let menuId = 'menu-' + newId;
 		if (isNewProfile)
 			menuId += '-new';
-		let profileMenu = profileMenuTemplate.clone();
+		let profileMenu = profileMenuTemplate.first().clone();
 
 		// menu
 		profileMenu.find("#menu-smart-profile-name").text(profile.profileName);
@@ -1239,7 +1231,7 @@ export class settingsPage {
 			.select();
 	}
 	private static selectAddNewProfileMenu() {
-		jQuery('#btnAddNewSmartProfile').tab('show');
+		jQuery('.menu-add-smart-profile').first().tab('show');
 	}
 
 	private static updateProfileMenuName(pageProfile: SettingsPageSmartProfile) {
@@ -1825,6 +1817,10 @@ export class settingsPage {
 
 	//#region Events --------------------------
 	private static uiEvents = {
+		onClickMenuOffCanvas() {
+			const tabSettingsOffCanvas = bootstrap.Offcanvas.getInstance(jQuery("#tabSettingsOffCanvas"));
+			tabSettingsOffCanvas.hide();
+		},
 		onClickSkipWelcome() {
 			PolyFill.runtimeSendMessage(
 				{
@@ -2065,7 +2061,7 @@ export class settingsPage {
 				messageBox.error(api.i18n.getMessage("settingsServerAuthenticationInvalid"));
 				return;
 			}
-			
+
 			if (editingModel) {
 				// just copy the values
 				const proxyServerId = editingModel.id;

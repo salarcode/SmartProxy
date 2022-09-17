@@ -112,6 +112,7 @@ input:invalid {
 .nav-link.nav-smart-profile {
 	margin-left: 20px;
 	border-left: 2px solid rgb(228, 255, 245);
+	width: auto;
 }
 
 .form-text.text-muted {
@@ -165,7 +166,7 @@ hr {
 	list-style-type: '\2705';
 }
 
-.alert a{
+.alert a {
 	color: inherit;
 }
 /* ============================== */
@@ -188,7 +189,12 @@ hr {
 .backup-buttons {
 	min-width: 180px;
 }
-
+#tabSettingsOffCanvas {
+	width: 300px;
+}
+#tabSettingsOffCanvas .offcanvas-body {
+	overflow: auto;
+}
 #tabSettings .nav-link {
 	min-width: 160px;
 }
