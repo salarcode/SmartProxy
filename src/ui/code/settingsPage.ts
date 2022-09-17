@@ -1930,6 +1930,12 @@ export class settingsPage {
 			}
 		},
 		onClickViewShortcuts(): boolean {
+
+			if (environment.notSupported.keyboardShortcuts) {
+				messageBox.info("Keyboard shortcuts are not supported on mobile devices.");
+				return;
+			}
+
 			let modal = jq("#modalShortcuts");
 
 			PolyFill.browserCommandsGetAll((commands: any[]) => {

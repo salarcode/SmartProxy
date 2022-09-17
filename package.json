@@ -19,6 +19,7 @@
     "build-ff": "webpack --env.browser=firefox",
     "build-ff:watch": "webpack --watch --env.browser=firefox --env.dev=true",
     "build-ff-unlisted": "webpack --env.browser=firefox-unlisted",
+    "build-ff-android": "webpack --env.browser=firefox-android",
     "build-ch": "webpack --env.browser=chrome --env.service_worker=true",
     "build-ch:watch": "webpack --watch --env.browser=chrome --env.service_worker=true --env.dev=true",
     "build-ch-mv2": "webpack --env.browser=chrome-mv2",

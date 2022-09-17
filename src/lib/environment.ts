@@ -22,7 +22,8 @@ export let environment = {
 	mobile: false,
 	manifestV3: false,
 	notSupported: {
-		setProxySettings: false
+		setProxySettings: false,
+		keyboardShortcuts: false
 	},
 	notAllowed: {
 		setProxySettings: false

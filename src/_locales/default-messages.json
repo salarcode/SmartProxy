@@ -471,6 +471,10 @@
 		"message": "Close",
 		"description": ""
 	},
+	"settingsGeneralKeyboardShortcutsNotSupported": {
+		"message": "Keyboard shortcuts are not supported on mobile devices.",
+		"description": ""
+	},
 	"settingsTabProxyServersTitle": {
 		"message": "Manage your proxy servers:",
 		"description": ""
