@@ -471,6 +471,10 @@ export class popup {
 			PolyFill.runtimeOpenOptionsPage();
 		}
 		popup.closeSelf();
+		popup.refreshActiveTabIfNeeded();
+	}
+
+	private static refreshActiveTabIfNeeded() {
 		if (popup.popupData.refreshTabWhenProxyChange) {
 			PolyFill.tabsReloadCurrent();
 		}
@@ -487,6 +491,7 @@ export class popup {
 				command: CommandMessages.PopupChangeActiveProxyServer,
 				id
 			});
+		popup.refreshActiveTabIfNeeded();
 	}
 
 	private static onProxyableDomainClick() {
