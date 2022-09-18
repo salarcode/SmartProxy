@@ -455,8 +455,8 @@
 		"message": "Display applied rule pattern on badge",
 		"description": ""
 	},
-	"settingsGeneralRefreshTabWhenProfileChange": {
-		"message": "Refresh active tab when proxy profile changed",
+	"settingsGeneralRefreshTabWhenProxyChange": {
+		"message": "Refresh active tab when profile or proxy changed",
 		"description": ""
 	},
 	"settingsGeneralCancelButton": {

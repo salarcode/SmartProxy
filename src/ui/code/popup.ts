@@ -471,7 +471,7 @@ export class popup {
 			PolyFill.runtimeOpenOptionsPage();
 		}
 		popup.closeSelf();
-		if (popup.popupData.refreshTabWhenModeChange) {
+		if (popup.popupData.refreshTabWhenProxyChange) {
 			PolyFill.tabsReloadCurrent();
 		}
 	}
