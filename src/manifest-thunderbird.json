@@ -1,6 +1,6 @@
 {
 	"name": "__MSG_extensionName__",
-	"version": "1-alpha5",
+	"version": "0.9.999",
 	"manifest_version": 2,
 	"author": "Salar Khalilzadeh",
 	"description": "__MSG_extensionDescription__",
@@ -87,7 +87,7 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "smartproxy@salarcode.com",
-			"strict_min_version": "91.1.0"
+			"strict_min_version": "100.0"
 		}
 	}
 }
