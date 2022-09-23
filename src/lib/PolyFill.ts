@@ -56,6 +56,8 @@ export class PolyFill {
 	}
 	public static tabsGetCurrent(success?: Function, fail?: Function) {
 		if (environment.chrome) {
+			// Gets the tab that this script call is being made from.
+			// May be undefined if called from a non-tab context (for example, a background page or popup view).
 			api.tabs.getCurrent(
 				(tabInfo: any) => {
 					const error = PolyFill.lastError();
@@ -90,7 +92,6 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-
 	public static tabsReload(tabId: number, success?: Function, fail?: Function, reloadProperties?: any) {
 		if (environment.chrome) {
 			api.tabs.reload(tabId, reloadProperties,
@@ -106,6 +107,13 @@ export class PolyFill {
 			api.tabs.reload(tabId, reloadProperties)
 				.then(success, fail);
 		}
+	}
+	public static tabsReloadCurrent(success?: Function, fail?: Function, reloadProperties?: any) {
+		return PolyFill.tabsQuery({ active: true, lastFocusedWindow: true }, (details) => {
+			if (details) {
+				return PolyFill.tabsReload(details.id, success, fail, reloadProperties);
+			}
+		}, fail);
 	}
 	public static tabsQuery(queryInfo: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {

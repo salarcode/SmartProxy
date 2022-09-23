@@ -179,6 +179,7 @@ export class PopupInternalDataType {
 	public notSupportedSetProxySettings: boolean;
 	public notAllowedSetProxySettings: boolean;
 	public themeData: PartialThemeDataType;
+	public refreshTabWhenProxyChange: boolean;
 }
 export class PartialThemeDataType {
 	public themeType: ThemeType = ThemeType.Auto;
@@ -522,6 +523,7 @@ export class GeneralOptions implements Cloneable {
 	public displayFailedOnBadge: boolean = true;
 	public displayAppliedProxyOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public displayMatchedRuleOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
+	public refreshTabWhenProxyChange: boolean = false;
 	public proxyPerOrigin: boolean = true;
 	public activeIncognitoProfileId: string;
 	public enableShortcuts: boolean = true;
@@ -545,6 +547,8 @@ export class GeneralOptions implements Cloneable {
 			this.displayAppliedProxyOnBadge = source['displayAppliedProxyOnBadge'] == true ? true : false;
 		if (source['displayMatchedRuleOnBadge'] != null)
 			this.displayMatchedRuleOnBadge = source['displayMatchedRuleOnBadge'] == true ? true : false;
+		if (source['refreshTabWhenProxyChange'] != null)
+			this.refreshTabWhenProxyChange = source['refreshTabWhenProxyChange'] == true ? true : false;
 		if (source['proxyPerOrigin'] != null) this.proxyPerOrigin = source['proxyPerOrigin'] == true ? true : false;
 		if (source['enableShortcuts'] != null) this.enableShortcuts = source['enableShortcuts'] == true ? true : false;
 		if (source['shortcutNotification'] != null)

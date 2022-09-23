@@ -475,4 +475,3 @@ export class Settings {
 			active.currentIgnoreFailureProfile = ProfileOperations.compileSmartProfile(profileIgnoreFailureRules);
 	}
 }
-

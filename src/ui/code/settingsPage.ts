@@ -751,6 +751,7 @@ export class settingsPage {
 		divGeneral.find("#chkShortcutNotification").prop("checked", options.shortcutNotification || false);
 		divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked", options.displayAppliedProxyOnBadge || false);
 		divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked", options.displayMatchedRuleOnBadge || false);
+		divGeneral.find("#chkRefreshTabWhenProxyChange").prop("checked", options.refreshTabWhenProxyChange || false);
 
 		divGeneral.find("#rbtnThemesAutoSwitchBySystem").prop("checked", options.themeType == ThemeType.Auto);
 		divGeneral.find("#rbtnThemesLight").prop("checked", options.themeType == ThemeType.Light);
@@ -792,6 +793,7 @@ export class settingsPage {
 		generalOptions.shortcutNotification = divGeneral.find("#chkShortcutNotification").prop("checked");
 		generalOptions.displayAppliedProxyOnBadge = divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked");
 		generalOptions.displayMatchedRuleOnBadge = divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked");
+		generalOptions.refreshTabWhenProxyChange = divGeneral.find("#chkRefreshTabWhenProxyChange").prop("checked");
 		if (divGeneral.find("#rbtnThemesLight").prop("checked")) {
 			generalOptions.themeType = ThemeType.Light;
 		}

@@ -307,7 +307,7 @@ export class SettingsOperation {
 						Settings.currentOptionsSyncSettings = Settings.current.options.syncSettings;
 					},
 					(error: Error) => {
-						Debug.error(`SettingsOperation.saveAllSync error: ${error.message} ` + saveObject);
+						Debug.error(`SettingsOperation.saveAllSync error: ${error.message} `, saveObject);
 					});
 
 			} catch (e) {
