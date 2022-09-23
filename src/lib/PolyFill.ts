@@ -108,13 +108,6 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
-	public static tabsReloadCurrent(success?: Function, fail?: Function, reloadProperties?: any) {
-		return PolyFill.tabsQuery({ active: true, lastFocusedWindow: true }, (details) => {
-			if (details) {
-				return PolyFill.tabsReload(details.id, success, fail, reloadProperties);
-			}
-		}, fail);
-	}
 	public static tabsQuery(queryInfo: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			api.tabs.query(queryInfo,

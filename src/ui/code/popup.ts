@@ -470,13 +470,13 @@ export class popup {
 			// open the settings page
 			PolyFill.runtimeOpenOptionsPage();
 		}
-		popup.closeSelf();
 		popup.refreshActiveTabIfNeeded();
+		popup.closeSelf();
 	}
 
 	private static refreshActiveTabIfNeeded() {
 		if (popup.popupData.refreshTabWhenProxyChange) {
-			PolyFill.tabsReloadCurrent();
+			PolyFill.tabsReload(popup.popupData.currentTabId);
 		}
 	}
 
