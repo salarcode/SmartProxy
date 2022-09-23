@@ -681,7 +681,7 @@ export class Core {
 		dataForPopup.failedRequests = null;
 		dataForPopup.notSupportedSetProxySettings = environment.notSupported.setProxySettings;
 		dataForPopup.notAllowedSetProxySettings = environment.notAllowed.setProxySettings;
-		dataForPopup.refreshTabWhenProxyChange = settings.options.refreshTabWhenProxyChange;
+		dataForPopup.refreshTabOnConfigChanges = settings.options.refreshTabOnConfigChanges;
 		let themeData = new PartialThemeDataType();
 		themeData.themeType = settings.options.themeType;
 		themeData.themesLight = settings.options.themesLight;

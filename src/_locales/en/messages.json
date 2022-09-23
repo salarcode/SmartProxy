@@ -341,6 +341,9 @@
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
 		"message": "Display applied rule pattern on badge"
 	},
+	"settingsGeneralRefreshTabOnConfigChanges": {
+		"message": "Refresh active tab when profile or proxy changed"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Cancel"
 	},

@@ -475,7 +475,7 @@ export class popup {
 	}
 
 	private static refreshActiveTabIfNeeded() {
-		if (popup.popupData.refreshTabWhenProxyChange) {
+		if (popup.popupData.refreshTabOnConfigChanges) {
 			PolyFill.tabsReload(popup.popupData.currentTabId);
 		}
 	}
