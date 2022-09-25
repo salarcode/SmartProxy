@@ -1,755 +1,600 @@
 {
 	"uiDirection": {
-		"message": "ltr",
-		"description": ""
+		"message": "ltr"
 	},
 	"extensionName": {
-		"message": "SmartProxy",
-		"description": ""
+		"message": "SmartProxy"
 	},
 	"extensionDescription": {
-		"message": "SmartProxy автоматически включит/отключит прокси для сайтов, которые вы посещаете, на основе настраиваемых шаблонов.",
-		"description": ""
+		"message": "SmartProxy автоматически включит/отключит прокси для сайтов, которые вы посещаете, на основе настраиваемых шаблонов."
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Объект совпадения правила:",
-		"description": ""
+		"message": "Объект совпадения правила:"
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "Нет совпадающего правила",
-		"description": ""
+		"message": "Нет совпадающего правила"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "Шаблон правила:",
-		"description": ""
+		"message": "Шаблон правила:"
 	},
 	"popupTitle": {
-		"message": "Управление SmartProxy",
-		"description": ""
+		"message": "Управление SmartProxy"
+	},
+	"popupPrivateBrowsingMode": {
+		"message": "Режим приватного просмотра"
 	},
 	"popupNoProxy": {
-		"message": "Напрямую (без прокси)",
-		"description": ""
+		"message": "Напрямую (без прокси)"
 	},
 	"popupSmartProxy": {
-		"message": "Умный прокси",
-		"description": ""
+		"message": "Умный прокси"
 	},
 	"popupAlwaysEnable": {
-		"message": "Всегда включён",
-		"description": ""
+		"message": "Всегда включён"
 	},
 	"popupSystemProxy": {
-		"message": "Системный прокси",
-		"description": ""
+		"message": "Системный прокси"
 	},
 	"popupActiveProxy": {
-		"message": "Активный прокси (этот профиль):",
-		"description": ""
+		"message": "Активный прокси (этот профиль):"
 	},
 	"popupActiveProxyDefault": {
-		"message": "Активный прокси (по умолчанию):",
-		"description": ""
+		"message": "Активный прокси (по умолчанию):"
 	},
 	"popupEnableProxyOn": {
-		"message": "Включить прокси для:",
-		"description": ""
+		"message": "Включить прокси для:"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Игнорировать эти домены",
-		"description": ""
+		"message": "Игнорировать эти домены"
 	},
 	"popupRuleIsFromSubscription": {
-		"message": "(Из подписки)",
-		"description": ""
+		"message": "(Из подписки)"
 	},
 	"popupProxyableResources": {
-		"message": "Проксируемые элементы",
-		"description": ""
+		"message": "Проксируемые элементы"
 	},
 	"popupSettings": {
-		"message": "Настройки",
-		"description": ""
+		"message": "Настройки"
 	},
 	"popupSubscriptions": {
-		"message": "-Подписки-",
-		"description": ""
+		"message": "-Подписки-"
 	},
 	"popupUpdateText": {
-		"message": "Доступно обновление до {0}",
-		"description": ""
+		"message": "Доступно обновление до {0}"
 	},
 	"popupFailedRequestsMenu": {
-		"message": "Неудачные запросы",
-		"description": ""
+		"message": "Неудачные запросы"
 	},
 	"popupFailedRequestsTitle": {
-		"message": "Список неудачных запросов",
-		"description": ""
+		"message": "Список неудачных запросов"
 	},
 	"popupFailedRequestsDesc": {
-		"message": "Это домены, для которых истекло время ожидания или произошёл сбой.<br />Если вы считаете, что эти домены заблокированы, здесь вы можете добавить их в список правил прокси.",
-		"description": ""
+		"message": "Это домены, для которых истекло время ожидания или произошёл сбой.<br />Если вы считаете, что эти домены заблокированы, здесь вы можете добавить их в список правил прокси."
 	},
 	"popupAddFailedRequestsConfirm": {
-		"message": "Добавить выбранные домены в список правил?",
-		"description": ""
+		"message": "Добавить выбранные домены в список правил?"
 	},
 	"popupAddFailedRequests": {
-		"message": "Добавить в список правил",
-		"description": ""
+		"message": "Добавить в список правил"
 	},
 	"popupAddIgnoredFailures": {
-		"message": "Игнорировать",
-		"description": ""
+		"message": "Игнорировать"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Игнорировать выбранные сбои? Если вы согласитесь, то больше не будете получать от них уведомлений. Позже выбор можно изменить в настройках.",
-		"description": ""
+		"message": "Игнорировать выбранные сбои? Если вы согласитесь, то больше не будете получать от них уведомлений. Позже выбор можно изменить в настройках."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "К сожалению, изменение настроек браузера для использования прокси-сервера системы требует разрешения «инкогнито». Перейдите в настройки расширения SmartProxy в браузере и проверьте разрешение «Разрешить в режиме инкогнито». <a href='https://support.google.com/chrome_webstore/answer/2664769'>Узнайте, как</a>.",
-		"description": ""
+		"message": "К сожалению, изменение настроек браузера для использования прокси-сервера системы требует разрешения «инкогнито». Перейдите в настройки расширения SmartProxy в браузере и проверьте разрешение «Разрешить в режиме инкогнито». <a href='https://support.google.com/chrome_webstore/answer/2664769'>Узнайте, как</a>."
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Поскольку Firefox 67 изменяет настройки браузера для использования прокси-сервера системы, требуется разрешение «Приватный просмотр». Перейдите к настройкам дополнения SmartProxy в браузере и разрешите «Запуск в приватных окнах». <a href='https://support.mozilla.org/ru-RU/kb/extensions-private-browsing'>Узнайте, как</a>.",
-		"description": ""
+		"message": "Поскольку Firefox 67 изменяет настройки браузера для использования прокси-сервера системы, требуется разрешение «Приватный просмотр». Перейдите к настройкам дополнения SmartProxy в браузере и разрешите «Запуск в приватных окнах». <a href='https://support.mozilla.org/ru-RU/kb/extensions-private-browsing'>Узнайте, как</a>."
 	},
 	"proxyableTitle": {
-		"message": "Проксируемые элементы",
-		"description": ""
+		"message": "Проксируемые элементы"
 	},
 	"proxyableHeader": {
-		"message": "Проксируемые элементы на этой странице",
-		"description": ""
+		"message": "Проксируемые элементы на этой странице"
 	},
 	"proxyableReload": {
-		"message": "Перезагрузить",
-		"description": ""
+		"message": "Перезагрузить"
 	},
 	"proxyableClose": {
-		"message": "Закрыть",
-		"description": ""
+		"message": "Закрыть"
 	},
 	"proxyableHeaderDesc": {
-		"message": "Ниже приведён список ресурсов, которые используются или вызываются с данной страницы. Используйте этот список, чтобы добавить указанные ресурсы в правила активации прокси.<br>Если вы ничего здесь не видите, перезагрузите страницу, чтобы просмотреть ресурсы.",
-		"description": ""
+		"message": "Ниже приведён список ресурсов, которые используются или вызываются с данной страницы. Используйте этот список, чтобы добавить указанные ресурсы в правила активации прокси.<br>Если вы ничего здесь не видите, перезагрузите страницу, чтобы просмотреть ресурсы."
 	},
 	"proxyableErrNoSourceTab": {
-		"message": "Исходная вкладка не найдена!",
-		"description": ""
+		"message": "Исходная вкладка не найдена!"
 	},
 	"proxyableCreateRuleConfirm": {
-		"message": "Вы уверены, что хотите создать правило для выбранного домена",
-		"description": ""
+		"message": "Вы уверены, что хотите создать правило для выбранного домена"
 	},
 	"proxyableDisableButton": {
-		"message": "Отключить",
-		"description": ""
+		"message": "Отключить"
 	},
 	"proxyableEnableButton": {
-		"message": "Включить",
-		"description": ""
+		"message": "Включить"
 	},
 	"proxyableEnableButtonDomain": {
-		"message": "Включить для: ",
-		"description": ""
+		"message": "Включить для: "
 	},
 	"proxyableSubscriptionRule": {
-		"message": "(Правило подписки)",
-		"description": ""
+		"message": "(Правило подписки)"
 	},
 	"proxyableDeleteRuleConfirm": {
-		"message": "Вы уверены, что хотите удалить выбранное правило для:",
-		"description": ""
+		"message": "Вы уверены, что хотите удалить выбранное правило для:"
 	},
 	"proxyableGridNoDataContent": {
-		"message": "Нет запросов",
-		"description": ""
+		"message": "Нет запросов"
 	},
 	"proxyableGridColUrl": {
-		"message": "Ссылка запроса",
-		"description": ""
-	},
-	"proxyableGridColEnabled": {
-		"message": "Через прокси",
-		"description": ""
+		"message": "Ссылка запроса"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Статус правила",
-		"description": ""
+		"message": "Статус правила"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Статус прокси",
-		"description": ""
+		"message": "Статус прокси"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Домен правила",
-		"description": ""
+		"message": "Домен правила"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Шаблон правила",
-		"description": ""
+		"message": "Шаблон правила"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "Без прокси",
-		"description": ""
+		"message": "Без прокси"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Особый",
-		"description": ""
+		"message": "Особый"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "Из родительской вкладки",
-		"description": ""
+		"message": "От родительской вкладки"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Совпадение",
-		"description": ""
+		"message": "Совпадение"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "Всегда включено",
-		"description": ""
+		"message": "Всегда включён"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "Использован системный прокси",
-		"description": ""
+		"message": "Использован системный прокси"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "Нет совпадений",
-		"description": ""
+		"message": "Нет совпадений"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Особый",
-		"description": ""
+		"message": "Особый"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "Из родительской вкладки",
-		"description": ""
+		"message": "Из родительской вкладки"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Совпадение",
-		"description": ""
+		"message": "Совпадение"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Исключение",
-		"description": ""
+		"message": "Исключение"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "Всегда включено<br>Пропущено",
-		"description": ""
+		"message": "Всегда включено<br>Пропущено"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "Всегда включено<br>Принудительно по правилам",
-		"description": ""
+		"message": "Всегда включено<br>Принудительно по правилам"
 	},
 	"settingsTitle": {
-		"message": "Настройки SmartProxy",
-		"description": ""
+		"message": "Настройки SmartProxy"
 	},
 	"settingsTabAbout": {
-		"message": "О расширении",
-		"description": ""
+		"message": "О расширении"
 	},
 	"settingsTabGeneral": {
-		"message": "Общие настройки",
-		"description": ""
+		"message": "Общие настройки"
 	},
 	"settingsTabSmartProfiles": {
-		"message": "Умные профили",
-		"description": ""
+		"message": "Умные профили"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Добавление нового умного профиля",
-		"description": ""
+		"message": "Добавление нового умного профиля"
 	},
 	"settingsTabProxyServers": {
-		"message": "Прокси-серверы",
-		"description": ""
+		"message": "Прокси-серверы"
 	},
 	"settingsTabProxyServerSubscriptions": {
-		"message": "Подписки на прокси-сервер",
-		"description": ""
+		"message": "Подписки на прокси-сервер"
 	},
 	"settingsTabBackupRestore": {
-		"message": "Резервирование/восстановление",
-		"description": ""
+		"message": "Резервирование/восстановление"
 	},
 	"settingsTabUpdateText": {
-		"message": "Обновить до {0}",
-		"description": ""
+		"message": "Обновить до {0}"
 	},
 	"settingsTabAboutDescription": {
-		"message": "Использование прокси не может быть проще с помощью SmartProxy. Подумайте о том, как настроить с первого раза. С SmartProxy вам не нужно менять ваш прокси вручную или выключать его. Всё, что нужно сделать, это указать одним щелчком в SmartProxy, какой конкретно прокси надо включить для вашего веб-сайта. После этого, когда вы посетите нужный сайт, SmartProxy будет активен и все данные для этого веб-сайта будут переданы через прокси без вашего участия.",
-		"description": ""
+		"message": "Использование прокси не может быть проще с помощью SmartProxy. Подумайте о том, как настроить с первого раза. С SmartProxy вам не нужно менять ваш прокси вручную или выключать его. Всё, что нужно сделать, это указать одним щелчком в SmartProxy, какой конкретно прокси надо включить для вашего веб-сайта. После этого, когда вы посетите нужный сайт, SmartProxy будет активен и все данные для этого веб-сайта будут переданы через прокси без вашего участия."
 	},
 	"settingsGeneralSmartFeatures": {
-		"message": "Интеллектуальные функции",
-		"description": ""
+		"message": "Интеллектуальные функции"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong>только для Firefox!</strong> К сожалению, эта функция не поддерживается в Chrome.</span>",
-		"description": ""
+		"message": "<strong>Только для <a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a>!</strong> К сожалению, эта функция недоступна в Chrome."
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Использовать прокси для вкладки/источника",
-		"description": ""
+		"message": "Использовать прокси для вкладки/источника"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "Если одно из правил соответствует исходному/главному URL-адресу вкладки и к нему применяется прокси, то все другие запросы из этого источника также будут использовать данный прокси. Это приведёт к тому, что вся вкладка будет передана на определённый прокси-сервер. Кроме того, исчезает необходимость иметь правило для каждого отдельного домена. Обратите внимание, что если прокси не применяется к вкладке, правила прокси могут применяться к другим запросам к другим доменам индивидуально.",
-		"description": ""
+		"message": "Если правило совпадает с URL-адресом вкладки, для её соединения будет применён прокси. Как правило, у каждой страницы будут и другие запросы, для которых может не быть совпадающего правила, и, следовательно, к их соединениям прокси применён не будет. Функция «Использовать прокси для вкладки/источника» гарантирует, что вся страница, включая все соединения с разных доменов и источников, использует один и тот же прокси, который применяется к исходной вкладке. Также этот параметр устраняет необходимость иметь отдельное правило для каждого домена. Обратите внимание, что если к вкладке не применяется прокси, правила прокси будут продолжать работать и применять прокси к другим соединениям на странице индивидуально."
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "Прокси для вкладки/источника включены",
-		"description": ""
+		"message": "Прокси для вкладки/источника включены"
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "Прокси для вкладки/источника отключены",
-		"description": ""
+		"message": "Прокси для вкладки/источника отключены"
 	},
 	"settingsGeneralSyncing": {
-		"message": "Синхронизация",
-		"description": ""
+		"message": "Синхронизация"
+	},
+	"settingsGeneralIncognitoProfile": {
+		"message": "Профиль приватного просмотра"
+	},
+	"settingsGeneralIncognitoProfileDisabled": {
+		"message": "(Отключён)"
+	},
+	"settingsGeneralIncognitoProfileDesc": {
+		"message": "Выберите профиль приватного просмотра, если хотите принудительно использовать его, когда вкладка /окно находятся в режиме приватного просмотра. Этот параметр переопределяет активный профиль."
 	},
 	"settingsGeneralEnableSyncing": {
-		"message": "Включить синхронизацию настроек",
-		"description": ""
+		"message": "Включить синхронизацию настроек"
 	},
 	"settingsGeneralEnableSyncingDesc": {
-		"message": "Включив синхронизацию, все настройки, включая правила, серверы и подписки, будут доступны во всех браузерах.",
-		"description": ""
+		"message": "Включив синхронизацию, все настройки, включая правила, серверы и подписки, будут доступны во всех браузерах."
 	},
 	"settingsSaveGeneralOptionsButton": {
-		"message": "Сохранить изменения",
-		"description": ""
+		"message": "Сохранить изменения"
 	},
 	"settingsRejectGeneralOptionsButton": {
-		"message": "Отклонить изменения",
-		"description": ""
+		"message": "Отклонить изменения"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Включить синхронизацию прокси-режима",
-		"description": ""
+		"message": "Синхронизировать активный профиль"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Включите, если хотите синхронизировать режим активации прокси.",
-		"description": ""
+		"message": "Включите, если хотите синхронизировать активный профиль."
 	},
 	"settingsGeneralSyncActiveProxy": {
-		"message": "Включить синхронизацию активных прокси",
-		"description": ""
+		"message": "Включить синхронизацию активных прокси"
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
-		"message": "Включите, если хотите синхронизировать выбранный прокси.",
-		"description": ""
+		"message": "Включите, если хотите синхронизировать выбранный прокси."
 	},
 	"settingsGeneralErrorDetection": {
-		"message": "Обнаружена ошибка",
-		"description": ""
+		"message": "Обнаружена ошибка"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "Обнаружение сбоев обращения к сети",
-		"description": ""
+		"message": "Обнаружение сбоев обращения к сети"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "Определение сбоев обращения к сети поможет вам определить домены, для которых нужен прокси.",
-		"description": ""
+		"message": "Определение сбоев обращения к сети поможет вам определить домены, для которых нужен прокси."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Введите правила",
-		"description": ""
+		"message": "Введите правила"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Игнорировать обнаружение сбоя на основе этих правил",
-		"description": ""
+		"message": "Игнорировать обнаружение сбоя на основе этих правил"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Добавьте правила для отключения обнаружения сбоев.",
-		"description": ""
+		"message": "Добавьте правила для отключения обнаружения сбоев."
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "Показывать количество неудачных запросов на значке в панели инструментов",
-		"description": ""
+		"message": "Показывать количество неудачных запросов на значке в панели инструментов"
 	},
 	"settingsGeneralThemes": {
-		"message": "Темы",
-		"description": ""
+		"message": "Темы"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "Автопереключение на тему браузера",
-		"description": ""
+		"message": "Автопереключение на тему браузера"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "Автоматическое переключение между выбранными ниже темами. Это позволяет следовать теме браузера, которая в свою очередь может соответствовать теме операционной системы.",
-		"description": ""
+		"message": "Автоматическое переключение между выбранными ниже темами. Это позволяет следовать теме браузера, которая в свою очередь может соответствовать теме операционной системы."
 	},
 	"settingsGeneralThemesLight": {
-		"message": "Светлая тема",
-		"description": ""
+		"message": "Светлая тема"
 	},
 	"settingsGeneralThemes_Default": {
-		"message": "(По умолчанию)",
-		"description": ""
+		"message": "(По умолчанию)"
 	},
 	"settingsGeneralThemes_Custom": {
-		"message": "(Настроить)",
-		"description": ""
+		"message": "(Настроить)"
 	},
 	"settingsGeneralThemes_CustomUrl": {
-		"message": "URL пользовательского стиля (CSS):",
-		"description": ""
+		"message": "URL пользовательского стиля (CSS):"
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "URL должен быть «HTTPS». Обратите внимание на импортируемые шрифты и другие стили в пользовательском оформлении: они могут блокировать/замедлять всплывающие окна браузера. Вы можете попробовать темы с bootswatch.com, но помните об их зависимости от шрифтов Google.",
-		"description": ""
+		"message": "URL должен быть «HTTPS». Обратите внимание на импортируемые шрифты и другие стили в пользовательском оформлении: они могут блокировать/замедлять всплывающие окна браузера. Вы можете попробовать темы с bootswatch.com, но помните об их зависимости от шрифтов Google."
 	},
 	"settingsGeneralThemesDark": {
-		"message": "Тёмная тема",
-		"description": ""
+		"message": "Тёмная тема"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "Введите правильный URL-адрес CSS-стиля светлой темы. Адрес должен быть «HTTPS».",
-		"description": ""
+		"message": "Введите правильный URL-адрес CSS-стиля светлой темы. Адрес должен быть «HTTPS»."
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "Введите правильный URL-адрес CSS-стиля тёмной темы. Адрес должен быть «HTTPS».",
-		"description": ""
+		"message": "Введите правильный URL-адрес CSS-стиля тёмной темы. Адрес должен быть «HTTPS»."
 	},
 	"settingsGeneralOtherSettings": {
-		"message": "Другие настройки",
-		"description": ""
+		"message": "Другие настройки"
 	},
 	"settingsGeneralEnableShortcuts": {
-		"message": "Включить ярлыки",
-		"description": ""
+		"message": "Включить ярлыки"
 	},
 	"settingsGeneralEnableShortcutsDesc": {
-		"message": "Вы можете настроить ярлыки на странице настроек браузера.",
-		"description": ""
+		"message": "Вы можете настроить ярлыки на странице настроек браузера."
 	},
 	"settingsGeneralViewShortcuts": {
-		"message": "Показать ярлыки",
-		"description": ""
+		"message": "Показать ярлыки"
 	},
 	"settingsGeneralShortcutNotification": {
-		"message": "Включить значок уведомления",
-		"description": ""
+		"message": "Включить значок уведомления"
 	},
 	"settingsGeneralViewShortcutKeys": {
-		"message": "Клавиши Ярлыка",
-		"description": ""
+		"message": "Клавиши Ярлыка"
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Отображать объект применения правила на значке",
-		"description": ""
+		"message": "Отображать объект применения правила на значке"
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
-		"message": "Отображать шаблон применения правила на значке",
-		"description": ""
+		"message": "Отображать шаблон применения правила на значке"
+	},
+	"settingsGeneralRefreshTabOnConfigChanges": {
+		"message": "Обновлять активную вкладку при изменении профиля или прокси"
 	},
 	"settingsGeneralCancelButton": {
-		"message": "Отмена",
-		"description": ""
+		"message": "Отмена"
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "Сохранить изменения",
-		"description": ""
+		"message": "Сохранить изменения"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "Сочетания клавиш",
-		"description": ""
+		"message": "Сочетания клавиш"
 	},
 	"settingsGeneralCloseButton": {
-		"message": "Закрыть",
-		"description": ""
+		"message": "Закрыть"
+	},
+	"settingsGeneralKeyboardShortcutsNotSupported": {
+		"message": "Горячие клавиши не поддерживаются на мобильных устройствах."
 	},
 	"settingsTabProxyServersTitle": {
-		"message": "Управление своими прокси-серверами:",
-		"description": ""
+		"message": "Управление своими прокси-серверами:"
 	},
 	"settingsTabProxyServersDescription": {
-		"message": "Вот список прокси-серверов. Вы можете определить столько прокси-серверов, сколько хотите, и переключиться между ними с панели инструментов.",
-		"description": ""
+		"message": "Вот список прокси-серверов. Вы можете определить столько прокси-серверов, сколько хотите, и переключиться между ними с панели инструментов."
 	},
 	"settingsTabBackupRestoreDescription": {
-		"message": "Вы можете выполнить полное или частичное резервное копирование своих настроек.",
-		"description": ""
+		"message": "Вы можете выполнить полное или частичное резервное копирование своих настроек."
 	},
 	"settingsErrNoServersTitle": {
-		"message": "Нет серверов!",
-		"description": ""
+		"message": "Нет серверов!"
 	},
 	"settingsErrNoServersDescription": {
-		"message": "Прежде всего вам нужно определить прокси-серверы.",
-		"description": ""
+		"message": "Прежде всего вам нужно определить прокси-серверы."
 	},
 	"settingsActiveProxyServer": {
-		"message": "Прокси-сервер по умолчанию:",
-		"description": ""
+		"message": "Прокси-сервер по умолчанию:"
 	},
 	"settingsAddServerButton": {
-		"message": "Добавить сервер",
-		"description": ""
+		"message": "Добавить сервер"
 	},
 	"settingsSaveChangesButton": {
-		"message": "Сохранить изменения",
-		"description": ""
+		"message": "Сохранить изменения"
 	},
 	"settingsRejectChangesButton": {
-		"message": "Отклонить изменения",
-		"description": ""
+		"message": "Отклонить изменения"
 	},
 	"settingsFullBackupButton": {
-		"message": "Создать полную резервную копию",
-		"description": ""
+		"message": "Создать полную резервную копию"
 	},
 	"settingsFullBackupButtonDesc": {
-		"message": "Создание полной резервной копии настроек (включая прокси-серверы и правила).",
-		"description": ""
+		"message": "Создание полной резервной копии настроек (включая прокси-серверы и правила)."
 	},
 	"settingsRestoreBackupButton": {
-		"message": "Восстановить из резервной копии",
-		"description": ""
+		"message": "Восстановить из резервной копии"
 	},
 	"settingsRestoreBackupButtonDesc": {
-		"message": "Восстановление настроек из локального файла ранее сделанной резервной копировании.",
-		"description": ""
+		"message": "Восстановление настроек из локального файла ранее сделанной резервной копировании."
+	},
+	"settingsDangerZoneDesc": {
+		"message": "Опасная зона"
+	},
+	"settingsFactoryResetButton": {
+		"message": "Полный сброс"
+	},
+	"settingsFactoryResetDesc": {
+		"message": "Полный сброс. Будут удалены все правила и прокси-серверы, а значения всех настроек возвращены к изначальным. Безвозвратно."
+	},
+	"settingsFactoryResetConfirm": {
+		"message": "Вы уверены, что хотите сбросить ВСЁ? Точно? Пути назад не будет!"
+	},
+	"settingsFactoryResetSuccess": {
+		"message": "Полный сброс успешно выполнен"
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Импортирование/экспортирование отдельных списков прокси.",
-		"description": ""
+		"message": "Импортирование/экспортирование отдельных списков прокси."
 	},
 	"settingsImportProxiesButtonBackup": {
-		"message": "Импортировать прокси",
-		"description": ""
+		"message": "Импортировать прокси"
 	},
 	"settingsExportProxiesButtonBackup": {
-		"message": "Экспортировать прокси",
-		"description": ""
+		"message": "Экспортировать прокси"
 	},
 	"settingsAddRuleButton": {
-		"message": "Добавить правило",
-		"description": ""
+		"message": "Добавить правило"
 	},
 	"settingsImportRulesButton": {
-		"message": "Импорт правил",
-		"description": ""
+		"message": "Импорт правил"
 	},
 	"settingsImportRulesTitle": {
-		"message": "Импортирование правил",
-		"description": ""
+		"message": "Импортирование правил"
 	},
 	"settingsImportRulesSelectButton": {
-		"message": "Файл резервной копии правил",
-		"description": ""
+		"message": "Файл резервной копии правил"
 	},
 	"settingsImportRulesFrom": {
-		"message": "Из",
-		"description": ""
+		"message": "Из"
 	},
 	"settingsImportRulesOptionAppend": {
-		"message": "Добавить к существующим правилам",
-		"description": ""
+		"message": "Добавить к существующим правилам"
 	},
 	"settingsImportRulesOptionOverride": {
-		"message": "Заменить действующие правила (используйте с осторожностью)",
-		"description": ""
+		"message": "Заменить действующие правила (используйте с осторожностью)"
 	},
 	"settingsImportRulesCancelButton": {
-		"message": "Отмена",
-		"description": ""
+		"message": "Отмена"
 	},
 	"settingsImportRulesImportButton": {
-		"message": "Импортировать",
-		"description": ""
+		"message": "Импортировать"
 	},
 	"settingsImportProxiesButton": {
-		"message": "Импорт прокси",
-		"description": ""
+		"message": "Импорт прокси"
 	},
 	"settingsExportProxiesButton": {
-		"message": "Экспорт прокси",
-		"description": ""
+		"message": "Экспорт прокси"
 	},
 	"settingsImportProxiesTitle": {
-		"message": "Импорт списка прокси",
-		"description": ""
+		"message": "Импорт списка прокси"
 	},
 	"settingsImportProxiesSelectFileButton": {
-		"message": "Файл списка прокси",
-		"description": ""
+		"message": "Файл списка прокси"
 	},
 	"settingsImportProxiesSelectTextButton": {
-		"message": "Текст списка прокси",
-		"description": ""
+		"message": "Текст списка прокси"
 	},
 	"settingsImportProxiesOptionAppend": {
-		"message": "Добавить к существующим прокси",
-		"description": ""
+		"message": "Добавить к существующим прокси"
 	},
 	"settingsImportProxiesOptionOverride": {
-		"message": "Замените текущие прокси (используйте с осторожностью)",
-		"description": ""
+		"message": "Замените текущие прокси (используйте с осторожностью)"
 	},
 	"settingsImportProxiesCancelButton": {
-		"message": "Отмена",
-		"description": ""
+		"message": "Отмена"
 	},
 	"settingsImportProxiesImportButton": {
-		"message": "Импортировать",
-		"description": ""
+		"message": "Импортировать"
 	},
 	"settingsConfirmRemoveProxyServer": {
-		"message": "Вы действительно хотите удалить выбранный прокси-сервер?",
-		"description": ""
+		"message": "Вы действительно хотите удалить выбранный прокси-сервер?"
 	},
 	"settingsRemoveAllProxyServers": {
-		"message": "Вы действительно хотите удалить все прокси-серверы?",
-		"description": ""
+		"message": "Вы действительно хотите удалить все прокси-серверы?"
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "Все прокси-серверы удалены.<br/>Вы должны выполнить сохранение, чтобы применить изменения.",
-		"description": ""
+		"message": "Все прокси-серверы удалены.<br/>Вы должны выполнить сохранение, чтобы применить изменения."
 	},
 	"settingsImportProxiesFileNotSelected": {
-		"message": "Выберите файл списка прокси",
-		"description": ""
+		"message": "Выберите файл списка прокси"
 	},
 	"settingsImportProxyListTextIsEmpty": {
-		"message": "Введите список прокси-серверов",
-		"description": ""
+		"message": "Введите список прокси-серверов"
 	},
 	"settingsImportProxyServersFailed": {
-		"message": "Не удалось импортировать прокси-серверы",
-		"description": ""
+		"message": "Не удалось импортировать прокси-серверы"
 	},
 	"importerImportProxySuccess": {
-		"message": "Всего {0} из {1} прокси импортировано.<br>Не забудьте сохранить изменения.",
-		"description": ""
+		"message": "Всего {0} из {1} прокси импортировано.<br>Не забудьте сохранить изменения."
 	},
 	"settingsErrorFailedToSaveServers": {
-		"message": "Не удалось сохранить серверы.",
-		"description": ""
+		"message": "Не удалось сохранить серверы."
 	},
 	"settingsChangesReverted": {
-		"message": "Изменения успешно завершены.",
-		"description": ""
+		"message": "Изменения успешно завершены."
 	},
 	"settingsConfirmRemoveProxyRule": {
-		"message": "Вы действительно хотите удалить выбранный фильтр?",
-		"description": ""
+		"message": "Вы действительно хотите удалить выбранный фильтр?"
 	},
 	"settingsRemoveAllRules": {
-		"message": "Вы действительно хотите удалить все правила?",
-		"description": ""
+		"message": "Вы действительно хотите удалить все правила?"
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "Все правила были удалены.<br/>Вы должны выполнить сохранение, чтобы применить изменения.",
-		"description": ""
+		"message": "Все правила были удалены.<br/>Вы должны выполнить сохранение, чтобы применить изменения."
 	},
 	"settingsRestoreBackupFailed": {
-		"message": "При восстановлении резервной копии произошла ошибка",
-		"description": ""
+		"message": "При восстановлении резервной копии произошла ошибка"
 	},
 	"settingsRestoreBackupFileError": {
-		"message": "Не удалось прочитать выбранный файл",
-		"description": ""
+		"message": "Не удалось прочитать выбранный файл"
 	},
 	"settingsRulesFileNotSelected": {
-		"message": "Выберите файл правил",
-		"description": ""
+		"message": "Выберите файл правил"
 	},
 	"settingsSourceTypeNotSelected": {
-		"message": "Выберите тип источника",
-		"description": ""
+		"message": "Выберите тип источника"
 	},
 	"settingsImportRulesFailed": {
-		"message": "Не удалось импортировать файл.",
-		"description": ""
+		"message": "Не удалось импортировать файл."
 	},
 	"settingsServerNameRequired": {
-		"message": "Укажите имя сервера!",
-		"description": ""
+		"message": "Укажите имя сервера!"
 	},
 	"settingsServerNameExists": {
-		"message": "Сервер с тем же именем уже существует!",
-		"description": ""
+		"message": "Сервер с тем же именем уже существует!"
 	},
 	"settingsServerServerAddressIsEmpty": {
-		"message": "Адрес сервера не может быть пустым.",
-		"description": ""
+		"message": "Адрес сервера не может быть пустым."
 	},
 	"settingsServerPortNoInvalid": {
-		"message": "Введите правильный номер порта.",
-		"description": ""
+		"message": "Введите правильный номер порта."
 	},
 	"settingsServerAuthenticationInvalid": {
-		"message": "Для аутентификации необходимы как имя пользователя, так и пароль.",
-		"description": ""
+		"message": "Для аутентификации необходимы как имя пользователя, так и пароль."
 	},
 	"settingsServersGridNoDataContent": {
-		"message": "Сервер не определён",
-		"description": ""
+		"message": "Сервер не определён"
 	},
 	"settingsServersGridColName": {
-		"message": "Имя",
-		"description": ""
+		"message": "Имя"
 	},
 	"settingsServersGridColProtocol": {
-		"message": "Протокол",
-		"description": ""
+		"message": "Протокол"
 	},
 	"settingsServersGridColServer": {
-		"message": "Сервер",
-		"description": ""
+		"message": "Сервер"
 	},
 	"settingsServersGridColPort": {
-		"message": "Порт",
-		"description": ""
+		"message": "Порт"
 	},
 	"settingsServersModalTitle": {
-		"message": "Сведения о прокси-сервере",
-		"description": ""
+		"message": "Сведения о прокси-сервере"
 	},
 	"settingsServersServerName": {
-		"message": "Имя сервера:",
-		"description": ""
+		"message": "Имя сервера:"
 	},
 	"settingsServersSeverAddress": {
-		"message": "Адрес сервера:",
-		"description": ""
+		"message": "Адрес сервера:"
 	},
 	"settingsServersProtocol": {
-		"message": "Протокол:",
-		"description": ""
+		"message": "Протокол:"
 	},
 	"settingsServersPort": {
-		"message": "Порт:",
-		"description": ""
+		"message": "Порт:"
 	},
 	"settingsServersProxyDNS": {
-		"message": "DNS через прокси при использовании SOCKS v5",
-		"description": ""
+		"message": "DNS через прокси при использовании SOCKS v5"
 	},
 	"settingsServersUsername": {
-		"message": "Имя пользователя:",
-		"description": ""
+		"message": "Имя пользователя:"
 	},
 	"settingsServersPassword": {
-		"message": "Пароль:",
-		"description": ""
+		"message": "Пароль:"
+	},
+	"settingsServersAuthChromeMv3Limitation": {
+		"message": "(К сожалению, аутентификация прокси-сервера больше не поддерживается Chrome через API расширений. Это сделано «намеренно».)"
 	},
 	"settingsServersCancel": {
-		"message": "Отмена",
-		"description": ""
+		"message": "Отмена"
 	},
 	"settingsServersSave": {
-		"message": "Сохранить",
-		"description": ""
+		"message": "Сохранить"
 	},
 	"settingsServersImport": {
-		"message": "Импортировать",
-		"description": ""
+		"message": "Импортировать"
 	},
 	"settingsProfilesNameTitle": {
 		"message": "Умный профиль:"
@@ -832,6 +677,12 @@
 	"settingsProfilesProxyServer": {
 		"message": "[Использовать прокси по умолчанию]"
 	},
+	"settingsProfilesRulesSubscriptionsTitle": {
+		"message": "Подписки на правила"
+	},
+	"settingsProfilesRulesSubscriptionsDesc": {
+		"message": "Здесь вы можете подписаться на списки правил."
+	},
 	"settingsSaveSmartProfileSuccess": {
 		"message": "Умный профиль успешно сохранён."
 	},
@@ -839,623 +690,462 @@
 		"message": "Невозможно сохранить умный профиль."
 	},
 	"settingsRuleSourceRequired": {
-		"message": "Пожалуйста, укажите исходный домен правила!",
-		"description": ""
+		"message": "Пожалуйста, укажите исходный домен правила!"
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "Неправильный исходный домен, он должен быть чем-то вроде 'google.com'",
-		"description": ""
+		"message": "Неправильный исходный домен, он должен быть чем-то вроде 'google.com'"
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'исходный домен' недействителен '{0}'",
-		"description": ""
+		"message": "'исходный домен' недействителен '{0}'"
 	},
 	"settingsRuleSourceAlreadyExists": {
-		"message": "Правило с тем же источником уже существует!",
-		"description": ""
+		"message": "Правило с тем же источником уже существует!"
 	},
 	"settingsRuleHostInvalid": {
-		"message": "Хост имя '{0}' неправильное, оно должно быть чем-то вроде 'google.com'",
-		"description": ""
+		"message": "Хост имя '{0}' неправильное, оно должно быть чем-то вроде 'google.com'"
 	},
 	"settingsRuleRegexNotMatchDomain": {
-		"message": "Правило Regex не соответствует исходному домену '{0}'",
-		"description": ""
+		"message": "Правило Regex не соответствует исходному домену '{0}'"
 	},
 	"settingsRuleDoesntIncludeDomain": {
-		"message": "Правило не соответствует исходному домену '{0}'",
-		"description": ""
+		"message": "Правило не соответствует исходному домену '{0}'"
 	},
 	"settingsRuleRegexInvalid": {
-		"message": "Правило Regex '{0}' не является допустимым",
-		"description": ""
+		"message": "Правило Regex '{0}' не является допустимым"
 	},
 	"settingsRuleExactUrlInvalid": {
-		"message": "Недопустимый URL-адрес «{0}»",
-		"description": ""
+		"message": "Недопустимый URL-адрес «{0}»"
 	},
 	"settingsRuleUrlInvalid": {
-		"message": "Недопустимый URL-адрес «{0}»",
-		"description": ""
+		"message": "Недопустимый URL-адрес «{0}»"
 	},
 	"settingsRulesGridNoDataContent": {
-		"message": "Правило не определено",
-		"description": ""
+		"message": "Правило не определено"
 	},
 	"settingsRulesGridColRuleType": {
-		"message": "Тип фильтра",
-		"description": ""
+		"message": "Тип фильтра"
 	},
 	"settingsRulesGridColSource": {
-		"message": "Источник",
-		"description": ""
+		"message": "Источник"
 	},
 	"settingsRulesGridColRule": {
-		"message": "Правило",
-		"description": ""
+		"message": "Правило"
 	},
 	"settingsRulesGridColEnabled": {
-		"message": "Включено",
-		"description": ""
+		"message": "Включено"
 	},
 	"settingsRulesGridColProxy": {
-		"message": "Прокси-сервер",
-		"description": ""
+		"message": "Прокси-сервер"
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[Использовать активный прокси]",
-		"description": ""
+		"message": "[Использовать активный прокси]"
 	},
 	"settingsRulesProxyFromProfile": {
-		"message": "[Использовать прокси профиля]",
-		"description": ""
+		"message": "[Использовать прокси профиля]"
 	},
 	"settingsRulesModalTitle": {
-		"message": "Сведения о правиле",
-		"description": ""
+		"message": "Сведения о правиле"
 	},
 	"settingsRulesRuleType": {
-		"message": "Тип фильтра",
-		"description": ""
+		"message": "Тип фильтра"
 	},
 	"settingsRulesSourceDomain": {
-		"message": "Исходный домен правила:",
-		"description": ""
+		"message": "Исходный домен правила:"
 	},
 	"settingsRulesSourceDomainDesc": {
-		"message": "(например, google.com)",
-		"description": ""
+		"message": "(например, google.com)"
 	},
 	"settingsRulesPattern": {
-		"message": "Шаблон соответствия:",
-		"description": ""
+		"message": "Шаблон соответствия:"
 	},
 	"settingsRulesGeneratePattern": {
-		"message": "Генерировать шаблон автоматически",
-		"description": ""
+		"message": "Генерировать шаблон автоматически"
 	},
 	"settingsRulesRegex": {
-		"message": "URL Regex",
-		"description": ""
+		"message": "URL Regex"
 	},
 	"settingsRulesExactUrl": {
-		"message": "Точный URL-адрес",
-		"description": ""
+		"message": "Точный URL-адрес"
 	},
 	"settingsRulesProxyServer": {
-		"message": "Прокси-сервер:",
-		"description": ""
+		"message": "Прокси-сервер:"
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(Серверы с аутентификацией не поддерживаются в Chrome)",
-		"description": ""
+		"message": "(Серверы с аутентификацией не поддерживаются в Chrome)"
 	},
 	"settingsRulesEnabled": {
-		"message": "Включено",
-		"description": ""
+		"message": "Включено"
 	},
 	"settingsRulesModalCancel": {
-		"message": "Отмена",
-		"description": ""
+		"message": "Отмена"
 	},
 	"settingsRulesModalSave": {
-		"message": "Сохранить",
-		"description": ""
+		"message": "Сохранить"
 	},
 	"settingsRulesActionType": {
-		"message": "Действие",
-		"description": ""
+		"message": "Действие"
 	},
 	"settingsRuleActionApplyProxy": {
-		"message": "Использовать прокси",
-		"description": ""
+		"message": "Использовать прокси"
 	},
 	"settingsRuleActionWhitelist": {
-		"message": "Исключение (без прокси)",
-		"description": ""
+		"message": "Исключение (без прокси)"
 	},
 	"settingsServerPortInvalid": {
-		"message": "Порт сервера '{0}' неправильный",
-		"description": ""
+		"message": "Порт сервера '{0}' неправильный"
 	},
 	"settingsServerHostInvalid": {
-		"message": "Хост сервера '{0}' неправильный",
-		"description": ""
+		"message": "Хост сервера '{0}' неправильный"
 	},
 	"settingsRestoreSettingsSuccess": {
-		"message": "Настройки успешно восстановлены",
-		"description": ""
+		"message": "Настройки успешно восстановлены"
 	},
 	"settingsRestoreSettingsFailed": {
-		"message": "При восстановлении настроек произошла ошибка",
-		"description": ""
+		"message": "При восстановлении настроек произошла ошибка"
+	},
+	"settingsRestoreSettingsFailedInvalid": {
+		"message": "Данные резервной копии неправильные или повреждены"
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
-		"message": "Недопустимые данные для активного профиля",
-		"description": ""
+		"message": "Недопустимые данные для активного профиля"
 	},
 	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
-		"message": "Недопустимые данные для прокси-сервера по умолчанию",
-		"description": ""
+		"message": "Недопустимые данные для прокси-сервера по умолчанию"
 	},
 	"settingsEnableByDomainInvalid": {
-		"message": "Выбранный домен недействителен",
-		"description": ""
+		"message": "Выбранный домен недействителен"
 	},
 	"settingsEnableByDomainExists": {
-		"message": "Правило для домена уже существует",
-		"description": ""
+		"message": "Правило для домена уже существует"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
-		"message": "Текущий профиль «{0}» не может быть обновлён правилами",
-		"description": ""
+		"message": "Текущий профиль «{0}» не может быть обновлён правилами"
 	},
 	"settingsNoRuleFoundForDomain": {
-		"message": "Нет никакого правила для '{0}'",
-		"description": ""
+		"message": "Нет никакого правила для '{0}'"
 	},
 	"importerImportSuccess": {
-		"message": "Всего {0} из {1} правил добавлены.<br>Не забудьте сохранить изменения.",
-		"description": ""
+		"message": "Всего {0} из {1} правил добавлены.<br>Не забудьте сохранить изменения."
 	},
 	"settingsAddMultipleRulesButton": {
-		"message": "Добавить сложное правило",
-		"description": ""
+		"message": "Добавить сложное правило"
 	},
 	"settingsAddMultipleRuleTitle": {
-		"message": "Добавление сложных правил",
-		"description": ""
+		"message": "Добавление сложных правил"
 	},
 	"settingsMultipleRuleList": {
-		"message": "Список хостов/правил:",
-		"description": ""
+		"message": "Список хостов/правил:"
 	},
 	"settingsMultipleRuleInvalidHost": {
-		"message": "Недопустимое имя хоста «{0}»",
-		"description": ""
+		"message": "Недопустимое имя хоста «{0}»"
 	},
 	"settingsMultipleRuleNoNewRuleAdded": {
-		"message": "Новых правил не было добавлено",
-		"description": ""
+		"message": "Новых правил не было добавлено"
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
-		"message": "Управление подписками на прокси-сервер:",
-		"description": ""
+		"message": "Управление подписками на прокси-сервер:"
 	},
 	"settingsTabProxyServerSubscriptionsDescription": {
-		"message": "Здесь вы можете подписаться на списки прокси и потом переключаться между прокси-серверами. Обратите внимание, что длинные списки могут привести к сбою в синхронизации данных между устройствами.",
-		"description": ""
+		"message": "Здесь вы можете подписаться на списки прокси и потом переключаться между прокси-серверами. Обратите внимание, что длинные списки могут привести к сбою в синхронизации данных между устройствами."
 	},
 	"settingsErrorFailedToSaveGeneral": {
-		"message": "Не удалось сохранить настройки параметров.",
-		"description": ""
+		"message": "Не удалось сохранить настройки параметров."
 	},
 	"settingsSaveOptionsSuccess": {
-		"message": "Общие параметры сохранены успешно.",
-		"description": ""
+		"message": "Общие параметры сохранены успешно."
 	},
 	"settingsAddServerSubscriptionButton": {
-		"message": "Подписаться на список",
-		"description": ""
+		"message": "Подписаться на список"
 	},
 	"settingsServerSubscriptionModalTitle": {
-		"message": "Подписаться на список прокси-сервера",
-		"description": ""
+		"message": "Подписаться на список прокси-сервера"
 	},
 	"settingsServerSubscriptionName": {
-		"message": "Имя:",
-		"description": ""
+		"message": "Имя:"
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "Адрес:",
-		"description": ""
+		"message": "Адрес:"
 	},
 	"settingsServerSubscriptionRefreshRate": {
-		"message": "Частота обновления:",
-		"description": ""
+		"message": "Частота обновления:"
 	},
 	"settingsServerSubscriptionRefreshRateHelp": {
-		"message": "(в минутах, 0 означает отсутствие обновления)",
-		"description": ""
+		"message": "(в минутах, 0 означает отсутствие обновления)"
 	},
 	"settingsServerSubscriptionEnabled": {
-		"message": "Включено",
-		"description": ""
+		"message": "Включено"
 	},
 	"settingsServerSubscriptionProtocol": {
-		"message": "Протокол:",
-		"description": ""
+		"message": "Протокол:"
 	},
 	"settingsServerSubscriptionObfuscation": {
-		"message": "Маскирование:",
-		"description": ""
+		"message": "Маскирование:"
 	},
 	"settingsServerSubscriptionFormat": {
-		"message": "Формат:",
-		"description": ""
+		"message": "Формат:"
 	},
 	"settingsServerSubscriptionApplyProxy": {
-		"message": "Сквозной прокси:",
-		"description": ""
+		"message": "Сквозной прокси:"
 	},
 	"settingsServerSubscriptionApplyProxyHelpFirefox": {
-		"message": "(Определяет критерии доступа к серверу)",
-		"description": ""
+		"message": "(Определяет критерии доступа к серверу)"
 	},
 	"settingsServerSubscriptionApplyProxyHelpChrome": {
-		"message": "(К сожалению, эта функция недоступна в Chrome. Будет применяться текущий прокси. )",
-		"description": ""
+		"message": "(К сожалению, эта функция недоступна в Chrome. Будет применяться текущий прокси. )"
 	},
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
-		"message": "Без прокси",
-		"description": ""
+		"message": "Без прокси"
 	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
-		"message": "Текущий прокси",
-		"description": ""
+		"message": "Текущий прокси"
 	},
 	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
-		"message": "Выбранный прокси",
-		"description": ""
+		"message": "Выбранный прокси"
 	},
 	"settingsServerSubscriptionUsername": {
-		"message": "Имя пользователя:",
-		"description": ""
+		"message": "Имя пользователя:"
 	},
 	"settingsServerSubscriptionPassword": {
-		"message": "Пароль:",
-		"description": ""
+		"message": "Пароль:"
 	},
 	"settingsServerSubscriptionAuthenticationHelp": {
-		"message": "(если список требует аутентификации)",
-		"description": ""
+		"message": "(если список требует аутентификации)"
 	},
 	"settingsServerSubscriptionCancelButton": {
-		"message": "Отмена",
-		"description": ""
+		"message": "Отмена"
 	},
 	"settingsServerSubscriptionSaveButton": {
-		"message": "Сохранить",
-		"description": ""
+		"message": "Сохранить"
 	},
 	"settingsServerSubscriptionSavingButton": {
-		"message": "Сохранение...",
-		"description": ""
+		"message": "Сохранение..."
 	},
 	"settingsServerSubscriptionTestButton": {
-		"message": "Тест",
-		"description": ""
+		"message": "Тест"
 	},
 	"settingsServerSubscriptionTestingButton": {
-		"message": "Тестирование...",
-		"description": ""
+		"message": "Тестирование..."
 	},
 	"settingsConfirmRemoveServerSubscription": {
-		"message": "Вы действительно хотите удалить выбранную подписку?",
-		"description": ""
+		"message": "Вы действительно хотите удалить выбранную подписку?"
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
-		"message": "Вы действительно хотите удалить все подписки на прокси-серверы?",
-		"description": ""
+		"message": "Вы действительно хотите удалить все подписки на прокси-серверы?"
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "Все подписки на прокси-сервер удалятся.<br/>Вы должны сохранить, чтобы применить изменения.",
-		"description": ""
+		"message": "Все подписки на прокси-сервер удалятся.<br/>Вы должны сохранить, чтобы применить изменения."
 	},
 	"settingsServerSubscriptionProtocolDefault": {
-		"message": "(Автоматическое обнаружение с отключением HTTP)",
-		"description": ""
+		"message": "(Автоматическое обнаружение с отключением HTTP)"
 	},
 	"settingsInitializeFailed": {
-		"message": "Не удалось прочитать настройки. Закройте страницу настроек и повторите попытку.",
-		"description": ""
+		"message": "Не удалось прочитать настройки. Закройте страницу настроек и повторите попытку."
 	},
 	"settingsActiveProxyServerSubscriptions": {
-		"message": "-Подписки-",
-		"description": ""
+		"message": "-Подписки-"
 	},
 	"settingsServerSubscriptionsGridNoDataContent": {
-		"message": "Нет подписок",
-		"description": ""
+		"message": "Нет подписок"
 	},
 	"settingsServerSubscriptionsGridColName": {
-		"message": "Имя",
-		"description": ""
+		"message": "Имя"
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "Адрес",
-		"description": ""
+		"message": "Адрес"
 	},
 	"settingsServerSubscriptionsGridColCount": {
-		"message": "Всего",
-		"description": ""
+		"message": "Всего"
 	},
 	"settingsServerSubscriptionsGridColEnabled": {
-		"message": "Включено",
-		"description": ""
+		"message": "Включено"
 	},
 	"settingsServerSubscriptionIncompleteForm": {
-		"message": "Пожалуйста, заполните необходимые поля в правильном формате",
-		"description": ""
+		"message": "Пожалуйста, заполните необходимые поля в правильном формате"
 	},
 	"settingsServerSubscriptionInvalidForm": {
-		"message": "Недопустимые данные подписки на прокси-сервер",
-		"description": ""
+		"message": "Недопустимые данные подписки на прокси-сервер"
 	},
 	"settingsServerSubscriptionDuplicateName": {
-		"message": "Введённое имя уже используется, введите другое имя.",
-		"description": ""
+		"message": "Введённое имя уже используется, введите другое имя."
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "Подписка обновляется с помощью {0} прокси.<br/>Не забудьте сохранить изменения.",
-		"description": ""
+		"message": "Подписка обновляется с помощью {0} прокси.<br/>Не забудьте сохранить изменения."
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "Подписка добавляется с помощью {0} прокси.<br/>Не забудьте сохранить изменения.",
-		"description": ""
+		"message": "Подписка добавляется с помощью {0} прокси.<br/>Не забудьте сохранить изменения."
 	},
 	"settingsServerSubscriptionSaveFailedGet": {
-		"message": "Не удалось получить прокси.",
-		"description": ""
+		"message": "Не удалось получить прокси."
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "Тест прошёл успешно. В списке были возвращены {0} прокси.",
-		"description": ""
+		"message": "Тест прошёл успешно. В списке были возвращены {0} прокси."
 	},
 	"settingsServerSubscriptionTestFailed": {
-		"message": "Не удалось выполнить тест",
-		"description": ""
+		"message": "Не удалось выполнить тест"
 	},
 	"settingsSaveProxyServerSubscriptionsSuccess": {
-		"message": "Подписки на прокси-сервер успешно сохранены.",
-		"description": ""
+		"message": "Подписки на прокси-сервер успешно сохранены."
 	},
 	"settingsFailedToSaveProxySubscriptions": {
-		"message": "Не удалось сохранить подписку на правила прокси",
-		"description": ""
+		"message": "Не удалось сохранить подписку на правила прокси"
 	},
 	"settingsAddRulesSubscriptionButton": {
-		"message": "Подписаться на список",
-		"description": ""
+		"message": "Подписаться на список"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
-		"message": "Подписка на список правил",
-		"description": ""
+		"message": "Подписка на список правил"
 	},
 	"settingsRulesSubscriptionsGridColName": {
-		"message": "Имя",
-		"description": ""
+		"message": "Имя"
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "Адрес",
-		"description": ""
+		"message": "Адрес"
 	},
 	"settingsRulesSubscriptionsGridColCount": {
-		"message": "Всего",
-		"description": ""
+		"message": "Всего"
 	},
 	"settingsRulesSubscriptionsGridColEnabled": {
-		"message": "Включено",
-		"description": ""
+		"message": "Включено"
 	},
 	"settingsRulesSubscriptionsName": {
-		"message": "Имя:",
-		"description": ""
+		"message": "Имя:"
 	},
 	"settingsRulesSubscriptionsUrl": {
-		"message": "Адрес:",
-		"description": ""
+		"message": "Адрес:"
 	},
 	"settingsRulesSubscriptionsRefreshRate": {
-		"message": "Частота обновления:",
-		"description": ""
+		"message": "Частота обновления:"
 	},
 	"settingsRulesSubscriptionsRefreshRateHelp": {
-		"message": "(в минутах, 0 означает отсутствие обновления)",
-		"description": ""
+		"message": "(в минутах, 0 означает отсутствие обновления)"
 	},
 	"settingsRulesSubscriptionEnabled": {
-		"message": "Включено",
-		"description": ""
+		"message": "Включено"
 	},
 	"settingsRulesSubscriptionsObfuscation": {
-		"message": "Маскировка:",
-		"description": ""
+		"message": "Маскировка:"
 	},
 	"settingsRulesSubscriptionsFormat": {
-		"message": "Формат:",
-		"description": ""
+		"message": "Формат:"
 	},
 	"settingsRulesSubscriptionsApplyProxy": {
-		"message": "Сквозной прокси:",
-		"description": ""
+		"message": "Сквозной прокси:"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
-		"message": "(Определяет критерии доступа к серверу)",
-		"description": ""
+		"message": "(Определяет критерии доступа к серверу)"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
-		"message": "(К сожалению, эта функция недоступна в Chrome. Будет применяться текущий прокси. )",
-		"description": ""
+		"message": "(К сожалению, эта функция недоступна в Chrome. Будет применяться текущий прокси. )"
 	},
 	"settingsRulesSubscriptionsUsername": {
-		"message": "Имя пользователя:",
-		"description": ""
+		"message": "Имя пользователя:"
 	},
 	"settingsRulesSubscriptionsAuthenticationHelp": {
-		"message": "(если список требует аутентификации)",
-		"description": ""
+		"message": "(если список требует аутентификации)"
 	},
 	"settingsRulesSubscriptionsPassword": {
-		"message": "Пароль:",
-		"description": ""
+		"message": "Пароль:"
 	},
 	"settingsRulesSubscriptionsTestButton": {
-		"message": "Тест",
-		"description": ""
+		"message": "Тест"
 	},
 	"settingsRulesSubscriptionsSaveButton": {
-		"message": "Сохранить",
-		"description": ""
+		"message": "Сохранить"
 	},
 	"settingsRulesSubscriptionsCancelButton": {
-		"message": "Отмена",
-		"description": ""
+		"message": "Отмена"
 	},
 	"settingsConfirmRemoveRulesSubscription": {
-		"message": "Вы действительно хотите удалить выбранную подписку?",
-		"description": ""
+		"message": "Вы действительно хотите удалить выбранную подписку?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
-		"message": "Пожалуйста, заполните необходимые поля в правильном формате",
-		"description": ""
+		"message": "Пожалуйста, заполните необходимые поля в правильном формате"
 	},
 	"settingsRulesSubscriptionInvalidForm": {
-		"message": "Недопустимые данные подписки на прокси-сервер",
-		"description": ""
+		"message": "Недопустимые данные подписки на прокси-сервер"
 	},
 	"settingsRulesSubscriptionDuplicateName": {
-		"message": "Введённое имя уже используется, введите другое.",
-		"description": ""
+		"message": "Введённое имя уже используется, введите другое."
 	},
 	"settingsRulesSubscriptionSavingButton": {
-		"message": "Сохранение…",
-		"description": ""
+		"message": "Сохранение…"
 	},
 	"settingsRulesSubscriptionTestButton": {
-		"message": "Тест",
-		"description": ""
+		"message": "Тест"
 	},
 	"settingsRulesSubscriptionTestingButton": {
-		"message": "Тестирование…",
-		"description": ""
+		"message": "Тестирование…"
 	},
 	"settingsRulesSubscriptionSaveUpdated": {
-		"message": "Подписка обновляет {0} правил прокси, включай {1} правил-исключений.<br/>Не забудьте сохранить изменения.",
-		"description": ""
+		"message": "Подписка обновляет {0} правил прокси, включай {1} правил-исключений.<br/>Не забудьте сохранить изменения."
 	},
 	"settingsRulesSubscriptionSaveAdded": {
-		"message": "Подписка добавляет {0} правил прокси, включай {1} правил-исключений.<br/>Не забудьте сохранить изменения.",
-		"description": ""
+		"message": "Подписка добавляет {0} правил прокси, включай {1} правил-исключений.<br/>Не забудьте сохранить изменения."
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
-		"message": "Не удалось получить прокси.",
-		"description": ""
+		"message": "Не удалось получить прокси."
 	},
 	"settingsRulesSubscriptionRefreshOnDisabled": {
-		"message": "Нельзя обновлять отключённую подписку",
-		"description": ""
+		"message": "Нельзя обновлять отключённую подписку"
 	},
 	"settingsRulesSubscriptionTestSuccess": {
-		"message": "Проверка прошла успешно. Список вернул {0} правил прокси и {1} правил-исключений.",
-		"description": ""
+		"message": "Проверка прошла успешно. Список вернул {0} правил прокси и {1} правил-исключений."
 	},
 	"settingsRulesSubscriptionTestFailed": {
-		"message": "Тест не пройден",
-		"description": ""
+		"message": "Тест не пройден"
 	},
 	"settingsFailedToSaveRulesSubscriptions": {
-		"message": "Не удалось сохранить подписку на правила",
-		"description": ""
+		"message": "Не удалось сохранить подписку на правила"
 	},
 	"settingsRemoveAllProxyRulesSubscriptions": {
-		"message": "Вы действительно хотите удалить все подписки?",
-		"description": ""
+		"message": "Вы действительно хотите удалить все подписки?"
 	},
 	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
-		"message": "Все подписки на правила прокси удалены.<br/>Выполните сохранение, чтобы применить изменения.",
-		"description": ""
+		"message": "Все подписки на правила прокси удалены.<br/>Выполните сохранение, чтобы применить изменения."
 	},
 	"importerImportRulesSuccess": {
-		"message": "Всего возвращены {0} правил прокси и {1} правил-исключений.<br>Не забудьте сохранить изменения.",
-		"description": ""
+		"message": "Всего возвращены {0} правил прокси и {1} правил-исключений.<br>Не забудьте сохранить изменения."
 	},
 	"settingsRulePatternIsEmpty": {
-		"message": "Правило не имеет шаблона",
-		"description": ""
+		"message": "Правило не имеет шаблона"
 	},
 	"settingsWelcomeTitle": {
-		"message": "Добро пожаловать в SmartProxy",
-		"description": ""
+		"message": "Добро пожаловать в SmartProxy"
 	},
 	"settingsWelcomeMessage": {
-		"message": "<p>\n\t\t\t\t\t\tДобро пожаловать! Я рад, что вы выбрали SmartProxy, умный переключатель прокси.\n\t\t\t\t\t\t<br>\n\t\t\t\t\t\tПожалуйста, выполните следующие действия, чтобы начать работу:\n\t\t\t\t\t</p>\n\t\t\t\t\t<ol>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tДобавьте прокси-сервер\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Перейдите на вкладку «Прокси-серверы» и там добавьте)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tУстановите умный режим прокси\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Используйте всплывающее меню панели инструментов, чтобы изменить активный режим на «Умный прокси»)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tНастройте правила прокси\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Используйте всплывающее меню панели инструментов для добавления правил или вкладку «Правила проксирования» добавления/изменения правил прокси-сервера)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tВсё готово.\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ol>",
-		"description": ""
+		"message": "<p>\n\t\t\t\t\t\tДобро пожаловать! Я рад, что вы выбрали SmartProxy, умный переключатель прокси.\n\t\t\t\t\t\t<br>\n\t\t\t\t\t\tПожалуйста, выполните следующие действия, чтобы начать работу:\n\t\t\t\t\t</p>\n\t\t\t\t\t<ol>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tДобавьте прокси-сервер\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Перейдите на вкладку «Прокси-серверы» и там добавьте)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tУстановите умный режим прокси\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Используйте всплывающее меню панели инструментов, чтобы изменить активный режим на «Умный прокси»)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tНастройте правила прокси\n\t\t\t\t\t\t\t<br>\n\t\t\t\t\t\t\t<small>(Используйте всплывающее меню панели инструментов для добавления правил или вкладку «Правила проксирования» добавления/изменения правил прокси-сервера)</small>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\tВсё готово.\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ol>"
 	},
 	"settingsWelcomeSkipButton": {
-		"message": "Ясно",
-		"description": ""
+		"message": "Ясно"
 	},
 	"settings_SmartProfileType_Direct": {
-		"message": "Прямое соединение",
-		"description": ""
+		"message": "Прямое соединение"
 	},
 	"settings_SmartProfileType_SystemProxy": {
-		"message": "Системный прокси",
-		"description": ""
+		"message": "Системный прокси"
 	},
 	"settings_SmartProfileType_SmartRules": {
-		"message": "Умные правила",
-		"description": ""
+		"message": "Умные правила"
 	},
 	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
-		"message": "Всегда включён с правилами обхода",
-		"description": ""
+		"message": "Всегда включён с правилами обхода"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
-		"message": "Игнорировать правила сбоев",
-		"description": ""
+		"message": "Игнорировать правила сбоев"
 	},
 	"notificationNoNextProxyServer": {
-		"message": "Следующий прокси-сервер отсутствует",
-		"description": ""
+		"message": "Следующий прокси-сервер отсутствует"
 	},
 	"notificationNoPreviousProxyServer": {
-		"message": "Предыдущий прокси-сервер отсутствует",
-		"description": ""
+		"message": "Предыдущий прокси-сервер отсутствует"
 	},
 	"notificationShortcutTitle": {
-		"message": "Включить значок уведомления",
-		"description": ""
+		"message": "Включить значок уведомления"
 	},
 	"notificationShortcutProxyModeMessage": {
-		"message": "Режим прокси изменён на {0}",
-		"description": ""
+		"message": "Режим прокси изменён на {0}"
 	},
 	"notificationShortcutProxyServerChanged": {
-		"message": "Прокси-сервер изменён на {0}",
-		"description": ""
-	},
-	"helpTabName": {
-		"message": "Помощь"
-	},
-	"helpIntro": {
-		"message": "Добро пожаловать в Справочный центр. Перейдите к разделу, в котором вам нужна помощь, или, если вы новичок в SmartProxy, начните с руководства «Начало работы»."
-	},
-	"helpGettingStarted": {
-		"message": "Начало работы"
-	},
-	"helpProxyModes": {
-		"message": "Режимы прокси"
+		"message": "Прокси-сервер изменён на {0}"
 	}
 }

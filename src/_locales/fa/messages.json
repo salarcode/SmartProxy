@@ -1,764 +1,609 @@
 {
 	"uiDirection": {
-		"message": "rtl",
-		"description": ""
+		"message": "rtl"
 	},
 	"extensionName": {
-		"message": "SmartProxy",
-		"description": ""
+		"message": "پراکسی هوشمند"
 	},
 	"extensionDescription": {
-		"message": "خودکار سازی اعمال پراکسی به سایتهایی که در حال مشاهده هستید بدون اینکه کاری انجام دهید. این کار با استفاده از لیستی از قوانینی که برای اعمال پراکسی بر روی سایتها قبلا توسط شما و با یک کلیک اضافه شده اند، انجام می شود.",
-		"description": ""
+		"message": "خودکار سازی اعمال پراکسی به سایتهایی که در حال مشاهده هستید بدون اینکه کاری انجام دهید. این کار با استفاده از لیستی از قوانینی که برای اعمال پراکسی بر روی سایتها قبلا توسط شما و با یک کلیک اضافه شده اند، انجام می شود."
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Matched rule source:",
-		"description": ""
+		"message": "دامنه تطبیق یافته:"
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "No matching rule",
-		"description": ""
+		"message": "بدون هیچ تطابقی"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "Rule pattern:",
-		"description": ""
+		"message": "الگوی قانون:"
 	},
 	"popupTitle": {
-		"message": "فعال سازی پراکسی",
-		"description": ""
+		"message": "فعال سازی پراکسی"
+	},
+	"popupPrivateBrowsingMode": {
+		"message": "حالت ناشناس افزونه فعال است"
 	},
 	"popupNoProxy": {
-		"message": "مستقیم (بدون پراکسی)",
-		"description": ""
+		"message": "مستقیم (بدون پراکسی)"
 	},
 	"popupSmartProxy": {
-		"message": "پراکسی هوشمند",
-		"description": ""
+		"message": "پراکسی هوشمند"
 	},
 	"popupAlwaysEnable": {
-		"message": "پراکسی برای همه",
-		"description": ""
+		"message": "پراکسی برای همه"
 	},
 	"popupSystemProxy": {
-		"message": "استفاده از تنظیمات سیستم",
-		"description": ""
+		"message": "استفاده از تنظیمات سیستم"
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy (this profile):",
-		"description": ""
+		"message": "پراکسی فعال (از پروفایل انتخابی):"
 	},
 	"popupActiveProxyDefault": {
-		"message": "Active Proxy (Default Setting):",
-		"description": ""
+		"message": "پراکسی فعال (از تنظیمات پیش فرض):"
 	},
 	"popupEnableProxyOn": {
-		"message": "فعال کردن پراکسی برای",
-		"description": ""
+		"message": "فعال کردن پراکسی برای"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Ignore these domains",
-		"description": ""
+		"message": "این دامنه ها نادیده گرفته شود"
 	},
 	"popupRuleIsFromSubscription": {
-		"message": "(از اشتراکات)",
-		"description": ""
+		"message": "(از اشتراکات)"
 	},
 	"popupProxyableResources": {
-		"message": "صفحات قابل پراکسی شدن",
-		"description": ""
+		"message": "صفحات قابل پراکسی شدن"
 	},
 	"popupSettings": {
-		"message": "تنظیمات",
-		"description": ""
+		"message": "تنظیمات"
 	},
 	"popupSubscriptions": {
-		"message": "-اشتراکات-",
-		"description": ""
+		"message": "-اشتراکات-"
 	},
 	"popupUpdateText": {
-		"message": "بروز رسانی به {0}",
-		"description": ""
+		"message": "بروز رسانی به {0}"
 	},
 	"popupFailedRequestsMenu": {
-		"message": "درخواست های ناموفق",
-		"description": ""
+		"message": "درخواست های ناموفق"
 	},
 	"popupFailedRequestsTitle": {
-		"message": "لیست درخواست های ناموفق",
-		"description": ""
+		"message": "لیست درخواست های ناموفق"
 	},
 	"popupFailedRequestsDesc": {
-		"message": "لیست زیر دامنه هایی است که یا از آنها پاسخی دریافت نشده و یا با خطا مواجه شده اند<br />اگر فکر می کنید که اینها مسدود شده اند، میتوانید آنها را به لیست قوانین اضافه کنید.",
-		"description": ""
+		"message": "لیست زیر دامنه هایی است که یا از آنها پاسخی دریافت نشده و یا با خطا مواجه شده اند<br />اگر فکر می کنید که اینها مسدود شده اند، میتوانید آنها را به لیست قوانین اضافه کنید."
 	},
 	"popupAddFailedRequestsConfirm": {
-		"message": "دامنه های انتخابی به لیست قوانین اضافه شوند؟",
-		"description": ""
+		"message": "دامنه های انتخابی به لیست قوانین اضافه شوند؟"
 	},
 	"popupAddFailedRequests": {
-		"message": "اضافه کردن به لیست قوانین",
-		"description": ""
+		"message": "اضافه کردن به لیست قوانین"
 	},
 	"popupAddIgnoredFailures": {
-		"message": "نادیده گرفتن انتخابها",
-		"description": ""
+		"message": "نادیده گرفتن انتخابها"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later.",
-		"description": ""
+		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "متاسفانه اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow in incognito` را فعال کنید. <a href='https://support.google.com/chrome_webstore/answer/2664769'>اطلاعات بیشتر</a>.",
-		"description": ""
+		"message": "متاسفانه اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow in incognito` را فعال کنید. <a href='https://support.google.com/chrome_webstore/answer/2664769'>اطلاعات بیشتر</a>."
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "از فایرفاکس 67 به بعد اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow` را برای `Run in Private Windows` فعال کنید. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>اطلاعات بیشتر</a>.",
-		"description": ""
+		"message": "از فایرفاکس 67 به بعد اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow` را برای `Run in Private Windows` فعال کنید. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>اطلاعات بیشتر</a>."
 	},
 	"proxyableTitle": {
-		"message": "لیست درخواست های قابل پراکسی شدن",
-		"description": ""
+		"message": "لیست درخواست های قابل پراکسی شدن"
 	},
 	"proxyableHeader": {
-		"message": "لیست درخواست ها/عکس/منایع قابل پراکسی شدن در این صفحه",
-		"description": ""
+		"message": "لیست درخواست ها/عکس/منایع قابل پراکسی شدن در این صفحه"
 	},
 	"proxyableReload": {
-		"message": "بازخوانی صفحه",
-		"description": ""
+		"message": "بازخوانی صفحه"
 	},
 	"proxyableClose": {
-		"message": "خروج",
-		"description": ""
+		"message": "خروج"
 	},
 	"proxyableHeaderDesc": {
-		"message": "در این صفحه لیست منابعی که در صفحه استفاده شده و یا از همین صفحه فراخوانی شده اند را ببینید و سپس پراکسی را برای هر کدام فعال کنید.<br/> اگر لیست خالی است می توانید برای مشاهده منابع صفحه مورد نظر را بازخوانی کنید.",
-		"description": ""
+		"message": "در این صفحه لیست منابعی که در صفحه استفاده شده و یا از همین صفحه فراخوانی شده اند را ببینید و سپس پراکسی را برای هر کدام فعال کنید.<br/> اگر لیست خالی است می توانید برای مشاهده منابع صفحه مورد نظر را بازخوانی کنید."
 	},
 	"proxyableErrNoSourceTab": {
-		"message": "تب مرجع یافت نشد!",
-		"description": ""
+		"message": "تب مرجع یافت نشد!"
 	},
 	"proxyableCreateRuleConfirm": {
-		"message": "از ایجاد یک قانون جدید برای دامنه انتخابی مطمئن هستید",
-		"description": ""
+		"message": "از ایجاد یک قانون جدید برای دامنه انتخابی مطمئن هستید"
 	},
 	"proxyableDisableButton": {
-		"message": "غیر فعال کردن",
-		"description": ""
+		"message": "غیر فعال کردن"
 	},
 	"proxyableEnableButton": {
-		"message": "فعال کردن",
-		"description": ""
+		"message": "فعال کردن"
 	},
 	"proxyableEnableButtonDomain": {
-		"message": "فعال کردن برای: ",
-		"description": ""
+		"message": "فعال کردن برای: "
 	},
 	"proxyableSubscriptionRule": {
-		"message": "(از قانون های اشتراکات)",
-		"description": ""
+		"message": "(از قانون های اشتراکات)"
 	},
 	"proxyableDeleteRuleConfirm": {
-		"message": "آیا از حذف قانون انتخابی مطمئن هستید:",
-		"description": ""
+		"message": "آیا از حذف قانون انتخابی مطمئن هستید:"
 	},
 	"proxyableGridNoDataContent": {
-		"message": "هیچ درخواستی وجود ندارد",
-		"description": ""
+		"message": "هیچ درخواستی وجود ندارد"
 	},
 	"proxyableGridColUrl": {
-		"message": "آدرس درخواست کننده",
-		"description": ""
-	},
-	"proxyableGridColEnabled": {
-		"message": "پراکسی اعمال شده",
-		"description": ""
+		"message": "آدرس درخواست کننده"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Rule status",
-		"description": ""
+		"message": "وضعیت قوانین"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Proxy status",
-		"description": ""
+		"message": "وضعیت پراکسی"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Rule domain",
-		"description": ""
+		"message": "دامنه الگو"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Rule pattern",
-		"description": ""
+		"message": "الگوی قانون"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "No Proxy",
-		"description": ""
+		"message": "بدون پراکسی"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Special",
-		"description": ""
+		"message": "ویژه"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent rab",
-		"description": ""
+		"message": "پراکسی به کل صفحه اعمال شده"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Matched",
-		"description": ""
+		"message": "تطابق یافته"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "AlwaysEnabled",
-		"description": ""
+		"message": "همیشه فعال"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "System Proxy Applied",
-		"description": ""
+		"message": "تنظیمات سیستم اعمال شده"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "No Match",
-		"description": ""
+		"message": "بدون تطبیق"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Special",
-		"description": ""
+		"message": "ویژه"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "From parent tab",
-		"description": ""
+		"message": "پراکسی به کل صفحه اعمال شده"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Matched",
-		"description": ""
+		"message": "تطابق یافته"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Whitelisted",
-		"description": ""
+		"message": "نادیده گرفته شده"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "AlwaysEnabled <br> Bypassed",
-		"description": ""
+		"message": "همیشه فعال <br>نادیده گرفته شده"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "AlwaysEnabled <br> Forced By Rules",
-		"description": ""
+		"message": "همیشه فعال <br>قوانین اجبارا اعمال شده"
 	},
 	"settingsTitle": {
-		"message": "تنظیمات SmartProxy",
-		"description": ""
+		"message": "تنظیمات SmartProxy"
 	},
 	"settingsTabAbout": {
-		"message": "درباره",
-		"description": ""
+		"message": "درباره"
 	},
 	"settingsTabGeneral": {
-		"message": "تنظیمات عمومی",
-		"description": ""
+		"message": "تنظیمات عمومی"
 	},
 	"settingsTabSmartProfiles": {
-		"message": "Smart Profiles",
-		"description": ""
+		"message": "پروفایل ها"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Add new Smart Profile",
-		"description": ""
+		"message": "افزودن پروفايل جديد"
 	},
 	"settingsTabProxyServers": {
-		"message": "پروکسی سرورها",
-		"description": ""
+		"message": "پروکسی سرورها"
 	},
 	"settingsTabProxyServerSubscriptions": {
-		"message": "اشتراکات پراکسی لیست",
-		"description": ""
+		"message": "اشتراکات پراکسی لیست"
 	},
 	"settingsTabBackupRestore": {
-		"message": "بازیابی و پشتیبان",
-		"description": ""
+		"message": "بازیابی و پشتیبان"
 	},
 	"settingsTabUpdateText": {
-		"message": "بروز رسانی به {0}",
-		"description": ""
+		"message": "بروز رسانی به {0}"
 	},
 	"settingsTabAboutDescription": {
-		"message": "با استفاده از SmartProxy به راحتترین روش ممکن از پراکسی ها استفاده کنید. یکبار تنظیمات را انجام دهید و تمام. با استفاده از SmartProxy دیگر لازم نیست که پراکسی مرورگر رو به صورت دستی تغییر دهید. تنها کاری که لازم است انجام دهید این است که به SmartProxy اعلام کنید که می خواهید این سایت مشخص با پراکسی باز شود و البته این کار را هم به راحتی و فقط با یک کلیک انجام میدهید. پس از آن وقتی آن سایت را مجددا بازدید می کنید، SmartProxy وارد عمل شده و پراکسی را فقط برای آن سایت فعال می کند. تمام تراکنش های سایت از پراکسی انجام می شود و کار دیگری لازم نیست شما انجام دهید.",
-		"description": ""
+		"message": "با استفاده از SmartProxy به راحتترین روش ممکن از پراکسی ها استفاده کنید. یکبار تنظیمات را انجام دهید و تمام. با استفاده از SmartProxy دیگر لازم نیست که پراکسی مرورگر رو به صورت دستی تغییر دهید. تنها کاری که لازم است انجام دهید این است که به SmartProxy اعلام کنید که می خواهید این سایت مشخص با پراکسی باز شود و البته این کار را هم به راحتی و فقط با یک کلیک انجام میدهید. پس از آن وقتی آن سایت را مجددا بازدید می کنید، SmartProxy وارد عمل شده و پراکسی را فقط برای آن سایت فعال می کند. تمام تراکنش های سایت از پراکسی انجام می شود و کار دیگری لازم نیست شما انجام دهید."
 	},
 	"settingsGeneralSmartFeatures": {
-		"message": "ویژگی های هوشمند",
-		"description": ""
+		"message": "ویژگی های هوشمند"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong>فقط مخصوص Firefox</strong>متاسفانه این ویژگی را مرورگر Chrome پشتیبانی نمی کند.</span>",
-		"description": ""
+		"message": "<strong>فقط مخصوص مرورگر <a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>فایرفاکس</a></strong> متاسفانه این ویژگی توسط مرورگر از نوع کروم پشتیبانی نمی شوند."
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "پراکسی به کل تب و صفحه اعمال شود",
-		"description": ""
+		"message": "پراکسی به کل تب و صفحه اعمال شود"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "اگر یکی از قوانین پراکسی به سایتی که در تب باز است اعمال شود، تمام درخواستهای داخل آن سایت از آن قانون تبعیط می کنند و پراکسی برای آنها اعمال می شود. این شامل تمامی عکس ها و فایلها و فریم های داخل سایت هم می شود حتی اگر از دامنه متفاوتی باشند. بدینصورت دیگر نیازی نیست که برای هر دامنه قانون جدیدی برای استفاده از پراکسی تعریف شود. نکته در اینجا این است که اگر پراکسی به سایت و ثب اعمال نشود، همچنان درخواست ها داخلی سایت از قوانین تبعیط می کنند و اگر لازم شد پراکسی اعمال می شود ولی به صورت جداگانه.",
-		"description": ""
+		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "وقتی پراکسی به کل تب یا صفحه اعمال شده",
-		"description": ""
+		"message": "وقتی پراکسی به کل تب یا صفحه اعمال شده"
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "وقتی پراکسی به کل تب یا صفحه اعمال نشده است",
-		"description": ""
+		"message": "وقتی پراکسی به کل تب یا صفحه اعمال نشده است"
 	},
 	"settingsGeneralSyncing": {
-		"message": "تنظیمات همگام سازی",
-		"description": ""
+		"message": "تنظیمات همگام سازی"
+	},
+	"settingsGeneralIncognitoProfile": {
+		"message": "پروفایل برای حالت ناشناس مرورگر"
+	},
+	"settingsGeneralIncognitoProfileDisabled": {
+		"message": "(غیر فعال)"
+	},
+	"settingsGeneralIncognitoProfileDesc": {
+		"message": "می توانید پروفایلی اختصاصی برای وقتی که در حالت ناشناس مرورگر قرار دارید انتخاب کنید. از این گزینه به جای پروفایل فعلی افزونه استفاده خواهد شد."
 	},
 	"settingsGeneralEnableSyncing": {
-		"message": "همگام سازی فعال باشد",
-		"description": ""
+		"message": "همگام سازی فعال باشد"
 	},
 	"settingsGeneralEnableSyncingDesc": {
-		"message": "همگام سازی این اجازه را میدهد که تنظیمات افزونه در تمام وسایل اشتراکی شما به اشتراک گذاشته شده و دیگر نیازی نباشد همان تنظیمات رو مکررا در هر وسیله ای که استفاده می کنید وارد. این کارها خودکار انجام خواهند شد.",
-		"description": ""
+		"message": "همگام سازی این اجازه را میدهد که تنظیمات افزونه در تمام وسایل اشتراکی شما به اشتراک گذاشته شده و دیگر نیازی نباشد همان تنظیمات رو مکررا در هر وسیله ای که استفاده می کنید وارد. این کارها خودکار انجام خواهند شد."
 	},
 	"settingsSaveGeneralOptionsButton": {
-		"message": "ذخیره تغییرات",
-		"description": ""
+		"message": "ذخیره تغییرات"
 	},
 	"settingsRejectGeneralOptionsButton": {
-		"message": "لغو تغییرات",
-		"description": ""
+		"message": "لغو تغییرات"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "همگام سازی وضعیت فعال بودن افزونه انجام شود",
-		"description": ""
+		"message": "همگام سازی پروفایل فعال انتخاب شده انجام شود"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا وضعیت فعال/غیرفعال/هوشمند/... را همگام سازی کنید.",
-		"description": ""
+		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا پروفایلی را که به فعلا انتخاب کرده اید همگام سازی کنید."
 	},
 	"settingsGeneralSyncActiveProxy": {
-		"message": "همگام سازی پراکسی فعال انتخاب شده انجام شود",
-		"description": ""
+		"message": "همگام سازی پراکسی فعال انتخاب شده انجام شود"
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
-		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا پراکسی سروری را که به عنوان سرور فعال انتخاب کرده اید همگام سازی کنید",
-		"description": ""
+		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا پراکسی سروری را که به عنوان سرور فعال انتخاب کرده اید همگام سازی کنید"
 	},
 	"settingsGeneralErrorDetection": {
-		"message": "شناسایی خطاها",
-		"description": ""
+		"message": "شناسایی خطاها"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "شناسایی درخواست های ناموفق",
-		"description": ""
+		"message": "شناسایی درخواست های ناموفق"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "انجام شناسایی درخواستهای ناموفق کمک بزرگی برای شماست تا بتوانید تشخیص دهید کدام دامنه ها نیاز به پراکسی دارند.",
-		"description": ""
+		"message": "انجام شناسایی درخواستهای ناموفق کمک بزرگی برای شماست تا بتوانید تشخیص دهید کدام دامنه ها نیاز به پراکسی دارند."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Enter Rules",
-		"description": ""
+		"message": "ثبت قوانین نادیده گرفتن"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Ignore failure detection based on these rules",
-		"description": ""
+		"message": "درخواستهای ناموفق گزارش داده نشده و نادیده گرفته شود بر اساس این قوانین"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Add rules to disable failure detection.",
-		"description": ""
+		"message": "در اینجا می توانید قوانینی را تعریف کنید تا بر اساس آن قوانین گزارش خطا داده نشود."
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "نمایش تعداد درخواست های ناموفق در صفحه در روی آیکون افزونه",
-		"description": ""
+		"message": "نمایش تعداد درخواست های ناموفق در صفحه در روی آیکون افزونه"
 	},
 	"settingsGeneralThemes": {
-		"message": "Themes",
-		"description": ""
+		"message": "پوسته ها"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "Auto switch by the Browser theme",
-		"description": ""
+		"message": "تنظیم خودکار همراه با پوسته مرورگر"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system.",
-		"description": ""
+		"message": "با توجه به پوسه مرورگر، پوسه افزونه به صورت خودکار تنظیم خواهد شد. یعنی یکی از پوسه های روشن یا تاریک زیر نمایش داده می شود."
 	},
 	"settingsGeneralThemesLight": {
-		"message": "Light Theme",
-		"description": ""
+		"message": "پوسته روشن"
 	},
 	"settingsGeneralThemes_Default": {
-		"message": "(Default)",
-		"description": ""
+		"message": "(پیش‌فرض)"
 	},
 	"settingsGeneralThemes_Custom": {
-		"message": "(Custom)",
-		"description": ""
+		"message": "(سفارشی)"
 	},
 	"settingsGeneralThemes_CustomUrl": {
-		"message": "Custom Styles (Css) Url:",
-		"description": ""
+		"message": "آدرس استایل سفارشی (css):"
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency.",
-		"description": ""
+		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency."
 	},
 	"settingsGeneralThemesDark": {
-		"message": "Dark Theme",
-		"description": ""
+		"message": "پوسته تیره"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Light Theme and the url should be 'https'.",
-		"description": ""
+		"message": "لطفا آدرس صحیحی رو برای استایل (css) تم روشن وارد کنید و البته آدرس باید با https شروع شده باشد."
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'.",
-		"description": ""
+		"message": "لطفا آدرس صحیحی رو برای استایل (css) برای تم تاریک وارد کنید و البته آدرس باید با https شروع شده باشد."
 	},
 	"settingsGeneralOtherSettings": {
-		"message": "سایر تنظیمات",
-		"description": ""
+		"message": "سایر تنظیمات"
 	},
 	"settingsGeneralEnableShortcuts": {
-		"message": "کلیدهای میانبر فعال باشد",
-		"description": ""
+		"message": "کلیدهای میانبر فعال باشد"
 	},
 	"settingsGeneralEnableShortcutsDesc": {
-		"message": "شما می توانید کلید های میانبر برای این افزونه را از تنظیمات مرورگر تغییر دهید.",
-		"description": ""
+		"message": "شما می توانید کلید های میانبر برای این افزونه را از تنظیمات مرورگر تغییر دهید."
 	},
 	"settingsGeneralViewShortcuts": {
-		"message": "مشاهده میانبر های صفحه کلید",
-		"description": ""
+		"message": "مشاهده میانبر های صفحه کلید"
 	},
 	"settingsGeneralShortcutNotification": {
-		"message": "اطلاع رسانی استفاده شدن از کلید میانبر ها فعال باشد",
-		"description": ""
+		"message": "اطلاع رسانی استفاده شدن از کلید میانبر ها فعال باشد"
 	},
 	"settingsGeneralViewShortcutKeys": {
-		"message": "کلیدهای میانبر",
-		"description": ""
+		"message": "کلیدهای میانبر"
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Display applied rule source on badge",
-		"description": ""
+		"message": "نمایش منبع قوانین فعال در آیکون افزونه"
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
-		"message": "Display applied rule pattern on badge",
-		"description": ""
+		"message": "نمایش خود قانون فعال در آیکون افزونه"
+	},
+	"settingsGeneralRefreshTabOnConfigChanges": {
+		"message": "بارگزاری مجدد زبانه انتخابی مرورگر وقتی پراکسی و یا پروفایل فعال را تغییر دادید"
 	},
 	"settingsGeneralCancelButton": {
-		"message": "انصراف",
-		"description": ""
+		"message": "انصراف"
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "ذخیره تغییرات",
-		"description": ""
+		"message": "ذخیره تغییرات"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "میانبر های صفحه کلید",
-		"description": ""
+		"message": "میانبر های صفحه کلید"
 	},
 	"settingsGeneralCloseButton": {
-		"message": "خروج",
-		"description": ""
+		"message": "خروج"
+	},
+	"settingsGeneralKeyboardShortcutsNotSupported": {
+		"message": "کلیدهای میانبر در دستگاه موبایل در دسترسی نیستند."
 	},
 	"settingsTabProxyServersTitle": {
-		"message": "سرور های پراکسی را اینجا مدیریت کنید:",
-		"description": ""
+		"message": "سرور های پراکسی را اینجا مدیریت کنید:"
 	},
 	"settingsTabProxyServersDescription": {
-		"message": "در اینجا لیست پراکسی ها را مشاهده می کنید. به هر تعداد که مایل بودید می توانید پراکسی تعریف کنید و سپس مابین آنها از طریق تولبار سوئیچ کنید.",
-		"description": ""
+		"message": "در اینجا لیست پراکسی ها را مشاهده می کنید. به هر تعداد که مایل بودید می توانید پراکسی تعریف کنید و سپس مابین آنها از طریق تولبار سوئیچ کنید."
 	},
 	"settingsTabBackupRestoreDescription": {
-		"message": "شما می توانید پشتیبانی کامل و یا پشتیبان از بخشی از تنظیمات تهیه کنید.",
-		"description": ""
+		"message": "شما می توانید پشتیبانی کامل و یا پشتیبان از بخشی از تنظیمات تهیه کنید."
 	},
 	"settingsErrNoServersTitle": {
-		"message": "هیچ سروری تعریف نشده!",
-		"description": ""
+		"message": "هیچ سروری تعریف نشده!"
 	},
 	"settingsErrNoServersDescription": {
-		"message": "قبل از هر چیز باید پراکسی سرور تعریف کنید.",
-		"description": ""
+		"message": "قبل از هر چیز باید پراکسی سرور تعریف کنید."
 	},
 	"settingsActiveProxyServer": {
-		"message": "Default Proxy Server:",
-		"description": ""
+		"message": "پراکسی پیش فرض:"
 	},
 	"settingsAddServerButton": {
-		"message": "افزودن پراکسی سرور",
-		"description": ""
+		"message": "افزودن پراکسی سرور"
 	},
 	"settingsSaveChangesButton": {
-		"message": "ذخیره تغییرات",
-		"description": ""
+		"message": "ذخیره تغییرات"
 	},
 	"settingsRejectChangesButton": {
-		"message": "لغو تغییرات",
-		"description": ""
+		"message": "لغو تغییرات"
 	},
 	"settingsFullBackupButton": {
-		"message": "ایجاد پشتیبان کامل",
-		"description": ""
+		"message": "ایجاد پشتیبان کامل"
 	},
 	"settingsFullBackupButtonDesc": {
-		"message": "تهیه پشتیبان کامل (شامل قوانین و پراکسی ها).",
-		"description": ""
+		"message": "تهیه پشتیبان کامل (شامل قوانین و پراکسی ها)."
 	},
 	"settingsRestoreBackupButton": {
-		"message": "بازیابی پشتیبان",
-		"description": ""
+		"message": "بازیابی پشتیبان"
 	},
 	"settingsRestoreBackupButtonDesc": {
-		"message": "بازگرداندن نسخه پشتیبانی که قبلا گرفته شده",
-		"description": ""
+		"message": "بازگرداندن نسخه پشتیبانی که قبلا گرفته شده"
+	},
+	"settingsDangerZoneDesc": {
+		"message": "منطقه خطر"
+	},
+	"settingsFactoryResetButton": {
+		"message": "حذف همه تنظیمات"
+	},
+	"settingsFactoryResetDesc": {
+		"message": "بازنشانی همه تنظیمات اولیه. این گزینه همه قوانین، پروفایلها و پراکسی ها را برای همیشه پاک کرده و همه تنظیمات به حالت اولیه بازمی گردند. این کار غیر قابل برگشت است."
+	},
+	"settingsFactoryResetConfirm": {
+		"message": "آیا از بازنشانی تنظیمات اولیه مطمئن هستید؟ واقعا؟"
+	},
+	"settingsFactoryResetSuccess": {
+		"message": "بازنشانی تنظیمات اولیه با موفقیت انجام شد"
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import/Export individual list of proxies servers.",
-		"description": ""
+		"message": "وارد کردن/پشتیبانی گیری از لیست پراکسی سرور ها."
 	},
 	"settingsImportProxiesButtonBackup": {
-		"message": "وارد کردن پراکسی سرور ها",
-		"description": ""
+		"message": "وارد کردن پراکسی سرور ها"
 	},
 	"settingsExportProxiesButtonBackup": {
-		"message": "تهیه خروجی پراکسی ها",
-		"description": ""
+		"message": "تهیه خروجی پراکسی ها"
 	},
 	"settingsAddRuleButton": {
-		"message": "افزودن قانون جدید",
-		"description": ""
+		"message": "افزودن قانون جدید"
 	},
 	"settingsImportRulesButton": {
-		"message": "وارد نمودن قوانین",
-		"description": ""
+		"message": "وارد نمودن قوانین"
 	},
 	"settingsImportRulesTitle": {
-		"message": "وارد نمودن قوانین",
-		"description": ""
+		"message": "وارد نمودن قوانین"
 	},
 	"settingsImportRulesSelectButton": {
-		"message": "فایل قوانین",
-		"description": ""
+		"message": "فایل قوانین"
 	},
 	"settingsImportRulesFrom": {
-		"message": "از نوع",
-		"description": ""
+		"message": "از نوع"
 	},
 	"settingsImportRulesOptionAppend": {
-		"message": "افزودن به قوانین موجود",
-		"description": ""
+		"message": "افزودن به قوانین موجود"
 	},
 	"settingsImportRulesOptionOverride": {
-		"message": "جایگزین قوانین فعلی شود (لطفا جوانب احتیات را در نظر بگیرید)",
-		"description": ""
+		"message": "جایگزین قوانین فعلی شود (لطفا جوانب احتیات را در نظر بگیرید)"
 	},
 	"settingsImportRulesCancelButton": {
-		"message": "انصراف",
-		"description": ""
+		"message": "انصراف"
 	},
 	"settingsImportRulesImportButton": {
-		"message": "واردکردن",
-		"description": ""
+		"message": "واردکردن"
 	},
 	"settingsImportProxiesButton": {
-		"message": "وارد کردن پروکسی ها",
-		"description": ""
+		"message": "وارد کردن پروکسی ها"
 	},
 	"settingsExportProxiesButton": {
-		"message": "تهیه خروجی پراکسی ها",
-		"description": ""
+		"message": "تهیه خروجی پراکسی ها"
 	},
 	"settingsImportProxiesTitle": {
-		"message": "وارد کردن پروکسی ها",
-		"description": ""
+		"message": "وارد کردن پروکسی ها"
 	},
 	"settingsImportProxiesSelectFileButton": {
-		"message": "فایل لیست پراکسی ها",
-		"description": ""
+		"message": "فایل لیست پراکسی ها"
 	},
 	"settingsImportProxiesSelectTextButton": {
-		"message": "متحویات فایل لیست پراکسی",
-		"description": ""
+		"message": "متحویات فایل لیست پراکسی"
 	},
 	"settingsImportProxiesOptionAppend": {
-		"message": "افزودن به پراکسی های موجود",
-		"description": ""
+		"message": "افزودن به پراکسی های موجود"
 	},
 	"settingsImportProxiesOptionOverride": {
-		"message": "جایگزین پراکسی های فعلی شود (لطفا جوانب احتیات را در نظر بگیرید)",
-		"description": ""
+		"message": "جایگزین پراکسی های فعلی شود (لطفا جوانب احتیات را در نظر بگیرید)"
 	},
 	"settingsImportProxiesCancelButton": {
-		"message": "انصراف",
-		"description": ""
+		"message": "انصراف"
 	},
 	"settingsImportProxiesImportButton": {
-		"message": "واردکردن",
-		"description": ""
+		"message": "واردکردن"
 	},
 	"settingsConfirmRemoveProxyServer": {
-		"message": "از حذف پراکسی سرور انتخاب شده مطمئن هستید؟",
-		"description": ""
+		"message": "از حذف پراکسی سرور انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllProxyServers": {
-		"message": "از حذف همه پراکسی ها مطمئن هستید؟",
-		"description": ""
+		"message": "از حذف همه پراکسی ها مطمئن هستید؟"
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "تمامی سرورهای پروکسی حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
-		"description": ""
+		"message": "تمامی سرورهای پروکسی حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید."
 	},
 	"settingsImportProxiesFileNotSelected": {
-		"message": "لطفا یک فایل لیست پراکسی انتخاب کنید",
-		"description": ""
+		"message": "لطفا یک فایل لیست پراکسی انتخاب کنید"
 	},
 	"settingsImportProxyListTextIsEmpty": {
-		"message": "لطفا محتوای فایل لیست پراکسی را وارد کنید",
-		"description": ""
+		"message": "لطفا محتوای فایل لیست پراکسی را وارد کنید"
 	},
 	"settingsImportProxyServersFailed": {
-		"message": "مشکلی در وارد کردن پراکسی ها پیش آمده است",
-		"description": ""
+		"message": "مشکلی در وارد کردن پراکسی ها پیش آمده است"
 	},
 	"importerImportProxySuccess": {
-		"message": "تعداد {0} از کل {1} پراکسی ها وارد شد.<br>ذخیره تغییرات فراموش نشود.",
-		"description": ""
+		"message": "تعداد {0} از کل {1} پراکسی ها وارد شد.<br>ذخیره تغییرات فراموش نشود."
 	},
 	"settingsErrorFailedToSaveServers": {
-		"message": "مشکلی در ذخیره پراکسی سرور ها پیش آمده است.",
-		"description": ""
+		"message": "مشکلی در ذخیره پراکسی سرور ها پیش آمده است."
 	},
 	"settingsChangesReverted": {
-		"message": "تغییرات با موفقیت بازگردانی شدند.",
-		"description": ""
+		"message": "تغییرات با موفقیت بازگردانی شدند."
 	},
 	"settingsConfirmRemoveProxyRule": {
-		"message": "از حذف قانون انتخاب شده مطمئن هستید؟",
-		"description": ""
+		"message": "از حذف قانون انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllRules": {
-		"message": "از حذف همه قوانین مطمئن هستید؟",
-		"description": ""
+		"message": "از حذف همه قوانین مطمئن هستید؟"
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "تمامی قوانین حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
-		"description": ""
+		"message": "تمامی قوانین حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید."
 	},
 	"settingsRestoreBackupFailed": {
-		"message": "خطایی در بازگرداندن نسخه پشتیبان پیش آمده است",
-		"description": ""
+		"message": "خطایی در بازگرداندن نسخه پشتیبان پیش آمده است"
 	},
 	"settingsRestoreBackupFileError": {
-		"message": "مشکلی در خواندن فایل انتخابی پیش آمده است",
-		"description": ""
+		"message": "مشکلی در خواندن فایل انتخابی پیش آمده است"
 	},
 	"settingsRulesFileNotSelected": {
-		"message": "لطفا یک فایل قوانین انتخاب کنید",
-		"description": ""
+		"message": "لطفا یک فایل قوانین انتخاب کنید"
 	},
 	"settingsSourceTypeNotSelected": {
-		"message": "لطفا نوع فایل منبع را انتخاب کنید",
-		"description": ""
+		"message": "لطفا نوع فایل منبع را انتخاب کنید"
 	},
 	"settingsImportRulesFailed": {
-		"message": "مشکلی در وارد فایل پیش آمده است.",
-		"description": ""
+		"message": "مشکلی در وارد فایل پیش آمده است."
 	},
 	"settingsServerNameRequired": {
-		"message": "نام پراکسی سرور را مشخص کنید!",
-		"description": ""
+		"message": "نام پراکسی سرور را مشخص کنید!"
 	},
 	"settingsServerNameExists": {
-		"message": "پراکسی سرور با همین نام از قبل وجود دارد!",
-		"description": ""
+		"message": "پراکسی سرور با همین نام از قبل وجود دارد!"
 	},
 	"settingsServerServerAddressIsEmpty": {
-		"message": "آدرس سرور نمی تواند خالی باشد",
-		"description": ""
+		"message": "آدرس سرور نمی تواند خالی باشد"
 	},
 	"settingsServerPortNoInvalid": {
-		"message": "لطفا شماره پورت را صحیح وارد کنید",
-		"description": ""
+		"message": "لطفا شماره پورت را صحیح وارد کنید"
 	},
 	"settingsServerAuthenticationInvalid": {
-		"message": "نامه کاربری و کلمه عبور باید با هم وارد شوند",
-		"description": ""
+		"message": "نامه کاربری و کلمه عبور باید با هم وارد شوند"
 	},
 	"settingsServersGridNoDataContent": {
-		"message": "هیچ سروری تعریف نشده است",
-		"description": ""
+		"message": "هیچ سروری تعریف نشده است"
 	},
 	"settingsServersGridColName": {
-		"message": "نام",
-		"description": ""
+		"message": "نام"
 	},
 	"settingsServersGridColProtocol": {
-		"message": "پروتکل",
-		"description": ""
+		"message": "پروتکل"
 	},
 	"settingsServersGridColServer": {
-		"message": "آدرس",
-		"description": ""
+		"message": "آدرس"
 	},
 	"settingsServersGridColPort": {
-		"message": "پورت",
-		"description": ""
+		"message": "پورت"
 	},
 	"settingsServersModalTitle": {
-		"message": "اطلاعات سرور پراکسی",
-		"description": ""
+		"message": "اطلاعات سرور پراکسی"
 	},
 	"settingsServersServerName": {
-		"message": "نام سرور",
-		"description": ""
+		"message": "نام سرور"
 	},
 	"settingsServersSeverAddress": {
-		"message": "آدرس سرور",
-		"description": ""
+		"message": "آدرس سرور"
 	},
 	"settingsServersProtocol": {
-		"message": "پروتکل پراکسی سرور",
-		"description": ""
+		"message": "پروتکل پراکسی سرور"
 	},
 	"settingsServersPort": {
-		"message": "پورت",
-		"description": ""
+		"message": "پورت"
 	},
 	"settingsServersProxyDNS": {
-		"message": "اعمال پروکسی به درخواست DNS اگر پروتوکل Socks 5 باشد",
-		"description": ""
+		"message": "اعمال پروکسی به درخواست DNS اگر پروتوکل Socks 5 باشد"
 	},
 	"settingsServersUsername": {
-		"message": "نام کاربری",
-		"description": ""
+		"message": "نام کاربری"
 	},
 	"settingsServersPassword": {
-		"message": "کلمه عبور",
-		"description": ""
+		"message": "کلمه عبور"
+	},
+	"settingsServersAuthChromeMv3Limitation": {
+		"message": "(Unfortunately proxy server authentication is no longer supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
 	},
 	"settingsServersCancel": {
-		"message": "انصراف",
-		"description": ""
+		"message": "انصراف"
 	},
 	"settingsServersSave": {
-		"message": "ذخیره",
-		"description": ""
+		"message": "ذخیره"
 	},
 	"settingsServersImport": {
-		"message": "واردکردن",
-		"description": ""
+		"message": "واردکردن"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "Smart Profile:"
+		"message": "پروفایل:"
 	},
 	"settingsProfilesEnabled": {
-		"message": "Enabled"
+		"message": "پروفایل فعال باشد"
 	},
 	"settingsProfilesTypeTitle": {
-		"message": "Profile Type:"
+		"message": "نوع پروفایل:"
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
 		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
@@ -767,695 +612,540 @@
 		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
-		"message": "Ignore failure detection for these domains by adding rules."
+		"message": "بر اساس این قوانینی که در اینجا تعریف می کنید درخواستهای ناموفق گزارش داده نشده و نادیده گرفته می شوند."
 	},
 	"settingsProfilesProfileProxyServer": {
-		"message": "Profile Proxy Server:"
+		"message": "پراکسی فعال برای این پروفایل:"
 	},
 	"settingsProfilesDefaultProfileProxyServer": {
-		"message": "(Use Default Proxy Server)"
+		"message": "(استفاده از پراکسی سرور پیش فرض)"
 	},
 	"settingsProfilesProfileProxyServerDesc": {
-		"message": "(While using this profile, this is going to be the active proxy server)"
+		"message": "(هنگام استفاده از این پروفایل، این انتخاب پراکسی فعال خواهد شد)"
 	},
 	"settingsProfilesRulesSection": {
-		"message": "Rules"
+		"message": "قوانین"
 	},
 	"settingsProfilesDelete": {
-		"message": "Delete"
+		"message": "حذف"
 	},
 	"settingsProfilesAddNewLabel": {
-		"message": "Add New Smart Profile"
+		"message": "اضافه کردن پروفايل جديد"
 	},
 	"settingsProfilesAddNewTypeLead": {
-		"message": "Please select the <b>type of profile</b> you want to add:"
+		"message": "<b>نوع پروفایل</b> مورد نظر خود را انتخاب کنید:"
 	},
 	"settingsProfilesAddNewType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "پروفایل با قوانین هوشمند"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
 		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "همیشه فعال"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
 		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
 	},
 	"settingsProfilesAddNewBtnContinue": {
-		"message": "Continue"
+		"message": "ادامه افزودن"
 	},
 	"settingsProfilesAddNewBtnCancel": {
-		"message": "Cancel"
+		"message": "انصراف"
 	},
 	"settingsProfilesAddErrorTypeRequired": {
-		"message": "Please select a profile type"
+		"message": "انتخاب نوع پروفایل لازم می باشد"
 	},
 	"settingsProfilesAddErrorNameRequired": {
-		"message": "Profile name is mandatory"
+		"message": "ورود نام پروفایل لازم می باشد"
 	},
 	"settingsProfilesAddErrorNameExists": {
-		"message": "Profile name already exists, please enter another one"
+		"message": "نام این پروفایل در حال حاضر وجود دارد، لطفا یکی دیگر را وارد کنید"
 	},
 	"settingsProfilesDeleteConfirm": {
-		"message": "Are you sure to delete this profile? Warning, this action cannot be undone!"
+		"message": "آیا مطمئن هستید می خواهید این پروفایل را حذف کنید؟ این عمل قابل بازگشت نیست!"
 	},
 	"settingsProfilesDeleteFailed": {
-		"message": "Failed to delete the selected profile."
+		"message": "مشکلی در حذف پروفایل انتخابی پیش آمده است."
 	},
 	"settingsProfilesDeleteDone": {
-		"message": "The profile is deleted successfully"
+		"message": "پروفایل با موفقیت حذف شد"
 	},
 	"settingsProfilesDeleteBuiltinFail": {
-		"message": "Cannot delete built-in profiles"
+		"message": "امکان حذف پروفایلهای سیستمی وجود ندارد"
 	},
 	"settingsProfilesProxyServer": {
-		"message": "[Use Default Proxy Server]"
+		"message": "[استفاده از پراکسی سرور پیش فرض]"
+	},
+	"settingsProfilesRulesSubscriptionsTitle": {
+		"message": "اشتراکات قوانین پراکسی"
+	},
+	"settingsProfilesRulesSubscriptionsDesc": {
+		"message": "ایجا می توانید به لیست های قوانین اشتراک ایجاد کنید."
 	},
 	"settingsSaveSmartProfileSuccess": {
-		"message": "Smart Profile saved successfully."
+		"message": "پروفایل با موفقیت ذخیره شد."
 	},
 	"settingsErrorFailedToSaveSmartProfile": {
-		"message": "Failed to save smart profile."
+		"message": "ذخیره پروفایل ناموفق بود."
 	},
 	"settingsRuleSourceRequired": {
-		"message": "لطفا آدرس دامنه را وارد کنید!",
-		"description": ""
+		"message": "لطفا آدرس دامنه را وارد کنید!"
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "آدرس دامنه صحیح نیست، آدرس دامنه باید چیزی مانند '{0}' باشد",
-		"description": ""
+		"message": "آدرس دامنه صحیح نیست، آدرس دامنه باید چیزی مانند '{0}' باشد"
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "دامنه '{0}' معتبر نیست",
-		"description": ""
+		"message": "دامنه '{0}' معتبر نیست"
 	},
 	"settingsRuleSourceAlreadyExists": {
-		"message": "قانونی با همین نام قبلا وجود دارد!",
-		"description": ""
+		"message": "قانونی با همین نام قبلا وجود دارد!"
 	},
 	"settingsRuleHostInvalid": {
-		"message": "نام دامنه '{0}' نامعتبر می باشد، نام دامنه را باید چیزی شبیه به \"google.com\" باشد",
-		"description": ""
+		"message": "نام دامنه '{0}' نامعتبر می باشد، نام دامنه را باید چیزی شبیه به \"google.com\" باشد"
 	},
 	"settingsRuleRegexNotMatchDomain": {
-		"message": "قانون RegEx با آدرس دامنه '{0}' تطابق پیدا نمی کند",
-		"description": ""
+		"message": "قانون RegEx با آدرس دامنه '{0}' تطابق پیدا نمی کند"
 	},
 	"settingsRuleDoesntIncludeDomain": {
-		"message": "قانون با آدرس دامنه '{0}' تطابق پیدا نمی کند",
-		"description": ""
+		"message": "قانون با آدرس دامنه '{0}' تطابق پیدا نمی کند"
 	},
 	"settingsRuleRegexInvalid": {
-		"message": "قانون '{0}' دارای RegEx صحیح نیست",
-		"description": ""
+		"message": "قانون '{0}' دارای RegEx صحیح نیست"
 	},
 	"settingsRuleExactUrlInvalid": {
-		"message": "آدرس '{0}' نامعتبر است",
-		"description": ""
+		"message": "آدرس '{0}' نامعتبر است"
 	},
 	"settingsRuleUrlInvalid": {
-		"message": "آدرس '{0}' نامعتبر است",
-		"description": ""
+		"message": "آدرس '{0}' نامعتبر است"
 	},
 	"settingsRulesGridNoDataContent": {
-		"message": "هیچ قانونی تعریف نشده است",
-		"description": ""
+		"message": "هیچ قانونی تعریف نشده است"
 	},
 	"settingsRulesGridColRuleType": {
-		"message": "نوع قانون",
-		"description": ""
+		"message": "نوع قانون"
 	},
 	"settingsRulesGridColSource": {
-		"message": "مرجع",
-		"description": ""
+		"message": "مرجع"
 	},
 	"settingsRulesGridColRule": {
-		"message": "قانون",
-		"description": ""
+		"message": "قانون"
 	},
 	"settingsRulesGridColEnabled": {
-		"message": "فعال",
-		"description": ""
+		"message": "فعال"
 	},
 	"settingsRulesGridColProxy": {
-		"message": "پروکسی سرور",
-		"description": ""
+		"message": "پروکسی سرور"
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[Use Active Proxy]",
-		"description": ""
+		"message": "[استفاده از پراکسی فعال]"
 	},
 	"settingsRulesProxyFromProfile": {
-		"message": "[Use Profile Proxy]",
-		"description": ""
+		"message": "[استفاده از پراکسی پروفایل]"
 	},
 	"settingsRulesModalTitle": {
-		"message": "جزئیات قانون",
-		"description": ""
+		"message": "جزئیات قانون"
 	},
 	"settingsRulesRuleType": {
-		"message": "نوع قانون",
-		"description": ""
+		"message": "نوع قانون"
 	},
 	"settingsRulesSourceDomain": {
-		"message": "دامنه وب قانون",
-		"description": ""
+		"message": "دامنه وب قانون"
 	},
 	"settingsRulesSourceDomainDesc": {
-		"message": "(مثلا: google.com)",
-		"description": ""
+		"message": "(مثلا: google.com)"
 	},
 	"settingsRulesPattern": {
-		"message": "قالب قوانین",
-		"description": ""
+		"message": "قالب قوانین"
 	},
 	"settingsRulesGeneratePattern": {
-		"message": "تولد خودکار الگوی قانون",
-		"description": ""
+		"message": "تولد خودکار الگوی قانون"
 	},
 	"settingsRulesRegex": {
-		"message": "RegEx برای Url",
-		"description": ""
+		"message": "RegEx برای Url"
 	},
 	"settingsRulesExactUrl": {
-		"message": "دقیقا خود Url",
-		"description": ""
+		"message": "دقیقا خود Url"
 	},
 	"settingsRulesProxyServer": {
-		"message": "پراکسی سرور",
-		"description": ""
+		"message": "پراکسی سرور"
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(در کروم، سرورهایی که نیاز به تایید هویت با نام کاربری دارند پشتیبانی نمی شود)",
-		"description": ""
+		"message": "(در کروم، سرورهایی که نیاز به تایید هویت با نام کاربری دارند پشتیبانی نمی شود)"
 	},
 	"settingsRulesEnabled": {
-		"message": "فعال باشد",
-		"description": ""
+		"message": "فعال باشد"
 	},
 	"settingsRulesModalCancel": {
-		"message": "انصراف",
-		"description": ""
+		"message": "انصراف"
 	},
 	"settingsRulesModalSave": {
-		"message": "ذخیره",
-		"description": ""
+		"message": "ذخیره"
 	},
 	"settingsRulesActionType": {
-		"message": "روش اعمال",
-		"description": ""
+		"message": "روش اعمال"
 	},
 	"settingsRuleActionApplyProxy": {
-		"message": "اعمال پراکسی",
-		"description": ""
+		"message": "اعمال پراکسی"
 	},
 	"settingsRuleActionWhitelist": {
-		"message": "نادیده گرفته شود (بدون پراکسی)",
-		"description": ""
+		"message": "نادیده گرفته شود (بدون پراکسی)"
 	},
 	"settingsServerPortInvalid": {
-		"message": "پورت سرور '{0}' نامعتبر است",
-		"description": ""
+		"message": "پورت سرور '{0}' نامعتبر است"
 	},
 	"settingsServerHostInvalid": {
-		"message": "آدرس سرور '{0}' نامعتبر است",
-		"description": ""
+		"message": "آدرس سرور '{0}' نامعتبر است"
 	},
 	"settingsRestoreSettingsSuccess": {
-		"message": "تنظیمات با موفقیت بازیابی شد",
-		"description": ""
+		"message": "تنظیمات با موفقیت بازیابی شد"
 	},
 	"settingsRestoreSettingsFailed": {
-		"message": "خطایی در بازگرداندن تنظیمات پیش آمده است",
-		"description": ""
+		"message": "خطایی در بازگرداندن تنظیمات پیش آمده است"
+	},
+	"settingsRestoreSettingsFailedInvalid": {
+		"message": "فایل پشتیبان یا درای اشکال است یا خراب است"
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
-		"message": "Invalid data provided for active profile",
-		"description": ""
+		"message": "اطلاعات پروفایل فعال نامعتبر می باشد"
 	},
 	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
-		"message": "Invalid data provided for default proxy server",
-		"description": ""
+		"message": "اطلاعات پراکسی پیش فرض نامعتبر است"
 	},
 	"settingsEnableByDomainInvalid": {
-		"message": "دامنه انتخاب شده معتبر نمی باشد",
-		"description": ""
+		"message": "دامنه انتخاب شده معتبر نمی باشد"
 	},
 	"settingsEnableByDomainExists": {
-		"message": "قانونی برای دامنه مورد نظر از قبل وجود دارد",
-		"description": ""
+		"message": "قانونی برای دامنه مورد نظر از قبل وجود دارد"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
-		"message": "The current profile '{0}' cannot be updated with rules",
-		"description": ""
+		"message": "پروفایل فعلی '{0}' امکان بارگزاری با قوانین را ندارد"
 	},
 	"settingsNoRuleFoundForDomain": {
-		"message": "هیچ قانونی برای '{0}' وجود ندارد",
-		"description": ""
+		"message": "هیچ قانونی برای '{0}' وجود ندارد"
 	},
 	"importerImportSuccess": {
-		"message": "از کل تعداد {0} قانون {1} مورد اضافه شد.<br>ذخیره تغییرات فراموش نشود.",
-		"description": ""
+		"message": "از کل تعداد {0} قانون {1} مورد اضافه شد.<br>ذخیره تغییرات فراموش نشود."
 	},
 	"settingsAddMultipleRulesButton": {
-		"message": "افزودن چندین قانون جدید",
-		"description": ""
+		"message": "افزودن چندین قانون جدید"
 	},
 	"settingsAddMultipleRuleTitle": {
-		"message": "افزودن چندین قانون جدید",
-		"description": ""
+		"message": "افزودن چندین قانون جدید"
 	},
 	"settingsMultipleRuleList": {
-		"message": "لیست دامنه ها/قوانین:",
-		"description": ""
+		"message": "لیست دامنه ها/قوانین:"
 	},
 	"settingsMultipleRuleInvalidHost": {
-		"message": "نام دامنه '{0}' نامعتبر است",
-		"description": ""
+		"message": "نام دامنه '{0}' نامعتبر است"
 	},
 	"settingsMultipleRuleNoNewRuleAdded": {
-		"message": "هیچ قانونی اضافه نشد",
-		"description": ""
+		"message": "هیچ قانونی اضافه نشد"
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
-		"message": "مدیریت اشتراکات لیست پراکسی ها:",
-		"description": ""
+		"message": "مدیریت اشتراکات لیست پراکسی ها:"
 	},
 	"settingsTabProxyServerSubscriptionsDescription": {
-		"message": "در اینجا می توانید به هر لیستی پراکسی که مایل بودید مشترک شوید و بعدا مابین آنها سوئیچ کنید. توجه داشته باشد که لیست های طولانی ممکن است باعث ایجاد مشکل و غیر فعال شدن همگام سازی شود.",
-		"description": ""
+		"message": "در اینجا می توانید به هر لیستی پراکسی که مایل بودید مشترک شوید و بعدا مابین آنها سوئیچ کنید. توجه داشته باشد که لیست های طولانی ممکن است باعث ایجاد مشکل و غیر فعال شدن همگام سازی شود."
 	},
 	"settingsErrorFailedToSaveGeneral": {
-		"message": "مشکلی در ذخیره تنظیمات کلی پیش آمده است.",
-		"description": ""
+		"message": "مشکلی در ذخیره تنظیمات کلی پیش آمده است."
 	},
 	"settingsSaveOptionsSuccess": {
-		"message": "تنظیمات عمومی با موفقیت ذخیره شد.",
-		"description": ""
+		"message": "تنظیمات عمومی با موفقیت ذخیره شد."
 	},
 	"settingsAddServerSubscriptionButton": {
-		"message": "ایجاد اشتراک جدید",
-		"description": ""
+		"message": "ایجاد اشتراک جدید"
 	},
 	"settingsServerSubscriptionModalTitle": {
-		"message": "مشترک شدن در لیست پراکسی سرور",
-		"description": ""
+		"message": "مشترک شدن در لیست پراکسی سرور"
 	},
 	"settingsServerSubscriptionName": {
-		"message": "نام لیست:",
-		"description": ""
+		"message": "نام لیست:"
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "آدرس (URL):",
-		"description": ""
+		"message": "آدرس (URL):"
 	},
 	"settingsServerSubscriptionRefreshRate": {
-		"message": "نرخ به روزرسانی:",
-		"description": ""
+		"message": "نرخ به روزرسانی:"
 	},
 	"settingsServerSubscriptionRefreshRateHelp": {
-		"message": "(در دقیقه، 0 به معنی عدم به روزرسانی است)",
-		"description": ""
+		"message": "(در دقیقه، 0 به معنی عدم به روزرسانی است)"
 	},
 	"settingsServerSubscriptionEnabled": {
-		"message": "فعال",
-		"description": ""
+		"message": "فعال"
 	},
 	"settingsServerSubscriptionProtocol": {
-		"message": "پروتکل:",
-		"description": ""
+		"message": "پروتکل:"
 	},
 	"settingsServerSubscriptionObfuscation": {
-		"message": "روش درهم سازی:",
-		"description": ""
+		"message": "روش درهم سازی:"
 	},
 	"settingsServerSubscriptionFormat": {
-		"message": "قالب فایل:",
-		"description": ""
+		"message": "قالب فایل:"
 	},
 	"settingsServerSubscriptionApplyProxy": {
-		"message": "استفاده از پراکسی:",
-		"description": ""
+		"message": "استفاده از پراکسی:"
 	},
 	"settingsServerSubscriptionApplyProxyHelpFirefox": {
-		"message": "(با توجه به دسترسی سرور تصمیم بگیرین)",
-		"description": ""
+		"message": "(با توجه به دسترسی سرور تصمیم بگیرین)"
 	},
 	"settingsServerSubscriptionApplyProxyHelpChrome": {
-		"message": "(متاسفانه این ویژگی در مرورگر کروم در دسترس نیست. پراکسی فعلی استفاده خواهد شد)",
-		"description": ""
+		"message": "(متاسفانه این ویژگی در مرورگر کروم در دسترس نیست. پراکسی فعلی استفاده خواهد شد)"
 	},
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
-		"message": "بدون پراکسی",
-		"description": ""
+		"message": "بدون پراکسی"
 	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
-		"message": "پراکسی فعلی",
-		"description": ""
+		"message": "پراکسی فعلی"
 	},
 	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
-		"message": "انتخاب پراکسی سفارشی",
-		"description": ""
+		"message": "انتخاب پراکسی سفارشی"
 	},
 	"settingsServerSubscriptionUsername": {
-		"message": "نام کاربری:",
-		"description": ""
+		"message": "نام کاربری:"
 	},
 	"settingsServerSubscriptionPassword": {
-		"message": "کلمه عبور:",
-		"description": ""
+		"message": "کلمه عبور:"
 	},
 	"settingsServerSubscriptionAuthenticationHelp": {
-		"message": "(اگر لیست نیاز به احراز هویت داشت پر کنید)",
-		"description": ""
+		"message": "(اگر لیست نیاز به احراز هویت داشت پر کنید)"
 	},
 	"settingsServerSubscriptionCancelButton": {
-		"message": "انصراف",
-		"description": ""
+		"message": "انصراف"
 	},
 	"settingsServerSubscriptionSaveButton": {
-		"message": "ذخیره",
-		"description": ""
+		"message": "ذخیره"
 	},
 	"settingsServerSubscriptionSavingButton": {
-		"message": "درحال ذخیره کردن...",
-		"description": ""
+		"message": "درحال ذخیره کردن..."
 	},
 	"settingsServerSubscriptionTestButton": {
-		"message": "بررسی",
-		"description": ""
+		"message": "بررسی"
 	},
 	"settingsServerSubscriptionTestingButton": {
-		"message": "در حال بررسی...",
-		"description": ""
+		"message": "در حال بررسی..."
 	},
 	"settingsConfirmRemoveServerSubscription": {
-		"message": "از حذف اشتراک انتخاب شده مطمئن هستید؟",
-		"description": ""
+		"message": "از حذف اشتراک انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
-		"message": "از حذف همه اشتراکات لیست پراکسی ها مطمئن هستید؟",
-		"description": ""
+		"message": "از حذف همه اشتراکات لیست پراکسی ها مطمئن هستید؟"
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "تمامی اشتراکات لیست پروکسی ها حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
-		"description": ""
+		"message": "تمامی اشتراکات لیست پروکسی ها حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید."
 	},
 	"settingsServerSubscriptionProtocolDefault": {
-		"message": "(تشخیص خودکار،HTTP در صورت عدم موفقیت)",
-		"description": ""
+		"message": "(تشخیص خودکار،HTTP در صورت عدم موفقیت)"
 	},
 	"settingsInitializeFailed": {
-		"message": "مشکلی در خواندن تنظیمات پیش آمده است. لطفا صفحه تنظیمات را بسته و مجدد تلاش نمایید.",
-		"description": ""
+		"message": "مشکلی در خواندن تنظیمات پیش آمده است. لطفا صفحه تنظیمات را بسته و مجدد تلاش نمایید."
 	},
 	"settingsActiveProxyServerSubscriptions": {
-		"message": "-اشتراکات-",
-		"description": ""
+		"message": "-اشتراکات-"
 	},
 	"settingsServerSubscriptionsGridNoDataContent": {
-		"message": "هیچ اشتراکی انجام نشده است",
-		"description": ""
+		"message": "هیچ اشتراکی انجام نشده است"
 	},
 	"settingsServerSubscriptionsGridColName": {
-		"message": "نام",
-		"description": ""
+		"message": "نام"
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "آدرس",
-		"description": ""
+		"message": "آدرس"
 	},
 	"settingsServerSubscriptionsGridColCount": {
-		"message": "تعداد پراکسی",
-		"description": ""
+		"message": "تعداد پراکسی"
 	},
 	"settingsServerSubscriptionsGridColEnabled": {
-		"message": "فعال است",
-		"description": ""
+		"message": "فعال است"
 	},
 	"settingsServerSubscriptionIncompleteForm": {
-		"message": "لطفا فیلد های اجباری را کامل نمایید",
-		"description": ""
+		"message": "لطفا فیلد های اجباری را کامل نمایید"
 	},
 	"settingsServerSubscriptionInvalidForm": {
-		"message": "اطلاعات اشتراک لیست پراکسی نامعتبر می باشند",
-		"description": ""
+		"message": "اطلاعات اشتراک لیست پراکسی نامعتبر می باشند"
 	},
 	"settingsServerSubscriptionDuplicateName": {
-		"message": "نام وارد شده قبلا استفاده است. لطفا نام دیگری را وارد کنید.",
-		"description": ""
+		"message": "نام وارد شده قبلا استفاده است. لطفا نام دیگری را وارد کنید."
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "اشتراک مورد نظر با {0} پراکسی به روزرسانی شد.<br/>ذخیره تغییرات فراموش نشود.",
-		"description": ""
+		"message": "اشتراک مورد نظر با {0} پراکسی به روزرسانی شد.<br/>ذخیره تغییرات فراموش نشود."
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "اشتراک مورد نظر با تعداد {0} پراکسی اضافه شد.<br/>ذخیره تغییرات فراموش نشود.",
-		"description": ""
+		"message": "اشتراک مورد نظر با تعداد {0} پراکسی اضافه شد.<br/>ذخیره تغییرات فراموش نشود."
 	},
 	"settingsServerSubscriptionSaveFailedGet": {
-		"message": "خطا در دریافت لیست پراکسی ها.",
-		"description": ""
+		"message": "خطا در دریافت لیست پراکسی ها."
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "تست موفقیت آمیز بود. {0} پراکسی یافت شد.",
-		"description": ""
+		"message": "تست موفقیت آمیز بود. {0} پراکسی یافت شد."
 	},
 	"settingsServerSubscriptionTestFailed": {
-		"message": "بررسی با شکست مواجه شد",
-		"description": ""
+		"message": "بررسی با شکست مواجه شد"
 	},
 	"settingsSaveProxyServerSubscriptionsSuccess": {
-		"message": "تنظیمات اشتراک پراکسی با موفقیت ذخیره شد.",
-		"description": ""
+		"message": "تنظیمات اشتراک پراکسی با موفقیت ذخیره شد."
 	},
 	"settingsFailedToSaveProxySubscriptions": {
-		"message": "مشکلی در حذف اشتراک پیش آمده",
-		"description": ""
+		"message": "مشکلی در حذف اشتراک پیش آمده"
 	},
 	"settingsAddRulesSubscriptionButton": {
-		"message": "ایجاد اشتراک قوانین",
-		"description": ""
+		"message": "ایجاد اشتراک قوانین"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
-		"message": "اشتراک قوانین",
-		"description": ""
+		"message": "اشتراک قوانین"
 	},
 	"settingsRulesSubscriptionsGridColName": {
-		"message": "نام",
-		"description": ""
+		"message": "نام"
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "آدرس (Url)",
-		"description": ""
+		"message": "آدرس (Url)"
 	},
 	"settingsRulesSubscriptionsGridColCount": {
-		"message": "تعداد قوانین",
-		"description": ""
+		"message": "تعداد قوانین"
 	},
 	"settingsRulesSubscriptionsGridColEnabled": {
-		"message": "فعال باشد",
-		"description": ""
+		"message": "فعال باشد"
 	},
 	"settingsRulesSubscriptionsName": {
-		"message": "نام لیست:",
-		"description": ""
+		"message": "نام لیست:"
 	},
 	"settingsRulesSubscriptionsUrl": {
-		"message": "آدرس (Url):",
-		"description": ""
+		"message": "آدرس (Url):"
 	},
 	"settingsRulesSubscriptionsRefreshRate": {
-		"message": "نرخ به روزرسانی:",
-		"description": ""
+		"message": "نرخ به روزرسانی:"
 	},
 	"settingsRulesSubscriptionsRefreshRateHelp": {
-		"message": "(در دقیقه، 0 به معنی عدم به روزرسانی است)",
-		"description": ""
+		"message": "(در دقیقه، 0 به معنی عدم به روزرسانی است)"
 	},
 	"settingsRulesSubscriptionEnabled": {
-		"message": "فعال باشد",
-		"description": ""
+		"message": "فعال باشد"
 	},
 	"settingsRulesSubscriptionsObfuscation": {
-		"message": "روش درهم سازی:",
-		"description": ""
+		"message": "روش درهم سازی:"
 	},
 	"settingsRulesSubscriptionsFormat": {
-		"message": "قالب فایل:",
-		"description": ""
+		"message": "قالب فایل:"
 	},
 	"settingsRulesSubscriptionsApplyProxy": {
-		"message": "استفاده از پراکسی:",
-		"description": ""
+		"message": "استفاده از پراکسی:"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
-		"message": "(با توجه به دسترسی سرور تصمیم بگیرین)",
-		"description": ""
+		"message": "(با توجه به دسترسی سرور تصمیم بگیرین)"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
-		"message": "(متاسفانه این ویژگی در مرورگر کروم در دسترس نیست. پراکسی فعلی استفاده خواهد شد)",
-		"description": ""
+		"message": "(متاسفانه این ویژگی در مرورگر کروم در دسترس نیست. پراکسی فعلی استفاده خواهد شد)"
 	},
 	"settingsRulesSubscriptionsUsername": {
-		"message": "نام کاربری:",
-		"description": ""
+		"message": "نام کاربری:"
 	},
 	"settingsRulesSubscriptionsAuthenticationHelp": {
-		"message": "(اگر لیست نیاز به احراز هویت داشت، پر کنید)",
-		"description": ""
+		"message": "(اگر لیست نیاز به احراز هویت داشت، پر کنید)"
 	},
 	"settingsRulesSubscriptionsPassword": {
-		"message": "کلمه عبور:",
-		"description": ""
+		"message": "کلمه عبور:"
 	},
 	"settingsRulesSubscriptionsTestButton": {
-		"message": "بررسی",
-		"description": ""
+		"message": "بررسی"
 	},
 	"settingsRulesSubscriptionsSaveButton": {
-		"message": "ذخیره",
-		"description": ""
+		"message": "ذخیره"
 	},
 	"settingsRulesSubscriptionsCancelButton": {
-		"message": "انصراف",
-		"description": ""
+		"message": "انصراف"
 	},
 	"settingsConfirmRemoveRulesSubscription": {
-		"message": "از حذف اشتراک قوانین انتخاب شده مطمئن هستید؟",
-		"description": ""
+		"message": "از حذف اشتراک قوانین انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
-		"message": "لطفا فیلد های اجباری را کامل نمایید",
-		"description": ""
+		"message": "لطفا فیلد های اجباری را کامل نمایید"
 	},
 	"settingsRulesSubscriptionInvalidForm": {
-		"message": "اطلاعات اشتراک قوانین نامعتبر می باشند",
-		"description": ""
+		"message": "اطلاعات اشتراک قوانین نامعتبر می باشند"
 	},
 	"settingsRulesSubscriptionDuplicateName": {
-		"message": "نام وارد شده قبلا استفاده است. لطفا نام دیگری را وارد کنید.",
-		"description": ""
+		"message": "نام وارد شده قبلا استفاده است. لطفا نام دیگری را وارد کنید."
 	},
 	"settingsRulesSubscriptionSavingButton": {
-		"message": "درحال ذخیره کردن...",
-		"description": ""
+		"message": "درحال ذخیره کردن..."
 	},
 	"settingsRulesSubscriptionTestButton": {
-		"message": "بررسی",
-		"description": ""
+		"message": "بررسی"
 	},
 	"settingsRulesSubscriptionTestingButton": {
-		"message": "در حال بررسی...",
-		"description": ""
+		"message": "در حال بررسی..."
 	},
 	"settingsRulesSubscriptionSaveUpdated": {
-		"message": "اشتراک مورد نظر با تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) به روزرسانی شد.<br/>ذخیره تغییرات فراموش نشود.",
-		"description": ""
+		"message": "اشتراک مورد نظر با تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) به روزرسانی شد.<br/>ذخیره تغییرات فراموش نشود."
 	},
 	"settingsRulesSubscriptionSaveAdded": {
-		"message": "اشتراک مورد نظر با تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) اضافه شد.<br/>ذخیره تغییرات فراموش نشود.",
-		"description": ""
+		"message": "اشتراک مورد نظر با تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) اضافه شد.<br/>ذخیره تغییرات فراموش نشود."
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
-		"message": "خطا در دریافت لیست قوانین.",
-		"description": ""
+		"message": "خطا در دریافت لیست قوانین."
 	},
 	"settingsRulesSubscriptionRefreshOnDisabled": {
-		"message": "امکان به روزرسانی اشتراک غیر فعال وجود ندارد",
-		"description": ""
+		"message": "امکان به روزرسانی اشتراک غیر فعال وجود ندارد"
 	},
 	"settingsRulesSubscriptionTestSuccess": {
-		"message": "بررسی موفقیت آمیر بود. تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) یافت شد.",
-		"description": ""
+		"message": "بررسی موفقیت آمیر بود. تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) یافت شد."
 	},
 	"settingsRulesSubscriptionTestFailed": {
-		"message": "بررسی با شکست مواجه شد",
-		"description": ""
+		"message": "بررسی با شکست مواجه شد"
 	},
 	"settingsFailedToSaveRulesSubscriptions": {
-		"message": "مشکلی در حذف اشتراک قوانین پیش آمده",
-		"description": ""
+		"message": "مشکلی در حذف اشتراک قوانین پیش آمده"
 	},
 	"settingsRemoveAllProxyRulesSubscriptions": {
-		"message": "از حذف همه اشتراکات قوانین مطمئن هستید؟",
-		"description": ""
+		"message": "از حذف همه اشتراکات قوانین مطمئن هستید؟"
 	},
 	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
-		"message": "تمامی اشتراکات قوانین حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید.",
-		"description": ""
+		"message": "تمامی اشتراکات قوانین حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید."
 	},
 	"importerImportRulesSuccess": {
-		"message": "تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) یافت شد.<br>ذخیره تغییرات فراموش نشود.",
-		"description": ""
+		"message": "تعداد {0} قانون پراکسی و {1} قانون عدم اعمال پراکسی (white list) یافت شد.<br>ذخیره تغییرات فراموش نشود."
 	},
 	"settingsRulePatternIsEmpty": {
-		"message": "الگوی قانون تعریف نشده",
-		"description": ""
+		"message": "الگوی قانون تعریف نشده"
 	},
 	"settingsWelcomeTitle": {
-		"message": "به SmartProxy خوش آمدید",
-		"description": ""
+		"message": "به SmartProxy خوش آمدید"
 	},
 	"settingsWelcomeMessage": {
-		"message": "<p>\nخوش آمدید! خوشحالم که SmartProxy را انتخال کرده اید. بهترین برای اعمال پراکسی به مرورگر.\n\t<br>\n\tبرای شروع این کارها و تنظیمات را انجام دهید:\n</p>\n<ol>\n\t<li>\n\t\tیکی پراکسی سرور اضافه کنید\n\t\t<br>\n\t\t<small>(به صفحه پراکسی سرور ها رفته و پراکسی را اضافه کنید)</small>\n\t</li>\n\t<li>\n\t\tافزونه رو در وضعیت \"پراکسی هوشمند\" قرار دهید\n\t\t<br>\n\t\t<small>(با استفاده از دکمه که به نوار ابزار اضافه شده می توانید وضعیت پراکسی را عوض کنید)</small>\n\t</li>\n\t<li>\n\t\tقوانین اعمال پراکسی رو اضافه کنید\n\t\t<br>\n\t\t<small>(یا با استفاده از دکمه در نوار ابزار قوانین را اضافه کنید و یا استفاده از صفحه قوانین ویرایش/حذف انجام دهید)</small>\n\t</li>\n\t<li>\n\t\tو تبریک میگم! تمام.\n\t</li>\n</ol>",
-		"description": ""
+		"message": "<p>\nخوش آمدید! خوشحالم که SmartProxy را انتخال کرده اید. بهترین برای اعمال پراکسی به مرورگر.\n\t<br>\n\tبرای شروع این کارها و تنظیمات را انجام دهید:\n</p>\n<ol>\n\t<li>\n\t\tیکی پراکسی سرور اضافه کنید\n\t\t<br>\n\t\t<small>(به صفحه پراکسی سرور ها رفته و پراکسی را اضافه کنید)</small>\n\t</li>\n\t<li>\n\t\tافزونه رو در وضعیت \"پراکسی هوشمند\" قرار دهید\n\t\t<br>\n\t\t<small>(با استفاده از دکمه که به نوار ابزار اضافه شده می توانید وضعیت پراکسی را عوض کنید)</small>\n\t</li>\n\t<li>\n\t\tقوانین اعمال پراکسی رو اضافه کنید\n\t\t<br>\n\t\t<small>(یا با استفاده از دکمه در نوار ابزار قوانین را اضافه کنید و یا استفاده از صفحه قوانین ویرایش/حذف انجام دهید)</small>\n\t</li>\n\t<li>\n\t\tو تبریک میگم! تمام.\n\t</li>\n</ol>"
 	},
 	"settingsWelcomeSkipButton": {
-		"message": "گرفتم",
-		"description": ""
+		"message": "گرفتم"
 	},
 	"settings_SmartProfileType_Direct": {
-		"message": "Direct",
-		"description": ""
+		"message": "مستقیم (بدون پراکسی)"
 	},
 	"settings_SmartProfileType_SystemProxy": {
-		"message": "System Proxy",
-		"description": ""
+		"message": "استفاده از تنظیمات سیستم"
 	},
 	"settings_SmartProfileType_SmartRules": {
-		"message": "Smart Rules",
-		"description": ""
+		"message": "قوانین هوشمند"
 	},
 	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
-		"message": "Always Enabled with Bypass Rules",
-		"description": ""
+		"message": "همیشه فعال همراه با استثنا"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
-		"message": "Ignore Failures Rules",
-		"description": ""
+		"message": "قوانین نادیده گرفتن خطاها"
 	},
 	"notificationNoNextProxyServer": {
-		"message": "به انتهای لیست پراکسی سرور ها رسیدید",
-		"description": ""
+		"message": "به انتهای لیست پراکسی سرور ها رسیدید"
 	},
 	"notificationNoPreviousProxyServer": {
-		"message": "به ابتدای لیست پراکسی سرورها رسیدید",
-		"description": ""
+		"message": "به ابتدای لیست پراکسی سرورها رسیدید"
 	},
 	"notificationShortcutTitle": {
-		"message": "اطلاع رسانی استفاده شدن از کلید میانبر ها",
-		"description": ""
+		"message": "اطلاع رسانی استفاده شدن از کلید میانبر ها"
 	},
 	"notificationShortcutProxyModeMessage": {
-		"message": "حالت پراکسی به {0} تغییر پیدا کرد",
-		"description": ""
+		"message": "حالت پراکسی به {0} تغییر پیدا کرد"
 	},
 	"notificationShortcutProxyServerChanged": {
-		"message": "پراکسی سرور به {0} تغییر پیدا کرد",
-		"description": ""
-	},
-	"helpTabName": {
-		"message": "Help Center"
-	},
-	"helpIntro": {
-		"message": "Welcome to Help Center, please navigate to the section that you need help or if you're new to SmartProxy start with Get Started guide."
-	},
-	"helpGettingStarted": {
-		"message": "Getting Started"
-	},
-	"helpProxyModes": {
-		"message": "Proxy Modes"
+		"message": "پراکسی سرور به {0} تغییر پیدا کرد"
 	}
 }

@@ -257,7 +257,7 @@ export class settingsPage {
 	private static localizeUi() {
 		if (settingsPage.localized)
 			return;
-		console.warn("localizeUi0000");
+			
 		settingsPage.localized = true;
 		CommonUi.localizeHtmlPage();
 	}

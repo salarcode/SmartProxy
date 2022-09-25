@@ -230,6 +230,9 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy per tab/origin disabled"
 	},
+	"settingsGeneralSyncing": {
+		"message": "Syncing"
+	},
 	"settingsGeneralIncognitoProfile": {
 		"message": "Private Browsing Profile"
 	},
@@ -673,6 +676,12 @@
 	},
 	"settingsProfilesProxyServer": {
 		"message": "[Use Default Proxy Server]"
+	},
+	"settingsProfilesRulesSubscriptionsTitle": {
+		"message": "Rules Subscriptions"
+	},
+	"settingsProfilesRulesSubscriptionsDesc": {
+		"message": "Here you can subscribe to rules lists."
 	},
 	"settingsSaveSmartProfileSuccess": {
 		"message": "Smart Profile saved successfully."
