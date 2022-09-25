@@ -115,6 +115,13 @@ input:invalid {
 	width: auto;
 }
 
+.rtl .nav-link.nav-smart-profile {
+	margin-left: 0;
+	margin-right: 20px;
+	border-left: 0;
+	border-right: 2px solid rgb(228, 255, 245);
+}
+
 .form-text.text-muted {
 	margin-top: 0.1rem;
 	margin-bottom: 0.25rem;
@@ -169,6 +176,11 @@ hr {
 .alert a {
 	color: inherit;
 }
+
+.rtl .form-select {
+	background-position: left .75rem center;
+}
+
 /* ============================== */
 /* Settings page styles */
 /* ------------------------------ */

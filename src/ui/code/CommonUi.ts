@@ -70,6 +70,10 @@ export class CommonUi {
 		let dir = api.i18n.getMessage("uiDirection");
 		if (dir) {
 			jQuery(document.body).addClass(dir).css("direction", dir);
+
+			if (dir == "rtl") {
+				CommonUi.insertStyleSheet("bootstrap.rtl.min.css");
+			}
 		}
 
 		// Localize using data-localize tags
@@ -90,20 +94,20 @@ export class CommonUi {
 				options.themesDarkCustomUrl) {
 				insertDataTablesDarkThemeFix("(prefers-color-scheme: dark)");
 				insertDarkThemeFix("(prefers-color-scheme: dark)");
-				insertStyleSheet(options.themesDarkCustomUrl, "(prefers-color-scheme: dark)");
+				CommonUi.insertStyleSheet(options.themesDarkCustomUrl, "(prefers-color-scheme: dark)");
 			}
 			else if (options.themesDark) {
 				insertDataTablesDarkThemeFix("(prefers-color-scheme: dark)");
 				insertDarkThemeFix("(prefers-color-scheme: dark)");
-				insertStyleSheet(options.themesDark + ".css", "(prefers-color-scheme: dark)");
+				CommonUi.insertStyleSheet(options.themesDark + ".css", "(prefers-color-scheme: dark)");
 			}
 
 			if (options.themesLight == themesCustomType &&
 				options.themesLightCustomUrl) {
-				insertStyleSheet(options.themesLightCustomUrl, "(prefers-color-scheme: light)");
+				CommonUi.insertStyleSheet(options.themesLightCustomUrl, "(prefers-color-scheme: light)");
 			}
 			else if (options.themesLight) {
-				insertStyleSheet(options.themesLight + ".css", "(prefers-color-scheme: light)");
+				CommonUi.insertStyleSheet(options.themesLight + ".css", "(prefers-color-scheme: light)");
 			}
 		}
 		else if (options.themeType == ThemeType.Dark) {
@@ -112,42 +116,30 @@ export class CommonUi {
 				options.themesDarkCustomUrl) {
 				insertDataTablesDarkThemeFix();
 				insertDarkThemeFix();
-				insertStyleSheet(options.themesDarkCustomUrl);
+				CommonUi.insertStyleSheet(options.themesDarkCustomUrl);
 			}
 			else if (options.themesDark) {
 				insertDataTablesDarkThemeFix();
 				insertDarkThemeFix();
-				insertStyleSheet(options.themesDark + ".css");
+				CommonUi.insertStyleSheet(options.themesDark + ".css");
 			}
 		}
 		else if (options.themeType == ThemeType.Light) {
 			insertColorSchema("light");
 			if (options.themesLight == themesCustomType &&
 				options.themesLightCustomUrl) {
-				insertStyleSheet(options.themesLightCustomUrl);
+				CommonUi.insertStyleSheet(options.themesLightCustomUrl);
 			}
 			else if (options.themesLight) {
-				insertStyleSheet(options.themesLight + ".css");
+				CommonUi.insertStyleSheet(options.themesLight + ".css");
 			}
 		}
 
 		function insertDarkThemeFix(media: string = undefined) {
-			insertStyleSheet(themesDarkFix, media);
+			CommonUi.insertStyleSheet(themesDarkFix, media);
 		}
 		function insertDataTablesDarkThemeFix(media: string = undefined) {
-			insertStyleSheet(themesDataTablesDarkFix, media);
-		}
-		function insertStyleSheet(url: string, media: string = undefined) {
-			const linkTheme = document.createElement('link');
-			linkTheme.type = 'text/css';
-			linkTheme.rel = 'stylesheet';
-			if (Utils.urlHasSchema(url))
-				linkTheme.href = url;
-			else
-				linkTheme.href = `css/${url}`;
-			if (media)
-				linkTheme.media = media;
-			document.getElementsByTagName('head')[0].appendChild(linkTheme);
+			CommonUi.insertStyleSheet(themesDataTablesDarkFix, media);
 		}
 		function insertColorSchema(content: string) {
 			const linkTheme = document.createElement('meta');
@@ -160,5 +152,19 @@ export class CommonUi {
 				}</style>`;
 			jQuery(styles).appendTo(jQuery("head"));
 		}
+	}
+
+	private static insertStyleSheet(url: string, media: string = undefined) {
+		const linkTheme = document.createElement('link');
+		linkTheme.type = 'text/css';
+		linkTheme.rel = 'stylesheet';
+		if (Utils.urlHasSchema(url))
+			linkTheme.href = url;
+		else
+			linkTheme.href = `css/${url}`;
+		if (media)
+			linkTheme.media = media;
+			
+		document.getElementsByTagName('head')[0].appendChild(linkTheme);
 	}
 }

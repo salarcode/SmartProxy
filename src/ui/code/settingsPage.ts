@@ -28,7 +28,7 @@ import { ProfileOperations } from "../../core/ProfileOperations";
 const jq = jQuery;
 
 export class settingsPage {
-
+	private static localized = false;
 	private static grdServers: any;
 	private static grdServerSubscriptions: any;
 	private static currentSettings: SettingsConfig;
@@ -48,8 +48,7 @@ export class settingsPage {
 
 	public static initialize() {
 
-		CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
-
+		CommonUi.onDocumentReady(this.localizeUi);
 		CommonUi.onDocumentReady(this.bindEvents);
 		CommonUi.onDocumentReady(this.initializeGrids);
 		CommonUi.onDocumentReady(this.initializeUi);
@@ -58,6 +57,7 @@ export class settingsPage {
 			(dataForSettings: SettingsPageInternalDataType) => {
 				if (!dataForSettings)
 					return;
+				settingsPage.localizeUi();
 
 				CommonUi.applyThemes(dataForSettings.settings.options);
 				CommonUi.onDocumentReady(() =>
@@ -250,6 +250,14 @@ export class settingsPage {
 			settingsPage.grdServers.columns.adjust().draw();
 			settingsPage.grdServerSubscriptions.columns.adjust().draw();
 		});
+	}
+
+	private static localizeUi() {
+		if (settingsPage.localized)
+			return;
+			console.warn("localizeUi0000");
+		settingsPage.localized = true;
+		CommonUi.localizeHtmlPage();
 	}
 
 	private static initializeUi() {
