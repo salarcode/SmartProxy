@@ -177,8 +177,8 @@ hr {
 	color: inherit;
 }
 
-.rtl .form-select {
-	background-position: left .75rem center;
+.rtl .alert-dismissible .btn-close {
+	right: auto;
 }
 
 /* ============================== */

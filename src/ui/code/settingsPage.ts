@@ -244,8 +244,10 @@ export class settingsPage {
 			settingsPage.loadServersGrid([]);
 			settingsPage.loadServerSubscriptionsGrid([]);
 		}
+		
+		jq(`.nav-link[href='#tab-servers'],
+			.nav-link[href='#tab-server-subscriptions']`).on('shown.bs.tab', (e: any) => {
 
-		jq("#tabSettings").on('shown.bs.tab', (e: any) => {
 			// DataTables columns are not adjusted when hidden, needs to be done manually
 			settingsPage.grdServers.columns.adjust().draw();
 			settingsPage.grdServerSubscriptions.columns.adjust().draw();
@@ -255,7 +257,7 @@ export class settingsPage {
 	private static localizeUi() {
 		if (settingsPage.localized)
 			return;
-			console.warn("localizeUi0000");
+		console.warn("localizeUi0000");
 		settingsPage.localized = true;
 		CommonUi.localizeHtmlPage();
 	}
@@ -338,7 +340,9 @@ export class settingsPage {
 
 	private static hideMenuOffCanvas() {
 		const tabSettingsOffCanvas = bootstrap.Offcanvas.getInstance(jq("#tabSettingsOffCanvas"));
-		tabSettingsOffCanvas.hide();
+		if (tabSettingsOffCanvas) {
+			tabSettingsOffCanvas.hide();
+		}
 	}
 
 	private static windowScrollToTop(delayed?: boolean) {
