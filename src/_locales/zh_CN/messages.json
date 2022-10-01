@@ -216,13 +216,13 @@
 		"message": "智能功能"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome."
+		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> 独享！</strong> 不幸的是，Chrome 不支持此功能。"
 	},
 	"settingsGeneralProxyPerOrigin": {
 		"message": "代理优先基于标签页/访问来源"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
+		"message": "如果一个规则与某个标签页的网址相匹配，那么代理将被应用于该标签页的连接。通常情况下，每个页面都会有其他请求，这些请求可能没有匹配的规则，因此不会有代理应用到他们的连接。“为每个标签/来源启用代理” 选项的作用是确保整个页面（包括来自不同域名和来源的所有连接）都使用与应用在标签页来源的一致的代理。同时，这个选项消除了为每个域名制定规则的需要。请注意，如果标签页没有应用代理，代理规则将继续工作，并应用代理到页面中的其他连接。"
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
 		"message": "代理优先基于标签页/访问来源"
@@ -231,16 +231,16 @@
 		"message": "代理基于访问请求"
 	},
 	"settingsGeneralSyncing": {
-		"message": "Syncing"
+		"message": "同步"
 	},
 	"settingsGeneralIncognitoProfile": {
-		"message": "Private Browsing Profile"
+		"message": "隐私浏览配置文件"
 	},
 	"settingsGeneralIncognitoProfileDisabled": {
-		"message": "(Disabled)"
+		"message": "(停用)"
 	},
 	"settingsGeneralIncognitoProfileDesc": {
-		"message": "Select a private browsing profile if you want to force it to be used when tab/window is in Private Browsing mode. This option will override the active profile."
+		"message": "如果您想要强制在隐私浏览模式下的标签页/窗口中使用，请选择一个隐私浏览配置文件。 此选项将覆盖活动配置文件。"
 	},
 	"settingsGeneralEnableSyncing": {
 		"message": "开启选项同步"
@@ -255,10 +255,10 @@
 		"message": "放弃更改"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Enable syncing active profile"
+		"message": "启用活动配置文件同步"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Check if you want the active profile to be synced."
+		"message": "如果您想要同步当前活动配置文件，请选中此项。"
 	},
 	"settingsGeneralSyncActiveProxy": {
 		"message": "启用活跃代理同步"
@@ -345,7 +345,7 @@
 		"message": "在图标上显示已应用的规则模式"
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
-		"message": "Refresh active tab when profile or proxy changed"
+		"message": "当配置文件或代理更改时刷新活动标签页"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "取消"
@@ -360,7 +360,7 @@
 		"message": "关闭"
 	},
 	"settingsGeneralKeyboardShortcutsNotSupported": {
-		"message": "Keyboard shortcuts are not supported on mobile devices."
+		"message": "移动设备不支持键盘快捷键。"
 	},
 	"settingsTabProxyServersTitle": {
 		"message": "管理您的代理服务器："
@@ -402,19 +402,19 @@
 		"message": "从本地备份文件还原"
 	},
 	"settingsDangerZoneDesc": {
-		"message": "Danger zone"
+		"message": "危险操作区"
 	},
 	"settingsFactoryResetButton": {
-		"message": "Factory Reset"
+		"message": "恢复出厂设置"
 	},
 	"settingsFactoryResetDesc": {
-		"message": "Reset everything. This will remove all rules and proxy servers and reset the options. Permanently."
+		"message": "重置一切。这将删除所有规则和代理服务器并永久重置选项。"
 	},
 	"settingsFactoryResetConfirm": {
-		"message": "Are you sure to reset EVERYTHING ? Sure? There is no way back!"
+		"message": "您确定要重置 一 切 吗？确定？这里可没有后悔药！"
 	},
 	"settingsFactoryResetSuccess": {
-		"message": "Factory reset is completed successfully"
+		"message": "出厂重置已成功完成"
 	},
 	"settingsImportExportProxiesDesc": {
 		"message": "导入/导出各个代理服务器的列表。"
@@ -585,7 +585,7 @@
 		"message": "密码"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is no longer supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(不幸的是，Chrome扩展API不再支持代理服务器身份验证。这是 &quot;有意的&quot;。)"
 	},
 	"settingsServersCancel": {
 		"message": "取消"
@@ -678,10 +678,10 @@
 		"message": "[使用默认的代理服务器]"
 	},
 	"settingsProfilesRulesSubscriptionsTitle": {
-		"message": "Rules Subscriptions"
+		"message": "规则订阅"
 	},
 	"settingsProfilesRulesSubscriptionsDesc": {
-		"message": "Here you can subscribe to rules lists."
+		"message": "您可以在这里订阅规则列表。"
 	},
 	"settingsSaveSmartProfileSuccess": {
 		"message": "智能配置档保存成功。"
@@ -804,7 +804,7 @@
 		"message": "还原设置时出错"
 	},
 	"settingsRestoreSettingsFailedInvalid": {
-		"message": "Backup data is invalid or corrupted"
+		"message": "备份数据无效或已损坏"
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
 		"message": "为活动配置档提供了无效的数据"
