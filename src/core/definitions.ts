@@ -566,6 +566,7 @@ interface Cloneable {
 }
 
 class ProxyServerConnectDetails {
+	public order: number;
 	public host: string;
 	public port: number;
 	public protocol: string;
@@ -582,10 +583,12 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 	constructor() {
 		super();
 		this.id = Utils.getNewUniqueIdString();
+		this.order = 0;
 	}
 
 	CopyFrom(source: any) {
 		this.id = source['id'] || Utils.getNewUniqueIdString();
+		this.order = source['order'] ?? 0;
 		this.name = source['name'];
 		this.host = source['host'];
 		this.port = +source['port'];

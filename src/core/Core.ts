@@ -326,6 +326,8 @@ export class Core {
 					return;
 				var saveData = message.saveData;
 
+				SettingsOperation.sortProxyServers(saveData.proxyServers);
+
 				settingsLib.current.proxyServers = saveData.proxyServers;
 				settingsLib.current.defaultProxyServerId = message.saveData.defaultProxyServerId;
 				settingsOperationLib.saveProxyServers();

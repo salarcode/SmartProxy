@@ -224,17 +224,17 @@ export const ProxyImporter = {
 			else
 				protocol = protocol.toUpperCase();
 
-			let item = new ProxyServer();
+			let proxy = new ProxyServer();
 
-			item.name = name || `${ip}:${port}`;
-			item.id = name; // id should be same as name, because id should be consistent between multiple reads
-			item.host = ip;
-			item.port = parseInt(port);
-			item.protocol = protocol;
-			item.username = username;
-			item.password = password;
+			proxy.name = name || `${ip}:${port}`;
+			proxy.id = name; // id should be same as name, because id should be consistent between multiple reads
+			proxy.host = ip;
+			proxy.port = parseInt(port);
+			proxy.protocol = protocol;
+			proxy.username = username;
+			proxy.password = password;
 
-			parsedProxies.push(item);
+			parsedProxies.push(proxy);
 		}
 
 		return parsedProxies;

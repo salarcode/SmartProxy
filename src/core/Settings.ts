@@ -117,6 +117,7 @@ export class Settings {
 		}
 
 		this.setDefaultSettings(config);
+		this.ensureIntegrityOfSettings(config);
 		return config;
 	}
 
@@ -148,6 +149,29 @@ export class Settings {
 			config.proxyServerSubscriptions = [];
 		}
 		config.version = environment.extensionVersion;
+	}
+
+	private static ensureIntegrityOfSettings(config: SettingsConfig) {
+		// proxyServers
+		if (config.proxyServers && config.proxyServers.length) {
+			let proxyServers: ProxyServer[] = [];
+
+			SettingsOperation.sortProxyServers(config.proxyServers);
+
+			let order = 0;
+			for (const oldServer of config.proxyServers) {
+				let newServer = new ProxyServer();
+				newServer.CopyFrom(oldServer);
+
+				if (newServer.isValid()) {
+					newServer.order = order;
+					proxyServers.push(newServer);
+
+					order++;
+				}
+			}
+			config.proxyServers = proxyServers;
+		}
 	}
 
 	public static migrateFromVersion09x(oldConfig: any): SettingsConfig {

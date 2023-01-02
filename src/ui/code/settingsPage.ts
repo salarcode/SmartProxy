@@ -163,25 +163,42 @@ export class settingsPage {
 			"dom": dataTableCustomDom,
 			paging: true,
 			select: true,
-			scrollY: 300,
+			scrollY: 450,
+			scrollCollapse: true,
 			responsive: true,
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			ordering: true,
+			rowReorder: {
+				dataSrc: 'order',
+				selector: 'tr>td:first-child',
+				snapX: true
+			},
+			columnDefs: [
+				{ targets: 0, visible: false }
+			],
 			columns: [
 				{
-					name: "name", data: "name", title: api.i18n.getMessage("settingsServersGridColName")
+					name: "order", data: "order", title: '', defaultContent: `<i class="fas fa-random"></i>`, width: 20, orderable: false
 				},
 				{
-					name: "protocol", data: "protocol", title: api.i18n.getMessage("settingsServersGridColProtocol"),
+					name: "name", data: "name", title: api.i18n.getMessage("settingsServersGridColName"),
+					render: (data, type, row: ProxyServer) => {
+						return `<i class="fas fa-random fa-xs px-2 cursor-move"></i>  ` + (row.name || '')
+					},
+					orderable: false
 				},
 				{
-					name: "host", data: "host", title: api.i18n.getMessage("settingsServersGridColServer"),
+					name: "protocol", data: "protocol", title: api.i18n.getMessage("settingsServersGridColProtocol"), orderable: false
 				},
 				{
-					name: "port", data: "port", type: "num", title: api.i18n.getMessage("settingsServersGridColPort"),
+					name: "host", data: "host", title: api.i18n.getMessage("settingsServersGridColServer"), orderable: false
+				},
+				{
+					name: "port", data: "port", type: "num", title: api.i18n.getMessage("settingsServersGridColPort"), orderable: false
 				},
 				{
 					"width": "70px",
-					"data": null,
+					"data": null, orderable: false,
 					"className": "text-nowrap",
 					"defaultContent": "<button class='btn btn-sm btn-success' id='btnServersEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>",
 				}
@@ -200,7 +217,8 @@ export class settingsPage {
 			"dom": dataTableCustomDom,
 			paging: true,
 			select: true,
-			scrollY: 300,
+			scrollY: 450,
+			scrollCollapse: true,
 			responsive: true,
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			columns: [
@@ -244,7 +262,7 @@ export class settingsPage {
 			settingsPage.loadServersGrid([]);
 			settingsPage.loadServerSubscriptionsGrid([]);
 		}
-		
+
 		jq(`.nav-link[href='#tab-servers'],
 			.nav-link[href='#tab-server-subscriptions']`).on('shown.bs.tab', (e: any) => {
 
@@ -257,7 +275,7 @@ export class settingsPage {
 	private static localizeUi() {
 		if (settingsPage.localized)
 			return;
-			
+
 		settingsPage.localized = true;
 		CommonUi.localizeHtmlPage();
 	}
@@ -480,6 +498,7 @@ export class settingsPage {
 
 		if (server) {
 
+			modalContainer.find("#txtServerOrder").val(server.order);
 			modalContainer.find("#txtServerName").val(server.name);
 			modalContainer.find("#txtServerAddress").val(server.host);
 			modalContainer.find("#txtServerPort").val(server.port);
@@ -488,6 +507,7 @@ export class settingsPage {
 			modalContainer.find("#txtServerUsername").val(server.username);
 			modalContainer.find("#txtServerPassword").val(server.password);
 		} else {
+			modalContainer.find("#txtServerOrder").val(0);
 			modalContainer.find("#txtServerName").val(this.generateNewServerName());
 
 			modalContainer.find("#txtServerAddress").val("127.0.0.1");
@@ -503,6 +523,7 @@ export class settingsPage {
 	private static readServerModel(modalContainer: any): ProxyServer {
 		let proxy = new ProxyServer();
 
+		proxy.order = +modalContainer.find("#txtServerOrder").val().trim();
 		proxy.name = modalContainer.find("#txtServerName").val().trim();
 		proxy.host = modalContainer.find("#txtServerAddress").val().trim();
 		proxy.port = modalContainer.find("#txtServerPort").val();
@@ -510,6 +531,10 @@ export class settingsPage {
 		proxy.username = modalContainer.find("#txtServerUsername").val().trim();
 		proxy.password = modalContainer.find("#txtServerPassword").val().trim();
 		proxy.proxyDNS = modalContainer.find("#chkServerProxyDNS").prop("checked");
+		if (proxy.order == 0) {
+			let proxyServers = settingsPage.readServers();
+			proxy.order = proxyServers.length + 1;
+		}
 
 		return proxy;
 	}
@@ -1341,7 +1366,8 @@ export class settingsPage {
 			data: [],
 			paging: true,
 			select: true,
-			scrollY: 300,
+			scrollY: 450,
+			scrollCollapse: true,
 			responsive: true,
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			columns: grdRulesColumns
@@ -1360,7 +1386,8 @@ export class settingsPage {
 			"dom": dataTableCustomDom,
 			paging: true,
 			select: true,
-			scrollY: 300,
+			scrollY: 450,
+			scrollCollapse: true,
 			responsive: true,
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			columns: [

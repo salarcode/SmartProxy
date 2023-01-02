@@ -204,6 +204,18 @@ export class SettingsOperation {
 		return null;
 	}
 
+	public static sortProxyServers(proxyServers: ProxyServer[]) {
+		if (!proxyServers)
+			return;
+		proxyServers.sort((a, b) => {
+			if ((a.order ?? 0) > b.order ?? 0)
+				return 1;
+			if ((a.order ?? 0) < b.order ?? 0)
+				return -1;
+			return 0;
+		});
+	}
+
 	public static getAllSubscribedProxyServers(): any[] {
 
 		if (!Settings.current.proxyServerSubscriptions || !Settings.current.proxyServerSubscriptions.length)

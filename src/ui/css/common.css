@@ -181,6 +181,10 @@ hr {
 	right: auto;
 }
 
+.cursor-move {
+	cursor: move;
+}
+
 /* ============================== */
 /* Settings page styles */
 /* ------------------------------ */

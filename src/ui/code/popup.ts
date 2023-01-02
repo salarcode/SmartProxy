@@ -251,10 +251,10 @@ export class popup {
 			jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
 
 				// proxyServer
-				let $option = jQuery("<option>")
+				let $option = cmbActiveProxy.append(
+					jQuery("<option>")
 					.attr("value", proxyServer.id)
-					.text(proxyServer.name)
-					.appendTo(cmbActiveProxy);
+					.text(proxyServer.name));
 
 				$option.prop("selected", (proxyServer.id === currentProxyServerId));
 			});
