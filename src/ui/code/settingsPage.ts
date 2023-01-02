@@ -221,6 +221,7 @@ export class settingsPage {
 			scrollCollapse: true,
 			responsive: true,
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			ordering: false,
 			columns: [
 				{
 					name: "name", data: "name", title: api.i18n.getMessage("settingsServerSubscriptionsGridColName")
@@ -1370,6 +1371,7 @@ export class settingsPage {
 			scrollCollapse: true,
 			responsive: true,
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			ordering: false,
 			columns: grdRulesColumns
 		});
 		grdRules.on('responsive-display',
@@ -1390,6 +1392,7 @@ export class settingsPage {
 			scrollCollapse: true,
 			responsive: true,
 			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			ordering: false,
 			columns: [
 				{
 					name: "name", data: "name", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColName")
