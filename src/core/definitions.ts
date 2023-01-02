@@ -787,6 +787,14 @@ export enum ProxyServerSubscriptionFormat {
 	PlainText,
 	Json,
 }
+
+export class SubscriptionStats {
+	lastSuccessDate: Date;
+	lastTryDate: Date;
+	lastStatus: boolean;
+	lastStatusMessage: string;
+}
+
 export class ProxyServerSubscription implements Cloneable {
 	public name: string;
 	public url: string;
@@ -812,6 +820,8 @@ export class ProxyServerSubscription implements Cloneable {
 	public proxies: ProxyServer[];
 
 	public applyProxy: SpecialRequestApplyProxyMode;
+
+	public stats: SubscriptionStats;
 
 	CopyFrom(source: any) {
 		if (source['name'] != null) this.name = source['name'] || '';
@@ -843,6 +853,10 @@ export class ProxyServerSubscription implements Cloneable {
 				if (server.isValid())
 					this.proxies.push(server);
 			}
+		this.stats = new SubscriptionStats();
+		if (source.stats) {
+			Object.assign(this.stats, source.stats);
+		}
 	}
 
 	public isValid(): boolean {
@@ -909,6 +923,8 @@ export class ProxyRulesSubscription {
 
 	public applyProxy: SpecialRequestApplyProxyMode;
 
+	public stats: SubscriptionStats;
+
 	CopyFrom(source: any) {
 		if (source['name'] != null) this.name = source['name'] || '';
 		if (source['url'] != null) this.url = source['url'] || '';
@@ -935,6 +951,10 @@ export class ProxyRulesSubscription {
 		if (source['proxyRules'] != null && Array.isArray(source['proxyRules'])) this.proxyRules = source['proxyRules'];
 		if (source['whitelistRules'] != null && Array.isArray(source['whitelistRules']))
 			this.whitelistRules = source['whitelistRules'];
+		this.stats = new SubscriptionStats();
+		if (source.stats) {
+			Object.assign(this.stats, source.stats);
+		}
 	}
 
 	public isValid(): boolean {

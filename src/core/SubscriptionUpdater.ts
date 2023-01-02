@@ -20,7 +20,7 @@ import { ProxyImporter } from "../lib/ProxyImporter";
 import { SettingsOperation } from "./SettingsOperation";
 import { RuleImporter } from "../lib/RuleImporter";
 import { ProxyEngine } from "./ProxyEngine";
-import { ProxyRulesSubscription, ProxyServer, SubscriptionProxyRule } from "./definitions";
+import { ProxyRulesSubscription, ProxyServer, SubscriptionProxyRule, SubscriptionStats } from "./definitions";
 
 export class SubscriptionUpdater {
 	private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ timerId: null, subscriptionId: null, refreshRate: null }];
@@ -123,6 +123,9 @@ export class SubscriptionUpdater {
 			SubscriptionUpdater.serverSubscriptionTimers.splice(serverTimerInfo.index, 1);
 			return;
 		}
+		if (!subscription.stats) {
+			subscription.stats = new SubscriptionStats();
+		}
 
 		ProxyImporter.readFromServer(subscription,
 			function (response: {
@@ -137,15 +140,25 @@ export class SubscriptionUpdater {
 
 					subscription.proxies = response.result;
 					subscription.totalCount = count;
+					subscription.stats.lastStatus = true;
+					subscription.stats.lastStatusMessage = null;
+					subscription.stats.lastTryDate =
+						subscription.stats.lastSuccessDate = new Date();
 
 					SettingsOperation.saveProxyServerSubscriptions();
 					SettingsOperation.saveAllSync(false);
 
 				} else {
+					subscription.stats.lastStatus = false;
+					subscription.stats.lastStatusMessage = null;
+					subscription.stats.lastTryDate = new Date();
 					Debug.warn("Failed to read proxy server subscription: " + subscriptionName);
 				}
 			},
 			function (error: Error) {
+				subscription.stats.lastStatus = false;
+				subscription.stats.lastStatusMessage = error?.toString();
+				subscription.stats.lastTryDate = new Date();
 				Debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, error);
 			});
 	}
@@ -257,6 +270,9 @@ export class SubscriptionUpdater {
 			SubscriptionUpdater.rulesSubscriptionTimers.splice(rulesTimerInfo.index, 1);
 			return;
 		}
+		if (!subscription.stats) {
+			subscription.stats = new SubscriptionStats();
+		}
 
 		RuleImporter.readFromServer(subscription,
 			function (response: {
@@ -275,16 +291,27 @@ export class SubscriptionUpdater {
 					subscription.whitelistRules = response.result.whiteList;
 					subscription.totalCount = response.result.blackList.length + response.result.whiteList.length;
 
+					subscription.stats.lastStatus = true;
+					subscription.stats.lastStatusMessage = null;
+					subscription.stats.lastTryDate =
+						subscription.stats.lastSuccessDate = new Date();
+
 					SettingsOperation.saveProxyServerSubscriptions();
 					SettingsOperation.saveAllSync(false);
 
 					ProxyEngine.notifyProxyRulesChanged();
 
 				} else {
+					subscription.stats.lastStatus = false;
+					subscription.stats.lastStatusMessage = null;
+					subscription.stats.lastTryDate = new Date();
 					Debug.warn("Failed to read proxy rules subscription: " + subscription.name);
 				}
 			},
 			function (error: Error) {
+				subscription.stats.lastStatus = false;
+				subscription.stats.lastStatusMessage = error?.toString();
+				subscription.stats.lastTryDate = new Date();
 				Debug.warn("Failed to read proxy rules subscription: " + subscription.name, subscription, error);
 			});
 	}
