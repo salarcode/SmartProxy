@@ -230,6 +230,7 @@ export class Settings {
 							newSmartRules.rulesSubscriptions.push(newRuleSub);
 					}
 				}
+				delete oldConfig.proxyRulesSubscriptions;
 			}
 		}
 		// bypassList

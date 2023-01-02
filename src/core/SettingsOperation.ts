@@ -34,13 +34,17 @@ export class SettingsOperation {
 
 	public static getStrippedSyncableSettings(settings: SettingsConfig): SettingsConfig {
 		// deep clone required
-		var settingsCopy = JSON.parse(JSON.stringify(settings));
+		var settingsCopy: SettingsConfig = JSON.parse(JSON.stringify(settings));
 
-		if (settingsCopy.proxyRulesSubscriptions && settingsCopy.proxyRulesSubscriptions.length)
-			for (const subscription of settingsCopy.proxyRulesSubscriptions) {
-				subscription.proxyRules = [];
-				subscription.whitelistRules = [];
+		if (settingsCopy.proxyProfiles && settingsCopy.proxyProfiles.length) {
+			for (const profile of settingsCopy.proxyProfiles) {
+				if (profile.rulesSubscriptions && profile.rulesSubscriptions.length) {
+					for (const subscription of profile.rulesSubscriptions) {
+						subscription.proxyRules = [];
+					}
+				}
 			}
+		}
 		if (settingsCopy.proxyServerSubscriptions && settingsCopy.proxyServerSubscriptions.length)
 			for (const subscription of settingsCopy.proxyServerSubscriptions) {
 				subscription.proxies = []
