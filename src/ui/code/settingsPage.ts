@@ -221,7 +221,7 @@ export class settingsPage {
 				{
 					name: "name", data: "name", title: api.i18n.getMessage("settingsServersGridColName"),
 					render: (data, type, row: ProxyServer) => {
-						return `<i class="fas fa-random fa-xs px-2 cursor-move"></i>  ` + (row.name || '')
+						return `<i class="fas fa-bars fa-xs px-2 cursor-move"></i>  ` + (row.name || '')
 					},
 					orderable: false
 				},
