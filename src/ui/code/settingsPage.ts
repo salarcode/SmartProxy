@@ -29,6 +29,7 @@ const jq = jQuery;
 
 export class settingsPage {
 	private static localized = false;
+	private static settingsLoaded = false;
 	private static grdServers: any;
 	private static grdServerSubscriptions: any;
 	private static currentSettings: SettingsConfig;
@@ -47,28 +48,65 @@ export class settingsPage {
 	};
 
 	public static initialize() {
-
+		settingsPage.registerMessageReader();
 		CommonUi.onDocumentReady(this.localizeUi);
 		CommonUi.onDocumentReady(this.bindEvents);
 		CommonUi.onDocumentReady(this.initializeGrids);
 		CommonUi.onDocumentReady(this.initializeUi);
 
+		settingsPage.readSettingsPageData();
+	}
+
+	private static handleMessages(message: any, sender: any, sendResponse: Function) {
+		Debug.log('settingsPage message> ', message);
+
+		let command: string;
+		if (typeof message == 'string') command = message;
+		else {
+			command = message['command'];
+		}
+
+		if (command === CommandMessages.SettingsPageGetInitialDataResponse) {
+			let dataForSettings: SettingsPageInternalDataType = message.settingsPageInitialData;
+
+			settingsPage.applySettingsPageData(dataForSettings);
+		}
+	}
+
+	private static registerMessageReader() {
+		// start handling messages
+		api.runtime.onMessage.addListener(settingsPage.handleMessages);
+	}
+
+	private static readSettingsPageData() {
 		PolyFill.runtimeSendMessage(CommandMessages.SettingsPageGetInitialData,
 			(dataForSettings: SettingsPageInternalDataType) => {
-				if (!dataForSettings)
+				if (!dataForSettings) {
 					return;
-				settingsPage.localizeUi();
-
-				CommonUi.applyThemes(dataForSettings.settings.options);
-				CommonUi.onDocumentReady(() =>
-					settingsPage.populateDataForSettings(dataForSettings)
-				);
-				CommonUi.onDocumentReady(settingsPage.showNewUserWelcome);
+				}
+				settingsPage.applySettingsPageData(dataForSettings);
 			},
 			(error: Error) => {
 				PolyFill.runtimeSendMessage("SettingsPageGetInitialData failed! > " + error);
 				messageBox.error(api.i18n.getMessage("settingsInitializeFailed"));
 			});
+	}
+
+	private static applySettingsPageData(dataForSettings: SettingsPageInternalDataType) {
+		if (!dataForSettings) {
+			return;
+		}
+		if (settingsPage.settingsLoaded)
+			return;
+
+		settingsPage.settingsLoaded = true;
+		settingsPage.localizeUi();
+
+		CommonUi.applyThemes(dataForSettings.settings.options);
+		CommonUi.onDocumentReady(() =>
+			settingsPage.populateDataForSettings(dataForSettings)
+		);
+		CommonUi.onDocumentReady(settingsPage.showNewUserWelcome);
 	}
 
 	private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {

@@ -112,6 +112,7 @@ export class CommandMessages {
 
 	// Settings page
 	public static SettingsPageGetInitialData = 'SettingsPage_GetInitialData';
+	public static SettingsPageGetInitialDataResponse = 'SettingsPage_GetInitialData_Response';
 	public static SettingsPageSaveOptions = 'SettingsPage_SaveOptions';
 	public static SettingsPageSaveProxyServers = 'SettingsPage_SaveProxyServers';
 	public static SettingsPageSaveProxySubscriptions = 'SettingsPage_SaveProxySubscriptions';

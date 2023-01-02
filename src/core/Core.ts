@@ -140,6 +140,16 @@ export class Core {
 						let dataForSettingsUi = Core.getSettingsPageInitialData();
 						// send the data
 						sendResponse(dataForSettingsUi);
+
+						if (environment.chrome) {
+							// BUGFIX: on the first run, `sendResponse` doesn't send data
+							PolyFill.runtimeSendMessage(
+								{
+									command: CommandMessages.SettingsPageGetInitialDataResponse,
+									settingsPageInitialData: dataForSettingsUi
+								});
+						}
+
 						return;
 					}
 					break;
