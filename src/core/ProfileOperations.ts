@@ -1,7 +1,7 @@
 import { Debug } from "../lib/Debug";
 import { api } from "../lib/environment";
 import { Utils } from "../lib/Utils";
-import { CompiledProxyRulesInfo, getSmartProfileTypeConfig, ProxyRule, ProxyRulesSubscription, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
+import { CompiledProxyRule, CompiledProxyRulesInfo, getSmartProfileTypeConfig, ProxyRule, ProxyRulesSubscription, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { Settings } from "./Settings";
 import { SettingsOperation } from "./SettingsOperation";
@@ -148,6 +148,9 @@ export class ProfileOperations {
 		// the subscription rules
 		if (profile.rulesSubscriptions && profile.rulesSubscriptions.length > 0) {
 
+			let subscriptionRules: CompiledProxyRule[] = [];
+			let whitelistSubscriptionRules: CompiledProxyRule[] = [];
+
 			for (const subscription of profile.rulesSubscriptions) {
 				if (!subscription.enabled)
 					continue;
@@ -156,17 +159,21 @@ export class ProfileOperations {
 					subscription.proxyRules.length > 0) {
 
 					let subRules = ProxyRules.compileRulesSubscription(subscription.proxyRules);
-
-					compiledProfile.compiledRules.SubscriptionRules = subRules ?? [];
+					if (subRules)
+						subscriptionRules = subscriptionRules.concat(subRules);
 				}
 
 				if (subscription.whitelistRules &&
 					subscription.whitelistRules.length > 0) {
 
 					let subWhitelistRules = ProxyRules.compileRulesSubscription(subscription.whitelistRules, true);
-					compiledProfile.compiledRules.WhitelistSubscriptionRules = subWhitelistRules ?? [];
+					if (subWhitelistRules)
+						whitelistSubscriptionRules = whitelistSubscriptionRules.concat(subWhitelistRules);
 				}
 			}
+
+			compiledProfile.compiledRules.SubscriptionRules = subscriptionRules;
+			compiledProfile.compiledRules.WhitelistSubscriptionRules = whitelistSubscriptionRules;
 		}
 	}
 
