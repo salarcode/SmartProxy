@@ -140,25 +140,20 @@ export class SubscriptionUpdater {
 
 					subscription.proxies = response.result;
 					subscription.totalCount = count;
-					subscription.stats.lastStatus = true;
-					subscription.stats.lastStatusMessage = null;
-					subscription.stats.lastTryDate =
-						subscription.stats.lastSuccessDate = new Date();
+
+
+					SubscriptionStats.updateStats(subscription.stats, true);
 
 					SettingsOperation.saveProxyServerSubscriptions();
 					SettingsOperation.saveAllSync(false);
 
 				} else {
-					subscription.stats.lastStatus = false;
-					subscription.stats.lastStatusMessage = null;
-					subscription.stats.lastTryDate = new Date();
+					SubscriptionStats.updateStats(subscription.stats, false);
 					Debug.warn("Failed to read proxy server subscription: " + subscriptionName);
 				}
 			},
 			function (error: Error) {
-				subscription.stats.lastStatus = false;
-				subscription.stats.lastStatusMessage = error?.toString();
-				subscription.stats.lastTryDate = new Date();
+				SubscriptionStats.updateStats(subscription.stats, false, error);
 				Debug.warn("Failed to read proxy server subscription: " + subscriptionName, subscription, error);
 			});
 	}
@@ -291,10 +286,7 @@ export class SubscriptionUpdater {
 					subscription.whitelistRules = response.result.whiteList;
 					subscription.totalCount = response.result.blackList.length + response.result.whiteList.length;
 
-					subscription.stats.lastStatus = true;
-					subscription.stats.lastStatusMessage = null;
-					subscription.stats.lastTryDate =
-						subscription.stats.lastSuccessDate = new Date();
+					SubscriptionStats.updateStats(subscription.stats, false);
 
 					SettingsOperation.saveProxyServerSubscriptions();
 					SettingsOperation.saveAllSync(false);
@@ -302,16 +294,12 @@ export class SubscriptionUpdater {
 					ProxyEngine.notifyProxyRulesChanged();
 
 				} else {
-					subscription.stats.lastStatus = false;
-					subscription.stats.lastStatusMessage = null;
-					subscription.stats.lastTryDate = new Date();
+					SubscriptionStats.updateStats(subscription.stats, false);
 					Debug.warn("Failed to read proxy rules subscription: " + subscription.name);
 				}
 			},
 			function (error: Error) {
-				subscription.stats.lastStatus = false;
-				subscription.stats.lastStatusMessage = error?.toString();
-				subscription.stats.lastTryDate = new Date();
+				SubscriptionStats.updateStats(subscription.stats, false, error);
 				Debug.warn("Failed to read proxy rules subscription: " + subscription.name, subscription, error);
 			});
 	}

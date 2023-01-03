@@ -21,7 +21,7 @@ import { environment, api } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 
@@ -270,7 +270,22 @@ export class settingsPage {
 				},
 				{
 					name: "url", data: "url", title: api.i18n.getMessage("settingsServerSubscriptionsGridColUrl"),
-					responsivePriority: 3
+					responsivePriority: 3,
+					render: (data, type, row: ProxyServerSubscription) => {
+						let render = row.url;
+						let stats = row.stats;
+						if (stats) {
+							let status = SubscriptionStats.ToString(stats);
+
+							if (row.stats.lastStatus) {
+								render += ` <div id='btnServerSubscriptionsViewStats' title='${status}' class='cursor-pointer float-end'><i class="fas fa-check-circle text-success"></i></div> `;
+							}
+							else {
+								render += ` <div id='btnServerSubscriptionsViewStats' title='${status}' class='cursor-pointer float-end'><i class="fas fa-exclamation-triangle text-danger"></i></div> `;
+							}
+						}
+						return render;
+					},
 				},
 				{
 					name: "totalCount", data: "totalCount", type: "num", title: api.i18n.getMessage("settingsServerSubscriptionsGridColCount")
@@ -1447,7 +1462,22 @@ export class settingsPage {
 				},
 				{
 					name: "url", data: "url", className: "text-break-word", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColUrl"),
-					responsivePriority: 3
+					responsivePriority: 3,
+					render: (data, type, row: ProxyRulesSubscription) => {
+						let render = row.url;
+						let stats = row.stats;
+						if (stats) {
+							let status = SubscriptionStats.ToString(stats);
+
+							if (row.stats.lastStatus) {
+								render += ` <div id='btnRuleSubscriptionsViewStats' title='${status}' class='cursor-pointer float-end'><i class="fas fa-check-circle text-success"></i></div> `;
+							}
+							else {
+								render += ` <div id='btnRuleSubscriptionsViewStats' title='${status}' class='cursor-pointer float-end'><i class="fas fa-exclamation-triangle text-danger"></i></div> `;
+							}
+						}
+						return render;
+					},
 				},
 				{
 					name: "totalCount", data: "totalCount", type: "num", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColCount")
@@ -1778,6 +1808,7 @@ export class settingsPage {
 
 		rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
 		rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
+		rowElement.find("#btnServerSubscriptionsViewStats").on("click", settingsPage.uiEvents.onServerSubscriptionViewStatsClick);
 	}
 
 	private static refreshServerSubscriptionsGridRowElement(rowElement: any, invalidate?: any) {
@@ -1788,6 +1819,7 @@ export class settingsPage {
 
 		rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
 		rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
+		rowElement.find("#btnServerSubscriptionsViewStats").on("click", settingsPage.uiEvents.onServerSubscriptionViewStatsClick);
 	}
 
 	private static refreshServerSubscriptionsGridAllRows() {
@@ -1797,6 +1829,7 @@ export class settingsPage {
 
 			rowElement.find("#btnSubscriptionsRemove").on("click", settingsPage.uiEvents.onServerSubscriptionRemoveClick);
 			rowElement.find("#btnSubscriptionsEdit").on("click", settingsPage.uiEvents.onServerSubscriptionEditClick);
+			rowElement.find("#btnServerSubscriptionsViewStats").on("click", settingsPage.uiEvents.onServerSubscriptionViewStatsClick);
 		}
 	}
 
@@ -1876,7 +1909,12 @@ export class settingsPage {
 
 		pageProfile.grdRulesSubscriptions.draw('full-hold');
 	}
-
+	private static rulesSubscriptionsGridRowBindEvents(pageProfile: SettingsPageSmartProfile, rowElement: any) {
+		rowElement.find("#btnRuleSubscriptionsRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRemoveClick(pageProfile, e));
+		rowElement.find("#btnRuleSubscriptionsEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionEditClick(pageProfile, e));
+		rowElement.find("#btnRuleSubscriptionsRefresh").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRefreshClick(pageProfile, e));
+		rowElement.find("#btnRuleSubscriptionsViewStats").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionViewStatsClick(pageProfile, e));
+	}
 	private static refreshRulesSubscriptionsGridRow(pageProfile: SettingsPageSmartProfile, row: any, invalidate?: any) {
 		if (!row)
 			return;
@@ -1889,9 +1927,8 @@ export class settingsPage {
 		// and invalidated row loosed the event bindings.
 		// so we need to bind the events each time data changes.
 
-		rowElement.find("#btnRuleSubscriptionsRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRemoveClick(pageProfile, e));
-		rowElement.find("#btnRuleSubscriptionsEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionEditClick(pageProfile, e));
-		rowElement.find("#btnRuleSubscriptionsRefresh").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRefreshClick(pageProfile, e));
+		// bind events
+		settingsPage.rulesSubscriptionsGridRowBindEvents(pageProfile, rowElement);
 	}
 
 	private static refreshRulesSubscriptionsGridRowElement(pageProfile: SettingsPageSmartProfile, rowElement: any, invalidate?: any) {
@@ -1900,9 +1937,8 @@ export class settingsPage {
 
 		rowElement = jq(rowElement);
 
-		rowElement.find("#btnRuleSubscriptionsRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRemoveClick(pageProfile, e));
-		rowElement.find("#btnRuleSubscriptionsEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionEditClick(pageProfile, e));
-		rowElement.find("#btnRuleSubscriptionsRefresh").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRefreshClick(pageProfile, e));
+		// bind events
+		settingsPage.rulesSubscriptionsGridRowBindEvents(pageProfile, rowElement);
 	}
 
 	private static refreshRulesSubscriptionsGridAllRows(pageProfile: SettingsPageSmartProfile) {
@@ -1910,9 +1946,8 @@ export class settingsPage {
 		for (let index = 0; index < nodes.length; index++) {
 			const rowElement = jq(nodes[index]);
 
-			rowElement.find("#btnRuleSubscriptionsRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRemoveClick(pageProfile, e));
-			rowElement.find("#btnRuleSubscriptionsEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionEditClick(pageProfile, e));
-			rowElement.find("#btnRuleSubscriptionsRefresh").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRefreshClick(pageProfile, e));
+			// bind events
+			settingsPage.rulesSubscriptionsGridRowBindEvents(pageProfile, rowElement);
 		}
 	}
 
@@ -2807,6 +2842,13 @@ export class settingsPage {
 					settingsPage.changeTracking.serverSubscriptions = true;
 				});
 		},
+		onServerSubscriptionViewStatsClick(e: any) {
+			let status = e.currentTarget?.title;
+			if (status) {
+				status = status.replaceAll('\r\n', '<br\>').replaceAll('\n', '<br\>');
+				messageBox.info(status);
+			}
+		},
 		onClickSaveServerSubscription() {
 			let modal = jq("#modalServerSubscription");
 
@@ -2850,6 +2892,10 @@ export class settingsPage {
 					}
 			}
 
+			if (!subscriptionModel.stats) {
+				subscriptionModel.stats = new SubscriptionStats();
+			}
+
 			// Saving...
 			jq("#btnSaveServerSubscription").attr("data-loading-text", api.i18n.getMessage("settingsServerSubscriptionSavingButton"));
 			jq("#btnSaveServerSubscription").button("loading");
@@ -2870,6 +2916,7 @@ export class settingsPage {
 						else
 							subscriptionModel.proxies = [];
 						subscriptionModel.totalCount = count;
+						SubscriptionStats.updateStats(subscriptionModel.stats, true);
 
 						if (editingSubscription) {
 
@@ -2896,10 +2943,13 @@ export class settingsPage {
 						modal.modal("hide");
 
 					} else {
+						SubscriptionStats.updateStats(subscriptionModel.stats, false);
 						messageBox.error(api.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
 					}
 				},
-				() => {
+				(errorResult) => {
+					SubscriptionStats.updateStats(subscriptionModel.stats, false, errorResult);
+
 					messageBox.error(api.i18n.getMessage("settingsServerSubscriptionSaveFailedGet"));
 					jq("#btnSaveServerSubscription").button('reset');
 				});
@@ -3085,6 +3135,10 @@ export class settingsPage {
 				return;
 			}
 
+			if (!editingSubscription.stats) {
+				editingSubscription.stats = new SubscriptionStats();
+			}
+
 			RuleImporter.readFromServer(editingSubscription,
 				(response: {
 					success: boolean,
@@ -3106,6 +3160,7 @@ export class settingsPage {
 							editingSubscription.whitelistRules = [];
 						}
 						editingSubscription.totalCount = count;
+						SubscriptionStats.updateStats(editingSubscription.stats, true);
 
 						settingsPage.refreshRulesSubscriptionsGrid(pageProfile);
 
@@ -3117,12 +3172,21 @@ export class settingsPage {
 						settingsPage.changeTracking.rulesSubscriptions = true;
 
 					} else {
+						SubscriptionStats.updateStats(editingSubscription.stats, false);
 						messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					}
 				},
-				() => {
+				(errorResult) => {
+					SubscriptionStats.updateStats(editingSubscription.stats, false, errorResult);
 					messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 				});
+		},
+		onRulesSubscriptionViewStatsClick(pageProfile: SettingsPageSmartProfile, e: any) {
+			let status = e.currentTarget?.title;
+			if (status) {
+				status = status.replaceAll('\r\n', '<br\>').replaceAll('\n', '<br\>');
+				messageBox.info(status);
+			}
 		},
 		onClickSaveRulesSubscription(pageProfile: SettingsPageSmartProfile) {
 			let tabContainer = pageProfile.htmlProfileTab;
@@ -3167,6 +3231,10 @@ export class settingsPage {
 					}
 			}
 
+			if (!subscriptionModel.stats) {
+				subscriptionModel.stats = new SubscriptionStats();
+			}
+
 			// Saving...
 			tabContainer.find("#btnSaveRulesSubscriptions").attr("data-loading-text", api.i18n.getMessage("settingsRulesSubscriptionSavingButton"));
 			tabContainer.find("#btnSaveRulesSubscriptions").button("loading");
@@ -3194,6 +3262,7 @@ export class settingsPage {
 							subscriptionModel.whitelistRules = [];
 						}
 						subscriptionModel.totalCount = count;
+						SubscriptionStats.updateStats(subscriptionModel.stats, true);
 
 						if (editingSubscription) {
 
@@ -3223,10 +3292,14 @@ export class settingsPage {
 						modal.modal("hide");
 
 					} else {
+						SubscriptionStats.updateStats(subscriptionModel.stats, false);
+
 						messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					}
 				},
-				() => {
+				(errorResult) => {
+					SubscriptionStats.updateStats(subscriptionModel.stats, false, errorResult);
+
 					messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					tabContainer.find("#btnSaveRulesSubscriptions").button('reset');
 				});

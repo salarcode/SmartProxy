@@ -789,10 +789,50 @@ export enum ProxyServerSubscriptionFormat {
 }
 
 export class SubscriptionStats {
-	lastSuccessDate: Date;
-	lastTryDate: Date;
+	lastSuccessDate: string;
+	lastTryDate: string;
 	lastStatus: boolean;
 	lastStatusMessage: string;
+
+	public static updateStats(stats: SubscriptionStats, success: boolean, errorResult?: any) {
+		let now = new Date();
+		if (success) {
+			stats.lastStatus = true;
+			stats.lastStatusMessage = null;
+			stats.lastTryDate =
+				stats.lastSuccessDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+		}
+		else {
+			stats.lastStatus = false;
+			stats.lastStatusMessage = errorResult?.toString();
+			stats.lastTryDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+		}
+	}
+	public static ToString(stats: SubscriptionStats): string {
+		let status = `Status: ${stats.lastStatus ? 'Success' : 'Fail'}`;
+		if (stats.lastStatus) {
+			status = api.i18n.getMessage("settingsSubscriptionStatsStatusSuccess");
+		}
+		else {
+			status = api.i18n.getMessage("settingsSubscriptionStatsStatusFail");
+		}
+
+		if (!stats.lastStatus) {
+			if (stats.lastTryDate) {
+				status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsLastTry")} ${stats.lastTryDate}`
+			}
+			else {
+				status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsLastTry")} -`
+			}
+			if (stats.lastStatusMessage) {
+				status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsMessage")} ${stats.lastStatusMessage}`
+			}
+		}
+		if (stats.lastSuccessDate) {
+			status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsLastSuccess")} ${stats.lastSuccessDate}`
+		}
+		return status;
+	}
 }
 
 export class ProxyServerSubscription implements Cloneable {

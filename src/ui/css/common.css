@@ -184,6 +184,9 @@ hr {
 .cursor-move {
 	cursor: move;
 }
+.cursor-pointer {
+	cursor: pointer;
+}
 
 /* ============================== */
 /* Settings page styles */

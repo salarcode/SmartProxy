@@ -1118,6 +1118,21 @@
 	"settingsWelcomeSkipButton": {
 		"message": "Got it"
 	},
+	"settingsSubscriptionStatsStatusSuccess":{
+		"message": "Status: Success"
+	},
+	"settingsSubscriptionStatsStatusFail":{
+		"message": "Status: Failed"
+	},
+	"settingsSubscriptionStatsLastTry":{
+		"message": "Last Try:"
+	},
+	"settingsSubscriptionStatsMessage":{
+		"message": "Message:"
+	},
+	"settingsSubscriptionStatsLastSuccess":{
+		"message": "Last Success:"
+	},
 	"settings_SmartProfileType_Direct": {
 		"message": "Direct"
 	},
