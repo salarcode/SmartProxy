@@ -208,7 +208,7 @@ export class settingsPage {
 			ordering: true,
 			rowReorder: {
 				dataSrc: 'order',
-				selector: 'tr>td:first-child',
+				selector: 'tr>td:first-child>i',
 				snapX: true
 			},
 			columnDefs: [
@@ -245,6 +245,7 @@ export class settingsPage {
 		settingsPage.grdServers.on('responsive-display',
 			function (e, dataTable, row, showHide, update) {
 				let rowChild = row.child();
+
 				if (showHide && rowChild && rowChild.length)
 					settingsPage.refreshServersGridRowElement(rowChild[0]);
 			}
@@ -1386,14 +1387,14 @@ export class settingsPage {
 				},
 			},
 			{
+				name: "proxy", data: "proxyName", title: api.i18n.getMessage("settingsRulesGridColProxy"),
+				defaultContent: api.i18n.getMessage("settingsRulesProxyDefault")
+			},
+			{
 				"width": "60px",
 				"data": null,
 				"className": "text-nowrap",
 				"defaultContent": "<button class='btn btn-sm btn-success' id='btnRulesEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnRulesRemove'><i class='fas fa-times'></button>",
-			},
-			{
-				name: "proxy", data: "proxyName", title: api.i18n.getMessage("settingsRulesGridColProxy"),
-				defaultContent: api.i18n.getMessage("settingsRulesProxyDefault")
 			}
 		];
 		if (!pageProfile.smartProfile.profileTypeConfig.customProxyPerRule) {
@@ -1402,7 +1403,6 @@ export class settingsPage {
 		}
 		let grdRules = tabContainer.find("#grdRules").DataTable({
 			"dom": dataTableCustomDom,
-			data: [],
 			paging: true,
 			select: true,
 			scrollY: 460,
@@ -1415,11 +1415,14 @@ export class settingsPage {
 		grdRules.on('responsive-display',
 			function (e, dataTable, row, showHide, update) {
 				let rowChild = row.child();
+
 				if (showHide && rowChild && rowChild.length)
 					settingsPage.refreshRulesGridRowElement(pageProfile, rowChild[0]);
 			}
 		);
 		grdRules.draw();
+		new jq.fn.dataTable.Responsive(grdRules);
+		jq.fn.dataTable.select.init(grdRules);
 
 		// -----
 		let grdRulesSubscriptions = tabContainer.find("#grdRulesSubscriptions").DataTable({
@@ -1576,6 +1579,7 @@ export class settingsPage {
 
 	private static readSelectedRule(pageProfile: SettingsPageSmartProfile, e?: any): ProxyRule {
 		let dataItem;
+		
 		if (e && e.target) {
 			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child')) {
