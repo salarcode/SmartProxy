@@ -41,6 +41,7 @@ export class SettingsOperation {
 				if (profile.rulesSubscriptions && profile.rulesSubscriptions.length) {
 					for (const subscription of profile.rulesSubscriptions) {
 						subscription.proxyRules = [];
+						subscription.whitelistRules = [];
 					}
 				}
 			}
