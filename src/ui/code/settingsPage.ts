@@ -223,7 +223,8 @@ export class settingsPage {
 					render: (data, type, row: ProxyServer) => {
 						return `<i class="fas fa-bars fa-xs px-2 cursor-move"></i>  ` + (row.name || '')
 					},
-					orderable: false
+					orderable: false,
+					responsivePriority: 1
 				},
 				{
 					name: "protocol", data: "protocol", title: api.i18n.getMessage("settingsServersGridColProtocol"), orderable: false
@@ -239,6 +240,7 @@ export class settingsPage {
 					"data": null, orderable: false,
 					"className": "text-nowrap",
 					"defaultContent": "<button class='btn btn-sm btn-success' id='btnServersEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>",
+					responsivePriority: 2
 				}
 			],
 		});
@@ -263,10 +265,12 @@ export class settingsPage {
 			ordering: false,
 			columns: [
 				{
-					name: "name", data: "name", title: api.i18n.getMessage("settingsServerSubscriptionsGridColName")
+					name: "name", data: "name", title: api.i18n.getMessage("settingsServerSubscriptionsGridColName"),
+					responsivePriority: 1
 				},
 				{
-					name: "url", data: "url", title: api.i18n.getMessage("settingsServerSubscriptionsGridColUrl")
+					name: "url", data: "url", title: api.i18n.getMessage("settingsServerSubscriptionsGridColUrl"),
+					responsivePriority: 3
 				},
 				{
 					name: "totalCount", data: "totalCount", type: "num", title: api.i18n.getMessage("settingsServerSubscriptionsGridColCount")
@@ -279,6 +283,7 @@ export class settingsPage {
 					"data": null,
 					"className": "text-nowrap",
 					"defaultContent": "<button class='btn btn-sm btn-success' id='btnSubscriptionsEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnSubscriptionsRemove'><i class='fas fa-times'></button>",
+					responsivePriority: 2
 				}
 			],
 		});
@@ -1370,10 +1375,10 @@ export class settingsPage {
 
 		let grdRulesColumns = [
 			{
-				name: "ruleType", data: "ruleTypeName", title: api.i18n.getMessage("settingsRulesGridColRuleType"),
+				name: "ruleType", data: "ruleTypeName", title: api.i18n.getMessage("settingsRulesGridColRuleType"), responsivePriority: 3
 			},
 			{
-				name: "hostName", data: "hostName", title: api.i18n.getMessage("settingsRulesGridColSource")
+				name: "hostName", data: "hostName", title: api.i18n.getMessage("settingsRulesGridColSource"), responsivePriority: 1
 			},
 			{
 				name: "rule", data: "rule", title: api.i18n.getMessage("settingsRulesGridColRule")
@@ -1395,6 +1400,7 @@ export class settingsPage {
 				"data": null,
 				"className": "text-nowrap",
 				"defaultContent": "<button class='btn btn-sm btn-success' id='btnRulesEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnRulesRemove'><i class='fas fa-times'></button>",
+				responsivePriority: 2
 			}
 		];
 		if (!pageProfile.smartProfile.profileTypeConfig.customProxyPerRule) {
@@ -1436,10 +1442,12 @@ export class settingsPage {
 			ordering: false,
 			columns: [
 				{
-					name: "name", data: "name", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColName")
+					name: "name", data: "name", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColName"),
+					responsivePriority: 1
 				},
 				{
-					name: "url", data: "url", className: "text-break-word", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColUrl")
+					name: "url", data: "url", className: "text-break-word", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColUrl"),
+					responsivePriority: 3
 				},
 				{
 					name: "totalCount", data: "totalCount", type: "num", title: api.i18n.getMessage("settingsRulesSubscriptionsGridColCount")
@@ -1452,6 +1460,7 @@ export class settingsPage {
 					"data": null,
 					"className": "text-nowrap",
 					"defaultContent": "<button class='btn btn-sm btn-success' id='btnRuleSubscriptionsEdit'>Edit</button> <button class='btn btn-sm btn-info' id='btnRuleSubscriptionsRefresh'><i class='fas fa-sync'></i></button> <button class='btn btn-sm btn-danger' id='btnRuleSubscriptionsRemove'><i class='fas fa-times'></button>",
+					responsivePriority: 2
 				}
 			],
 		});
@@ -1463,6 +1472,8 @@ export class settingsPage {
 			}
 		);
 		grdRulesSubscriptions.draw();
+		//new jq.fn.dataTable.Responsive(grdRulesSubscriptions);
+		//jq.fn.dataTable.select.init(grdRulesSubscriptions);
 
 		// -----
 		pageProfile.grdRules = grdRules;
@@ -1579,7 +1590,7 @@ export class settingsPage {
 
 	private static readSelectedRule(pageProfile: SettingsPageSmartProfile, e?: any): ProxyRule {
 		let dataItem;
-		
+
 		if (e && e.target) {
 			let rowElement = jq(e.target).parents('tr');
 			if (rowElement.hasClass('child')) {
