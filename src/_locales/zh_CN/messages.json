@@ -195,7 +195,7 @@
 		"message": "智能方案"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "新增智能配置档"
+		"message": "新增智能方案"
 	},
 	"settingsTabProxyServers": {
 		"message": "代理服务器"
@@ -1117,6 +1117,21 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "明白"
+	},
+	"settingsSubscriptionStatsStatusSuccess": {
+		"message": "状态：成功"
+	},
+	"settingsSubscriptionStatsStatusFail": {
+		"message": "状态：失败"
+	},
+	"settingsSubscriptionStatsLastTry": {
+		"message": "上次尝试："
+	},
+	"settingsSubscriptionStatsMessage": {
+		"message": "信息："
+	},
+	"settingsSubscriptionStatsLastSuccess": {
+		"message": "上次成功："
 	},
 	"settings_SmartProfileType_Direct": {
 		"message": "直连"

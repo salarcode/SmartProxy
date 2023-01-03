@@ -1118,6 +1118,21 @@
 	"settingsWelcomeSkipButton": {
 		"message": "گرفتم"
 	},
+	"settingsSubscriptionStatsStatusSuccess": {
+		"message": "وضعیت: موفق"
+	},
+	"settingsSubscriptionStatsStatusFail": {
+		"message": "وضعیت: ناموفق"
+	},
+	"settingsSubscriptionStatsLastTry": {
+		"message": "آخرین تلاش:"
+	},
+	"settingsSubscriptionStatsMessage": {
+		"message": "پیغام:"
+	},
+	"settingsSubscriptionStatsLastSuccess": {
+		"message": "آخرین موفقیت:"
+	},
 	"settings_SmartProfileType_Direct": {
 		"message": "مستقیم (بدون پراکسی)"
 	},

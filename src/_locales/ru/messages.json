@@ -1118,6 +1118,21 @@
 	"settingsWelcomeSkipButton": {
 		"message": "Ясно"
 	},
+	"settingsSubscriptionStatsStatusSuccess": {
+		"message": "Статус: выполнено"
+	},
+	"settingsSubscriptionStatsStatusFail": {
+		"message": "Статус: не выполнено"
+	},
+	"settingsSubscriptionStatsLastTry": {
+		"message": "Последняя попытка:"
+	},
+	"settingsSubscriptionStatsMessage": {
+		"message": "Сообщение:"
+	},
+	"settingsSubscriptionStatsLastSuccess": {
+		"message": "Последнее выполнение:"
+	},
 	"settings_SmartProfileType_Direct": {
 		"message": "Прямое соединение"
 	},
