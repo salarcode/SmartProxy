@@ -44,8 +44,9 @@ export let environment = {
 				// QUOTA_BYTES_PER_ITEM = 8,192
 				return 8000;
 			} else {
-				// no limit
-				return -1;
+				// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync
+				// Maximum item size = 8192
+				return 8000;
 			}
 		}
 	},
