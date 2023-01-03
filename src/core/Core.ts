@@ -53,8 +53,8 @@ const settingsOperationLib = SettingsOperation;
 export class Core {
 	/** Start the application */
 	public static initializeApp() {
-		// comment for debugging
-		//Debug.disable();
+		// comment this for debugging
+		Debug.disable();
 
 		const settingReadComplete = () => {
 			// on settings read success
