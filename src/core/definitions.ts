@@ -48,10 +48,10 @@ export function getSmartProfileTypeIcon(profileType: SmartProfileType) {
 			return 'fab fa-windows text-primary';
 
 		case SmartProfileType.SmartRules:
-			return 'fas fa-magic text-success';
+			return 'fas fa-magic text-primary';
 
 		case SmartProfileType.AlwaysEnabledBypassRules:
-			return 'fas fa-globe-americas text-primary';
+			return 'fas fa-globe-americas text-success';
 
 		case SmartProfileType.IgnoreFailureRules:
 			return 'fas fa-scroll';
