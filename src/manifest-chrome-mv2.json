@@ -1,6 +1,6 @@
 {
 	"name": "__MSG_extensionName__",
-	"version": "0.9.9999",
+	"version": "1.0",
 	"manifest_version": 2,
 	"author": "Salar Khalilzadeh",
 	"description": "__MSG_extensionDescription__",
@@ -72,5 +72,5 @@
 			"description": "Switch to 'System' mode"
 		}
 	},
-	"minimum_chrome_version": "60"
+	"minimum_chrome_version": "100"
 }
