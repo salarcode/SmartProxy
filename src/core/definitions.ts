@@ -517,6 +517,8 @@ export enum ThemeType {
 }
 
 export class GeneralOptions implements Cloneable {
+	public static defaultDarkThemeName: string = "themes-cosmo-dark";
+
 	public syncSettings: boolean = false;
 	public syncActiveProfile: boolean = true;
 	public syncActiveProxy: boolean = true;
@@ -532,7 +534,7 @@ export class GeneralOptions implements Cloneable {
 	public themeType: ThemeType = ThemeType.Auto;
 	public themesLight: string;
 	public themesLightCustomUrl: string;
-	public themesDark: string = "themes-cosmo-dark";
+	public themesDark: string = GeneralOptions.defaultDarkThemeName;
 	public themesDarkCustomUrl: string;
 
 	CopyFrom(source: any) {
