@@ -249,14 +249,12 @@ export class popup {
 
 			// display select options
 			jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
-
 				// proxyServer
-				let $option = cmbActiveProxy.append(
+				cmbActiveProxy.append(
 					jQuery("<option>")
-					.attr("value", proxyServer.id)
-					.text(proxyServer.name));
-
-				$option.prop("selected", (proxyServer.id === currentProxyServerId));
+						.attr("value", proxyServer.id)
+						.text(proxyServer.name)
+						.prop("selected", proxyServer.id === currentProxyServerId));
 			});
 
 			if (dataForPopup.proxyServersSubscribed.length > 0) {
