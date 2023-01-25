@@ -65,22 +65,25 @@ export const RuleImporter = {
 			// mark this request as special
 			ProxyEngineSpecialRequests.setSpecialUrl(subscription.url, subscription.applyProxy);
 
-		let xhr = new XMLHttpRequest();
-		xhr.open('GET', subscription.url);
-
+		let fetchRequest = {
+			method: 'GET',
+			headers: {},
+		};
 		if (subscription.username) {
 			let pass = atob(subscription.password);
-			xhr.setRequestHeader('Authorization', 'Basic ' + btoa(subscription.username + ':' + pass));
+			fetchRequest.headers =
+			{
+				'Authorization': 'Basic ' + btoa(subscription.username + ':' + pass)
+			};
 		}
-
-		xhr.onload = () => {
-			if (xhr.status === 200) {
-				ajaxSuccess(xhr.responseText);
-			} else {
-				if (fail) fail(xhr.status);
-			}
-		};
-		xhr.send();
+		fetch(subscription.url, fetchRequest)
+			.then((response) => response.text())
+			.then((result) => {
+				ajaxSuccess(result);
+			})
+			.catch((error) => {
+				if (fail) fail(error);
+			});
 	},
 	importRulesBatch(
 		text: string | ArrayBuffer,
@@ -468,32 +471,32 @@ const externalAppRuleParser = {
 				cond =
 					line[0] === '/'
 						? {
-								conditionType: 'UrlRegexCondition',
-								pattern: line.substring(1, line.length - 1),
-						  }
+							conditionType: 'UrlRegexCondition',
+							pattern: line.substring(1, line.length - 1),
+						}
 						: line[0] === '|'
-						? line[1] === '|'
-							? {
+							? line[1] === '|'
+								? {
 									conditionType: 'HostWildcardCondition',
 									pattern: '*.' + line.substring(2),
 									cleanCondition: line.substring(2),
-							  }
-							: {
+								}
+								: {
 									conditionType: 'UrlWildcardCondition',
 									pattern: line.substring(1) + '*',
 									cleanCondition: line.substring(1),
-							  }
-						: line.indexOf('*') < 0
-						? {
-								conditionType: 'KeywordCondition',
-								pattern: line,
-								cleanCondition: line,
-						  }
-						: {
-								conditionType: 'UrlWildcardCondition',
-								pattern: 'http://*' + line + '*',
-								cleanCondition: line,
-						  };
+								}
+							: line.indexOf('*') < 0
+								? {
+									conditionType: 'KeywordCondition',
+									pattern: line,
+									cleanCondition: line,
+								}
+								: {
+									conditionType: 'UrlWildcardCondition',
+									pattern: 'http://*' + line + '*',
+									cleanCondition: line,
+								};
 				list.push({
 					condition: cond,
 					profileName: profile,
