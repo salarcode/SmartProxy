@@ -18,7 +18,7 @@ import { CommonUi } from "./CommonUi";
 import { CommandMessages, ProxyableInternalDataType, ProxyableLogDataType, CompiledProxyRule, CompiledProxyRuleSource, ProxyableProxifiedStatus } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { jQuery, messageBox } from "../../lib/External";
-import { api } from "../../lib/environment";
+import { api, environment } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 
 export class proxyable {
@@ -49,8 +49,11 @@ export class proxyable {
 			},
 			(dataForProxyable: ProxyableInternalDataType) => {
 				if (dataForProxyable == null) {
-					// Source tab not found!
-					messageBox.error(api.i18n.getMessage("proxyableErrNoSourceTab"));
+					// Chrome Manifest 3 has this bug tha sends null message
+					if (!environment.chrome) {
+						// Source tab not found!
+						messageBox.error(api.i18n.getMessage("proxyableErrNoSourceTab"));
+					}
 					return;
 				}
 
@@ -75,6 +78,7 @@ export class proxyable {
 
 		CommonUi.onDocumentReady(CommonUi.localizeHtmlPage);
 	}
+
 	private static stopListeningToLogger() {
 		// request log for this page
 		PolyFill.runtimeSendMessage({
@@ -87,6 +91,19 @@ export class proxyable {
 
 		if (typeof (message) != "object")
 			return;
+		if (message["command"] === CommandMessages.ProxyableGetInitialDataResponse &&
+			message["dataForProxyable"] != null) {
+
+			let tabId = message.tabId;
+			if (tabId != proxyable.sourceTabId) {
+				return;
+			}
+			let dataForProxyable = message.dataForProxyable;
+			if (dataForProxyable) {
+				proxyable.populateDataForProxyable(dataForProxyable);
+			}
+			return;
+		}
 		if (message["command"] === CommandMessages.ProxyableRequestLog &&
 			message["tabId"] != null) {
 
@@ -201,13 +218,13 @@ export class proxyable {
 				{
 					name: "ruleHostName", data: "ruleHostName", title: api.i18n.getMessage("proxyableGridColRuleHost"), className: 'grid-status-col-text grid-col-nowrap vertical-align-middle',
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
-						return `<div class='wordwrap-anywhere grid-col-maxwidth-100' title="${data}">${data||''}</div>`;
+						return `<div class='wordwrap-anywhere grid-col-maxwidth-100' title="${data}">${data || ''}</div>`;
 					}
 				},
 				{
 					name: "rulePatternText", data: "rulePatternText", title: api.i18n.getMessage("proxyableGridColRulePattern"), className: "grid-status-col-text grid-col-nowrap vertical-align-middle",
 					render: function (data: any, type: any, row: ProxyableLogDataType): string {
-						return `<div class='wordwrap-anywhere grid-col-maxwidth-100' title="${data}">${data||''}</div>`;
+						return `<div class='wordwrap-anywhere grid-col-maxwidth-100' title="${data}">${data || ''}</div>`;
 					}
 				},
 				{

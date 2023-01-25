@@ -190,6 +190,16 @@ export class Core {
 
 					// send the data
 					sendResponse(dataForProxyable);
+
+					if (environment.chrome) {
+						// BUGFIX: on the first run, `sendResponse` doesn't send data
+						PolyFill.runtimeSendMessage(
+							{
+								command: CommandMessages.ProxyableGetInitialDataResponse,
+								tabId: tabId,
+								dataForProxyable: dataForProxyable
+							});
+					}
 					return;
 				}
 				break;

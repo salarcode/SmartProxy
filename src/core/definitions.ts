@@ -129,6 +129,7 @@ export class CommandMessages {
 
 	// Proxyable Resources
 	public static ProxyableGetInitialData = 'Proxyable_GetInitialData';
+	public static ProxyableGetInitialDataResponse = 'Proxyable_GetInitialData_Response';
 	public static ProxyableRemoveProxyableLog = 'Proxyable_RemoveProxyableLog';
 	public static ProxyableToggleProxyableDomain = 'Proxyable_ToggleProxyableDomain';
 

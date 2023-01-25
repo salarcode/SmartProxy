@@ -82,6 +82,11 @@ export class settingsPage {
 		PolyFill.runtimeSendMessage(CommandMessages.SettingsPageGetInitialData,
 			(dataForSettings: SettingsPageInternalDataType) => {
 				if (!dataForSettings) {
+					// Chrome Manifest 3 has this bug tha sends null message
+					if (!environment.chrome) {
+						// Source tab not found!
+						messageBox.error(api.i18n.getMessage("settingsInitializeFailed"));
+					}
 					return;
 				}
 				settingsPage.applySettingsPageData(dataForSettings);
