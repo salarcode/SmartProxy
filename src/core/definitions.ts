@@ -511,6 +511,28 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 	];
 }
 
+export function getSmartProfileTypeDefaultId(profileType: SmartProfileType) {
+	switch (profileType) {
+		case SmartProfileType.Direct:
+			return SmartProfileTypeBuiltinIds.Direct;
+
+		case SmartProfileType.SystemProxy:
+			return SmartProfileTypeBuiltinIds.SystemProxy;
+
+		case SmartProfileType.SmartRules:
+			return SmartProfileTypeBuiltinIds.SmartRules;
+
+		case SmartProfileType.AlwaysEnabledBypassRules:
+			return SmartProfileTypeBuiltinIds.AlwaysEnabled;
+
+		case SmartProfileType.IgnoreFailureRules:
+			return SmartProfileTypeBuiltinIds.IgnoreRequestFailures;
+
+		default:
+			return '';
+	}
+}
+
 export enum ThemeType {
 	Auto,
 	Light,
@@ -796,6 +818,7 @@ export class SubscriptionStats {
 	lastTryDate: string;
 	lastStatus: boolean;
 	lastStatusMessage: string;
+	lastStatusProxyServerName: string;
 
 	public static updateStats(stats: SubscriptionStats, success: boolean, errorResult?: any) {
 		let now = new Date();
@@ -807,9 +830,10 @@ export class SubscriptionStats {
 		}
 		else {
 			stats.lastStatus = false;
-			stats.lastStatusMessage = errorResult?.toString();
+			stats.lastStatusMessage = errorResult?.message ?? errorResult?.toString();
 			stats.lastTryDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 		}
+		stats.lastStatusProxyServerName = Settings.active?.currentProxyServer?.name;
 	}
 	public static ToString(stats: SubscriptionStats): string {
 		let status = `Status: ${stats.lastStatus ? 'Success' : 'Fail'}`;
@@ -830,6 +854,9 @@ export class SubscriptionStats {
 			if (stats.lastStatusMessage) {
 				status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsMessage")} ${stats.lastStatusMessage}`
 			}
+		}
+		if (stats.lastStatusProxyServerName) {
+			status += `\r\n${api.i18n.getMessage("settingsRulesGridColProxy")}: ${stats.lastStatusProxyServerName}`
 		}
 		if (stats.lastSuccessDate) {
 			status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsLastSuccess")} ${stats.lastSuccessDate}`
