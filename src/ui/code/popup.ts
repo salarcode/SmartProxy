@@ -55,7 +55,11 @@ export class popup {
 				if (message["tabId"] == null)
 					return;
 
-				let sourceTabId = popup.popupData.currentTabId;
+				let sourceTabId = popup.popupData?.currentTabId;
+				if (sourceTabId == null) {
+					PolyFill.runtimeSendMessage("Popup has invalid data. popupData is null" + JSON.stringify(popup.popupData));
+					return;
+				}
 
 				let tabId = message["tabId"];
 				if (tabId != sourceTabId) {
