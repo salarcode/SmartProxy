@@ -102,7 +102,7 @@ export class ProfileOperations {
 		return smartProfile;
 	}
 
-	static findFirstSmartProfileType(profileType: SmartProfileType, profiles: SmartProfile[]) {
+	static findFirstSmartProfileType(profileType: SmartProfileType, profiles: SmartProfile[]): SmartProfile | null {
 		return profiles.find((a) => a.profileType === profileType);
 	}
 

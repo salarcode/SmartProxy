@@ -466,6 +466,9 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 			return null;
 	}
 }
+export function getSmartProfileTypeName(profileType: SmartProfileType) {
+	return api.i18n.getMessage(`settings_SmartProfileType_${SmartProfileType[profileType]}`);
+}
 export function getBuiltinSmartProfiles(): SmartProfile[] {
 	return [
 		{

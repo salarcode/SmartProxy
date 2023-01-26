@@ -67,7 +67,7 @@ export const RuleImporter = {
 
 		let fetchRequest = {
 			method: 'GET',
-			headers: {},
+			headers: undefined,
 		};
 		if (subscription.username) {
 			let pass = atob(subscription.password);

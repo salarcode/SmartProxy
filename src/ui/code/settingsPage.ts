@@ -21,7 +21,7 @@ import { environment, api } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats, getSmartProfileTypeName } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 
@@ -1300,7 +1300,7 @@ export class settingsPage {
 		profileTab.addClass('tab-smart-profile-item');
 		profileTab.find("#lblProfileName").html(profile.profileName + ` <i class="fas fa-pencil-alt fa-xs"></i>`);
 		profileTab.find("#txtSmartProfileName").val(profile.profileName);
-		profileTab.find("#lblProfileType").text(settingsPage.getSmartProfileTypeName(profile.profileType));
+		profileTab.find("#lblProfileType").text(getSmartProfileTypeName(profile.profileType));
 		profileTab.find("#lblProfileTypeIcon").addClass(getSmartProfileTypeIcon(profile.profileType));
 		profileTab.find(".label-profile-type-description").hide();
 		profileTab.find(`.label-profile-type-description-for-${SmartProfileType[profile.profileType]}`).show();
@@ -3698,9 +3698,6 @@ export class settingsPage {
 		return result;
 	}
 
-	private static getSmartProfileTypeName(profileType: SmartProfileType) {
-		return api.i18n.getMessage(`settings_SmartProfileType_${SmartProfileType[profileType]}`);
-	}
 	//#endregion
 
 }
