@@ -189,18 +189,16 @@ export class TabManager {
 
 		TabManager.onTabRemoved.trigger(tabData);
 
-		tabData.cleanup();
+		tabData.clearFailedRequests();
 	}
 
 	private static handleTabUpdated(tabId: number, changeInfo: any, tabInfo: any) {
 		// only if url of the page is changed
 
 		let tabData = TabManager.tabs[tabId];
-		let shouldResetSoft = false;
 		let shouldResetHard = false;
-		if (changeInfo["status"] === "loading") {
-			shouldResetHard = true;
-		}
+		let shouldResetSoft = false;
+
 		if (changeInfo["url"]) {
 
 			if (tabData != null &&
@@ -208,25 +206,28 @@ export class TabManager {
 				changeInfo.url != tabData.url) {
 
 				// reset
-				shouldResetSoft = true;
+				shouldResetHard = true;
 			}
 		}
-
+		if (!shouldResetHard && changeInfo["status"] === "loading") {
+			shouldResetSoft = true;
+		}
 		let callOnUpdate = false;
 
-		if (shouldResetHard) {
-			// reload the tab data
-
-			if (tabData) {
-				callOnUpdate = true;
-				tabData.cleanup();
-			}
-		}
 		if (shouldResetSoft) {
 			// reload the tab data
 
 			if (tabData) {
+				callOnUpdate = true;
+				tabData.resetFailedRequests();
+			}
+		}
+		if (shouldResetHard) {
+			// reload the tab data
+
+			if (tabData) {
 				// reload tab data
+				tabData.clearFailedRequests();
 				TabManager.loadTabData(tabData);
 				callOnUpdate = true;
 			}
@@ -261,8 +262,17 @@ export class TabDataType {
 	public proxyMatchedRule?: CompiledProxyRule;
 	public proxyServerFromRule: ProxyServer;
 
-	public cleanup() {
+	/** Removes failed requests */
+	public clearFailedRequests() {
 		if (this.failedRequests)
 			this.failedRequests.clear();
+	}
+
+	/** Resets failed requests Hit Count */
+	public resetFailedRequests() {
+		if (this.failedRequests)
+			this.failedRequests.forEach((request, requestDomainKey, map) => {
+				request.hitCount = 1;
+			});
 	}
 }
