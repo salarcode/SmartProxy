@@ -24,6 +24,7 @@ import { RuleImporter } from "../../lib/RuleImporter";
 import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats, getSmartProfileTypeName } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
+import { SettingsOperation } from "../../core/SettingsOperation";
 
 const jq = jQuery;
 
@@ -3556,7 +3557,8 @@ export class settingsPage {
 		},
 		onClickBackupComplete() {
 
-			let data = JSON.stringify(settingsPage.currentSettings);
+			let backupSettings = SettingsOperation.getStrippedSyncableSettings(settingsPage.currentSettings);
+			let data = JSON.stringify(backupSettings);
 			CommonUi.downloadData(data, "SmartProxy-FullBackup.json");
 		},
 		onClickRestoreBackup() {
