@@ -135,6 +135,11 @@ export class CommandMessages {
 
 	// WebFailedRequest
 	public static WebFailedRequestNotification = 'WebFailedRequest_Notification';
+
+	// Debug
+	public static DebugEnableDiagnostics = 'Debug_EnableDiagnostics';
+	public static DebugGetDiagnosticsLogs = 'Debug_GetDiagnosticsLogs';
+
 }
 export enum BrowserProxySettingsType {
 	none = 'none',

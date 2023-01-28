@@ -22,7 +22,7 @@ import { Utils } from "../lib/Utils";
 import { TabManager } from "./TabManager";
 import { CommandMessages, FailedRequestType, CompiledProxyRule } from "./definitions";
 import { Settings } from "./Settings";
-import { Debug } from "../lib/Debug";
+import { Debug, DiagDebug } from "../lib/Debug";
 
 export class WebFailedRequestMonitor {
 
@@ -99,6 +99,8 @@ export class WebFailedRequestMonitor {
 
 		let requestHost = Utils.extractHostFromUrl(requestUrl);
 		let failedRequests = tabData.failedRequests || (tabData.failedRequests = new Map<string, FailedRequestType>());
+
+		DiagDebug?.trace("WebFailedRequestMonitorCall", tabId, RequestMonitorEvent[eventType], requestHost);
 
 		switch (eventType) {
 			case RequestMonitorEvent.RequestComplete:

@@ -253,6 +253,11 @@ hr {
 	width: 70%;
 }
 
+.diag {
+	font-size: xx-small;
+	opacity: 0.2;
+	cursor: default;
+}
 /* 
 	TODO: firefox doesn't support `color-schema` css fully yet
 	@media (prefers-color-scheme: dark) {

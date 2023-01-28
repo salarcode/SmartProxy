@@ -34,6 +34,7 @@ export class settingsPage {
 	private static grdServerSubscriptions: any;
 	private static currentSettings: SettingsConfig;
 	private static pageSmartProfiles: SettingsPageSmartProfile[] = [];
+	private static debugDiagnosticsRequested = false;
 
 	/** Used to track changes and restore when reject changes selected */
 	private static originalSettings: SettingsConfig;
@@ -196,6 +197,9 @@ export class settingsPage {
 		jq("#btnSaveServerSubscriptionsChanges").click(settingsPage.uiEvents.onClickSaveServerSubscriptionsChanges);
 
 		jq("#btnRejectServerSubscriptionsChanges").click(settingsPage.uiEvents.onClickRejectServerSubscriptionsChanges);
+
+		// Debug
+		jq("#btnEnableDiagnostics").click(settingsPage.uiEvents.onClickEnableDiagnostics);
 	}
 
 	private static initializeGrids() {
@@ -3610,6 +3614,21 @@ export class settingsPage {
 				},
 				"application/json");
 		},
+		onClickEnableDiagnostics() {
+			if (settingsPage.debugDiagnosticsRequested) {
+				PolyFill.runtimeSendMessage({ command: CommandMessages.DebugGetDiagnosticsLogs }, (result) => {
+					const fileName = `smartproxy-diag-${(new Date().toISOString() as any).replaceAll(':', '-').replaceAll('.', '-')}.json`;
+					CommonUi.downloadData(result, fileName);
+				});
+			}
+			else if (confirm("Are you sure to enable diagnostics?")) {
+				settingsPage.debugDiagnosticsRequested = true;
+				PolyFill.runtimeSendMessage({ command: CommandMessages.DebugEnableDiagnostics });
+
+				alert("Diagnostics are enabled for this session only. Check this page for more info.");
+				window.open("https://github.com/salarcode/SmartProxy/wiki/Enable-Diagnostics")
+			}
+		}
 	};
 
 	//#endregion
