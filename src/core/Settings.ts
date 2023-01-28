@@ -157,7 +157,7 @@ export class Settings {
 		config.version = environment.extensionVersion;
 	}
 
-	private static ensureIntegrityOfSettings(config: SettingsConfig) {
+	public static ensureIntegrityOfSettings(config: SettingsConfig) {
 		// proxyServers
 		if (config.proxyServers && config.proxyServers.length) {
 			let proxyServers: ProxyServer[] = [];
@@ -300,6 +300,7 @@ export class Settings {
 			}
 		}
 
+		Settings.ensureIntegrityOfSettings(newConfig);
 		return newConfig;
 	}
 

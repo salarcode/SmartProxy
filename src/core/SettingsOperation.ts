@@ -584,6 +584,9 @@ export class SettingsOperation {
 				}
 			}
 
+			Settings.setDefaultSettings(settingsCopy);
+			Settings.ensureIntegrityOfSettings(settingsCopy);
+
 			return { success: true, config: settingsCopy };
 
 		} catch (e) {
