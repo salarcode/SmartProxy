@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { api, environment } from '../lib/environment';
-import { Debug } from '../lib/Debug';
+import { Debug, DiagDebug } from '../lib/Debug';
 import {
 	BrowserProxySettingsType as FirefoxProxySettingsType,
 	ProxyServer,
@@ -376,6 +376,8 @@ export class ProxyEngineFirefox {
 			// nothing matched
 			return { type: 'direct' };
 		})();
+
+		DiagDebug?.trace("FF.handleProxyRequest", proxyLog.tabId, result, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
 
 		// notify the logger
 		TabRequestLogger.notifyProxyableLog(proxyLog);
