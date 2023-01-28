@@ -59,8 +59,6 @@ export class settingsPage {
 	}
 
 	private static handleMessages(message: any, sender: any, sendResponse: Function) {
-		Debug.log('settingsPage message> ', message);
-
 		let command: string;
 		if (typeof message == 'string') command = message;
 		else {
@@ -3617,7 +3615,7 @@ export class settingsPage {
 		onClickEnableDiagnostics() {
 			if (settingsPage.debugDiagnosticsRequested) {
 				PolyFill.runtimeSendMessage({ command: CommandMessages.DebugGetDiagnosticsLogs }, (result) => {
-					const fileName = `smartproxy-diag-${(new Date().toISOString() as any).replaceAll(':', '-').replaceAll('.', '-')}.json`;
+					const fileName = `smartproxy-diag-${new Date().toISOString().replaceAll(':', '-').replaceAll('.', '-')}.json`;
 					CommonUi.downloadData(result, fileName);
 				});
 			}

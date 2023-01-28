@@ -336,4 +336,4 @@ export class SubscriptionUpdater {
 	}
 }
 
-type SubscriptionTimerType = { timerId: number, subscriptionId: string, refreshRate: number };
+type SubscriptionTimerType = { timerId: NodeJS.Timer, subscriptionId: string, refreshRate: number };

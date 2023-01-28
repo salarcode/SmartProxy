@@ -7,8 +7,8 @@
 		"noEmitOnError": true,
 		"removeComments": true,
 		"sourceMap": false,
-		"target": "ES2019",
-		"lib": [ "ES2020", "dom" ],
+		"target": "ES2021",
+		"lib": [ "ES2021", "ESNext", "dom" ],
 		"strictNullChecks": false,
 		"noUnusedLocals": true
 	},

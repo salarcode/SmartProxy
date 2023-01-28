@@ -1,7 +1,7 @@
 const path = require('path');
 const decompress = require('decompress');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 if (process.env.NODE_ENV == null) {
   process.env.NODE_ENV = 'development';
@@ -9,14 +9,27 @@ if (process.env.NODE_ENV == null) {
 const ENV = process.env.ENV = process.env.NODE_ENV;
 
 let plugins = [
-  new CleanWebpackPlugin([
-    path.resolve(__dirname, 'build/*'),
-  ]),
-  new CopyWebpackPlugin([
-    { from: './src/_locales/', to: '_locales', ignore: ['default-messages.json'], },
-    { from: './src/icons', to: 'icons' },
-    { from: './src/ui', to: 'ui', ignore: ['code/*', '*.zip'] },
-  ])
+new CleanWebpackPlugin({
+  cleanAfterEveryBuildPatterns: ['**/*.LICENSE.txt'],
+  protectWebpackAssets: false
+}),
+  new CopyPlugin({
+    patterns: [
+      {
+        from: './src/_locales/', to: '_locales',
+        globOptions: {
+          ignore: ['**/default-messages.json']
+        }
+      },
+      { from: './src/icons', to: 'icons' },
+      {
+        from: './src/ui', to: 'ui',
+        globOptions: {
+          ignore: ['**/code/*', '**/*.zip']
+        }
+      }
+    ]
+  })
 ];
 
 const unzipPromise = decompress('src/ui/js/libs-unzip-before-build.zip', 'src/ui/js/');
@@ -26,7 +39,11 @@ module.exports = function (args) {
   let browserType = args["browser"] || "chrome";
   let isDev = args["dev"] || false;
   let coreIsServiceWorker = args["service_worker"] || false;
-  plugins.push(new CopyWebpackPlugin([{ from: `./src/manifest-${browserType}.json`, to: 'manifest.json' }]));
+  plugins.push(new CopyPlugin({
+    patterns: [
+      { from: `./src/manifest-${browserType}.json`, to: 'manifest.json' }
+    ]
+  }));
 
   let codeEntries = {
     'core': [],
@@ -41,12 +58,13 @@ module.exports = function (args) {
     codeEntries["core"] = [`./src/core/browsers/${browserType}.ts`, './src/core/Core.ts',]
   }
 
+  console.info("Building for", browserType, 'isDev=' + isDev);
+
   return unzipPromise.then(() => {
     return {
       mode: ENV,
       entry: codeEntries,
-      devtool: '',
-      // devtool: 'inline-source-map',
+      devtool: isDev ? 'inline-source-map' : undefined,
       module: {
         rules: [
           {
