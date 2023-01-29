@@ -9,10 +9,10 @@ if (process.env.NODE_ENV == null) {
 const ENV = process.env.ENV = process.env.NODE_ENV;
 
 let plugins = [
-new CleanWebpackPlugin({
-  cleanAfterEveryBuildPatterns: ['**/*.LICENSE.txt'],
-  protectWebpackAssets: false
-}),
+  new CleanWebpackPlugin({
+    cleanAfterEveryBuildPatterns: ['**/*.LICENSE.txt'],
+    protectWebpackAssets: false
+  }),
   new CopyPlugin({
     patterns: [
       {
@@ -64,7 +64,7 @@ module.exports = function (args) {
     return {
       mode: ENV,
       entry: codeEntries,
-      devtool: isDev ? 'inline-source-map' : undefined,
+      devtool: isDev ? 'inline-source-map' : false,
       module: {
         rules: [
           {
