@@ -18,6 +18,7 @@ export let environment = {
 	chrome: false,
 	name: "general",
 	version: 1.0,
+	/** do not use directly, call PolyFill.getExtensionVersion */
 	extensionVersion: '',
 	mobile: false,
 	manifestV3: false,

@@ -35,7 +35,7 @@ import {
 } from './definitions';
 import { Debug } from '../lib/Debug';
 import { SettingsOperation } from './SettingsOperation';
-import { api, environment } from '../lib/environment';
+import { api } from '../lib/environment';
 import { Utils } from '../lib/Utils';
 import { ProfileOperations } from './ProfileOperations';
 
@@ -59,6 +59,8 @@ export class Settings {
 	}
 
 	private static onInitializeGetLocalData(data: any) {
+		Debug.log("storageLocalGet, local data: ", data);
+
 		data = Settings.getRestorableSettings(data);
 
 		Settings.current = data;
@@ -154,7 +156,10 @@ export class Settings {
 		if (config['proxyServerSubscriptions'] == null || !Array.isArray(config.proxyServerSubscriptions)) {
 			config.proxyServerSubscriptions = [];
 		}
-		config.version = environment.extensionVersion;
+
+		PolyFill.getExtensionVersion((version: string) => {
+			config.version = version;
+		});
 	}
 
 	public static ensureIntegrityOfSettings(config: SettingsConfig) {

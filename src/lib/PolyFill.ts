@@ -412,12 +412,18 @@ export class PolyFill {
 			return api.extension.getURL(path);
 		}
 	}
+	public static getExtensionVersion(success?: Function) {
+		if (environment.extensionVersion)
+			success?.(environment.extensionVersion);
+		else {
+			PolyFill.managementGetSelf((info: any) => {
+				environment.extensionVersion = info.version;
+				success?.(environment.extensionVersion);
+			}, null);
+		}
+	}
 }
-
 PolyFill.runtimeGetBrowserInfo((response: any) => {
 	environment.version = parseInt(response.version) || 1.0;
 	environment.name = response.name;
 });
-PolyFill.managementGetSelf((info: any) => {
-	environment.extensionVersion = info.version;
-}, null);
