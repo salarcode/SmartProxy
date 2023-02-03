@@ -51,13 +51,6 @@ export class Debug {
 			DiagDebug.log.apply(DiagDebug, arguments);
 	}
 
-	public static error(msg: string, ...args: any) {
-		if (!this.enabled) return;
-		console.error.apply(null, arguments);
-		if (DiagDebug)
-			DiagDebug.error.apply(DiagDebug, arguments);
-	}
-
 	public static info(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		console.info.apply(null, arguments);
@@ -65,18 +58,25 @@ export class Debug {
 			DiagDebug.info.apply(DiagDebug, arguments);
 	}
 
-	public static warn(msg: string, ...args: any) {
-		if (!this.enabled) return;
-		console.warn.apply(null, arguments);
-		if (DiagDebug)
-			DiagDebug.warn.apply(DiagDebug, arguments);
-	}
-
 	public static trace(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		console.trace.apply(null, arguments);
 		if (DiagDebug)
 			DiagDebug.trace.apply(DiagDebug, arguments);
+	}
+
+	public static warn(msg: string, ...args: any) {
+		// warn should be always output
+		console.warn.apply(null, arguments);
+		if (DiagDebug)
+			DiagDebug.warn.apply(DiagDebug, arguments);
+	}
+
+	public static error(msg: string, ...args: any) {
+		// error should be always output
+		console.error.apply(null, arguments);
+		if (DiagDebug)
+			DiagDebug.error.apply(DiagDebug, arguments);
 	}
 }
 
