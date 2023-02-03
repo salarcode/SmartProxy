@@ -278,7 +278,7 @@ export class Core {
 				let domainList = message.domainList;
 				let tabId = message.tabId;
 
-				ProfileRules.enableByHostnameList(domainList);
+				let result = ProfileRules.enableByHostnameList(domainList);
 
 				let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
 
@@ -292,8 +292,9 @@ export class Core {
 				Core.setBrowserActionStatus();
 
 				// send the responses
-				if (updatedFailedRequests != null && sendResponse) {
+				if (sendResponse) {
 					sendResponse({
+						result: result,
 						failedRequests: updatedFailedRequests,
 					});
 				}
@@ -307,7 +308,7 @@ export class Core {
 				let domainList: string[] = message.domainList;
 				let tabId = message.tabId;
 
-				ProfileRules.enableByHostnameListIgnoreFailureRules(domainList);
+				let result = ProfileRules.enableByHostnameListIgnoreFailureRules(domainList);
 
 				let updatedFailedRequests = WebFailedRequestMonitor.removeDomainsFromTabFailedRequests(tabId, domainList);
 
@@ -317,8 +318,9 @@ export class Core {
 				settingsLib.updateActiveSettings();
 
 				// send the responses
-				if (updatedFailedRequests != null && sendResponse) {
+				if (sendResponse) {
 					sendResponse({
+						result: result,
 						failedRequests: updatedFailedRequests,
 					});
 				}

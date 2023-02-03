@@ -550,15 +550,31 @@ export class popup {
 						tabId: popup.popupData.currentTabId
 					},
 					(response: any) => {
-						if (!response) return;
-						if (response.failedRequests) {
+						let close = true;
+						try {
+							if (!response) return;
+							if (response.failedRequests) {
 
-							// display the updated failed requests
-							popup.populateFailedRequests(response.failedRequests);
+								// display the updated failed requests
+								popup.populateFailedRequests(response.failedRequests);
+							}
+							let result = response.result;
+							if (result) {
+								if (result.success && result.message) {
+									messageBox.success(result.message, 4000);
+									close = false;
+								}
+								else if (!result.success && result.message) {
+									messageBox.error(result.message);
+									close = false;
+								}
+							}
+						} finally {
+							if (close) {
+								popup.closeSelf();
+							}
 						}
 					});
-
-				popup.closeSelf();
 			}
 	}
 
@@ -580,15 +596,31 @@ export class popup {
 						tabId: popup.popupData.currentTabId
 					},
 					(response: any) => {
-						if (!response) return;
-						if (response.failedRequests) {
+						let close = true;
+						try {
+							if (!response) return;
+							if (response.failedRequests) {
 
-							// display the updated failed requests
-							popup.populateFailedRequests(response.failedRequests);
+								// display the updated failed requests
+								popup.populateFailedRequests(response.failedRequests);
+							}
+							let result = response.result;
+							if (result) {
+								if (result.success && result.message) {
+									messageBox.success(result.message, 4000);
+									close = false;
+								}
+								else if (!result.success && result.message) {
+									messageBox.error(result.message);
+									close = false;
+								}
+							}
+						} finally {
+							if (close) {
+								popup.closeSelf();
+							}
 						}
 					});
-
-				popup.closeSelf();
 			}
 	}
 	private static closeSelf() {

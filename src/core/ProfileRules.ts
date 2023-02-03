@@ -74,24 +74,51 @@ export class ProfileRules {
 
 	public static enableByHostnameListIgnoreFailureRules(hostnameList: string[]) {
 		if (!hostnameList || !hostnameList.length)
-			return;
+			return {
+				success: false,
+				message: api.i18n.getMessage("settingsEnableByDomainInvalid")
+			};
 
-		let smartProfile = ProfileOperations.getIgnoreFailureRulesProfile();
-		if (smartProfile == null)
-			return;
+		let ignoreRulesProfile = ProfileOperations.getIgnoreFailureRulesProfile();
+		if (ignoreRulesProfile == null)
+			// TODO: this message is a temporary workaround, an UI is needed for popup in Add to Ignore List
+			return {
+				success: false,
+				message: 'Ignore rules profile not found'
+			};
 
 		for (let hostName of hostnameList) {
-			ProfileRules.enableByHostnameInternal(smartProfile, hostName);
+			let enableResult = ProfileRules.enableByHostnameInternal(ignoreRulesProfile, hostName);
+			if (enableResult && !enableResult.success) {
+				return {
+					success: false,
+					message: enableResult.message || `Failed to add host '${hostName}' to ignore rules`
+				};
+			}
 		}
+		return {
+			success: true,
+			message: null
+		};
 	}
 
-	public static enableByHostnameList(hostnameList: string[]) {
+	public static enableByHostnameList(hostnameList: string[]): {
+		success: boolean,
+		message: string
+	} {
 		if (!hostnameList || !hostnameList.length)
-			return;
+			return {
+				success: false,
+				message: api.i18n.getMessage("settingsEnableByDomainInvalid")
+			};
 
 		let smartProfile = ProfileOperations.getActiveSmartProfile();
 		if (smartProfile == null)
-			return;
+			// TODO: this message is a temporary workaround, an UI is needed for popup in Add to Ignore List
+			return {
+				success: false,
+				message: 'Please select a profile first.'
+			};
 
 		if (!smartProfile.profileTypeConfig.editable ||
 			!ProfileOperations.profileTypeSupportsRules(smartProfile.profileType)) {
@@ -103,8 +130,18 @@ export class ProfileRules {
 		}
 
 		for (let hostName of hostnameList) {
-			ProfileRules.enableByHostnameInternal(smartProfile, hostName);
+			let enableResult = ProfileRules.enableByHostnameInternal(smartProfile, hostName);
+			if (enableResult && !enableResult.success) {
+				return {
+					success: false,
+					message: enableResult.message || `Failed to add host '${hostName}' to rules`
+				};
 		}
+	}
+		return {
+			success: true,
+			message: null
+		};
 	}
 
 	public static enableByHostname(hostname: string): {
