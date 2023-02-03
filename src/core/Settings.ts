@@ -59,7 +59,7 @@ export class Settings {
 	}
 
 	private static onInitializeGetLocalData(data: any) {
-		Debug.log("storageLocalGet, local data: ", data);
+		Debug.log("onInitializeGetLocalData, local data: ", data);
 
 		data = Settings.getRestorableSettings(data);
 
@@ -83,6 +83,8 @@ export class Settings {
 	private static onInitializeGetSyncData(data: any) {
 		try {
 			let syncedSettings = Utils.decodeSyncData(data);
+
+			Debug.log("onInitializeGetSyncData, sync data: ", data);
 
 			// only if sync settings is enabled
 			if (syncedSettings && syncedSettings.options) {
@@ -242,6 +244,9 @@ export class Settings {
 					}
 				}
 				delete oldConfig.proxyRulesSubscriptions;
+			}
+			else {
+				Debug.warn(`Migrate has failed for SmartRules because no SmartRules is found in the new configuration`);
 			}
 		}
 		// bypassList

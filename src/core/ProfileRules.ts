@@ -125,7 +125,6 @@ export class ProfileRules {
 			return {
 				success: false,
 				message: api.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
-				rule: null
 			};
 		}
 
@@ -136,8 +135,8 @@ export class ProfileRules {
 					success: false,
 					message: enableResult.message || `Failed to add host '${hostName}' to rules`
 				};
+			}
 		}
-	}
 		return {
 			success: true,
 			message: null

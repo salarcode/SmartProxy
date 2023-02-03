@@ -54,6 +54,9 @@ export class ProxyEngineFirefox {
 	}
 
 	public static updateFirefoxProxyConfig() {
+		if (environment.notAllowed.setProxySettings)
+			return;
+
 		let settingsActive = Settings.active;
 
 		let proxySettings = {
@@ -72,9 +75,6 @@ export class ProxyEngineFirefox {
 				proxySettings.proxyType = FirefoxProxySettingsType.system;
 				break;
 		}
-
-		if (environment.notAllowed.setProxySettings)
-			return;
 
 		PolyFill.browserSetProxySettings(
 			{
@@ -417,7 +417,7 @@ export class ProxyEngineFirefox {
 					type: 'socks',
 					host: proxyServer.host,
 					port: proxyServer.port,
-					proxyDNS: proxyServer.proxyDNS,
+					proxyDNS: proxyServer.proxyDNS ? true : false,
 					username: proxyServer.username,
 					password: proxyServer.password,
 				};

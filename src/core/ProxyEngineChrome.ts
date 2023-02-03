@@ -99,10 +99,16 @@ const activeProfileType = +'${profileType}';
 const currentProxyServer = "${resultCurrentProxyServer}";
 const resultDirect = "DIRECT";
 const resultSystem = "SYSTEM";
+const verboseDiagnostics = false; // uncomment for verbose logs using chrome flag. https://support.google.com/chrome/a/answer/6271171?hl=en#zippy=%2Cview-network-data%2Cget-network-logs
 // -------------------------
 // required PAC function that will be called to determine
 // if a proxy should be used.
-function FindProxyForURL(url, host) {
+function FindProxyForURL(url, host, noDiagnostics) {
+	if (verboseDiagnostics && !noDiagnostics) {
+		let finalResult = FindProxyForURL(url, host, true);
+		alert('SmartProxy-FindProxyForURL-Result=' + finalResult + '; host=' + host + '; url=' + url + '; activeProfile=' + activeProfileType);
+		return finalResult;
+	}
 
 	if (activeProfileType == SmartProfileType.SystemProxy)
 		return resultSystem;
