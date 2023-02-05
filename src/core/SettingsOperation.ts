@@ -354,17 +354,6 @@ export class SettingsOperation {
 				Debug.error(`SettingsOperation.saveOptions error: ${error.message}`);
 			});
 	}
-	// public static saveRules() {
-	// 	if (Settings.current.options.syncSettings)
-	// 		// don't save in local when sync enabled
-	// 		return;
-
-	// 	polyFillLib.storageLocalSet({ proxyRules: Settings.current.proxyRules },
-	// 		null,
-	// 		(error: Error) => {
-	// 			Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
-	// 		});
-	// }
 	public static saveSmartProfiles() {
 		if (Settings.current.options.syncSettings)
 			// don't save in local when sync enabled

@@ -55,6 +55,7 @@ export class Core {
 	public static initializeApp() {
 		// comment this for debugging
 		Debug.disable();
+		proxyEngineLib.configureEnginePrematurely();
 
 		const settingReadComplete = () => {
 			DiagDebug?.trace("Core.settingReadComplete start");

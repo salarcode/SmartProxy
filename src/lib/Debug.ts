@@ -23,10 +23,11 @@ export class Debug {
 	public static enable() {
 		this.enabled = true;
 	}
-	public static enableDiagnostics() {
+	public static enableDiagnostics(consoleOutput: boolean = false) {
 		this.enabled = true;
 		if (DiagDebug == null)
 			DiagDebug = new Diagnostics();
+		DiagDebug.consoleOutput = consoleOutput;
 		DiagDebug.register();
 	}
 	public static disable() {
@@ -47,41 +48,42 @@ export class Debug {
 	public static log(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		console.log.apply(null, arguments);
-		if (DiagDebug)
+		if (DiagDebug && !DiagDebug.consoleOutput)
 			DiagDebug.log.apply(DiagDebug, arguments);
 	}
 
 	public static info(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		console.info.apply(null, arguments);
-		if (DiagDebug)
+		if (DiagDebug && !DiagDebug.consoleOutput)
 			DiagDebug.info.apply(DiagDebug, arguments);
 	}
 
 	public static trace(msg: string, ...args: any) {
 		if (!this.enabled) return;
 		console.trace.apply(null, arguments);
-		if (DiagDebug)
+		if (DiagDebug && !DiagDebug.consoleOutput)
 			DiagDebug.trace.apply(DiagDebug, arguments);
 	}
 
 	public static warn(msg: string, ...args: any) {
 		// warn should be always output
 		console.warn.apply(null, arguments);
-		if (DiagDebug)
+		if (DiagDebug && !DiagDebug.consoleOutput)
 			DiagDebug.warn.apply(DiagDebug, arguments);
 	}
 
 	public static error(msg: string, ...args: any) {
 		// error should be always output
 		console.error.apply(null, arguments);
-		if (DiagDebug)
+		if (DiagDebug && !DiagDebug.consoleOutput)
 			DiagDebug.error.apply(DiagDebug, arguments);
 	}
 }
 
 class Diagnostics {
-	private enabled: boolean = true;
+	public enabled: boolean = true;
+	public consoleOutput: boolean = false;
 	private logs: string[] = [];
 
 	public clear() {
@@ -143,6 +145,8 @@ class Diagnostics {
 		}
 
 		this.logs.push(text);
+		if (this.consoleOutput)
+			console.log("Diagnostics", text);
 	}
 }
 

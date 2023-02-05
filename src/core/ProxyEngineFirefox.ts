@@ -53,28 +53,46 @@ export class ProxyEngineFirefox {
 		return false;
 	}
 
-	public static updateFirefoxProxyConfig() {
-		if (environment.notAllowed.setProxySettings)
-			return;
-
-		let settingsActive = Settings.active;
-
+	/** Force Browser to System mode. When SmartProxy is set to work in Private mode this will work. */
+	public static forceFirefoxToUseSystem() {
 		let proxySettings = {
 			proxyType: FirefoxProxySettingsType.system,
 		};
 
-		switch (settingsActive.activeProfile.profileType) {
-			case SmartProfileType.Direct:
-			case SmartProfileType.SmartRules:
-			case SmartProfileType.AlwaysEnabledBypassRules:
-			case SmartProfileType.IgnoreFailureRules:
-				proxySettings.proxyType = FirefoxProxySettingsType.none;
-				break;
+		PolyFill.browserSetProxySettings(
+			{
+				value: proxySettings,
+			},
+			function () {
+				// reset the values
+				environment.notSupported.setProxySettings = false;
+				environment.notAllowed.setProxySettings = false;
+			},
+			function (error: Error) {
+				Debug.error('forceFirefoxToUseSystem failed to set proxy settings', proxySettings, error?.message);
+				if (error && error['message']) {
+					if (error.message.includes('not supported'))
+						environment.notSupported.setProxySettings = true;
+					if (error.message.includes('permission'))
+						environment.notAllowed.setProxySettings = true;
+				}
+			}
+		);
+	}
 
-			case SmartProfileType.SystemProxy:
-				proxySettings.proxyType = FirefoxProxySettingsType.system;
-				break;
+	public static updateFirefoxProxyConfig() {
+		if (environment.notAllowed.setProxySettings)
+			return;
+		let settingsActive = Settings.active;
+
+		// only changing browser settings when config is System
+		if (settingsActive.activeProfile.profileType != SmartProfileType.SystemProxy) {
+			return;
 		}
+		let proxySettings = {
+			proxyType: FirefoxProxySettingsType.system,
+		};
+		DiagDebug?.trace("Core.updateFirefoxProxyConfig", "proxyType=" + FirefoxProxySettingsType[proxySettings.proxyType]);
 
 		PolyFill.browserSetProxySettings(
 			{
@@ -112,6 +130,13 @@ export class ProxyEngineFirefox {
 			type: "speculative"
 			url: "http://socialshare.ir/admin/media-promote"
 			*/
+
+		if (!Settings.active) {
+			Debug.warn("Settings are not loaded yet, falling back to browser settings.", 't=' + requestDetails.tabId, requestDetails.url);
+
+			// BUGFIX: To force Firefox to use Browser settings we have to stop or fail this method, there is no other way
+			throw "SmartProxy Settings are not loaded yet, falling back to browser settings.";
+		}
 
 		let proxyLog: ProxyableLogDataType = new ProxyableLogDataType();
 		proxyLog.tabId = requestDetails.tabId;
@@ -377,7 +402,7 @@ export class ProxyEngineFirefox {
 			return { type: 'direct' };
 		})();
 
-		DiagDebug?.trace("FF.handleProxyRequest", proxyLog.tabId, result, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
+		DiagDebug?.trace("FF.handleProxyRequest", 't=' + proxyLog.tabId, result, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
 
 		// notify the logger
 		TabRequestLogger.notifyProxyableLog(proxyLog);

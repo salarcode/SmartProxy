@@ -18,10 +18,25 @@ import { ProxyEngineFirefox } from "./ProxyEngineFirefox";
 import { environment } from "../lib/environment";
 import { ProxyEngineChrome } from "./ProxyEngineChrome";
 import { Settings } from "./Settings";
+import { DiagDebug } from "../lib/Debug";
 
 export class ProxyEngine {
 
+    /** Firefox specific. Because of delay in settings load, 
+     * this sets to System proxy (If Private Mode is allowed) or 
+     * uses Browser configuration until load completes */
+    public static configureEnginePrematurely() {
+        if (environment.chrome)
+            return;
+        DiagDebug?.trace("ProxyEngine.configureEnginePrematurely.");
+
+        ProxyEngineFirefox.forceFirefoxToUseSystem();
+        ProxyEngineFirefox.register();
+    }
+
     public static registerEngine() {
+        DiagDebug?.trace("ProxyEngine.registerEngine");
+
         if (!environment.chrome) {
             ProxyEngineFirefox.register();
         }

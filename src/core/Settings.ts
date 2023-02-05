@@ -31,7 +31,7 @@ import {
 	ProxyServerSubscription,
 	ProxyRule,
 	ProxyRulesSubscription,
-	ThemeType,
+	ThemeType
 } from './definitions';
 import { Debug } from '../lib/Debug';
 import { SettingsOperation } from './SettingsOperation';

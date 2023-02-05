@@ -100,7 +100,7 @@ export class WebFailedRequestMonitor {
 		let requestHost = Utils.extractHostFromUrl(requestUrl);
 		let failedRequests = tabData.failedRequests || (tabData.failedRequests = new Map<string, FailedRequestType>());
 
-		DiagDebug?.trace("WebFailedRequestMonitorCall", tabId, RequestMonitorEvent[eventType], requestHost);
+		DiagDebug?.trace("WebFailedMonitorCall", 't=' + tabId, RequestMonitorEvent[eventType], requestHost);
 
 		switch (eventType) {
 			case RequestMonitorEvent.RequestComplete:
