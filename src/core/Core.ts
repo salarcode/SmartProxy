@@ -363,6 +363,7 @@ export class Core {
 				settingsOperationLib.saveDefaultProxyServer();
 				settingsOperationLib.saveAllSync();
 
+				settingsLib.updateActiveSettings();
 				// notify
 				proxyEngineLib.updateBrowsersProxyConfig();
 
