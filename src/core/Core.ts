@@ -79,6 +79,8 @@ export class Core {
 			UpdateManager.readUpdateInfo();
 
 			DiagDebug?.trace("Core.settingReadComplete end");
+
+			Core.dumpDiagnosticsInfo();
 		};
 
 		settingsLib.onInitializedLocally = settingReadComplete;
@@ -540,6 +542,7 @@ export class Core {
 			}
 			case CommandMessages.DebugEnableDiagnostics: {
 				Debug.enableDiagnostics();
+				Core.dumpDiagnosticsInfo();
 				break;
 			}
 			case CommandMessages.DebugGetDiagnosticsLogs: {
@@ -1013,7 +1016,33 @@ export class Core {
 		// start handling messages
 		api.runtime.onMessage.addListener(Core.handleMessages);
 	}
+
+	private static dumpDiagnosticsInfo() {
+		if (!DiagDebug) return;
+		PolyFill.getExtensionVersion((version) => {
+			let settings = Settings.current;
+			let settingsActive = Settings.active;
+			DiagDebug.info("DiagnosticsInfo", {
+				smartProxyVersion: version,
+				environmentName: environment.name,
+				environmentVersion: environment.version,
+				buildForBrowser: environment.browserConfig.name,
+				activeProfile: settingsActive?.activeProfile.profileName,
+				activeProfileRulesCount: settingsActive?.activeProfile.compiledRules?.Rules?.length ?? 0,
+				activeProfileWhiteRulesCount: settingsActive?.activeProfile.compiledRules?.WhitelistRules?.length ?? 0,
+				currentProxyServer: settingsActive?.currentProxyServer.name,
+				syncSettings: settings.options.syncSettings,
+				syncActiveProfile: settings.options.syncActiveProfile,
+				syncActiveProxy: settings.options.syncActiveProxy,
+				hasActiveRuleSubscription: settings?.proxyProfiles?.some(f => f.rulesSubscriptions.some(s => s.enabled)) ?? false,
+				hasActiveProxySubscription: settings?.proxyServerSubscriptions?.some(f => f.enabled) ?? false,
+
+			});
+		});
+	}
 }
+
+console.log("Core.ts initializeApp()...");
 // start the application
 Core.initializeApp();
 console.log('Core.ts initializeApp() DONE');
