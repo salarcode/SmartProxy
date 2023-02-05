@@ -77,6 +77,9 @@
 	"popupAddFailedRequests": {
 		"message": "Add To Rules List"
 	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+	},	
 	"popupAddIgnoredFailures": {
 		"message": "Ignore them"
 	},

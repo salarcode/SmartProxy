@@ -20,6 +20,7 @@ import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequ
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
+import { ProfileOperations } from "../../core/ProfileOperations";
 
 export class popup {
 	private static popupData: PopupInternalDataType = null;
@@ -536,7 +537,15 @@ export class popup {
 
 		let domainList = popup.getSelectedFailedRequests();
 
-		if (domainList.length)
+		if (domainList.length) {
+
+			if (!popup.activeProfile.profileTypeConfig.editable ||
+				ProfileOperations.profileTypeSupportsRules(popup.activeProfile.profileType)) {
+				let message = api.i18n.getMessage("popupProfileTypeDoesNotSupportsRules").replace("{0}", popup.activeProfile.profileName);
+				messageBox.error(message);
+				return;
+			}
+
 			// Add the selected domains to rule list?
 			if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
 				confirm(api.i18n.getMessage("popupAddFailedRequestsConfirm"))) {
@@ -576,13 +585,15 @@ export class popup {
 						}
 					});
 			}
+		}
 	}
 
 	private static onAddIgnoredFailuresClick() {
 
 		let domainList = popup.getSelectedFailedRequests();
 
-		if (domainList.length)
+		if (domainList.length) {
+
 			// Add the selected domains to rule list?
 			if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
 				confirm(api.i18n.getMessage("popupAddIgnoredFailuresConfirm"))) {
@@ -622,6 +633,7 @@ export class popup {
 						}
 					});
 			}
+		}
 	}
 	private static closeSelf() {
 		if (!environment.mobile) {
