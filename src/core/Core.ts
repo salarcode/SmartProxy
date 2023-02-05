@@ -53,8 +53,10 @@ const settingsOperationLib = SettingsOperation;
 export class Core {
 	/** Start the application */
 	public static initializeApp() {
-		// comment this for debugging
-		Debug.disable();
+
+		Debug.disable(); // comment this for debugging
+		//Debug.enableDiagnostics(true); // uncomment for verbose logs
+
 		proxyEngineLib.configureEnginePrematurely();
 
 		const settingReadComplete = () => {
