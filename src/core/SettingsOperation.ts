@@ -494,23 +494,33 @@ export class SettingsOperation {
 			let settingsCopy = new SettingsConfig();
 			settingsCopy.CopyFrom(currentSettings);
 
-			PolyFill.getExtensionVersion((version: string) => {
-				settingsCopy.version = version;
-			});
+			// Copy backup details over and make sure the default values are set if they are not set
+			// or are overwritten with null values
+			// IMPORTANT: the prototype of `settingsCopy` is lost now because `backupConfig` is coming from JSON
+			Object.assign(settingsCopy, backupConfig);
 
-			if (backupConfig.version < '0.9.999') {
-				Object.assign(settingsCopy, backupConfig);
+			Settings.setDefaultSettings(settingsCopy); // note: this method resets the version number
 
-				settingsCopy = Settings.migrateFromVersion09x(settingsCopy);
-				return { success: true, config: settingsCopy };
-			}
+			// migrate from old versions
+			settingsCopy.version = backupConfig.version;// resetting version to do a proper migration
+			settingsCopy = Settings.migrateFromOldVersions(settingsCopy);
+
+			// resetting `settingsCopy` prototype
+			let settingsCopy_PrototypeReset = new SettingsConfig();
+			settingsCopy_PrototypeReset.CopyFrom(settingsCopy);
+			// reset
+			settingsCopy = settingsCopy_PrototypeReset;
+
+			// -----------
+			// The following codes is verifying the integrity of data from backup
 
 			if (backupConfig.options) {
 				settingsCopy.options.CopyFrom(backupConfig.options);
 			}
 
 			if (backupConfig.proxyServers &&
-				Array.isArray(backupConfig.proxyServers)) {
+				Array.isArray(backupConfig.proxyServers) &&
+				backupConfig.proxyServers.length) {
 
 				let newProxyServers: ProxyServer[] = [];
 				for (const backupProxy of backupConfig.proxyServers) {
@@ -524,7 +534,8 @@ export class SettingsOperation {
 			}
 
 			if (backupConfig.proxyServerSubscriptions &&
-				Array.isArray(backupConfig.proxyServerSubscriptions)) {
+				Array.isArray(backupConfig.proxyServerSubscriptions) &&
+				backupConfig.proxyServerSubscriptions.length) {
 
 				let newSubs: ProxyServerSubscription[] = [];
 				for (let backupSub of backupConfig.proxyServerSubscriptions) {
@@ -539,7 +550,8 @@ export class SettingsOperation {
 			}
 
 			if (backupConfig.proxyProfiles &&
-				Array.isArray(backupConfig.proxyProfiles)) {
+				Array.isArray(backupConfig.proxyProfiles) &&
+				backupConfig.proxyProfiles.length) {
 
 				let newProxyProfiles: SmartProfile[] = [];
 
@@ -575,7 +587,10 @@ export class SettingsOperation {
 				}
 			}
 
-			Settings.setDefaultSettings(settingsCopy);
+			settingsCopy.version = currentSettings.version;
+			PolyFill.getExtensionVersion((version: string) => {
+				settingsCopy.version = version;
+			});
 			Settings.ensureIntegrityOfSettings(settingsCopy);
 
 			return { success: true, config: settingsCopy };

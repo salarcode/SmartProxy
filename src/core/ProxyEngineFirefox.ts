@@ -206,6 +206,9 @@ export class ProxyEngineFirefox {
 				return { type: 'direct' };
 			}
 
+			if (!currentProxyServer)
+				DiagDebug?.trace("FF.handleProxyRequest.currentProxyServer is null", 't=' + proxyLog.tabId, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
+
 			// applying ProxyPerOrigin
 			if (tabData != null && settings.options.proxyPerOrigin) {
 

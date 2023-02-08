@@ -252,7 +252,7 @@ export class Utils {
 	public static extractSubdomainListFromHost(host: string): string[] {
 		if (!host)
 			return null;
-			
+
 		let parts = host.split(".");
 		if (parts.length <= 2)
 			return [host];
@@ -367,6 +367,16 @@ export class Utils {
 
 	public static deepCloneObject<T>(obj: T): T {
 		return JSON.parse(JSON.stringify(obj));
+	}
+
+	/** Does a shallow copy on properties without modifying prototype/
+	 * Should be same as `object.assign` without `Object.setPrototypeOf(dest, Object.getPrototypeOf(src));`
+	 */
+	public static shallowCopyProperties(target: any, source: any) {
+		Object.getOwnPropertyNames(source).forEach(name => {
+			const descriptor = Object.getOwnPropertyDescriptor(source, name);
+			Object.defineProperty(target, name, descriptor);
+		});
 	}
 
 	private static readonly IgnoreDomainExtensions: string[] = [
