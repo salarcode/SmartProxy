@@ -540,7 +540,7 @@ export class popup {
 		if (domainList.length) {
 
 			if (!popup.activeProfile.profileTypeConfig.editable ||
-				ProfileOperations.profileTypeSupportsRules(popup.activeProfile.profileType)) {
+				!ProfileOperations.profileTypeSupportsRules(popup.activeProfile.profileType)) {
 				let message = api.i18n.getMessage("popupProfileTypeDoesNotSupportsRules").replace("{0}", popup.activeProfile.profileName);
 				messageBox.error(message);
 				return;
