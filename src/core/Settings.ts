@@ -116,9 +116,9 @@ export class Settings {
 
 	public static getRestorableSettings(config: any): SettingsConfig {
 
-		this.setDefaultSettings(config);
-		this.migrateFromOldVersions(config);
-		this.ensureIntegrityOfSettings(config);
+		me.setDefaultSettings(config);
+		me.migrateFromOldVersions(config);
+		me.ensureIntegrityOfSettings(config);
 
 		return config;
 	}
@@ -151,7 +151,7 @@ export class Settings {
 			config.proxyProfiles = getBuiltinSmartProfiles();
 		}
 		else
-			config.proxyProfiles = Settings.setDefaultSettingsSmartProfiles(config.proxyProfiles);
+			config.proxyProfiles = me.setDefaultSettingsSmartProfiles(config.proxyProfiles);
 
 		if (config['proxyServerSubscriptions'] == null || !Array.isArray(config.proxyServerSubscriptions)) {
 			config.proxyServerSubscriptions = [];
@@ -350,7 +350,7 @@ export class Settings {
 
 	/** In local options if sync is disabled for these particular options, don't update them from sync server */
 	public static revertSyncOptions(syncedConfig: SettingsConfig) {
-		let settings = Settings.current;
+		let settings = me.current;
 
 		syncedConfig.options.syncActiveProxy = settings.options.syncActiveProxy;
 		syncedConfig.options.syncActiveProfile = settings.options.syncActiveProfile;
@@ -475,9 +475,9 @@ export class Settings {
 
 		if (!server.name) {
 			return { success: false, message: api.i18n.getMessage('settingsServerNameRequired') };
-		} else if (Settings.current) {
+		} else if (me.current) {
 			if (checkExistingName) {
-				const currentServers = Settings.current.proxyServers;
+				const currentServers = me.current.proxyServers;
 
 				for (let srv of currentServers) {
 					if (srv.name == server.name) {
@@ -502,11 +502,11 @@ export class Settings {
 
 	public static updateActiveSettings(fallback: boolean = true) {
 		/** Updating `Settings.active` */
-		let settings = Settings.current;
+		let settings = me.current;
 		if (!settings)
 			return;
 
-		let active = Settings.active ?? (Settings.active = new SettingsActive());
+		let active = me.active ?? (me.active = new SettingsActive());
 
 		let foundActiveProfile = ProfileOperations.findSmartProfileById(settings.activeProfileId, settings.proxyProfiles);
 		if (!foundActiveProfile && fallback) {
@@ -550,3 +550,5 @@ export class Settings {
 			active.currentIgnoreFailureProfile = ProfileOperations.compileSmartProfile(profileIgnoreFailureRules);
 	}
 }
+
+let me = Settings;
