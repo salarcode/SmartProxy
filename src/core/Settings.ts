@@ -49,35 +49,54 @@ export class Settings {
 	public static onInitializedLocally: Function = null;
 	public static onInitializedRemoteSync: Function = null;
 
-	public static initialize() {
-		Settings.current = new SettingsConfig();
+	private static onInitializedCompleted: EventTarget = new EventTarget();
 
-		PolyFill.storageLocalGet(null, Settings.onInitializeGetLocalData, Settings.onInitializeGetLocalError);
+	public static initialize() {
+		me.current = new SettingsConfig();
+
+		PolyFill.storageLocalGet(null, me.onInitializeGetLocalData, me.onInitializeGetLocalError);
 
 		// handle synced settings changes
 		api.storage.onChanged.addListener(SettingsOperation.syncOnChanged);
 	}
 
+	/** Register for a one time event of when all settings are loaded */
+	public static addInitializeCompletedEventListener(listener: EventListenerOrEventListenerObject) {
+		me.onInitializedCompleted.addEventListener('onInitializedCompleted', listener,
+			{
+				passive: true,
+				once: true
+			});
+	}
+	public static removeInitializeCompletedEventListener(listener: EventListenerOrEventListenerObject) {
+		me.onInitializedCompleted.removeEventListener('onInitializedCompleted', listener);
+	}
+	private static raiseInitializeCompletedEvent() {
+		me.onInitializedCompleted.dispatchEvent(new Event('onInitializedCompleted'));
+	}
+
 	private static onInitializeGetLocalData(data: any) {
 		Debug.log("onInitializeGetLocalData, local data: ", data);
 
-		data = Settings.getRestorableSettings(data);
+		data = me.getRestorableSettings(data);
 
-		Settings.current = data;
-		Settings.updateActiveSettings();
+		me.current = data;
+		me.updateActiveSettings();
 
 		// read all the synced data along with synced ones
-		PolyFill.storageSyncGet(null, Settings.onInitializeGetSyncData, Settings.onInitializeGetSyncError);
+		PolyFill.storageSyncGet(null, me.onInitializeGetSyncData, me.onInitializeGetSyncError);
 
-		if (Settings.onInitializedLocally)
-			Settings.onInitializedLocally();
+		if (me.onInitializedLocally)
+			me.onInitializedLocally();
 	}
 
 	private static onInitializeGetLocalError(error: any) {
 		Debug.error(`settingsOperation.initialize error: ${error.message}`);
 
-		if (Settings.onInitializedLocally)
-			Settings.onInitializedLocally();
+		if (me.onInitializedLocally)
+			me.onInitializedLocally();
+
+		me.raiseInitializeCompletedEvent();
 	}
 
 	private static onInitializeGetSyncData(data: any) {
@@ -90,28 +109,32 @@ export class Settings {
 			if (syncedSettings && syncedSettings.options) {
 				if (syncedSettings.options.syncSettings) {
 					// use synced settings
-					syncedSettings = Settings.getRestorableSettings(syncedSettings);
-					Settings.revertSyncOptions(syncedSettings);
+					syncedSettings = me.getRestorableSettings(syncedSettings);
+					me.revertSyncOptions(syncedSettings);
 
-					Settings.current = syncedSettings;
+					me.current = syncedSettings;
 				} else {
 					// sync is disabled
 					syncedSettings.options.syncSettings = false;
 				}
 
-				Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
-				Settings.updateActiveSettings();
+				me.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
+				me.updateActiveSettings();
 			}
 		} catch (e) {
 			Debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n ${data}`);
 		}
 
-		if (Settings.onInitializedRemoteSync)
-			Settings.onInitializedRemoteSync();
+		if (me.onInitializedRemoteSync)
+			me.onInitializedRemoteSync();
+
+		me.raiseInitializeCompletedEvent();
 	}
 
 	private static onInitializeGetSyncError(error: Error) {
 		Debug.error(`settingsOperation.readSyncedSettings error: ${error.message}`);
+
+		me.raiseInitializeCompletedEvent();
 	}
 
 	public static getRestorableSettings(config: any): SettingsConfig {

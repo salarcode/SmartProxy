@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { Debug } from "../lib/Debug";
+import { Debug, DiagDebug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { ProxyImporter } from "../lib/ProxyImporter";
 import { SettingsOperation } from "./SettingsOperation";
@@ -48,6 +48,8 @@ export class SubscriptionUpdater {
 		// Proxy Server Subscriptions
 		let serverExistingNames: string[] = [];
 		for (let subscription of Settings.current.proxyServerSubscriptions) {
+			DiagDebug?.trace("updateServerSubscriptions", `enabled:` + subscription.enabled, 'refreshRate:' + subscription.refreshRate);
+
 			if (!subscription.enabled)
 				continue;
 

@@ -23,14 +23,12 @@ import { DiagDebug } from "../lib/Debug";
 export class ProxyEngine {
 
     /** Firefox specific. Because of delay in settings load, 
-     * this sets to System proxy (If Private Mode is allowed) or 
-     * uses Browser configuration until load completes */
+     * the requests will wait using `Promise` until they are loaded */
     public static configureEnginePrematurely() {
         if (environment.chrome)
             return;
         DiagDebug?.trace("ProxyEngine.configureEnginePrematurely.");
 
-        ProxyEngineFirefox.forceFirefoxToUseSystem();
         ProxyEngineFirefox.register();
     }
 

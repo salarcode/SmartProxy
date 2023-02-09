@@ -53,33 +53,6 @@ export class ProxyEngineFirefox {
 		return false;
 	}
 
-	/** Force Browser to System mode. When SmartProxy is set to work in Private mode this will work. */
-	public static forceFirefoxToUseSystem() {
-		let proxySettings = {
-			proxyType: FirefoxProxySettingsType.system,
-		};
-
-		PolyFill.browserSetProxySettings(
-			{
-				value: proxySettings,
-			},
-			function () {
-				// reset the values
-				environment.notSupported.setProxySettings = false;
-				environment.notAllowed.setProxySettings = false;
-			},
-			function (error: Error) {
-				Debug.error('forceFirefoxToUseSystem failed to set proxy settings', proxySettings, error?.message);
-				if (error && error['message']) {
-					if (error.message.includes('not supported'))
-						environment.notSupported.setProxySettings = true;
-					if (error.message.includes('permission'))
-						environment.notAllowed.setProxySettings = true;
-				}
-			}
-		);
-	}
-
 	public static updateFirefoxProxyConfig() {
 		if (environment.notAllowed.setProxySettings)
 			return;
@@ -115,6 +88,22 @@ export class ProxyEngineFirefox {
 		);
 	}
 
+	/** When settings are not loaded, registers a listener for LoadComplete event then completes the proxy request */
+	private static waitForSettingsToHandleProxyRequest(requestDetails: any, resolve: Function) {
+		Settings.addInitializeCompletedEventListener(onInitializedCompleted);
+
+		function onInitializedCompleted() {
+			Settings.removeInitializeCompletedEventListener(onInitializedCompleted);
+
+			let result = ProxyEngineFirefox.handleProxyRequest(requestDetails);
+
+			DiagDebug?.trace("Settings are loaded now, result=", result, 't=' + requestDetails.tabId, requestDetails.url);
+
+			resolve(result);
+			return;
+		}
+	}
+
 	private static handleProxyRequest(requestDetails: any) {
 		/* requestDetails->
 			documentUrl: "http://socialshare.ir/admin/media-promote"
@@ -132,10 +121,9 @@ export class ProxyEngineFirefox {
 			*/
 
 		if (!Settings.active) {
-			Debug.warn("Settings are not loaded yet, falling back to browser settings.", 't=' + requestDetails.tabId, requestDetails.url);
+			DiagDebug?.warn("Settings are not loaded yet, waiting...", 't=' + requestDetails.tabId, requestDetails.url);
 
-			// BUGFIX: To force Firefox to use Browser settings we have to stop or fail this method, there is no other way
-			throw "SmartProxy Settings are not loaded yet, falling back to browser settings.";
+			return new Promise(resolve => ProxyEngineFirefox.waitForSettingsToHandleProxyRequest(requestDetails, resolve));
 		}
 
 		let proxyLog: ProxyableLogDataType = new ProxyableLogDataType();
