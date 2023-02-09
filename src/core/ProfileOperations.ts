@@ -1,15 +1,15 @@
 import { Debug } from "../lib/Debug";
 import { api } from "../lib/environment";
 import { Utils } from "../lib/Utils";
-import { CompiledProxyRule, CompiledProxyRulesInfo, getSmartProfileTypeConfig, ProxyRule, ProxyRulesSubscription, ResultHolder, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
+import { CompiledProxyRule, CompiledProxyRulesInfo, getSmartProfileTypeConfig, ProxyRule, ProxyRulesSubscription, ResultHolder, SettingsConfig, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { Settings } from "./Settings";
 import { SettingsOperation } from "./SettingsOperation";
 
 export class ProfileOperations {
 
-	public static addUpdateProfile(smartProfile: SmartProfile) {
-		let settings = Settings.current;
+	public static addUpdateProfile(smartProfile: SmartProfile, settings?: SettingsConfig) {
+		settings ??= Settings.current;
 
 		if (smartProfile.profileId) {
 			let existingProfile = ProfileOperations.findSmartProfileById(smartProfile.profileId, settings.proxyProfiles);
@@ -19,8 +19,13 @@ export class ProfileOperations {
 				return;
 			}
 		}
-		smartProfile.profileId = 'profile-' + Utils.getNewUniqueIdString();
+		ProfileOperations.ensureProfileId(smartProfile);
 		settings.proxyProfiles.push(smartProfile);
+	}
+
+	public static ensureProfileId(smartProfile: SmartProfile) {
+		if (!smartProfile.profileId)
+			smartProfile.profileId = 'profile-' + Utils.getNewUniqueIdString();
 	}
 
 	public static deleteProfile(smartProfileId: string): ResultHolder {
@@ -97,7 +102,8 @@ export class ProfileOperations {
 			smartProfile.profileType = SmartProfileType.IgnoreFailureRules;
 			smartProfile.profileTypeConfig = getSmartProfileTypeConfig(SmartProfileType.IgnoreFailureRules);
 			smartProfile.profileName = 'Ignore Failure Rules';
-			settings.proxyProfiles.push(smartProfile);
+
+			ProfileOperations.addUpdateProfile(smartProfile);
 		}
 		return smartProfile;
 	}

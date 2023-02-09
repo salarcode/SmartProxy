@@ -2063,7 +2063,7 @@ export class settingsPage {
 		},
 		onClickIgnoreRequestFailuresForDomains() {
 			let settings = settingsPage.currentSettings;
-
+			
 			let pageSmartProfile = settingsPage.pageSmartProfiles.find(x => x.smartProfile.profileType == SmartProfileType.IgnoreFailureRules);
 			if (pageSmartProfile) {
 				settingsPage.showProfileTab(pageSmartProfile);
@@ -2082,6 +2082,7 @@ export class settingsPage {
 					ignoreProfile.profileTypeConfig = getSmartProfileTypeConfig(SmartProfileType.IgnoreFailureRules);
 					ignoreProfile.profileName = 'Ignore Failure Rules';
 					settings.proxyProfiles.push(ignoreProfile);
+					ProfileOperations.addUpdateProfile(ignoreProfile);
 
 					pageSmartProfile = settingsPage.createProfileContainerAttached(ignoreProfile, false, false);
 					settingsPage.pageSmartProfiles.push(pageSmartProfile);

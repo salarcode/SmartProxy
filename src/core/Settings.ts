@@ -257,6 +257,27 @@ export class Settings {
 			}
 		}
 
+		if (config.proxyProfiles) {
+			let profiles = config.proxyProfiles as SmartProfile[];
+
+			for (const smartProfile of profiles) {
+				// making sure all profiles have ID
+				if (!smartProfile.profileId) {
+					Debug.warn("Found and fixed a profile without id> ", smartProfile.profileName);
+					ProfileOperations.ensureProfileId(smartProfile);
+				}
+
+				// making sure all names are unique
+				if (profiles.find(x => x.profileName == smartProfile.profileName &&
+					x.profileId != smartProfile.profileId)) {
+
+					Debug.warn("Found and fixed a profile with same name> ", smartProfile.profileName);
+					smartProfile.profileName += " - " + smartProfile.profileId;
+				}
+			}
+		}
+
+
 		// ----------
 		// migrating old properties if they exists
 

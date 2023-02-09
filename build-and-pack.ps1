@@ -1,3 +1,4 @@
+# use PowerShell 7 or later for correct zip file format
 # run this in powershell to enable scripts
 # Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
