@@ -56,16 +56,26 @@ export class ProxyEngineFirefox {
 	public static updateFirefoxProxyConfig() {
 		if (environment.notAllowed.setProxySettings)
 			return;
+
 		let settingsActive = Settings.active;
 
-		// only changing browser settings when config is System
-		if (settingsActive.activeProfile.profileType != SmartProfileType.SystemProxy) {
-			return;
-		}
 		let proxySettings = {
 			proxyType: FirefoxProxySettingsType.system,
 		};
 		DiagDebug?.trace("Core.updateFirefoxProxyConfig", "proxyType=" + FirefoxProxySettingsType[proxySettings.proxyType]);
+
+		switch (settingsActive.activeProfile.profileType) {
+			case SmartProfileType.Direct:
+			case SmartProfileType.SmartRules:
+			case SmartProfileType.AlwaysEnabledBypassRules:
+			case SmartProfileType.IgnoreFailureRules:
+				proxySettings.proxyType = FirefoxProxySettingsType.none;
+				break;
+
+			case SmartProfileType.SystemProxy:
+				proxySettings.proxyType = FirefoxProxySettingsType.system;
+				break;
+		}
 
 		PolyFill.browserSetProxySettings(
 			{
