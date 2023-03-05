@@ -514,8 +514,8 @@ export class settingsPage {
 						return;
 
 					let option = jq("<option>")
-						.attr("value", proxyServer.name)
-						.text(proxyServer.id)
+						.attr("value", proxyServer.id)
+						.text(proxyServer.name)
 						.appendTo(subscriptionGroup);
 
 					let selected = (proxyServer.id === selectedProxyId);

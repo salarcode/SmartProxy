@@ -227,7 +227,7 @@ export const ProxyImporter = {
 			let proxy = new ProxyServer();
 
 			proxy.name = name || `${ip}:${port}`;
-			proxy.id = name; // id should be same as name, because id should be consistent between multiple reads
+			proxy.id = proxy.name; // id should be same as name, because id should be consistent between multiple reads
 			proxy.host = ip;
 			proxy.port = parseInt(port);
 			proxy.protocol = protocol;
