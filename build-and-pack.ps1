@@ -21,7 +21,10 @@ Function BuildAndPack($Build, $BuildName) {
  {
     $manifest = Get-Content .\build\manifest.json | ConvertFrom-Json
     $global:version = $manifest.version
-    $zipfile = "..\!Releases\SmartProxy-v$global:version-$BuildName.zip"
+	if (!(Test-Path "..\!Releases\$global:version\")) {
+		New-Item -Path "..\!Releases\$global:version\" -ItemType Directory
+	}
+    $zipfile = "..\!Releases\$global:version\SmartProxy-v$global:version-$BuildName.zip"
     $compress = @{
         Path = ".\build\*"
         DestinationPath = $zipfile
@@ -43,5 +46,5 @@ BuildAndPack "th"  "Thunderbird"
 BuildAndPack "op"  "Opera"
 BuildAndPack "ff-unlisted" "firefox-unlisted"
 
-Invoke-Expression ("git archive --format zip -o ..\!Releases\SmartProxy-$global:version-sources.zip HEAD")
+Invoke-Expression ("git archive --format zip -o ..\!Releases\$global:version\SmartProxy-$global:version-sources.zip HEAD")
 Write-Output "Sources are saved in SmartProxy-$global:version-sources.zip"
