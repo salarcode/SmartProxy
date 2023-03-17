@@ -306,6 +306,7 @@ export class SettingsConfig implements Cloneable {
 	constructor() { }
 	public product: string = 'SmartProxy';
 	public version: string = '';
+	public configVersion: string = '';
 	public proxyProfiles: SmartProfile[] = getBuiltinSmartProfiles();
 	public activeProfileId: string = SmartProfileTypeBuiltinIds.Direct;
 	public defaultProxyServerId: string;

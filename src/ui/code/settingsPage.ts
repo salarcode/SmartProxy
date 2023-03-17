@@ -3558,7 +3558,7 @@ export class settingsPage {
 		},
 		onClickBackupComplete() {
 
-			let backupSettings = SettingsOperation.getStrippedSyncableSettings(settingsPage.currentSettings);
+			let backupSettings = SettingsOperation.getBackupOfSettings(settingsPage.currentSettings);
 			let data = JSON.stringify(backupSettings);
 			CommonUi.downloadData(data, "SmartProxy-FullBackup.json");
 		},
