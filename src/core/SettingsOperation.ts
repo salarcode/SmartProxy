@@ -19,7 +19,7 @@ import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyServerSubscription, SettingsConfig, SmartProfile } from "./definitions";
+import { GeneralOptions, ProxyServer, ProxyServerSubscription, SettingsConfig, SmartProfile, UpdateInfo } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
@@ -415,6 +415,10 @@ export class SettingsOperation {
 			(error: Error) => {
 				Debug.error(`SettingsOperation.saveActiveProfile error: ${error.message}`);
 			});
+	}
+	public static saveUpdateInfo(updateInfo: UpdateInfo) {
+		Settings.current.updateInfo = updateInfo;
+		me.saveAllSync();
 	}
 
 	/** Updates the `proxy server` used in the proxy rules for all SmartProfiles*/

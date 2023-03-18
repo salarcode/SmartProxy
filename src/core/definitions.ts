@@ -180,8 +180,7 @@ export class PopupInternalDataType {
 	public currentTabIndex: number;
 	public currentTabIsIncognito: boolean;
 	public proxyServersSubscribed: ProxyServer[];
-	public updateAvailableText: string;
-	public updateInfo: any;
+	public updateInfo: UpdateInfo;
 	public failedRequests: FailedRequestType[];
 	public notSupportedSetProxySettings: boolean;
 	public notAllowedSetProxySettings: boolean;
@@ -220,8 +219,6 @@ export type ProxyableDomainType = {
 
 export type SettingsPageInternalDataType = {
 	settings: SettingsConfig;
-	updateAvailableText: string;
-	updateInfo: any;
 };
 export class SettingsPageSmartProfile {
 	smartProfile: SmartProfile;
@@ -315,6 +312,7 @@ export class SettingsConfig implements Cloneable {
 	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
 	public options: GeneralOptions;
 	public firstEverInstallNotified: boolean = false;
+	public updateInfo: UpdateInfo = null;
 
 	CopyFrom(source: SettingsConfig): void {
 		this.options = new GeneralOptions();
@@ -1042,4 +1040,12 @@ export class ProxyRulesSubscription {
 
 		return true;
 	}
+}
+
+export class UpdateInfo {
+	public updateIsAvailable: boolean = false;
+	public isBrowserSpecific: boolean = false;
+	public version: string;
+	public versionName: string;
+	public downloadPage: URL;
 }

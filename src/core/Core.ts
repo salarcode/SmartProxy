@@ -54,8 +54,8 @@ export class Core {
 	/** Start the application */
 	public static initializeApp() {
 
-		Debug.disable(); // comment this for debugging
-		//Debug.enableDiagnostics(true); // uncomment for verbose logs
+		//Debug.disable(); // comment this for debugging
+		Debug.enableDiagnostics(true); // uncomment for verbose logs
 
 		proxyEngineLib.configureEnginePrematurely();
 
@@ -77,7 +77,7 @@ export class Core {
 			subscriptionUpdaterLib.updateRulesSubscriptions();
 			subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
 
-			// check for updates, only in unlisted version
+			// check for updates, in all browsers
 			UpdateManager.readUpdateInfo();
 
 			DiagDebug?.trace("Core.settingReadComplete end");
@@ -689,19 +689,8 @@ export class Core {
 
 	private static getSettingsPageInitialData(): SettingsPageInternalDataType {
 		let dataForSettingsUi: SettingsPageInternalDataType = {
-			settings: settingsLib.current,
-			updateAvailableText: null,
-			updateInfo: null,
+			settings: settingsLib.current
 		};
-
-		if (UpdateManager.updateIsAvailable) {
-			// generate update text
-			dataForSettingsUi.updateAvailableText = api.i18n
-				.getMessage('settingsTabUpdateText')
-				.replace('{0}', UpdateManager.updateInfo.versionName);
-			dataForSettingsUi.updateInfo = UpdateManager.updateInfo;
-		}
-
 		return dataForSettingsUi;
 	}
 
@@ -723,8 +712,7 @@ export class Core {
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
 		dataForPopup.proxyServersSubscribed = settingsOperationLib.getAllSubscribedProxyServers();
-		dataForPopup.updateAvailableText = null;
-		dataForPopup.updateInfo = null;
+		dataForPopup.updateInfo = settings.updateInfo;
 		dataForPopup.failedRequests = null;
 		dataForPopup.notSupportedSetProxySettings = environment.notSupported.setProxySettings;
 		dataForPopup.notAllowedSetProxySettings = environment.notAllowed.setProxySettings;
@@ -736,14 +724,6 @@ export class Core {
 		themeData.themesDark = settings.options.themesDark;
 		themeData.themesDarkCustomUrl = settings.options.themesDarkCustomUrl;
 		dataForPopup.themeData = themeData;
-
-		if (UpdateManager.updateIsAvailable) {
-			// generate update text
-			dataForPopup.updateAvailableText = api.i18n
-				.getMessage('popupUpdateText')
-				.replace('{0}', UpdateManager.updateInfo.versionName);
-			dataForPopup.updateInfo = UpdateManager.updateInfo;
-		}
 
 		let currentTabData = TabManager.getCurrentTab();
 		if (currentTabData == null)

@@ -451,17 +451,21 @@ export class settingsPage {
 
 			divNoServersWarning.hide();
 		} else {
-			divNoServersWarning.show().remove('d-none');
+			divNoServersWarning.show().removeClass('d-none');
 		}
 
 		jq("#spanVersion").text("Version: " + currentSettings.version);
 
-		if (settingsData.updateAvailableText && settingsData.updateInfo) {
-			jq(".menu-update-available").show().remove('d-none')
-				.find("a")
-				.attr("href", settingsData.updateInfo.downloadPage)
+		const updateInfo = currentSettings.updateInfo;
+		if (updateInfo && updateInfo.updateIsAvailable) {
+			let updateAvailableText = api.i18n
+				.getMessage('settingsTabUpdateText')
+				.replace('{0}', updateInfo.versionName);
+
+			jq(".menu-update-available").removeClass('d-none')
+				.attr("href", updateInfo.downloadPage)
 				.find("span")
-				.text(settingsData.updateAvailableText);
+				.text(updateAvailableText);
 		}
 	}
 
@@ -544,7 +548,7 @@ export class settingsPage {
 		let serverInputInfo = settingsPage.readServerModel(modal);
 
 		if (serverInputInfo.protocol == "SOCKS5")
-			modal.find("#chkServerProxyDNS-Control").show().remove('d-none');
+			modal.find("#chkServerProxyDNS-Control").show().removeClass('d-none');
 		else
 			modal.find("#chkServerProxyDNS-Control").hide();
 
@@ -559,10 +563,10 @@ export class settingsPage {
 					modal.find("#chkServerProxy-Authentication").hide();
 				}
 				else
-					modal.find("#chkServerProxy-Authentication").show().remove('d-none');
+					modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
 			}
 			else {
-				modal.find("#chkServerProxy-Authentication").show().remove('d-none');
+				modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
 			}
 		}
 	}
@@ -1266,7 +1270,7 @@ export class settingsPage {
 			this.loadProfileProxyServer(pageSmartProfile, [], []);
 
 		if (displayInMenu)
-			profileMenu.show().remove('d-none');
+			profileMenu.show().removeClass('d-none');
 		profileTab.css('display', '');
 
 		return pageSmartProfile;
@@ -1526,15 +1530,15 @@ export class settingsPage {
 	private static initializeSmartProfileUi(pageProfile: SettingsPageSmartProfile) {
 		let tabContainer = pageProfile.htmlProfileTab;
 		if (environment.chrome) {
-			tabContainer.find("#divAlertChrome").show().remove('d-none');
+			tabContainer.find("#divAlertChrome").show().removeClass('d-none');
 			tabContainer.find(".firefox-only").hide();
-			tabContainer.find(".chrome-only").show().remove('d-none');
+			tabContainer.find(".chrome-only").show().removeClass('d-none');
 			if (environment.manifestV3) {
-				tabContainer.find(".chrome-mv3-only").show().remove('d-none');
+				tabContainer.find(".chrome-mv3-only").show().removeClass('d-none');
 			}
 		} else {
-			tabContainer.find("#divAlertFirefox").show().remove('d-none');
-			tabContainer.find(".firefox-only").show().remove('d-none');
+			tabContainer.find("#divAlertFirefox").show().removeClass('d-none');
+			tabContainer.find(".firefox-only").show().removeClass('d-none');
 			tabContainer.find(".chrome-only").hide();
 		}
 

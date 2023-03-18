@@ -1,7 +1,7 @@
 import { environment } from "../../lib/environment";
 
 environment.browserConfig = {
-    name: "Firefox",
+    name: "Firefox Android",
     marketName: "Firefox Add-ons",
     marketUrl: "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 };

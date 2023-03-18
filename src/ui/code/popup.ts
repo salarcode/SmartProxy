@@ -138,10 +138,15 @@ export class popup {
 	}
 
 	private static populateUpdateAvailable(dataForPopup: PopupInternalDataType) {
-		if (dataForPopup.updateAvailableText && dataForPopup.updateInfo) {
+		const updateInfo = dataForPopup.updateInfo;
+		if (updateInfo && updateInfo.updateIsAvailable) {
+			const updateAvailableText = api.i18n
+				.getMessage('popupUpdateText')
+				.replace('{0}', updateInfo.versionName);
+
 			jQuery("#divUpdateIsAvailable").show()
 				.find("a")
-				.text(dataForPopup.updateAvailableText)
+				.text(updateAvailableText)
 				.attr("href", dataForPopup.updateInfo.downloadPage);
 		}
 	}
