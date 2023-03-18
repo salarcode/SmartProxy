@@ -350,15 +350,15 @@ export class settingsPage {
 
 	private static initializeUi() {
 		if (environment.chrome) {
-			jq("#divAlertChrome").show().remove('d-none');
+			jq("#divAlertChrome").show().removeClass('d-none');
 			jq(".firefox-only").hide();
-			jq(".chrome-only").show().remove('d-none');
+			jq(".chrome-only").show().removeClass('d-none');
 			if (environment.manifestV3) {
-				jq(".chrome-mv3-only").show().remove('d-none');
+				jq(".chrome-mv3-only").show().removeClass('d-none');
 			}
 		} else {
-			jq("#divAlertFirefox").show().remove('d-none');
-			jq(".firefox-only").show().remove('d-none');
+			jq("#divAlertFirefox").show().removeClass('d-none');
+			jq(".firefox-only").show().removeClass('d-none');
 			jq(".chrome-only").hide();
 		}
 		jq("#linkAddonsMarket")
@@ -548,17 +548,22 @@ export class settingsPage {
 		else
 			modal.find("#chkServerProxyDNS-Control").hide();
 
-		if (serverInputInfo.protocol == "SOCKS4")
+		if (environment.chrome && environment.manifestV3) {
 			modal.find("#chkServerProxy-Authentication").hide();
-		else if (serverInputInfo.protocol == "SOCKS5") {
-			if (environment.chrome) {
-				modal.find("#chkServerProxy-Authentication").hide();
-			}
-			else
-				modal.find("#chkServerProxy-Authentication").show().remove('d-none');
 		}
 		else {
-			modal.find("#chkServerProxy-Authentication").show().remove('d-none');
+			if (serverInputInfo.protocol == "SOCKS4")
+				modal.find("#chkServerProxy-Authentication").hide();
+			else if (serverInputInfo.protocol == "SOCKS5") {
+				if (environment.chrome) {
+					modal.find("#chkServerProxy-Authentication").hide();
+				}
+				else
+					modal.find("#chkServerProxy-Authentication").show().remove('d-none');
+			}
+			else {
+				modal.find("#chkServerProxy-Authentication").show().remove('d-none');
+			}
 		}
 	}
 
@@ -2063,7 +2068,7 @@ export class settingsPage {
 		},
 		onClickIgnoreRequestFailuresForDomains() {
 			let settings = settingsPage.currentSettings;
-			
+
 			let pageSmartProfile = settingsPage.pageSmartProfiles.find(x => x.smartProfile.profileType == SmartProfileType.IgnoreFailureRules);
 			if (pageSmartProfile) {
 				settingsPage.showProfileTab(pageSmartProfile);
