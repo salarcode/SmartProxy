@@ -215,6 +215,22 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
+	public static storageLocalRemove(items: string | string[], success?: Function, fail?: Function) {
+		if (environment.chrome) {
+			api.storage.local.remove(items,
+				(response: any) => {
+					let error = PolyFill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(response);
+					}
+				});
+		} else {
+			api.storage.local.remove(items)
+				.then(success, fail);
+		}
+	}
 	public static storageSyncGet(keys: any, success?: Function, fail?: Function) {
 		if (environment.chrome) {
 			api.storage.sync.get(keys,

@@ -399,36 +399,14 @@ export class Settings {
 		PolyFill.storageLocalGet(null,
 			function (config: any) {
 				// ----------
-				let cleanupTemplate: any = {};
-				let localStorageNeedsCleanup = false;
-
-				// proxyRules
-				if (config.proxyRules) {
-					cleanupTemplate.proxyRulesSubscriptions = undefined;
-					cleanupTemplate.proxyRulesSubscriptions = undefined;
-					localStorageNeedsCleanup = true;
-				}
-
-				// bypassList
-				if (config.bypass) {
-					cleanupTemplate.bypass = undefined;
-					localStorageNeedsCleanup = true;
-				}
-
-				// proxyMode
-				if (config.proxyMode != null) {
-					cleanupTemplate.proxyMode = undefined;
-					localStorageNeedsCleanup = true;
-				}
-
-				// activeProxyServer
-				if (config.activeProxyServer) {
-					cleanupTemplate.activeProxyServer = undefined;
-					localStorageNeedsCleanup = true;
-				}
-				if (localStorageNeedsCleanup) {
-					PolyFill.storageLocalSet(cleanupTemplate);
-				}
+				let removeKeys: string[] = [
+					'proxyRules',
+					'proxyRulesSubscriptions',
+					'bypass',
+					'proxyMode',
+					'activeProxyServer'
+				];
+				PolyFill.storageLocalRemove(removeKeys);
 			});
 	}
 
