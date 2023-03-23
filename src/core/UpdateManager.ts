@@ -32,7 +32,7 @@ export class UpdateManager {
 
 		let updateInfoUrl = "https://raw.githubusercontent.com/salarcode/SmartProxy/master/updateinfo.json";
 
-		if (Debug.isEnabled) {
+		if (Debug.isEnabled()) {
 			updateInfoUrl = "http://localhost:5500/updateinfo.json";
 		}
 
