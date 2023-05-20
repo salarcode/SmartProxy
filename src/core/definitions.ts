@@ -640,7 +640,7 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 
 		if (!this.name || !this.protocol)
 			return false;
-		if (!this.port || this.port <= 0 || this.port >= 65535)
+		if (!this.port || this.port <= 0 || this.port > 65535)
 			return false;
 		if (!this.host || !Utils.isValidHost(this.host))
 			return false;

@@ -521,7 +521,7 @@ export class Settings {
 		message?: string;
 		result?: any;
 	} {
-		if (server.port <= 0 || server.port >= 65535) {
+		if (server.port <= 0 || server.port > 65535) {
 			return {
 				success: false,
 				message: api.i18n.getMessage('settingsServerPortInvalid').replace('{0}', `${server.host}:${server.port}`),
