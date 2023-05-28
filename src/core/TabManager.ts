@@ -134,7 +134,7 @@ export class TabManager {
 			// not supported in chromium browsers
 			return;
 
-		if (Settings.current.options?.proxyPerOrigin == true)
+		if (Settings.current.options?.proxyPerOrigin != true)
 			// not enabled
 			return;
 
