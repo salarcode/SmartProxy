@@ -703,7 +703,15 @@ export class ProxyRule implements Cloneable {
 		return '';
 	}
 	get proxyName(): string {
-		if (!this.proxy) return null;
+		if (!this.proxy) {
+			if (this.proxyServerId == ProxyRuleSpecialProxyServer.DefaultGeneral)
+				return api.i18n.getMessage("settingsRulesProxyDefault");
+
+			if (this.proxyServerId == ProxyRuleSpecialProxyServer.ProfileProxy)
+				return api.i18n.getMessage("settingsRulesProxyFromProfile");
+
+			return null;
+		}
 
 		return this.proxy.name;
 	}

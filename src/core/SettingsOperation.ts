@@ -354,7 +354,7 @@ export class SettingsOperation {
 		polyFillLib.storageLocalSet(Settings.current,
 			null,
 			(error: Error) => {
-				Debug.error(`SettingsOperation.saveAllLocal error: ${error.message}`);
+				Debug.error(`SettingsOperation.saveAllLocal error:`, error);
 			});
 	}
 	public static saveOptions() {

@@ -477,7 +477,10 @@ export class settingsPage {
 		if (!serverSubscriptions)
 			serverSubscriptions = settingsPage.readServerSubscriptions();
 
-		let hasSelectedItem = false;
+		let hasSelectedItem =
+			comboBox.val() == ProxyRuleSpecialProxyServer.DefaultGeneral ||
+			comboBox.val() == ProxyRuleSpecialProxyServer.ProfileProxy;
+
 		// adding select options
 		proxyServers.forEach((proxyServer: ProxyServer) => {
 
@@ -650,12 +653,14 @@ export class settingsPage {
 			modalContainer.find("#chkRuleEnabled").prop('checked', proxyRule.enabled);
 			modalContainer.find("#cmdRuleAction").val(proxyRule.whiteList ? "1" : "0");
 
-			let proxyServerId = null;
+			let proxyServerId = proxyRule.proxyServerId;
 			if (proxyRule.proxy)
 				proxyServerId = proxyRule.proxy.id;
 
-			if (cmdRuleProxyServer.length)
+			if (cmdRuleProxyServer.length) {
+				cmdRuleProxyServer.val(proxyServerId);
 				settingsPage.populateProxyServersToComboBox(cmdRuleProxyServer, proxyServerId, null, null, dontIncludeAuthServers);
+			}
 
 		} else {
 
