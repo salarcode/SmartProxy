@@ -339,7 +339,7 @@ export class ProxyEngineFirefox {
 					return makeResultForMatchedRule(userMatchedRule);
 				}
 
-				// subscription whitelist rules/ dont' apply proxy
+				// subscription whitelist rules/ don`t apply proxy
 				let subWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistSubscriptionRules)
 				if (subWhitelistMatchedRule) {
 					proxyLog.ruleSource = CompiledProxyRuleSource.Subscriptions;

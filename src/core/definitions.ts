@@ -304,6 +304,7 @@ export class SettingsConfig implements Cloneable {
 	public product: string = 'SmartProxy';
 	public version: string = '';
 	public configVersion: string = '';
+	public syncHash: string = '';
 	public proxyProfiles: SmartProfile[] = getBuiltinSmartProfiles();
 	public activeProfileId: string = SmartProfileTypeBuiltinIds.Direct;
 	public defaultProxyServerId: string;
@@ -351,6 +352,8 @@ export class SettingsConfig implements Cloneable {
 
 		this.firstEverInstallNotified = source.firstEverInstallNotified;
 		this.version = source.version;
+		this.syncHash = source.syncHash;
+		this.configVersion = source.configVersion;
 	}
 }
 

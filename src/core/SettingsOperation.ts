@@ -57,6 +57,7 @@ export class SettingsOperation {
 	public static getBackupOfSettings(settings: SettingsConfig): SettingsConfig {
 		let settingsCopy = SettingsOperation.getStrippedSyncableSettings(settings);
 		settingsCopy.configVersion = undefined;
+		settingsCopy.syncHash = undefined;
 
 		return settingsCopy;
 	}
@@ -73,6 +74,11 @@ export class SettingsOperation {
 				// only if sync settings is enabled
 				if (syncedSettings &&
 					syncedSettings.options) {
+
+					if (syncedSettings.syncHash == Settings.current.syncHash) {
+						Debug.log(`SyncHash is same, ignoring the sync data.`, Settings.current.syncHash);
+						return;
+					}
 
 					if (syncedSettings.options.syncSettings) {
 
@@ -314,6 +320,7 @@ export class SettingsOperation {
 	}
 	public static saveAllSync(saveToSyncServer: boolean = true) {
 
+		Settings.current.syncHash = Utils.getNewUniqueIdString();
 		// before anything save everything in local
 		me.saveAllLocal(true);
 
