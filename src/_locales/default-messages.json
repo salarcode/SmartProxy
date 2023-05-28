@@ -392,6 +392,9 @@
 	"settingsRejectChangesButton": {
 		"message": "Reject Changes"
 	},
+	"settingsEditButton": {
+		"message": "Edit"
+	},
 	"settingsFullBackupButton": {
 		"message": "Create full backup"
 	},

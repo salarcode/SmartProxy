@@ -247,7 +247,7 @@ export class settingsPage {
 					"width": "70px",
 					"data": null, orderable: false,
 					"className": "text-nowrap",
-					"defaultContent": "<button class='btn btn-sm btn-success' id='btnServersEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>",
+					"defaultContent": `<button class='btn btn-sm btn-success' id='btnServersEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>`,
 					responsivePriority: 2
 				}
 			],
@@ -305,7 +305,7 @@ export class settingsPage {
 					"width": "70px",
 					"data": null,
 					"className": "text-nowrap",
-					"defaultContent": "<button class='btn btn-sm btn-success' id='btnSubscriptionsEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnSubscriptionsRemove'><i class='fas fa-times'></button>",
+					"defaultContent": `<button class='btn btn-sm btn-success' id='btnSubscriptionsEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnSubscriptionsRemove'><i class='fas fa-times'></button>`,
 					responsivePriority: 2
 				}
 			],
@@ -1431,7 +1431,7 @@ export class settingsPage {
 				"width": "60px",
 				"data": null,
 				"className": "text-nowrap",
-				"defaultContent": "<button class='btn btn-sm btn-success' id='btnRulesEdit'>Edit</button> <button class='btn btn-sm btn-danger' id='btnRulesRemove'><i class='fas fa-times'></button>",
+				"defaultContent": `<button class='btn btn-sm btn-success' id='btnRulesEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnRulesRemove'><i class='fas fa-times'></button>`,
 				responsivePriority: 2
 			}
 		];
@@ -1506,7 +1506,7 @@ export class settingsPage {
 					"width": "100px",
 					"data": null,
 					"className": "text-nowrap",
-					"defaultContent": "<button class='btn btn-sm btn-success' id='btnRuleSubscriptionsEdit'>Edit</button> <button class='btn btn-sm btn-info' id='btnRuleSubscriptionsRefresh'><i class='fas fa-sync'></i></button> <button class='btn btn-sm btn-danger' id='btnRuleSubscriptionsRemove'><i class='fas fa-times'></button>",
+					"defaultContent": `<button class='btn btn-sm btn-success' id='btnRuleSubscriptionsEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-info' id='btnRuleSubscriptionsRefresh'><i class='fas fa-sync'></i></button> <button class='btn btn-sm btn-danger' id='btnRuleSubscriptionsRemove'><i class='fas fa-times'></button>`,
 					responsivePriority: 2
 				}
 			],
