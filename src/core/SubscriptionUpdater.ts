@@ -143,7 +143,6 @@ export class SubscriptionUpdater {
 					subscription.proxies = response.result;
 					subscription.totalCount = count;
 
-
 					SubscriptionStats.updateStats(subscription.stats, true);
 
 					SettingsOperation.saveProxyServerSubscriptions();
@@ -288,7 +287,7 @@ export class SubscriptionUpdater {
 					subscription.whitelistRules = response.result.whiteList;
 					subscription.totalCount = response.result.blackList.length + response.result.whiteList.length;
 
-					SubscriptionStats.updateStats(subscription.stats, false);
+					SubscriptionStats.updateStats(subscription.stats, true);
 
 					SettingsOperation.saveProxyServerSubscriptions();
 					SettingsOperation.saveAllSync(false);
