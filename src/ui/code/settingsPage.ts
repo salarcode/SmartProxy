@@ -723,6 +723,13 @@ export class settingsPage {
 			tabContainer.find("#divRuleUrlRegex").hide();
 			tabContainer.find("#divRuleUrlExact").show();
 		}
+		let whiteList = parseInt(tabContainer.find("#cmdRuleAction").val()) != 0
+		if (whiteList) {
+			tabContainer.find("#divRuleProxyServer").hide();
+		}
+		else{
+			tabContainer.find("#divRuleProxyServer").show();
+		}
 	}
 
 	private static readProxyRuleModel(modalContainer: any): ProxyRule {
@@ -1576,6 +1583,8 @@ export class settingsPage {
 
 		// rules
 		tabContainer.find("#cmdRuleType").change(() => settingsPage.uiEvents.onChangeRuleType(pageProfile));
+
+		tabContainer.find("#cmdRuleAction").change(() => settingsPage.uiEvents.onChangeRuleAction(pageProfile));
 
 		tabContainer.find("#chkRuleGeneratePattern").change(() => settingsPage.uiEvents.onChangeRuleGeneratePattern(pageProfile));
 
@@ -2477,6 +2486,9 @@ export class settingsPage {
 			settingsPage.updateProxyRuleModal(pageProfile.htmlProfileTab);
 		},
 		onChangeRuleType(pageProfile: SettingsPageSmartProfile) {
+			settingsPage.updateProxyRuleModal(pageProfile.htmlProfileTab);
+		},
+		onChangeRuleAction(pageProfile: SettingsPageSmartProfile) {
 			settingsPage.updateProxyRuleModal(pageProfile.htmlProfileTab);
 		},
 		onClickSubmitProxyRule(pageProfile: SettingsPageSmartProfile) {

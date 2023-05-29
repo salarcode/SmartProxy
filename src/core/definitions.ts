@@ -438,7 +438,7 @@ export function getSmartProfileTypeConfig(profileType: SmartProfileType): SmartP
 				builtin: true,
 				editable: true,
 				selectable: true,
-				supportsSubscriptions: false,
+				supportsSubscriptions: true,
 				supportsProfileProxy: true,
 				customProxyPerRule: true,
 				canBeDisabled: true,
@@ -703,6 +703,9 @@ export class ProxyRule implements Cloneable {
 		return '';
 	}
 	get proxyName(): string {
+		if (this.whiteList) {
+			return '-';
+		}
 		if (!this.proxy) {
 			if (this.proxyServerId == ProxyRuleSpecialProxyServer.DefaultGeneral)
 				return api.i18n.getMessage("settingsRulesProxyDefault");
