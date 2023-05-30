@@ -77,6 +77,9 @@
 	"popupAddFailedRequests": {
 		"message": "اضافه کردن به لیست قوانین"
 	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+	},
 	"popupAddIgnoredFailures": {
 		"message": "نادیده گرفتن انتخابها"
 	},
@@ -388,6 +391,9 @@
 	},
 	"settingsRejectChangesButton": {
 		"message": "لغو تغییرات"
+	},
+	"settingsEditButton": {
+		"message": "ویرایش"
 	},
 	"settingsFullBackupButton": {
 		"message": "ایجاد پشتیبان کامل"

@@ -6,46 +6,46 @@
 		"message": "SmartProxy"
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy 将基于用户设定的规则自动决定是否在访问时使用代理。"
+		"message": "SmartProxy 可以根据访问的网站自动开关代理，并且能设置自定义规则。"
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "匹配的规则来源："
+		"message": "匹配的规则域名:"
 	},
 	"toolbarTooltipEffectiveRuleNone": {
 		"message": "没有匹配的规则"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "规则模式："
+		"message": "规则表达式:"
 	},
 	"popupTitle": {
-		"message": "SmartProxy 模式："
+		"message": "SmartProxy 模式"
 	},
 	"popupPrivateBrowsingMode": {
 		"message": "隐私浏览模式"
 	},
 	"popupNoProxy": {
-		"message": "直连(无代理)"
+		"message": "直连 (无代理)"
 	},
 	"popupSmartProxy": {
-		"message": "智能判断"
+		"message": "自动切换"
 	},
 	"popupAlwaysEnable": {
-		"message": "总是启用"
+		"message": "始终开启"
 	},
 	"popupSystemProxy": {
 		"message": "系统代理"
 	},
 	"popupActiveProxy": {
-		"message": "活动代理（本配置档）："
+		"message": "此方案代理服务器："
 	},
 	"popupActiveProxyDefault": {
-		"message": "活动代理（默认设置）："
+		"message": "默认代理服务器："
 	},
 	"popupEnableProxyOn": {
-		"message": "以下页面使用代理"
+		"message": "手动开启代理"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "忽略这些域"
+		"message": "手动跳过域名"
 	},
 	"popupRuleIsFromSubscription": {
 		"message": "(来自订阅)"
@@ -60,73 +60,76 @@
 		"message": "-订阅-"
 	},
 	"popupUpdateText": {
-		"message": "新版本 {0} 可用"
+		"message": "有新版本 {0}"
 	},
 	"popupFailedRequestsMenu": {
-		"message": "加载失败"
+		"message": "加载失败的资源"
 	},
 	"popupFailedRequestsTitle": {
-		"message": "本页加载失败的域名"
+		"message": "加载失败的资源"
 	},
 	"popupFailedRequestsDesc": {
-		"message": "下列为连接超时或失败的域名。<br />如认为被屏蔽，请在此处添加到代理规则列表中。"
+		"message": "下列域名连接超时或失败。<br />如果你认为是被屏蔽了，可以在这里添加到代理规则列表中。"
 	},
 	"popupAddFailedRequestsConfirm": {
-		"message": "添加选中的域名到代理规则？"
+		"message": "要添加选中的域名到代理规则吗？"
 	},
 	"popupAddFailedRequests": {
 		"message": "添加到代理规则"
+	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": "选中的方案“{0}”不支持设置规则，请选择其他方案。"
 	},
 	"popupAddIgnoredFailures": {
 		"message": "忽略"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "确定忽略选中的失败？忽略后将不再接收有关它们的错误。可以在设置中改变此决定。"
+		"message": "确定要忽略选中的加载失败的资源吗？忽略后将不再显示相关的错误。之后可以在设置中修改。"
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "修改浏览器使用系统代理需要`incognito`权限。请打开SmartProxy扩展的设置，请允许`incognito`权限。 <a href='https://support.google.com/chrome_webstore/answer/2664769'>点击了解如何操作</a>."
+		"message": "将浏览器设置为使用系统代理需要无痕模式权限。请打开 SmartProxy 扩展的设置，并打开“在无痕模式下启用”。<a href='https://support.google.com/chrome_webstore/answer/2664769'>查看操作方法</a>。"
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "自Firefox 67 开始，修改浏览器使用系统代理需要`Private Browsing` 权限。请在浏览器附加组件管理中 允许SmartProxy组件的`在隐私窗口中运行`权限。 <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>点击了解如何操作</a>。"
+		"message": "从 Firefox 67 开始，将浏览器设置为使用系统代理需要隐私浏览权限。请打开 SmartProxy 扩展的设置，并将“在隐私窗口中运行”的权限修改为“允许”。 <a href='https://support.mozilla.org/zh-CN/kb/extensions-private-browsing'>查看操作方法</a>。"
 	},
 	"proxyableTitle": {
 		"message": "可代理的资源"
 	},
 	"proxyableHeader": {
-		"message": "该页面上可代理的项目"
+		"message": "此页面上可代理的资源"
 	},
 	"proxyableReload": {
-		"message": "重新载入"
+		"message": "刷新"
 	},
 	"proxyableClose": {
 		"message": "关闭"
 	},
 	"proxyableHeaderDesc": {
-		"message": "以下为当前页面在使用或可供调用的资源列表。该列表用于向代理激活判定规则添加条目。<br />如果此处为空，请重新载入页面以刷新资源。"
+		"message": "下面列出当前页面正在使用或调用的资源，可以在这里调整代理规则。<br />如果列表为空，只需刷新页面即可看到资源。"
 	},
 	"proxyableErrNoSourceTab": {
 		"message": "未找到来源标签页！"
 	},
 	"proxyableCreateRuleConfirm": {
-		"message": "你确定对选定的域名添加规则？"
+		"message": "确定要为选中的域名创建规则吗？"
 	},
 	"proxyableDisableButton": {
 		"message": "禁用"
 	},
 	"proxyableEnableButton": {
-		"message": "启用"
+		"message": "开启"
 	},
 	"proxyableEnableButtonDomain": {
-		"message": "已启用的域名："
+		"message": "为此域名开启: "
 	},
 	"proxyableSubscriptionRule": {
-		"message": "(订阅的规则)"
+		"message": "(订阅规则)"
 	},
 	"proxyableDeleteRuleConfirm": {
-		"message": "你确定希望删除以下域名的规则："
+		"message": "确定要删除此域名的规则吗:"
 	},
 	"proxyableGridNoDataContent": {
-		"message": "没有请求"
+		"message": "没有资源"
 	},
 	"proxyableGridColUrl": {
 		"message": "请求 URL"
@@ -141,7 +144,7 @@
 		"message": "规则域名"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "规则模式"
+		"message": "规则表达式"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
 		"message": "无代理"
@@ -156,10 +159,10 @@
 		"message": "匹配"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "总是启用"
+		"message": "始终开启"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "系统代理已应用"
+		"message": "使用系统代理"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
 		"message": "无匹配"
@@ -177,10 +180,10 @@
 		"message": "白名单"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "总是启用 <br> 绕过"
+		"message": "始终开启 <br> 按例外规则跳过"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "总是启用 <br> 按规则强制使用"
+		"message": "始终开启 <br> 按规则强制使用"
 	},
 	"settingsTitle": {
 		"message": "SmartProxy 设置"
@@ -189,13 +192,13 @@
 		"message": "关于"
 	},
 	"settingsTabGeneral": {
-		"message": "常规"
+		"message": "常规设置"
 	},
 	"settingsTabSmartProfiles": {
 		"message": "智能方案"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "新增智能方案"
+		"message": "创建智能方案"
 	},
 	"settingsTabProxyServers": {
 		"message": "代理服务器"
@@ -216,37 +219,37 @@
 		"message": "智能功能"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> 独享！</strong> 不幸的是，Chrome 不支持此功能。"
+		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> 独享！</strong>很遗憾，Chrome 不支持此功能。"
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "代理优先基于标签页/访问来源"
+		"message": "按标签页统一代理"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "如果一个规则与某个标签页的网址相匹配，那么代理将被应用于该标签页的连接。通常情况下，每个页面都会有其他请求，这些请求可能没有匹配的规则，因此不会有代理应用到他们的连接。“为每个标签/来源启用代理” 选项的作用是确保整个页面（包括来自不同域名和来源的所有连接）都使用与应用在标签页来源的一致的代理。同时，这个选项消除了为每个域名制定规则的需要。请注意，如果标签页没有应用代理，代理规则将继续工作，并应用代理到页面中的其他连接。"
+		"message": "如果标签页的网址匹配某条代理规则，那么它加载的所有资源都会统一使用该代理。关闭此功能时，网页加载的资源会根据资源网址分别匹配不同的代理规则；开启后，即使加载的资源来自不同的域名，也会使用同一个代理，这样就无需为单个网页设置多条规则。请注意，如果标签页没有使用代理，加载的资源还是会分别匹配代理规则。"
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "代理优先基于标签页/访问来源"
+		"message": "开启“按标签页统一代理”"
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "代理基于访问请求"
+		"message": "关闭“按标签页统一代理”（各个资源分别代理）"
 	},
 	"settingsGeneralSyncing": {
 		"message": "同步"
 	},
 	"settingsGeneralIncognitoProfile": {
-		"message": "隐私浏览配置文件"
+		"message": "隐私浏览方案"
 	},
 	"settingsGeneralIncognitoProfileDisabled": {
-		"message": "(停用)"
+		"message": "(关闭)"
 	},
 	"settingsGeneralIncognitoProfileDesc": {
-		"message": "如果您想要强制在隐私浏览模式下的标签页/窗口中使用，请选择一个隐私浏览配置文件。 此选项将覆盖活动配置文件。"
+		"message": "选择想要在隐私窗口强制使用的方案，将优先于当前方案使用。"
 	},
 	"settingsGeneralEnableSyncing": {
-		"message": "开启选项同步"
+		"message": "开启设置同步"
 	},
 	"settingsGeneralEnableSyncingDesc": {
-		"message": "如果选择同步，你所有的设置（代理规则、代理服务器设置，订阅的代理服务器）将被同步到所有浏览器。"
+		"message": "开启同步后，所有设置（包括代理规则、服务器、订阅）将会同步到所有浏览器。"
 	},
 	"settingsSaveGeneralOptionsButton": {
 		"message": "保存更改"
@@ -255,46 +258,46 @@
 		"message": "放弃更改"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "启用活动配置文件同步"
+		"message": "同步当前方案"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "如果您想要同步当前活动配置文件，请选中此项。"
+		"message": "开启后将同步当前选择的是哪个方案。"
 	},
 	"settingsGeneralSyncActiveProxy": {
-		"message": "启用活跃代理同步"
+		"message": "同步默认代理服务器"
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
-		"message": "检查是否需要同步所选代理服务器"
+		"message": "开启后将同步当前选择的默认服务器。"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "错误检测"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "检测请求失败"
+		"message": "检测加载失败的资源"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "请求失败的检测有助于识别需要代理的域名。"
+		"message": "检测加载失败的资源有助于识别需要代理的域名。"
 	},
 	"settingsGeneralSelectIgnoredDomains": {
 		"message": "输入规则"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "基于这些规则忽略失败检测"
+		"message": "检测加载失败的资源时忽略以下规则中的域名"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "添加禁用失败检测的规则。"
+		"message": "添加忽略加载失败的规则。"
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "工具栏图标的徽章上显示请求失败数量"
+		"message": "在工具栏图标上显示加载失败的资源数量"
 	},
 	"settingsGeneralThemes": {
 		"message": "主题"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "按浏览器主题自动切换"
+		"message": "跟随浏览器主题"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "根据您的浏览器或操作系统的主题，自动切换为下方选择的主题。"
+		"message": "跟随浏览器主题（可以设置为跟随系统主题）自动切换下方选择的主题。"
 	},
 	"settingsGeneralThemesLight": {
 		"message": "浅色主题"
@@ -309,43 +312,43 @@
 		"message": "自定义样式（CSS）网址："
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "URL必须是“Https”。 在以下自定义样式中了解导入的字体和其他样式，他们可以在您的浏览器中屏蔽/减缓弹出窗口。 您可以从 bootswatch.com 尝试主题，但是知道他们的谷歌字体依赖性。"
+		"message": "网址必须以 https 开头。请注意如果自定义样式中包含 import 导入的字体或其他样式文件，则可能导致扩展弹窗加载变慢。可以尝试 bootswatch.com 网站上的主题，但是某些主题可能 import 了 Google Fonts 的字体。"
 	},
 	"settingsGeneralThemesDark": {
 		"message": "深色主题"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "请为浅色主题输入一个有效的 CSS URL，网址应该是“https”为开头。"
+		"message": "请为浅色主题输入有效的 CSS 网址，网址必须以 https 开头。"
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "请为深色主题输入一个有效的 CSS URL，网址应该是“https”为开头。"
+		"message": "请为深色主题输入有效的 CSS 网址，网址必须以 https 开头。"
 	},
 	"settingsGeneralOtherSettings": {
 		"message": "其他设置"
 	},
 	"settingsGeneralEnableShortcuts": {
-		"message": "启用快捷键"
+		"message": "开启快捷键"
 	},
 	"settingsGeneralEnableShortcutsDesc": {
-		"message": "您可以在浏览器的附加组件设置页面中配置快捷键。"
+		"message": "可以在浏览器的扩展设置页面中设置快捷键。"
 	},
 	"settingsGeneralViewShortcuts": {
 		"message": "查看快捷键"
 	},
 	"settingsGeneralShortcutNotification": {
-		"message": "启用快键键提示"
+		"message": "按快捷键时显示通知"
 	},
 	"settingsGeneralViewShortcutKeys": {
 		"message": "快捷键"
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "在图标上显示已应用的规则源"
+		"message": "在图标上显示使用的规则域名"
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
-		"message": "在图标上显示已应用的规则模式"
+		"message": "在图标上显示使用的规则表达式"
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
-		"message": "当配置文件或代理更改时刷新活动标签页"
+		"message": "切换方案或代理服务器时刷新当前标签页"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "取消"
@@ -354,7 +357,7 @@
 		"message": "保存更改"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "快捷键"
+		"message": "键盘快捷键"
 	},
 	"settingsGeneralCloseButton": {
 		"message": "关闭"
@@ -388,6 +391,9 @@
 	},
 	"settingsRejectChangesButton": {
 		"message": "放弃更改"
+	},
+	"settingsEditButton": {
+		"message": "编辑"
 	},
 	"settingsFullBackupButton": {
 		"message": "创建完整备份"
@@ -438,7 +444,7 @@
 		"message": "规则备份文件"
 	},
 	"settingsImportRulesFrom": {
-		"message": "规则导入来源"
+		"message": "格式"
 	},
 	"settingsImportRulesOptionAppend": {
 		"message": "添加到当前规则"
@@ -525,7 +531,7 @@
 		"message": "请选择一个规则文件"
 	},
 	"settingsSourceTypeNotSelected": {
-		"message": "请选择来源类型"
+		"message": "请选择格式"
 	},
 	"settingsImportRulesFailed": {
 		"message": "导入文件失败。"
@@ -597,16 +603,16 @@
 		"message": "导入"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "智能配置档："
+		"message": "智能方案："
 	},
 	"settingsProfilesEnabled": {
-		"message": "启用"
+		"message": "开启"
 	},
 	"settingsProfilesTypeTitle": {
-		"message": "配置档类型："
+		"message": "方案类型："
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
-		"message": "在这个配置档中，除非您定义了智能规则，否则不应用代理服务器。您需要定义需应用代理的规则。"
+		"message": "在此方案中，除非您定义了智能规则，否则不应用代理服务器。您需要定义需应用代理的规则。"
 	},
 	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
 		"message": "在这个配置档中，代理服务器总是被应用，除非有智能规则要求跳过。即定义白名单规则来决定不应用代理的情况。"
@@ -615,7 +621,7 @@
 		"message": "通过添加规则来忽略这些域名的失败检测。"
 	},
 	"settingsProfilesProfileProxyServer": {
-		"message": "配置档的代理服务器："
+		"message": "方案的代理服务器："
 	},
 	"settingsProfilesDefaultProfileProxyServer": {
 		"message": "(使用默认的代理服务器)"
@@ -630,10 +636,10 @@
 		"message": "删除"
 	},
 	"settingsProfilesAddNewLabel": {
-		"message": "新增智能配置档"
+		"message": "创建智能方案"
 	},
 	"settingsProfilesAddNewTypeLead": {
-		"message": "请选择你想要添加的<b>配置档类型</b>："
+		"message": "请选择将要添加的<b>方案类型</b>："
 	},
 	"settingsProfilesAddNewType_SmartRules": {
 		"message": "智能规则"
@@ -642,7 +648,7 @@
 		"message": "在这个类型的配置档中，代理将基于您需要定义的<em>规则</em>来应用到请求。要定义这些规则，您可以使用菜单栏中的弹出式菜单，可以从设置中实现，还可以从 <em>可代理资源</em> 窗口中添加它们。<br>您也可以订阅不同的规则列表，如 Gfwlist。"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
-		"message": "总是启用"
+		"message": "始终开启"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
 		"message": "在这个类型的配置档中，代理将总是应用到请求，除非你定义了绕过它的规则。定义规则的步骤和智能规则配置档类型一样。"
@@ -654,25 +660,25 @@
 		"message": "取消"
 	},
 	"settingsProfilesAddErrorTypeRequired": {
-		"message": "请选择一个配置档类型"
+		"message": "请选择方案的类型"
 	},
 	"settingsProfilesAddErrorNameRequired": {
-		"message": "配置档名称是必需的"
+		"message": "方案名称必填"
 	},
 	"settingsProfilesAddErrorNameExists": {
-		"message": "配置档名称已存在，请输入另一个"
+		"message": "方案名称已存在，请换一个"
 	},
 	"settingsProfilesDeleteConfirm": {
-		"message": "确定删除这个配置档？警告，这个操作不能撤销！"
+		"message": "确定删除此方案？此操作不能撤销！"
 	},
 	"settingsProfilesDeleteFailed": {
-		"message": "删除选定配置档失败。"
+		"message": "删除选定方案失败。"
 	},
 	"settingsProfilesDeleteDone": {
-		"message": "配置档成功删除"
+		"message": "成功删除此方案"
 	},
 	"settingsProfilesDeleteBuiltinFail": {
-		"message": "不能删除内置配置档"
+		"message": "不能删除内置方案"
 	},
 	"settingsProfilesProxyServer": {
 		"message": "[使用默认的代理服务器]"
@@ -684,31 +690,31 @@
 		"message": "您可以在这里订阅规则列表。"
 	},
 	"settingsSaveSmartProfileSuccess": {
-		"message": "智能配置档保存成功。"
+		"message": "智能方案保存成功。"
 	},
 	"settingsErrorFailedToSaveSmartProfile": {
-		"message": "保存智能配置档失败。"
+		"message": "保存智能方案失败。"
 	},
 	"settingsRuleSourceRequired": {
-		"message": "请指定代理规则源域名！"
+		"message": "请输入代理规则的域名！"
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "源域名无效，有效例子如：“google.com”"
+		"message": "域名无效，正确格式类似于“google.com”"
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'{0}' 源域名无效"
+		"message": "域名无效：{0}"
 	},
 	"settingsRuleSourceAlreadyExists": {
-		"message": "已有相同设定的规则！"
+		"message": "已有相同域名的规则！"
 	},
 	"settingsRuleHostInvalid": {
 		"message": "主机名 '{0}' 无效，主机名应类似于 'google.com'"
 	},
 	"settingsRuleRegexNotMatchDomain": {
-		"message": "正则表达式规则与源域名 '{0}' 不符"
+		"message": "正则表达式与域名 \"{0}\" 不匹配"
 	},
 	"settingsRuleDoesntIncludeDomain": {
-		"message": "该规则与源域名 '{0}' 不匹配"
+		"message": "规则表达式与域名 \"{0}\" 不匹配"
 	},
 	"settingsRuleRegexInvalid": {
 		"message": "正则表达式规则 '{0}' 无效"
@@ -726,13 +732,13 @@
 		"message": "规则类型"
 	},
 	"settingsRulesGridColSource": {
-		"message": "设定"
+		"message": "域名"
 	},
 	"settingsRulesGridColRule": {
 		"message": "规则"
 	},
 	"settingsRulesGridColEnabled": {
-		"message": "启用"
+		"message": "开启"
 	},
 	"settingsRulesGridColProxy": {
 		"message": "代理服务器"
@@ -741,7 +747,7 @@
 		"message": "[使用活动代理]"
 	},
 	"settingsRulesProxyFromProfile": {
-		"message": "[使用配置档代理]"
+		"message": "[使用方案代理]"
 	},
 	"settingsRulesModalTitle": {
 		"message": "规则详情"
@@ -750,16 +756,16 @@
 		"message": "规则类型"
 	},
 	"settingsRulesSourceDomain": {
-		"message": "要代理的域名"
+		"message": "域名"
 	},
 	"settingsRulesSourceDomainDesc": {
 		"message": "（比如：google.com）"
 	},
 	"settingsRulesPattern": {
-		"message": "匹配模式"
+		"message": "匹配表达式"
 	},
 	"settingsRulesGeneratePattern": {
-		"message": "自动生成模式"
+		"message": "自动生成表达式"
 	},
 	"settingsRulesRegex": {
 		"message": "URL 正则表达式"
@@ -807,7 +813,7 @@
 		"message": "备份数据无效或已损坏"
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
-		"message": "为活动配置档提供了无效的数据"
+		"message": "当前方案提供了无效的数据"
 	},
 	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
 		"message": "为默认代理服务器提供了无效的数据"
@@ -873,7 +879,7 @@
 		"message": "（分钟，0 表示不刷新）"
 	},
 	"settingsServerSubscriptionEnabled": {
-		"message": "启用"
+		"message": "开启"
 	},
 	"settingsServerSubscriptionProtocol": {
 		"message": "协议："
@@ -957,7 +963,7 @@
 		"message": "计数"
 	},
 	"settingsServerSubscriptionsGridColEnabled": {
-		"message": "启用"
+		"message": "开启"
 	},
 	"settingsServerSubscriptionIncompleteForm": {
 		"message": "请使用正确格式在必要的区域填入信息。"
@@ -1005,7 +1011,7 @@
 		"message": "数量"
 	},
 	"settingsRulesSubscriptionsGridColEnabled": {
-		"message": "启用"
+		"message": "开启"
 	},
 	"settingsRulesSubscriptionsName": {
 		"message": "名称："
@@ -1020,7 +1026,7 @@
 		"message": "（以分钟计算，0 表示不刷新）"
 	},
 	"settingsRulesSubscriptionEnabled": {
-		"message": "启用"
+		"message": "开启"
 	},
 	"settingsRulesSubscriptionsObfuscation": {
 		"message": "混淆："
@@ -1107,7 +1113,7 @@
 		"message": "总共返回了 {0} 条代理规则和 {1} 条白名单规则。<br>别忘了保存更改。"
 	},
 	"settingsRulePatternIsEmpty": {
-		"message": "规则未定义模板"
+		"message": "规则未定义表达式"
 	},
 	"settingsWelcomeTitle": {
 		"message": "欢迎使用 SmartProxy"
@@ -1143,7 +1149,7 @@
 		"message": "智能规则"
 	},
 	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
-		"message": "总是使用「绕过规则」来启用"
+		"message": "始终开启，可设置例外规则"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
 		"message": "忽略失败的规则"
