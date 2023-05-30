@@ -638,8 +638,13 @@ export class settingsPage {
 		}
 
 		let dontIncludeAuthServers = false;
-		if (environment.chrome)
+		if (environment.chrome) {
 			dontIncludeAuthServers = true;
+
+			modalContainer.find("#cmdRuleType")
+				.find(`option[value=${ProxyRuleType.MatchPatternUrl}],option[value=${ProxyRuleType.RegexUrl}],option[value=${ProxyRuleType.Exact}]`)
+				.remove();
+		}
 
 		if (proxyRule) {
 
@@ -727,7 +732,7 @@ export class settingsPage {
 		if (whiteList) {
 			tabContainer.find("#divRuleProxyServer").hide();
 		}
-		else{
+		else {
 			tabContainer.find("#divRuleProxyServer").show();
 		}
 	}
