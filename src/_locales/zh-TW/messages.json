@@ -77,6 +77,9 @@
 	"popupAddFailedRequests": {
 		"message": "添加到代理規則"
 	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+	},
 	"popupAddIgnoredFailures": {
 		"message": "忽略"
 	},
@@ -388,6 +391,9 @@
 	},
 	"settingsRejectChangesButton": {
 		"message": "放棄更改"
+	},
+	"settingsEditButton": {
+		"message": "Edit"
 	},
 	"settingsFullBackupButton": {
 		"message": "創建完整備份"
@@ -1117,6 +1123,21 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "明白"
+	},
+	"settingsSubscriptionStatsStatusSuccess": {
+		"message": "Status: Success"
+	},
+	"settingsSubscriptionStatsStatusFail": {
+		"message": "Status: Failed"
+	},
+	"settingsSubscriptionStatsLastTry": {
+		"message": "Last Try:"
+	},
+	"settingsSubscriptionStatsMessage": {
+		"message": "Message:"
+	},
+	"settingsSubscriptionStatsLastSuccess": {
+		"message": "Last Success:"
 	},
 	"settings_SmartProfileType_Direct": {
 		"message": "Direct"

@@ -77,6 +77,9 @@
 	"popupAddFailedRequests": {
 		"message": "Добавить в список правил"
 	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": "Выбранный профиль «{0}» не поддерживает правила, выберите другой."
+	},
 	"popupAddIgnoredFailures": {
 		"message": "Игнорировать"
 	},
@@ -388,6 +391,9 @@
 	},
 	"settingsRejectChangesButton": {
 		"message": "Отклонить изменения"
+	},
+	"settingsEditButton": {
+		"message": "Изменить"
 	},
 	"settingsFullBackupButton": {
 		"message": "Создать полную резервную копию"

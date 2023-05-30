@@ -2,18 +2,13 @@
 
 [![license](https://img.shields.io/github/license/salarcode/SmartProxy.svg)](https://github.com/salarcode/SmartProxy/blob/master/LICENSE) [![Travis](https://img.shields.io/travis/salarcode/SmartProxy.svg)]() [![Crowdin](https://d322cqt584bo4o.cloudfront.net/smartproxy/localized.svg)](https://crowdin.com/project/smartproxy)
 
-#### Version 1.0 has just released 🎉
-Please use links below to access it from the browser markets.
-Head over here to read the [release notes and change logs](https://github.com/salarcode/SmartProxy/releases/tag/v1.0.x).
-
-
 #### Download From Store
 
  * [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/) [Firefox Desktop Extension](https://addons.mozilla.org/en-US/firefox/addon/smartproxy)
  * [![Mozilla Add-on](https://img.shields.io/amo/v/smartproxy.svg)](https://addons.mozilla.org/en-US/firefox/addon/smartproxy/) [Firefox for Android Extension](https://github.com/salarcode/SmartProxy/wiki/Install-on-Firefox-Android)
  * [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/jogcnplbkgkfdakgdenhlpcfhjioidoj.svg)](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj) [Chrome Extension](https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj)
- * [![Edge Extension](https://img.shields.io/badge/Edge%20Extension-v1.0.x-0884D8)](https://microsoftedge.microsoft.com/addons/detail/canbjhbbhfggbdfgpddpnckdjgfcbnpb) [Edge Extension](https://microsoftedge.microsoft.com/addons/detail/canbjhbbhfggbdfgpddpnckdjgfcbnpb)
- * [![Thunderbird Add-on](https://img.shields.io/badge/thunderbird%20add--on-v1.0.x-blue)](https://addons.thunderbird.net/en-US/thunderbird/addon/smartproxy/) [Thunderbird Extension](https://addons.thunderbird.net/en-US/thunderbird/addon/smartproxy/)
+ * [![Edge Extension](https://img.shields.io/badge/Edge%20Extension-v1.1.x-0884D8)](https://microsoftedge.microsoft.com/addons/detail/canbjhbbhfggbdfgpddpnckdjgfcbnpb) [Edge Extension](https://microsoftedge.microsoft.com/addons/detail/canbjhbbhfggbdfgpddpnckdjgfcbnpb)
+ * [![Thunderbird Add-on](https://img.shields.io/badge/thunderbird%20add--on-v1.1.x-blue)](https://addons.thunderbird.net/en-US/thunderbird/addon/smartproxy/) [Thunderbird Extension](https://addons.thunderbird.net/en-US/thunderbird/addon/smartproxy/)
 
 #### What is SmartProxy
 SmartProxy is a Firefox/Chrome extension based on WebExtensions/Chrome Extensions technology.
