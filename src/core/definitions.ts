@@ -737,7 +737,7 @@ export class ProxyRule implements Cloneable {
 		this.ruleType = source['ruleType'];
 		if (source['ruleType'] == null)
 			this.ruleType = ProxyRuleType.DomainSubdomain;
-		this.hostName = source['hostName'] || source['sourceDomain'];
+		this.hostName = source['hostName'] !== undefined ? source['hostName'] : (source['sourceDomain'] !== undefined ? source['sourceDomain'] : null);
 		this.autoGeneratePattern = source['autoGeneratePattern'] == true ? true : false;
 		this.rulePattern = source['rulePattern'];
 		this.ruleRegex = source['ruleRegex'];
@@ -768,7 +768,7 @@ export class ProxyRule implements Cloneable {
 	}
 
 	public isValid(): boolean {
-		if (!this.rule || !this.hostName || this.ruleType == null)
+		if (!this.rule || this.hostName == null || this.ruleType == null)
 			return false;
 		return true;
 	}
