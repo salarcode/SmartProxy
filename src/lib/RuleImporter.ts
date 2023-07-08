@@ -642,14 +642,18 @@ const externalAppRuleParser = {
 
 			for (var line of text.split(/\n|\r/)) {
 				line = line.trim();
-				if (!line[0] || line[0] == '!' || line[0] == '[') continue;
+				if (!line[0] || line[0] == '!' || line[0] == '[')
+					continue;
 
 				var converted = externalAppRuleParser.GFWList.convertLineRegex(line);
-				if (!converted) continue;
+				if (!converted)
+					continue;
 
 				_debug.push(line + '\n' + converted.regex + ' \t\t Name:' + converted.name + '\n\n');
-				if (line.startsWith('@@')) whiteList.push(converted);
-				else blackList.push(converted);
+				if (line.startsWith('@@'))
+					whiteList.push(converted);
+				else
+					blackList.push(converted);
 			}
 			return {
 				_debug: _debug,

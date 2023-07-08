@@ -39,6 +39,7 @@ import {
 	CompiledProxyRulesMatchedSource,
 	SmartProfile,
 	PartialThemeDataType,
+	TabProxyStatus,
 } from './definitions';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
 import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
@@ -968,7 +969,7 @@ export class Core {
 			}
 
 			if (settingsLib.current.options.displayAppliedProxyOnBadge && !environment.mobile) {
-				if (tabData.proxified) {
+				if (tabData.proxified !== TabProxyStatus.None) {
 					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
 				} else {
 					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRuleNone')}`;
@@ -976,7 +977,7 @@ export class Core {
 			}
 
 			if (settingsLib.current.options.displayMatchedRuleOnBadge && !environment.mobile) {
-				if (tabData.proxified && tabData.proxyMatchedRule) {
+				if (tabData.proxified !== TabProxyStatus.None && tabData.proxyMatchedRule) {
 					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRulePattern')}  ${tabData.proxyMatchedRule.ruleText}`;
 				}
 			}

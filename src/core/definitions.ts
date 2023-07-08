@@ -1063,3 +1063,9 @@ export class UpdateInfo {
 	public versionName: string;
 	public downloadPage: URL;
 }
+
+export enum TabProxyStatus {
+	None,
+	Proxified,
+	Whitelisted
+}

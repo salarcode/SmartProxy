@@ -16,7 +16,7 @@
  */
 import { PolyFill } from "../lib/PolyFill";
 import { LiteEvent } from "../lib/LiteEvent";
-import { CompiledProxyRule, FailedRequestType, ProxyServer } from "./definitions";
+import { CompiledProxyRule, FailedRequestType, ProxyServer, TabProxyStatus } from "./definitions";
 import { api, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 import { ProxyRules } from "./ProxyRules";
@@ -89,7 +89,7 @@ export class TabManager {
 		if (tabData.proxifiedParentDocumentUrl != tabInfo.url) {
 
 			tabData.proxyServerFromRule = null;
-			tabData.proxified = false;
+			tabData.proxified = TabProxyStatus.None;
 
 			// apply `proxified` value
 			TabManager.setRuleForProxyPerOrigin(tabData, tabInfo.url);
@@ -111,7 +111,9 @@ export class TabManager {
 
 	public static setTabDataProxied(tabData: TabDataType, requestUrl: string, matchedRule?: CompiledProxyRule) {
 		if (matchedRule) {
-			tabData.proxified = matchedRule.whiteList ? false : true;
+			tabData.proxified = matchedRule.whiteList ?
+				TabProxyStatus.Whitelisted :
+				TabProxyStatus.Proxified;
 			tabData.proxifiedParentDocumentUrl = requestUrl;
 			tabData.proxyMatchedRule = matchedRule;
 			tabData.proxyRuleHostName = matchedRule.hostName;
@@ -123,7 +125,7 @@ export class TabManager {
 		}
 		else {
 			tabData.proxyServerFromRule = null;
-			tabData.proxified = false;
+			tabData.proxified = TabProxyStatus.None;
 		}
 	}
 
@@ -246,7 +248,7 @@ export class TabDataType {
 		this.url = "";
 		this.incognito = false;
 		this.failedRequests = new Map<string, FailedRequestType>();
-		this.proxified = false;
+		this.proxified = TabProxyStatus.None;
 	}
 
 	public tabId: number;
@@ -256,7 +258,7 @@ export class TabDataType {
 	public incognito: boolean;
 	public failedRequests: Map<string, FailedRequestType>;
 	public index: number;
-	public proxified: boolean;
+	public proxified: TabProxyStatus;
 	public proxifiedParentDocumentUrl: string;
 	public proxyRuleHostName: string;
 	public proxyMatchedRule?: CompiledProxyRule;

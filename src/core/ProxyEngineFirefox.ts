@@ -26,6 +26,7 @@ import {
 	ProxyableProxifiedStatus,
 	ProxyableMatchedRuleStatus,
 	CompiledProxyRuleSource,
+	TabProxyStatus,
 } from './definitions';
 import { ProxyRules } from './ProxyRules';
 import { TabDataType, TabManager } from './TabManager';
@@ -210,14 +211,13 @@ export class ProxyEngineFirefox {
 			// applying ProxyPerOrigin
 			if (tabData != null && settings.options.proxyPerOrigin) {
 
-				if (tabData != null && tabData.proxified) {
+				if (tabData != null && tabData.proxified === TabProxyStatus.Proxified) {
 					if (!requestDetails.documentUrl) {
 						// document url is being changed, resetting the settings for that
-						tabData.proxified = false;
+						tabData.proxified = TabProxyStatus.None;
 						tabData.proxyServerFromRule = null;
 						tabData.proxifiedParentDocumentUrl = null;
 					} else {
-
 						proxyLog.ruleHostName = tabData.proxyRuleHostName;
 
 						if (tabData.proxyMatchedRule) {
@@ -241,6 +241,8 @@ export class ProxyEngineFirefox {
 
 						proxyLog.matchedRuleStatus = ProxyableMatchedRuleStatus.ProxyPerOrigin;
 						proxyLog.proxifiedStatus = ProxyableProxifiedStatus.ProxyPerOrigin;
+
+						DiagDebug?.trace("FF.handleProxyRequest <ProxyPerOrigin>", 't=' + proxyLog.tabId, `OriginTab: ${tabData.url}`, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
 
 						// TODO: since we do not return here anymore, check effects of `proxyLog.proxied = true`
 						return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
