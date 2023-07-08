@@ -111,7 +111,7 @@ export class TabManager {
 
 	public static setTabDataProxied(tabData: TabDataType, requestUrl: string, matchedRule?: CompiledProxyRule) {
 		if (matchedRule) {
-			tabData.proxified = true;
+			tabData.proxified = matchedRule.whiteList ? false : true;
 			tabData.proxifiedParentDocumentUrl = requestUrl;
 			tabData.proxyMatchedRule = matchedRule;
 			tabData.proxyRuleHostName = matchedRule.hostName;
