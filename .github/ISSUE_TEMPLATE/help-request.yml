@@ -1,0 +1,69 @@
+name: Help request
+description: If you need help about something or don't know how to use a feature
+labels: ["type-question"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If you need help about something or don't know how to use a feature, please use this template to ask your question. Please be as specific as possible and provide any relevant information that we can use to help you.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please describe your question as detailed as possible.
+      placeholder: I'm trying to do [...]
+    validations:
+      required: true
+  - type: textarea
+    id: related-to-problem
+    attributes:
+      label: Is your feature request related to a problem? Please describe.
+      description: A clear and concise description of what the problem is. Ex. 
+      placeholder: I'm always frustrated when [...]
+    validations:
+      required: false      
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Which browsers
+      description: Please select all browsers that you have questions regarding this request.
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Edge
+        - Opera
+        - Other (Chromium based)
+        - Other (Firefox/Gecko based)
+        - Unknown/Other
+    validations:
+      required: true
+  - type: input
+    id: browser-versions
+    attributes:
+      label: Browser versions
+      description: Please provide the version numbers of the browsers
+      placeholder: E.g. e.g. Firefox 110, Chrome 110, etc.
+    validations:
+      required: false
+  - type: input
+    id: SmartProxy-versions
+    attributes:
+      label: SmartProxy versions
+      description: Please provide the version numbers of the SmartProxy
+      placeholder: E.g. SmartProxy 1.2.0
+    validations:
+      required: false
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your question.
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Any additional context
+      description: Please add any other context
+    validations:
+      required: false

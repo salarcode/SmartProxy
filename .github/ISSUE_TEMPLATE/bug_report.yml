@@ -1,0 +1,78 @@
+name: Bug Report
+description: Create a bug report to help us improve
+labels: ["type-bug"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please make sure to add as much detail as you can. This will help us diagnose the issue faster and thus resolve it quicker.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please give us a detailed description of the issue that you're seeing. You can add screenshots and videos as well.
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Describe all the steps we need to take to show the behavior that you have observed. Also, include what you expected to happen and what did actually happen.
+      placeholder: | 
+        E.g.
+        Steps to reproduce the behavior:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See the bug 🐞
+        
+        Expected outcome: a bug was added
+        Actual outcome: a ladybug appeared
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Which browsers did you test this on?
+      description: Please select all browsers that you tested this on. If you were only able to test on 1 browser, please check the last option to inform us about that.
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Edge
+        - Opera
+        - Other (Chromium based)
+        - Other (Firefox/Gecko based)
+        - Unknown/Other
+    validations:
+      required: true
+  - type: input
+    id: browser-versions
+    attributes:
+      label: Affected browser versions
+      description: Please provide the version numbers of the browsers you see this issue on.
+      placeholder: E.g. e.g. Firefox 110, Chrome 110, etc.
+    validations:
+      required: false
+  - type: input
+    id: SmartProxy-versions
+    attributes:
+      label: Affected SmartProxy versions
+      description: Please provide the version numbers of the SmartProxy you see this issue on.
+      placeholder: E.g. SmartProxy 1.2.0
+    validations:
+      required: false
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots of the problems or steps to reproduce
+      description: Please add screenshots or videos of the problem or steps to reproduce the problem.
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Any additional context
+      description: Please add any other context about the problem here.
+    validations:
+      required: false

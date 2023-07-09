@@ -1,0 +1,40 @@
+name: Feature request
+description: Suggest an idea for this project
+labels: ["type-new-feature"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your interest in making SmartProxy better. Although I'm the sole developer of the project, I'm always open to new ideas and suggestions. Please fill out the form below to submit your feature request.
+        Please note that I'm not able to implement every feature request. I will try to implement as many as I can, but I'm only human and have limited time. I will try to respond to every feature request, but I can't guarantee that I will be able to do so.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please give us a detailed description of the feature that you envision. Focus on _what_ this feature does, over the _why_ you want this feature. What would be the end-result when implemented? Feel free to add any diagrams, (mocked up) screenshots, or other materials that support your story.
+      placeholder: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: related-to-problem
+    attributes:
+      label: Is your feature request related to a problem? Please describe.
+      description: A clear and concise description of what the problem is. Ex. 
+      placeholder: I'm always frustrated when [...]
+    validations:
+      required: false      
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: A clear and concise description of any alternative solutions or features you've considered.
+    validations:
+      required: false
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Any additional context
+      description: Please add any other context about the problem here.
+    validations:
+      required: false
