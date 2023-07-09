@@ -99,7 +99,7 @@ const activeProfileType = +'${profileType}';
 const currentProxyServer = "${resultCurrentProxyServer}";
 const resultDirect = "DIRECT";
 const resultSystem = "SYSTEM";
-const verboseDiagnostics = false; // uncomment for verbose logs using chrome flag. https://support.google.com/chrome/a/answer/6271171?hl=en#zippy=%2Cview-network-data%2Cget-network-logs
+const verboseDiagnostics = false; // set to true for verbose logs using chrome flag. https://support.google.com/chrome/a/answer/6271171?hl=en#zippy=%2Cview-network-data%2Cget-network-logs
 // -------------------------
 // required PAC function that will be called to determine
 // if a proxy should be used.
@@ -109,6 +109,8 @@ function FindProxyForURL(url, host, noDiagnostics) {
 		alert('SmartProxy-FindProxyForURL-Result=' + finalResult + '; host=' + host + '; url=' + url + '; activeProfile=' + activeProfileType);
 		return finalResult;
 	}
+	// correcting host that doesn't include port number
+	host = extractHostFromUrl(url) || host;
 
 	if (activeProfileType == SmartProfileType.SystemProxy)
 		return resultSystem;
@@ -344,9 +346,10 @@ function extractHostFromInvalidUrl(url) {
 	catch (e) { return null; }
 }
 function extractHostFromUrl(url) {
-	const matchPattern = (/^/i);
+	// Unescaped RegEx (/^(?:\w)*\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+	const extractPattern = (/^(?:\\w)*\\:\\/\\/([^\\/?#]+)(?:[\\/?#]|$)/i);
 
-	const match = matchPattern.exec(url);
+	const match = extractPattern.exec(url);
 	if (!match) {
 		return null;
 	}
