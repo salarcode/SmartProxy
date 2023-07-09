@@ -618,7 +618,7 @@
 		"message": "在这个配置档中，代理服务器总是被应用，除非有智能规则要求跳过。即定义白名单规则来决定不应用代理的情况。"
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
-		"message": "通过添加规则来忽略这些域名的失败检测。"
+		"message": "添加规则即可在检测加载失败的资源时忽略这些域名。"
 	},
 	"settingsProfilesProfileProxyServer": {
 		"message": "方案的代理服务器："
@@ -1152,7 +1152,7 @@
 		"message": "始终开启，可设置例外规则"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
-		"message": "忽略失败的规则"
+		"message": "忽略加载失败的规则"
 	},
 	"notificationNoNextProxyServer": {
 		"message": "没有下一个代理服务器"
