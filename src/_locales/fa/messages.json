@@ -78,13 +78,13 @@
 		"message": "اضافه کردن به لیست قوانین"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+		"message": "پروفایل انتخاب شده '{0}' از قوانین پشتیبانی نمی کند، لطفاً پروفایل دیگری را انتخاب کنید."
 	},
 	"popupAddIgnoredFailures": {
 		"message": "نادیده گرفتن انتخابها"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
+		"message": "آیا از افزودن موارد انتخابی به لیست نادیده گرفته ها مطمئن هستید؟ اگر بله در این صورت دیگر خطایی از آنها نمایش داده نمی شود. شما می توانید این موارد را از تنظیمات هم بعدا تغییر بدهید."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
 		"message": "متاسفانه اعمال تغییرات در تنظیمات پراکسی مرورگر نیاز به به دسترسی \"حالت خصوصی\" دارد. لطفا به به تنظیمات SmartProxy در مروگر رفته و گزینه `Allow in incognito` را فعال کنید. <a href='https://support.google.com/chrome_webstore/answer/2664769'>اطلاعات بیشتر</a>."
@@ -225,7 +225,7 @@
 		"message": "پراکسی به کل تب و صفحه اعمال شود"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
+		"message": "اگر یک قانون با Url یک برگه مطابقت داشته باشد، در نتیجه پروکسی برای اتصال برگه اعمال می شود. معمولاً درخواست‌های دیگری در هر صفحه وجود خواهد داشت و ممکن است قوانین منطبقی نداشته باشند و بنابراین پروکسی برای اتصال آنها اعمال نشود. کاری که گزینه «پراکسی به کل تب و صفحه اعمال شود» انجام می‌دهد این است که مطمئن می‌شود کل صفحه شامل تمام اتصالات از دامنه‌ها و مبداهای مختلف از همان پروکسی استفاده می‌کند که مبدا برگه اعمال می‌شود. همچنین این گزینه نیاز به داشتن یک قانون برای هر دامنه را برطرف می کند. لطفاً توجه داشته باشید که اگر هیچ پروکسی در برگه اعمال نشود، قوانین پروکسی به کار خود ادامه می‌دهند و پروکسی را برای سایر اتصالات موجود در صفحه به صورت جداگانه اعمال می‌کنند."
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
 		"message": "وقتی پراکسی به کل تب یا صفحه اعمال شده"
@@ -312,7 +312,7 @@
 		"message": "آدرس استایل سفارشی (css):"
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency."
+		"message": "آدرس اینترنتی باید 'Https' باشد. از فونت های وارد شده و سبک های دیگر در سبک سفارشی زیر آگاه باشید، آنها می توانند پنجره های بازشو را در مرورگر شما مسدود یا کند کنند. می توانید تم ها را از bootswatch.com امتحان کنید اما از وابستگی آنها به فونت های گوگل آگاه باشید."
 	},
 	"settingsGeneralThemesDark": {
 		"message": "پوسته تیره"
@@ -591,7 +591,7 @@
 		"message": "کلمه عبور"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is no longer supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(متأسفانه دیگر احراز هویت سرور پروکسی توسط کروم از طریق برنامه افزودنی api پشتیبانی نمی‌شود. این &quot;عمدی &quot; است.)"
 	},
 	"settingsServersCancel": {
 		"message": "انصراف"
@@ -612,10 +612,10 @@
 		"message": "نوع پروفایل:"
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
-		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+		"message": "در این پروفایل هیچ پروکسی اعمال نمی شود مگر اینکه قوانین هوشمند را تعریف کنید. شما قوانین لیست سیاه یا به عبارت دیگر قوانینی را برای اعمال پروکسی تعریف خواهید کرد."
 	},
 	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
-		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+		"message": "در این پروفایل سرورهای پراکسی همیشه اعمال می شوند قوانین هوشمند را تعریف کرده و از آنها رد می شوند. شما قانون لیست سفید یا به عبارت دیگر قوانین را برای پرش از پروکسی و عدم اعمال پروکسی تعریف می کنید."
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
 		"message": "بر اساس این قوانینی که در اینجا تعریف می کنید درخواستهای ناموفق گزارش داده نشده و نادیده گرفته می شوند."
@@ -645,13 +645,13 @@
 		"message": "پروفایل با قوانین هوشمند"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
-		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+		"message": "در این نوع نمایه، بر اساس<em>قوانین</em>ی که باید تعریف کنید، پروکسی برای درخواست ها اعمال می شود. برای تعریف این قانون می توانید از منوی بازشو در نوار منو استفاده کنید، می توانید این کار را از تنظیمات انجام دهید و همچنین می توانید آنها را از پنجره <em>منابع پروکسی</em> اضافه کنید.<br>همچنین می توانید مشترک شوید لیست قوانین مختلف مانند Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
 		"message": "همیشه فعال"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
-		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
+		"message": "در این نوع پروفایل، پروکسی همیشه برای درخواست ها اعمال می شود، مگر اینکه قوانینی را برای دور زدن آن تعریف کنید. مراحل تعریف قوانین مانند پروفایل قانون هوشمند است."
 	},
 	"settingsProfilesAddNewBtnContinue": {
 		"message": "ادامه افزودن"
