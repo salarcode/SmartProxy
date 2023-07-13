@@ -670,7 +670,7 @@ export class settingsPage {
 		} else {
 
 			modalContainer.find("#chkRuleGeneratePattern").prop('checked', true);
-			modalContainer.find("#cmdRuleType").val(ProxyRuleType.MatchPatternHost);
+			modalContainer.find("#cmdRuleType").val(ProxyRuleType.DomainSubdomain);
 
 			modalContainer.find("#txtRuleSource").val("");
 			modalContainer.find("#txtRuleMatchPattern").val("");
