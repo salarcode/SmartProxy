@@ -1899,7 +1899,7 @@ export class settingsPage {
 		this.refreshRulesSubscriptionsGridAllRows(pageProfile);
 	}
 
-	private static readRulesSubscriptions(pageProfile: SettingsPageSmartProfile): any[] {
+	private static readRulesSubscriptions(pageProfile: SettingsPageSmartProfile): ProxyRulesSubscription[] {
 		return pageProfile.grdRulesSubscriptions.data().toArray();
 	}
 

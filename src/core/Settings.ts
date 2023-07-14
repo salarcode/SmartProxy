@@ -39,6 +39,8 @@ import { api } from '../lib/environment';
 import { Utils } from '../lib/Utils';
 import { ProfileOperations } from './ProfileOperations';
 
+const sop = SettingsOperation;
+
 export class Settings {
 	public static current: SettingsConfig;
 
@@ -79,6 +81,7 @@ export class Settings {
 		Debug.log("onInitializeGetLocalData, local data:", JSON.stringify(data));
 
 		data = me.getRestorableSettings(data);
+		sop.copyNonSyncableSettings(data, me.current);
 
 		me.current = data;
 		me.updateActiveSettings();
@@ -114,6 +117,7 @@ export class Settings {
 					// use synced settings
 					syncedSettings = me.getRestorableSettings(syncedSettings);
 					me.revertSyncOptions(syncedSettings);
+					sop.copyNonSyncableSettings(syncedSettings, me.current);
 
 					me.current = syncedSettings;
 				} else {

@@ -33,6 +33,8 @@ const utilsLib = Utils;
 export class SettingsOperation {
 
 	public static getStrippedSyncableSettings(settings: SettingsConfig): SettingsConfig {
+		/** Returns a copy of settings with only syncable settings. */
+
 		// deep clone required
 		let settingsCopy: SettingsConfig = JSON.parse(JSON.stringify(settings));
 
@@ -53,6 +55,48 @@ export class SettingsOperation {
 
 		return settingsCopy;
 	}
+	public static copyNonSyncableSettings(destSettings: SettingsConfig, sourceSettings: SettingsConfig) {
+		/** Copies non-syncable settings. Can be used to copy from local settings to newly received synced data. */
+		if (destSettings.proxyProfiles && destSettings.proxyProfiles.length)
+			for (const destProfile of destSettings.proxyProfiles) {
+				if (destProfile.rulesSubscriptions && destProfile.rulesSubscriptions.length) {
+					for (const destSubscription of destProfile.rulesSubscriptions) {
+						if (!destSubscription.enabled)
+							continue;
+
+						destSubscription.proxyRules = [];
+						destSubscription.whitelistRules = [];
+
+						let srcProfile = sourceSettings.proxyProfiles.find(x => x.profileId == destProfile.profileId);
+						if (!srcProfile)
+							continue;
+
+						let srcSubscription = srcProfile.rulesSubscriptions.find(x => x.id == destSubscription.id);
+						if (!srcSubscription)
+							continue;
+
+						if (srcSubscription.proxyRules && srcSubscription.proxyRules.length)
+							destSubscription.proxyRules = srcSubscription.proxyRules;
+
+						if (srcSubscription.whitelistRules && srcSubscription.whitelistRules.length)
+							destSubscription.whitelistRules = srcSubscription.whitelistRules;
+					}
+				}
+			}
+
+
+		if (destSettings.proxyServerSubscriptions && destSettings.proxyServerSubscriptions.length)
+			for (const destSubscription of destSettings.proxyServerSubscriptions) {
+				destSubscription.proxies = [];
+
+				let srcSubscription = sourceSettings.proxyServerSubscriptions.find(x => x.name == destSubscription.name && x.url == destSubscription.url);
+				if (!srcSubscription)
+					continue;
+
+				if (srcSubscription.proxies && srcSubscription.proxies.length)
+					destSubscription.proxies = srcSubscription.proxies;
+			}
+	}
 
 	public static getBackupOfSettings(settings: SettingsConfig): SettingsConfig {
 		let settingsCopy = SettingsOperation.getStrippedSyncableSettings(settings);
@@ -61,6 +105,7 @@ export class SettingsOperation {
 
 		return settingsCopy;
 	}
+
 	public static readSyncedSettings(success: Function) {
 		// getting synced data
 		polyFillLib.storageSyncGet(null,
@@ -84,6 +129,8 @@ export class SettingsOperation {
 
 						syncedSettings = Settings.getRestorableSettings(syncedSettings);
 						Settings.revertSyncOptions(syncedSettings);
+						me.copyNonSyncableSettings(syncedSettings, Settings.current);
+
 						// use synced settings
 						Settings.current = syncedSettings;
 
@@ -115,6 +162,7 @@ export class SettingsOperation {
 		function onGetLocalData(data: any) {
 			// all the settings			
 			data = Settings.getRestorableSettings(data);
+			me.copyNonSyncableSettings(data, Settings.current);
 			Settings.current = data;
 
 			// read all the synced data along with synced ones
@@ -138,6 +186,8 @@ export class SettingsOperation {
 						// use synced settings
 						syncedSettings = Settings.getRestorableSettings(syncedSettings);
 						Settings.revertSyncOptions(syncedSettings);
+						me.copyNonSyncableSettings(syncedSettings, Settings.current);
+
 						Settings.current = syncedSettings;
 
 					} else {
@@ -813,7 +863,7 @@ export class SettingsOperation {
 
 				SettingsOperation.saveProxyServerSubscriptions();
 				// update the timers
-				subscriptionUpdaterLib.updateServerSubscriptions();
+				subscriptionUpdaterLib.setServerSubscriptionsRefreshTimers();
 			}
 
 			if (backupProxyProfiles != null) {

@@ -72,10 +72,10 @@ export class Core {
 			Core.setBrowserActionStatus();
 
 			// update the timers
-			subscriptionUpdaterLib.updateServerSubscriptions();
+			subscriptionUpdaterLib.setServerSubscriptionsRefreshTimers();
 			subscriptionUpdaterLib.reloadEmptyServerSubscriptions();
 
-			subscriptionUpdaterLib.updateRulesSubscriptions();
+			subscriptionUpdaterLib.setRulesSubscriptionsRefreshTimers();
 			subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
 
 			// check for updates, in all browsers
@@ -445,7 +445,7 @@ export class Core {
 				settingsOperationLib.saveAllSync();
 
 				// update the timers
-				subscriptionUpdaterLib.updateServerSubscriptions();
+				subscriptionUpdaterLib.setServerSubscriptionsRefreshTimers();
 
 				// it is possible that active proxy is changed
 				proxyEngineLib.updateBrowsersProxyConfig();

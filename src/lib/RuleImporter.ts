@@ -870,16 +870,24 @@ const externalAppRuleParser = {
 				if (!compiled.args || compiled.args.length != 1) continue;
 				let type = compiled.args[0];
 
+				let regexSource;
+				if (compiled.expression instanceof RegExp) {
+					regexSource = compiled.expression.source;
+				}
+				else {
+					regexSource = compiled.expression;
+				}
+
 				if (type == 'host') {
 					result.push({
 						name: compiled.source,
-						regex: compiled.expression,
+						regex: regexSource,
 						importedRuleType: ProxyRulesSubscriptionRuleType.RegexHost,
 					});
 				} else if (type == 'url') {
 					result.push({
 						name: compiled.source,
-						regex: compiled.expression,
+						regex: regexSource,
 						importedRuleType: ProxyRulesSubscriptionRuleType.RegexUrl,
 					});
 				}

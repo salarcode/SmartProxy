@@ -5,7 +5,7 @@ import { ProfileOperations } from './ProfileOperations';
 
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2023 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -774,7 +774,7 @@ export class ProxyRule implements Cloneable {
 		if ((!this.ruleSearch || !this.hostName) && this.ruleType == ProxyRuleType.DomainSubdomain) {
 			return false;
 		}
-		if (!this.ruleExact && this.ruleType == ProxyRuleType.Exact ) {
+		if (!this.ruleExact && this.ruleType == ProxyRuleType.Exact) {
 			return false;
 		}
 		if (!this.ruleRegex && (this.ruleType == ProxyRuleType.RegexHost || this.ruleType == ProxyRuleType.RegexUrl)) {

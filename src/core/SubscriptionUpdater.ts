@@ -42,7 +42,7 @@ export class SubscriptionUpdater {
 		}
 	}
 
-	public static updateServerSubscriptions() {
+	public static setServerSubscriptionsRefreshTimers() {
 
 		// -------------------------
 		// Proxy Server Subscriptions
@@ -181,7 +181,7 @@ export class SubscriptionUpdater {
 		}
 	}
 
-	public static updateRulesSubscriptions() {
+	public static setRulesSubscriptionsRefreshTimers() {
 
 		// -------------------------
 		// Proxy Rules Subscriptions
