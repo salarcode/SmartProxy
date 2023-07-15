@@ -7,15 +7,15 @@
 	"browsers": {
 		"Chrome": {
 			"latestVersion": {
-				"version": "1.0.8",
-				"versionName": "1.0.8",
+				"version": "1.1.0",
+				"versionName": "1.1.0",
 				"downloadPage": "https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj"
 			}
 		},
 		"Firefox": {
 			"latestVersion": {
-				"version": "1.1.0",
-				"versionName": "1.1.0",
+				"version": "1.2.0",
+				"versionName": "1.2.0",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
 		},
@@ -24,15 +24,15 @@
 		},
 		"Firefox Android": {
 			"latestVersion": {
-				"version": "1.1.0",
-				"versionName": "1.1.0",
+				"version": "1.2.0",
+				"versionName": "1.2.0",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
 		},
 		"Edge": {
 			"latestVersion": {
-				"version": "1.0.8",
-				"versionName": "1.0.8",
+				"version": "1.1.0",
+				"versionName": "1.1.0",
 				"downloadPage": "https://microsoftedge.microsoft.com/addons/detail/canbjhbbhfggbdfgpddpnckdjgfcbnpb"
 			}
 		},
@@ -45,8 +45,8 @@
 		},
 		"Opera": {
 			"latestVersion": {
-				"version": "1.0.8",
-				"versionName": "1.0.8",
+				"version": "1.1.0",
+				"versionName": "1.1.0",
 				"downloadPage": "https://addons.opera.com/en/extensions/details/smartproxy/"
 			}
 		}
