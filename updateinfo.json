@@ -1,14 +1,14 @@
 {
 	"latestVersion": {
-		"version": "1.1.0",
-		"versionName": "1.1.0",
+		"version": "1.2.0",
+		"versionName": "1.2.0",
 		"downloadPage": "https://github.com/salarcode/SmartProxy/releases"
 	},
 	"browsers": {
 		"Chrome": {
 			"latestVersion": {
-				"version": "1.1.0",
-				"versionName": "1.1.0",
+				"version": "1.2.0",
+				"versionName": "1.2.0",
 				"downloadPage": "https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj"
 			}
 		},
