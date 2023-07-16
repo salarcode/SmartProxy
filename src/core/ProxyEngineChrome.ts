@@ -8,7 +8,7 @@ export class ProxyEngineChrome {
 	/**  Chrome only. Updating Chrome proxy config. */
 	public static updateChromeProxyConfig() {
 		let settingsActive = Settings.active;
-		
+
 		if (settingsActive.activeProfile.profileType == SmartProfileType.SystemProxy) {
 
 			let config = {
@@ -109,8 +109,6 @@ function FindProxyForURL(url, host, noDiagnostics) {
 		alert('SmartProxy-FindProxyForURL-Result=' + finalResult + '; host=' + host + '; url=' + url + '; activeProfile=' + activeProfileType);
 		return finalResult;
 	}
-	// correcting host that doesn't include port number
-	host = extractHostFromUrl(url) || host;
 
 	if (activeProfileType == SmartProfileType.SystemProxy)
 		return resultSystem;
@@ -119,90 +117,102 @@ function FindProxyForURL(url, host, noDiagnostics) {
 		return resultDirect;
 
 	// applying ProxyPerOrigin
-	// not applicable for Chromium
+	// is not applicable for Chromium
 
-	if (activeProfileType == SmartProfileType.AlwaysEnabledBypassRules) {
+	// correcting host that doesn't include port number
+	const hostAndPort = extractHostFromUrl(url) || host;
 
-		// user skip the bypass rules/ don't apply proxy
-		let userMatchedRule = findMatchedUrlInRules(url, host, compiledRules.Rules);
-		if (userMatchedRule) {
-			return makeResultForAlwaysEnabledForced(userMatchedRule)
-		}
+	let currentHost = host;
 
-		// user bypass rules/ apply proxy by force
-		let userWhitelistMatchedRule = findMatchedUrlInRules(url, host, compiledRules.WhitelistRules)
-		if (userWhitelistMatchedRule) {
-			return resultDirect;
-		}
+	do {
 
-		// subscription skip bypass rules/ don't apply proxy
-		let subMatchedRule = findMatchedUrlInRules(url, host, compiledRules.SubscriptionRules);
-		if (subMatchedRule) {
-			return makeResultForAlwaysEnabledForced(userMatchedRule)
-		}
-
-		// subscription bypass rules/ apply proxy by force
-		let subWhitelistMatchedRule = findMatchedUrlInRules(url, host, compiledRules.WhitelistSubscriptionRules)
-		if (subWhitelistMatchedRule) {
-			return resultDirect;
-		}
-
-		//** Always Enabled is forced by a rule, so other rules can't skip it */
-		function makeResultForAlwaysEnabledForced(matchedRule) {
-
-			if (matchedRule.proxy)
-				// this rule has its own proxy setup
-				return matchedRule.proxy;
+		if (activeProfileType == SmartProfileType.AlwaysEnabledBypassRules) {
+	
+			// user skip the bypass rules/ don't apply proxy
+			let userMatchedRule = findMatchedUrlInRules(url, currentHost, compiledRules.Rules);
+			if (userMatchedRule) {
+				return makeResultForAlwaysEnabledForced(userMatchedRule)
+			}
+	
+			// user bypass rules/ apply proxy by force
+			let userWhitelistMatchedRule = findMatchedUrlInRules(url, currentHost, compiledRules.WhitelistRules)
+			if (userWhitelistMatchedRule) {
+				return resultDirect;
+			}
+	
+			// subscription skip bypass rules/ don't apply proxy
+			let subMatchedRule = findMatchedUrlInRules(url, currentHost, compiledRules.SubscriptionRules);
+			if (subMatchedRule) {
+				return makeResultForAlwaysEnabledForced(userMatchedRule)
+			}
+	
+			// subscription bypass rules/ apply proxy by force
+			let subWhitelistMatchedRule = findMatchedUrlInRules(url, currentHost, compiledRules.WhitelistSubscriptionRules)
+			if (subWhitelistMatchedRule) {
+				return resultDirect;
+			}
+	
+			//** Always Enabled is forced by a rule, so other rules can't skip it */
+			function makeResultForAlwaysEnabledForced(matchedRule) {
+	
+				if (matchedRule.proxy)
+					// this rule has its own proxy setup
+					return matchedRule.proxy;
+				return currentProxyServer;
+			}
+	
+			// no rule is matched, going with proxy
 			return currentProxyServer;
 		}
-
-		// no rule is matched, going with proxy
-		return currentProxyServer;
-	}
-
-	if (activeProfileType == SmartProfileType.SmartRules) {
-
-		// user whitelist rules/ don't apply proxy
-		let userWhitelistMatchedRule = findMatchedUrlInRules(url, host, compiledRules.WhitelistRules)
-		if (userWhitelistMatchedRule) {
-			return makeResultForWhitelistRule(userWhitelistMatchedRule);
+	
+		if (activeProfileType == SmartProfileType.SmartRules) {
+	
+			// user whitelist rules/ don't apply proxy
+			let userWhitelistMatchedRule = findMatchedUrlInRules(url, currentHost, compiledRules.WhitelistRules)
+			if (userWhitelistMatchedRule) {
+				return makeResultForWhitelistRule(userWhitelistMatchedRule);
+			}
+	
+			// user rules/ apply proxy
+			let userMatchedRule = findMatchedUrlInRules(url, currentHost, compiledRules.Rules);
+			if (userMatchedRule) {
+				return makeResultForMatchedRule(userMatchedRule);
+			}
+	
+			// subscription whitelist rules/ don't apply proxy
+			let subWhitelistMatchedRule = findMatchedUrlInRules(url, currentHost, compiledRules.WhitelistSubscriptionRules)
+			if (subWhitelistMatchedRule) {
+				return makeResultForWhitelistRule(subWhitelistMatchedRule);
+			}
+	
+			// subscription rules/ apply proxy
+			let subMatchedRule = findMatchedUrlInRules(url, currentHost, compiledRules.SubscriptionRules);
+			if (subMatchedRule) {
+				return makeResultForMatchedRule(subMatchedRule);
+			}
+	
+			/**
+			 * Generate result for matched whitelist rule
+			 */
+			const makeResultForWhitelistRule = () => {
+				return resultDirect;
+			}
+	
+			/**
+			 * Generate result for matched proxy rule
+			 */
+			function makeResultForMatchedRule(matchedRule) {
+				if (matchedRule.proxy)
+					// this rule has its own proxy setup
+					return matchedRule.proxy;
+				return currentProxyServer;
+			}
 		}
 
-		// user rules/ apply proxy
-		let userMatchedRule = findMatchedUrlInRules(url, host, compiledRules.Rules);
-		if (userMatchedRule) {
-			return makeResultForMatchedRule(userMatchedRule);
-		}
-
-		// subscription whitelist rules/ don't apply proxy
-		let subWhitelistMatchedRule = findMatchedUrlInRules(url, host, compiledRules.WhitelistSubscriptionRules)
-		if (subWhitelistMatchedRule) {
-			return makeResultForWhitelistRule(subWhitelistMatchedRule);
-		}
-
-		// subscription rules/ apply proxy
-		let subMatchedRule = findMatchedUrlInRules(url, host, compiledRules.SubscriptionRules);
-		if (subMatchedRule) {
-			return makeResultForMatchedRule(subMatchedRule);
-		}
-
-		/**
-		 * Generate result for matched whitelist rule
-		 */
-		const makeResultForWhitelistRule = () => {
-			return resultDirect;
-		}
-
-		/**
-		 * Generate result for matched proxy rule
-		 */
-		function makeResultForMatchedRule(matchedRule) {
-			if (matchedRule.proxy)
-				// this rule has its own proxy setup
-				return matchedRule.proxy;
-			return currentProxyServer;
-		}
-	}
+		if (currentHost == hostAndPort)
+			break;
+		currentHost = hostAndPort;
+	} while (true);
 
 	if (activeProfileType == SmartProfileType.IgnoreFailureRules) {
 		// NOTE: this is not a proxy profile, it is used elsewhere
