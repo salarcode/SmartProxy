@@ -230,58 +230,66 @@ export class proxyable {
 				{
 					name: "enabled", width: 100, title: '', className: 'text-center vertical-align-middle',
 					render: (data: any, type: any, row: ProxyableLogDataType): string => {
-						let url = row.url;
-						if (!url)
-							return "";
-						if (row.ruleSource == CompiledProxyRuleSource.Subscriptions) {
-							return `<small class="grid-status-col-text grid-col-maxwidth-100 grid-col-nowrap">${api.i18n.getMessage("proxyableSubscriptionRule")}</small>`;
-						}
-						if (row.ruleId) {
-							return `<button id='btnDisable' data-domain="${row.ruleHostName}" data-ruleId="${row.ruleId}" class="btn btn-sm btn-danger whitespace-nowrap">
-									<i class="fa fa-times" aria-hidden="true"></i> ${api.i18n.getMessage("proxyableDisableButton")}</button>`;
-						}
-						else {
-							// if (row.proxied) {
-							// 	return '<i class="fas fa-minus text-danger"></i>';
-							// }
-							let subDomains: string[];
-							if (row["subDomains"])
-								subDomains = row["subDomains"];
-							else
-								subDomains = row["subDomains"] = Utils.extractSubdomainListFromUrl(url);
+						if (row["renderEnabledCache"])
+							return row["renderEnabledCache"];
 
-							if (subDomains && subDomains.length) {
-								const template =
-									`<div><div class="btn-group dropstart">
-										<button type="button" class="btn btn-sm btn-success dropdown-toggle whitespace-nowrap" data-bs-toggle="dropdown">
-											${api.i18n.getMessage("proxyableEnableButton")}
-											<i class="fa fa-plus" aria-hidden="true"></i>
-										</button>
-										<ul class="subdomains-list dropdown-menu dropdown-menu-end">
-											<li><a class="dropdown-item" href="#">(none)</a></li>
-										</ul>
-									</div></div>`;
-
-								let templateElement = jQuery(template);
-								let subdomainContainer = templateElement.find(".subdomains-list");
-								subdomainContainer.empty();
-
-								for (let domain of subDomains) {
-									let domainElement = jQuery(`<li><a class="dropdown-item" data-domain="${domain}" href="#"><small>${api.i18n.getMessage("proxyableEnableButtonDomain")} 
-																<b class='font-url'>${domain}</b></small></a></li>`);
-
-									subdomainContainer.append(domainElement);
-								}
-
-								return templateElement.html();
-							}
-						}
-
-						return "";
+						let renderCache = renderEnabledCol(data, type, row);
+						row["renderEnabledCache"] = renderCache;
+						return renderCache;
 					}
 				},
 			],
 		});
+		function renderEnabledCol(data: any, type: any, row: ProxyableLogDataType): string {
+			let url = row.url;
+			if (!url)
+				return "";
+			if (row.ruleSource == CompiledProxyRuleSource.Subscriptions) {
+				return `<small class="grid-status-col-text grid-col-maxwidth-100 grid-col-nowrap">${api.i18n.getMessage("proxyableSubscriptionRule")}</small>`;
+			}
+			if (row.ruleId) {
+				return `<button id='btnDisable' data-domain="${row.ruleHostName}" data-ruleId="${row.ruleId}" class="btn btn-sm btn-danger whitespace-nowrap">
+						<i class="fa fa-times" aria-hidden="true"></i> ${api.i18n.getMessage("proxyableDisableButton")}</button>`;
+			}
+			else {
+				// if (row.proxied) {
+				// 	return '<i class="fas fa-minus text-danger"></i>';
+				// }
+				let subDomains: string[];
+				if (row["subDomains"])
+					subDomains = row["subDomains"];
+				else
+					subDomains = row["subDomains"] = Utils.extractSubdomainListFromUrl(url);
+
+				if (subDomains && subDomains.length) {
+					const template =
+						`<div><div class="btn-group dropstart">
+							<button type="button" class="btn btn-sm btn-success dropdown-toggle whitespace-nowrap" data-bs-toggle="dropdown">
+								${api.i18n.getMessage("proxyableEnableButton")}
+								<i class="fa fa-plus" aria-hidden="true"></i>
+							</button>
+							<ul class="subdomains-list dropdown-menu dropdown-menu-end">
+								<li><a class="dropdown-item" href="#">(none)</a></li>
+							</ul>
+						</div></div>`;
+
+					let templateElement = jQuery(template);
+					let subdomainContainer = templateElement.find(".subdomains-list");
+					subdomainContainer.empty();
+
+					for (let domain of subDomains) {
+						let domainElement = jQuery(`<li><a class="dropdown-item" data-domain="${domain}" href="#"><small>${api.i18n.getMessage("proxyableEnableButtonDomain")} 
+													<b class='font-url'>${domain}</b></small></a></li>`);
+
+						subdomainContainer.append(domainElement);
+					}
+
+					return templateElement.html();
+				}
+			}
+
+			return "";
+		}
 		proxyable.grdProxyable.draw();
 	}
 
@@ -311,7 +319,7 @@ export class proxyable {
 				.add(request)
 				.draw('full-hold');
 
-			row.scrollTo();
+			//The `row.scrollTo` is cause ui performance issues
 
 			// binding the events
 			proxyable.refreshGridRow(row);
@@ -342,8 +350,10 @@ export class proxyable {
 	private static refreshGridRow(row: any, invalidate?: boolean) {
 		if (!row)
 			return;
-		if (invalidate)
+		if (invalidate) {
+			row["renderEnabledCache"] = null;
 			row.invalidate();
+		}
 
 		let rowElement = jQuery(row.node());
 
@@ -417,6 +427,8 @@ export class proxyable {
 								rowData.removeRuleInfo();
 								rowData.proxifiedStatus = ProxyableProxifiedStatus.NoProxy;
 							}
+
+							rowData["renderEnabledCache"] = null;
 						}
 						proxyable.refreshGridRow(gridRow, true);
 					}
