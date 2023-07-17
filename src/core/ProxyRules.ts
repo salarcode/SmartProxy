@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2023 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -35,7 +35,8 @@ export class ProxyRules {
 		for (let i = 0; i < proxyRules.length; i++) {
 			const rule = proxyRules[i];
 
-			if (!rule.enabled) continue;
+			if (!rule.enabled)
+				continue;
 
 			let newCompiled = new CompiledProxyRule();
 
@@ -263,6 +264,24 @@ export class ProxyRules {
 			for (let rule of rules) {
 
 				switch (rule.compiledRuleType) {
+					case CompiledProxyRuleType.SearchDomainSubdomain:
+
+						if (domainHost == null) {
+							domainHost = Utils.extractHostNameFromUrl(url);
+							if (domainHost == null) {
+								continue;
+							}
+						}
+						// domain
+						if (domainHost == rule.search)
+							return rule;
+
+						// subdomains
+						if (domainHost.endsWith('.' + rule.search))
+							return rule;
+
+						break;
+
 					case CompiledProxyRuleType.Exact:
 
 						if (url == rule.search)
@@ -272,7 +291,7 @@ export class ProxyRules {
 					case CompiledProxyRuleType.RegexHost:
 
 						if (domainHost == null) {
-							domainHost = Utils.extractHostFromUrl(url);
+							domainHost = Utils.extractHostNameFromUrl(url);
 							if (domainHost == null) {
 								continue;
 							}
@@ -297,31 +316,13 @@ export class ProxyRules {
 					case CompiledProxyRuleType.SearchDomain:
 
 						if (domainHost == null) {
-							domainHost = Utils.extractHostFromUrl(url);
+							domainHost = Utils.extractHostNameFromUrl(url);
 							if (domainHost == null) {
 								continue;
 							}
 						}
 						if (rule.search == domainHost)
 							return rule;
-						break;
-
-					case CompiledProxyRuleType.SearchDomainSubdomain:
-
-						if (domainHost == null) {
-							domainHost = Utils.extractHostFromUrl(url);
-							if (domainHost == null) {
-								continue;
-							}
-						}
-						// domain
-						if (domainHost == rule.search)
-							return rule;
-
-						// subdomains
-						if (domainHost.endsWith('.' + rule.search))
-							return rule;
-
 						break;
 
 					case CompiledProxyRuleType.SearchDomainAndPath:
@@ -348,11 +349,11 @@ export class ProxyRules {
 						if (schemaLessUrl.startsWith(rule.search))
 							return rule;
 
-						let ruleSearchHost = Utils.extractHostFromInvalidUrl(rule.search);
+						let ruleSearchHost = Utils.extractHostNameFromInvalidUrl(rule.search);
 						if (ruleSearchHost != null) {
 
 							if (domainHost == null) {
-								domainHost = Utils.extractHostFromUrl(url);
+								domainHost = Utils.extractHostNameFromUrl(url);
 								if (domainHost == null) {
 									continue;
 								}
@@ -369,6 +370,80 @@ export class ProxyRules {
 						if (schemaLessUrl.includes('.' + rule.search))
 							return rule;
 						break;
+				}
+			}
+
+			// if we have reached here no rule matched, but we might have a rule with domain and port
+			// if we had a rule with domain, we need to check for port as well
+			if (domainHost != null) {
+				let domainHostWithPort = Utils.extractHostFromUrl(url);
+
+				if (domainHostWithPort != domainHost) {
+
+					// host has port part, doing a recheck
+					domainHost = domainHostWithPort;
+
+					for (let rule of rules) {
+
+						// NOTE: Only rules that work on hostName should be checked, others can be ignored
+						switch (rule.compiledRuleType) {
+
+							case CompiledProxyRuleType.SearchDomainSubdomain:
+
+								// domain
+								if (domainHost == rule.search)
+									return rule;
+
+								// subdomains
+								if (domainHost.endsWith('.' + rule.search))
+									return rule;
+
+								break;
+
+							case CompiledProxyRuleType.RegexHost:
+
+								if (rule.regex.test(domainHost))
+									return rule;
+								break;
+
+							case CompiledProxyRuleType.SearchDomain:
+
+								if (rule.search == domainHost)
+									return rule;
+								break;
+
+							case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
+
+								if (schemaLessUrl == null) {
+									schemaLessUrl = Utils.removeSchemaFromUrl(url);
+									if (schemaLessUrl == null) {
+										continue;
+									}
+								}
+								if (schemaLessUrl.startsWith(rule.search))
+									return rule;
+
+								let ruleSearchHost = Utils.extractHostFromInvalidUrl(rule.search);
+								if (ruleSearchHost != null) {
+									// should be the same
+									if (ruleSearchHost != domainHost && !domainHost.endsWith('.' + ruleSearchHost))
+										continue;
+
+									// after this state, we are sure that the url is for the same domain, now just checking the path
+								}
+
+								// subdomains
+								if (schemaLessUrl.includes('.' + rule.search))
+									return rule;
+								break;
+
+							case CompiledProxyRuleType.Exact:
+							case CompiledProxyRuleType.RegexUrl:
+							case CompiledProxyRuleType.SearchUrl:
+							case CompiledProxyRuleType.SearchDomainAndPath:
+								break;
+						}
+					}
 				}
 			}
 		} catch (e) {

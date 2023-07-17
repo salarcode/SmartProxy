@@ -229,12 +229,47 @@ export class Utils {
 		catch (e) { return null; }
 	}
 
+	public static extractHostNameFromInvalidUrl(url: string): string | null {
+		try {
+			if (url.includes(":/")) {
+				try {
+					new URL(url);
+					// url is valid
+					return Utils.extractHostNameFromUrl(url);
+				} catch { }
+			}
+
+			let urlFixed = 'http://' + url;
+			return Utils.extractHostNameFromUrl(urlFixed);
+		}
+		catch (e) { return null; }
+	}
 	public static extractHostFromUrl(url: string): string | null {
+		/** 
+		 * For `http://sub.git.com/test` returns `sub.git.com`
+		 * For `http://sub.git.com:6675/test` returns `sub.git.com:6675`
+		  */
 		try {
 			const u = new URL(url);
 			if (Utils.invalidHostSchemas.indexOf(u.protocol) >= 0)
 				return null;
 			let host = u.host;
+
+			return host;
+		}
+		catch (e) { return null; }
+	}
+
+	public static extractHostNameFromUrl(url: string): string | null {
+		/** 
+		 * For `http://sub.git.com/test` returns `sub.git.com`
+		 * For `http://sub.git.com:6675/test` returns `sub.git.com`
+		  */
+		try {
+			const u = new URL(url);
+			if (Utils.invalidHostSchemas.indexOf(u.protocol) >= 0)
+				return null;
+			let host = u.hostname;
 
 			return host;
 		}
