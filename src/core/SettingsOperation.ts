@@ -64,9 +64,6 @@ export class SettingsOperation {
 						if (!destSubscription.enabled)
 							continue;
 
-						destSubscription.proxyRules = [];
-						destSubscription.whitelistRules = [];
-
 						let srcProfile = sourceSettings.proxyProfiles.find(x => x.profileId == destProfile.profileId);
 						if (!srcProfile)
 							continue;
@@ -77,9 +74,13 @@ export class SettingsOperation {
 
 						if (srcSubscription.proxyRules && srcSubscription.proxyRules.length)
 							destSubscription.proxyRules = srcSubscription.proxyRules;
+						else
+							destSubscription.proxyRules = destSubscription.proxyRules || [];
 
 						if (srcSubscription.whitelistRules && srcSubscription.whitelistRules.length)
 							destSubscription.whitelistRules = srcSubscription.whitelistRules;
+						else
+							destSubscription.whitelistRules = destSubscription.whitelistRules || [];
 					}
 				}
 			}

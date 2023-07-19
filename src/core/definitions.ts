@@ -1052,7 +1052,8 @@ export class ProxyRulesSubscription {
 			}
 		this.proxyRules = [];
 		this.whitelistRules = [];
-		if (source['proxyRules'] != null && Array.isArray(source['proxyRules'])) this.proxyRules = source['proxyRules'];
+		if (source['proxyRules'] != null && Array.isArray(source['proxyRules'])) 
+			this.proxyRules = source['proxyRules'];
 		if (source['whitelistRules'] != null && Array.isArray(source['whitelistRules']))
 			this.whitelistRules = source['whitelistRules'];
 		this.stats = new SubscriptionStats();
