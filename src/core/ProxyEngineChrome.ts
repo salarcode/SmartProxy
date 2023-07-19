@@ -325,6 +325,8 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 		// reaching this point nothing is matched
 		// if host has custom port number we need to check again
 		if (host != hostAndPort) {
+			host = hostAndPort;
+			
 			for (let rule of rules) {
 
 				// NOTE: Only rules that work on hostName should be checked, others can be ignored
