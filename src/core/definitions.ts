@@ -932,7 +932,7 @@ export class ProxyServerSubscription implements Cloneable {
 		if (source['url'] != null) this.url = source['url'] || '';
 		if (source['enabled'] != null) this.enabled = source['enabled'] == true ? true : false;
 		if (source['proxyProtocol'] != null) this.proxyProtocol = source['proxyProtocol'] || null;
-		this.refreshRate = +source['failoverTimeout'] > 0 ? +source['failoverTimeout'] : 0;
+		this.refreshRate = +source['refreshRate'] > 0 ? +source['refreshRate'] : 0;
 		if (source['obfuscation'] != null) this.obfuscation = source['obfuscation'] || null;
 		this.format = ProxyServerSubscriptionFormat.PlainText;
 		if (source['format'] != null)
@@ -1034,7 +1034,7 @@ export class ProxyRulesSubscription {
 		if (source['url'] != null) this.url = source['url'] || '';
 		if (source['enabled'] != null) this.enabled = source['enabled'] == true ? true : false;
 
-		this.refreshRate = +source['failoverTimeout'] > 0 ? +source['failoverTimeout'] : 0;
+		this.refreshRate = +source['refreshRate'] > 0 ? +source['refreshRate'] : 0;
 		if (source['obfuscation'] != null) this.obfuscation = source['obfuscation'] || null;
 		this.format = ProxyRulesSubscriptionFormat.AutoProxy;
 		if (source['format'] != null)
