@@ -41,6 +41,7 @@ Function BuildAndPack($Build, $BuildName) {
 
 BuildAndPack "ff" "Firefox"
 BuildAndPack "ch"  "Chrome-ManifestV3"
+BuildAndPack "ch-mv2"  "Chrome-ManifestV2"
 BuildAndPack "ed"  "Edge"
 BuildAndPack "th"  "Thunderbird"
 BuildAndPack "op"  "Opera"
