@@ -91,7 +91,7 @@ export class popup {
 	private static bindEvents() {
 		jQuery("#openSettings").click(() => {
 			PolyFill.runtimeOpenOptionsPage();
-			popup.closeSelf();
+			window.close();
 		});
 		jQuery("#openProxyable").click(() => {
 			if (!popup.popupData)
@@ -105,7 +105,7 @@ export class popup {
 					url: PolyFill.extensionGetURL(`ui/proxyable.html?id=${sourceTabId}`)
 				}
 			);
-			popup.closeSelf();
+			window.close();
 		});
 
 		jQuery("#divFailedRequests a").click(() => {
@@ -175,7 +175,7 @@ export class popup {
 
 				profileMenu.on("click", (e: any) => {
 					PolyFill.runtimeOpenOptionsPage();
-					popup.closeSelf();
+					window.close();
 				});
 
 				lastMenu.after(profileMenu);
@@ -479,7 +479,7 @@ export class popup {
 			PolyFill.runtimeOpenOptionsPage();
 		}
 		popup.refreshActiveTabIfNeeded();
-		popup.closeSelf();
+		window.close();
 	}
 
 	private static refreshActiveTabIfNeeded() {
@@ -521,7 +521,7 @@ export class popup {
 				ruleId: proxyableDomain.ruleId
 			});
 
-			popup.closeSelf();
+			window.close();
 		} else {
 			PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
 		}
@@ -585,7 +585,7 @@ export class popup {
 							}
 						} finally {
 							if (close) {
-								popup.closeSelf();
+								window.close();
 							}
 						}
 					});
@@ -633,21 +633,11 @@ export class popup {
 							}
 						} finally {
 							if (close) {
-								popup.closeSelf();
+								window.close();
 							}
 						}
 					});
 			}
-		}
-	}
-	private static closeSelf() {
-		if (!environment.mobile) {
-			window.close();
-		}
-		else {
-			PolyFill.tabsGetCurrent(details => {
-				return PolyFill.tabsRemove(details.id);
-			});
 		}
 	}
 	//#endregion
