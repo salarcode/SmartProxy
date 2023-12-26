@@ -345,7 +345,7 @@ export class Utils {
 		return url.substring(schemaLength, url.length);
 	}
 
-	public static matchPatternToRegExp(pattern: string, completeUrl = true): RegExp | null {
+	public static matchPatternToRegExp(pattern: string, completeUrl = true, ignoreCase = false): RegExp | null {
 		// Source: https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns
 		// Modified by Salar Khalilzadeh
 		/**
@@ -385,14 +385,14 @@ export class Utils {
 				+ (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:(?:[^\\/]+)\\.|(?:[^\\/]+){0})"))
 				+ (port ? "\\:" + escape(port) : "")
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
-				+ ")$");
+				+ ")$", ignoreCase ? "i" : undefined);
 		}
 		else {
 			return new RegExp("^(?:"
 				+ (host === "*" ? "[^\\/]*" : escape(host).replace(/^\*\./g, "(?:(?:[^\\/]+)\\.|(?:[^\\/]+){0})"))
 				+ (port ? "\\:" + escape(port) : "")
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
-				+ ")$");
+				+ ")$", ignoreCase ? "i" : undefined);
 		}
 	}
 

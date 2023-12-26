@@ -71,7 +71,7 @@ export class ProxyRules {
 
 				case ProxyRuleType.MatchPatternHost:
 					{
-						let regex = Utils.matchPatternToRegExp(rule.rulePattern, false);
+						let regex = Utils.matchPatternToRegExp(rule.rulePattern, false, true);
 						if (regex == null)
 							continue;
 						newCompiled.regex = regex;
@@ -81,7 +81,7 @@ export class ProxyRules {
 
 				case ProxyRuleType.MatchPatternUrl:
 					{
-						let regex = Utils.matchPatternToRegExp(rule.rulePattern, true);
+						let regex = Utils.matchPatternToRegExp(rule.rulePattern, true, false);
 						if (regex == null)
 							continue;
 						newCompiled.regex = regex;
@@ -92,7 +92,7 @@ export class ProxyRules {
 				case ProxyRuleType.RegexHost:
 					{
 						// This simple construction is good enough. TODO: This ^(?:)$ is not needed?
-						newCompiled.regex = new RegExp(rule.ruleRegex);
+						newCompiled.regex = new RegExp(rule.ruleRegex, "i");
 						newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
 					}
 					break;
@@ -137,7 +137,7 @@ export class ProxyRules {
 
 			switch (rule.importedRuleType) {
 				case ProxyRulesSubscriptionRuleType.RegexHost:
-					newCompiled.regex = new RegExp(rule.regex);
+					newCompiled.regex = new RegExp(rule.regex, "i");
 					newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
 					break;
 
@@ -256,9 +256,9 @@ export class ProxyRules {
 		if (rules == null || rules.length == 0)
 			return null;
 
-		let domainHost: string;
-		let schemaLessUrl: string;
-		let url = searchUrl.toLowerCase();
+		let domainHostLowerCase: string;
+		let schemaLessUrlLowerCase: string;
+		let lowerCaseUrl = searchUrl.toLowerCase();
 
 		try {
 			for (let rule of rules) {
@@ -266,108 +266,108 @@ export class ProxyRules {
 				switch (rule.compiledRuleType) {
 					case CompiledProxyRuleType.SearchDomainSubdomain:
 
-						if (domainHost == null) {
-							domainHost = Utils.extractHostNameFromUrl(url);
-							if (domainHost == null) {
+						if (domainHostLowerCase == null) {
+							domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
+							if (domainHostLowerCase == null) {
 								continue;
 							}
 						}
 						// domain
-						if (domainHost == rule.search)
+						if (domainHostLowerCase == rule.search)
 							return rule;
 
 						// subdomains
-						if (domainHost.endsWith('.' + rule.search))
+						if (domainHostLowerCase.endsWith('.' + rule.search))
 							return rule;
 
 						break;
 
 					case CompiledProxyRuleType.Exact:
 
-						if (url == rule.search)
+						if (lowerCaseUrl == rule.search)
 							return rule;
 						break;
 
 					case CompiledProxyRuleType.RegexHost:
 
-						if (domainHost == null) {
-							domainHost = Utils.extractHostNameFromUrl(url);
-							if (domainHost == null) {
+						if (domainHostLowerCase == null) {
+							domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
+							if (domainHostLowerCase == null) {
 								continue;
 							}
 						}
 
-						if (rule.regex.test(domainHost))
+						if (rule.regex.test(domainHostLowerCase))
 							return rule;
 						break;
 
 					case CompiledProxyRuleType.RegexUrl:
-
-						if (rule.regex.test(url))
+						// Using original url with case sensitivity
+						if (rule.regex.test(searchUrl))
 							return rule;
 						break;
 
 					case CompiledProxyRuleType.SearchUrl:
 
-						if (url.startsWith(rule.search))
+						if (lowerCaseUrl.startsWith(rule.search))
 							return rule;
 						break;
 
 					case CompiledProxyRuleType.SearchDomain:
 
-						if (domainHost == null) {
-							domainHost = Utils.extractHostNameFromUrl(url);
-							if (domainHost == null) {
+						if (domainHostLowerCase == null) {
+							domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
+							if (domainHostLowerCase == null) {
 								continue;
 							}
 						}
-						if (rule.search == domainHost)
+						if (rule.search == domainHostLowerCase)
 							return rule;
 						break;
 
 					case CompiledProxyRuleType.SearchDomainAndPath:
 
-						if (schemaLessUrl == null) {
-							schemaLessUrl = Utils.removeSchemaFromUrl(url);
-							if (schemaLessUrl == null) {
+						if (schemaLessUrlLowerCase == null) {
+							schemaLessUrlLowerCase = Utils.removeSchemaFromUrl(lowerCaseUrl);
+							if (schemaLessUrlLowerCase == null) {
 								continue;
 							}
 						}
-						if (schemaLessUrl.startsWith(rule.search))
+						if (schemaLessUrlLowerCase.startsWith(rule.search))
 							return rule;
 
 						break;
 
 					case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 
-						if (schemaLessUrl == null) {
-							schemaLessUrl = Utils.removeSchemaFromUrl(url);
-							if (schemaLessUrl == null) {
+						if (schemaLessUrlLowerCase == null) {
+							schemaLessUrlLowerCase = Utils.removeSchemaFromUrl(lowerCaseUrl);
+							if (schemaLessUrlLowerCase == null) {
 								continue;
 							}
 						}
-						if (schemaLessUrl.startsWith(rule.search))
+						if (schemaLessUrlLowerCase.startsWith(rule.search))
 							return rule;
 
 						let ruleSearchHost = Utils.extractHostNameFromInvalidUrl(rule.search);
 						if (ruleSearchHost != null) {
 
-							if (domainHost == null) {
-								domainHost = Utils.extractHostNameFromUrl(url);
-								if (domainHost == null) {
+							if (domainHostLowerCase == null) {
+								domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
+								if (domainHostLowerCase == null) {
 									continue;
 								}
 							}
 
 							// should be the same
-							if (ruleSearchHost != domainHost && !domainHost.endsWith('.' + ruleSearchHost))
+							if (ruleSearchHost != domainHostLowerCase && !domainHostLowerCase.endsWith('.' + ruleSearchHost))
 								continue;
 
 							// after this state, we are sure that the url is for the same domain, now just checking the path
 						}
 
 						// subdomains
-						if (schemaLessUrl.includes('.' + rule.search))
+						if (schemaLessUrlLowerCase.includes('.' + rule.search))
 							return rule;
 						break;
 				}
@@ -375,13 +375,13 @@ export class ProxyRules {
 
 			// if we have reached here no rule matched, but we might have a rule with domain and port
 			// if we had a rule with domain, we need to check for port as well
-			if (domainHost != null) {
-				let domainHostWithPort = Utils.extractHostFromUrl(url);
+			if (domainHostLowerCase != null) {
+				let domainHostWithPort = Utils.extractHostFromUrl(lowerCaseUrl);
 
-				if (domainHostWithPort != domainHost) {
+				if (domainHostWithPort != domainHostLowerCase) {
 
 					// host has port part, doing a recheck
-					domainHost = domainHostWithPort;
+					domainHostLowerCase = domainHostWithPort;
 
 					for (let rule of rules) {
 
@@ -391,49 +391,49 @@ export class ProxyRules {
 							case CompiledProxyRuleType.SearchDomainSubdomain:
 
 								// domain
-								if (domainHost == rule.search)
+								if (domainHostLowerCase == rule.search)
 									return rule;
 
 								// subdomains
-								if (domainHost.endsWith('.' + rule.search))
+								if (domainHostLowerCase.endsWith('.' + rule.search))
 									return rule;
 
 								break;
 
 							case CompiledProxyRuleType.RegexHost:
 
-								if (rule.regex.test(domainHost))
+								if (rule.regex.test(domainHostLowerCase))
 									return rule;
 								break;
 
 							case CompiledProxyRuleType.SearchDomain:
 
-								if (rule.search == domainHost)
+								if (rule.search == domainHostLowerCase)
 									return rule;
 								break;
 
 							case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 
-								if (schemaLessUrl == null) {
-									schemaLessUrl = Utils.removeSchemaFromUrl(url);
-									if (schemaLessUrl == null) {
+								if (schemaLessUrlLowerCase == null) {
+									schemaLessUrlLowerCase = Utils.removeSchemaFromUrl(lowerCaseUrl);
+									if (schemaLessUrlLowerCase == null) {
 										continue;
 									}
 								}
-								if (schemaLessUrl.startsWith(rule.search))
+								if (schemaLessUrlLowerCase.startsWith(rule.search))
 									return rule;
 
 								let ruleSearchHost = Utils.extractHostFromInvalidUrl(rule.search);
 								if (ruleSearchHost != null) {
 									// should be the same
-									if (ruleSearchHost != domainHost && !domainHost.endsWith('.' + ruleSearchHost))
+									if (ruleSearchHost != domainHostLowerCase && !domainHostLowerCase.endsWith('.' + ruleSearchHost))
 										continue;
 
 									// after this state, we are sure that the url is for the same domain, now just checking the path
 								}
 
 								// subdomains
-								if (schemaLessUrl.includes('.' + rule.search))
+								if (schemaLessUrlLowerCase.includes('.' + rule.search))
 									return rule;
 								break;
 
@@ -447,7 +447,7 @@ export class ProxyRules {
 				}
 			}
 		} catch (e) {
-			Debug.warn(`findMatchForUrl failed for ${url}`, e);
+			Debug.warn(`findMatchForUrl failed for ${searchUrl}`, e);
 		}
 		return null;
 	}

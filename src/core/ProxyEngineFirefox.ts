@@ -210,7 +210,7 @@ export class ProxyEngineFirefox {
 
 			// applying ProxyPerOrigin
 			if (tabData != null && settings.options.proxyPerOrigin) {
-				
+
 				if (tabData != null && tabData.proxified === TabProxyStatus.Proxified) {
 					if (!requestDetails.documentUrl) {
 						// document url is being changed, resetting the settings for that

@@ -116,11 +116,13 @@ function FindProxyForURL(url, host, noDiagnostics) {
 	if (activeProfileType == SmartProfileType.Direct)
 		return resultDirect;
 
+	host = host?.toLowerCase();
+
 	// applying ProxyPerOrigin
 	// is not applicable for Chromium
 
 	// correcting 'host' because it doesn't include port number
-	const hostAndPort = extractHostFromUrl(url) || host;
+	const hostAndPort = extractHostFromUrl(url)?.toLowerCase() || host;
 
 	if (activeProfileType == SmartProfileType.AlwaysEnabledBypassRules) {
 
@@ -218,49 +220,13 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 	if (searchUrl == null || rules == null || rules.length == 0)
 		return null;
 
-	let schemaLessUrl = null;
-	let url = searchUrl.toLowerCase();
+	let schemaLessUrlLowerCase = null;
+	let lowerCaseUrl = searchUrl.toLowerCase();
 
 	try {
 		for (let rule of rules) {
 
 			switch (rule.compiledRuleType) {
-				case CompiledProxyRuleType.Exact:
-
-					if (url == rule.search)
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.RegexHost:
-					if (host == null) {
-						continue;
-					}
-
-					if (rule.regex.test(host))
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.RegexUrl:
-
-					if (rule.regex.test(url))
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.SearchUrl:
-
-					if (url.startsWith(rule.search))
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.SearchDomain:
-
-					if (host == null) {
-						continue;
-					}
-					if (rule.search == host)
-						return rule;
-					break;
-
 				case CompiledProxyRuleType.SearchDomainSubdomain:
 
 					if (host == null) {
@@ -276,28 +242,64 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 					break;
 
+				case CompiledProxyRuleType.Exact:
+
+					if (lowerCaseUrl == rule.search)
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.RegexHost:
+					if (host == null) {
+						continue;
+					}
+
+					if (rule.regex.test(host))
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.RegexUrl:
+					// Using original url with case sensitivity
+					if (rule.regex.test(searchUrl))
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.SearchUrl:
+
+					if (lowerCaseUrl.startsWith(rule.search))
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.SearchDomain:
+
+					if (host == null) {
+						continue;
+					}
+					if (rule.search == host)
+						return rule;
+					break;
+
 				case CompiledProxyRuleType.SearchDomainAndPath:
 
-					if (schemaLessUrl == null) {
-						schemaLessUrl = removeSchemaFromUrl(url);
-						if (schemaLessUrl == null) {
+					if (schemaLessUrlLowerCase == null) {
+						schemaLessUrlLowerCase = removeSchemaFromUrl(lowerCaseUrl);
+						if (schemaLessUrlLowerCase == null) {
 							continue;
 						}
 					}
-					if (schemaLessUrl.startsWith(rule.search))
+					if (schemaLessUrlLowerCase.startsWith(rule.search))
 						return rule;
 
 					break;
 
 				case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 					{
-						if (schemaLessUrl == null) {
-							schemaLessUrl = removeSchemaFromUrl(url);
-							if (schemaLessUrl == null) {
+						if (schemaLessUrlLowerCase == null) {
+							schemaLessUrlLowerCase = removeSchemaFromUrl(lowerCaseUrl);
+							if (schemaLessUrlLowerCase == null) {
 								continue;
 							}
 						}
-						if (schemaLessUrl.startsWith(rule.search))
+						if (schemaLessUrlLowerCase.startsWith(rule.search))
 							return rule;
 
 						let ruleSearchHost = extractHostFromInvalidUrl(rule.search);
@@ -315,7 +317,7 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 						}
 
 						// subdomains
-						if (schemaLessUrl.includes('.' + rule.search))
+						if (schemaLessUrlLowerCase.includes('.' + rule.search))
 							return rule;
 						break;
 					}
@@ -367,13 +369,13 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 					case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 						{
-							if (schemaLessUrl == null) {
-								schemaLessUrl = removeSchemaFromUrl(url);
-								if (schemaLessUrl == null) {
+							if (schemaLessUrlLowerCase == null) {
+								schemaLessUrlLowerCase = removeSchemaFromUrl(lowerCaseUrl);
+								if (schemaLessUrlLowerCase == null) {
 									continue;
 								}
 							}
-							if (schemaLessUrl.startsWith(rule.search))
+							if (schemaLessUrlLowerCase.startsWith(rule.search))
 								return rule;
 
 							let ruleSearchHost = extractHostFromInvalidUrl(rule.search);
@@ -391,7 +393,7 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 							}
 
 							// subdomains
-							if (schemaLessUrl.includes('.' + rule.search))
+							if (schemaLessUrlLowerCase.includes('.' + rule.search))
 								return rule;
 							break;
 						}
@@ -406,7 +408,7 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 		}
 
 	} catch (e) {
-		console.warn('SmartProxy> findMatchForUrl failed for ' + url, e);
+		console.warn('SmartProxy> findMatchForUrl failed for ' + lowerCaseUrl, e);
 	}
 	return null;
 }
