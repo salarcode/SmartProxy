@@ -641,14 +641,7 @@ export class popup {
 		}
 	}
 	private static closeSelf() {
-		if (!environment.mobile) {
-			window.close();
-		}
-		else {
-			PolyFill.tabsGetCurrent(details => {
-				return PolyFill.tabsRemove(details.id);
-			});
-		}
+		window.close();
 	}
 	//#endregion
 }
