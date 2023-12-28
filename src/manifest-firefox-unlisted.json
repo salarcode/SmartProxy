@@ -89,6 +89,7 @@
 		"gecko": {
 			"id": "smartproxy-unlisted@salarcode.com",
 			"strict_min_version": "100.0"
-		}
+		},
+		"gecko_android": {}
 	}
 }
