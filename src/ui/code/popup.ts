@@ -521,6 +521,7 @@ export class popup {
 				ruleId: proxyableDomain.ruleId
 			});
 
+			popup.refreshActiveTabIfNeeded();
 			popup.closeSelf();
 		} else {
 			PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
@@ -574,9 +575,12 @@ export class popup {
 							}
 							let result = response.result;
 							if (result) {
-								if (result.success && result.message) {
-									messageBox.success(result.message, 4000);
-									close = false;
+								if (result.success) {
+									popup.refreshActiveTabIfNeeded();
+									if (result.message) {
+										messageBox.success(result.message, 4000);
+										close = false;
+									}
 								}
 								else if (!result.success && result.message) {
 									messageBox.error(result.message);
