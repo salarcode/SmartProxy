@@ -905,6 +905,26 @@
 											<span data-localize="settingsBypassListHint"
 												class="form-text text-muted">(Use new line to separate entries)</span>
 										</div>
+										<div class="row">
+											<div class="form-group col-sm-6">
+												<label for="cmdRuleAction" class="form-label"
+													data-localize="settingsRulesActionType">Action</label>
+												<select id="cmdRuleAction" class="form-select">
+													<option value="0" data-localize="settingsRuleActionApplyProxy">
+														Apply Proxy</option>
+													<option value="1" data-localize="settingsRuleActionWhitelist">
+														Whitelist (No proxy)</option>
+												</select>
+											</div>
+											<div class="form-group col-sm-6" id="divRuleProxyServer">
+												<label for="cmdRuleProxyServer" class="form-label"
+													data-localize="settingsRulesProxyServer">Proxy Server</label>
+												<select id="cmdRuleProxyServer" class="form-select"></select>
+												<span class="form-text text-muted small chrome-only"
+													data-localize="settingsRulesProxyServerNotAuth">
+													(Servers with authentication are not supported in Chrome)</span>
+											</div>
+										</div>
 									</div>
 									<div class="modal-footer">
 										<button type="button" id="btnSubmitMultipleRule" class="btn btn-primary"

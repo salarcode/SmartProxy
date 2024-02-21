@@ -2377,6 +2377,8 @@ export class settingsPage {
 			modal.find("#cmdMultipleRuleType").val(0);
 			modal.find("#txtMultipleRuleList").val("");
 
+			settingsPage.populateRuleModal(pageProfile, modal, null);
+
 			modal.modal("show");
 			modal.find("#txtMultipleRuleList").focus();
 		},
@@ -2384,6 +2386,14 @@ export class settingsPage {
 			let tabContainer = pageProfile.htmlProfileTab;
 
 			let modal = tabContainer.find("#modalAddMultipleRules");
+
+			let selectedProxyId = modal.find("#cmdRuleProxyServer").val();
+			let selectedProxy = null;
+
+			if (selectedProxyId)
+				selectedProxy = settingsPage.findProxyServerById(selectedProxyId);
+
+			let whiteList = parseInt(modal.find("#cmdRuleAction").val()) != 0;
 
 			let ruleType = +modal.find("#cmdMultipleRuleType").val();
 			let rulesStr = modal.find("#txtMultipleRuleList").val();
@@ -2451,6 +2461,9 @@ export class settingsPage {
 				newRule.proxy = null;
 				newRule.hostName = hostName;
 				newRule.ruleType = ruleType;
+				newRule.proxy = selectedProxy;
+				newRule.proxyServerId = selectedProxyId;
+				newRule.whiteList = whiteList;
 
 				resultRuleList.push(newRule);
 			}
