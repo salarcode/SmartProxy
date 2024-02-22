@@ -2247,7 +2247,7 @@ export class settingsPage {
 				messageBox.error(api.i18n.getMessage("settingsServerServerAddressIsEmpty"));
 				return;
 			}
-			if (!serverInputInfo.port || serverInputInfo.port <= 0) {
+			if (!serverInputInfo.port || serverInputInfo.port <= 0 || serverInputInfo.port > 65535) {
 				messageBox.error(api.i18n.getMessage("settingsServerPortNoInvalid"));
 				return;
 			}
