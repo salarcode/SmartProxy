@@ -386,6 +386,9 @@
 	"settingsAddServerButton": {
 		"message": "Add Server"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Remove Selections"
+	},
 	"settingsSaveChangesButton": {
 		"message": "Save Changes"
 	},
@@ -488,6 +491,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Are you sure to remove the selected proxy server?"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Are you sure to remove all the proxy servers?"
 	},
@@ -514,6 +520,9 @@
 	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Are you sure to remove the selected rule?"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "Are you sure to remove all the rules?"
@@ -833,6 +842,9 @@
 	"importerImportSuccess": {
 		"message": "Total {0} out of {1} rules are appended.<br>Don't forget to save the changes."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Remove Selections"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Add Multiple Rules"
 	},
@@ -865,6 +877,9 @@
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "Subscribe to a proxy server list"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Remove Selections"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "Name:"
@@ -938,6 +953,9 @@
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Are you sure to remove all the proxy server subscriptions?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "All the proxy server subscriptions are removed.<br/>You have to save to apply the changes."
 	},
@@ -997,6 +1015,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Subscribe to a rules list"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Remove Selections"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Subscribe to a rules list"
@@ -1063,6 +1084,9 @@
 	},
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "Are you sure to remove the selected rules subscription?"
+	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Please fill the required fields in the right format"

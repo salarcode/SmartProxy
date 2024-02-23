@@ -568,6 +568,8 @@
 						<div class="float-start">
 							<button id="btnAddProxyServer" class="btn btn-info"
 								data-localize="settingsAddServerButton">Add Server</button>
+							<button id="btnRemoveMultipleProxyServer" class="btn btn-danger" style="display: none;"
+								data-localize="settingsRemoveMultipleServerButton">Remove Selections</button>
 						</div>
 						<div class="float-end">
 							<button id="btnImportProxyServerOpen" type="button" class="btn btn-info"
@@ -676,9 +678,13 @@
 						<div class="float-start">
 							<button id="btnAddProxyRule" class="btn btn-info" data-localize="settingsAddRuleButton">
 								Add Rule</button>
-							<button id="btnAddProxyMultipleRule" type="button" class="btn btn-info"
+							<button id="btnAddMultipleProxyRule" type="button" class="btn btn-info"
 								data-localize="settingsAddMultipleRulesButton" data-bs-target="#modalAddMultipleRules">
 								Add Multiple Rules
+							</button>
+							<button id="btnRemoveMultipleProxyRule" type="button" class="btn btn-danger"
+								data-localize="settingsRemoveMultipleProxyRuleButton" style="display: none;">
+								Remove Selections
 							</button>
 						</div>
 						<div class="float-end">
@@ -711,6 +717,10 @@
 								<button id="btnAddRulesSubscription" class="btn btn-info"
 									data-localize="settingsAddRulesSubscriptionButton">
 									Subscribe to a rules list
+								</button>
+								<button id="btnRemoveMultipleRulesSubscription" class="btn btn-danger" style="display: none;"
+									data-localize="settingsRemoveMultipleRulesSubscriptionButton">
+									Remove Selections
 								</button>
 							</div>
 							<div class="clearfix"></div>
@@ -1116,6 +1126,10 @@
 							<button id="btnAddServerSubscription" class="btn btn-info"
 								data-localize="settingsAddServerSubscriptionButton">
 								Subscribe to a list
+							</button>
+							<button id="btnRemoveMultipleServerSubscription" class="btn btn-danger" style="display: none;"
+								data-localize="settingsRemoveMultipleServerSubscriptionButton">
+								Remove Selections
 							</button>
 						</div>
 						<div class="clearfix"></div>
