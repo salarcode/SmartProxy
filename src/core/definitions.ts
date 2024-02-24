@@ -549,7 +549,7 @@ export enum ThemeType {
 	Dark
 }
 
-export class GeneralOptions implements Cloneable {
+export class GeneralOptions implements Cloneable, Compareable {
 	public static defaultDarkThemeName: string = "themes-cosmo-dark";
 
 	public syncSettings: boolean = false;
@@ -595,10 +595,35 @@ export class GeneralOptions implements Cloneable {
 		this.themesDark = source['themesDark'];
 		this.themesDarkCustomUrl = source['themesDarkCustomUrl'];
 	}
+
+	Equals(other: GeneralOptions): Boolean {
+		if (other.syncSettings !== this.syncSettings) return false;
+		if (other.syncActiveProfile !== this.syncActiveProfile) return false;
+		if (other.syncActiveProxy !== this.syncActiveProxy) return false;
+		if (other.detectRequestFailures !== this.detectRequestFailures) return false;
+		if (other.displayFailedOnBadge !== this.displayFailedOnBadge) return false;
+		if (other.displayAppliedProxyOnBadge !== this.displayAppliedProxyOnBadge) return false;
+		if (other.displayMatchedRuleOnBadge !== this.displayMatchedRuleOnBadge) return false;
+		if (other.refreshTabOnConfigChanges !== this.refreshTabOnConfigChanges) return false;
+		if (other.proxyPerOrigin !== this.proxyPerOrigin) return false;
+		if (other.activeIncognitoProfileId !== this.activeIncognitoProfileId) return false;
+		if (other.enableShortcuts !== this.enableShortcuts) return false;
+		if (other.shortcutNotification !== this.shortcutNotification) return false;
+		if (other.themeType !== this.themeType) return false;
+		if (other.themesLight !== this.themesLight) return false;
+		if (other.themesLightCustomUrl !== this.themesLightCustomUrl) return false;
+		if (other.themesDark !== this.themesDark) return false;
+		if (other.themesDarkCustomUrl !== this.themesDarkCustomUrl) return false;
+		return true;
+	}
 }
 
 interface Cloneable {
 	CopyFrom(source: any): void;
+}
+
+interface Compareable {
+	Equals(other: any): Boolean;
 }
 
 class ProxyServerConnectDetails {
