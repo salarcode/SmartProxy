@@ -146,13 +146,14 @@ export class ProxyEngineFirefox {
 		let settings = Settings.current;
 		let settingsActive = Settings.active;
 		let currentProxyServer = settingsActive.currentProxyServer;
+		let tabData: TabDataType = null;
+
+		let activeProfile = settingsActive.activeProfile;
+		let activeProfileType = activeProfile.profileType;
 
 		let result = (() => {
 			if (!requestDetails.url)
 				return { type: 'direct' };
-
-			let activeProfile = settingsActive.activeProfile;
-			let activeProfileType = activeProfile.profileType;
 
 			// checking if request is special
 			let specialRequest = ProxyEngineSpecialRequests.retrieveSpecialUrlMode(requestDetails.url, true);
@@ -179,7 +180,6 @@ export class ProxyEngineFirefox {
 				}
 			}
 
-			let tabData: TabDataType = null;
 			if (requestDetails.tabId > -1) {
 				tabData = TabManager.getTab(requestDetails.tabId);
 
@@ -214,9 +214,7 @@ export class ProxyEngineFirefox {
 				if (tabData != null && tabData.proxified === TabProxyStatus.Proxified) {
 					if (!requestDetails.documentUrl) {
 						// document url is being changed, resetting the settings for that
-						tabData.proxified = TabProxyStatus.None;
-						tabData.proxyServerFromRule = null;
-						tabData.proxifiedParentDocumentUrl = null;
+						tabData.resetTabState();
 					} else {
 						proxyLog.ruleHostName = tabData.proxyRuleHostName;
 
@@ -292,7 +290,7 @@ export class ProxyEngineFirefox {
 
 					if (requestDetails.tabId > -1) {
 						// storing the proxy & rule in tab
-						ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule);
+						tabData = ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule) ?? tabData;
 					}
 
 					if (matchedRule.proxy) {
@@ -376,7 +374,7 @@ export class ProxyEngineFirefox {
 
 					if (requestDetails.tabId > -1) {
 						// storing the proxy & rule in tab
-						ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule);
+						tabData = ProxyEngineFirefox.storeTabProxyDetail(requestDetails, matchedRule) ?? tabData;
 					}
 
 					if (matchedRule.proxy) {
@@ -406,22 +404,25 @@ export class ProxyEngineFirefox {
 
 		DiagDebug?.trace("FF.handleProxyRequest", 't=' + proxyLog.tabId, result, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
 
+		// ---
+		ProxyEngineFirefox.storeTabStats(tabData, proxyLog, requestDetails, activeProfileType);
+
 		// notify the logger
 		TabRequestLogger.notifyProxyableLog(proxyLog);
 		return result;
 	}
 
-	private static storeTabProxyDetail(requestDetails: any, matchedRule: CompiledProxyRule) {
+	private static storeTabProxyDetail(requestDetails: any, matchedRule: CompiledProxyRule): TabDataType {
 		// check if this is the top level request
 		if (requestDetails.type !== 'main_frame') {
-			return;
+			return null;
 		}
 
 		// tab is new, we need to create it
 		let tabData = TabManager.getOrSetTab(requestDetails.tabId, true, requestDetails.url);
 		if (tabData == null) {
 			// never
-			return;
+			return null;
 		}
 
 		// only the top-level
@@ -433,6 +434,32 @@ export class ProxyEngineFirefox {
 
 			// set `tabData.proxified = true` 
 			TabManager.setTabDataProxied(tabData, requestDetails.url, matchedRule);
+		}
+		return tabData;
+	}
+
+	private static storeTabStats(tabData: TabDataType, proxyLog: ProxyableLogDataType, requestDetails: any, profileType: SmartProfileType) {
+		if (tabData == null)
+			tabData = TabManager.getTab(requestDetails.tabId);
+
+		if (tabData == null)
+			return;
+
+		if (proxyLog.proxifiedStatus == ProxyableProxifiedStatus.AlwaysEnabled &&
+			proxyLog.matchedRuleStatus == ProxyableMatchedRuleStatus.AlwaysEnabledByPassed) {
+
+			tabData.status.hasAlwaysEnabledByPassed = true;
+		}
+
+		if (proxyLog.matchedRuleStatus == ProxyableMatchedRuleStatus.Whitelisted) {
+			tabData.status.statsHasWhitelistedRules = true;
+		}
+
+		if (proxyLog.proxified) {
+			tabData.status.statsHasProxifiedRequest = true;
+		}
+		else {
+			tabData.status.statsHasDirectRequest = true;
 		}
 	}
 

@@ -87,9 +87,8 @@ export class TabManager {
 			tabData = TabManager.getOrSetTab(tabId, false);
 		}
 		if (tabData.proxifiedParentDocumentUrl != tabInfo.url) {
-
-			tabData.proxyServerFromRule = null;
-			tabData.proxified = TabProxyStatus.None;
+			// resettings the state
+			tabData.resetTabState();
 
 			// apply `proxified` value
 			TabManager.setRuleForProxyPerOrigin(tabData, tabInfo.url);
@@ -124,8 +123,7 @@ export class TabManager {
 				tabData.proxyServerFromRule = null;
 		}
 		else {
-			tabData.proxyServerFromRule = null;
-			tabData.proxified = TabProxyStatus.None;
+			tabData.resetTabState();
 		}
 	}
 
@@ -249,6 +247,7 @@ export class TabDataType {
 		this.incognito = false;
 		this.failedRequests = new Map<string, FailedRequestType>();
 		this.proxified = TabProxyStatus.None;
+		this.status = new TabDataStatuses();
 	}
 
 	public tabId: number;
@@ -263,6 +262,7 @@ export class TabDataType {
 	public proxyRuleHostName: string;
 	public proxyMatchedRule?: CompiledProxyRule;
 	public proxyServerFromRule: ProxyServer;
+	public status: TabDataStatuses;
 
 	/** Removes failed requests */
 	public clearFailedRequests() {
@@ -277,4 +277,27 @@ export class TabDataType {
 				request.hitCount = 1;
 			});
 	}
+
+	/** Resets tab`s proxy state and its statuses */
+	public resetTabState() {
+
+		this.proxified = TabProxyStatus.None;
+		this.proxyServerFromRule = null;
+		this.proxifiedParentDocumentUrl = null;
+
+		this.status = new TabDataStatuses();
+	}
+}
+export class TabDataStatuses {
+	/** Any smart rule is matched or always enabled is on */
+	public statsHasProxifiedRequest: boolean;
+
+	/** No proxy applied */
+	public statsHasDirectRequest: boolean;
+
+	/** Smart rules has white listed and not proxies */
+	public statsHasWhitelistedRules: boolean;
+
+	/** Always enabled has bypassed and no proxy is applied */
+	public hasAlwaysEnabledByPassed: boolean;
 }

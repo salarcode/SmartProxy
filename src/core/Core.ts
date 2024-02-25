@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2023 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2024 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -35,7 +35,6 @@ import {
 	ProxyableInternalDataType,
 	ProxyServer,
 	ResultHolderGeneric,
-	SmartProfileType,
 	CompiledProxyRulesMatchedSource,
 	SmartProfile,
 	PartialThemeDataType,
@@ -45,11 +44,13 @@ import { KeyboardShortcuts } from './KeyboardShortcuts';
 import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
 import { ProfileOperations } from './ProfileOperations';
 import { ProfileRules } from './ProfileRules';
+import { Icons } from './Icons';
 
 const subscriptionUpdaterLib = SubscriptionUpdater;
 const proxyEngineLib = ProxyEngine;
 const settingsLib = Settings;
 const settingsOperationLib = SettingsOperation;
+const iconsLib = Icons;
 
 export class Core {
 	/** Start the application */
@@ -758,7 +759,7 @@ export class Core {
 			return dataForPopup;
 
 		let activeSmartProfile = settingsActive.activeProfile;
-		
+
 		if (proxyableDomainList.length == 1) {
 			let proxyableDomain = proxyableDomainList[0];
 
@@ -870,68 +871,13 @@ export class Core {
 		return result;
 	}
 
-	private static getBrowserActionIconAndTitle(profileType: SmartProfileType) {
-		let extensionName = api.i18n.getMessage('extensionName');
-		switch (profileType) {
-			case SmartProfileType.Direct:
-				return {
-					title: `${extensionName} : ${api.i18n.getMessage('popupNoProxy')}`,
-					icons: {
-						path: {
-							16: 'icons/proxymode-disabled-16.png',
-							32: 'icons/proxymode-disabled-32.png',
-							48: 'icons/proxymode-disabled-48.png',
-						}
-					}
-				};
-
-			case SmartProfileType.AlwaysEnabledBypassRules:
-				return {
-					title: `${extensionName} : ${api.i18n.getMessage('popupAlwaysEnable')}`,
-					icons: {
-						path: {
-							16: 'icons/proxymode-always-16.png',
-							32: 'icons/proxymode-always-32.png',
-							48: 'icons/proxymode-always-48.png',
-						}
-					}
-				};
-
-			case SmartProfileType.SystemProxy:
-				return {
-					title: `${extensionName} : ${api.i18n.getMessage('popupSystemProxy')}`,
-					icons: {
-						path: {
-							16: 'icons/proxymode-system-16.png',
-							32: 'icons/proxymode-system-32.png',
-							48: 'icons/proxymode-system-48.png',
-						}
-					}
-				};
-
-			case SmartProfileType.SmartRules:
-			default:
-				return {
-					title: `${extensionName} : ${api.i18n.getMessage('popupSmartProxy')}`,
-					icons: {
-						path: {
-							16: 'icons/smartproxy-16.png',
-							24: 'icons/smartproxy-24.png',
-							48: 'icons/smartproxy-48.png',
-							96: 'icons/smartproxy-96.png',
-						}
-					}
-				};
-		}
-	}
-
 	public static setBrowserActionStatus(tabData?: TabDataType) {
-		if (!settingsLib.active || !settingsLib.active.activeProfile)
+		if (!settingsLib.active?.activeProfile)
 			return;
-		let info = Core.getBrowserActionIconAndTitle(settingsLib.active.activeProfile.profileType);
-		let proxyTitle = info.title;
 
-		PolyFill.browserActionSetIcon(info.icons);
+		//let actionIcon = { imageData: iconsLib.getBrowserActionIcon(settingsLib.active.activeProfile.profileType, tabData) };
+		let actionIcon = iconsLib.getBrowserActionIcon(settingsLib.active.activeProfile.profileType, tabData);
+		let actionTitle = iconsLib.getBrowserActionTitle(settingsLib.active.activeProfile.profileType);
 
 		// TODO: Because of bug #40 do not add additional in overflow menu
 
@@ -944,12 +890,11 @@ export class Core {
 			if (tabData.incognito && settingsLib.active.activeIncognitoProfile) {
 				// private browsing mode has special profile, setting icon for that
 
-				info = Core.getBrowserActionIconAndTitle(settingsLib.active.activeIncognitoProfile.profileType);
-				proxyTitle = info.title;
+				actionIcon = iconsLib.getBrowserActionIcon(settingsLib.active.activeProfile.profileType, tabData);
+				actionTitle = iconsLib.getBrowserActionTitle(settingsLib.active.activeIncognitoProfile.profileType);
 
 				// limiting to this tab only
-				info.icons["tabId"] = tabData.tabId;
-				PolyFill.browserActionSetIcon(info.icons);
+				actionIcon["tabId"] = tabData.tabId;
 			}
 
 			if (settingsLib.current?.options?.displayFailedOnBadge == true)
@@ -970,25 +915,26 @@ export class Core {
 
 			if (settingsLib.current.options.displayAppliedProxyOnBadge && !environment.mobile) {
 				if (tabData.proxified !== TabProxyStatus.None) {
-					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
+					actionTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
 				} else {
-					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRuleNone')}`;
+					actionTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRuleNone')}`;
 				}
 			}
 
 			if (settingsLib.current.options.displayMatchedRuleOnBadge && !environment.mobile) {
 				if (tabData.proxified !== TabProxyStatus.None && tabData.proxyMatchedRule) {
-					proxyTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRulePattern')}  ${tabData.proxyMatchedRule.ruleText}`;
+					actionTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRulePattern')}  ${tabData.proxyMatchedRule.ruleText}`;
 				}
 			}
 		}
 
 		let activeProxyServer = settingsLib.active.activeProfile?.profileProxyServer;
 		if (activeProxyServer) {
-			proxyTitle += `\r\nProxy server: ${activeProxyServer.host} : ${activeProxyServer.port}`;
+			actionTitle += `\r\nProxy server: ${activeProxyServer.host} : ${activeProxyServer.port}`;
 		}
-
-		api.browserAction.setTitle({ title: proxyTitle });
+		
+		PolyFill.browserActionSetIcon(actionIcon);
+		api.browserAction.setTitle({ title: actionTitle });
 	}
 
 	private static onTabUpdatedUpdateActionStatus(tabData: TabDataType) {
