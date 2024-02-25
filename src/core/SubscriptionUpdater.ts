@@ -270,7 +270,7 @@ export class SubscriptionUpdater {
 			subscription.stats = new SubscriptionStats();
 		}
 
-		RuleImporter.readFromServer(subscription,
+		RuleImporter.readRulesSubscriptionFromServer(subscription,
 			function (response: {
 				success: boolean,
 				message: string,

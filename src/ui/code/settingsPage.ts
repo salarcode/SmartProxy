@@ -3191,7 +3191,7 @@ export class settingsPage {
 				editingSubscription.stats = new SubscriptionStats();
 			}
 
-			RuleImporter.readFromServer(editingSubscription,
+			RuleImporter.readRulesSubscriptionFromServer(editingSubscription,
 				(response: {
 					success: boolean,
 					message: string,
@@ -3291,7 +3291,7 @@ export class settingsPage {
 			tabContainer.find("#btnSaveRulesSubscriptions").attr("data-loading-text", api.i18n.getMessage("settingsRulesSubscriptionSavingButton"));
 			tabContainer.find("#btnSaveRulesSubscriptions").button("loading");
 
-			RuleImporter.readFromServer(subscriptionModel,
+			RuleImporter.readRulesSubscriptionFromServer(subscriptionModel,
 				(response: {
 					success: boolean,
 					message: string,
@@ -3399,7 +3399,7 @@ export class settingsPage {
 					if (response.message)
 						messageBox.success(response.message);
 
-					RuleImporter.readFromServer(subscriptionModel,
+					RuleImporter.readRulesSubscriptionFromServer(subscriptionModel,
 						(response: {
 							success: boolean,
 							message: string,

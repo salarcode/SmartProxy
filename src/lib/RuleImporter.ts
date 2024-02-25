@@ -26,7 +26,7 @@ import { ProxyEngineSpecialRequests } from '../core/ProxyEngineSpecialRequests';
 import * as ruleImporterSwitchyScript from './RuleImporterSwitchy';
 
 export const RuleImporter = {
-	readFromServer(subscription: ProxyRulesSubscription, success?: Function, fail?: Function) {
+	readRulesSubscriptionFromServer(subscription: ProxyRulesSubscription, success?: Function, fail?: Function) {
 		if (!subscription || !subscription.url) {
 			if (fail) fail();
 			return;
@@ -35,7 +35,7 @@ export const RuleImporter = {
 
 		function ajaxSuccess(response: any) {
 			if (!response) if (fail) fail();
-			RuleImporter.importRulesBatch(
+			RuleImporter.importRulesSubscriptionBatch(
 				response,
 				null,
 				false,
@@ -85,7 +85,7 @@ export const RuleImporter = {
 				if (fail) fail(error);
 			});
 	},
-	importRulesBatch(
+	importRulesSubscriptionBatch(
 		text: string | ArrayBuffer,
 		file: any,
 		append: boolean,
@@ -201,7 +201,7 @@ export const RuleImporter = {
 				let importedRuleList = [];
 
 				for (let parsedRule of parsedRuleList) {
-					let convertResult = RuleImporter.convertAutoProxyRule(
+					let convertResult = externalAppRuleParser.AutoProxy.convertAutoProxyRule(
 						parsedRule.condition.pattern,
 						parsedRule.condition.conditionType,
 					);
@@ -270,122 +270,7 @@ export const RuleImporter = {
 			}
 		};
 		reader.readAsText(file);
-	},
-	convertAutoProxyRule(cleanCondition: any, conditionType: any) {
-		let source = '';
-		let pattern = '';
-
-		switch (conditionType) {
-			case 'KeywordCondition':
-				// no (*) character
-
-				// NOTE: keyword type is supported as domain name
-				// it also works for https as well as http
-
-				if (cleanCondition[0] === '.') {
-					cleanCondition = cleanCondition.substring(1);
-				}
-				source = cleanCondition;
-
-				if (cleanCondition.endsWith('/'))
-					// no extra slash
-					source = cleanCondition.substring(0, cleanCondition.length - 2);
-
-				pattern = `*://*.${source}/*`;
-				break;
-
-			case 'HostWildcardCondition':
-				if (cleanCondition[0] === '.') {
-					cleanCondition = cleanCondition.substring(1);
-				}
-				// remove (*) chars
-				cleanCondition = cleanCondition.replace(/\*/g, '');
-
-				// remove (.) duplicates
-				cleanCondition = cleanCondition.replace(/([.])\1+/g, '.');
-
-				if (cleanCondition[0] === '.') {
-					cleanCondition = cleanCondition.substring(1);
-				}
-
-				// source
-				source = cleanCondition;
-
-				if (cleanCondition.endsWith('/'))
-					// no extra slash
-					source = cleanCondition.substring(0, cleanCondition.length - 2);
-
-				pattern = `*://*.${source}/*`;
-				break;
-
-			case 'UrlWildcardCondition':
-				// very restricted support
-				if (cleanCondition[0] === '*') {
-					// no problem
-					cleanCondition = cleanCondition.substring(1);
-				}
-				if (cleanCondition[0] === '.') {
-					cleanCondition = cleanCondition.substring(1);
-				}
-
-				if (cleanCondition.indexOf('*') !== -1) {
-					let cleanConditionRemMiddle = cleanCondition;
-
-					if (cleanConditionRemMiddle.indexOf('://*.') !== -1) {
-						cleanConditionRemMiddle = cleanConditionRemMiddle.replace('//*.', '://');
-					}
-
-					if (cleanConditionRemMiddle.endsWith('*')) {
-						cleanCondition = cleanCondition.substring(0, cleanCondition.length - 2);
-						cleanConditionRemMiddle = cleanConditionRemMiddle.substring(0, cleanCondition.length - 2);
-					}
-
-					if (cleanConditionRemMiddle.indexOf('*') !== -1) {
-						// (/*/) is supported, lets remove them and check again for other rules)
-						cleanConditionRemMiddle = cleanCondition.replace(/\/\*\//g, '/');
-
-						if (cleanConditionRemMiddle.indexOf('*') !== -1) {
-							// still there is some left
-							// * in middle is not supported
-
-							return {
-								success: false,
-							};
-						}
-					}
-				}
-
-				// source
-				source = cleanCondition;
-
-				if (cleanCondition.endsWith('/'))
-					// no extra slash
-					source = cleanCondition.substring(0, cleanCondition.length - 2);
-
-				if (source.indexOf('://') !== -1) {
-					pattern = `${source}/*`;
-				} else {
-					pattern = `*://*.${source}/*`;
-				}
-
-				break;
-
-			case 'UrlRegexCondition':
-				// not supported
-				return {
-					success: false,
-				};
-		}
-
-		return {
-			success: true,
-			source: source,
-			pattern: pattern,
-			toString() {
-				return `[${source} , ${pattern}]`;
-			},
-		};
-	},
+	}
 };
 
 const externalAppRuleParser = {
@@ -505,6 +390,122 @@ const externalAppRuleParser = {
 			}
 			return exclusive_rules.concat(normal_rules);
 		},
+		convertAutoProxyRule(cleanCondition: any, conditionType: any) {
+			/** Converts AutoProxy rule to json rules */
+			let source = '';
+			let pattern = '';
+
+			switch (conditionType) {
+				case 'KeywordCondition':
+					// no (*) character
+
+					// NOTE: keyword type is supported as domain name
+					// it also works for https as well as http
+
+					if (cleanCondition[0] === '.') {
+						cleanCondition = cleanCondition.substring(1);
+					}
+					source = cleanCondition;
+
+					if (cleanCondition.endsWith('/'))
+						// no extra slash
+						source = cleanCondition.substring(0, cleanCondition.length - 2);
+
+					pattern = `*://*.${source}/*`;
+					break;
+
+				case 'HostWildcardCondition':
+					if (cleanCondition[0] === '.') {
+						cleanCondition = cleanCondition.substring(1);
+					}
+					// remove (*) chars
+					cleanCondition = cleanCondition.replace(/\*/g, '');
+
+					// remove (.) duplicates
+					cleanCondition = cleanCondition.replace(/([.])\1+/g, '.');
+
+					if (cleanCondition[0] === '.') {
+						cleanCondition = cleanCondition.substring(1);
+					}
+
+					// source
+					source = cleanCondition;
+
+					if (cleanCondition.endsWith('/'))
+						// no extra slash
+						source = cleanCondition.substring(0, cleanCondition.length - 2);
+
+					pattern = `*://*.${source}/*`;
+					break;
+
+				case 'UrlWildcardCondition':
+					// very restricted support
+					if (cleanCondition[0] === '*') {
+						// no problem
+						cleanCondition = cleanCondition.substring(1);
+					}
+					if (cleanCondition[0] === '.') {
+						cleanCondition = cleanCondition.substring(1);
+					}
+
+					if (cleanCondition.indexOf('*') !== -1) {
+						let cleanConditionRemMiddle = cleanCondition;
+
+						if (cleanConditionRemMiddle.indexOf('://*.') !== -1) {
+							cleanConditionRemMiddle = cleanConditionRemMiddle.replace('//*.', '://');
+						}
+
+						if (cleanConditionRemMiddle.endsWith('*')) {
+							cleanCondition = cleanCondition.substring(0, cleanCondition.length - 2);
+							cleanConditionRemMiddle = cleanConditionRemMiddle.substring(0, cleanCondition.length - 2);
+						}
+
+						if (cleanConditionRemMiddle.indexOf('*') !== -1) {
+							// (/*/) is supported, lets remove them and check again for other rules)
+							cleanConditionRemMiddle = cleanCondition.replace(/\/\*\//g, '/');
+
+							if (cleanConditionRemMiddle.indexOf('*') !== -1) {
+								// still there is some left
+								// * in middle is not supported
+
+								return {
+									success: false,
+								};
+							}
+						}
+					}
+
+					// source
+					source = cleanCondition;
+
+					if (cleanCondition.endsWith('/'))
+						// no extra slash
+						source = cleanCondition.substring(0, cleanCondition.length - 2);
+
+					if (source.indexOf('://') !== -1) {
+						pattern = `${source}/*`;
+					} else {
+						pattern = `*://*.${source}/*`;
+					}
+
+					break;
+
+				case 'UrlRegexCondition':
+					// not supported
+					return {
+						success: false,
+					};
+			}
+
+			return {
+				success: true,
+				source: source,
+				pattern: pattern,
+				toString() {
+					return `[${source} , ${pattern}]`;
+				},
+			};
+		}
 	},
 	GFWList: {
 		// -----------------------------------------------
