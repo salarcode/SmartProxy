@@ -163,6 +163,8 @@ export class settingsPage {
 
 		jq("#btnAddProxyServer").click(settingsPage.uiEvents.onClickAddProxyServer);
 
+		jq("#btnRemoveMultipleProxyServer").click(settingsPage.uiEvents.onClickRemoveMultipleProxyServer);
+
 		jq("#cmdServerProtocol").on("change", settingsPage.uiEvents.onChangeServerProtocol);
 
 		jq("#btnSubmitProxyServer").click(settingsPage.uiEvents.onClickSubmitProxyServer);
@@ -187,6 +189,8 @@ export class settingsPage {
 		// proxy server subscriptions
 		jq("#btnAddServerSubscription").click(settingsPage.uiEvents.onClickAddServerSubscription);
 
+		jq("#btnRemoveMultipleServerSubscription").click(settingsPage.uiEvents.onClickRemoveMultipleServerSubscription);
+
 		jq("#btnSaveServerSubscription").click(settingsPage.uiEvents.onClickSaveServerSubscription);
 
 		jq("#btnTestServerSubscription").click(settingsPage.uiEvents.onClickTestServerSubscription);
@@ -208,7 +212,7 @@ export class settingsPage {
 		settingsPage.grdServers = jq("#grdServers").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
-			select: true,
+			select: { style: "os" },
 			scrollY: 460,
 			scrollCollapse: true,
 			responsive: true,
@@ -260,12 +264,15 @@ export class settingsPage {
 					settingsPage.refreshServersGridRowElement(rowChild[0]);
 			}
 		);
+		settingsPage.grdServers.on("select deselect", () => {
+			settingsPage.uiEvents.onRowSelectionChanged(settingsPage.grdServers, jq("#btnRemoveMultipleProxyServer"));
+		});
 		settingsPage.grdServers.draw();
 
 		settingsPage.grdServerSubscriptions = jq("#grdServerSubscriptions").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
-			select: true,
+			select: { style: "os" },
 			scrollY: 460,
 			scrollCollapse: true,
 			responsive: true,
@@ -317,6 +324,9 @@ export class settingsPage {
 					settingsPage.refreshServerSubscriptionsGridRowElement(rowChild[0]);
 			}
 		);
+		settingsPage.grdServerSubscriptions.on("select deselect", () => {
+			settingsPage.uiEvents.onRowSelectionChanged(settingsPage.grdServerSubscriptions, jq("#btnRemoveMultipleServerSubscription"));
+		});
 		settingsPage.grdServerSubscriptions.draw();
 
 		if (settingsPage.currentSettings) {
@@ -1458,7 +1468,7 @@ export class settingsPage {
 		let grdRules = tabContainer.find("#grdRules").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
-			select: true,
+			select: { style: "os" },
 			scrollY: 460,
 			scrollCollapse: true,
 			responsive: true,
@@ -1474,6 +1484,9 @@ export class settingsPage {
 					settingsPage.refreshRulesGridRowElement(pageProfile, rowChild[0]);
 			}
 		);
+		grdRules.on("select deselect", () => {
+			this.uiEvents.onRowSelectionChanged(pageProfile.grdRules, tabContainer.find("#btnRemoveMultipleProxyRule"));
+		});
 		grdRules.draw();
 		new jq.fn.dataTable.Responsive(grdRules);
 		jq.fn.dataTable.select.init(grdRules);
@@ -1482,7 +1495,7 @@ export class settingsPage {
 		let grdRulesSubscriptions = tabContainer.find("#grdRulesSubscriptions").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
-			select: true,
+			select: { style: "os" },
 			scrollY: 460,
 			scrollCollapse: true,
 			responsive: true,
@@ -1534,9 +1547,12 @@ export class settingsPage {
 					settingsPage.refreshRulesSubscriptionsGridRowElement(pageProfile, rowChild[0]);
 			}
 		);
+		grdRulesSubscriptions.on("select deselect", () => {
+			this.uiEvents.onRowSelectionChanged(pageProfile.grdRulesSubscriptions, tabContainer.find("#btnRemoveMultipleRulesSubscription"));
+		});
 		grdRulesSubscriptions.draw();
 		//new jq.fn.dataTable.Responsive(grdRulesSubscriptions);
-		//jq.fn.dataTable.select.init(grdRulesSubscriptions);
+		jq.fn.dataTable.select.init(grdRulesSubscriptions);
 
 		// -----
 		pageProfile.grdRules = grdRules;
@@ -1600,7 +1616,9 @@ export class settingsPage {
 
 		tabContainer.find("#btnImportRules").click(() => settingsPage.uiEvents.onClickImportRules(pageProfile));
 
-		tabContainer.find("#btnAddProxyMultipleRule").click(() => settingsPage.uiEvents.onClickAddProxyMultipleRule(pageProfile));
+		tabContainer.find("#btnAddMultipleProxyRule").click(() => settingsPage.uiEvents.onClickAddMultipleProxyRule(pageProfile));
+
+		tabContainer.find("#btnRemoveMultipleProxyRule").click(() => settingsPage.uiEvents.onClickRemoveMultipleProxyRule(pageProfile));
 
 		tabContainer.find("#btnSubmitMultipleRule").click(() => settingsPage.uiEvents.onClickSubmitMultipleRule(pageProfile));
 
@@ -1608,6 +1626,8 @@ export class settingsPage {
 
 		// proxy rules subscriptions
 		tabContainer.find("#btnAddRulesSubscription").click(() => settingsPage.uiEvents.onClickAddRulesSubscription(pageProfile));
+
+		tabContainer.find("#btnRemoveMultipleRulesSubscription").click(() => settingsPage.uiEvents.onClickRemoveMultipleRulesSubscription(pageProfile));
 
 		tabContainer.find("#btnSaveRulesSubscriptions").click(() => settingsPage.uiEvents.onClickSaveRulesSubscription(pageProfile));
 
@@ -2157,6 +2177,14 @@ export class settingsPage {
 				jq("#divThemesDarkCustom").addClass('d-none');
 			}
 		},
+		onRowSelectionChanged(datatable: any, button: any){
+			let len = datatable.rows({ selected: true }).data().length;
+			if (len > 1) {
+				button.show();
+			} else {
+				button.hide();
+			}
+		},
 		onClickAddNewSmartProfile() {
 			let modal = jq("#modalAddNewSmartProfile");
 			modal.find("#rbtnNewSmartProfile_SmartRules").prop("checked", true);
@@ -2211,6 +2239,24 @@ export class settingsPage {
 
 			modal.modal("show");
 			modal.find("#txtServerAddress").focus();
+		},
+		onClickRemoveMultipleProxyServer() {
+			var rows = settingsPage.grdServers.rows({ selected: true });
+			if (!rows)
+				return;
+
+			messageBox.confirm(api.i18n.getMessage("settingsConfirmRemoveMultipleProxyServer"),
+				() => {
+
+					// remove then redraw the grid page
+					rows.remove().draw('full-hold');
+
+					settingsPage.changeTracking.servers = true;
+
+					settingsPage.loadDefaultProxyServer();
+
+					jq("#btnRemoveMultipleProxyServer").hide();
+				});
 		},
 		onChangeServerProtocol() {
 			settingsPage.populateServerProtocol();
@@ -2367,7 +2413,7 @@ export class settingsPage {
 					messageBox.info(api.i18n.getMessage("settingsRemoveAllProxyServersSuccess"));
 				});
 		},
-		onClickAddProxyMultipleRule(pageProfile: SettingsPageSmartProfile) {
+		onClickAddMultipleProxyRule(pageProfile: SettingsPageSmartProfile) {
 			let tabContainer = pageProfile.htmlProfileTab;
 
 			let modal = tabContainer.find("#modalAddMultipleRules");
@@ -2381,6 +2427,20 @@ export class settingsPage {
 
 			modal.modal("show");
 			modal.find("#txtMultipleRuleList").focus();
+		},
+		onClickRemoveMultipleProxyRule(pageProfile: SettingsPageSmartProfile) {
+			var rows = pageProfile.grdRules.rows({ selected: true });
+			if (!rows)
+				return;
+
+			messageBox.confirm(api.i18n.getMessage("settingsConfirmRemoveMultipleProxyRule"),
+				() => {
+
+					// remove then redraw the grid page
+					rows.remove().draw('full-hold');
+					settingsPage.changeTracking.smartProfiles = true;
+					pageProfile.htmlProfileTab.find("#btnRemoveMultipleProxyRule").hide();
+				});
 		},
 		onClickSubmitMultipleRule(pageProfile: SettingsPageSmartProfile) {
 			let tabContainer = pageProfile.htmlProfileTab;
@@ -2868,6 +2928,20 @@ export class settingsPage {
 
 			modal.on("shown.bs.modal", focusUrl);
 		},
+		onClickRemoveMultipleServerSubscription(){
+			var rows = settingsPage.grdServerSubscriptions.rows({ selected: true });
+			if (!rows)
+				return;
+
+			messageBox.confirm(api.i18n.getMessage("settingsConfirmRemoveMultipleServerSubscription"),
+				() => {
+					// remove then redraw the grid page
+					rows.remove().draw('full-hold');
+
+					settingsPage.changeTracking.serverSubscriptions = true;
+					jq("#btnRemoveMultipleServerSubscription").hide();
+				});
+		},
 		onServerSubscriptionEditClick(e: any) {
 
 			let item = settingsPage.readSelectedServerSubscription(e);
@@ -3146,6 +3220,20 @@ export class settingsPage {
 			}
 
 			modal.on("shown.bs.modal", focusUrl);
+		},
+		onClickRemoveMultipleRulesSubscription(pageProfile: SettingsPageSmartProfile) {
+			var rows = pageProfile.grdRulesSubscriptions.rows({ selected: true });
+			if (!rows)
+				return;
+
+			messageBox.confirm(api.i18n.getMessage("settingsConfirmRemoveMultipleRulesSubscription"),
+				() => {
+
+					// remove then redraw the grid page
+					rows.remove().draw('full-hold');
+					settingsPage.changeTracking.rulesSubscriptions = true;
+					pageProfile.htmlProfileTab.find("#btnRemoveMultipleRulesSubscription").hide();
+				});
 		},
 		onRulesSubscriptionEditClick(pageProfile: SettingsPageSmartProfile, e: any) {
 
