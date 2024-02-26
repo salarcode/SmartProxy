@@ -865,6 +865,13 @@ export class settingsPage {
 		subscription.totalCount = 0;
 		return subscription;
 	}
+
+	private static enableGridMultipleDelete(button: any, enable: boolean) {
+		if (enable)
+			jq(button).removeAttr("disabled");
+		else
+			jq(button).attr("disabled", true);
+	}
 	//#endregion
 
 	//#region General tab functions --------------
@@ -2177,13 +2184,11 @@ export class settingsPage {
 				jq("#divThemesDarkCustom").addClass('d-none');
 			}
 		},
-		onRowSelectionChanged(datatable: any, button: any){
+		onRowSelectionChanged(datatable: any, button: any) {
 			let len = datatable.rows({ selected: true }).data().length;
-			if (len > 1) {
-				button.show();
-			} else {
-				button.hide();
-			}
+			let enable = len > 1;
+
+			settingsPage.enableGridMultipleDelete(button, enable);
 		},
 		onClickAddNewSmartProfile() {
 			let modal = jq("#modalAddNewSmartProfile");
@@ -2255,7 +2260,7 @@ export class settingsPage {
 
 					settingsPage.loadDefaultProxyServer();
 
-					jq("#btnRemoveMultipleProxyServer").hide();
+					settingsPage.enableGridMultipleDelete(jq("#btnRemoveMultipleProxyServer"), false);
 				});
 		},
 		onChangeServerProtocol() {
@@ -2439,7 +2444,8 @@ export class settingsPage {
 					// remove then redraw the grid page
 					rows.remove().draw('full-hold');
 					settingsPage.changeTracking.smartProfiles = true;
-					pageProfile.htmlProfileTab.find("#btnRemoveMultipleProxyRule").hide();
+					settingsPage.enableGridMultipleDelete(
+						pageProfile.htmlProfileTab.find("#btnRemoveMultipleProxyRule"), false);
 				});
 		},
 		onClickSubmitMultipleRule(pageProfile: SettingsPageSmartProfile) {
@@ -2928,7 +2934,7 @@ export class settingsPage {
 
 			modal.on("shown.bs.modal", focusUrl);
 		},
-		onClickRemoveMultipleServerSubscription(){
+		onClickRemoveMultipleServerSubscription() {
 			var rows = settingsPage.grdServerSubscriptions.rows({ selected: true });
 			if (!rows)
 				return;
@@ -2939,7 +2945,7 @@ export class settingsPage {
 					rows.remove().draw('full-hold');
 
 					settingsPage.changeTracking.serverSubscriptions = true;
-					jq("#btnRemoveMultipleServerSubscription").hide();
+					settingsPage.enableGridMultipleDelete(jq("#btnRemoveMultipleServerSubscription"), false);
 				});
 		},
 		onServerSubscriptionEditClick(e: any) {
@@ -3232,7 +3238,9 @@ export class settingsPage {
 					// remove then redraw the grid page
 					rows.remove().draw('full-hold');
 					settingsPage.changeTracking.rulesSubscriptions = true;
-					pageProfile.htmlProfileTab.find("#btnRemoveMultipleRulesSubscription").hide();
+
+					settingsPage.enableGridMultipleDelete(
+						pageProfile.htmlProfileTab.find("#btnRemoveMultipleRulesSubscription"), false);
 				});
 		},
 		onRulesSubscriptionEditClick(pageProfile: SettingsPageSmartProfile, e: any) {

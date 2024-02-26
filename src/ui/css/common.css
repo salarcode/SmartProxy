@@ -188,6 +188,12 @@ hr {
 	cursor: pointer;
 }
 
+button:disabled {
+	/*Allowing display of tooltip on disabled buttons*/
+    pointer-events: auto !important;
+	cursor: default !important;
+}
+
 /* ============================== */
 /* Settings page styles */
 /* ------------------------------ */

@@ -387,7 +387,7 @@
 		"message": "Add Server"
 	},
 	"settingsRemoveMultipleServerButton": {
-		"message": "Remove Selections"
+		"message": "Delete Multiple"
 	},
 	"settingsSaveChangesButton": {
 		"message": "Save Changes"
@@ -843,7 +843,7 @@
 		"message": "Total {0} out of {1} rules are appended.<br>Don't forget to save the changes."
 	},
 	"settingsRemoveMultipleProxyRuleButton": {
-		"message": "Remove Selections"
+		"message": "Delete Multiple"
 	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Add Multiple Rules"
@@ -879,7 +879,7 @@
 		"message": "Subscribe to a proxy server list"
 	},
 	"settingsRemoveMultipleServerSubscriptionButton": {
-		"message": "Remove Selections"
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "Name:"
@@ -1017,7 +1017,7 @@
 		"message": "Subscribe to a rules list"
 	},
 	"settingsRemoveMultipleRulesSubscriptionButton": {
-		"message": "Remove Selections"
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Subscribe to a rules list"

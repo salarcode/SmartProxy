@@ -568,8 +568,6 @@
 						<div class="float-start">
 							<button id="btnAddProxyServer" class="btn btn-info"
 								data-localize="settingsAddServerButton">Add Server</button>
-							<button id="btnRemoveMultipleProxyServer" class="btn btn-danger" style="display: none;"
-								data-localize="settingsRemoveMultipleServerButton">Remove Selections</button>
 						</div>
 						<div class="float-end">
 							<button id="btnImportProxyServerOpen" type="button" class="btn btn-info"
@@ -600,6 +598,9 @@
 							</a>
 						</div>
 						<div class="float-end">
+							<button id="btnRemoveMultipleProxyServer" class="btn btn-danger" disabled
+								data-localize="settingsRemoveMultipleServerButton"
+								title="Use Ctrl/Shift and click on the grid">Delete Multiple</button>
 							<button id="btnClearProxyServers" class="btn btn-outline-danger"
 								title="Clear the servers list">
 								<i class="fas fa-trash" aria-hidden="true"></i>
@@ -682,10 +683,6 @@
 								data-localize="settingsAddMultipleRulesButton" data-bs-target="#modalAddMultipleRules">
 								Add Multiple Rules
 							</button>
-							<button id="btnRemoveMultipleProxyRule" type="button" class="btn btn-danger"
-								data-localize="settingsRemoveMultipleProxyRuleButton" style="display: none;">
-								Remove Selections
-							</button>
 						</div>
 						<div class="float-end">
 							<button id="btnImportRulesOpen" type="button" class="btn btn-info" data-bs-toggle="modal"
@@ -697,6 +694,11 @@
 						</p>
 						<table id="grdRules" class="table table-striped table-bordered table-hover"></table>
 						<div class="float-end">
+							<button id="btnRemoveMultipleProxyRule" type="button" class="btn btn-danger"
+								data-localize="settingsRemoveMultipleProxyRuleButton" disabled
+								title="Use Ctrl/Shift and click on the grid">
+								Delete Multiple
+							</button>
 							<button id="btnClearProxyRules" class="btn btn-outline-danger" title="Clear all the rules">
 								<i class="fas fa-trash" aria-hidden="true"></i>
 							</button>
@@ -718,16 +720,17 @@
 									data-localize="settingsAddRulesSubscriptionButton">
 									Subscribe to a rules list
 								</button>
-								<button id="btnRemoveMultipleRulesSubscription" class="btn btn-danger" style="display: none;"
-									data-localize="settingsRemoveMultipleRulesSubscriptionButton">
-									Remove Selections
-								</button>
 							</div>
 							<div class="clearfix"></div>
 							</p>
 							<table id="grdRulesSubscriptions" class="table table-striped table-bordered table-hover">
 							</table>
 							<div class="float-end">
+								<button id="btnRemoveMultipleRulesSubscription" class="btn btn-danger" disabled
+									data-localize="settingsRemoveMultipleRulesSubscriptionButton"
+									title="Use Ctrl/Shift and click on the grid">
+									Delete Multiple
+								</button>
 								<button id="btnClearRulesSubscriptions" class="btn btn-outline-danger"
 									title="Clear all the subscriptions">
 									<i class="fas fa-trash" aria-hidden="true"></i>
@@ -1147,10 +1150,6 @@
 								data-localize="settingsAddServerSubscriptionButton">
 								Subscribe to a list
 							</button>
-							<button id="btnRemoveMultipleServerSubscription" class="btn btn-danger" style="display: none;"
-								data-localize="settingsRemoveMultipleServerSubscriptionButton">
-								Remove Selections
-							</button>
 						</div>
 						<div class="clearfix"></div>
 						</p>
@@ -1172,6 +1171,11 @@
 							</a>
 						</div>
 						<div class="float-end">
+							<button id="btnRemoveMultipleServerSubscription" class="btn btn-danger" disabled
+								data-localize="settingsRemoveMultipleServerSubscriptionButton"
+								title="Use Ctrl/Shift and click on the grid">
+								Delete Multiple
+							</button>
 							<button id="btnClearServerSubscriptions" class="btn btn-outline-danger"
 								title="Clear all the subscriptions">
 								<i class="fas fa-trash" aria-hidden="true"></i>
