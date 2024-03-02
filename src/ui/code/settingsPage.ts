@@ -726,7 +726,11 @@ export class settingsPage {
 			tabContainer.find("#divRuleGeneratePattern").hide();
 			tabContainer.find("#divRuleUrlRegex").show();
 			tabContainer.find("#divRuleUrlExact").hide();
-		} else if (ruleType == ProxyRuleType.DomainSubdomain) {
+		} else if (ruleType == ProxyRuleType.DomainSubdomain ||
+			ruleType == ProxyRuleType.DomainExact ||
+			ruleType == ProxyRuleType.DomainAndPath ||
+			ruleType == ProxyRuleType.DomainSubdomainAndPath ||
+			ruleType == ProxyRuleType.SearchUrl) {
 			tabContainer.find("#divRuleMatchPattern").hide();
 			tabContainer.find("#divRuleGeneratePattern").hide();
 			tabContainer.find("#divRuleUrlRegex").hide();
@@ -1006,7 +1010,7 @@ export class settingsPage {
 		this.populateProxyServersToComboBox(cmbActiveProxyServer, defaultProxyServerId, proxyServers, serverSubscriptions);
 	}
 
-	private static readServers(): any[] {
+	private static readServers(): ProxyServer[] {
 		return this.grdServers.data().toArray();
 	}
 
@@ -2711,7 +2715,11 @@ export class settingsPage {
 					return;
 				}
 			}
-			else if (ruleInfo.ruleType == ProxyRuleType.DomainSubdomain) {
+			else if (ruleInfo.ruleType == ProxyRuleType.DomainSubdomain ||
+				ruleInfo.ruleType == ProxyRuleType.DomainSubdomainAndPath ||
+				ruleInfo.ruleType == ProxyRuleType.DomainAndPath ||
+				ruleInfo.ruleType == ProxyRuleType.DomainExact ||
+				ruleInfo.ruleType == ProxyRuleType.SearchUrl) {
 				if (!checkHostName())
 					return;
 
@@ -3561,7 +3569,7 @@ export class settingsPage {
 				file = selectFileElement.files[0];
 
 			} else {
-				let proxyServerListText = modalContainer.find("#btnImportProxyServerListText").val().trim();
+				let proxyServerListText: string = modalContainer.find("#btnImportProxyServerListText").val().trim();
 				if (proxyServerListText == "") {
 					// Please enter proxy list
 					messageBox.error(api.i18n.getMessage("settingsImportProxyListTextIsEmpty"));
