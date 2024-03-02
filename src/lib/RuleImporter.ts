@@ -328,41 +328,50 @@ export const RuleImporter = {
 
 			// ----
 			if (append) {
-				// TODO:
-				// if (!currentRules)
-				// 	currentRules = [];
-				// let importedRuleList = rules.blackList;
+				if (rules.blackList && rules.blackList.length) {
+					if (!currentRules)
+						currentRules = [];
+					let importedRuleList = rules.blackList.map((rule) => {
+						return {
+							converted: rule.getProxyRule(),
+							rule: rule
+						}
+					});
 
-				// // make a copy
-				// let appendedRuleList = currentRules.slice();
-				// let appendedRuleCount = 0;
+					// make a copy
+					let appendableRuleList: ImportedProxyRule[] = [];
 
-				// for (let importedRule of importedRuleList) {
-				// 	let ruleExists = currentRules.some((rule: any) => {
-				// 		rule.pattern == importedRule.pattern;
-				// 	});
-				// 	if (ruleExists) continue;
+					for (let importedRule of importedRuleList) {
+						let ruleExists = currentRules.some((rule) => {
+							// NOTE: the comparison is limited to these properties because `getProxyRule` only fills these
+							rule.ruleType == importedRule.converted.ruleType &&
+								rule.ruleSearch == importedRule.converted.ruleSearch &&
+								rule.ruleRegex == importedRule.converted.ruleRegex;
+						});
+						if (ruleExists)
+							continue;
 
-				// 	// append imported rule
-				// 	appendedRuleList.push(importedRule);
-				// 	appendedRuleCount++;
-				// }
+						// append imported rule
+						appendableRuleList.push(importedRule.rule);
+					}
 
-				// // Total ${appendedRuleCount} out of ${parsedRuleList.length} rules are appended.<br>Don't forget to save the changes.
-				// let message = api.i18n
-				// 	.getMessage('importerImportSuccess')
-				// 	.replace('{0}', appendedRuleCount.toString())
-				// 	.replace('{1}', parsedRuleList.length.toString());
+					// Total ${appendedRuleCount} out of ${parsedRuleList.length} rules are appended.<br>Don't forget to save the changes.
+					let message = api.i18n
+						.getMessage('importerImportSuccess')
+						.replace('{0}', appendableRuleList.length.toString())
+						.replace('{1}', importedRuleList.length.toString());
 
-				// if (success) {
-				// 	// not need for any check, return straight away
-				// 	success({
-				// 		success: true,
-				// 		message: message,
-				// 		result: appendedRuleList,
-				// 	});
-				// }
+					rules.blackList = appendableRuleList;
 
+					if (success) {
+						// not need for any check, return straight away
+						success({
+							success: true,
+							message: message,
+							result: rules,
+						});
+					}
+				}
 			} else {
 				// Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes.
 				let message = api.i18n
