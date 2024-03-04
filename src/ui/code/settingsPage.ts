@@ -2051,15 +2051,18 @@ export class settingsPage {
 		},
 		onClickSaveGeneralOptions() {
 			let generalOptions = settingsPage.readGeneralOptions();
-
-			if (generalOptions.themeType === ThemeType.Light && generalOptions.themesLight == themesCustomType){
-				if (!Utils.isValidUrl(generalOptions.themesLightCustomUrl)) {
+			if (generalOptions.themeType === ThemeType.Light && generalOptions.themesLight === themesCustomType){
+				if (!Utils.isValidUrl(generalOptions.themesLightCustomUrl) || !Utils.isUrlHttps(generalOptions.themesLightCustomUrl)) {
 					// Please enter a valid Light Theme and the url should be 'https'.
 					messageBox.error(api.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
 					return;
 				}
-				if (!Utils.isUrlHttps(generalOptions.themesLightCustomUrl)) {
-					messageBox.error(api.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
+			}
+
+			if (generalOptions.themeType === ThemeType.Dark && generalOptions.themesDark === themesCustomType) {
+				if (!Utils.isValidUrl(generalOptions.themesDarkCustomUrl) || !Utils.isUrlHttps(generalOptions.themesDarkCustomUrl)) {
+					// Please enter a valid Dark Theme and the url should be 'https'.
+					messageBox.error(api.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
 					return;
 				}
 			}
