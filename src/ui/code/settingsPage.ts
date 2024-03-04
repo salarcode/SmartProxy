@@ -2052,7 +2052,7 @@ export class settingsPage {
 		onClickSaveGeneralOptions() {
 			let generalOptions = settingsPage.readGeneralOptions();
 
-			if (generalOptions.themesLight == themesCustomType) {
+			if (generalOptions.themeType === ThemeType.Light && generalOptions.themesLight == themesCustomType){
 				if (!Utils.isValidUrl(generalOptions.themesLightCustomUrl)) {
 					// Please enter a valid Light Theme and the url should be 'https'.
 					messageBox.error(api.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
@@ -2060,17 +2060,6 @@ export class settingsPage {
 				}
 				if (!Utils.isUrlHttps(generalOptions.themesLightCustomUrl)) {
 					messageBox.error(api.i18n.getMessage("settingsGeneralThemesLight_ErrorValidUrl"));
-					return;
-				}
-			}
-			if (generalOptions.themesDark == themesCustomType) {
-				if (!Utils.isValidUrl(generalOptions.themesDarkCustomUrl)) {
-					// Please enter a valid Dark Theme and the url should be 'https'.
-					messageBox.error(api.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
-					return;
-				}
-				if (!Utils.isUrlHttps(generalOptions.themesDarkCustomUrl)) {
-					messageBox.error(api.i18n.getMessage("settingsGeneralThemesDark_ErrorValidUrl"));
 					return;
 				}
 			}
