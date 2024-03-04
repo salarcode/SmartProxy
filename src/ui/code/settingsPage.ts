@@ -36,6 +36,7 @@ export class settingsPage {
 	private static currentSettings: SettingsConfig;
 	private static pageSmartProfiles: SettingsPageSmartProfile[] = [];
 	private static debugDiagnosticsRequested = false;
+	private static unsavedProfile: SettingsPageSmartProfile;
 
 	/** Used to track changes and restore when reject changes selected */
 	private static originalSettings: SettingsConfig;
@@ -203,6 +204,8 @@ export class settingsPage {
 
 		// Debug
 		jq("#btnEnableDiagnostics").click(settingsPage.uiEvents.onClickEnableDiagnostics);
+
+		jq(window).on("beforeunload", settingsPage.uiEvents.onWindowUnload);
 	}
 
 	private static initializeGrids() {
@@ -1661,6 +1664,20 @@ export class settingsPage {
 
 			settingsPage.updateProfileGridsLayout(pageProfile);
 		});
+
+		tabContainer.find("#txtSmartProfileName").on("input", () => {
+			settingsPage.changeTracking.smartProfiles = true;
+		});
+		tabContainer.find("#chkSmartProfileEnabled").on("change", () => {
+			settingsPage.changeTracking.smartProfiles = true;
+		});
+
+		tabContainer.find("#cmbProfileProxyServer").on("change", (event) => {
+			// To prevent auto triggered on fulfiled when page loaded initially
+			if (event.originalEvent && event.originalEvent.isTrusted) {
+				settingsPage.changeTracking.smartProfiles = true;
+			}
+		});
 	}
 
 	//#endregion
@@ -2223,6 +2240,10 @@ export class settingsPage {
 			settingsPage.updateProfileGridsLayout(pageSmartProfile);
 			settingsPage.selectAddNewProfileMenu();
 
+			settingsPage.unsavedProfile = pageSmartProfile;
+			pageSmartProfile.htmlProfileMenu.one("hidden.bs.tab", () => {
+				settingsPage.unsavedProfile = null;
+			});
 			// ---
 			modal.modal("hide");
 		},
@@ -2234,6 +2255,7 @@ export class settingsPage {
 			if (server) {
 				// this can be null
 				settingsPage.currentSettings.defaultProxyServerId = server.id;
+				settingsPage.changeTracking.activeProxy = true;
 			}
 			else {
 				Debug.warn("Settings> Selected ActiveProxyServer ID not found!");
@@ -2545,6 +2567,7 @@ export class settingsPage {
 
 			// insert to the grid
 			settingsPage.insertNewRuleListInGrid(pageProfile, resultRuleList);
+			settingsPage.changeTracking.smartProfiles = true;
 
 			modal.modal("hide");
 		},
@@ -2776,6 +2799,7 @@ export class settingsPage {
 				settingsPage.insertNewRuleInGrid(pageProfile, ruleInfo);
 			}
 
+			settingsPage.changeTracking.smartProfiles = true;
 			modal.modal("hide");
 		},
 		onRulesEditClick(pageProfile: SettingsPageSmartProfile, e: any) {
@@ -2802,6 +2826,7 @@ export class settingsPage {
 
 					// remove then redraw the grid page
 					row.remove().draw('full-hold');
+					settingsPage.changeTracking.smartProfiles = true;
 				});
 		},
 		onClickClearProxyRules(pageProfile: SettingsPageSmartProfile) {
@@ -2810,6 +2835,7 @@ export class settingsPage {
 				() => {
 					settingsPage.loadRules(pageProfile, []);
 
+					settingsPage.changeTracking.smartProfiles = true;
 					// All rules are removed.<br/>You have to save to apply the changes.
 					messageBox.info(api.i18n.getMessage("settingsRemoveAllRulesSuccess"));
 				});
@@ -2850,6 +2876,7 @@ export class settingsPage {
 						let updatedProfile: SmartProfile = response.smartProfile || smartProfile;
 
 						settingsPage.changeTracking.smartProfiles = false;
+						settingsPage.changeTracking.rulesSubscriptions = false;
 
 						if (smartProfile.profileId || smartProfile.profileType == SmartProfileType.IgnoreFailureRules) {
 							// sync the change to menu
@@ -3602,6 +3629,7 @@ export class settingsPage {
 						settingsPage.loadServersGrid(servers);
 						settingsPage.loadDefaultProxyServer();
 
+						settingsPage.changeTracking.servers = true;
 						// close the window
 						modalContainer.modal("hide");
 					} else {
@@ -3660,6 +3688,7 @@ export class settingsPage {
 						let rules = response.result;
 						settingsPage.loadRules(pageProfile, rules);
 
+						settingsPage.changeTracking.smartProfiles = true;
 						// close the window
 						modalContainer.modal("hide");
 					} else {
@@ -3684,6 +3713,7 @@ export class settingsPage {
 						},
 						(response: ResultHolder) => {
 							if (response.success) {
+								jq(window).off("beforeunload");
 								if (response.message) {
 									messageBox.success(response.message,
 										800,
@@ -3718,6 +3748,7 @@ export class settingsPage {
 					},
 					(response: ResultHolder) => {
 						if (response.success) {
+							jq(window).off("beforeunload");
 							if (response.message) {
 								messageBox.success(response.message,
 									500,
@@ -3775,6 +3806,57 @@ export class settingsPage {
 
 				alert("Diagnostics are enabled for this session only. Check this page for more info.");
 				window.open("https://github.com/salarcode/SmartProxy/wiki/Enable-Diagnostics")
+			}
+		},
+		onWindowUnload(event) {
+			var shouldAsk = false;
+
+			// Check GeneralOptions via comparison
+			if (!settingsPage.readGeneralOptions().Equals(settingsPage.currentSettings.options)) {
+				settingsPage.changeTracking.options = true;
+			}
+
+			if (settingsPage.changeTracking.options
+				|| settingsPage.changeTracking.servers
+				|| settingsPage.changeTracking.activeProxy
+				|| settingsPage.changeTracking.smartProfiles
+				|| settingsPage.changeTracking.rulesSubscriptions
+				|| settingsPage.changeTracking.serverSubscriptions) {
+				shouldAsk = true;
+			}
+
+			if (shouldAsk) {
+				// If user choose to stay, show a messagebox asking if saving all unsaved changes.
+				jq(window).one("focus", () => {
+					// setTimeout to avoid when user choose to leave, this messagebox flash before the window close itself
+					setTimeout(() => {
+						messageBox.confirm(api.i18n.getMessage("settingsConfirmSaveAllChanged"),
+							() => {
+								if (settingsPage.changeTracking.options) {
+									settingsPage.uiEvents.onClickSaveGeneralOptions();
+								}
+								if (settingsPage.changeTracking.smartProfiles || settingsPage.changeTracking.rulesSubscriptions) {
+									for (let pageProfile of settingsPage.pageSmartProfiles) {
+										settingsPage.uiEvents.onClickSaveSmartProfile(pageProfile);
+									}
+									if (settingsPage.unsavedProfile) {
+										// if profile name not set, error message box will show.
+										settingsPage.uiEvents.onClickSaveSmartProfile(settingsPage.unsavedProfile);
+									}
+								}
+								if (settingsPage.changeTracking.servers || settingsPage.changeTracking.activeProxy) {
+									settingsPage.uiEvents.onClickSaveProxyServers();
+								}
+								if (settingsPage.changeTracking.serverSubscriptions) {
+									settingsPage.uiEvents.onClickSaveServerSubscriptionsChanges();
+								}
+							});
+					}, 200);
+				});
+
+				// Browser will show a dialog asking user to leave or stay.
+				event.preventDefault();
+				event.returnValue = true;
 			}
 		}
 	};
