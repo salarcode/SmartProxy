@@ -386,6 +386,9 @@
 	"settingsAddServerButton": {
 		"message": "添加服务器"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "保存更改"
 	},
@@ -488,6 +491,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "确定移除所选代理服务器？"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "你确定移除所有代理服务器？"
 	},
@@ -514,6 +520,9 @@
 	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "确定移除所选规则？"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "确定移除所有规则？"
@@ -833,6 +842,9 @@
 	"importerImportSuccess": {
 		"message": "{0} / {1} 条规则已添加。<br>注意保存更改。"
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "添加多条规则"
 	},
@@ -862,6 +874,9 @@
 	},
 	"settingsAddServerSubscriptionButton": {
 		"message": "订阅一个列表"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "订阅一个代理服务器列表"
@@ -935,6 +950,9 @@
 	"settingsConfirmRemoveServerSubscription": {
 		"message": "确定要删除所选订阅吗?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "你希望移除所有代理服务器订阅？"
 	},
@@ -997,6 +1015,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "订阅规则列表"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "订阅规则列表"
@@ -1063,6 +1084,9 @@
 	},
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "确定要移除所选的规则订阅吗？"
+	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "请以正确格式填写必需项"
