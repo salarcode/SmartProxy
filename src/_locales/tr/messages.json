@@ -77,6 +77,9 @@
 	"popupAddFailedRequests": {
 		"message": "Kural Listesine Ekle"
 	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+	},
 	"popupAddIgnoredFailures": {
 		"message": "Görmezden gel"
 	},
@@ -383,11 +386,17 @@
 	"settingsAddServerButton": {
 		"message": "Sunucu ekle"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "Değişiklikleri Kaydet"
 	},
 	"settingsRejectChangesButton": {
 		"message": "Değişiklikleri Reddet"
+	},
+	"settingsEditButton": {
+		"message": "Edit"
 	},
 	"settingsFullBackupButton": {
 		"message": "Tam yedek oluştur"
@@ -482,6 +491,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Are you sure to remove the selected proxy server?"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Tüm proxy sunucularını kaldırdığınızdan emin misiniz?"
 	},
@@ -508,6 +520,9 @@
 	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Are you sure to remove the selected rule?"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "Tüm kuralları kaldırdığınızdan emin misiniz?"
@@ -827,6 +842,9 @@
 	"importerImportSuccess": {
 		"message": "{1} vekilin tamamı {0} dışarı aktarılıyor. <br> Değişiklikleri kaydetmeyi unutma."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Çoklu Kural Ekle"
 	},
@@ -856,6 +874,9 @@
 	},
 	"settingsAddServerSubscriptionButton": {
 		"message": "Bir listeye abone olun"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "Bir proxy sunucusu listesine abone olun"
@@ -929,6 +950,9 @@
 	"settingsConfirmRemoveServerSubscription": {
 		"message": "Are you sure to remove the selected subscription?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Tüm proxy sunucusu aboneliklerini kaldırdığınızdan emin misiniz?"
 	},
@@ -991,6 +1015,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Bir kural listesine abone ol"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Bir kural listesine abone ol"
@@ -1058,6 +1085,9 @@
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "Seçili kural aboneliklerini kaldırmak istediğinize emin misiniz?"
 	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
+	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Lütfen gerekli alanları doğru biçimde doldurunuz"
 	},
@@ -1117,6 +1147,21 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "Anladım"
+	},
+	"settingsSubscriptionStatsStatusSuccess": {
+		"message": "Status: Success"
+	},
+	"settingsSubscriptionStatsStatusFail": {
+		"message": "Status: Failed"
+	},
+	"settingsSubscriptionStatsLastTry": {
+		"message": "Last Try:"
+	},
+	"settingsSubscriptionStatsMessage": {
+		"message": "Message:"
+	},
+	"settingsSubscriptionStatsLastSuccess": {
+		"message": "Last Success:"
 	},
 	"settings_SmartProfileType_Direct": {
 		"message": "Direct"
