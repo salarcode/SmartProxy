@@ -21,7 +21,7 @@ import { environment, api } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SubscriptionProxyRule, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats, getSmartProfileTypeName } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats, getSmartProfileTypeName, ProxyRulesImportFromUI, ImportedProxyRule, ExternalRulesFormat } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 import { SettingsOperation } from "../../core/SettingsOperation";
@@ -1621,9 +1621,9 @@ export class settingsPage {
 
 		tabContainer.find("#btnSubmitRule").click(() => settingsPage.uiEvents.onClickSubmitProxyRule(pageProfile));
 
-		tabContainer.find("#btnImportRulesOpen").click(() => settingsPage.uiEvents.onClickImportRulesOpenDialog(pageProfile));
-
 		tabContainer.find("#btnAddProxyRule").click(() => settingsPage.uiEvents.onClickAddProxyRule(pageProfile));
+
+		tabContainer.find("#btnImportRulesOpen").click(() => settingsPage.uiEvents.onClickImportRulesOpenDialog(pageProfile));
 
 		tabContainer.find("#btnImportRules").click(() => settingsPage.uiEvents.onClickImportRules(pageProfile));
 
@@ -1933,7 +1933,7 @@ export class settingsPage {
 		return pageProfile.grdRulesSubscriptions.data().toArray();
 	}
 
-	private static readSelectedRulesSubscription(pageProfile: SettingsPageSmartProfile, e?: any): any {
+	private static readSelectedRulesSubscription(pageProfile: SettingsPageSmartProfile, e?: any): ProxyRulesSubscription {
 		let dataItem;
 
 		if (e && e.target) {
@@ -1967,7 +1967,7 @@ export class settingsPage {
 		let currentRow = pageProfile.grdRulesSubscriptions.row('.selected');
 		if (currentRow && currentRow.data())
 			// displaying the possible data change
-			settingsPage.refreshRulesSubscriptionsGridRow(currentRow, true);
+			settingsPage.refreshRulesSubscriptionsGridRow(pageProfile, currentRow, true);
 		else {
 			pageProfile.grdRulesSubscriptions.rows().invalidate();
 			settingsPage.refreshRulesSubscriptionsGridAllRows(pageProfile);
@@ -1981,7 +1981,7 @@ export class settingsPage {
 		rowElement.find("#btnRuleSubscriptionsRefresh").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionRefreshClick(pageProfile, e));
 		rowElement.find("#btnRuleSubscriptionsViewStats").on("click", (e: any) => settingsPage.uiEvents.onRulesSubscriptionViewStatsClick(pageProfile, e));
 	}
-	private static refreshRulesSubscriptionsGridRow(pageProfile: SettingsPageSmartProfile, row: any, invalidate?: any) {
+	private static refreshRulesSubscriptionsGridRow(pageProfile: SettingsPageSmartProfile, row: any, invalidate: boolean = false) {
 		if (!row)
 			return;
 		if (invalidate)
@@ -2568,6 +2568,117 @@ export class settingsPage {
 
 			modal.modal("show");
 			modal.find("#txtRuleSource").focus();
+
+			resetModal();
+
+			function resetModal() {
+				var file = modal.find("#rbtnImportRulesSelect_File");
+				var text = modal.find("#rbtnImportRulesSelect_Text");
+				if (!file.prop("checked") && !text.prop("checked")) {
+					file.prop("checked", true);
+				}
+				modal.find("#txtImportRulesSelectText").val("");
+
+				let append = modal.find("#cmbImportRulesOverride_Append");
+				let replace = modal.find("#cmbImportRulesOverride_Replace");
+				if (!append.prop("checked") && !replace.prop("checked")) {
+					append.prop("checked", true);
+				}
+			}
+		},
+		onClickImportRules(pageProfile: SettingsPageSmartProfile) {
+			let tabContainer = pageProfile.htmlProfileTab;
+			let modalContainer = tabContainer.find("#modalImportRules");
+			let selectFileElement = modalContainer.find("#btnImportRulesSelectFile")[0];
+			let file, text;
+
+			if (modalContainer.find("#rbtnImportRulesSelect_File").prop("checked")) {
+				// file should be selected
+				if (selectFileElement.files.length == 0) {
+					// Please select a rules file
+					messageBox.error(api.i18n.getMessage("settingsRulesFileNotSelected"));
+					return;
+				}
+				file = selectFileElement.files[0];
+
+			} else {
+				let proxyServerListText: string = modalContainer.find("#txtImportRulesSelectText").val().trim();
+				if (proxyServerListText == "") {
+					// Please enter rules in the box
+					messageBox.error(api.i18n.getMessage("settingsImportRulesTextIsEmpty"));
+					return;
+				}
+				text = proxyServerListText;
+			}
+			let append = modalContainer.find("#cmbImportRulesOverride_Append").prop("checked");
+			let sourceType: ExternalRulesFormat = +modalContainer.find("#cmbImportRulesFormat").val();
+			let proxyRules = settingsPage.readRules(pageProfile);
+
+			let config = new ProxyRulesImportFromUI();
+			config.format = sourceType;
+
+			if (sourceType != ExternalRulesFormat.AutoProxy &&
+				sourceType != ExternalRulesFormat.SwitchyOmega) {
+				messageBox.warning(api.i18n.getMessage("settingsSourceTypeNotSelected"));
+				return;
+			}
+
+			RuleImporter.importRulesBatch(
+				config,
+				text,
+				file,
+				append,
+				proxyRules,
+				(
+					success: boolean,
+					message: string,
+					rules: {
+						whiteList: ImportedProxyRule[];
+						blackList: ImportedProxyRule[];
+					}
+				) => {
+					if (!rules) return;
+
+					if (success) {
+						if (message)
+							messageBox.success(message);
+
+						// empty the file input
+						selectFileElement.value = "";
+
+						doImport(rules);
+
+						// close the window
+						modalContainer.modal("hide");
+					}
+					else {
+						if (message)
+							messageBox.error(message);
+					}
+				},
+				(error: Error) => {
+					let message = "";
+					if (error && error.message)
+						message = error.message;
+					messageBox.error(api.i18n.getMessage("settingsImportRulesFailed") + " " + message);
+				});
+
+			function doImport(rules: {
+				whiteList: ImportedProxyRule[];
+				blackList: ImportedProxyRule[];
+			}) {
+				debugger;
+				let finalRules: ProxyRule[];
+				let mappedRules = rules.blackList.map((rule) => rule.getProxyRule());
+
+				if (append) {
+					finalRules = proxyRules.concat(mappedRules);
+				}
+				else
+					finalRules = mappedRules;
+
+				settingsPage.loadRules(pageProfile, finalRules);
+			}
 		},
 		onChangeRuleGeneratePattern(pageProfile: SettingsPageSmartProfile) {
 			settingsPage.updateProxyRuleModal(pageProfile.htmlProfileTab);
@@ -3295,26 +3406,27 @@ export class settingsPage {
 				editingSubscription.stats = new SubscriptionStats();
 			}
 
-			RuleImporter.readRulesSubscriptionFromServer(editingSubscription,
-				(response: {
-					success: boolean,
-					message: string,
-					result: {
-						whiteList: SubscriptionProxyRule[],
-						blackList: SubscriptionProxyRule[]
-					}
+			RuleImporter.readFromServerAndImport(editingSubscription,
+				(importResult: {
+					success: boolean;
+					message: string;
+					rules: {
+						whiteList: ImportedProxyRule[];
+						blackList: ImportedProxyRule[];
+					};
 				}) => {
-					if (response.success) {
-						let count = response.result.blackList.length + response.result.whiteList.length;
+					if (importResult.success) {
+						let count = importResult.rules.blackList.length + importResult.rules.whiteList.length;
 
 						if (editingSubscription.enabled) {
-							editingSubscription.proxyRules = response.result.blackList;
-							editingSubscription.whitelistRules = response.result.whiteList;
+							editingSubscription.proxyRules = importResult.rules.blackList;
+							editingSubscription.whitelistRules = importResult.rules.whiteList;
 						}
 						else {
 							editingSubscription.proxyRules = [];
 							editingSubscription.whitelistRules = [];
 						}
+
 						editingSubscription.totalCount = count;
 						SubscriptionStats.updateStats(editingSubscription.stats, true);
 
@@ -3322,18 +3434,17 @@ export class settingsPage {
 
 						// The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
 						messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
-							.replace("{0}", response.result.blackList.length)
-							.replace("{1}", response.result.whiteList.length));
+							.replace("{0}", importResult.rules.blackList.length)
+							.replace("{1}", importResult.rules.whiteList.length));
 
 						settingsPage.changeTracking.rulesSubscriptions = true;
-
 					} else {
 						SubscriptionStats.updateStats(editingSubscription.stats, false);
 						messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					}
 				},
-				(errorResult) => {
-					SubscriptionStats.updateStats(editingSubscription.stats, false, errorResult);
+				(error) => {
+					SubscriptionStats.updateStats(editingSubscription.stats, false, error);
 					messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 				});
 		},
@@ -3395,23 +3506,23 @@ export class settingsPage {
 			tabContainer.find("#btnSaveRulesSubscriptions").attr("data-loading-text", api.i18n.getMessage("settingsRulesSubscriptionSavingButton"));
 			tabContainer.find("#btnSaveRulesSubscriptions").button("loading");
 
-			RuleImporter.readRulesSubscriptionFromServer(subscriptionModel,
-				(response: {
-					success: boolean,
-					message: string,
-					result: {
-						whiteList: SubscriptionProxyRule[],
-						blackList: SubscriptionProxyRule[]
-					}
+			RuleImporter.readFromServerAndImport(editingSubscription,
+				(importResult: {
+					success: boolean;
+					message: string;
+					rules: {
+						whiteList: ImportedProxyRule[];
+						blackList: ImportedProxyRule[];
+					};
 				}) => {
 					tabContainer.find("#btnSaveRulesSubscriptions").button('reset');
 
-					if (response.success) {
-						let count = response.result.blackList.length + response.result.whiteList.length;
+					if (importResult.success) {
+						let count = importResult.rules.blackList.length + importResult.rules.whiteList.length;
 
 						if (subscriptionModel.enabled) {
-							subscriptionModel.proxyRules = response.result.blackList;
-							subscriptionModel.whitelistRules = response.result.whiteList;
+							subscriptionModel.proxyRules = importResult.rules.blackList;
+							subscriptionModel.whitelistRules = importResult.rules.whiteList;
 						}
 						else {
 							subscriptionModel.proxyRules = [];
@@ -3429,8 +3540,8 @@ export class settingsPage {
 
 							// The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
 							messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
-								.replace("{0}", response.result.blackList.length)
-								.replace("{1}", response.result.whiteList.length));
+								.replace("{0}", importResult.rules.blackList.length)
+								.replace("{1}", importResult.rules.whiteList.length));
 						} else {
 
 							// insert to the grid
@@ -3438,8 +3549,8 @@ export class settingsPage {
 
 							// The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
 							messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveAdded")
-								.replace("{0}", response.result.blackList.length)
-								.replace("{1}", response.result.whiteList.length));
+								.replace("{0}", importResult.rules.blackList.length)
+								.replace("{1}", importResult.rules.whiteList.length));
 						}
 
 						settingsPage.changeTracking.rulesSubscriptions = true;
@@ -3453,12 +3564,13 @@ export class settingsPage {
 						messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					}
 				},
-				(errorResult) => {
-					SubscriptionStats.updateStats(subscriptionModel.stats, false, errorResult);
+				(error) => {
+					SubscriptionStats.updateStats(subscriptionModel.stats, false, error);
 
 					messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionSaveFailedGet"));
 					tabContainer.find("#btnSaveRulesSubscriptions").button('reset');
 				});
+
 		},
 		onClickTestRulesSubscription(pageProfile: SettingsPageSmartProfile) {
 			let tabContainer = pageProfile.htmlProfileTab;
@@ -3503,22 +3615,22 @@ export class settingsPage {
 					if (response.message)
 						messageBox.success(response.message);
 
-					RuleImporter.readRulesSubscriptionFromServer(subscriptionModel,
-						(response: {
-							success: boolean,
-							message: string,
-							result: {
-								whiteList: string[],
-								blackList: string[]
-							}
+					RuleImporter.readFromServerAndImport(subscriptionModel,
+						(importResult: {
+							success: boolean;
+							message: string;
+							rules: {
+								whiteList: ImportedProxyRule[];
+								blackList: ImportedProxyRule[];
+							};
 						}) => {
 							tabContainer.find("#btnTestRulesSubscriptions").button('reset');
 
-							if (response.success) {
+							if (importResult.success) {
 
 								messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionTestSuccess")
-									.replace("{0}", response.result.blackList.length)
-									.replace("{1}", response.result.whiteList.length));
+									.replace("{0}", importResult.rules.blackList.length)
+									.replace("{1}", importResult.rules.whiteList.length));
 							} else {
 								messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
 							}
@@ -3553,7 +3665,6 @@ export class settingsPage {
 		},
 		onClickImportProxyServer() {
 			let modalContainer = jq("#modalImportProxyServer");
-			let append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
 			let file, text;
 
 			if (modalContainer.find("#rbtnImportProxyServer_File").prop("checked")) {
@@ -3577,7 +3688,7 @@ export class settingsPage {
 				}
 				text = proxyServerListText;
 			}
-
+			let append = modalContainer.find("#cmbImportProxyServerOverride_Append").prop("checked");
 			let proxyServers = settingsPage.readServers();
 
 			ProxyImporter.importText(text, file,
@@ -3616,63 +3727,6 @@ export class settingsPage {
 					messageBox.error(api.i18n.getMessage("settingsImportProxyServersFailed") + " " + message);
 				});
 
-		},
-		onClickImportRules(pageProfile: SettingsPageSmartProfile) {
-			let tabContainer = pageProfile.htmlProfileTab;
-
-			let modalContainer = tabContainer.find("#modalImportRules");
-			let selectFileElement = modalContainer.find("#btnImportRulesSelectFile")[0];
-
-			if (selectFileElement.files.length == 0) {
-				// Please select a rules file
-				messageBox.error(api.i18n.getMessage("settingsRulesFileNotSelected"));
-				return;
-			}
-
-			let selectFile = selectFileElement.files[0];
-
-			let append = modalContainer.find("#cmbImportRulesOverride_Append").prop("checked");
-			let sourceType = modalContainer.find("#cmbImportRulesFormat").val();
-
-			let proxyRules = settingsPage.readRules(pageProfile);
-
-			let importFunction: Function;
-			if (sourceType == "autoproxy") {
-				importFunction = RuleImporter.importAutoProxy;
-			} else {
-				messageBox.warning(api.i18n.getMessage("settingsSourceTypeNotSelected"));
-				return;
-			}
-
-			importFunction(selectFile,
-				append,
-				proxyRules,
-				(response: any) => {
-					if (!response) return;
-
-					if (response.success) {
-						if (response.message)
-							messageBox.info(response.message);
-
-						// empty the file input
-						selectFileElement.value = "";
-
-						let rules = response.result;
-						settingsPage.loadRules(pageProfile, rules);
-
-						// close the window
-						modalContainer.modal("hide");
-					} else {
-						if (response.message)
-							messageBox.error(response.message);
-					}
-				},
-				(error: Error) => {
-					let message = "";
-					if (error && error.message)
-						message = error.message;
-					messageBox.error(api.i18n.getMessage("settingsImportRulesFailed") + " " + message);
-				});
 		},
 		onClickFactoryReset() {
 			// Are you sure to reset EVERYTHING ? Sure? There is no way back!

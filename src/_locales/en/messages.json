@@ -444,7 +444,10 @@
 		"message": "Import Rules"
 	},
 	"settingsImportRulesSelectButton": {
-		"message": "Rule Backup File"
+		"message": "Rules Backup File"
+	},
+	"settingsImportRulesText": {
+		"message": "Rules Backup Text"
 	},
 	"settingsImportRulesFrom": {
 		"message": "From"
@@ -544,6 +547,9 @@
 	},
 	"settingsImportRulesFailed": {
 		"message": "Failed to import the file."
+	},
+	"settingsImportRulesTextIsEmpty": {
+		"message": "Please enter rules in the box"
 	},
 	"settingsServerNameRequired": {
 		"message": "Specify the name of the server!"
