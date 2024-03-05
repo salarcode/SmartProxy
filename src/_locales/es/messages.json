@@ -77,6 +77,9 @@
 	"popupAddFailedRequests": {
 		"message": "Agregar a la lista de reglas"
 	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+	},
 	"popupAddIgnoredFailures": {
 		"message": "Ignore them"
 	},
@@ -383,11 +386,17 @@
 	"settingsAddServerButton": {
 		"message": "Agregar servidor"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "Guardar Cambios"
 	},
 	"settingsRejectChangesButton": {
 		"message": "Rechazar Cambios"
+	},
+	"settingsEditButton": {
+		"message": "Edit"
 	},
 	"settingsFullBackupButton": {
 		"message": "Crear un respaldo completo"
@@ -482,6 +491,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Are you sure to remove the selected proxy server?"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "¿Seguro que deseas eliminar todos los servidores Proxy?"
 	},
@@ -508,6 +520,9 @@
 	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Are you sure to remove the selected rule?"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "¿Seguro que deseas eliminar todas las reglas?"
@@ -827,6 +842,9 @@
 	"importerImportSuccess": {
 		"message": "Total {0} a {1} proxies son agregados.<br>No olvides guardar los cambios."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Add Multiple Rules"
 	},
@@ -856,6 +874,9 @@
 	},
 	"settingsAddServerSubscriptionButton": {
 		"message": "Suscribirse a la lista"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "Suscribirse a una lista de servidores proxy"
@@ -929,6 +950,9 @@
 	"settingsConfirmRemoveServerSubscription": {
 		"message": "Are you sure to remove the selected subscription?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "¿Seguro que deseas eliminar todas las suscripciones de servidores Proxy?"
 	},
@@ -991,6 +1015,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Subscribe to a rules list"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Subscribe to a rules list"
@@ -1058,6 +1085,9 @@
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "Are you sure to remove the selected rules subscription?"
 	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
+	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Please fill the required fields in the right format"
 	},
@@ -1117,6 +1147,21 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "Got it"
+	},
+	"settingsSubscriptionStatsStatusSuccess": {
+		"message": "Status: Success"
+	},
+	"settingsSubscriptionStatsStatusFail": {
+		"message": "Status: Failed"
+	},
+	"settingsSubscriptionStatsLastTry": {
+		"message": "Last Try:"
+	},
+	"settingsSubscriptionStatsMessage": {
+		"message": "Message:"
+	},
+	"settingsSubscriptionStatsLastSuccess": {
+		"message": "Last Success:"
 	},
 	"settings_SmartProfileType_Direct": {
 		"message": "Direct"
