@@ -386,6 +386,9 @@
 	"settingsAddServerButton": {
 		"message": "افزودن پراکسی سرور"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "ذخیره تغییرات"
 	},
@@ -488,6 +491,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "از حذف پراکسی سرور انتخاب شده مطمئن هستید؟"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "از حذف همه پراکسی ها مطمئن هستید؟"
 	},
@@ -514,6 +520,9 @@
 	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "از حذف قانون انتخاب شده مطمئن هستید؟"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "از حذف همه قوانین مطمئن هستید؟"
@@ -833,6 +842,9 @@
 	"importerImportSuccess": {
 		"message": "از کل تعداد {0} قانون {1} مورد اضافه شد.<br>ذخیره تغییرات فراموش نشود."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "افزودن چندین قانون جدید"
 	},
@@ -862,6 +874,9 @@
 	},
 	"settingsAddServerSubscriptionButton": {
 		"message": "ایجاد اشتراک جدید"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "مشترک شدن در لیست پراکسی سرور"
@@ -935,6 +950,9 @@
 	"settingsConfirmRemoveServerSubscription": {
 		"message": "از حذف اشتراک انتخاب شده مطمئن هستید؟"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "از حذف همه اشتراکات لیست پراکسی ها مطمئن هستید؟"
 	},
@@ -997,6 +1015,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "ایجاد اشتراک قوانین"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "اشتراک قوانین"
@@ -1063,6 +1084,9 @@
 	},
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "از حذف اشتراک قوانین انتخاب شده مطمئن هستید؟"
+	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "لطفا فیلد های اجباری را کامل نمایید"
