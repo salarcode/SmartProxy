@@ -386,6 +386,9 @@
 	"settingsAddServerButton": {
 		"message": "Добавить сервер"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "Сохранить изменения"
 	},
@@ -488,6 +491,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Вы действительно хотите удалить выбранный прокси-сервер?"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Вы действительно хотите удалить все прокси-серверы?"
 	},
@@ -514,6 +520,9 @@
 	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Вы действительно хотите удалить выбранный фильтр?"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "Вы действительно хотите удалить все правила?"
@@ -833,6 +842,9 @@
 	"importerImportSuccess": {
 		"message": "Всего {0} из {1} правил добавлены.<br>Не забудьте сохранить изменения."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Добавить сложное правило"
 	},
@@ -862,6 +874,9 @@
 	},
 	"settingsAddServerSubscriptionButton": {
 		"message": "Подписаться на список"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "Подписаться на список прокси-сервера"
@@ -935,6 +950,9 @@
 	"settingsConfirmRemoveServerSubscription": {
 		"message": "Вы действительно хотите удалить выбранную подписку?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Вы действительно хотите удалить все подписки на прокси-серверы?"
 	},
@@ -997,6 +1015,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Подписаться на список"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Подписка на список правил"
@@ -1063,6 +1084,9 @@
 	},
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "Вы действительно хотите удалить выбранную подписку?"
+	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Пожалуйста, заполните необходимые поля в правильном формате"
