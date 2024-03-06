@@ -2,6 +2,10 @@
 	"uiDirection": {
 		"message": "ltr"
 	},
+	"languageCode": {
+		"message": "zh-TW",
+		"description": "We need to know the code which might not match what browser UI has"
+	},
 	"extensionName": {
 		"message": "SmartProxy"
 	},

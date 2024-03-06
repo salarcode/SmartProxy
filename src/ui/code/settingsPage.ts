@@ -51,6 +51,7 @@ export class settingsPage {
 
 	public static initialize() {
 		settingsPage.registerMessageReader();
+		CommonUi.onDocumentReady(this.initializeAboutTab);
 		CommonUi.onDocumentReady(this.localizeUi);
 		CommonUi.onDocumentReady(this.bindEvents);
 		CommonUi.onDocumentReady(this.initializeGrids);
@@ -340,7 +341,6 @@ export class settingsPage {
 			settingsPage.loadServersGrid([]);
 			settingsPage.loadServerSubscriptionsGrid([]);
 		}
-
 		jq(`.nav-link[href='#tab-servers'],
 			.nav-link[href='#tab-server-subscriptions']`).on('shown.bs.tab', (e: any) => {
 
@@ -371,10 +371,6 @@ export class settingsPage {
 			jq(".firefox-only").show().removeClass('d-none');
 			jq(".chrome-only").hide();
 		}
-		jq("#linkAddonsMarket")
-			.text(environment.browserConfig.marketName)
-			.attr("href", environment.browserConfig.marketUrl || "#");
-
 
 		// -- ServerSubscription --------
 		// applying the default values
@@ -875,6 +871,37 @@ export class settingsPage {
 			jq(button).removeAttr("disabled");
 		else
 			jq(button).attr("disabled", true);
+	}
+	//#endregion
+
+	//#region About tab functions
+	private static initializeAboutTab() {
+
+		let placeHolder = jq("#settingAboutPlaceHolder");
+		if (placeHolder.data('loaded'))
+			return;
+
+		let url = PolyFill.extensionGetURL(`_locales/${api.i18n.getMessage('languageCode')}/settings-about.html`);
+
+		fetch(url)
+			.then((response) => response.text())
+			.then((htmlText) => {
+				loadSettingAbout(htmlText);
+			})
+			.catch((error) => {
+				loadSettingAbout('Failed to load about...!');
+				Debug.warn('Failed to load settings-about.html', error);
+			});
+
+		function loadSettingAbout(htmlText) {
+			placeHolder.html(htmlText);
+			placeHolder.data('loaded', true);
+
+			// update the links and label
+			jq("#linkAddonsMarket")
+				.text(environment.browserConfig.marketName)
+				.attr("href", environment.browserConfig.marketUrl || "#");
+		}
 	}
 	//#endregion
 
