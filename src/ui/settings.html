@@ -63,30 +63,31 @@
 			</div>
 			<div class="offcanvas-body">
 				<div class="nav flex-column nav-pills list-group interactive" role="tablist">
-					<a class="nav-link active list-group-item list-group-item-action" data-bs-dismiss="offcanvas"
+					<a class="nav-link active list-group-item-action" data-bs-dismiss="offcanvas"
 						data-bs-toggle="pill" href="#tab-about" role="tab" aria-controls="tab-about"
 						aria-expanded="true">
 						<i class="fa fa-info-circle fa-lg text-primary" aria-hidden="true"></i>
 						<span data-localize="settingsTabAbout">About</span>
 					</a>
-					<a class="nav-link list-group-item list-group-item-action" data-bs-toggle="pill" href="#tab-general"
+
+					<a class="nav-link list-group-item-action" data-bs-toggle="pill" href="#tab-general"
 						role="tab" aria-controls="tab-general" data-bs-dismiss="offcanvas" aria-expanded="true">
 						<i class="fas fa-wrench fa-lg text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabGeneral">General Options</span>
 					</a>
-					<a class="nav-link list-group-item list-group-item-action" data-bs-dismiss="offcanvas"
+					<a class="nav-link list-group-item-action" data-bs-dismiss="offcanvas"
 						data-bs-toggle="pill" href="#tab-servers" role="tab" aria-controls="tab-servers"
 						aria-expanded="true">
 						<i class="fas fa-server fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServers">Proxy Servers</span>
 					</a>
-					<a class="nav-link list-group-item list-group-item-action" data-bs-dismiss="offcanvas"
+					<a class="nav-link list-group-item-action" data-bs-dismiss="offcanvas"
 						data-bs-toggle="pill" href="#tab-server-subscriptions" role="tab"
 						aria-controls="tab-server-subscriptions" aria-expanded="true">
 						<i class="fas fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
 					</a>
-					<a class="nav-link disabled list-group-item list-group-item-action" data-bs-dismiss="offcanvas"
+					<a class="nav-link disabled list-group-item-action" data-bs-dismiss="offcanvas"
 						data-bs-toggle="pill" role="tab" aria-controls="tab-rules" aria-expanded="true">
 						<span class="fa-stack-no-margin fa-stack text-warning fa-sm">
 							<i class="fas fa-square fa-stack-2x"></i>
@@ -95,7 +96,7 @@
 						<span data-localize="settingsTabSmartProfiles">Smart Profiles</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile list-group-item list-group-item-action menu-smart-profile"
+					<a class="nav-link nav-smart-profile list-group-item-action menu-smart-profile"
 						data-bs-dismiss="offcanvas" data-bs-toggle="pill" href="#tab-smart-profile" role="tab"
 						aria-controls="tab-rules" aria-expanded="true">
 						<!--Smart Profile template-->
@@ -103,20 +104,20 @@
 						<span id="menu-smart-profile-name">{profile-name}</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile mb-2 list-group-item list-group-item-action menu-add-smart-profile"
+					<a class="nav-link nav-smart-profile mb-2 list-group-item-action menu-add-smart-profile"
 						data-bs-dismiss="offcanvas" data-bs-toggle="modal" data-bs-target="#modalAddNewSmartProfile"
 						href="#new-smart-profile">
 						<i class="fas fa-folder-plus fa-lg text-info" aria-hidden="true"></i>
 						<span data-localize="settingsTabAddSmartProfile">Add new Smart Profile</span>
 					</a>
 
-					<a class="nav-link list-group-item list-group-item-action" data-bs-toggle="pill"
+					<a class="nav-link list-group-item-action" data-bs-toggle="pill"
 						data-bs-dismiss="offcanvas" href="#tab-backup" role="tab" aria-controls="tab-backup"
 						aria-expanded="true">
 						<i class="fas fa-life-ring text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
 					</a>
-					<a class="nav-link list-group-item list-group-item-action d-none menu-update-available"
+					<a class="nav-link list-group-item-action d-none menu-update-available"
 						href="#tab-update" target="_blank" rel="noopener noreferrer" role="tab">
 						<i class="fas fa-star text-danger" aria-hidden="true"></i>
 						<span>Update text</span>
@@ -133,29 +134,29 @@
 				</h2>
 				<br class="d-none d-md-inline-block" />
 				<div class="nav flex-column nav-pills list-group interactive d-none d-sm-block" role="tablist">
-					<a class="nav-link active list-group-item list-group-item-action" id="tab-about-tab"
+					<a class="nav-link active list-group-item-action" id="tab-about-tab"
 						data-bs-toggle="pill" href="#tab-about" role="tab" aria-controls="tab-about"
 						aria-expanded="true">
 						<i class="fas fa-cog fa-lg text-primary" aria-hidden="true"></i>
 						<span data-localize="settingsTabAbout">About</span>
 					</a>
-					<a class="nav-link list-group-item list-group-item-action" data-bs-toggle="pill" href="#tab-general"
+					<a class="nav-link list-group-item-action" data-bs-toggle="pill" href="#tab-general"
 						role="tab" aria-controls="tab-general" aria-expanded="true">
 						<i class="fas fa-wrench fa-lg text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabGeneral">General Options</span>
 					</a>
-					<a class="nav-link list-group-item list-group-item-action" data-bs-toggle="pill" href="#tab-servers"
+					<a class="nav-link list-group-item-action" data-bs-toggle="pill" href="#tab-servers"
 						role="tab" aria-controls="tab-servers" aria-expanded="true">
 						<i class="fas fa-server fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServers">Proxy Servers</span>
 					</a>
-					<a class="nav-link list-group-item list-group-item-action" data-bs-toggle="pill"
+					<a class="nav-link list-group-item-action" data-bs-toggle="pill"
 						href="#tab-server-subscriptions" role="tab" aria-controls="tab-server-subscriptions"
 						aria-expanded="true">
 						<i class="fas fa-list-alt fa-lg text-secondary" aria-hidden="true"></i>
 						<span data-localize="settingsTabProxyServerSubscriptions">Proxy Server Subscriptions</span>
 					</a>
-					<a class="nav-link disabled list-group-item list-group-item-action" data-bs-toggle="pill" role="tab"
+					<a class="nav-link disabled list-group-item-action" data-bs-toggle="pill" role="tab"
 						aria-controls="tab-rules" aria-expanded="true">
 						<span class="fa-stack-no-margin fa-stack text-warning fa-sm">
 							<i class="fas fa-square fa-stack-2x"></i>
@@ -164,7 +165,7 @@
 						<span data-localize="settingsTabSmartProfiles">Smart Profiles</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile list-group-item list-group-item-action menu-smart-profile"
+					<a class="nav-link nav-smart-profile list-group-item-action menu-smart-profile"
 						data-bs-toggle="pill" href="#tab-smart-profile" role="tab" aria-controls="tab-rules"
 						aria-expanded="true">
 						<!--Smart Profile template-->
@@ -172,18 +173,18 @@
 						<span id="menu-smart-profile-name">{profile-name}</span>
 					</a>
 
-					<a class="nav-link nav-smart-profile mb-2 list-group-item list-group-item-action menu-add-smart-profile"
+					<a class="nav-link nav-smart-profile mb-2 list-group-item-action menu-add-smart-profile"
 						data-bs-toggle="modal" data-bs-target="#modalAddNewSmartProfile" href="#new-smart-profile">
 						<i class="fas fa-folder-plus fa-lg text-info" aria-hidden="true"></i>
 						<span data-localize="settingsTabAddSmartProfile">Add new Smart Profile</span>
 					</a>
 
-					<a class="nav-link list-group-item list-group-item-action" data-bs-toggle="pill" href="#tab-backup"
+					<a class="nav-link list-group-item-action" data-bs-toggle="pill" href="#tab-backup"
 						role="tab" aria-controls="tab-backup" aria-expanded="true">
 						<i class="fas fa-life-ring text-success" aria-hidden="true"></i>
 						<span data-localize="settingsTabBackupRestore">Backup/ Restore</span>
 					</a>
-					<a class="nav-link list-group-item list-group-item-action d-none menu-update-available"
+					<a class="nav-link list-group-item-action d-none menu-update-available"
 						href="#tab-update" target="_blank" rel="noopener noreferrer" role="tab">
 						<i class="fas fa-star text-danger" aria-hidden="true"></i>
 						<span>Update text</span>
