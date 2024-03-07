@@ -47,7 +47,23 @@ export class settingsPage {
 		servers: false,
 		activeProxy: false,
 		serverSubscriptions: false,
-		rulesSubscriptions: false
+		rulesSubscriptions: false,
+		isDirty: function () {
+			return this.options
+				|| this.servers
+				|| this.activeProxy
+				|| this.smartProfiles
+				|| this.rulesSubscriptions
+				|| this.serverSubscriptions
+		},
+		resetStats: function () {
+			this.options = false;
+			this.servers = false;
+			this.activeProxy = false;
+			this.smartProfiles = false;
+			this.rulesSubscriptions = false;
+			this.serverSubscriptions = false;
+		}
 	};
 
 	public static initialize() {
@@ -3614,10 +3630,12 @@ export class settingsPage {
 									messageBox.success(response.message,
 										800,
 										() => {
+											settingsPage.changeTracking.resetStats();
 											// reload the current settings page
 											document.location.reload();
 										});
 								} else {
+									settingsPage.changeTracking.resetStats();
 									// reload the current settings page
 									document.location.reload();
 								}
@@ -3649,10 +3667,12 @@ export class settingsPage {
 								messageBox.success(response.message,
 									500,
 									() => {
+										settingsPage.changeTracking.resetStats();
 										// reload the current settings page
 										document.location.reload();
 									});
 							} else {
+								settingsPage.changeTracking.resetStats();
 								// reload the current settings page
 								document.location.reload();
 							}
@@ -3705,55 +3725,44 @@ export class settingsPage {
 			}
 		},
 		onWindowUnload(event) {
-			var shouldAsk = false;
-
 			// Check GeneralOptions via comparison
 			if (!settingsPage.readGeneralOptions().Equals(settingsPage.currentSettings.options)) {
 				settingsPage.changeTracking.options = true;
 			}
+			if (!settingsPage.changeTracking.isDirty())
+				return;
 
-			if (settingsPage.changeTracking.options
-				|| settingsPage.changeTracking.servers
-				|| settingsPage.changeTracking.activeProxy
-				|| settingsPage.changeTracking.smartProfiles
-				|| settingsPage.changeTracking.rulesSubscriptions
-				|| settingsPage.changeTracking.serverSubscriptions) {
-				shouldAsk = true;
-			}
+			// If user choose to stay, show a messagebox asking if saving all unsaved changes.
+			jq(window).one("focus", () => {
+				// setTimeout to avoid when user choose to leave, this messagebox flash before the window close itself
+				setTimeout(() => {
+					messageBox.confirm(api.i18n.getMessage("settingsConfirmSaveAllChanged"),
+						() => {
+							if (settingsPage.changeTracking.options) {
+								settingsPage.uiEvents.onClickSaveGeneralOptions();
+							}
+							if (settingsPage.changeTracking.smartProfiles || settingsPage.changeTracking.rulesSubscriptions) {
+								for (let pageProfile of settingsPage.pageSmartProfiles) {
+									settingsPage.uiEvents.onClickSaveSmartProfile(pageProfile);
+								}
+								if (settingsPage.unsavedProfile) {
+									// if profile name not set, error message box will show.
+									settingsPage.uiEvents.onClickSaveSmartProfile(settingsPage.unsavedProfile);
+								}
+							}
+							if (settingsPage.changeTracking.servers || settingsPage.changeTracking.activeProxy) {
+								settingsPage.uiEvents.onClickSaveProxyServers();
+							}
+							if (settingsPage.changeTracking.serverSubscriptions) {
+								settingsPage.uiEvents.onClickSaveServerSubscriptionsChanges();
+							}
+						});
+				}, 200);
+			});
 
-			if (shouldAsk) {
-				// If user choose to stay, show a messagebox asking if saving all unsaved changes.
-				jq(window).one("focus", () => {
-					// setTimeout to avoid when user choose to leave, this messagebox flash before the window close itself
-					setTimeout(() => {
-						messageBox.confirm(api.i18n.getMessage("settingsConfirmSaveAllChanged"),
-							() => {
-								if (settingsPage.changeTracking.options) {
-									settingsPage.uiEvents.onClickSaveGeneralOptions();
-								}
-								if (settingsPage.changeTracking.smartProfiles || settingsPage.changeTracking.rulesSubscriptions) {
-									for (let pageProfile of settingsPage.pageSmartProfiles) {
-										settingsPage.uiEvents.onClickSaveSmartProfile(pageProfile);
-									}
-									if (settingsPage.unsavedProfile) {
-										// if profile name not set, error message box will show.
-										settingsPage.uiEvents.onClickSaveSmartProfile(settingsPage.unsavedProfile);
-									}
-								}
-								if (settingsPage.changeTracking.servers || settingsPage.changeTracking.activeProxy) {
-									settingsPage.uiEvents.onClickSaveProxyServers();
-								}
-								if (settingsPage.changeTracking.serverSubscriptions) {
-									settingsPage.uiEvents.onClickSaveServerSubscriptionsChanges();
-								}
-							});
-					}, 200);
-				});
-
-				// Browser will show a dialog asking user to leave or stay.
-				event.preventDefault();
-				event.returnValue = true;
-			}
+			// Browser will show a dialog asking user to leave or stay.
+			event.preventDefault();
+			event.returnValue = true;
 		}
 	};
 

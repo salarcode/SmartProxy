@@ -549,7 +549,7 @@ export enum ThemeType {
 	Dark
 }
 
-export class GeneralOptions implements Cloneable, Compareable {
+export class GeneralOptions implements Cloneable, Comparable {
 	public static defaultDarkThemeName: string = "themes-cosmo-dark";
 
 	public syncSettings: boolean = false;
@@ -622,7 +622,7 @@ interface Cloneable {
 	CopyFrom(source: any): void;
 }
 
-interface Compareable {
+interface Comparable {
 	Equals(other: any): Boolean;
 }
 
