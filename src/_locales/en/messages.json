@@ -2,6 +2,10 @@
 	"uiDirection": {
 		"message": "ltr"
 	},
+	"languageCode": {
+		"message": "en",
+		"description": "We need to know the code which might not match what browser UI has"
+	},
 	"extensionName": {
 		"message": "SmartProxy"
 	},
@@ -444,7 +448,10 @@
 		"message": "Import Rules"
 	},
 	"settingsImportRulesSelectButton": {
-		"message": "Rule Backup File"
+		"message": "Rules Backup File"
+	},
+	"settingsImportRulesText": {
+		"message": "Rules Backup Text"
 	},
 	"settingsImportRulesFrom": {
 		"message": "From"
@@ -544,6 +551,9 @@
 	},
 	"settingsImportRulesFailed": {
 		"message": "Failed to import the file."
+	},
+	"settingsImportRulesTextIsEmpty": {
+		"message": "Please enter rules in the box"
 	},
 	"settingsServerNameRequired": {
 		"message": "Specify the name of the server!"
@@ -654,7 +664,7 @@
 		"message": "Smart Rules"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
-		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+		"message": "In this type of profile, proxy will be applied to the requests based on some <em>rules</em> that you will need to define. To define these rules you can use the popup menu in the menu bar or you can add them from settings and also you can do that from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
 		"message": "Always Enabled"

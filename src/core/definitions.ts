@@ -1059,7 +1059,7 @@ export interface IExternalRulesConfig {
 	applyProxy: SpecialRequestApplyProxyMode;
 }
 
-export class ProxyRulesSubscription {
+export class ProxyRulesSubscription implements IExternalRulesConfig {
 	constructor() {
 		this.id = Utils.getNewUniqueIdString();
 	}
@@ -1128,6 +1128,24 @@ export class ProxyRulesSubscription {
 			return false;
 
 		return true;
+	}
+}
+
+export class ProxyRulesImportFromUI implements IExternalRulesConfig {
+	url: string;
+	username: string;
+	password: string;
+	obfuscation: string;
+	format: ExternalRulesFormat;
+	applyProxy: SpecialRequestApplyProxyMode;
+
+	constructor() {
+		this.url = null;
+		this.obfuscation = null;
+		this.format = ExternalRulesFormat.AutoProxy;
+		this.applyProxy = SpecialRequestApplyProxyMode.CurrentProxy;
+		this.username = null;
+		this.password = null;
 	}
 }
 

@@ -18,7 +18,6 @@ import { Utils } from './Utils';
 import { api } from './environment';
 import {
 	IExternalRulesConfig,
-	ProxyRulesSubscription,
 	ExternalRulesFormat,
 	SubscriptionProxyRule,
 	ProxyRule,
@@ -29,164 +28,6 @@ import { ProxyEngineSpecialRequests } from '../core/ProxyEngineSpecialRequests';
 import * as ruleImporterSwitchyScript from './RuleImporterSwitchy';
 
 export const RuleImporter = {
-	readRulesSubscriptionFromServer(subscription: ProxyRulesSubscription, success?: Function, fail?: Function) {
-		/**
-		 * TODO: Remove and replace with generic version
-		 */
-		if (!subscription || !subscription.url) {
-			if (fail) fail();
-			return;
-		}
-		if (!success) throw 'onSuccess callback is mandatory';
-
-		function ajaxSuccess(response: any) {
-			if (!response) if (fail) fail();
-			RuleImporter.importRulesSubscriptionBatch(
-				response,
-				null,
-				false,
-				null,
-				(importResult: {
-					success: boolean;
-					message: string;
-					result: {
-						whiteList: SubscriptionProxyRule[];
-						blackList: SubscriptionProxyRule[];
-					};
-				}) => {
-					if (!importResult.success) {
-						if (fail) fail(importResult);
-						return;
-					}
-					if (success) success(importResult);
-				},
-				(error: Error) => {
-					if (fail) fail(error);
-				},
-				subscription,
-			);
-		}
-
-		if (subscription.applyProxy !== null)
-			// mark this request as special
-			ProxyEngineSpecialRequests.setSpecialUrl(subscription.url, subscription.applyProxy);
-
-		let fetchRequest = {
-			method: 'GET',
-			headers: undefined,
-		};
-		if (subscription.username) {
-			let pass = atob(subscription.password);
-			fetchRequest.headers =
-			{
-				'Authorization': 'Basic ' + btoa(subscription.username + ':' + pass)
-			};
-		}
-		fetch(subscription.url, fetchRequest)
-			.then((response) => response.text())
-			.then((result) => {
-				ajaxSuccess(result);
-			})
-			.catch((error) => {
-				if (fail) fail(error);
-			});
-	},
-	importRulesSubscriptionBatch(
-		text: string | ArrayBuffer,
-		file: any,
-		append: boolean,
-		currentRules: any[],
-		success: Function,
-		fail?: Function,
-		options?: ProxyRulesSubscription,
-	) {
-		/**
-		 * TODO: Remove and replace with generic version
-		 */
-		if (!file && !text) {
-			if (fail) fail();
-			return;
-		}
-
-		if (text) {
-			try {
-				doImport(text as string, options);
-			} catch (e) {
-				if (fail) fail(e);
-			}
-		} else {
-			let reader = new FileReader();
-			reader.onerror = (event) => {
-				if (fail) fail(event);
-			};
-			reader.onload = (event) => {
-				//let textFile = event.target;
-				let fileText = reader.result;
-
-				try {
-					doImport(fileText as string, options);
-				} catch (e) {
-					if (fail) fail(e);
-				}
-			};
-			reader.readAsText(file);
-		}
-		function doImport(text: string, options?: ProxyRulesSubscription) {
-			if (options.obfuscation.toLowerCase() == 'base64') {
-				// decode base64
-				text = Utils.b64DecodeUnicode(text);
-			}
-
-			let rules: {
-				whiteList: SubscriptionProxyRule[];
-				blackList: SubscriptionProxyRule[];
-			};
-
-			if (options && options.format == ExternalRulesFormat.AutoProxy) {
-				if (!externalAppRuleParser.GFWList.detect(text, false)) {
-					if (fail) fail();
-					return;
-				}
-				rules = externalAppRuleParser.GFWList.parse(text);
-			} else if (options && options.format == ExternalRulesFormat.SwitchyOmega) {
-				let switchyRules = externalAppRuleParser.Switchy.parseAndCompile(text);
-
-				if (!switchyRules || !switchyRules.compiled) {
-					if (fail) fail();
-					return;
-				}
-				let blackListRules = externalAppRuleParser.Switchy.convertToSubscriptionProxyRule(switchyRules.compiled);
-
-				rules = {
-					blackList: blackListRules,
-					whiteList: [],
-				};
-			} else {
-				if (fail) fail();
-				return;
-			}
-
-			if (append) {
-				if (!currentRules) currentRules = [];
-				// TODO:
-			} else {
-				// Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes.
-				let message = api.i18n
-					.getMessage('importerImportRulesSuccess')
-					.replace('{0}', rules.blackList.length)
-					.replace('{1}', rules.whiteList.length);
-
-				if (success) {
-					// not need for any check, return straight away
-					success({
-						success: true,
-						message: message,
-						result: rules,
-					});
-				}
-			}
-		}
-	},
 	readFromServerAndImport(rulesConfig: IExternalRulesConfig, success?: Function, fail?: Function) {
 		if (!rulesConfig || !rulesConfig.url) {
 			if (fail) fail();
@@ -203,6 +44,7 @@ export const RuleImporter = {
 
 			// ----
 			RuleImporter.importRulesBatch(
+				rulesConfig,
 				response,
 				null,
 				false,
@@ -210,9 +52,9 @@ export const RuleImporter = {
 				(importResult: {
 					success: boolean;
 					message: string;
-					result: {
-						whiteList: SubscriptionProxyRule[];
-						blackList: SubscriptionProxyRule[];
+					rules: {
+						whiteList: ImportedProxyRule[];
+						blackList: ImportedProxyRule[];
 					};
 				}) => {
 					if (!importResult.success) {
@@ -224,7 +66,6 @@ export const RuleImporter = {
 				(error: Error) => {
 					if (fail) fail(error);
 				},
-				rulesConfig,
 			);
 		}
 
@@ -253,13 +94,13 @@ export const RuleImporter = {
 			});
 	},
 	importRulesBatch(
+		rulesConfig: IExternalRulesConfig,
 		text: string | ArrayBuffer,
 		file: any,
 		append: boolean,
 		currentRules: ProxyRule[],
 		success: Function,
-		fail?: Function,
-		rulesConfig?: IExternalRulesConfig,
+		fail?: Function
 	) {
 		/**
 		 * TODO: Remove and replace with generic version
@@ -292,8 +133,8 @@ export const RuleImporter = {
 			};
 			reader.readAsText(file);
 		}
-		function doImport(text: string, rulesConfig?: IExternalRulesConfig) {
-			if (rulesConfig.obfuscation.toLowerCase() == 'base64') {
+		function doImport(text: string, rulesConfig: IExternalRulesConfig) {
+			if (rulesConfig.obfuscation?.toLowerCase() == 'base64') {
 				// decode base64
 				text = Utils.b64DecodeUnicode(text);
 			}
@@ -368,7 +209,7 @@ export const RuleImporter = {
 						success({
 							success: true,
 							message: message,
-							result: rules,
+							rules: rules,
 						});
 					}
 				}
@@ -384,7 +225,7 @@ export const RuleImporter = {
 					success({
 						success: true,
 						message: message,
-						result: rules,
+						rules: rules,
 					});
 				}
 			}

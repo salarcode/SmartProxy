@@ -1,0 +1,174 @@
+<h2 class="text-primary">
+	SmartProxy
+</h2>
+<p data-localize="settingsTabAboutDescription">
+	Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget
+	solution.
+	With SmartProxy you don't need to change your proxy manually or turn it on and off.
+	All you have to do is to tell SmartProxy that you want to enable proxy for your desired
+	website with just one click.
+	After that, when you visit that specific website, SmartProxy will act and all you data for
+	that website will be transferred though the proxy, without you doing anything.
+</p>
+<p>
+	SmartProxy brings a handful of features to users from beginner one to advanced one which
+	some is listed here:
+</p>
+<ul>
+	<li>Just enable proxy for one site on a tab and everything there will have proxy enabled
+		automatically. This feature is called proxy-per-tab</li>
+	<li>Automatically detect when to enable or disable proxy to certain websites based on rule
+		patterns</li>
+	<li>Easily switch between many proxy servers as your active proxy server setting</li>
+	<li>Switch on proxy for current site you are on it with one click</li>
+	<li>View current website items and requests and decide whether to enable proxy for them with
+		one click</li>
+	<li>Easily switch between proxy modes or enable proxy for all domains</li>
+	<li>Backup/Restore settings and rules</li>
+</ul>
+<br />
+<h3>Please note that:</h3>
+<p>
+<div class="text-info">
+	<i class="fas fa-info-circle" aria-hidden="true"></i>
+	SmartProxy does not provide any type of proxy servers.
+</div>
+<div class="text-danger">
+	<i class="fas fa-eye-slash" aria-hidden="true"></i>
+	SmartProxy does not track you in any way.
+</div>
+<div class="text-warning">
+	<i class="fas fa-eye-slash" aria-hidden="true"></i>
+	SmartProxy is completely ad free in any way.
+</div>
+</p>
+<br>
+<h3>Your feedback is important</h3>
+<p>
+<div>
+	<i class="fas fa-star text-warning"></i>
+	If you <i class="fas fa-heart text-danger"></i> SmartProxy please rate it in
+	<a id="linkAddonsMarket" href="#" target="_blank">Extensions</a>
+	page.
+</div>
+<div class="">
+	<i class="fas fa-question-circle text-primary"></i>
+	If you have questions or problems please head to issues page and open a ticket.
+	<a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">Report Issues</a>.
+</div>
+</p>
+<br>
+<h3>Toolbar Action Icon Legends</h3>
+<p>
+	The icon in your browser toolbar will change to represent the status of SmartProxy. Here is what the different icons
+	mean:
+	<br />
+
+<div class="table-responsive">
+	<table class="table table-sm table table-striped caption-top table-borderless  align-middle table-responsive">
+		<caption><b>Icon Legends (all browsers):</b></caption>
+		<thead>
+			<tr>
+				<th style="width: 70px;">Icon</th>
+				<th>Meaning</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-disabled.svg" class=""></td>
+				<td>Requests will not use proxies.</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/smartproxy.svg" class=""></td>
+				<td>
+					Proxy has applied or will apply to the requests that match the defined rules.
+					<br /> Or no rule is matched for the tab.
+					<br />
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>
+					Smart Rules
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-always.svg" class=""></td>
+				<td>
+					Proxy is applied to all requests within the current tab. (Whitelisted domains are represented in
+					Chrome based browsers)
+					<br />
+					Profile: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i>
+					Always Enable
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-system.svg" class=""></td>
+				<td>
+					The decision about using any proxy is passed on to the operation system.
+					<br/>
+					Profile: System
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="table-responsive">
+	<table class="table table-sm table table-striped caption-top table-borderless  align-middle table-responsive">
+		<caption><b>Icon Legends (Firefox Only):</b></caption>
+		<thead>
+			<tr>
+				<th style="width: 70px;">Icon</th>
+				<th>Meaning</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-green.svg" class=""></td>
+				<td>
+					A rule is matched for the current tab. All subsequent requests are going through proxy.
+					<br />
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-failed.svg" class=""></td>
+				<td>
+					A rule is matched for the current tab. There is at least one unresponsive / failed request.
+					<br />
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-bypassed.svg" class=""></td>
+				<td>
+					A rule is matched for the current tab. At least one subsequent request has bypassed the proxy via a rule.
+					<br />
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-unmatched.svg" class=""></td>
+				<td>
+					A rule is matched for the current tab. At least one subsequent request has not matched any rule and is not going through proxy.
+					<br />
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-noproxy-has-matched.svg" class=""></td>
+				<td>
+					No rule is matched for the current tab. At least one subsequent request has matched a rule and it is going through a proxy.
+					<br />
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-always-bypassed.svg" class=""></td>
+				<td>
+					Proxy is applied to all requests within the current tab. At least one subsequent request has bypassed the proxy via a rule.
+					<br />
+					Profile: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i> Always
+					Enable
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</p>
