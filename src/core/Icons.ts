@@ -104,7 +104,7 @@ export class Icons {
 					return 'profile-smartrules-has-failed';
 				}
 
-				return 'profile-smartrules-greeen';
+				return 'profile-smartrules-green';
 			}
 			else {
 				if (tabData.status.statsHasProxifiedRequest)
