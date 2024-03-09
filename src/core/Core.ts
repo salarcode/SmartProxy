@@ -915,7 +915,9 @@ export class Core {
 
 			if (settingsLib.current.options.displayAppliedProxyOnBadge && !environment.mobile) {
 				if (tabData.proxified !== TabProxyStatus.None) {
+					if (tabData.proxyRuleHostName) {
 					actionTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
+					}
 				} else {
 					actionTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRuleNone')}`;
 				}
