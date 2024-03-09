@@ -881,17 +881,27 @@ export class settingsPage {
 		if (placeHolder.data('loaded'))
 			return;
 
-		let url = PolyFill.extensionGetURL(`_locales/${api.i18n.getMessage('languageCode')}/settings-about.html`);
 
-		fetch(url)
-			.then((response) => response.text())
-			.then((htmlText) => {
-				loadSettingAbout(htmlText);
-			})
-			.catch((error) => {
-				loadSettingAbout('Failed to load about...!');
-				Debug.warn('Failed to load settings-about.html', error);
-			});
+		function fetchSettingAbout(useFallback: boolean = false, languageCode?: string) {
+			let path = `${languageCode || api.i18n.getMessage('languageCode')}/settings-about.html`;
+			let url = PolyFill.extensionGetURL(`_locales/${path}`);
+
+			fetch(url)
+				.then((response) => response.text())
+				.then((htmlText) => {
+					loadSettingAbout(htmlText);
+				})
+				.catch((error) => {
+					if (useFallback) {
+						// falling back to EN
+						fetchSettingAbout(false, 'en');
+					}
+					else {
+						loadSettingAbout('Failed to load about...!');
+					}
+					Debug.warn('Failed to load ' + path, error);
+				});
+		}
 
 		function loadSettingAbout(htmlText) {
 			placeHolder.html(htmlText);
@@ -902,6 +912,8 @@ export class settingsPage {
 				.text(environment.browserConfig.marketName)
 				.attr("href", environment.browserConfig.marketUrl || "#");
 		}
+
+		fetchSettingAbout(true);
 	}
 	//#endregion
 
