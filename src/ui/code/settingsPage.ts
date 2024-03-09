@@ -3503,8 +3503,6 @@ export class settingsPage {
 			if (editingSubscription)
 				editingName = editingSubscription.name;
 
-			// let editingSubscription = null;
-
 			if (editingSubscription) {
 				let nameIsDuplicate = false;
 				for (let item of subscriptionsList) {
@@ -3533,7 +3531,7 @@ export class settingsPage {
 			tabContainer.find("#btnSaveRulesSubscriptions").attr("data-loading-text", api.i18n.getMessage("settingsRulesSubscriptionSavingButton"));
 			tabContainer.find("#btnSaveRulesSubscriptions").button("loading");
 
-			RuleImporter.readFromServerAndImport(editingSubscription,
+			RuleImporter.readFromServerAndImport(subscriptionModel,
 				(importResult: {
 					success: boolean;
 					message: string;
