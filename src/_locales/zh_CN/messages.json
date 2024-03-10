@@ -2,6 +2,10 @@
 	"uiDirection": {
 		"message": "ltr"
 	},
+	"languageCode": {
+		"message": "zh_CN",
+		"description": "We need to know the code which might not match what browser UI has"
+	},
 	"extensionName": {
 		"message": "SmartProxy"
 	},
@@ -386,6 +390,9 @@
 	"settingsAddServerButton": {
 		"message": "添加服务器"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "删除多个"
+	},
 	"settingsSaveChangesButton": {
 		"message": "保存更改"
 	},
@@ -443,6 +450,9 @@
 	"settingsImportRulesSelectButton": {
 		"message": "规则备份文件"
 	},
+	"settingsImportRulesText": {
+		"message": "规则备份文件"
+	},
 	"settingsImportRulesFrom": {
 		"message": "格式"
 	},
@@ -488,6 +498,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "确定移除所选代理服务器？"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "您确定要删除选定的代理服务器吗？"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "你确定移除所有代理服务器？"
 	},
@@ -515,6 +528,9 @@
 	"settingsConfirmRemoveProxyRule": {
 		"message": "确定移除所选规则？"
 	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "您确定要删除选定的规则吗？"
+	},
 	"settingsRemoveAllRules": {
 		"message": "确定移除所有规则？"
 	},
@@ -535,6 +551,9 @@
 	},
 	"settingsImportRulesFailed": {
 		"message": "导入文件失败。"
+	},
+	"settingsImportRulesTextIsEmpty": {
+		"message": "请在输入框中输入规则"
 	},
 	"settingsServerNameRequired": {
 		"message": "请指定服务器名称！"
@@ -645,7 +664,7 @@
 		"message": "智能规则"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
-		"message": "在这个类型的配置档中，代理将基于您需要定义的<em>规则</em>来应用到请求。要定义这些规则，您可以使用菜单栏中的弹出式菜单，可以从设置中实现，还可以从 <em>可代理资源</em> 窗口中添加它们。<br>您也可以订阅不同的规则列表，如 Gfwlist。"
+		"message": "在这种类型的配置文件中，代理将根据您需要定义的一些<em>规则</em>应用于请求。要定义这些规则，您可以使用菜单栏中的弹出菜单，也可以从设置中添加它们，也可以从<em>可代理资源</em>窗口中执行此操作。<br>您还可以订阅不同的规则列表，如 Gfwlist。"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
 		"message": "始终开启"
@@ -833,6 +852,9 @@
 	"importerImportSuccess": {
 		"message": "{0} / {1} 条规则已添加。<br>注意保存更改。"
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "删除多个"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "添加多条规则"
 	},
@@ -865,6 +887,9 @@
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "订阅一个代理服务器列表"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "删除多个"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "名称："
@@ -938,6 +963,9 @@
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "你希望移除所有代理服务器订阅？"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "您确定要删除选定的订阅吗？"
+	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "所有代理服务器订阅已移除。<br/>你必须保存以应用更改。"
 	},
@@ -998,6 +1026,9 @@
 	"settingsAddRulesSubscriptionButton": {
 		"message": "订阅规则列表"
 	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "删除多个"
+	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "订阅规则列表"
 	},
@@ -1005,7 +1036,7 @@
 		"message": "名称"
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "网址"
 	},
 	"settingsRulesSubscriptionsGridColCount": {
 		"message": "数量"
@@ -1063,6 +1094,9 @@
 	},
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "确定要移除所选的规则订阅吗？"
+	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "您确定要删除选定的规则订阅吗？"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "请以正确格式填写必需项"
