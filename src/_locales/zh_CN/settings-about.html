@@ -1,0 +1,165 @@
+<h2 class="text-primary">
+	SmartProxy
+</h2>
+<p data-localize="settingsTabAboutDescription">
+	通过 SmartProxy，使用代理再简单不过了。 把它看作是一劳永逸的解决方案。
+	使用 SmartProxy 您不需要手动更改您的代理，或打开或关闭它。
+	你所需要做的就是告诉SmartProxy，你想要为你想要的网站启用代理，只需点击一次。
+	之后，当你访问那个特定的网站时，SmartProxy会自动操作，所有你访问该网站的数据都将通过代理传输，而你无需做任何操作。
+</p>
+<p>
+	SmartProxy 为用户提供了一系列功能，从初学者到高级用户都能受益，其中一些列举如下：
+</p>
+<ul>
+	<li>只需在一个标签页上为一个网站启用代理，那里的所有内容都会自动启用代理。 该功能称为 "按标签页统一代理"</li>
+	<li>根据规则模式自动检测何时启用或禁用某些网站的代理服务器</li>
+	<li>轻松切换多个代理服务器，作为您的活动代理服务器设置</li>
+	<li>一键为当前网站打开代理服务器</li>
+	<li>查看当前网站项目和请求，并一键决定是否启用代理</li>
+	<li>轻松切换代理模式或为所有域启用代理</li>
+	<li>备份/恢复设置和规则</li>
+</ul>
+<br />
+<h3>请注意：</h3>
+<p>
+<div class="text-info">
+	<i class="fas fa-info-circle" aria-hidden="true"></i>
+	SmartProxy 不提供任何类型的代理服务器。
+</div>
+<div class="text-danger">
+	<i class="fas fa-eye-slash" aria-hidden="true"></i>
+	SmartProxy 不会以任何方式跟踪您。
+</div>
+<div class="text-warning">
+	<i class="fas fa-eye-slash" aria-hidden="true"></i>
+	SmartProxy 完全不含任何广告。
+</div>
+</p>
+<br>
+<h3>您的反馈至关重要</h3>
+<p>
+<div>
+	<i class="fas fa-star text-warning"></i>
+	如果您的 <i class="fas fa-heart text-danger"></i> SmartProxy 请在
+	<a id="linkAddonsMarket" href="#" target="_blank">扩展</a>
+	页面对其进行评分。
+</div>
+<div class="">
+	<i class="fas fa-question-circle text-primary"></i>
+	如果您有问题或困难，请前往问题页面并打开一个工单。
+	<a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">报告问题</a>
+</div>
+</p>
+<br>
+<h3>工具栏操作图标图例</h3>
+<p>
+	浏览器工具栏中的图标会根据 SmartProxy 的状态而变化。 这里是不同的图标
+：
+	<br />
+
+<div class="table-responsive">
+	<table class="table table-sm table table-striped caption-top table-borderless  align-middle table-responsive">
+		<caption><b>图标图例(所有浏览器)：</b></caption>
+		<thead>
+			<tr>
+				<th style="width: 70px;">图标</th>
+				<th>含义</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-disabled.svg" class=""></td>
+				<td>请求不会使用代理。</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/smartproxy.svg" class=""></td>
+				<td>
+					代理已应用或将应用到与定义的规则匹配的请求。
+					<br /> 或者标签页没有匹配规则。
+					<br />
+方案：<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>
+智能规则
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-always.svg" class=""></td>
+				<td>
+					代理适用于当前标签页内的所有请求。 （白名单域名在基于 Chrome 浏览器的浏览器中显示）
+<br />
+简介：<i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i>
+始终启用
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-system.svg" class=""></td>
+				<td>
+					操作系统决定是否使用任何代理。
+					<br/>
+方案：系统代理
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="table-responsive">
+	<table class="table table-sm table table-striped caption-top table-borderless  align-middle table-responsive">
+		<caption><b>图标图例（仅用于 Firefox )：</b></caption>
+		<thead>
+			<tr>
+				<th style="width: 70px;">图标</th>
+				<th>含义</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-green.svg" class=""></td>
+				<td>
+					当前标签页匹配了一个规则。 所有后续请求都将通过代理进行。
+					<br />
+方案：<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>智能规则
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-failed.svg" class=""></td>
+				<td>
+					当前标签页匹配了一个规则。 至少有一个未响应/失败的请求。
+					<br />
+方案：<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>智能规则
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-bypassed.svg" class=""></td>
+				<td>
+					当前标签页匹配了一个规则。 至少有一个后续请求通过规则绕过了代理。
+					<br />
+方案：<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>智能规则
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-unmatched.svg" class=""></td>
+				<td>
+					当前标签页匹配了一个规则。 至少有一个后续请求未匹配任何规则，且未经代理。
+					<br />
+方案：<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>智能规则
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-noproxy-has-matched.svg" class=""></td>
+				<td>
+					当前标签页没有匹配的规则。 至少有一个后续请求与规则匹配并且正在通过代理。
+					<br />
+方案：<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>智能规则
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-always-bypassed.svg" class=""></td>
+				<td>
+					代理适用于当前标签页内的所有请求。 至少有一个后续请求通过规则绕过了代理。
+					<br />
+方案：<i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i> 始终启用
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</p>
