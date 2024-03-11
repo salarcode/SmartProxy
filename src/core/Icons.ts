@@ -40,8 +40,8 @@ export class Icons {
 	}
 
 	public static getBrowserActionIcon(profileType: SmartProfileType, tabData?: TabDataType) {
-		let iconFile = Icons.getBrowserActionIconKey(profileType, tabData);
-		iconFile = `icons/${iconFile}`;
+		let iconKey = Icons.getBrowserActionIconKey(profileType, tabData);
+		let iconFile = `icons/${iconKey.key}`;
 
 		if (environment.chrome) {
 			return {
@@ -50,43 +50,81 @@ export class Icons {
 					32: `${iconFile}-32.png`,
 					48: `${iconFile}-48.png`,
 					128: `${iconFile}-128.png`,
-				}
+				},
+				tabId: iconKey.tabId
 			}
 		}
 		else {
 			// Only Firefox supports SVG
 			return {
-				path: `${iconFile}.svg`
+				path: `${iconFile}.svg`,
+				tabId: iconKey.tabId
 			}
 		}
 	}
 
-	private static getBrowserActionIconKey(profileType: SmartProfileType, tabData?: TabDataType) {
-		switch (profileType) {
-			// ---
-			case SmartProfileType.Direct:
-				return 'profile-disabled';
-
-			// ---
-			case SmartProfileType.SystemProxy:
-				return 'profile-system';
-		}
+	private static getBrowserActionIconKey(profileType: SmartProfileType, tabData?: TabDataType): {
+		key: string,
+		tabId?: number
+	} {
+		let tabId: number = undefined;
 
 		if (tabData == null)
 			tabData = TabManager.getCurrentTab();
 
-		if (!tabData)
-			return 'smartproxy';
+		if (tabData) {
+			tabId = tabData.tabId;
+		}
+
+		switch (profileType) {
+			// ---
+			case SmartProfileType.Direct:
+				return {
+					key: 'profile-disabled',
+					tabId: tabId
+				};
+
+			// ---
+			case SmartProfileType.SystemProxy:
+				return {
+					key: 'profile-system',
+					tabId: tabId
+				};
+		}
+
+		if (!tabData) {
+
+			switch (profileType) {
+				// ---
+				case SmartProfileType.AlwaysEnabledBypassRules:
+					return {
+						key: 'profile-always'
+					};
+				// ---
+				case SmartProfileType.SmartRules:
+					return {
+						key: 'smartproxy'
+					};
+			}
+
+			return { key: 'smartproxy' };
+		}
 
 
 		// ---
 		if (profileType == SmartProfileType.AlwaysEnabledBypassRules) {
 
 			if (tabData.status.hasAlwaysEnabledByPassed) {
-				return 'profile-always-bypassed';
+				return {
+					key: 'profile-always-bypassed',
+					tabId: tabId
+				};
 			}
 
-			return 'profile-always';
+			return {
+				key: 'profile-always',
+				tabId: tabId
+			};
 		}
 
 		// ---
@@ -94,23 +132,41 @@ export class Icons {
 			if (tabData.proxified) {
 
 				if (tabData.status.statsHasDirectRequest) {
-					return 'profile-smartrules-has-unmatched';
+					return {
+						key: 'profile-smartrules-has-unmatched',
+						tabId: tabId
+					};
 				}
 				if (tabData.status.statsHasWhitelistedRules) {
-					return 'profile-smartrules-has-bypassed';
+					return {
+						key: 'profile-smartrules-has-bypassed',
+						tabId: tabId
+					};
 				}
 				let failedCount = WebFailedRequestMonitor.failedRequestsNotProxifiedCount(tabData.failedRequests);
 				if (failedCount > 0) {
-					return 'profile-smartrules-has-failed';
+					return {
+						key: 'profile-smartrules-has-failed',
+						tabId: tabId
+					};
 				}
 
-				return 'profile-smartrules-green';
+				return {
+					key: 'profile-smartrules-green',
+					tabId: tabId
+				};
 			}
 			else {
 				if (tabData.status.statsHasProxifiedRequest)
-					return 'profile-smartrules-noproxy-has-matched';
+					return {
+						key: 'profile-smartrules-noproxy-has-matched',
+						tabId: tabId
+					};
 
-				return 'smartproxy';
+				return {
+					key: 'smartproxy',
+					tabId: tabId
+				};
 				/* For later reference
 
 					if (tabData.status.statsHasProxifiedRequest)
@@ -122,7 +178,10 @@ export class Icons {
 		}
 
 		// default
-		return 'smartproxy';
+		return {
+			key: 'smartproxy',
+			tabId: tabId
+		};
 	}
 	/* For later reference
 	private static iconDataCache = {};
