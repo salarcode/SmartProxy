@@ -1601,8 +1601,10 @@ export class settingsPage {
 			this.uiEvents.onRowSelectionChanged(pageProfile.grdRulesSubscriptions, tabContainer.find("#btnRemoveMultipleRulesSubscription"));
 		});
 		grdRulesSubscriptions.draw();
-		//new jq.fn.dataTable.Responsive(grdRulesSubscriptions);
-		jq.fn.dataTable.select.init(grdRulesSubscriptions);
+		if (tabContainer.find("#grdRulesSubscriptions").length) {
+			//new jq.fn.dataTable.Responsive(grdRulesSubscriptions);
+			jq.fn.dataTable.select.init(grdRulesSubscriptions);
+		}
 
 		// -----
 		pageProfile.grdRules = grdRules;
