@@ -1,0 +1,151 @@
+<h2 class="text-primary">
+	SmartProxy
+</h2>
+<p data-localize="settingsTabAboutDescription">
+	Использование прокси с помощью SmartProxy не может быть проще. Считайте, что это решение — один раз настроить и забыть.
+	Благодаря SmartProxy вам не нужно вручную менять прокси-сервер или включать/отключать его.
+	Всё, что вам нужно сделать, это одним щелчком мыши сообщить SmartProxy, что вы хотите включить прокси для нужного сайта.
+	После этого, когда вы в дальнейшем посетите этот конкретный сайт, SmartProxy подключится, и все ваши данные будут переданы на сайт через выбранный прокси без каких-либо действий с вашей стороны.
+</p>
+<p>
+	SmartProxy предоставляет пользователям от начинающих до опытных ряд функций, некоторые из которых перечислены здесь:
+</p>
+<ul>
+	<li>Включите прокси на вкладке, и для всего, что в ней открыто, прокси будет включён автоматически. Эта функция называется «Прокси для вкладки».</li>
+	<li>Автоматическое определение необходимости включения или отключения прокси для определённых сайтов на основе шаблонов правил</li>
+	<li>Простое переключение активного прокси их множества доступных</li>
+	<li>Включение прокси для текущего сайта одним щелчком мыши</li>
+	<li>Просмотр текущих элементов и запросов сайта для принятия решения о необходимости включения прокси одним щелчком мыши</li>
+	<li>Простое переключение между режимами прокси или включение прокси для всех доменов</li>
+	<li>Резервное копирование/восстановление настроек и правил</li>
+</ul>
+<br />
+<h3>Обратите внимание:</h3>
+<p>
+<div class="text-info">
+	<i class="fas fa-info-circle" aria-hidden="true"></i>
+	SmartProxy не предоставляет никаких типов прокси-серверов.
+</div>
+<div class="text-danger">
+	<i class="fas fa-eye-slash" aria-hidden="true"></i>
+	SmartProxy никак вас не отслеживает.
+</div>
+<div class="text-warning">
+	<i class="fas fa-eye-slash" aria-hidden="true"></i>
+	SmartProxy полностью без рекламы.
+</div>
+</p>
+<br>
+<h3>Ваш отзыв очень важен</h3>
+<p>
+<div>
+	<i class="fas fa-star text-warning"></i>
+	Если вам нравится SmartProxy, <i class="fas fa-heart text-danger"></i>оцените его на странице <a id="linkAddonsMarket" href="#" target="_blank">расширения</a>.
+</div>
+<div class="">
+	<i class="fas fa-question-circle text-primary"></i>
+	Если у вас есть вопросы или проблемы, перейдите на страницу вопросов и откройте заявку.
+	<a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">Сообщить о проблеме</a>.
+</div>
+</p>
+<br>
+<h3>Условные обозначения значков на панели инструментов</h3>
+<p>
+	Значок на панели инструментов вашего браузера меняется, чтобы отображать статус SmartProxy. Вот что означают различные значки:
+	<br />
+
+<div class="table-responsive">
+	<table class="table table-sm table table-striped caption-top table-borderless  align-middle table-responsive">
+		<caption><b>Условные обозначения значков (все браузеры):</b></caption>
+		<thead>
+			<tr>
+				<th style="width: 70px;">Значок</th>
+				<th>Значение</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-disabled.svg" class=""></td>
+				<td>Запросы не будут использовать прокси.</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/smartproxy.svg" class=""></td>
+				<td>
+					Прокси применялся или будет применяться к запросам, соответствующим заданным правилам.
+					<br /> Или не соответствует правилу для вкладки.
+					<br /> Профиль: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-always.svg" class=""></td>
+				<td>
+					Прокси применяется ко всем запросам в текущей вкладке. (В браузерах на основе Chrome есть домены, внесённые в белый список)
+<br /> Профиль: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i> Всегда включён
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-system.svg" class=""></td>
+				<td>
+					Решение об использовании любого прокси передано операционной системе.
+					<br/> Профиль: Системный
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="table-responsive">
+	<table class="table table-sm table table-striped caption-top table-borderless  align-middle table-responsive">
+		<caption><b>Условные обозначения значков (только для Firefox):</b></caption>
+		<thead>
+			<tr>
+				<th style="width: 70px;">Значок</th>
+				<th>Значение</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-green.svg" class=""></td>
+				<td>
+					Текущей вкладке сопоставлено правило. Все последующие запросы проходят через прокси.
+					<br /> Профиль: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Умные правила
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-failed.svg" class=""></td>
+				<td>
+					Текущей вкладке сопоставлено правило. Существует по крайней мере один неотвечающий/неудачный запрос.
+					<br /> Профиль: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Умные правила
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-bypassed.svg" class=""></td>
+				<td>
+					Текущей вкладке сопоставлено правило. По крайней мере один последующий запрос обошёл прокси с помощью правила.
+					<br /> Профиль: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Умные правила
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-unmatched.svg" class=""></td>
+				<td>
+					Текущей вкладке сопоставлено правило. По крайней мере один последующий запрос не соответствует ни одному правилу и не прошёл через прокси.
+					<br /> Профиль: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Умные правила
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-noproxy-has-matched.svg" class=""></td>
+				<td>
+					Текущей вкладке не сопоставлено правило. По крайней мере один последующий запрос соответствует правилу и прошёл через прокси.
+					<br /> Профиль: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Умные правила
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-always-bypassed.svg" class=""></td>
+				<td>
+					Прокси применяется ко всем запросам в текущей вкладке. По крайней мере один последующий запрос обошёл прокси с помощью правила.
+					<br /> Профиль: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i> Всегда включён
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</p>
