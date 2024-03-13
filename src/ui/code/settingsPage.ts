@@ -36,7 +36,6 @@ export class settingsPage {
 	private static currentSettings: SettingsConfig;
 	private static pageSmartProfiles: SettingsPageSmartProfile[] = [];
 	private static debugDiagnosticsRequested = false;
-	private static unsavedProfile: SettingsPageSmartProfile;
 
 	/** Used to track changes and restore when reject changes selected */
 	private static originalSettings: SettingsConfig;
@@ -44,6 +43,7 @@ export class settingsPage {
 	private static changeTracking = {
 		options: false,
 		smartProfiles: false,
+		newSmartProfile: false,
 		servers: false,
 		activeProxy: false,
 		serverSubscriptions: false,
@@ -53,6 +53,7 @@ export class settingsPage {
 				|| this.servers
 				|| this.activeProxy
 				|| this.smartProfiles
+				|| this.newSmartProfile
 				|| this.rulesSubscriptions
 				|| this.serverSubscriptions
 		},
@@ -61,6 +62,7 @@ export class settingsPage {
 			this.servers = false;
 			this.activeProxy = false;
 			this.smartProfiles = false;
+			this.newSmartProfile = false;
 			this.rulesSubscriptions = false;
 			this.serverSubscriptions = false;
 		}
@@ -1224,6 +1226,7 @@ export class settingsPage {
 	private static removeUnsavedProfileAndReload(unsavedPageSmartProfile: SettingsPageSmartProfile, savedProfile: SmartProfile) {
 		// clean up
 		this.removePageSmartProfile(unsavedPageSmartProfile);
+		settingsPage.changeTracking.newSmartProfile = false;
 
 		// adding the new one
 		let pageSmartProfile = this.createProfileContainer(savedProfile, false, true);
@@ -1345,6 +1348,8 @@ export class settingsPage {
 		// tab
 		profileTab.attr("id", tabId);
 		profileTab.addClass('tab-smart-profile-item');
+		if (isNewProfile)
+			profileTab.addClass('tab-new-unsaved-smart-profile-item');
 		profileTab.find("#lblProfileName").html(profile.profileName + ` <i class="fas fa-pencil-alt fa-xs"></i>`);
 		profileTab.find("#txtSmartProfileName").val(profile.profileName);
 		profileTab.find("#lblProfileType").text(getSmartProfileTypeName(profile.profileType));
@@ -2219,9 +2224,9 @@ export class settingsPage {
 			settingsPage.updateProfileGridsLayout(pageSmartProfile);
 			settingsPage.selectAddNewProfileMenu();
 
-			settingsPage.unsavedProfile = pageSmartProfile;
+			settingsPage.changeTracking.newSmartProfile = true;
 			pageSmartProfile.htmlProfileMenu.one("hidden.bs.tab", () => {
-				settingsPage.unsavedProfile = null;
+				settingsPage.changeTracking.newSmartProfile = false;
 			});
 			// ---
 			modal.modal("hide");
@@ -2838,6 +2843,16 @@ export class settingsPage {
 				(error: Error) => {
 					messageBox.error(api.i18n.getMessage("settingsErrorFailedToSaveSmartProfile") + " " + error.message);
 				});
+		},
+		saveUnsavedSmartProfile() {
+			/** This is to be used on places when SettingsPageSmartProfile is not accessible, e.g. on window unload event */
+			let unsavedSmartProfileElement = jq(".tab-smart-profile-item" + ".tab-new-unsaved-smart-profile-item:visible");
+			if (!unsavedSmartProfileElement.length)
+				// no active unsaved new profile
+				return;
+
+			let saveButton = unsavedSmartProfileElement.find("#btnSaveSmartProfile");
+			saveButton.trigger('click');
 		},
 		onClickRejectSmartProfile(pageProfile: SettingsPageSmartProfile) {
 			// // reset the data
@@ -3745,11 +3760,11 @@ export class settingsPage {
 								for (let pageProfile of settingsPage.pageSmartProfiles) {
 									settingsPage.uiEvents.onClickSaveSmartProfile(pageProfile);
 								}
-								if (settingsPage.unsavedProfile) {
-									// if profile name not set, error message box will show.
-									settingsPage.uiEvents.onClickSaveSmartProfile(settingsPage.unsavedProfile);
-								}
 							}
+
+							// When profile name is not set an error message will show but we will proceed anyway
+							settingsPage.uiEvents.saveUnsavedSmartProfile();
+
 							if (settingsPage.changeTracking.servers || settingsPage.changeTracking.activeProxy) {
 								settingsPage.uiEvents.onClickSaveProxyServers();
 							}
