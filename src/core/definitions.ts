@@ -83,6 +83,8 @@ export enum CompiledProxyRuleType {
 	RegexHost,
 	RegexUrl,
 	Exact,
+	/** Url should be included from the start */
+	SearchUrl,
 	/** Domain should be a exact match */
 	SearchDomain,
 	/** Matches domain and its subdomains */
@@ -90,9 +92,7 @@ export enum CompiledProxyRuleType {
 	/** Matches domain and path */
 	SearchDomainAndPath,
 	/** Matches domain and its subdomains including path in the end of each */
-	SearchDomainSubdomainAndPath,
-	/** Url should be included from the start */
-	SearchUrl
+	SearchDomainSubdomainAndPath
 }
 function convertCompiledToProxyRuleType(compiledRule: CompiledProxyRuleType): ProxyRuleType | null {
 	switch (compiledRule) {
