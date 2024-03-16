@@ -1,4 +1,4 @@
-import { ProxyServer, CompiledProxyRule, SmartProfileType } from "./definitions";
+import { ProxyServer, CompiledProxyRule, SmartProfileType, CompiledProxyRuleType } from "./definitions";
 import { api } from "../lib/environment";
 import { Debug, DiagDebug } from "../lib/Debug";
 import { Settings } from "./Settings";
@@ -79,21 +79,21 @@ const compiledRules = {
 	SubscriptionRules: [${compiledRules_SubscriptionRules}]
 };
 const SmartProfileType = {
-	Direct: 0,
-	SystemProxy: 1,
-	SmartRules: 2,
-	AlwaysEnabledBypassRules: 3,
-	IgnoreFailureRules: 4,
+	Direct: ${SmartProfileType.Direct},
+	SystemProxy: ${SmartProfileType.SystemProxy},
+	SmartRules: ${SmartProfileType.SmartRules},
+	AlwaysEnabledBypassRules: ${SmartProfileType.AlwaysEnabledBypassRules},
+	IgnoreFailureRules: ${SmartProfileType.IgnoreFailureRules},
 }
 const CompiledProxyRuleType = {
-	RegexHost: 0,
-	RegexUrl: 1,
-	Exact: 2,
-	SearchUrl: 3,
-	SearchDomain: 4,
-	SearchDomainSubdomain: 5,
-	SearchDomainAndPath: 6,
-	SearchDomainSubdomainAndPath: 7
+	RegexHost: ${CompiledProxyRuleType.RegexHost},
+	RegexUrl: ${CompiledProxyRuleType.RegexUrl},
+	Exact: ${CompiledProxyRuleType.Exact},
+	SearchUrl: ${CompiledProxyRuleType.SearchUrl},
+	SearchDomain: ${CompiledProxyRuleType.SearchDomain},
+	SearchDomainSubdomain: ${CompiledProxyRuleType.SearchDomainSubdomain},
+	SearchDomainAndPath: ${CompiledProxyRuleType.SearchDomainAndPath},
+	SearchDomainSubdomainAndPath: ${CompiledProxyRuleType.SearchDomainSubdomainAndPath}
 }
 const activeProfileType = +'${profileType}';
 const currentProxyServer = "${resultCurrentProxyServer}";
@@ -443,6 +443,7 @@ function extractHostFromUrl(url) {
 	const [, host] = match;
 	return host;
 }`;
+debugger;
 		return pacTemplateString;
 	};
 
