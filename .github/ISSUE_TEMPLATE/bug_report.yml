@@ -12,7 +12,7 @@ body:
     attributes:
       label: Description
       description: Please give us a detailed description of the issue that you're seeing. You can add screenshots and videos as well.
-      placeholder: (In English only) Tell us what you see!
+      placeholder: (Only in English)  Tell us what you see!
     validations:
       required: true
   - type: textarea
@@ -21,7 +21,7 @@ body:
       label: Steps to Reproduce
       description: Describe all the steps we need to take to show the behavior that you have observed. Also, include what you expected to happen and what did actually happen.
       placeholder: | 
-        (In English only) 
+        (Only in English) 
         E.g.
         Steps to reproduce the behavior:
         1. Go to '...'

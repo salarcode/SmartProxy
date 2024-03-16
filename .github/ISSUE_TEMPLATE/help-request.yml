@@ -12,7 +12,7 @@ body:
     attributes:
       label: Description
       description: Please describe your question as detailed as possible.
-      placeholder: (In English only) I'm trying to do [...]
+      placeholder: (Only in English)  I'm trying to do [...]
     validations:
       required: true
   - type: textarea
@@ -20,7 +20,7 @@ body:
     attributes:
       label: Is your feature request related to a problem? Please describe.
       description: A clear and concise description of what the problem is. Ex. 
-      placeholder: (In English only) I'm always frustrated when [...]
+      placeholder: (Only in English)  I'm always frustrated when [...]
     validations:
       required: false      
   - type: dropdown
