@@ -873,6 +873,8 @@ export class SettingsOperation {
 
 				SettingsOperation.saveSmartProfiles();
 				proxyEngineLib.notifyProxyRulesChanged();
+				// update the timers
+				subscriptionUpdaterLib.setRulesSubscriptionsRefreshTimers();
 			}
 
 			if (backupDefaultProxyServerId != null) {

@@ -43,19 +43,23 @@ export class SubscriptionUpdater {
 	}
 
 	public static setServerSubscriptionsRefreshTimers() {
-
 		// -------------------------
 		// Proxy Server Subscriptions
 		let serverExistingNames: string[] = [];
 		for (let subscription of Settings.current.proxyServerSubscriptions) {
 			DiagDebug?.trace("updateServerSubscriptions", `enabled:` + subscription.enabled, 'refreshRate:' + subscription.refreshRate);
 
-			if (!subscription.enabled)
-				continue;
+			// if disabled or refresh is not requested
+			if (!subscription.enabled || !(subscription.refreshRate > 0)) {
+				let existingTimerInfo = SubscriptionUpdater.getServerSubscriptionIdTimer(subscription.name);
+				if (existingTimerInfo?.timer) {
+					clearInterval(existingTimerInfo.timer.timerId);
 
-			// refresh is not requested
-			if (!(subscription.refreshRate > 0))
+					// remove from array
+					SubscriptionUpdater.serverSubscriptionTimers.splice(existingTimerInfo.index, 1);
+				}
 				continue;
+			}
 
 			// it should be active, don't remove it
 			serverExistingNames.push(subscription.name);
@@ -182,7 +186,6 @@ export class SubscriptionUpdater {
 	}
 
 	public static setRulesSubscriptionsRefreshTimers() {
-
 		// -------------------------
 		// Proxy Rules Subscriptions
 		let ruleExistingIds: string[] = [];
@@ -191,12 +194,20 @@ export class SubscriptionUpdater {
 				continue;
 
 			for (const subscription of profile.rulesSubscriptions) {
-				if (!subscription.enabled)
-					continue;
 
-				// refresh is not requested
-				if (!(subscription.refreshRate > 0))
+				// if disabled or refresh is not requested
+				if (!subscription.enabled || !(subscription.refreshRate > 0)) {
+					// remove existing timers
+					let existingTimerInfo = SubscriptionUpdater.getRulesSubscriptionIdTimer(subscription.id);
+					if (existingTimerInfo?.timer) {
+						clearInterval(existingTimerInfo.timer.timerId);
+
+						// remove from array
+						SubscriptionUpdater.rulesSubscriptionTimers.splice(existingTimerInfo.index, 1);
+					}
+
 					continue;
+				}
 
 				// it should be active, don't remove it
 				ruleExistingIds.push(subscription.id);

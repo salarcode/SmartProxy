@@ -390,6 +390,8 @@ export class Core {
 				settingsOperationLib.saveAllSync();
 
 				settingsLib.updateActiveSettings();
+				// update the timers
+				subscriptionUpdaterLib.setRulesSubscriptionsRefreshTimers();
 				// notify
 				proxyEngineLib.updateBrowsersProxyConfig();
 

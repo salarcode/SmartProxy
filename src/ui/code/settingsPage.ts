@@ -3503,7 +3503,6 @@ export class settingsPage {
 		onClickSaveRulesSubscription(pageProfile: SettingsPageSmartProfile) {
 			let tabContainer = pageProfile.htmlProfileTab;
 			let modal = tabContainer.find("#modalRulesSubscription");
-
 			if (!modal.find("form")[0].checkValidity()) {
 				// Please fill the required fields in the right format
 				messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionIncompleteForm"));
@@ -3518,8 +3517,10 @@ export class settingsPage {
 			let subscriptionsList = settingsPage.readRulesSubscriptions(pageProfile);
 			let editingSubscription: ProxyRulesSubscription = modal.data("editing");
 			let editingName = "";
-			if (editingSubscription)
+			if (editingSubscription) {
 				editingName = editingSubscription.name;
+				subscriptionModel.id = editingSubscription.id;
+			}
 
 			if (editingSubscription) {
 				let nameIsDuplicate = false;
