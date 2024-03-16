@@ -443,7 +443,6 @@ function extractHostFromUrl(url) {
 	const [, host] = match;
 	return host;
 }`;
-debugger;
 		return pacTemplateString;
 	};
 
