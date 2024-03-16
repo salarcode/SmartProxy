@@ -97,7 +97,7 @@ export const RuleImporter = {
 		rulesConfig: IExternalRulesConfig,
 		text: string | ArrayBuffer,
 		file: any,
-		append: boolean,
+		noDuplicates: boolean,
 		currentRules: ProxyRule[],
 		success: Function,
 		fail?: Function
@@ -168,51 +168,60 @@ export const RuleImporter = {
 			}
 
 			// ----
-			if (append) {
-				if (rules.blackList && rules.blackList.length) {
-					if (!currentRules)
-						currentRules = [];
-					let importedRuleList = rules.blackList.map((rule) => {
-						return {
-							converted: rule.getProxyRule(),
-							rule: rule
-						}
-					});
+			if (noDuplicates) {
+				if (!currentRules)
+					currentRules = [];
+				rules.blackList = rules.blackList || [];
+				rules.whiteList = rules.whiteList || [];
 
+				function deduplicateRules(importedRules: ImportedProxyRule[], shouldBeWhiteList: boolean = false): ImportedProxyRule[] {
 					// make a copy
-					let appendableRuleList: ImportedProxyRule[] = [];
+					let uniqueRuleList: ImportedProxyRule[] = [];
 
-					for (let importedRule of importedRuleList) {
-						let ruleExists = currentRules.some((rule) => {
+					for (let importedRule of importedRules) {
+						let convertedRule = importedRule.getProxyRule();
+
+						let ruleExists = currentRules.some((rule) => 
 							// NOTE: the comparison is limited to these properties because `getProxyRule` only fills these
-							rule.ruleType == importedRule.converted.ruleType &&
-								rule.ruleSearch == importedRule.converted.ruleSearch &&
-								rule.ruleRegex == importedRule.converted.ruleRegex;
-						});
+							rule.ruleType == convertedRule.ruleType &&
+								rule.ruleSearch == convertedRule.ruleSearch &&
+								rule.ruleRegex == convertedRule.ruleRegex &&
+								(!shouldBeWhiteList || (shouldBeWhiteList && rule.whiteList))
+						);
 						if (ruleExists)
 							continue;
 
 						// append imported rule
-						appendableRuleList.push(importedRule.rule);
+						uniqueRuleList.push(importedRule);
 					}
 
-					// Total ${appendedRuleCount} out of ${parsedRuleList.length} rules are appended.<br>Don't forget to save the changes.
-					let message = api.i18n
-						.getMessage('importerImportSuccess')
-						.replace('{0}', appendableRuleList.length.toString())
-						.replace('{1}', importedRuleList.length.toString());
-
-					rules.blackList = appendableRuleList;
-
-					if (success) {
-						// not need for any check, return straight away
-						success({
-							success: true,
-							message: message,
-							rules: rules,
-						});
-					}
+					return uniqueRuleList;
 				}
+
+				let parsedRulesCount = rules.blackList.length + rules.whiteList.length;
+
+				// ----
+				rules.blackList = deduplicateRules(rules.blackList);
+				rules.whiteList = deduplicateRules(rules.whiteList, true);
+
+				// ----
+				let finalRulesCount = rules.blackList.length + rules.whiteList.length;
+
+				// Total ${appendedRuleCount} out of ${parsedRuleList.length} rules are appended.<br>Don't forget to save the changes.
+				let message = api.i18n
+					.getMessage('importerImportSuccess')
+					.replace('{0}', finalRulesCount.toString())
+					.replace('{1}', parsedRulesCount.toString());
+
+				if (success) {
+					// not need for any check, return straight away
+					success({
+						success: true,
+						message: message,
+						rules: rules,
+					});
+				}
+
 			} else {
 				// Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes.
 				let message = api.i18n

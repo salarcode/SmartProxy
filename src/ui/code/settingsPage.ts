@@ -662,7 +662,7 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val(proxyRule.ruleRegex);
 			modalContainer.find("#txtRuleUrlExact").val(proxyRule.ruleExact);
 			modalContainer.find("#chkRuleEnabled").prop('checked', proxyRule.enabled);
-			modalContainer.find("#cmdRuleAction").val(proxyRule.whiteList ? "1" : "0");
+			cmdRuleAction.val(proxyRule.whiteList ? "1" : "0");
 
 			let proxyServerId = proxyRule.proxyServerId;
 			if (proxyRule.proxy)
@@ -2670,31 +2670,31 @@ export class settingsPage {
 				file,
 				append,
 				proxyRules,
-				(
-					success: boolean,
-					message: string,
+				(importResult: {
+					success: boolean;
+					message: string;
 					rules: {
 						whiteList: ImportedProxyRule[];
 						blackList: ImportedProxyRule[];
-					}
-				) => {
-					if (!rules) return;
+					};
+				}) => {
+					if (!importResult) return;
 
-					if (success) {
-						if (message)
-							messageBox.success(message);
+					if (importResult.success) {
+						if (importResult.message)
+							messageBox.success(importResult.message);
 
 						// empty the file input
 						selectFileElement.value = "";
 
-						doImport(rules);
+						doImport(importResult.rules);
 
 						// close the window
 						modalContainer.modal("hide");
 					}
 					else {
-						if (message)
-							messageBox.error(message);
+						if (importResult.message)
+							messageBox.error(importResult.message);
 					}
 				},
 				(error: Error) => {
@@ -2708,15 +2708,19 @@ export class settingsPage {
 				whiteList: ImportedProxyRule[];
 				blackList: ImportedProxyRule[];
 			}) {
-				debugger;
 				let finalRules: ProxyRule[];
-				let mappedRules = rules.blackList.map((rule) => rule.getProxyRule());
+				let mappedBlackRules = rules.blackList.map((rule) => rule.getProxyRule());
+				let mappedWhiteRules = rules.whiteList.map((rule) => {
+					let newRule = rule.getProxyRule();
+					newRule.whiteList = true;
+					return newRule;
+				});
 
 				if (append) {
-					finalRules = proxyRules.concat(mappedRules);
+					finalRules = proxyRules.concat(mappedBlackRules).concat(mappedWhiteRules);
 				}
 				else
-					finalRules = mappedRules;
+					finalRules = mappedBlackRules.concat(mappedWhiteRules);
 
 				settingsPage.loadRules(pageProfile, finalRules);
 			}
