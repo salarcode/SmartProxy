@@ -71,7 +71,7 @@
 		"proxy-mode-always": {
 			"suggested_key": {
 				"default": "Ctrl+Shift+3",
-				"mac": "Command+Shift+3"
+				"mac": "Command+Shift+0"
 			},
 			"description": "Switch to 'Always Enabled' mode"
 		}

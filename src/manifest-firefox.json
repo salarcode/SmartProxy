@@ -73,13 +73,15 @@
 		},
 		"proxy-mode-always": {
 			"suggested_key": {
-				"default": "Ctrl+Shift+3"
+				"default": "Ctrl+Shift+3",
+				"mac": "Command+Shift+9"
 			},
 			"description": "Switch to 'Always Enabled' mode"
 		},
 		"proxy-mode-system": {
 			"suggested_key": {
-				"default": "Ctrl+Shift+4"
+				"default": "Ctrl+Shift+4",
+				"mac": "Command+Shift+0"
 			},
 			"description": "Switch to 'System' mode"
 		}
