@@ -597,23 +597,34 @@ export class GeneralOptions implements Cloneable, Comparable {
 	}
 
 	Equals(other: GeneralOptions): Boolean {
-		if (other.syncSettings !== this.syncSettings) return false;
-		if (other.syncActiveProfile !== this.syncActiveProfile) return false;
-		if (other.syncActiveProxy !== this.syncActiveProxy) return false;
-		if (other.detectRequestFailures !== this.detectRequestFailures) return false;
-		if (other.displayFailedOnBadge !== this.displayFailedOnBadge) return false;
-		if (other.displayAppliedProxyOnBadge !== this.displayAppliedProxyOnBadge) return false;
-		if (other.displayMatchedRuleOnBadge !== this.displayMatchedRuleOnBadge) return false;
-		if (other.refreshTabOnConfigChanges !== this.refreshTabOnConfigChanges) return false;
-		if (other.proxyPerOrigin !== this.proxyPerOrigin) return false;
-		if (other.activeIncognitoProfileId !== this.activeIncognitoProfileId) return false;
-		if (other.enableShortcuts !== this.enableShortcuts) return false;
-		if (other.shortcutNotification !== this.shortcutNotification) return false;
-		if (other.themeType !== this.themeType) return false;
-		if (other.themesLight !== this.themesLight) return false;
-		if (other.themesLightCustomUrl !== this.themesLightCustomUrl) return false;
-		if (other.themesDark !== this.themesDark) return false;
-		if (other.themesDarkCustomUrl !== this.themesDarkCustomUrl) return false;
+		if (neq(other.syncSettings, this.syncSettings)) return false;
+		if (neq(other.syncActiveProfile, this.syncActiveProfile)) return false;
+		if (neq(other.syncActiveProxy, this.syncActiveProxy)) return false;
+		if (neq(other.detectRequestFailures, this.detectRequestFailures)) return false;
+		if (neq(other.displayFailedOnBadge, this.displayFailedOnBadge)) return false;
+		if (neq(other.displayAppliedProxyOnBadge, this.displayAppliedProxyOnBadge)) return false;
+		if (neq(other.displayMatchedRuleOnBadge, this.displayMatchedRuleOnBadge)) return false;
+		if (neq(other.refreshTabOnConfigChanges, this.refreshTabOnConfigChanges)) return false;
+		if (neq(other.proxyPerOrigin, this.proxyPerOrigin)) return false;
+		if (neq(other.activeIncognitoProfileId, this.activeIncognitoProfileId)) return false;
+		if (neq(other.enableShortcuts, this.enableShortcuts)) return false;
+		if (neq(other.shortcutNotification, this.shortcutNotification)) return false;
+		if (neq(other.themeType, this.themeType)) return false;
+		if (neq(other.themesLight, this.themesLight)) return false;
+		if (neq(other.themesLightCustomUrl, this.themesLightCustomUrl)) return false;
+		if (neq(other.themesDark, this.themesDark)) return false;
+		if (neq(other.themesDarkCustomUrl, this.themesDarkCustomUrl)) return false;
+
+		function neq(thisVal: any, thatVal: any): boolean {
+			/** Not equal. Treating empty string as null and undefined */
+			if (thisVal === "")
+				thisVal = null;
+			if (thatVal === "")
+				thatVal = null;
+			// null and undefined are treated as same
+			return thisVal != thatVal;
+		}
+
 		return true;
 	}
 }
@@ -1077,7 +1088,7 @@ export class ProxyRulesSubscription {
 			}
 		this.proxyRules = [];
 		this.whitelistRules = [];
-		if (source['proxyRules'] != null && Array.isArray(source['proxyRules'])) 
+		if (source['proxyRules'] != null && Array.isArray(source['proxyRules']))
 			this.proxyRules = source['proxyRules'];
 		if (source['whitelistRules'] != null && Array.isArray(source['whitelistRules']))
 			this.whitelistRules = source['whitelistRules'];
