@@ -1,21 +1,21 @@
 {
 	"latestVersion": {
-		"version": "1.3.0",
-		"versionName": "1.3.0",
+		"version": "1.4.7",
+		"versionName": "1.4.7",
 		"downloadPage": "https://github.com/salarcode/SmartProxy/releases"
 	},
 	"browsers": {
 		"Chrome": {
 			"latestVersion": {
-				"version": "1.3.0",
-				"versionName": "1.3.0",
+				"version": "1.4.5.1",
+				"versionName": "1.4.5.1",
 				"downloadPage": "https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj"
 			}
 		},
 		"Firefox": {
 			"latestVersion": {
-				"version": "1.3.0",
-				"versionName": "1.3.0",
+				"version": "1.4.7",
+				"versionName": "1.4.7",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
 		},
@@ -24,29 +24,29 @@
 		},
 		"Firefox Android": {
 			"latestVersion": {
-				"version": "1.3.0",
-				"versionName": "1.3.0",
+				"version": "1.4.7",
+				"versionName": "1.4.7",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
 		},
 		"Edge": {
 			"latestVersion": {
-				"version": "1.1.0",
-				"versionName": "1.1.0",
+				"version": "1.4.7",
+				"versionName": "1.4.7",
 				"downloadPage": "https://microsoftedge.microsoft.com/addons/detail/canbjhbbhfggbdfgpddpnckdjgfcbnpb"
 			}
 		},
 		"Thunderbird": {
 			"latestVersion": {
-				"version": "1.1.0",
-				"versionName": "1.1.0",
+				"version": "1.4.7",
+				"versionName": "1.4.7",
 				"downloadPage": "https://addons.thunderbird.net/en-US/thunderbird/addon/smartproxy/"
 			}
 		},
 		"Opera": {
 			"latestVersion": {
-				"version": "1.1.0",
-				"versionName": "1.1.0",
+				"version": "1.4.7",
+				"versionName": "1.4.7",
 				"downloadPage": "https://addons.opera.com/en/extensions/details/smartproxy/"
 			}
 		}
