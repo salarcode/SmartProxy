@@ -18,6 +18,7 @@ import { api, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 import { monitorUrlsSchemaFilter, SmartProfileType } from "./definitions";
 import { ProxyEngineSpecialRequests } from "./ProxyEngineSpecialRequests";
+import { DiagDebug } from "../lib/Debug";
 
 const apiLib = api;
 const environmentLib = environment;
@@ -28,19 +29,10 @@ export class ProxyAuthentication {
 	public static startMonitor() {
 
 		if (environmentLib.chrome) {
-			if (environmentLib.manifestV3) {
-				// In manifest v3 it is not possible to block, so this is useless mostly I think.
-				apiLib.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
-					{ urls: monitorUrlsSchemaFilter }
-				);
-			}
-			else {
-				// chrome supports asyncBlocking
-				apiLib.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
-					{ urls: monitorUrlsSchemaFilter },
-					["asyncBlocking"]
-				);
-			}
+			apiLib.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequiredChromeAsync,
+				{ urls: monitorUrlsSchemaFilter },
+				["asyncBlocking"]
+			);
 		} else {
 			apiLib.webRequest.onAuthRequired.addListener(ProxyAuthentication.onAuthRequired,
 				{ urls: monitorUrlsSchemaFilter },
@@ -59,6 +51,8 @@ export class ProxyAuthentication {
 	}
 
 	private static onAuthRequiredChromeAsync(requestDetails: any, asyncCallback: Function): any {
+		DiagDebug?.trace("onAuthRequiredChromeAsync start", requestDetails, 'asyncCallback:', asyncCallback);
+
 		if (!requestDetails.isProxy) {
 			asyncCallback({});
 			return {};
@@ -104,6 +98,8 @@ export class ProxyAuthentication {
 			// add this request to pending list
 			ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
+			DiagDebug?.trace("onAuthRequiredChromeAsync Auth.currentProxy", currentProxy, requestDetails, 'asyncCallback:', asyncCallback);
+
 			asyncCallback({
 				authCredentials: { username: currentProxy.username, password: currentProxy.password }
 			});
@@ -121,6 +117,7 @@ export class ProxyAuthentication {
 			// add this request to pending list
 			ProxyAuthentication.pendingRequests[requestDetails.requestId] = true;
 
+			DiagDebug?.trace("onAuthRequiredChromeAsync Auth.currentProxy", currentProxy, requestDetails, 'asyncCallback:', asyncCallback);
 			return {
 				authCredentials: { username: currentProxy.username, password: currentProxy.password }
 			};

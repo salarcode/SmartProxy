@@ -18,6 +18,7 @@
 		"tabs",
 		"proxy",
 		"webRequest",
+		"webRequestAuthProvider",
 		"storage",
 		"unlimitedStorage",
 		"notifications"

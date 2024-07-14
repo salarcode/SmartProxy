@@ -560,23 +560,18 @@ export class settingsPage {
 			modal.find("#chkServerProxyDNS-Control").show().removeClass('d-none');
 		else
 			modal.find("#chkServerProxyDNS-Control").hide();
-
-		if (environment.chrome && environment.manifestV3) {
+		
+		if (serverInputInfo.protocol == "SOCKS4")
 			modal.find("#chkServerProxy-Authentication").hide();
+		else if (serverInputInfo.protocol == "SOCKS5") {
+			if (environment.chrome) {
+				modal.find("#chkServerProxy-Authentication").hide();
+			}
+			else
+				modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
 		}
 		else {
-			if (serverInputInfo.protocol == "SOCKS4")
-				modal.find("#chkServerProxy-Authentication").hide();
-			else if (serverInputInfo.protocol == "SOCKS5") {
-				if (environment.chrome) {
-					modal.find("#chkServerProxy-Authentication").hide();
-				}
-				else
-					modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
-			}
-			else {
-				modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
-			}
+			modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
 		}
 	}
 
