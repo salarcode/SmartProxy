@@ -560,7 +560,7 @@ export class settingsPage {
 			modal.find("#chkServerProxyDNS-Control").show().removeClass('d-none');
 		else
 			modal.find("#chkServerProxyDNS-Control").hide();
-		
+
 		if (serverInputInfo.protocol == "SOCKS4")
 			modal.find("#chkServerProxy-Authentication").hide();
 		else if (serverInputInfo.protocol == "SOCKS5") {
@@ -1200,10 +1200,10 @@ export class settingsPage {
 
 	private static loadSmartProfiles(profiles: SmartProfile[]) {
 
-		let profileMenuTemplate = jq(".menu-smart-profile").hide();
+		jq(".menu-smart-profile").hide();
 		let profileTabTemplate = jq("#tab-smart-profile").hide();
+		let btnAddNewSmartProfile = jq(".menu-add-smart-profile");
 
-		let lastMenu = profileMenuTemplate;
 		let lastTab = profileTabTemplate;
 
 		for (const profile of profiles) {
@@ -1218,9 +1218,10 @@ export class settingsPage {
 			let profileTab = pageSmartProfile.htmlProfileTab;
 
 			// -----
-			let newProfileMenuList = profileMenu.insertAfter(lastMenu);
+			let newProfileMenuList = profileMenu.insertBefore(btnAddNewSmartProfile);
+			pageSmartProfile.htmlProfileMenu = newProfileMenuList;
+
 			lastTab.after(profileTab);
-			lastMenu = newProfileMenuList;
 			lastTab = profileTab;
 
 			// -----
