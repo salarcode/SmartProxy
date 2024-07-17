@@ -647,6 +647,15 @@ export class Core {
 		if (!resultProxy && currentServerId)
 			resultProxy = settingsOperationLib.findNextProxyServerByCurrentProxyId(currentServerId);
 
+		if (!resultProxy) {
+			// if there is no next proxy, this will cycle to the first one
+			resultProxy = settingsOperationLib.getFirstProxyServer();
+
+			if (resultProxy.id == currentServerId)
+				// don't cycle on current proxy itself
+				resultProxy = null;
+		}
+
 		if (resultProxy) {
 			Core.ChangeActiveProxy(resultProxy);
 
@@ -675,6 +684,15 @@ export class Core {
 
 		if (!resultProxy && currentServerId)
 			resultProxy = settingsOperationLib.findPreviousProxyServerByCurrentProxyId(currentServerId);
+
+		if (!resultProxy) {
+			// if there is no previous proxy, this will cycle to the last one
+			resultProxy = settingsOperationLib.getLastProxyServer();
+
+			if (resultProxy.id == currentServerId)
+				// don't cycle on current proxy itself
+				resultProxy = null;
+		}
 
 		if (resultProxy) {
 			Core.ChangeActiveProxy(resultProxy);
@@ -918,7 +936,7 @@ export class Core {
 			if (settingsLib.current.options.displayAppliedProxyOnBadge && !environment.mobile) {
 				if (tabData.proxified !== TabProxyStatus.None) {
 					if (tabData.proxyRuleHostName) {
-					actionTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
+						actionTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRule')}  ${tabData.proxyRuleHostName}`;
 					}
 				} else {
 					actionTitle += `\r\n${api.i18n.getMessage('toolbarTooltipEffectiveRuleNone')}`;
@@ -936,7 +954,7 @@ export class Core {
 		if (activeProxyServer) {
 			actionTitle += `\r\nProxy server: ${activeProxyServer.host} : ${activeProxyServer.port}`;
 		}
-		
+
 		PolyFill.browserActionSetIcon(actionIcon);
 		api.browserAction.setTitle({ title: actionTitle });
 	}

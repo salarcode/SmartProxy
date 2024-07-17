@@ -313,6 +313,25 @@ export class SettingsOperation {
 		return null;
 	}
 
+	public static getLastProxyServer(): ProxyServer {
+		let settings = Settings.current;
+	
+		if (settings.proxyServers && settings.proxyServers.length) {
+			return settings.proxyServers[settings.proxyServers.length - 1];
+		}
+		
+		if (settings.proxyServerSubscriptions) {
+			for (let i = settings.proxyServerSubscriptions.length - 1; i >= 0; i--) {
+				const subscription = settings.proxyServerSubscriptions[i];
+
+				if (subscription.proxies && subscription.proxies.length) {
+					return subscription.proxies[subscription.proxies.length - 1];
+				}
+			}
+		}
+		return null;
+	}
+
 	public static findNextProxyServerByCurrentProxyId(currentProxyId: string): ProxyServer {
 		let settings = Settings.current;
 
