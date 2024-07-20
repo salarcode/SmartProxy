@@ -3812,64 +3812,6 @@ export class settingsPage {
 				});
 
 		},
-		onClickImportRules(pageProfile: SettingsPageSmartProfile) {
-			let tabContainer = pageProfile.htmlProfileTab;
-
-			let modalContainer = tabContainer.find("#modalImportRules");
-			let selectFileElement = modalContainer.find("#btnImportRulesSelectFile")[0];
-
-			if (selectFileElement.files.length == 0) {
-				// Please select a rules file
-				messageBox.error(api.i18n.getMessage("settingsRulesFileNotSelected"));
-				return;
-			}
-
-			let selectFile = selectFileElement.files[0];
-
-			let append = modalContainer.find("#cmbImportRulesOverride_Append").prop("checked");
-			let sourceType = modalContainer.find("#cmbImportRulesFormat").val();
-
-			let proxyRules = settingsPage.readRules(pageProfile);
-
-			let importFunction: Function;
-			if (sourceType == "autoproxy") {
-				importFunction = RuleImporter.importAutoProxy;
-			} else {
-				messageBox.warning(api.i18n.getMessage("settingsSourceTypeNotSelected"));
-				return;
-			}
-
-			importFunction(selectFile,
-				append,
-				proxyRules,
-				(response: any) => {
-					if (!response) return;
-
-					if (response.success) {
-						if (response.message)
-							messageBox.info(response.message);
-
-						// empty the file input
-						selectFileElement.value = "";
-
-						let rules = response.result;
-						settingsPage.loadRules(pageProfile, rules);
-
-						settingsPage.changeTracking.smartProfiles = true;
-						// close the window
-						modalContainer.modal("hide");
-					} else {
-						if (response.message)
-							messageBox.error(response.message);
-					}
-				},
-				(error: Error) => {
-					let message = "";
-					if (error && error.message)
-						message = error.message;
-					messageBox.error(api.i18n.getMessage("settingsImportRulesFailed") + " " + message);
-				});
-		},
 		onClickFactoryReset() {
 			// Are you sure to reset EVERYTHING ? Sure? There is no way back!
 			messageBox.confirm(api.i18n.getMessage("settingsFactoryResetConfirm"),
