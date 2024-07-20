@@ -2,6 +2,10 @@
 	"uiDirection": {
 		"message": "ltr"
 	},
+	"languageCode": {
+		"message": "en",
+		"description": "We need to know the code which might not match what browser UI has"
+	},
 	"extensionName": {
 		"message": "SmartProxy"
 	},
@@ -386,6 +390,9 @@
 	"settingsAddServerButton": {
 		"message": "Add Server"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "Save Changes"
 	},
@@ -441,7 +448,10 @@
 		"message": "Import Rules"
 	},
 	"settingsImportRulesSelectButton": {
-		"message": "Rule Backup File"
+		"message": "Rules Backup File"
+	},
+	"settingsImportRulesText": {
+		"message": "Rules Backup Text"
 	},
 	"settingsImportRulesFrom": {
 		"message": "From"
@@ -488,6 +498,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Are you sure to remove the selected proxy server?"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Are you sure to remove all the proxy servers?"
 	},
@@ -518,6 +531,9 @@
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Are you sure to remove the selected rule?"
 	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
+	},
 	"settingsRemoveAllRules": {
 		"message": "Are you sure to remove all the rules?"
 	},
@@ -538,6 +554,9 @@
 	},
 	"settingsImportRulesFailed": {
 		"message": "Failed to import the file."
+	},
+	"settingsImportRulesTextIsEmpty": {
+		"message": "Please enter rules in the box"
 	},
 	"settingsServerNameRequired": {
 		"message": "Specify the name of the server!"
@@ -648,7 +667,7 @@
 		"message": "Smart Rules"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
-		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+		"message": "In this type of profile, proxy will be applied to the requests based on some <em>rules</em> that you will need to define. To define these rules you can use the popup menu in the menu bar or you can add them from settings and also you can do that from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
 		"message": "Always Enabled"
@@ -836,6 +855,9 @@
 	"importerImportSuccess": {
 		"message": "Total {0} out of {1} rules are appended.<br>Don't forget to save the changes."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Add Multiple Rules"
 	},
@@ -868,6 +890,9 @@
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "Subscribe to a proxy server list"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "Name:"
@@ -941,6 +966,9 @@
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Are you sure to remove all the proxy server subscriptions?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "All the proxy server subscriptions are removed.<br/>You have to save to apply the changes."
 	},
@@ -1000,6 +1028,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Subscribe to a rules list"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Subscribe to a rules list"
@@ -1066,6 +1097,9 @@
 	},
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "Are you sure to remove the selected rules subscription?"
+	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Please fill the required fields in the right format"

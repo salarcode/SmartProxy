@@ -15,7 +15,7 @@
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
 import { Debug } from "../lib/Debug";
-import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, ProxyRulesSubscriptionRuleType, CompiledProxyRuleSource, CompiledProxyRulesInfo, CompiledProxyRulesMatchedSource, ProxyRuleSpecialProxyServer, SmartProfileBase } from "./definitions";
+import { ProxyRuleType, CompiledProxyRule, ProxyRule, CompiledProxyRuleType, SubscriptionProxyRule, CompiledProxyRuleSource, CompiledProxyRulesInfo, CompiledProxyRulesMatchedSource, ProxyRuleSpecialProxyServer, SmartProfileBase } from "./definitions";
 import { Utils } from "../lib/Utils";
 import { SettingsOperation } from "./SettingsOperation";
 import { api } from "../lib/environment";
@@ -105,6 +105,26 @@ export class ProxyRules {
 					}
 					break;
 
+				case ProxyRuleType.DomainExact:
+					newCompiled.search = rule.ruleSearch.toLowerCase();
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomain;
+					break;
+
+				case ProxyRuleType.DomainAndPath:
+					newCompiled.search = rule.ruleSearch.toLowerCase();
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainAndPath;
+					break;
+
+				case ProxyRuleType.DomainSubdomainAndPath:
+					newCompiled.search = rule.ruleSearch.toLowerCase();
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainSubdomainAndPath;
+					break;
+
+				case ProxyRuleType.SearchUrl:
+					newCompiled.search = rule.ruleSearch.toLowerCase();
+					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchUrl;
+					break;
+
 				default:
 					continue;
 			}
@@ -135,35 +155,23 @@ export class ProxyRules {
 			if (markAsWhitelisted === true)
 				newCompiled.whiteList = true;
 
+			newCompiled.compiledRuleType = rule.importedRuleType;
+
 			switch (rule.importedRuleType) {
-				case ProxyRulesSubscriptionRuleType.RegexHost:
+				case CompiledProxyRuleType.RegexHost:
 					newCompiled.regex = new RegExp(rule.regex, "i");
-					newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
 					break;
 
-				case ProxyRulesSubscriptionRuleType.RegexUrl:
+				case CompiledProxyRuleType.RegexUrl:
 					newCompiled.regex = new RegExp(rule.regex);
-					newCompiled.compiledRuleType = CompiledProxyRuleType.RegexUrl;
 					break;
 
-				case ProxyRulesSubscriptionRuleType.SearchUrl:
-					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchUrl;
-					break;
-
-				case ProxyRulesSubscriptionRuleType.SearchDomain:
-					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomain;
-					break;
-
-				case ProxyRulesSubscriptionRuleType.SearchDomainSubdomain:
-					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainSubdomain;
-					break;
-
-				case ProxyRulesSubscriptionRuleType.SearchDomainAndPath:
-					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainAndPath;
-					break;
-
-				case ProxyRulesSubscriptionRuleType.SearchDomainSubdomainAndPath:
-					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchDomainSubdomainAndPath;
+				case CompiledProxyRuleType.Exact:
+				case CompiledProxyRuleType.SearchUrl:
+				case CompiledProxyRuleType.SearchDomain:
+				case CompiledProxyRuleType.SearchDomainSubdomain:
+				case CompiledProxyRuleType.SearchDomainAndPath:
+				case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 					break;
 
 				default:
