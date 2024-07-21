@@ -1,6 +1,6 @@
 {
 	"latestVersion": {
-		"version": "1.4.7",
+		"version": "1.5",
 		"versionName": "1.4.7",
 		"downloadPage": "https://github.com/salarcode/SmartProxy/releases"
 	},
@@ -14,7 +14,7 @@
 		},
 		"Firefox": {
 			"latestVersion": {
-				"version": "1.4.7",
+				"version": "1.5",
 				"versionName": "1.4.7",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
@@ -24,7 +24,7 @@
 		},
 		"Firefox Android": {
 			"latestVersion": {
-				"version": "1.4.7",
+				"version": "1.5",
 				"versionName": "1.4.7",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
@@ -38,7 +38,7 @@
 		},
 		"Thunderbird": {
 			"latestVersion": {
-				"version": "1.4.7",
+				"version": "1.5",
 				"versionName": "1.4.7",
 				"downloadPage": "https://addons.thunderbird.net/en-US/thunderbird/addon/smartproxy/"
 			}
