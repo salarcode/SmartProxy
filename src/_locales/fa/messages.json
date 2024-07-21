@@ -2,6 +2,10 @@
 	"uiDirection": {
 		"message": "rtl"
 	},
+	"languageCode": {
+		"message": "fa",
+		"description": "We need to know the code which might not match what browser UI has"
+	},
 	"extensionName": {
 		"message": "پراکسی هوشمند"
 	},

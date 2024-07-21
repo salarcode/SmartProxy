@@ -2,6 +2,10 @@
 	"uiDirection": {
 		"message": "ltr"
 	},
+	"languageCode": {
+		"message": "ru",
+		"description": "We need to know the code which might not match what browser UI has"
+	},
 	"extensionName": {
 		"message": "SmartProxy"
 	},
@@ -386,6 +390,9 @@
 	"settingsAddServerButton": {
 		"message": "Добавить сервер"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Удалить несколько"
+	},
 	"settingsSaveChangesButton": {
 		"message": "Сохранить изменения"
 	},
@@ -443,6 +450,9 @@
 	"settingsImportRulesSelectButton": {
 		"message": "Файл резервной копии правил"
 	},
+	"settingsImportRulesText": {
+		"message": "Текст резервной копии правил"
+	},
 	"settingsImportRulesFrom": {
 		"message": "Из"
 	},
@@ -488,6 +498,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Вы действительно хотите удалить выбранный прокси-сервер?"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Удалить выбранные прокси-серверы?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Вы действительно хотите удалить все прокси-серверы?"
 	},
@@ -515,6 +528,9 @@
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Вы действительно хотите удалить выбранный фильтр?"
 	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Удалить выбранные правила?"
+	},
 	"settingsRemoveAllRules": {
 		"message": "Вы действительно хотите удалить все правила?"
 	},
@@ -535,6 +551,9 @@
 	},
 	"settingsImportRulesFailed": {
 		"message": "Не удалось импортировать файл."
+	},
+	"settingsImportRulesTextIsEmpty": {
+		"message": "Введите правила"
 	},
 	"settingsServerNameRequired": {
 		"message": "Укажите имя сервера!"
@@ -833,6 +852,9 @@
 	"importerImportSuccess": {
 		"message": "Всего {0} из {1} правил добавлены.<br>Не забудьте сохранить изменения."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Удалить несколько"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Добавить сложное правило"
 	},
@@ -865,6 +887,9 @@
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "Подписаться на список прокси-сервера"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Удалить несколько"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "Имя:"
@@ -938,6 +963,9 @@
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Вы действительно хотите удалить все подписки на прокси-серверы?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Удалить выбранные подписки?"
+	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "Все подписки на прокси-сервер удалятся.<br/>Вы должны сохранить, чтобы применить изменения."
 	},
@@ -997,6 +1025,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Подписаться на список"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Удалить несколько"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Подписка на список правил"
@@ -1063,6 +1094,9 @@
 	},
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "Вы действительно хотите удалить выбранную подписку?"
+	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Удалить выбранные подписки на правила?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Пожалуйста, заполните необходимые поля в правильном формате"
