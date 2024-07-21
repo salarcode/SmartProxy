@@ -525,6 +525,9 @@
 	"settingsChangesReverted": {
 		"message": "Changes reverted successfully."
 	},
+	"settingsConfirmSaveAllChanged": {
+		"message": "Do you want to save all unsaved changes?"
+	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Are you sure to remove the selected rule?"
 	},

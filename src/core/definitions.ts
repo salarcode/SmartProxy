@@ -584,7 +584,7 @@ export enum ThemeType {
 	Dark
 }
 
-export class GeneralOptions implements Cloneable {
+export class GeneralOptions implements Cloneable, Comparable {
 	public static defaultDarkThemeName: string = "themes-cosmo-dark";
 
 	public syncSettings: boolean = false;
@@ -630,10 +630,46 @@ export class GeneralOptions implements Cloneable {
 		this.themesDark = source['themesDark'];
 		this.themesDarkCustomUrl = source['themesDarkCustomUrl'];
 	}
+
+	Equals(other: GeneralOptions): Boolean {
+		if (neq(other.syncSettings, this.syncSettings)) return false;
+		if (neq(other.syncActiveProfile, this.syncActiveProfile)) return false;
+		if (neq(other.syncActiveProxy, this.syncActiveProxy)) return false;
+		if (neq(other.detectRequestFailures, this.detectRequestFailures)) return false;
+		if (neq(other.displayFailedOnBadge, this.displayFailedOnBadge)) return false;
+		if (neq(other.displayAppliedProxyOnBadge, this.displayAppliedProxyOnBadge)) return false;
+		if (neq(other.displayMatchedRuleOnBadge, this.displayMatchedRuleOnBadge)) return false;
+		if (neq(other.refreshTabOnConfigChanges, this.refreshTabOnConfigChanges)) return false;
+		if (neq(other.proxyPerOrigin, this.proxyPerOrigin)) return false;
+		if (neq(other.activeIncognitoProfileId, this.activeIncognitoProfileId)) return false;
+		if (neq(other.enableShortcuts, this.enableShortcuts)) return false;
+		if (neq(other.shortcutNotification, this.shortcutNotification)) return false;
+		if (neq(other.themeType, this.themeType)) return false;
+		if (neq(other.themesLight, this.themesLight)) return false;
+		if (neq(other.themesLightCustomUrl, this.themesLightCustomUrl)) return false;
+		if (neq(other.themesDark, this.themesDark)) return false;
+		if (neq(other.themesDarkCustomUrl, this.themesDarkCustomUrl)) return false;
+
+		function neq(thisVal: any, thatVal: any): boolean {
+			/** Not equal. Treating empty string as null and undefined */
+			if (thisVal === "")
+				thisVal = null;
+			if (thatVal === "")
+				thatVal = null;
+			// null and undefined are treated as same
+			return thisVal != thatVal;
+		}
+
+		return true;
+	}
 }
 
 interface Cloneable {
 	CopyFrom(source: any): void;
+}
+
+interface Comparable {
+	Equals(other: any): Boolean;
 }
 
 class ProxyServerConnectDetails {
