@@ -525,6 +525,9 @@
 	"settingsChangesReverted": {
 		"message": "Изменения успешно завершены."
 	},
+	"settingsConfirmSaveAllChanged": {
+		"message": "Сохранить несохранённые изменения?"
+	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Вы действительно хотите удалить выбранный фильтр?"
 	},
@@ -608,9 +611,6 @@
 	},
 	"settingsServersPassword": {
 		"message": "Пароль:"
-	},
-	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(К сожалению, аутентификация прокси-сервера больше не поддерживается Chrome через API расширений. Это сделано «намеренно».)"
 	},
 	"settingsServersCancel": {
 		"message": "Отмена"
