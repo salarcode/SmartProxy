@@ -190,7 +190,7 @@ hr {
 
 button:disabled {
 	/*Allowing display of tooltip on disabled buttons*/
-    pointer-events: auto !important;
+	pointer-events: auto !important;
 	cursor: default !important;
 }
 
@@ -277,6 +277,33 @@ button:disabled {
 		box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 30px;
 	}
 } */
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.8);
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@media (prefers-color-scheme: dark) {
+	.overlay {
+		background: rgba(0, 0, 0, 0.8);
+	}
+}
+.delayed3seconds {
+    opacity: 0;
+    animation: delayed3secondsFrames 1s ease-in-out forwards;
+    animation-delay: 3s;
+}
+@keyframes delayed3secondsFrames {
+    to {
+        opacity: 1;
+    }
+}
 /* ============================== */
 
 /* popup menu styles */

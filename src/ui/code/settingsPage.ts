@@ -131,7 +131,10 @@ export class settingsPage {
 		CommonUi.onDocumentReady(() =>
 			settingsPage.populateDataForSettings(dataForSettings)
 		);
-		CommonUi.onDocumentReady(settingsPage.showNewUserWelcome);
+		CommonUi.onDocumentReady(() => {
+			settingsPage.showNewUserWelcome();
+			settingsPage.hideLoadingOverlay();
+		});
 	}
 
 	private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
@@ -447,6 +450,10 @@ export class settingsPage {
 		modal.modal("show");
 	}
 
+	private static hideLoadingOverlay() {
+		let overlay = jq("#loadingOverlay");
+		overlay.addClass('d-none');
+	}
 	//#region Populate UI ----------------------
 
 	/** Display General UI data */
