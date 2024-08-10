@@ -82,19 +82,39 @@ export class SubscriptionUpdater {
 			}
 
 			if (shouldCreate) {
-				let timeout = subscription.refreshRate * 60 * 1000;
-				//internal = 1000;
+				let nextFetchInMs: number;
+				if (subscription.stats?.lastTryDate) {
+					const timeSinceLastTry =
+						Date.now() -
+						(new Date(subscription.stats.lastTryDate)).getTime();
+					nextFetchInMs = Math.max(
+						subscription.refreshRate * 60 * 1000 - timeSinceLastTry,
+						0
+					);
+				} else {
+					nextFetchInMs = 0;
+				}
 
-				let id = setInterval(
-					SubscriptionUpdater.readServerSubscription,
-					timeout,
-					subscription.name);
+				// This is like `setInterval`, but with an offset first invocation.
+				// Yes, `clearInterval` also works on `setTimeout` IDs.
+				const setTimeoutId = setTimeout(() => {
+					SubscriptionUpdater.readServerSubscription(subscription.name);
 
-				SubscriptionUpdater.serverSubscriptionTimers.push({
-					timerId: id,
+					// Start using `setInterval` from now on.
+					const intervalId = setInterval(
+						SubscriptionUpdater.readServerSubscription,
+						subscription.refreshRate * 60 * 1000,
+						subscription.name
+					);
+					timerObj.timerId = intervalId;
+				}, nextFetchInMs);
+
+				const timerObj = {
+					timerId: setTimeoutId,
 					subscriptionId: subscription.name,
 					refreshRate: subscription.refreshRate
-				});
+				}
+				SubscriptionUpdater.serverSubscriptionTimers.push(timerObj);
 			}
 		}
 		// remove the remaining timers
@@ -230,19 +250,39 @@ export class SubscriptionUpdater {
 				}
 
 				if (shouldCreate) {
-					let timeout = subscription.refreshRate * 60 * 1000;
-					//internal = 1000;
-
-					let id = setInterval(
-						SubscriptionUpdater.readRulesSubscription,
-						timeout,
-						subscription);
-
-					SubscriptionUpdater.rulesSubscriptionTimers.push({
-						timerId: id,
+					let nextFetchInMs: number;
+					if (subscription.stats?.lastTryDate) {
+						const timeSinceLastTry =
+							Date.now() -
+							(new Date(subscription.stats.lastTryDate)).getTime();
+						nextFetchInMs = Math.max(
+							subscription.refreshRate * 60 * 1000 - timeSinceLastTry,
+							0
+						);
+					} else {
+						nextFetchInMs = 0;
+					}
+	
+					// This is like `setInterval`, but with an offset first invocation.
+					// Yes, `clearInterval` also works on `setTimeout` IDs.
+					const setTimeoutId = setTimeout(() => {
+						SubscriptionUpdater.readRulesSubscription(subscription);
+	
+						// Start using `setInterval` from now on.
+						const intervalId = setInterval(
+							SubscriptionUpdater.readRulesSubscription,
+							subscription.refreshRate * 60 * 1000,
+							subscription
+						);
+						timerObj.timerId = intervalId;
+					}, nextFetchInMs);
+	
+					const timerObj = {
+						timerId: setTimeoutId,
 						subscriptionId: subscription.id,
 						refreshRate: subscription.refreshRate
-					});
+					}
+					SubscriptionUpdater.rulesSubscriptionTimers.push(timerObj);
 				}
 			}
 		}
