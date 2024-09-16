@@ -262,31 +262,47 @@ export class SubscriptionUpdater {
 				}
 
 				if (shouldCreate) {
-					let nextFetchInMs: number;
+					let interval = subscription.refreshRate * 60 * 1000;
+					let firstFetchTimeoutMs: number;
+
 					if (subscription.stats?.lastTryDate) {
 						const timeSinceLastTry = Date.now() - (new Date(subscription.stats.lastTryDate)).getTime();
 
-						nextFetchInMs = Math.max(0, subscription.refreshRate * 60 * 1000 - timeSinceLastTry);
+						firstFetchTimeoutMs = Math.max(0, interval - timeSinceLastTry);
 					} else {
-						nextFetchInMs = 0;
+						firstFetchTimeoutMs = 0;
 					}
 
-					// This is like `setInterval`, but with an offset first invocation.
-					// Yes, `clearInterval` also works on `setTimeout` IDs.
-					const setTimeoutId = setTimeout(() => {
-						SubscriptionUpdater.readRulesSubscription(subscription);
+					let timerId: NodeJS.Timer;
 
-						// Start using `setInterval` from now on.
-						const intervalId = setInterval(
+					if (firstFetchTimeoutMs) {
+						// This is like `setInterval`, but with an offset first invocation.
+						// And `clearInterval` also works on `setTimeout` IDs.
+						timerId = setTimeout(() => {
+							SubscriptionUpdater.readRulesSubscription(subscription);
+
+							// Start using `setInterval` from now on.
+							const intervalId = setInterval(
+								SubscriptionUpdater.readRulesSubscription,
+								interval,
+								subscription
+							);
+
+							// updating the reference
+							timerObj.timerId = intervalId;
+						}, firstFetchTimeoutMs);
+					}
+					else {
+
+						timerId = setInterval(
 							SubscriptionUpdater.readRulesSubscription,
-							subscription.refreshRate * 60 * 1000,
+							interval,
 							subscription
 						);
-						timerObj.timerId = intervalId;
-					}, nextFetchInMs);
+					}
 
 					const timerObj = {
-						timerId: setTimeoutId,
+						timerId: timerId,
 						subscriptionId: subscription.id,
 						refreshRate: subscription.refreshRate
 					}
