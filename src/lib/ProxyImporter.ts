@@ -60,24 +60,26 @@ export const ProxyImporter = {
 			// mark this request as special
 			ProxyEngineSpecialRequests.setSpecialUrl(serverDetail.url, serverDetail.applyProxy);
 
-		const fetchP = fetch(serverDetail.url, {
+		fetch(serverDetail.url, {
 			method: "GET",
 			headers: {
 				...(serverDetail.username
 					? {
-							Authorization: 'Basic ' + btoa(serverDetail.username + ':' + atob(serverDetail.password)),
-						}
+						Authorization: 'Basic ' + btoa(serverDetail.username + ':' + atob(serverDetail.password)),
+					}
 					: {}),
 			}
 		})
-		fetchP.then(async res => {
-			if (res.status === 200) {
-				ajaxSuccess(await res.text());
-			} else {
-				fail(new Error(`${res.status}, ${res.statusText}`));
-			}
-		});
-		fetchP.catch(err => fail(err));
+			.then(async res => {
+				if (res.status === 200) {
+					ajaxSuccess(await res.text());
+				} else
+					if (fail) fail(new Error(`${res.status}, ${res.statusText}`));
+
+			})
+			.catch(err => {
+				if (fail) fail(err);
+			});
 	},
 	importText(text: string | ArrayBuffer, file: any, append: boolean, currentProxies: ProxyServer[], success: Function, fail?: Function, options?: ProxyServerSubscription) {
 		if (!file && !text) {
