@@ -2,6 +2,7 @@
 import { api, environment } from '../lib/environment';
 import { Utils } from '../lib/Utils';
 import { ProfileOperations } from './ProfileOperations';
+import { Debug } from '../lib/Debug';
 
 /*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
@@ -961,16 +962,15 @@ export class SubscriptionStats {
 
 	public static updateStats(stats: SubscriptionStats, success: boolean, errorResult?: any) {
 		let now = new Date();
+		stats.lastTryDate = now.toISOString();
 		if (success) {
 			stats.lastStatus = true;
 			stats.lastStatusMessage = null;
-			stats.lastTryDate =
-				stats.lastSuccessDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+			stats.lastSuccessDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 		}
 		else {
 			stats.lastStatus = false;
 			stats.lastStatusMessage = errorResult?.message ?? errorResult?.toString();
-			stats.lastTryDate = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
 		}
 		stats.lastStatusProxyServerName = Settings.active?.currentProxyServer?.name;
 	}
@@ -985,7 +985,13 @@ export class SubscriptionStats {
 
 		if (!stats.lastStatus) {
 			if (stats.lastTryDate) {
-				status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsLastTry")} ${stats.lastTryDate}`
+				try {
+					let lastTryDate = new Date(stats.lastTryDate);
+					let lastTryDateText = lastTryDate.toLocaleDateString() + ' ' + lastTryDate.toLocaleTimeString();
+					status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsLastTry")} ${lastTryDateText}`
+				} catch (error) {
+					Debug.warn(`SubscriptionStats.lastTryDate has invalid (probably old) value`, error);
+				}
 			}
 			else {
 				status += `\r\n${api.i18n.getMessage("settingsSubscriptionStatsLastTry")} -`
