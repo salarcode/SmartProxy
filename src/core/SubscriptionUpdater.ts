@@ -82,31 +82,47 @@ export class SubscriptionUpdater {
 			}
 
 			if (shouldCreate) {
-				let nextFetchInMs: number;
+				let interval = subscription.refreshRate * 60 * 1000;
+				let firstFetchTimeoutMs: number;
+
 				if (subscription.stats?.lastTryDate) {
 					const timeSinceLastTry = Date.now() - (new Date(subscription.stats.lastTryDate)).getTime();
-					
-					nextFetchInMs = Math.max(0, subscription.refreshRate * 60 * 1000 - timeSinceLastTry);
+
+					firstFetchTimeoutMs = Math.max(0, interval - timeSinceLastTry);
 				} else {
-					nextFetchInMs = 0;
+					firstFetchTimeoutMs = 0;
 				}
 
-				// This is like `setInterval`, but with an offset first invocation.
-				// Yes, `clearInterval` also works on `setTimeout` IDs.
-				const setTimeoutId = setTimeout(() => {
-					SubscriptionUpdater.readServerSubscription(subscription.name);
+				let timerId: NodeJS.Timer;
 
-					// Start using `setInterval` from now on.
-					const intervalId = setInterval(
+				if (firstFetchTimeoutMs) {
+					// This is like `setInterval`, but with an offset first invocation.
+					// And `clearInterval` also works on `setTimeout` IDs.
+					timerId = setTimeout(() => {
+						SubscriptionUpdater.readServerSubscription(subscription.name);
+
+						// Start using `setInterval` from now on.
+						const intervalId = setInterval(
+							SubscriptionUpdater.readServerSubscription,
+							interval,
+							subscription.name
+						);
+
+						// updating the reference
+						timerObj.timerId = intervalId;
+					}, firstFetchTimeoutMs);
+				}
+				else {
+
+					timerId = setInterval(
 						SubscriptionUpdater.readServerSubscription,
-						subscription.refreshRate * 60 * 1000,
+						interval,
 						subscription.name
 					);
-					timerObj.timerId = intervalId;
-				}, nextFetchInMs);
+				}
 
 				const timerObj = {
-					timerId: setTimeoutId,
+					timerId: timerId,
 					subscriptionId: subscription.name,
 					refreshRate: subscription.refreshRate
 				}
@@ -249,7 +265,7 @@ export class SubscriptionUpdater {
 					let nextFetchInMs: number;
 					if (subscription.stats?.lastTryDate) {
 						const timeSinceLastTry = Date.now() - (new Date(subscription.stats.lastTryDate)).getTime();
-						
+
 						nextFetchInMs = Math.max(0, subscription.refreshRate * 60 * 1000 - timeSinceLastTry);
 					} else {
 						nextFetchInMs = 0;
