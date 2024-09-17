@@ -180,16 +180,12 @@ export class ProxyEngineFirefox {
 				}
 			}
 
-			if (requestDetails.tabId > -1) {
-				tabData = TabManager.getTab(requestDetails.tabId);
+			if (requestDetails.incognito && settingsActive.activeIncognitoProfile != null) {
+				const activeIncognitoProfile = settingsActive.activeIncognitoProfile;
 
-				if (tabData != null && tabData.incognito && settingsActive.activeIncognitoProfile != null) {
-					const activeIncognitoProfile = settingsActive.activeIncognitoProfile;
-
-					// in incognito tab/window switching to use the specified profile
-					activeProfile = activeIncognitoProfile;
-					activeProfileType = activeIncognitoProfile.profileType;
-				}
+				// in incognito tab/window switching to use the specified profile
+				activeProfile = activeIncognitoProfile;
+				activeProfileType = activeIncognitoProfile.profileType;
 			}
 
 			if (activeProfileType === SmartProfileType.Direct ||
@@ -206,7 +202,7 @@ export class ProxyEngineFirefox {
 			}
 
 			if (!currentProxyServer)
-				DiagDebug?.trace("FF.handleProxyRequest.currentProxyServer is null", 't=' + proxyLog.tabId, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
+				DiagDebug?.trace("FF.handleProxyRequest.currentProxyServer is null", 't=' + proxyLog.tabId, proxyLog.url, SmartProfileType[activeProfileType]);
 
 			// applying ProxyPerOrigin
 			if (tabData != null && settings.options.proxyPerOrigin) {
@@ -240,7 +236,7 @@ export class ProxyEngineFirefox {
 						proxyLog.matchedRuleStatus = ProxyableMatchedRuleStatus.ProxyPerOrigin;
 						proxyLog.proxifiedStatus = ProxyableProxifiedStatus.ProxyPerOrigin;
 
-						DiagDebug?.trace("FF.handleProxyRequest <ProxyPerOrigin>", 't=' + proxyLog.tabId, `OriginTab: ${tabData.url}`, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
+						DiagDebug?.trace("FF.handleProxyRequest <ProxyPerOrigin>", 't=' + proxyLog.tabId, `OriginTab: ${tabData.url}`, proxyLog.url, SmartProfileType[activeProfileType]);
 
 						// TODO: since we do not return here anymore, check effects of `proxyLog.proxied = true`
 						return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
@@ -402,7 +398,7 @@ export class ProxyEngineFirefox {
 			return { type: 'direct' };
 		})();
 
-		DiagDebug?.trace("FF.handleProxyRequest", 't=' + proxyLog.tabId, result, proxyLog.url, SmartProfileType[settingsActive.activeProfile?.profileType]);
+		DiagDebug?.trace("FF.handleProxyRequest", 't=' + proxyLog.tabId, result, proxyLog.url, SmartProfileType[activeProfileType], requestDetails.method);
 
 		// ---
 		ProxyEngineFirefox.storeTabStats(tabData, proxyLog, requestDetails, activeProfileType);
