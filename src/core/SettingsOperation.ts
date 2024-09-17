@@ -88,14 +88,17 @@ export class SettingsOperation {
 
 		if (destSettings.proxyServerSubscriptions && destSettings.proxyServerSubscriptions.length)
 			for (const destSubscription of destSettings.proxyServerSubscriptions) {
-				destSubscription.proxies = [];
 
 				let srcSubscription = sourceSettings.proxyServerSubscriptions.find(x => x.name == destSubscription.name && x.url == destSubscription.url);
-				if (!srcSubscription)
+				if (!srcSubscription) {
+					destSubscription.proxies = [];
 					continue;
+				}
 
 				if (srcSubscription.proxies && srcSubscription.proxies.length)
 					destSubscription.proxies = srcSubscription.proxies;
+				else
+					destSubscription.proxies ||= [];
 			}
 	}
 
@@ -315,11 +318,11 @@ export class SettingsOperation {
 
 	public static getLastProxyServer(): ProxyServer {
 		let settings = Settings.current;
-	
+
 		if (settings.proxyServers && settings.proxyServers.length) {
 			return settings.proxyServers[settings.proxyServers.length - 1];
 		}
-		
+
 		if (settings.proxyServerSubscriptions) {
 			for (let i = settings.proxyServerSubscriptions.length - 1; i >= 0; i--) {
 				const subscription = settings.proxyServerSubscriptions[i];
