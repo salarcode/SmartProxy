@@ -2577,24 +2577,23 @@ export class settingsPage {
 					hostName = Utils.extractHostFromUrl(ruleLine);
 				}
 				else if (ruleType == ProxyRuleType.MatchPatternHost) {
+					let ruleLineNormalized = ruleLine;
+					if (!Utils.urlHasSchema(ruleLineNormalized))
+						ruleLineNormalized = "http://" + ruleLineNormalized;
 
-					if (!Utils.urlHasSchema(ruleLine))
-						ruleLine = "http://" + ruleLine;
-
-					hostName = Utils.extractHostFromUrl(ruleLine);
+					hostName = Utils.extractHostFromUrl(ruleLineNormalized);
 
 					if (!Utils.isValidHost(hostName)) {
-						messageBox.error(api.i18n.getMessage("settingsMultipleRuleInvalidHost").replace("{0}", hostName));
+						messageBox.error(api.i18n.getMessage("settingsMultipleRuleInvalidHost").replace("{0}", hostName || ruleLine));
 						return;
 					}
 
-					hostName = Utils.extractHostFromUrl(ruleLine);
 					newRule.rulePattern = Utils.hostToMatchPattern(hostName, false);
 				}
 				else if (ruleType == ProxyRuleType.MatchPatternUrl) {
 
 					if (!Utils.isValidUrl(ruleLine)) {
-						messageBox.error(api.i18n.getMessage("settingsRuleUrlInvalid"));
+						messageBox.error(api.i18n.getMessage("settingsRuleUrlInvalid").replace("{0}", ruleLine));
 						return;
 					}
 
