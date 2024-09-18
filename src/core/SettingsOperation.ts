@@ -640,6 +640,11 @@ export class SettingsOperation {
 
 					ProfileOperations.resetProfileTypeConfig(newProfile);
 
+					if (newProfile.profileTypeConfig.editable &&
+						typeof (backProxyProfile['profileTypeConfig']['builtin']) === 'boolean')
+						// `builtin` value needs a reset as the default values is not correct for user created profiles
+						newProfile.profileTypeConfig.builtin = backProxyProfile.profileTypeConfig.builtin;
+
 					newProxyProfiles.push(newProfile);
 				}
 
