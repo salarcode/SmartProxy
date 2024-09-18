@@ -85,8 +85,8 @@ export class SubscriptionUpdater {
 				let interval = subscription.refreshRate * 60 * 1000;
 				let firstFetchTimeoutMs: number;
 
-				if (subscription.stats?.lastTryDate) {
-					const timeSinceLastTry = Date.now() - (new Date(subscription.stats.lastTryDate)).getTime();
+				if (subscription.stats?.lastTryIsoDate) {
+					const timeSinceLastTry = Date.now() - (new Date(subscription.stats.lastTryIsoDate)).getTime();
 
 					firstFetchTimeoutMs = Math.max(0, interval - timeSinceLastTry);
 				} else {
@@ -265,8 +265,8 @@ export class SubscriptionUpdater {
 					let interval = subscription.refreshRate * 60 * 1000;
 					let firstFetchTimeoutMs: number;
 
-					if (subscription.stats?.lastTryDate) {
-						const timeSinceLastTry = Date.now() - (new Date(subscription.stats.lastTryDate)).getTime();
+					if (subscription.stats?.lastTryIsoDate) {
+						const timeSinceLastTry = Date.now() - (new Date(subscription.stats.lastTryIsoDate)).getTime();
 
 						firstFetchTimeoutMs = Math.max(0, interval - timeSinceLastTry);
 					} else {
