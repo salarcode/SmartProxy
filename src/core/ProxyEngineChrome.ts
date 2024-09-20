@@ -113,10 +113,10 @@ function FindProxyForURL(url, host, noDiagnostics) {
 	if (activeProfileType == SmartProfileType.SystemProxy)
 		return resultSystem;
 
-	if (activeProfileType == SmartProfileType.Direct)
+	if (activeProfileType == SmartProfileType.Direct || !host)
 		return resultDirect;
 
-	host = host?.toLowerCase();
+	host = host.toLowerCase();
 
 	// applying ProxyPerOrigin
 	// is not applicable for Chromium
@@ -229,9 +229,6 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 			switch (rule.compiledRuleType) {
 				case CompiledProxyRuleType.SearchDomainSubdomain:
 
-					if (host == null) {
-						continue;
-					}
 					// domain
 					if (host == rule.search)
 						return rule;
@@ -249,10 +246,7 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 					break;
 
 				case CompiledProxyRuleType.RegexHost:
-					if (host == null) {
-						continue;
-					}
-
+					
 					if (rule.regex.test(host))
 						return rule;
 					break;
@@ -271,21 +265,16 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 				case CompiledProxyRuleType.SearchDomain:
 
-					if (host == null) {
-						continue;
-					}
 					if (rule.search == host)
 						return rule;
 					break;
 
 				case CompiledProxyRuleType.SearchDomainAndPath:
 
-					if (schemaLessUrlLowerCase == null) {
-						schemaLessUrlLowerCase = removeSchemaFromUrl(lowerCaseUrl);
-						if (schemaLessUrlLowerCase == null) {
-							continue;
-						}
-					}
+					schemaLessUrlLowerCase ??= removeSchemaFromUrl(lowerCaseUrl);
+					if (schemaLessUrlLowerCase == null)
+						continue;
+
 					if (schemaLessUrlLowerCase.startsWith(rule.search))
 						return rule;
 
@@ -293,24 +282,18 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 				case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 					{
-						if (schemaLessUrlLowerCase == null) {
-							schemaLessUrlLowerCase = removeSchemaFromUrl(lowerCaseUrl);
-							if (schemaLessUrlLowerCase == null) {
-								continue;
-							}
-						}
+						schemaLessUrlLowerCase ??= removeSchemaFromUrl(lowerCaseUrl);
+						if (schemaLessUrlLowerCase == null)
+							continue;
+
 						if (schemaLessUrlLowerCase.startsWith(rule.search))
 							return rule;
 
-						let ruleSearchHost = extractHostFromInvalidUrl(rule.search);
-						if (ruleSearchHost != null) {
-
-							if (host == null) {
-								continue;
-							}
+						rule.searchHost ??= extractHostFromInvalidUrl(rule.search);
+						if (rule.searchHost != null) {
 
 							// should be the same
-							if (ruleSearchHost != host && !host.endsWith('.' + ruleSearchHost))
+							if (rule.searchHost != host && !host.endsWith('.' + rule.searchHost))
 								continue;
 
 							// after this state, we are sure that the url is for the same domain, now just checking the path
@@ -335,9 +318,6 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 				switch (rule.compiledRuleType) {
 
 					case CompiledProxyRuleType.RegexHost:
-						if (host == null) {
-							continue;
-						}
 
 						if (rule.regex.test(host))
 							return rule;
@@ -345,18 +325,12 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 					case CompiledProxyRuleType.SearchDomain:
 
-						if (host == null) {
-							continue;
-						}
 						if (rule.search == host)
 							return rule;
 						break;
 
 					case CompiledProxyRuleType.SearchDomainSubdomain:
 
-						if (host == null) {
-							continue;
-						}
 						// domain
 						if (host == rule.search)
 							return rule;
@@ -369,24 +343,18 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 					case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 						{
+							schemaLessUrlLowerCase ??= removeSchemaFromUrl(lowerCaseUrl);
 							if (schemaLessUrlLowerCase == null) {
-								schemaLessUrlLowerCase = removeSchemaFromUrl(lowerCaseUrl);
-								if (schemaLessUrlLowerCase == null) {
-									continue;
-								}
+								continue;
 							}
 							if (schemaLessUrlLowerCase.startsWith(rule.search))
 								return rule;
 
-							let ruleSearchHost = extractHostFromInvalidUrl(rule.search);
-							if (ruleSearchHost != null) {
-
-								if (host == null) {
-									continue;
-								}
+							rule.searchHost ??= extractHostFromInvalidUrl(rule.search);
+							if (rule.searchHost != null) {
 
 								// should be the same
-								if (ruleSearchHost != host && !host.endsWith('.' + ruleSearchHost))
+								if (rule.searchHost != host && !host.endsWith('.' + rule.searchHost))
 									continue;
 
 								// after this state, we are sure that the url is for the same domain, now just checking the path
