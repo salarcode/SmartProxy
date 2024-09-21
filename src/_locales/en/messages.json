@@ -612,6 +612,9 @@
 	"settingsServersPassword": {
 		"message": "Password"
 	},
+	"settingsServersAuthChromeMv3Limitation": {
+		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+	},
 	"settingsServersCancel": {
 		"message": "Cancel"
 	},

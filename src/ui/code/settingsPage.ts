@@ -583,6 +583,7 @@ export class settingsPage {
 	private static populateServerProtocol() {
 		let modal = jq("#modalModifyProxyServer");
 		let serverInputInfo = settingsPage.readServerModel(modal);
+		modal.find("#divServerProxy-AuthenticationMessage").hide();
 
 		if (serverInputInfo.protocol == "SOCKS5")
 			modal.find("#chkServerProxyDNS-Control").show().removeClass('d-none');
@@ -594,6 +595,7 @@ export class settingsPage {
 		else if (serverInputInfo.protocol == "SOCKS5") {
 			if (environment.chrome) {
 				modal.find("#chkServerProxy-Authentication").hide();
+				modal.find("#divServerProxy-AuthenticationMessage").show();
 			}
 			else
 				modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
