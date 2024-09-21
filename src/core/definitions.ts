@@ -93,6 +93,17 @@ export enum CompiledProxyRuleType {
 	SearchDomainAndPath,
 	/** Matches domain and its subdomains including path in the end of each */
 	SearchDomainSubdomainAndPath
+
+/*
+Note on how popular these rules are on a subscription
+{
+    "1": 31,   // RegexUrl
+    "3": 394,  // SearchUrl
+    "5": 3326, // SearchDomainSubdomain
+    "6": 1074, // SearchDomainAndPath
+    "7": 2363  // SearchDomainSubdomainAndPath
+}
+*/	
 }
 function convertCompiledToProxyRuleType(compiledRule: CompiledProxyRuleType): ProxyRuleType | null {
 	switch (compiledRule) {

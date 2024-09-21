@@ -290,62 +290,6 @@ export class ProxyRules {
 
 						break;
 
-					case CompiledProxyRuleType.Exact:
-
-						if (lowerCaseUrl == rule.search)
-							return rule;
-						break;
-
-					case CompiledProxyRuleType.RegexHost:
-
-						if (domainHostLowerCase == null) {
-							domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
-							if (domainHostLowerCase == null) {
-								continue;
-							}
-						}
-
-						if (rule.regex.test(domainHostLowerCase))
-							return rule;
-						break;
-
-					case CompiledProxyRuleType.RegexUrl:
-						// Using original url with case sensitivity
-						if (rule.regex.test(searchUrl))
-							return rule;
-						break;
-
-					case CompiledProxyRuleType.SearchUrl:
-
-						if (lowerCaseUrl.startsWith(rule.search))
-							return rule;
-						break;
-
-					case CompiledProxyRuleType.SearchDomain:
-
-						if (domainHostLowerCase == null) {
-							domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
-							if (domainHostLowerCase == null) {
-								continue;
-							}
-						}
-						if (rule.search == domainHostLowerCase)
-							return rule;
-						break;
-
-					case CompiledProxyRuleType.SearchDomainAndPath:
-
-						if (schemaLessUrlLowerCase == null) {
-							schemaLessUrlLowerCase = Utils.removeSchemaFromUrl(lowerCaseUrl);
-							if (schemaLessUrlLowerCase == null) {
-								continue;
-							}
-						}
-						if (schemaLessUrlLowerCase.startsWith(rule.search))
-							return rule;
-
-						break;
-
 					case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 
 						if (schemaLessUrlLowerCase == null) {
@@ -378,6 +322,62 @@ export class ProxyRules {
 						if (schemaLessUrlLowerCase.includes('.' + rule.search))
 							return rule;
 						break;
+
+					case CompiledProxyRuleType.SearchDomainAndPath:
+
+						if (schemaLessUrlLowerCase == null) {
+							schemaLessUrlLowerCase = Utils.removeSchemaFromUrl(lowerCaseUrl);
+							if (schemaLessUrlLowerCase == null) {
+								continue;
+							}
+						}
+						if (schemaLessUrlLowerCase.startsWith(rule.search))
+							return rule;
+
+						break;
+
+					case CompiledProxyRuleType.SearchUrl:
+
+						if (lowerCaseUrl.startsWith(rule.search))
+							return rule;
+						break;
+
+					case CompiledProxyRuleType.RegexUrl:
+						// Using original url with case sensitivity
+						if (rule.regex.test(searchUrl))
+							return rule;
+						break;
+
+					case CompiledProxyRuleType.RegexHost:
+
+						if (domainHostLowerCase == null) {
+							domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
+							if (domainHostLowerCase == null) {
+								continue;
+							}
+						}
+
+						if (rule.regex.test(domainHostLowerCase))
+							return rule;
+						break;
+
+					case CompiledProxyRuleType.SearchDomain:
+
+						if (domainHostLowerCase == null) {
+							domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
+							if (domainHostLowerCase == null) {
+								continue;
+							}
+						}
+						if (rule.search == domainHostLowerCase)
+							return rule;
+						break;
+
+					case CompiledProxyRuleType.Exact:
+
+						if (lowerCaseUrl == rule.search)
+							return rule;
+						break;
 				}
 			}
 
@@ -408,18 +408,6 @@ export class ProxyRules {
 
 								break;
 
-							case CompiledProxyRuleType.RegexHost:
-
-								if (rule.regex.test(domainHostLowerCase))
-									return rule;
-								break;
-
-							case CompiledProxyRuleType.SearchDomain:
-
-								if (rule.search == domainHostLowerCase)
-									return rule;
-								break;
-
 							case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 
 								if (schemaLessUrlLowerCase == null) {
@@ -442,6 +430,18 @@ export class ProxyRules {
 
 								// subdomains
 								if (schemaLessUrlLowerCase.includes('.' + rule.search))
+									return rule;
+								break;
+
+							case CompiledProxyRuleType.RegexHost:
+
+								if (rule.regex.test(domainHostLowerCase))
+									return rule;
+								break;
+
+							case CompiledProxyRuleType.SearchDomain:
+
+								if (rule.search == domainHostLowerCase)
 									return rule;
 								break;
 

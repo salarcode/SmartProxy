@@ -239,47 +239,6 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 					break;
 
-				case CompiledProxyRuleType.Exact:
-
-					if (lowerCaseUrl == rule.search)
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.RegexHost:
-					
-					if (rule.regex.test(host))
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.RegexUrl:
-					// Using original url with case sensitivity
-					if (rule.regex.test(searchUrl))
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.SearchUrl:
-
-					if (lowerCaseUrl.startsWith(rule.search))
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.SearchDomain:
-
-					if (rule.search == host)
-						return rule;
-					break;
-
-				case CompiledProxyRuleType.SearchDomainAndPath:
-
-					schemaLessUrlLowerCase ??= removeSchemaFromUrl(lowerCaseUrl);
-					if (schemaLessUrlLowerCase == null)
-						continue;
-
-					if (schemaLessUrlLowerCase.startsWith(rule.search))
-						return rule;
-
-					break;
-
 				case CompiledProxyRuleType.SearchDomainSubdomainAndPath:
 					{
 						schemaLessUrlLowerCase ??= removeSchemaFromUrl(lowerCaseUrl);
@@ -304,6 +263,47 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 							return rule;
 						break;
 					}
+
+				case CompiledProxyRuleType.SearchDomainAndPath:
+
+					schemaLessUrlLowerCase ??= removeSchemaFromUrl(lowerCaseUrl);
+					if (schemaLessUrlLowerCase == null)
+						continue;
+
+					if (schemaLessUrlLowerCase.startsWith(rule.search))
+						return rule;
+
+					break;
+
+				case CompiledProxyRuleType.SearchUrl:
+
+					if (lowerCaseUrl.startsWith(rule.search))
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.RegexUrl:
+					// Using original url with case sensitivity
+					if (rule.regex.test(searchUrl))
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.RegexHost:
+					
+					if (rule.regex.test(host))
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.SearchDomain:
+
+					if (rule.search == host)
+						return rule;
+					break;
+
+				case CompiledProxyRuleType.Exact:
+
+					if (lowerCaseUrl == rule.search)
+						return rule;
+					break;
 			}
 		}
 
@@ -316,18 +316,6 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 				// NOTE: Only rules that work on hostName should be checked, others can be ignored
 				switch (rule.compiledRuleType) {
-
-					case CompiledProxyRuleType.RegexHost:
-
-						if (rule.regex.test(host))
-							return rule;
-						break;
-
-					case CompiledProxyRuleType.SearchDomain:
-
-						if (rule.search == host)
-							return rule;
-						break;
 
 					case CompiledProxyRuleType.SearchDomainSubdomain:
 
@@ -365,6 +353,18 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 								return rule;
 							break;
 						}
+
+					case CompiledProxyRuleType.RegexHost:
+
+						if (rule.regex.test(host))
+							return rule;
+						break;
+
+					case CompiledProxyRuleType.SearchDomain:
+
+						if (rule.search == host)
+							return rule;
+						break;
 
 					case CompiledProxyRuleType.Exact:
 					case CompiledProxyRuleType.RegexUrl:
