@@ -525,6 +525,9 @@
 	"settingsChangesReverted": {
 		"message": "成功回滚更改。"
 	},
+	"settingsConfirmSaveAllChanged": {
+		"message": "要保存所有未保存的更改吗？"
+	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "确定移除所选规则？"
 	},
