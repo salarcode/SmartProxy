@@ -186,6 +186,8 @@ export class ProxyEngineFirefox {
 				// in incognito tab/window switching to use the specified profile
 				activeProfile = activeIncognitoProfile;
 				activeProfileType = activeIncognitoProfile.profileType;
+			} else if (requestDetails.tabId > -1) {
+				tabData = TabManager.getTab(requestDetails.tabId);
 			}
 
 			if (activeProfileType === SmartProfileType.Direct ||
