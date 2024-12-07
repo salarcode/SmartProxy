@@ -518,7 +518,8 @@ export class Settings {
 
 	public static validateProxyServer(
 		server: ProxyServer,
-		checkExistingName: boolean = true,
+		nameShouldNotExist: boolean = true,
+		nameShouldExist: boolean = false
 	): {
 		success: boolean;
 		exist?: boolean;
@@ -542,13 +543,24 @@ export class Settings {
 		if (!server.name) {
 			return { success: false, message: api.i18n.getMessage('settingsServerNameRequired') };
 		} else if (me.current) {
-			if (checkExistingName) {
+			if (nameShouldNotExist || nameShouldExist) {
 				const currentServers = me.current.proxyServers;
 
+				var found = false;
 				for (let srv of currentServers) {
 					if (srv.name == server.name) {
-						return { success: false, exist: true, message: `Server name ${server.name} already exists` };
+						if (nameShouldNotExist) {
+							return { success: false, exist: true, message: `Server name ${server.name} already exists` };
+						}
+						else {
+							found = true;
+							break;
+						}
 					}
+				}
+
+				if (!found && nameShouldExist) {
+					return { success: false, exist: false, message: `Server name ${server.name} does not exist` };
 				}
 			}
 		}

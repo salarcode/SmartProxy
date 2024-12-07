@@ -275,7 +275,7 @@ export const ProxyImporter = {
 				item.username = proxy["username"];
 				item.password = proxy["password"];
 
-				if (!Settings.validateProxyServer(item).success)
+				if (!Settings.validateProxyServer(item, true).success)
 					continue;
 
 				resultProxies.push(item);

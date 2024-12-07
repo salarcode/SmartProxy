@@ -837,7 +837,7 @@ export class ProxyRule implements Cloneable {
 			this.whiteList = source['whiteList'] == true ? true : false;
 
 		if (this.proxy) {
-			if (!Settings.validateProxyServer(this.proxy).success) {
+			if (!Settings.validateProxyServer(this.proxy, false, true).success) {
 				this.proxy = null;
 			}
 		}
