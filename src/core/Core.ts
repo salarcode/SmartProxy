@@ -725,7 +725,6 @@ export class Core {
 		dataForPopup.proxyProfiles = ProfileOperations.getSmartProfileBaseList(settings.proxyProfiles);
 		dataForPopup.activeProfileId = settings.activeProfileId;
 		dataForPopup.activeIncognitoProfileId = settings.options.activeIncognitoProfileId;
-		dataForPopup.hasProxyServers = settings.proxyServers.length > 0;
 		dataForPopup.proxyServers = settings.proxyServers;
 		dataForPopup.currentProxyServerId =
 			(settingsActive.activeProfile?.profileProxyServerId) ||
@@ -734,6 +733,7 @@ export class Core {
 		dataForPopup.currentTabId = null;
 		dataForPopup.currentTabIndex = null;
 		dataForPopup.proxyServersSubscribed = settingsOperationLib.getAllSubscribedProxyServers();
+		dataForPopup.hasProxyServers = settings.proxyServers.length > 0 || dataForPopup.proxyServersSubscribed?.length > 0;
 		dataForPopup.updateInfo = settings.updateInfo;
 		dataForPopup.failedRequests = null;
 		dataForPopup.notSupportedSetProxySettings = environment.notSupported.setProxySettings;
