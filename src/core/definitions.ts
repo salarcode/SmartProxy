@@ -830,6 +830,7 @@ export class ProxyRule implements Cloneable {
 		this.ruleExact = source['ruleExact'];
 		this.ruleSearch = source['ruleSearch'];
 		this.proxy = source['proxy'];
+		this.proxyServerId = source['proxyServerId'];
 		if (source['enabled'] != null)
 			this.enabled = source['enabled'] == true ? true : false;
 
