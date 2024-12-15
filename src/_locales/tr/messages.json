@@ -10,7 +10,7 @@
 		"message": "SmartProxy"
 	},
 	"extensionDescription": {
-		"message": "SmartProxy, ziyaret ettiğiniz siteler için, özelleştirilebilir kalıplara dayalı olarak otomatik olarak proxy'yi etkinleştirecek / devre dışı bırakacaktır."
+		"message": "SmartProxy, ziyaret ettiğiniz siteler için özelleştirilebilir kalıplara dayalı olarak proxy'yi otomatik etkinleştirir/devreder."
 	},
 	"toolbarTooltipEffectiveRule": {
 		"message": "Matched rule source:"
