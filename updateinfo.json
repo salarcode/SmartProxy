@@ -7,8 +7,8 @@
 	"browsers": {
 		"Chrome": {
 			"latestVersion": {
-				"version": "1.6",
-				"versionName": "1.6",
+				"version": "1.6.2",
+				"versionName": "1.6.2",
 				"downloadPage": "https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj"
 			}
 		},
