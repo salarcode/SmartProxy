@@ -91,6 +91,17 @@ export class settingsPage {
 
 			settingsPage.applySettingsPageData(dataForSettings);
 		}
+		else if (command === CommandMessages.SettingsPageShowMessage) {
+			if (message.message) {
+				if (message.success == true) {
+					messageBox.success(message.message);
+				}
+				else if (message.success == false) {
+					messageBox.error(message.message);
+				}
+			}
+
+		}
 	}
 
 	private static registerMessageReader() {
@@ -167,6 +178,10 @@ export class settingsPage {
 		jq("#btnRejectGeneralOptions").click(settingsPage.uiEvents.onClickRejectGeneralOptions);
 
 		jq("#chkSyncSettings").change(settingsPage.uiEvents.onSyncSettingsChanged);
+
+		jq("#chkSyncToBrowser").on("change", settingsPage.uiEvents.onSyncDestinationChanged);
+		jq("#chkSyncToWebDAV").on("change", settingsPage.uiEvents.onSyncDestinationChanged);
+		jq("#btnWebDavServerBackupNow").click(settingsPage.uiEvents.onClickWebDavBackupNow);
 
 		jq("#btnIgnoreRequestFailuresForDomains").click(settingsPage.uiEvents.onClickIgnoreRequestFailuresForDomains);
 
@@ -959,6 +974,18 @@ export class settingsPage {
 		divGeneral.find("#chkSyncProxyMode").prop("checked", options.syncActiveProfile || false);
 		divGeneral.find("#chkSyncActiveProxy").prop("checked", options.syncActiveProxy || false);
 
+		// New elements for WebDAV and Sync Mode
+		if (options.syncWebDavServerEnabled) {
+			divGeneral.find("#chkSyncToWebDAV").prop("checked", true);
+		} else {
+			divGeneral.find("#chkSyncToBrowser").prop("checked", true);
+		}
+
+		divGeneral.find("#txtWebDavServerUrl").val(options.syncWebDavServerUrl || '');
+		divGeneral.find("#txtWebDavBackupFilename").val(options.syncWebDavBackupFilename || 'smartproxy_settings.json');
+		divGeneral.find("#txtWebDavServerUser").val(options.syncWebDavServerUser || '');
+		divGeneral.find("#txtWebDavServerPassword").val(options.syncWebDavServerPassword || '');
+
 		divGeneral.find("#chkDetectRequestFailures").prop("checked", options.detectRequestFailures || false);
 		divGeneral.find("#chkDisplayFailedOnBadge").prop("checked", options.displayFailedOnBadge || false);
 
@@ -978,6 +1005,7 @@ export class settingsPage {
 
 		// this is needed to enabled/disable UI based on settings
 		settingsPage.uiEvents.onSyncSettingsChanged();
+		settingsPage.uiEvents.onSyncDestinationChanged();
 		settingsPage.uiEvents.onChangeThemesLight();
 		settingsPage.uiEvents.onChangeThemesDark();
 
@@ -1000,6 +1028,12 @@ export class settingsPage {
 		generalOptions.syncSettings = divGeneral.find("#chkSyncSettings").prop("checked");
 		generalOptions.syncActiveProfile = divGeneral.find("#chkSyncProxyMode").prop("checked");
 		generalOptions.syncActiveProxy = divGeneral.find("#chkSyncActiveProxy").prop("checked");
+
+		generalOptions.syncWebDavServerEnabled = divGeneral.find("#chkSyncToWebDAV").prop("checked");
+		generalOptions.syncWebDavServerUrl = divGeneral.find("#txtWebDavServerUrl").val();
+		generalOptions.syncWebDavBackupFilename = divGeneral.find("#txtWebDavBackupFilename").val();
+		generalOptions.syncWebDavServerUser = divGeneral.find("#txtWebDavServerUser").val();
+		generalOptions.syncWebDavServerPassword = divGeneral.find("#txtWebDavServerPassword").val();
 
 		generalOptions.detectRequestFailures = divGeneral.find("#chkDetectRequestFailures").prop("checked");
 		generalOptions.displayFailedOnBadge = divGeneral.find("#chkDisplayFailedOnBadge").prop("checked");
@@ -2136,6 +2170,19 @@ export class settingsPage {
 		onClickSaveGeneralOptions() {
 			let generalOptions = settingsPage.readGeneralOptions();
 
+			if (generalOptions.syncWebDavServerEnabled) {
+				if (!Utils.isValidUrl(generalOptions.syncWebDavServerUrl)) {
+					// Please enter a valid WebDAV Server URL
+					messageBox.error(api.i18n.getMessage("settingsGeneralWebDav_ErrorValidUrl"));
+					return;
+				}
+				if (generalOptions.syncWebDavBackupFilename.trim() == "") {
+					// WebDAV Server Backup Filename cannot be empty
+					messageBox.error(api.i18n.getMessage("settingsGeneralWebDav_ErrorEmptyFilename"));
+					return;
+				}
+			}
+
 			if (generalOptions.themesLight == themesCustomType) {
 				if (!Utils.isValidUrl(generalOptions.themesLightCustomUrl)) {
 					// Please enter a valid Light Theme and the url should be 'https'.
@@ -2197,11 +2244,59 @@ export class settingsPage {
 			if (checked) {
 				jq("#chkSyncProxyMode").removeAttr("disabled");
 				jq("#chkSyncActiveProxy").removeAttr("disabled");
+				jq("#chkSyncToBrowser").removeAttr("disabled");
+				jq("#chkSyncToWebDAV").removeAttr("disabled");
+				jq("#webDAVFields input,#webDAVFields button").removeAttr("disabled");
 			}
 			else {
 				jq("#chkSyncProxyMode").attr("disabled", "disabled");
 				jq("#chkSyncActiveProxy").attr("disabled", "disabled");
+				jq("#chkSyncToBrowser").attr("disabled", "disabled");
+				jq("#chkSyncToWebDAV").attr("disabled", "disabled");
+				jq("#webDAVFields input,#webDAVFields button").attr("disabled", "disabled");
 			}
+		},
+		onSyncDestinationChanged() {
+			let isWebDavSelected = jq("#chkSyncToWebDAV").prop("checked");
+			if (isWebDavSelected) {
+				const webDavDiv = jq("#webDAVFields");
+				webDavDiv.hide();
+				webDavDiv.removeClass("d-none");
+				webDavDiv.slideDown();
+			} else {
+				jq("#webDAVFields").addClass("d-none");
+			}
+		},
+		onClickWebDavBackupNow() {
+			let serverUrl = jq("#txtWebDavServerUrl").val();
+			let username = jq("#txtWebDavServerUser").val();
+			let password = jq("#txtWebDavServerPassword").val();
+			let backupFilename = jq("#txtWebDavBackupFilename").val();
+
+			if (!serverUrl || !username || !password) {
+				messageBox.error("Please fill in all required WebDAV fields.");
+				return;
+			}
+
+			// Simulate backup operation
+			PolyFill.runtimeSendMessage(
+				{
+					command: CommandMessages.SettingsPageWebDavBackupNow,
+					serverUrl: serverUrl,
+					username: username,
+					password: password,
+					backupFilename: backupFilename,
+				},
+				(response) => {
+					if (response.success) {
+						// WebDav backup completed successfully!
+						messageBox.success(api.i18n.getMessage("settingsGeneralWebDavBackupNowSuccess"));
+					} else {
+						// WebDav backup failed: 
+						messageBox.error(api.i18n.getMessage("settingsGeneralWebDavBackupNowFailed") + " " + response.message);
+					}
+				}
+			);
 		},
 		onClickIgnoreRequestFailuresForDomains() {
 			let settings = settingsPage.currentSettings;

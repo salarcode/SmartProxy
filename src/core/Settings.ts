@@ -46,6 +46,7 @@ export class Settings {
 
 	public static active: SettingsActive;
 
+	// TODO: remove this as it is not used anywhere
 	public static currentOptionsSyncSettings: boolean = true;
 
 	public static onInitializedLocally: Function = null;
@@ -89,11 +90,21 @@ export class Settings {
 		SettingsOperation.saveAllLocal(true);
 		me.cleanupLocalOldVersionResidueFromStorage();
 
-		// read all the synced data along with synced ones
-		PolyFill.storageSyncGet(null, me.onInitializeGetSyncData, me.onInitializeGetSyncError);
-
 		if (me.onInitializedLocally)
 			me.onInitializedLocally();
+
+		if (me.current.options.syncSettings) {
+			// If sync is enabled
+
+			if (me.current.options.syncWebDavServerEnabled) {
+				me.readWebDavSyncData();
+			}
+			else {
+				// Reading from browser sync servers
+				// Read all the synced data along with synced ones
+				PolyFill.storageSyncGet(null, me.onInitializeGetSyncData, me.onInitializeGetSyncError);
+			}
+		}
 	}
 
 	private static onInitializeGetLocalError(error: any) {
@@ -105,29 +116,45 @@ export class Settings {
 		me.raiseInitializeCompletedEvent();
 	}
 
+	private static readWebDavSyncData() {
+		SettingsOperation.readFromWebDavServer(
+			me.current.options.syncWebDavServerUrl,
+			me.current.options.syncWebDavBackupFilename,
+			me.current.options.syncWebDavServerUser,
+			me.current.options.syncWebDavServerPassword,
+			(restoredSettings: SettingsConfig) => {
+
+				if (!restoredSettings) {
+					Debug.error(`settingsOperation.readWebDavSyncData error: No data returned from WebDav server`);
+					me.onInitializeGetSyncError(new Error("No data returned from WebDav server"));
+					return;
+				}
+				if (Debug.isEnabled())
+					Debug.log("readWebDavSyncData, sync data: ", JSON.stringify(restoredSettings));
+
+				// ---------
+				me.applySyncSettings(restoredSettings);
+
+				if (me.onInitializedRemoteSync)
+					me.onInitializedRemoteSync();
+
+				me.raiseInitializeCompletedEvent();
+			},
+			(error: Error) => {
+				Debug.error(`settingsOperation.readWebDavSyncData error: ${error.message}`);
+				me.onInitializeGetSyncError(error);
+			});
+	}
+
 	private static onInitializeGetSyncData(data: any) {
 		try {
 			let syncedSettings = Utils.decodeSyncData(data);
 
-			Debug.log("onInitializeGetSyncData, sync data: ", JSON.stringify(syncedSettings));
+			if (Debug.isEnabled())
+				Debug.log("onInitializeGetSyncData, sync data: ", JSON.stringify(syncedSettings));
 
-			// only if sync settings is enabled
-			if (syncedSettings && syncedSettings.options) {
-				if (syncedSettings.options.syncSettings) {
-					// use synced settings
-					syncedSettings = me.getRestorableSettings(syncedSettings);
-					me.revertSyncOptions(syncedSettings);
-					sop.copyNonSyncableSettings(syncedSettings, me.current);
-
-					me.current = syncedSettings;
-				} else {
-					// sync is disabled
-					syncedSettings.options.syncSettings = false;
-				}
-
-				me.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
-				me.updateActiveSettings();
-			}
+			// ---------
+			me.applySyncSettings(syncedSettings);
 		} catch (e) {
 			Debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n`, JSON.stringify(data));
 		}
@@ -138,8 +165,24 @@ export class Settings {
 		me.raiseInitializeCompletedEvent();
 	}
 
+	private static applySyncSettings(restoredSyncedSettings: SettingsConfig) {
+		if (!restoredSyncedSettings) {
+			return;
+		}
+
+		// use synced settings
+		restoredSyncedSettings = me.getRestorableSettings(restoredSyncedSettings);
+		me.revertSyncOptions(restoredSyncedSettings);
+		sop.copyNonSyncableSettings(restoredSyncedSettings, me.current);
+
+		me.current = restoredSyncedSettings;
+
+		me.currentOptionsSyncSettings = restoredSyncedSettings.options.syncSettings;
+		me.updateActiveSettings();
+	}
+
 	private static onInitializeGetSyncError(error: Error) {
-		Debug.error(`settingsOperation.readSyncedSettings error: ${error.message}`);
+		Debug.error(`settingsOperation reading synced settings has failed error: ${error.message}`);
 
 		me.raiseInitializeCompletedEvent();
 	}
@@ -418,6 +461,7 @@ export class Settings {
 	public static revertSyncOptions(syncedConfig: SettingsConfig) {
 		let settings = me.current;
 
+		syncedConfig.options.syncSettings = settings.options.syncSettings;
 		syncedConfig.options.syncActiveProxy = settings.options.syncActiveProxy;
 		syncedConfig.options.syncActiveProfile = settings.options.syncActiveProfile;
 
@@ -427,6 +471,12 @@ export class Settings {
 		if (!settings.options.syncActiveProfile) {
 			syncedConfig.activeProfileId = settings.activeProfileId;
 		}
+
+		syncedConfig.options.syncWebDavServerEnabled = settings.options.syncWebDavServerEnabled;
+		syncedConfig.options.syncWebDavServerUrl = settings.options.syncWebDavServerUrl;
+		syncedConfig.options.syncWebDavBackupFilename = settings.options.syncWebDavBackupFilename;
+		syncedConfig.options.syncWebDavServerUser = settings.options.syncWebDavServerUser;
+		syncedConfig.options.syncWebDavServerPassword = settings.options.syncWebDavServerPassword;
 	}
 
 	/** Validates SmartProfiles and adds missing profile and properties */

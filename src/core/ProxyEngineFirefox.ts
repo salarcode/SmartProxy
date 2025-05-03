@@ -248,6 +248,9 @@ export class ProxyEngineFirefox {
 				}
 			}
 
+			// TODO: do we to have proxyPerOrigin simmilar option for AlwaysEnabled more as well?
+			// TODO: Maybe call it alwaysEnabledBypassPerOrigin or something like that
+
 			if (activeProfileType == SmartProfileType.AlwaysEnabledBypassRules) {
 				// NOTE: by default a proxy is applied in AlwaysEnabled profile
 

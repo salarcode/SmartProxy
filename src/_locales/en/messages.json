@@ -83,7 +83,7 @@
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
 		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
-	},	
+	},
 	"popupAddIgnoredFailures": {
 		"message": "Ignore them"
 	},
@@ -272,6 +272,42 @@
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
 		"message": "Check if you want the selected proxy server to be synced"
+	},
+	"settingsGeneralSyncToBrowser": {
+		"message": "Sync to the browser servers"
+	},
+	"settingsGeneralSyncToWebDAV": {
+		"message": "Sync to a WebDAV server"
+	},
+	"settingsGeneralWebDavServerUrl": {
+		"message": "WebDAV Server URL:"
+	},
+	"settingsGeneralWebDavBackupFilename": {
+		"message": "Backup Filename:"
+	},
+	"settingsGeneralWebDavServerUser": {
+		"message": "WebDAV Server Username:"
+	},
+	"settingsGeneralWebDavServerPassword": {
+		"message": "WebDAV Server Password:"
+	},
+	"settingsGeneralWebDavBehaviourDesc": {
+		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+	},
+	"settingsGeneralWebDavServerBackupNow": {
+		"message": "Backup Now"
+	},
+	"settingsGeneralWebDav_ErrorValidUrl": {
+		"message": "Please enter a valid WebDAV Server URL"
+	},
+	"settingsGeneralWebDav_ErrorEmptyFilename": {
+		"message": "WebDAV Server Backup Filename cannot be empty"
+	},
+	"settingsGeneralWebDavBackupNowSuccess": {
+		"message": "WebDav backup completed successfully!"
+	},
+	"settingsGeneralWebDavBackupNowFailed": {
+		"message": "WebDav backup failed:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Error Detection"
@@ -1161,19 +1197,19 @@
 	"settingsWelcomeSkipButton": {
 		"message": "Got it"
 	},
-	"settingsSubscriptionStatsStatusSuccess":{
+	"settingsSubscriptionStatsStatusSuccess": {
 		"message": "Status: Success"
 	},
-	"settingsSubscriptionStatsStatusFail":{
+	"settingsSubscriptionStatsStatusFail": {
 		"message": "Status: Failed"
 	},
-	"settingsSubscriptionStatsLastTry":{
+	"settingsSubscriptionStatsLastTry": {
 		"message": "Last Try:"
 	},
-	"settingsSubscriptionStatsMessage":{
+	"settingsSubscriptionStatsMessage": {
 		"message": "Message:"
 	},
-	"settingsSubscriptionStatsLastSuccess":{
+	"settingsSubscriptionStatsLastSuccess": {
 		"message": "Last Success:"
 	},
 	"settings_SmartProfileType_Direct": {

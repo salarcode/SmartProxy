@@ -24,6 +24,7 @@ import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
 import { ProfileOperations } from "./ProfileOperations";
+import { createClient } from "webdav";
 
 const subscriptionUpdaterLib = SubscriptionUpdater;
 const proxyEngineLib = ProxyEngine;
@@ -37,6 +38,11 @@ export class SettingsOperation {
 
 		// deep clone required
 		let settingsCopy: SettingsConfig = JSON.parse(JSON.stringify(settings));
+
+		settingsCopy.options.syncWebDavServerUrl = '';
+		settingsCopy.options.syncWebDavBackupFilename = '';
+		settingsCopy.options.syncWebDavServerUser = '';
+		settingsCopy.options.syncWebDavServerPassword = '';
 
 		if (settingsCopy.proxyProfiles && settingsCopy.proxyProfiles.length) {
 			for (const profile of settingsCopy.proxyProfiles) {
@@ -279,9 +285,9 @@ export class SettingsOperation {
 		if (!proxyServers)
 			return;
 		proxyServers.sort((a, b) => {
-			if ((a.order ?? 0) > b.order ?? 0)
+			if ((a.order ?? 0) > (b.order ?? 0))
 				return 1;
-			if ((a.order ?? 0) < b.order ?? 0)
+			if ((a.order ?? 0) < (b.order ?? 0))
 				return -1;
 			return 0;
 		});
@@ -369,11 +375,19 @@ export class SettingsOperation {
 		return null;
 	}
 
-
-
 	public static syncOnChanged(changes: any, area: string) {
 		if (area !== "sync") return;
 
+		if (!Settings.current.options.syncSettings) {
+			Debug.log("Ignoring syncOnChanged. ", area, changes);
+			return;
+		}
+
+		if (Settings.current.options.syncWebDavServerEnabled) {
+			// WebDav sync is enabled, ignore the sync changes
+			Debug.log("Ignoring browser syncOnChanged. WebDav sync is enabled.", area, changes);
+			return;
+		}
 		Debug.log("syncOnChanged ", area, changes);
 
 		// read all the settings
@@ -397,18 +411,33 @@ export class SettingsOperation {
 		// before anything save everything in local
 		me.saveAllLocal(true);
 
+		if (!saveToSyncServer)
+			return;
+
 		if (!Settings.current.options.syncSettings &&
 			!Settings.currentOptionsSyncSettings) {
 			return;
 		}
 
-		if (saveToSyncServer) {
-			var strippedSettings = me.getStrippedSyncableSettings(Settings.current);
+		const current = Settings.current;
+		var strippedSettings = me.getStrippedSyncableSettings(current);
+
+		if (current.options.syncWebDavServerEnabled && current.options.syncWebDavServerUrl) {
+			me.saveToWebDavServer(
+				current.options.syncWebDavServerUrl,
+				current.options.syncWebDavBackupFilename,
+				current.options.syncWebDavServerUser,
+				current.options.syncWebDavServerPassword,
+				strippedSettings);
+		}
+		else {
+			// Sync to browser servers
+
 			let saveObject = utilsLib.encodeSyncData(strippedSettings);
 			try {
 				polyFillLib.storageSyncSet(saveObject,
 					() => {
-						Settings.currentOptionsSyncSettings = Settings.current.options.syncSettings;
+						Settings.currentOptionsSyncSettings = current.options.syncSettings;
 					},
 					(error: Error) => {
 						Debug.error(`SettingsOperation.saveAllSync error: ${error.message} `, saveObject);
@@ -419,6 +448,81 @@ export class SettingsOperation {
 			}
 		}
 	}
+	public static saveToWebDavServer(
+		serverUrl: string,
+		backupFilename: string,
+		serverUser: string,
+		serverPassword: string,
+		settingsToSave: SettingsConfig = null,
+		onSuccess: Function = null,
+		onError: Function = null
+	) {
+		var strippedSettings = settingsToSave ?? me.getStrippedSyncableSettings(Settings.current);
+
+		const backupContent = JSON.stringify(strippedSettings);
+		const fileName = backupFilename || "smartproxy_settings.json";
+
+		let webDav = createClient(serverUrl, {
+			username: serverUser,
+			password: serverPassword
+		});
+
+		webDav.putFileContents(fileName, backupContent, { overwrite: true })
+			.then(() => {
+				Debug.log(`Backup uploaded to WebDav as ${fileName}`);
+				if (onSuccess) {
+					onSuccess();
+				}
+			})
+			.catch(error => {
+				Debug.error(`WebDav backup failed: ${error}`);
+				if (onError) {
+					onError(error);
+				}
+			});
+	}
+
+	public static readFromWebDavServer(
+		serverUrl: string,
+		backupFilename: string,
+		serverUser: string,
+		serverPassword: string,
+		onSuccess: Function = null,
+		onError: Function = null) {
+		if (!onSuccess)
+			return;
+
+		let webDav = createClient(serverUrl, {
+			username: serverUser,
+			password: serverPassword
+		});
+		const fileName = backupFilename || "smartproxy_settings.json";
+
+		webDav.getFileContents(fileName, { format: "text" })
+			.then((data: string) => {
+				try {
+					const restoredSettings = JSON.parse(data) as SettingsConfig;
+					if (!restoredSettings)
+						throw new Error("Invalid data received from WebDav server.");
+
+					onSuccess(restoredSettings);
+				}
+				catch (e) {
+					Debug.error(`SettingsOperation.readFromWebDavServer error: ${e}`);
+					if (onError) {
+						onError(e);
+					}
+					return;
+				}
+			})
+			.catch(error => {
+				Debug.error(`WebDav backup failed: ${error}`);
+				if (onError) {
+					onError(error);
+				}
+			});
+	}
+
 	public static saveAllLocal(forceSave: boolean = false) {
 		if (!forceSave && Settings.current.options.syncSettings)
 			// don't save in local when sync enabled

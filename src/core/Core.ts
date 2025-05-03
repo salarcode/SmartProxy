@@ -560,9 +560,52 @@ export class Core {
 					sendResponse(result);
 				}
 			}
+			case CommandMessages.SettingsPageWebDavBackupNow: {
+				return new Promise((resolve) => {
+					settingsOperationLib.saveToWebDavServer(
+						message.serverUrl,
+						message.backupFilename,
+						message.username,
+						message.password,
+						null,
+						() => {
+							resolve({
+								success: true
+							});
+
+							if (environment.chrome) {
+								// BUGFIX: on Chrome Promises don't work
+								PolyFill.runtimeSendMessage(
+									{
+										command: CommandMessages.SettingsPageShowMessage,
+										success: true,
+										message: api.i18n.getMessage('settingsGeneralWebDavBackupNowSuccess')
+									});
+							}
+
+						},
+						(error) => {
+							resolve({
+								success: false,
+								message: error?.message
+							});
+
+							if (environment.chrome) {
+								// BUGFIX: on Chrome Promises don't work
+								PolyFill.runtimeSendMessage(
+									{
+										command: CommandMessages.SettingsPageShowMessage,
+										success: false,
+										message: api.i18n.getMessage("settingsGeneralWebDavBackupNowFailed") + " " + error?.message
+									});
+							}
+						}
+					);
+				});
+
+			}
 			default:
-				{
-				}
+				{ }
 				break;
 		}
 

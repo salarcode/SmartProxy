@@ -94,16 +94,16 @@ export enum CompiledProxyRuleType {
 	/** Matches domain and its subdomains including path in the end of each */
 	SearchDomainSubdomainAndPath
 
-/*
-Note on how popular these rules are on a subscription
-{
-    "1": 31,   // RegexUrl
-    "3": 394,  // SearchUrl
-    "5": 3326, // SearchDomainSubdomain
-    "6": 1074, // SearchDomainAndPath
-    "7": 2363  // SearchDomainSubdomainAndPath
-}
-*/	
+	/*
+	Note on how popular these rules are on a subscription
+	{
+		"1": 31,   // RegexUrl
+		"3": 394,  // SearchUrl
+		"5": 3326, // SearchDomainSubdomain
+		"6": 1074, // SearchDomainAndPath
+		"7": 2363  // SearchDomainSubdomainAndPath
+	}
+	*/
 }
 function convertCompiledToProxyRuleType(compiledRule: CompiledProxyRuleType): ProxyRuleType | null {
 	switch (compiledRule) {
@@ -159,6 +159,7 @@ export class CommandMessages {
 	// Settings page
 	public static SettingsPageGetInitialData = 'SettingsPage_GetInitialData';
 	public static SettingsPageGetInitialDataResponse = 'SettingsPage_GetInitialData_Response';
+	public static SettingsPageShowMessage = 'SettingsPage_ShowMessage';
 	public static SettingsPageSaveOptions = 'SettingsPage_SaveOptions';
 	public static SettingsPageSaveProxyServers = 'SettingsPage_SaveProxyServers';
 	public static SettingsPageSaveProxySubscriptions = 'SettingsPage_SaveProxySubscriptions';
@@ -168,6 +169,7 @@ export class CommandMessages {
 	public static SettingsPageMakeRequestSpecial = 'SettingsPage_MakeRequestSpecial';
 	public static SettingsPageSkipWelcome = 'SettingsPage_SkipWelcome';
 	public static SettingsPageFactoryReset = 'SettingsPage_FactoryReset';
+	public static SettingsPageWebDavBackupNow = 'SettingsPage_WebDavBackupNow';
 
 	// Request Logger
 	public static ProxyableRequestLog = 'Proxyable_RequestLog';
@@ -601,6 +603,11 @@ export class GeneralOptions implements Cloneable, Comparable {
 	public syncSettings: boolean = false;
 	public syncActiveProfile: boolean = true;
 	public syncActiveProxy: boolean = true;
+	public syncWebDavServerEnabled: boolean = false;
+	public syncWebDavServerUrl: string = null;
+	public syncWebDavBackupFilename: string = 'smartproxy_settings.json';
+	public syncWebDavServerUser: string = null;
+	public syncWebDavServerPassword: string = null;
 	public detectRequestFailures: boolean = true;
 	public displayFailedOnBadge: boolean = true;
 	public displayAppliedProxyOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
@@ -621,6 +628,13 @@ export class GeneralOptions implements Cloneable, Comparable {
 		if (source['syncProxyMode'] != null) this.syncActiveProfile = source['syncProxyMode'] == true ? true : false;
 		if (source['syncActiveProfile'] != null) this.syncActiveProfile = source['syncActiveProfile'] == true ? true : false;
 		if (source['syncActiveProxy'] != null) this.syncActiveProxy = source['syncActiveProxy'] == true ? true : false;
+
+		if (source['syncWebDavServerEnabled'] != null) this.syncWebDavServerEnabled = source['syncWebDavServerEnabled'] == true ? true : false;
+		this.syncWebDavServerUrl = source['syncWebDavServerUrl'];
+		this.syncWebDavBackupFilename = source['syncWebDavBackupFilename'];
+		this.syncWebDavServerUser = source['syncWebDavServerUser'];
+		this.syncWebDavServerPassword = source['syncWebDavServerPassword'];
+
 		if (source['detectRequestFailures'] != null)
 			this.detectRequestFailures = source['detectRequestFailures'] == true ? true : false;
 		if (source['displayFailedOnBadge'] != null)
@@ -646,6 +660,11 @@ export class GeneralOptions implements Cloneable, Comparable {
 		if (neq(other.syncSettings, this.syncSettings)) return false;
 		if (neq(other.syncActiveProfile, this.syncActiveProfile)) return false;
 		if (neq(other.syncActiveProxy, this.syncActiveProxy)) return false;
+		if (neq(other.syncWebDavServerEnabled, this.syncWebDavServerEnabled)) return false;
+		if (neq(other.syncWebDavServerUrl, this.syncWebDavServerUrl)) return false;
+		if (neq(other.syncWebDavBackupFilename, this.syncWebDavBackupFilename)) return false;
+		if (neq(other.syncWebDavServerUser, this.syncWebDavServerUser)) return false;
+		if (neq(other.syncWebDavServerPassword, this.syncWebDavServerPassword)) return false;
 		if (neq(other.detectRequestFailures, this.detectRequestFailures)) return false;
 		if (neq(other.displayFailedOnBadge, this.displayFailedOnBadge)) return false;
 		if (neq(other.displayAppliedProxyOnBadge, this.displayAppliedProxyOnBadge)) return false;

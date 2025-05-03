@@ -322,6 +322,57 @@
 									Check if you want the selected proxy server to be synced
 								</div>
 							</label>
+							<br/>
+							<label class="mx-4 form-label">
+								<input type="radio" name="syncOption" id="chkSyncToBrowser" class="form-check-input" checked />
+								<span data-localize="settingsGeneralSyncToBrowser">Sync to the browser servers</span>
+							</label>
+							<br />
+							<label class="mx-4 form-label">
+								<input type="radio" name="syncOption" id="chkSyncToWebDAV" class="form-check-input" />
+								<span data-localize="settingsGeneralSyncToWebDAV">Sync to a WebDAV server</span>
+							</label>
+						
+							<!-- Conditional Visibility Fields -->
+							<div id="webDAVFields" class="mx-5 d-none">
+								<div class="row">
+									<div class="col-6">
+										<label for="txtWebDavServerUrl" class="form-label">
+											<span data-localize="settingsGeneralWebDavServerUrl">WebDAV Server URL:</span>
+										</label>
+										<input type="url" id="txtWebDavServerUrl" class="form-control" placeholder="Enter WebDAV server URL" />
+									</div>
+									<div class="col-6">
+										<label for="txtWebDavBackupFilename" class="form-label">
+											<span data-localize="settingsGeneralWebDavBackupFilename">Backup Filename:</span>
+										</label>
+										<input type="text" id="txtWebDavBackupFilename" class="form-control" value="smartproxy_settings.json" />
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-6">
+										<label for="txtWebDavServerUser" class="form-label">
+											<span data-localize="settingsGeneralWebDavServerUser">WebDAV Server Username:</span>
+										</label>
+										<input type="text" id="txtWebDavServerUser" class="form-control" placeholder="Enter username" />
+									</div>
+									<div class="col-6">
+										<label for="txtWebDavServerPassword" class="form-label">
+											<span data-localize="settingsGeneralWebDavServerPassword">WebDAV Server Password:</span>
+										</label>
+										<input type="password" id="txtWebDavServerPassword" class="form-control" placeholder="Enter password" />
+									</div>
+								</div>
+								<div class="mt-3">
+									<span class="float-start" data-localize="settingsGeneralWebDavBehaviourDesc">
+										Please note that backups will occur on every change to the settings, while restore is only when the browser starts.
+									</span>
+									<div class="float-end">
+										<button id="btnWebDavServerBackupNow" type="button" class="btn btn-info" data-localize="settingsGeneralWebDavServerBackupNow">Backup Now</button>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
 						</div>
 						<div>
 							<hr class="afshin-line" />
