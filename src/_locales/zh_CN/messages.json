@@ -75,9 +75,6 @@
 	"popupFailedRequestsDesc": {
 		"message": "下列域名连接超时或失败。<br />如果你认为是被屏蔽了，可以在这里添加到代理规则列表中。"
 	},
-	"popupAddFailedRequestsConfirm": {
-		"message": "要添加选中的域名到代理规则吗？"
-	},
 	"popupAddFailedRequests": {
 		"message": "添加到代理规则"
 	},
@@ -272,6 +269,42 @@
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
 		"message": "开启后将同步当前选择的默认服务器。"
+	},
+	"settingsGeneralSyncToBrowser": {
+		"message": "同步到浏览器存储"
+	},
+	"settingsGeneralSyncToWebDAV": {
+		"message": "同步到 WebDAV 服务器"
+	},
+	"settingsGeneralWebDavServerUrl": {
+		"message": "WebDAV 服务器 URL："
+	},
+	"settingsGeneralWebDavBackupFilename": {
+		"message": "备份文件名："
+	},
+	"settingsGeneralWebDavServerUser": {
+		"message": "WebDAV 服务器用户名："
+	},
+	"settingsGeneralWebDavServerPassword": {
+		"message": "WebDAV 服务器密码："
+	},
+	"settingsGeneralWebDavBehaviourDesc": {
+		"message": "注意，每次更改都产生备份，而还原仅在浏览器启动时发生。"
+	},
+	"settingsGeneralWebDavServerBackupNow": {
+		"message": "立即备份"
+	},
+	"settingsGeneralWebDav_ErrorValidUrl": {
+		"message": "请输入一个有效的 WebDAV 服务器 URL"
+	},
+	"settingsGeneralWebDav_ErrorEmptyFilename": {
+		"message": "WebDAV 服务器备份文件名不能为空"
+	},
+	"settingsGeneralWebDavBackupNowSuccess": {
+		"message": "WebDav 备份成功完成！"
+	},
+	"settingsGeneralWebDavBackupNowFailed": {
+		"message": "WebDav 备份失败："
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "错误检测"
@@ -525,6 +558,9 @@
 	"settingsChangesReverted": {
 		"message": "成功回滚更改。"
 	},
+	"settingsConfirmSaveAllChanged": {
+		"message": "要保存所有未保存的更改吗？"
+	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "确定移除所选规则？"
 	},
@@ -610,7 +646,7 @@
 		"message": "密码"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(不幸的是，Chrome扩展API不再支持代理服务器身份验证。这是 &quot;有意的&quot;。)"
+		"message": "（遗憾的是，Chrome 的扩展 API 已有意的不再支持代理服务器身份验证）"
 	},
 	"settingsServersCancel": {
 		"message": "取消"
