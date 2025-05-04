@@ -75,9 +75,6 @@
 	"popupFailedRequestsDesc": {
 		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list."
 	},
-	"popupAddFailedRequestsConfirm": {
-		"message": "Add the selected domains to rule list?"
-	},
 	"popupAddFailedRequests": {
 		"message": "Add To Rules List"
 	},

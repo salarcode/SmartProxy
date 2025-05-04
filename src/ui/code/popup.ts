@@ -551,49 +551,44 @@ export class popup {
 				messageBox.error(message);
 				return;
 			}
+			
+			// send message to the core
+			PolyFill.runtimeSendMessage(
+				{
+					// TODO: change, should include active or previous profile id
+					command: CommandMessages.PopupAddDomainListToProxyRule,
+					domainList: domainList,
+					tabId: popup.popupData.currentTabId
+				},
+				(response: any) => {
+					let close = true;
+					try {
+						if (!response) return;
+						if (response.failedRequests) {
 
-			// Add the selected domains to rule list?
-			if ((!environment.chrome && environment.version < environment.bugFreeVersions.firefoxConfirmInPopupWorks) ||
-				confirm(api.i18n.getMessage("popupAddFailedRequestsConfirm"))) {
-
-				// send message to the core
-				PolyFill.runtimeSendMessage(
-					{
-						// TODO: change, should include active or previous profile id
-						command: CommandMessages.PopupAddDomainListToProxyRule,
-						domainList: domainList,
-						tabId: popup.popupData.currentTabId
-					},
-					(response: any) => {
-						let close = true;
-						try {
-							if (!response) return;
-							if (response.failedRequests) {
-
-								// display the updated failed requests
-								popup.populateFailedRequests(response.failedRequests);
-							}
-							let result = response.result;
-							if (result) {
-								if (result.success) {
-									popup.refreshActiveTabIfNeeded();
-									if (result.message) {
-										messageBox.success(result.message, 4000);
-										close = false;
-									}
-								}
-								else if (!result.success && result.message) {
-									messageBox.error(result.message);
+							// display the updated failed requests
+							popup.populateFailedRequests(response.failedRequests);
+						}
+						let result = response.result;
+						if (result) {
+							if (result.success) {
+								popup.refreshActiveTabIfNeeded();
+								if (result.message) {
+									messageBox.success(result.message, 4000);
 									close = false;
 								}
 							}
-						} finally {
-							if (close) {
-								popup.closeSelf();
+							else if (!result.success && result.message) {
+								messageBox.error(result.message);
+								close = false;
 							}
 						}
-					});
-			}
+					} finally {
+						if (close) {
+							popup.closeSelf();
+						}
+					}
+				});
 		}
 	}
 
