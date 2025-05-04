@@ -75,9 +75,6 @@
 	"popupFailedRequestsDesc": {
 		"message": "Это домены, для которых истекло время ожидания или произошёл сбой.<br />Если вы считаете, что эти домены заблокированы, здесь вы можете добавить их в список правил прокси."
 	},
-	"popupAddFailedRequestsConfirm": {
-		"message": "Добавить выбранные домены в список правил?"
-	},
 	"popupAddFailedRequests": {
 		"message": "Добавить в список правил"
 	},
@@ -272,6 +269,42 @@
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
 		"message": "Включите, если хотите синхронизировать выбранный прокси."
+	},
+	"settingsGeneralSyncToBrowser": {
+		"message": "Синхронизация с сервером браузера"
+	},
+	"settingsGeneralSyncToWebDAV": {
+		"message": "Синхронизация с WebDAV-сервером"
+	},
+	"settingsGeneralWebDavServerUrl": {
+		"message": "URL WebDAV-сервера:"
+	},
+	"settingsGeneralWebDavBackupFilename": {
+		"message": "Файл резервной копии:"
+	},
+	"settingsGeneralWebDavServerUser": {
+		"message": "Пользователь WebDAV-сервера:"
+	},
+	"settingsGeneralWebDavServerPassword": {
+		"message": "Пароль WebDAV-сервера:"
+	},
+	"settingsGeneralWebDavBehaviourDesc": {
+		"message": "Обратите внимание, что резервное копирование будет происходить при каждом изменении настроек, а восстановление — только при запуске браузера."
+	},
+	"settingsGeneralWebDavServerBackupNow": {
+		"message": "Резервировать"
+	},
+	"settingsGeneralWebDav_ErrorValidUrl": {
+		"message": "Введите правильный URL WebDAV-сервера"
+	},
+	"settingsGeneralWebDav_ErrorEmptyFilename": {
+		"message": "Имя файла резервной копии на WebDAV-сервере не может быть пустым"
+	},
+	"settingsGeneralWebDavBackupNowSuccess": {
+		"message": "Резервирование на WebDAV успешно завершено!"
+	},
+	"settingsGeneralWebDavBackupNowFailed": {
+		"message": "Ошибка резервирования на WebDAV:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Обнаружена ошибка"
@@ -611,6 +644,9 @@
 	},
 	"settingsServersPassword": {
 		"message": "Пароль:"
+	},
+	"settingsServersAuthChromeMv3Limitation": {
+		"message": "(К сожалению, аутентификация прокси-сервера не поддерживается Chrome через API расширений. Это сделано «намеренно».)"
 	},
 	"settingsServersCancel": {
 		"message": "Отмена"
