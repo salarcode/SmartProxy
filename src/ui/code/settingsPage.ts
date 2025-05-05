@@ -725,10 +725,15 @@ export class settingsPage {
 			modalContainer.find("#chkRuleEnabled").prop('checked', true);
 
 			if (cmdRuleAction.length) {
-				if (pageProfile.smartProfile.profileTypeConfig.defaultRuleActionIsWhitelist == true)
+				if (pageProfile.smartProfile.profileTypeConfig.defaultRuleActionIsWhitelist == true) {
 					cmdRuleAction[0].selectedIndex = 1;
-				else
+
+					// no need to show the description
+					modalContainer.find("#divRuleActionWhitelistDesc").remove();
+				}
+				else {
 					cmdRuleAction[0].selectedIndex = 0;
+				}
 			}
 
 			if (cmdRuleProxyServer.length)
@@ -781,9 +786,11 @@ export class settingsPage {
 		let whiteList = parseInt(tabContainer.find("#cmdRuleAction").val()) != 0
 		if (whiteList) {
 			tabContainer.find("#divRuleProxyServer").hide();
+			tabContainer.find("#divRuleActionWhitelistDesc").show();
 		}
 		else {
 			tabContainer.find("#divRuleProxyServer").show();
+			tabContainer.find("#divRuleActionWhitelistDesc").hide();
 		}
 	}
 
@@ -1546,7 +1553,10 @@ export class settingsPage {
 
 		let grdRulesColumns = [
 			{
-				name: "ruleType", data: "ruleTypeName", title: api.i18n.getMessage("settingsRulesGridColRuleType"), responsivePriority: 3
+				name: "ruleType", data: "ruleTypeName", title: api.i18n.getMessage("settingsRulesGridColRuleType"), responsivePriority: 3,
+				render: (data, type, row: ProxyRule) => {
+					return `<i class="fas fa-bars fa-xs px-2 cursor-move"></i>  ` + (row.ruleTypeName || '')
+				},
 			},
 			{
 				name: "hostName", data: "hostName", title: api.i18n.getMessage("settingsRulesGridColSource"), responsivePriority: 1
@@ -1603,6 +1613,26 @@ export class settingsPage {
 		grdRules.draw();
 		new jq.fn.dataTable.Responsive(grdRules);
 		jq.fn.dataTable.select.init(grdRules);
+		new jq.fn.dataTable.RowReorder(grdRules, {
+			dataSrc: 'order',
+			selector: 'tr>td:first-child>i',
+			snapX: true
+		});
+		grdRules.on('row-reordered', function (e, diff, edit) {
+			let rowsData = pageProfile.grdRules.data();
+
+			// creating a clone and moving the reordered rows to the new position
+			let rowsDataOld = rowsData.toArray();
+
+			diff.forEach(change => {
+				rowsData[change.newPosition] = rowsDataOld[change.oldPosition];
+			});
+
+			// Refreshing the grid with the new ordered data
+			pageProfile.grdRules.clear();
+			pageProfile.grdRules.rows.add(rowsData).draw('full-hold');
+			settingsPage.refreshRulesGridAllRows(pageProfile);
+		});
 
 		// -----
 		let grdRulesSubscriptions = tabContainer.find("#grdRulesSubscriptions").DataTable({

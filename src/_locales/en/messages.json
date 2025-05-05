@@ -852,6 +852,9 @@
 	"settingsRuleActionWhitelist": {
 		"message": "Whitelist (No proxy)"
 	},
+	"settingsRuleActionWhitelistDesc": {
+		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+	},
 	"settingsServerPortInvalid": {
 		"message": "Server port '{0}' is invalid"
 	},
