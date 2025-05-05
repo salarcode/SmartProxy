@@ -271,7 +271,7 @@
 		"message": "Check if you want the selected proxy server to be synced"
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "Sync to the browser servers"
+		"message": "Use the browser's sync servers"
 	},
 	"settingsGeneralSyncToWebDAV": {
 		"message": "Sync to a WebDAV server"
