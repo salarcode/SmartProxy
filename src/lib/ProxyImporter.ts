@@ -62,6 +62,7 @@ export const ProxyImporter = {
 
 		fetch(serverDetail.url, {
 			method: "GET",
+			cache: 'no-store',
 			headers: {
 				...(serverDetail.username
 					? {

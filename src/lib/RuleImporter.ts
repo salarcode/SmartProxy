@@ -73,9 +73,9 @@ export const RuleImporter = {
 			// mark this request as special
 			ProxyEngineSpecialRequests.setSpecialUrl(rulesConfig.url, rulesConfig.applyProxy);
 
-		let fetchRequest = {
+		let fetchRequest: RequestInit = {
 			method: 'GET',
-			headers: undefined,
+			cache: 'no-store'
 		};
 		if (rulesConfig.username) {
 			let pass = atob(rulesConfig.password);
