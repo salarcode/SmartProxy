@@ -271,7 +271,7 @@
 		"message": "开启后将同步当前选择的默认服务器。"
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "同步到浏览器存储"
+		"message": "使用浏览器的同步服务器"
 	},
 	"settingsGeneralSyncToWebDAV": {
 		"message": "同步到 WebDAV 服务器"
@@ -851,6 +851,9 @@
 	},
 	"settingsRuleActionWhitelist": {
 		"message": "白名单（无代理）"
+	},
+	"settingsRuleActionWhitelistDesc": {
+		"message": "（不论位置先后，白名单规则优先于代理规则）"
 	},
 	"settingsServerPortInvalid": {
 		"message": "服务器端口 '{0}' 无效"
