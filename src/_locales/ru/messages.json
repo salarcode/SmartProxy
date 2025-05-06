@@ -271,7 +271,7 @@
 		"message": "Включите, если хотите синхронизировать выбранный прокси."
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "Синхронизация с сервером браузера"
+		"message": "Использовать сервер синхронизации браузера"
 	},
 	"settingsGeneralSyncToWebDAV": {
 		"message": "Синхронизация с WebDAV-сервером"
@@ -851,6 +851,9 @@
 	},
 	"settingsRuleActionWhitelist": {
 		"message": "Исключение (без прокси)"
+	},
+	"settingsRuleActionWhitelistDesc": {
+		"message": "(Правила белого списка имеют более высокий приоритет, чем правила прокси, независимо от их расположения)"
 	},
 	"settingsServerPortInvalid": {
 		"message": "Порт сервера '{0}' неправильный"
