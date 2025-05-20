@@ -14,8 +14,8 @@
 		},
 		"Firefox": {
 			"latestVersion": {
-				"version": "1.7",
-				"versionName": "1.7",
+				"version": "1.6.2",
+				"versionName": "1.6.2",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
 		},
@@ -24,8 +24,8 @@
 		},
 		"Firefox Android": {
 			"latestVersion": {
-				"version": "1.7",
-				"versionName": "1.7",
+				"version": "1.6.2",
+				"versionName": "1.6.2",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
 		},
