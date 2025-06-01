@@ -271,7 +271,9 @@ export class popup {
 				let subscriptionGroup = jQuery("<optgroup>")
 					// -Subscriptions-
 					.attr("label", api.i18n.getMessage("popupSubscriptions"))
+					.hide()
 					.appendTo(cmbActiveProxy);
+				let hasDefaultGroup = false;
 				let groups = [];
 
 				dataForPopup.proxyServersSubscribed.forEach((proxyServer: ProxyServerFromSubscription) => {
@@ -291,6 +293,9 @@ export class popup {
 							groupToAdd = subGroup;
 						}
 					}
+					else {
+						hasDefaultGroup = true;
+					}
 
 					// proxyServer
 					let $option = jQuery("<option>")
@@ -300,6 +305,10 @@ export class popup {
 
 					$option.prop("selected", (proxyServer.id === currentProxyServerId));
 				});
+
+				if (hasDefaultGroup) {
+					subscriptionGroup.show();
+				}
 			}
 
 			cmbActiveProxy.on("change", popup.onActiveProxyChange);
