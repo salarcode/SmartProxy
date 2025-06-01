@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2025 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -117,6 +117,8 @@ export class SettingsOperation {
 	}
 
 	public static readSyncedSettings(success: Function) {
+		// Note: At this point, we are assuming that sync is enabled in the settings.
+
 		// getting synced data
 		polyFillLib.storageSyncGet(null,
 			onGetSyncData,
@@ -135,23 +137,7 @@ export class SettingsOperation {
 						return;
 					}
 
-					if (syncedSettings.options.syncSettings) {
-
-						syncedSettings = Settings.getRestorableSettings(syncedSettings);
-						Settings.revertSyncOptions(syncedSettings);
-						me.copyNonSyncableSettings(syncedSettings, Settings.current);
-
-						// use synced settings
-						Settings.current = syncedSettings;
-
-					} else {
-						// sync is disabled
-						syncedSettings.options.syncSettings = false;
-						syncedSettings = Settings.getRestorableSettings(syncedSettings);
-					}
-
-					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
-					Settings.updateActiveSettings();
+					me.applySyncSettings(syncedSettings);
 
 					if (success)
 						success();
@@ -166,74 +152,41 @@ export class SettingsOperation {
 		}
 	}
 
-	// DEAD CODE????? =================================
-	public static initialize(success: Function) {
-		///<summary>The initialization method</summary>
-		function onGetLocalData(data: any) {
-			// all the settings			
-			data = Settings.getRestorableSettings(data);
-			me.copyNonSyncableSettings(data, Settings.current);
-			Settings.current = data;
-
-			// read all the synced data along with synced ones
-			polyFillLib.storageSyncGet(null,
-				onGetSyncData,
-				onGetSyncError);
+	public static applySyncSettings(restoredSyncedSettings: SettingsConfig) {
+		if (!restoredSyncedSettings) {
+			return;
 		}
 
-		function onGetSyncData(data: any) {
+		// use synced settings
+		restoredSyncedSettings = Settings.getRestorableSettings(restoredSyncedSettings);
+		me.revertSyncOptions(restoredSyncedSettings);
+		me.copyNonSyncableSettings(restoredSyncedSettings, Settings.current);
 
-			try {
-				let syncedSettings = utilsLib.decodeSyncData(data);
+		Settings.current = restoredSyncedSettings;
 
-				// only if sync settings is enabled
-				if (syncedSettings &&
-					syncedSettings.options) {
+		Settings.updateActiveSettings();
+	}
 
-					if (syncedSettings.options.syncSettings) {
+	/** In local options if sync is disabled for these particular options, don't update them from sync server */
+	private static revertSyncOptions(syncedConfig: SettingsConfig) {
+		let settings = Settings.current;
 
+		syncedConfig.options.syncSettings = settings.options.syncSettings;
+		syncedConfig.options.syncActiveProxy = settings.options.syncActiveProxy;
+		syncedConfig.options.syncActiveProfile = settings.options.syncActiveProfile;
 
-						// use synced settings
-						syncedSettings = Settings.getRestorableSettings(syncedSettings);
-						Settings.revertSyncOptions(syncedSettings);
-						me.copyNonSyncableSettings(syncedSettings, Settings.current);
-
-						Settings.current = syncedSettings;
-
-					} else {
-						// sync is disabled
-						syncedSettings.options.syncSettings = false;
-						syncedSettings = Settings.getRestorableSettings(syncedSettings);
-					}
-
-					Settings.currentOptionsSyncSettings = syncedSettings.options.syncSettings;
-					Settings.updateActiveSettings();
-				}
-			} catch (e) {
-				Debug.error(`SettingsOperation.onGetSyncData error: ${e} \r\n ${data}`);
-			}
-
-			if (success) {
-				success();
-			}
+		if (!settings.options.syncActiveProxy) {
+			syncedConfig.defaultProxyServerId = settings.defaultProxyServerId;
+		}
+		if (!settings.options.syncActiveProfile) {
+			syncedConfig.activeProfileId = settings.activeProfileId;
 		}
 
-		function onGetLocalError(error: any) {
-			Debug.error(`SettingsOperation.initialize error: ${error.message}`);
-		}
-
-		function onGetSyncError(error: any) {
-			Debug.error(`SettingsOperation.initialize error: ${error.message}`);
-
-			// local settings should be used
-			if (success) {
-				success();
-			}
-		}
-		polyFillLib.storageLocalGet(null,
-			onGetLocalData,
-			onGetLocalError);
-
+		syncedConfig.options.syncWebDavServerEnabled = settings.options.syncWebDavServerEnabled;
+		syncedConfig.options.syncWebDavServerUrl = settings.options.syncWebDavServerUrl;
+		syncedConfig.options.syncWebDavBackupFilename = settings.options.syncWebDavBackupFilename;
+		syncedConfig.options.syncWebDavServerUser = settings.options.syncWebDavServerUser;
+		syncedConfig.options.syncWebDavServerPassword = settings.options.syncWebDavServerPassword;
 	}
 
 	public static findProxyServerByIdFromList(id: string, proxyServers: ProxyServer[], proxyServerSubs: ProxyServerSubscription[]): ProxyServer {
@@ -304,7 +257,7 @@ export class SettingsOperation {
 				let proxiesFromSubscription: ProxyServerFromSubscription[] = subscription.proxies.map(proxy => {
 					return { ...proxy, subscriptionName: subscription.name } as ProxyServerFromSubscription;
 				});
-				
+
 				result = result.concat(proxiesFromSubscription);
 			}
 		}
@@ -383,7 +336,7 @@ export class SettingsOperation {
 		if (area !== "sync") return;
 
 		if (!Settings.current.options.syncSettings) {
-			Debug.log("Ignoring syncOnChanged. ", area, changes);
+			Debug.log("Sync is disabled, ignoring browser syncOnChanged. ", area, changes);
 			return;
 		}
 
@@ -418,8 +371,7 @@ export class SettingsOperation {
 		if (!saveToSyncServer)
 			return;
 
-		if (!Settings.current.options.syncSettings &&
-			!Settings.currentOptionsSyncSettings) {
+		if (!Settings.current.options.syncSettings) {
 			return;
 		}
 
@@ -441,7 +393,7 @@ export class SettingsOperation {
 			try {
 				polyFillLib.storageSyncSet(saveObject,
 					() => {
-						Settings.currentOptionsSyncSettings = current.options.syncSettings;
+						Debug.log(`SettingsOperation.saveAllSync: Settings saved to sync storage successfully.`, saveObject);
 					},
 					(error: Error) => {
 						Debug.error(`SettingsOperation.saveAllSync error: ${error.message} `, saveObject);

@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
- * Copyright (C) 2022 Salar Khalilzadeh <salar2k@gmail.com>
+ * Copyright (C) 2025 Salar Khalilzadeh <salar2k@gmail.com>
  *
  * SmartProxy is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -45,9 +45,6 @@ export class Settings {
 	public static current: SettingsConfig;
 
 	public static active: SettingsActive;
-
-	// TODO: remove this as it is not used anywhere
-	public static currentOptionsSyncSettings: boolean = true;
 
 	public static onInitializedLocally: Function = null;
 	public static onInitializedRemoteSync: Function = null;
@@ -105,6 +102,11 @@ export class Settings {
 				PolyFill.storageSyncGet(null, me.onInitializeGetSyncData, me.onInitializeGetSyncError);
 			}
 		}
+		else {
+			// Sync is disabled, so we just finish the initialization
+
+			me.raiseInitializeCompletedEvent();
+		}
 	}
 
 	private static onInitializeGetLocalError(error: any) {
@@ -133,7 +135,7 @@ export class Settings {
 					Debug.log("readWebDavSyncData, sync data: ", JSON.stringify(restoredSettings));
 
 				// ---------
-				me.applySyncSettings(restoredSettings);
+				sop.applySyncSettings(restoredSettings);
 
 				if (me.onInitializedRemoteSync)
 					me.onInitializedRemoteSync();
@@ -154,7 +156,7 @@ export class Settings {
 				Debug.log("onInitializeGetSyncData, sync data: ", JSON.stringify(syncedSettings));
 
 			// ---------
-			me.applySyncSettings(syncedSettings);
+			sop.applySyncSettings(syncedSettings);
 		} catch (e) {
 			Debug.error(`settingsOperation.readSyncedSettings> onGetSyncData error: ${e} \r\n`, JSON.stringify(data));
 		}
@@ -163,22 +165,6 @@ export class Settings {
 			me.onInitializedRemoteSync();
 
 		me.raiseInitializeCompletedEvent();
-	}
-
-	private static applySyncSettings(restoredSyncedSettings: SettingsConfig) {
-		if (!restoredSyncedSettings) {
-			return;
-		}
-
-		// use synced settings
-		restoredSyncedSettings = me.getRestorableSettings(restoredSyncedSettings);
-		me.revertSyncOptions(restoredSyncedSettings);
-		sop.copyNonSyncableSettings(restoredSyncedSettings, me.current);
-
-		me.current = restoredSyncedSettings;
-
-		me.currentOptionsSyncSettings = restoredSyncedSettings.options.syncSettings;
-		me.updateActiveSettings();
 	}
 
 	private static onInitializeGetSyncError(error: Error) {
@@ -396,7 +382,7 @@ export class Settings {
 
 		// proxyMode
 		if (config.proxyMode != null && config.proxyProfiles) {
-			let activeProfileType: SmartProfileType = -1;
+			let activeProfileType: SmartProfileType | number = -1;
 
 			switch (+config.proxyMode) {
 				case 0 /** Direct */:
@@ -455,28 +441,6 @@ export class Settings {
 				];
 				PolyFill.storageLocalRemove(removeKeys);
 			});
-	}
-
-	/** In local options if sync is disabled for these particular options, don't update them from sync server */
-	public static revertSyncOptions(syncedConfig: SettingsConfig) {
-		let settings = me.current;
-
-		syncedConfig.options.syncSettings = settings.options.syncSettings;
-		syncedConfig.options.syncActiveProxy = settings.options.syncActiveProxy;
-		syncedConfig.options.syncActiveProfile = settings.options.syncActiveProfile;
-
-		if (!settings.options.syncActiveProxy) {
-			syncedConfig.defaultProxyServerId = settings.defaultProxyServerId;
-		}
-		if (!settings.options.syncActiveProfile) {
-			syncedConfig.activeProfileId = settings.activeProfileId;
-		}
-
-		syncedConfig.options.syncWebDavServerEnabled = settings.options.syncWebDavServerEnabled;
-		syncedConfig.options.syncWebDavServerUrl = settings.options.syncWebDavServerUrl;
-		syncedConfig.options.syncWebDavBackupFilename = settings.options.syncWebDavBackupFilename;
-		syncedConfig.options.syncWebDavServerUser = settings.options.syncWebDavServerUser;
-		syncedConfig.options.syncWebDavServerPassword = settings.options.syncWebDavServerPassword;
 	}
 
 	/** Validates SmartProfiles and adds missing profile and properties */
