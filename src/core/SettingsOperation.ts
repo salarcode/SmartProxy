@@ -19,7 +19,7 @@ import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyServerSubscription, SettingsConfig, SmartProfile, UpdateInfo } from "./definitions";
+import { GeneralOptions, ProxyServer, ProxyServerFromSubscription, ProxyServerSubscription, SettingsConfig, SmartProfile, UpdateInfo } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
@@ -293,15 +293,19 @@ export class SettingsOperation {
 		});
 	}
 
-	public static getAllSubscribedProxyServers(): any[] {
+	public static getAllSubscribedProxyServers(): ProxyServerFromSubscription[] {
 
 		if (!Settings.current.proxyServerSubscriptions || !Settings.current.proxyServerSubscriptions.length)
 			return [];
-		let result: any[] = [];
+		let result: ProxyServerFromSubscription[] = [];
 
 		for (let subscription of Settings.current.proxyServerSubscriptions) {
 			if (subscription.enabled) {
-				result = result.concat(subscription.proxies);
+				let proxiesFromSubscription: ProxyServerFromSubscription[] = subscription.proxies.map(proxy => {
+					return { ...proxy, subscriptionName: subscription.name } as ProxyServerFromSubscription;
+				});
+				
+				result = result.concat(proxiesFromSubscription);
 			}
 		}
 		return result;

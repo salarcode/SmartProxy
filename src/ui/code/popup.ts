@@ -16,7 +16,7 @@
  */
 import { api, environment } from "../../lib/environment";
 import { jQuery, messageBox } from "../../lib/External";
-import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType, getSmartProfileTypeIcon } from "../../core/definitions";
+import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType, getSmartProfileTypeIcon, ProxyServerFromSubscription } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
@@ -272,13 +272,31 @@ export class popup {
 					// -Subscriptions-
 					.attr("label", api.i18n.getMessage("popupSubscriptions"))
 					.appendTo(cmbActiveProxy);
+				let groups = [];
 
-				dataForPopup.proxyServersSubscribed.forEach(proxyServer => {
+				dataForPopup.proxyServersSubscribed.forEach((proxyServer: ProxyServerFromSubscription) => {
+					let groupToAdd = subscriptionGroup;
+
+					if (proxyServer.subscriptionName) {
+						let subGroup = groups[proxyServer.subscriptionName];
+						if (subGroup) {
+							groupToAdd = subGroup;
+						}
+						else {
+							// create a new group for this subscription
+							subGroup = jQuery("<optgroup>")
+								.attr("label", proxyServer.subscriptionName)
+								.appendTo(cmbActiveProxy);
+							groups[proxyServer.subscriptionName] = subGroup;
+							groupToAdd = subGroup;
+						}
+					}
+
 					// proxyServer
 					let $option = jQuery("<option>")
 						.attr("value", proxyServer.id)
 						.text(proxyServer.name)
-						.appendTo(subscriptionGroup);
+						.appendTo(groupToAdd);
 
 					$option.prop("selected", (proxyServer.id === currentProxyServerId));
 				});
@@ -551,7 +569,7 @@ export class popup {
 				messageBox.error(message);
 				return;
 			}
-			
+
 			// send message to the core
 			PolyFill.runtimeSendMessage(
 				{

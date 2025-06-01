@@ -227,7 +227,7 @@ export class PopupInternalDataType {
 	public currentTabId: number;
 	public currentTabIndex: number;
 	public currentTabIsIncognito: boolean;
-	public proxyServersSubscribed: ProxyServer[];
+	public proxyServersSubscribed: ProxyServerFromSubscription[];
 	public updateInfo: UpdateInfo;
 	public failedRequests: FailedRequestType[];
 	public notSupportedSetProxySettings: boolean;
@@ -1034,6 +1034,9 @@ export class SubscriptionStats {
 		}
 		return status;
 	}
+}
+export class ProxyServerFromSubscription extends ProxyServer {
+	public subscriptionName: string;
 }
 
 export class ProxyServerSubscription implements Cloneable {
