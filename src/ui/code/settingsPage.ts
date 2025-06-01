@@ -2321,7 +2321,7 @@ export class settingsPage {
 					if (response.success) {
 						// WebDav backup completed successfully!
 						messageBox.success(api.i18n.getMessage("settingsGeneralWebDavBackupNowSuccess"));
-					} else {
+					} else if(!response.success) {
 						// WebDav backup failed: 
 						messageBox.error(api.i18n.getMessage("settingsGeneralWebDavBackupNowFailed") + " " + response.message);
 					}
