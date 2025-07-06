@@ -551,7 +551,33 @@ export function getBuiltinSmartProfiles(): SmartProfile[] {
 			profileType: SmartProfileType.AlwaysEnabledBypassRules,
 			profileTypeConfig: getSmartProfileTypeConfig(SmartProfileType.AlwaysEnabledBypassRules),
 			profileName: api.i18n.getMessage('popupAlwaysEnable'),
-			proxyRules: [],
+			proxyRules: [
+				// Whitelist localhost addresses
+				Object.assign(new ProxyRule(), {
+					ruleId: -10,
+					enabled: true,
+					ruleType: ProxyRuleType.DomainSubdomain,
+					ruleSearch: "localhost",
+					hostName: 'localhost',
+					whiteList: true
+				}),
+				Object.assign(new ProxyRule(), {
+					ruleId: -11,
+					enabled: true,
+					ruleType: ProxyRuleType.DomainSubdomain,
+					ruleSearch: "127.0.0.1",
+					hostName: "127.0.0.1",
+					whiteList: true
+				}),
+				Object.assign(new ProxyRule(), {
+					ruleId: -14,
+					enabled: true,
+					ruleType: ProxyRuleType.DomainSubdomain,
+					ruleSearch: "[::1]",
+					hostName: '[::1]',
+					whiteList: true
+				})
+			],
 			enabled: true,
 			rulesSubscriptions: [],
 			profileProxyServerId: null
