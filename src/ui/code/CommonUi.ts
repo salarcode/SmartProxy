@@ -151,6 +151,8 @@ export class CommonUi {
 					color-scheme: ${content};
 				}</style>`;
 			jQuery(styles).appendTo(jQuery("head"));
+			// Add theme class to body for custom styling
+			document.body.classList.add(`theme-${content}`);
 		}
 	}
 
