@@ -90,6 +90,7 @@ export class CommonUi {
 	public static applyThemes(options: GeneralOptions | PartialThemeDataType) {
 		if (options.themeType == ThemeType.Auto) {
 			insertColorSchema("dark light");
+			insertDocumentThemeClass("auto");
 			if (options.themesDark == themesCustomType &&
 				options.themesDarkCustomUrl) {
 				insertDataTablesDarkThemeFix("(prefers-color-scheme: dark)");
@@ -112,6 +113,7 @@ export class CommonUi {
 		}
 		else if (options.themeType == ThemeType.Dark) {
 			insertColorSchema("dark");
+			insertDocumentThemeClass("dark");
 			if (options.themesDark == themesCustomType &&
 				options.themesDarkCustomUrl) {
 				insertDataTablesDarkThemeFix();
@@ -126,6 +128,7 @@ export class CommonUi {
 		}
 		else if (options.themeType == ThemeType.Light) {
 			insertColorSchema("light");
+			insertDocumentThemeClass("light");
 			if (options.themesLight == themesCustomType &&
 				options.themesLightCustomUrl) {
 				CommonUi.insertStyleSheet(options.themesLightCustomUrl);
@@ -152,6 +155,16 @@ export class CommonUi {
 				}</style>`;
 			jQuery(styles).appendTo(jQuery("head"));
 		}
+
+		function insertDocumentThemeClass(theme: string) {
+			try {
+				// Add theme class to body for custom styling
+				document.body.classList.add(`theme-${theme}`);
+			}
+			catch (e) {
+				console.warn("Could not set color-scheme meta tag content", e);
+			}
+		}
 	}
 
 	private static insertStyleSheet(url: string, media: string = undefined) {
@@ -164,7 +177,7 @@ export class CommonUi {
 			linkTheme.href = `css/${url}`;
 		if (media)
 			linkTheme.media = media;
-			
+
 		document.getElementsByTagName('head')[0].appendChild(linkTheme);
 	}
 }

@@ -444,3 +444,166 @@ button:disabled {
 	white-space: nowrap;
 	overflow: hidden;
 }
+
+/* Affiliate Ad Box Styles */
+.affiliate-ad-box {
+	position: relative;
+	background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+	border: 1px solid #dee2e6;
+	border-radius: 12px;
+	padding: 20px;
+	margin-bottom: 20px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	overflow: hidden;
+}
+
+.affiliate-ad-box:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.affiliate-ad-label {
+	position: absolute;
+	top: 8px;
+	right: 12px;
+	background: rgba(108, 117, 125, 0.8);
+	color: #fff;
+	font-size: 11px;
+	padding: 2px 8px;
+	border-radius: 10px;
+	text-transform: uppercase;
+	font-weight: 500;
+	letter-spacing: 0.5px;
+}
+
+.affiliate-ad-content {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: inherit;
+}
+
+.affiliate-ad-content:hover {
+	text-decoration: none;
+	color: inherit;
+}
+
+.affiliate-ad-icon {
+	width: 48px;
+	height: 48px;
+	margin-right: 16px;
+	border-radius: 8px;
+	flex-shrink: 0;
+	background: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
+}
+
+.affiliate-ad-favicon {
+	width: 32px;
+	height: 32px;
+	object-fit: contain;
+	display: block;
+	z-index: 2;
+}
+
+.affiliate-ad-fallback {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #007bff;
+	color: #fff;
+	font-size: 24px;
+	border-radius: 8px;
+	z-index: 1;
+}
+
+/* Fallback will show behind the image, and if image fails to load it becomes visible */
+
+.affiliate-ad-text {
+	flex: 1;
+}
+
+.affiliate-ad-title {
+	font-size: 16px;
+	font-weight: 600;
+	color: #495057;
+	margin: 0 0 4px 0;
+	line-height: 1.3;
+}
+
+.affiliate-ad-description {
+	font-size: 14px;
+	color: #6c757d;
+	margin: 0;
+	line-height: 1.4;
+}
+
+/* Dark theme support */
+.theme-dark .affiliate-ad-box {
+	background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+	border-color: #495057;
+	color: #e9ecef;
+}
+
+.theme-dark .affiliate-ad-box:hover {
+	box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .affiliate-ad-icon {
+	background: #495057;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .affiliate-ad-title {
+	color: #e9ecef;
+}
+
+.theme-dark .affiliate-ad-description {
+	color: #adb5bd;
+}
+
+.theme-dark .affiliate-ad-label {
+	background: rgba(173, 181, 189, 0.8);
+	color: #212529;
+}
+
+@media (prefers-color-scheme: dark) {
+	.theme-auto .affiliate-ad-box {
+		background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+		border-color: #495057;
+		color: #e9ecef;
+	}
+
+	.theme-auto .affiliate-ad-box:hover {
+		box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+	}
+
+	.theme-auto .affiliate-ad-icon {
+		background: #495057;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+	}
+
+	.theme-auto .affiliate-ad-title {
+		color: #e9ecef;
+	}
+
+	.theme-auto .affiliate-ad-description {
+		color: #adb5bd;
+	}
+
+	.theme-auto .affiliate-ad-label {
+		background: rgba(173, 181, 189, 0.8);
+		color: #212529;
+	}
+}
