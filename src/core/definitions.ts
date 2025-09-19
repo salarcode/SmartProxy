@@ -170,6 +170,7 @@ export class CommandMessages {
 	public static SettingsPageSkipWelcome = 'SettingsPage_SkipWelcome';
 	public static SettingsPageFactoryReset = 'SettingsPage_FactoryReset';
 	public static SettingsPageWebDavBackupNow = 'SettingsPage_WebDavBackupNow';
+	public static SettingsPageSaveUiOption = 'SettingsPage_SaveUiOption';
 
 	// Request Logger
 	public static ProxyableRequestLog = 'Proxyable_RequestLog';
@@ -360,12 +361,16 @@ export class SettingsConfig implements Cloneable {
 	public proxyServers: ProxyServer[] = [];
 	public proxyServerSubscriptions: ProxyServerSubscription[] = [];
 	public options: GeneralOptions;
+	public uiOptions: UIOptions;
 	public firstEverInstallNotified: boolean = false;
 	public updateInfo: UpdateInfo = null;
 
 	CopyFrom(source: SettingsConfig): void {
 		this.options = new GeneralOptions();
 		this.options.CopyFrom(source.options);
+
+		this.uiOptions = new UIOptions();
+		this.uiOptions.CopyFrom(source.uiOptions);
 
 		let copyProxyProfiles: SmartProfile[] = [];
 		for (const sourceProfile of source.proxyProfiles) {
@@ -621,6 +626,42 @@ export enum ThemeType {
 	Auto,
 	Light,
 	Dark
+}
+
+export class UIOptions implements Cloneable, Comparable {
+	public proxyServersGridRows: number = 10;
+	public serverSubscriptionsGridRows: number = 10;
+	public smartRulesGridRows: number = 10;
+	public rulesSubscriptionsGridRows: number = 10;
+
+	CopyFrom(source: any) {
+		if (source['proxyServersGridRows'] != null) 
+			this.proxyServersGridRows = parseInt(source['proxyServersGridRows']) || 10;
+		if (source['serverSubscriptionsGridRows'] != null) 
+			this.serverSubscriptionsGridRows = parseInt(source['serverSubscriptionsGridRows']) || 10;
+		if (source['smartRulesGridRows'] != null) 
+			this.smartRulesGridRows = parseInt(source['smartRulesGridRows']) || 10;
+		if (source['rulesSubscriptionsGridRows'] != null) 
+			this.rulesSubscriptionsGridRows = parseInt(source['rulesSubscriptionsGridRows']) || 10;
+	}
+
+	Equals(other: UIOptions): Boolean {
+		function neq(thisVal: any, thatVal: any): boolean {
+			/** Not equal. Treating empty string as null and undefined */
+			if (thisVal === "")
+				thisVal = null;
+			if (thatVal === "")
+				thatVal = null;
+			// null and undefined are treated as same
+			return thisVal != thatVal;
+		}
+
+		if (neq(other.proxyServersGridRows, this.proxyServersGridRows)) return false;
+		if (neq(other.serverSubscriptionsGridRows, this.serverSubscriptionsGridRows)) return false;
+		if (neq(other.smartRulesGridRows, this.smartRulesGridRows)) return false;
+		if (neq(other.rulesSubscriptionsGridRows, this.rulesSubscriptionsGridRows)) return false;
+		return true;
+	}
 }
 
 export class GeneralOptions implements Cloneable, Comparable {

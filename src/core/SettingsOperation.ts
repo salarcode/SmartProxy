@@ -501,6 +501,17 @@ export class SettingsOperation {
 				Debug.error(`SettingsOperation.saveOptions error: ${error.message}`);
 			});
 	}
+	public static saveUIOptions() {
+		if (Settings.current.options.syncSettings)
+			// don't save in local when sync enabled
+			return;
+
+		polyFillLib.storageLocalSet({ uiOptions: Settings.current.uiOptions },
+			null,
+			(error: Error) => {
+				Debug.error(`SettingsOperation.saveUIOptions error: ${error.message}`);
+			});
+	}
 	public static saveSmartProfiles() {
 		if (Settings.current.options.syncSettings)
 			// don't save in local when sync enabled

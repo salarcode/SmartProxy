@@ -20,6 +20,7 @@ import {
 	proxyServerProtocols,
 	ProxyServer,
 	GeneralOptions,
+	UIOptions,
 	SettingsConfig,
 	SmartProfileTypeBuiltinIds,
 	getBuiltinSmartProfiles,
@@ -193,6 +194,9 @@ export class Settings {
 		}
 		if (config['options'] == null) {
 			config.options = new GeneralOptions();
+		}
+		if (config['uiOptions'] == null) {
+			config.uiOptions = new UIOptions();
 		}
 		if (config.options.themeType == null) {
 			config.options.themeType = ThemeType.Auto;

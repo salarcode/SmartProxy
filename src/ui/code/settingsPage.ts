@@ -21,7 +21,7 @@ import { environment, api } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats, getSmartProfileTypeName, ProxyRulesImportFromUI, ImportedProxyRule, ExternalRulesFormat } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, UIOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats, getSmartProfileTypeName, ProxyRulesImportFromUI, ImportedProxyRule, ExternalRulesFormat } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 import { SettingsOperation } from "../../core/SettingsOperation";
@@ -150,6 +150,7 @@ export class settingsPage {
 
 	private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
 		this.currentSettings = settingsData.settings;
+		
 		CommonUi.applyThemes(this.currentSettings.options);
 		this.populateSettingsUiData(settingsData);
 		this.loadServersGrid(this.currentSettings.proxyServers);
@@ -248,10 +249,11 @@ export class settingsPage {
 	private static initializeGrids() {
 
 		let dataTableCustomDom = '<t><"row"<"col-sm-12 col-md-5"<"text-left float-left"f>><"col-sm-12 col-md-7"<"text-right"l>>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>';
-
+		// Get saved page length for servers grid
 		settingsPage.grdServers = jq("#grdServers").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
+			pageLength: settingsPage.currentSettings?.uiOptions?.proxyServersGridRows || 10,
 			select: { style: "os" },
 			scrollY: 460,
 			scrollCollapse: true,
@@ -307,11 +309,17 @@ export class settingsPage {
 		settingsPage.grdServers.on("select deselect", () => {
 			settingsPage.uiEvents.onRowSelectionChanged(settingsPage.grdServers, jq("#btnRemoveMultipleProxyServer"));
 		});
+		settingsPage.grdServers.on('length.dt', function (e, settings, len) {
+			// Save page length when changed
+			settingsPage.currentSettings.uiOptions.proxyServersGridRows = len || 10;
+			settingsPage.saveUiOptions();
+		});
 		settingsPage.grdServers.draw();
 
 		settingsPage.grdServerSubscriptions = jq("#grdServerSubscriptions").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
+			pageLength: settingsPage.currentSettings?.uiOptions?.serverSubscriptionsGridRows || 10,
 			select: { style: "os" },
 			scrollY: 460,
 			scrollCollapse: true,
@@ -366,6 +374,11 @@ export class settingsPage {
 		);
 		settingsPage.grdServerSubscriptions.on("select deselect", () => {
 			settingsPage.uiEvents.onRowSelectionChanged(settingsPage.grdServerSubscriptions, jq("#btnRemoveMultipleServerSubscription"));
+		});
+		settingsPage.grdServerSubscriptions.on('length.dt', function (e, settings, len) {
+			// Save page length when changed
+			settingsPage.currentSettings.uiOptions.serverSubscriptionsGridRows = len || 10;
+			settingsPage.saveUiOptions();
 		});
 		settingsPage.grdServerSubscriptions.draw();
 
@@ -919,6 +932,33 @@ export class settingsPage {
 		else
 			jq(button).attr("disabled", true);
 	}
+
+	private static saveUiOptions() {
+		if (!settingsPage.currentSettings.uiOptions) {
+			settingsPage.currentSettings.uiOptions = new UIOptions();
+		}
+
+		PolyFill.runtimeSendMessage(
+			{
+				command: CommandMessages.SettingsPageSaveUiOption,
+				uiOptions: settingsPage.currentSettings.uiOptions
+			},
+			(response: ResultHolder) => {
+				if (!response) return;
+				if (response.success) {
+					// Options saved successfully - no need to show message for UI preferences
+					// Update change tracking if needed in the future
+				} else {
+					if (response.message)
+						messageBox.error(response.message);
+				}
+			},
+			(error: Error) => {
+				console.error("Failed to save UI options:", error.message);
+				// Fallback - this is non-critical, so just log the error
+			});
+	}
+
 	//#endregion
 
 	//#region About tab functions
@@ -1098,6 +1138,12 @@ export class settingsPage {
 			return;
 		this.grdServers.clear();
 		this.grdServers.rows.add(servers).draw('full-hold');
+
+		// Apply saved page length if available
+		const savedPageLength = settingsPage.currentSettings?.uiOptions?.proxyServersGridRows;
+		if (savedPageLength && savedPageLength !== this.grdServers.page.len()) {
+			this.grdServers.page.len(savedPageLength).draw();
+		}
 
 		// binding the events for all the rows
 		this.refreshServersGridAllRows();
@@ -1588,9 +1634,11 @@ export class settingsPage {
 			let index = grdRulesColumns.findIndex(x => x.name == "proxy");
 			grdRulesColumns.splice(index, 1);
 		}
+
 		let grdRules = tabContainer.find("#grdRules").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
+			pageLength: settingsPage.currentSettings?.uiOptions?.smartRulesGridRows || 10,
 			select: { style: "os" },
 			scrollY: 460,
 			scrollCollapse: true,
@@ -1609,6 +1657,11 @@ export class settingsPage {
 		);
 		grdRules.on("select deselect", () => {
 			this.uiEvents.onRowSelectionChanged(pageProfile.grdRules, tabContainer.find("#btnRemoveMultipleProxyRule"));
+		});
+		grdRules.on('length.dt', function (e, settings, len) {
+			// Save page length when changed
+			settingsPage.currentSettings.uiOptions.smartRulesGridRows = len || 10;
+			settingsPage.saveUiOptions();
 		});
 		grdRules.draw();
 		new jq.fn.dataTable.Responsive(grdRules);
@@ -1638,6 +1691,7 @@ export class settingsPage {
 		let grdRulesSubscriptions = tabContainer.find("#grdRulesSubscriptions").DataTable({
 			"dom": dataTableCustomDom,
 			paging: true,
+			pageLength: settingsPage.currentSettings?.uiOptions?.rulesSubscriptionsGridRows || 10,
 			select: { style: "os" },
 			scrollY: 460,
 			scrollCollapse: true,
@@ -1692,6 +1746,11 @@ export class settingsPage {
 		);
 		grdRulesSubscriptions.on("select deselect", () => {
 			this.uiEvents.onRowSelectionChanged(pageProfile.grdRulesSubscriptions, tabContainer.find("#btnRemoveMultipleRulesSubscription"));
+		});
+		grdRulesSubscriptions.on('length.dt', function (e, settings, len) {
+			// Save page length when changed
+			settingsPage.currentSettings.uiOptions.rulesSubscriptionsGridRows = len || 10;
+			settingsPage.saveUiOptions();
 		});
 		grdRulesSubscriptions.draw();
 		if (tabContainer.find("#grdRulesSubscriptions").length) {
@@ -1956,6 +2015,12 @@ export class settingsPage {
 			return;
 		this.grdServerSubscriptions.clear();
 		this.grdServerSubscriptions.rows.add(subscriptions).draw('full-hold');
+
+		// Apply saved page length if available
+		const savedPageLength = settingsPage.currentSettings?.uiOptions?.serverSubscriptionsGridRows;
+		if (savedPageLength && savedPageLength !== this.grdServerSubscriptions.page.len()) {
+			this.grdServerSubscriptions.page.len(savedPageLength).draw();
+		}
 
 		// binding the events for all the rows
 		this.refreshServerSubscriptionsGridAllRows();
@@ -2321,7 +2386,7 @@ export class settingsPage {
 					if (response.success) {
 						// WebDav backup completed successfully!
 						messageBox.success(api.i18n.getMessage("settingsGeneralWebDavBackupNowSuccess"));
-					} else if(!response.success) {
+					} else if (!response.success) {
 						// WebDav backup failed: 
 						messageBox.error(api.i18n.getMessage("settingsGeneralWebDavBackupNowFailed") + " " + response.message);
 					}

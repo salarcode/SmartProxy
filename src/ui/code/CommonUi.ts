@@ -158,8 +158,9 @@ export class CommonUi {
 
 		function insertDocumentThemeClass(theme: string) {
 			try {
-				// Add theme class to body for custom styling
-				document.body.classList.add(`theme-${theme}`);
+				if (document.body && document.body.classList)
+					// Add theme class to body for custom styling
+					document.body.classList.add(`theme-${theme}`);
 			}
 			catch (e) {
 				console.warn("Could not set color-scheme meta tag content", e);

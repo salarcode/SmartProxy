@@ -353,6 +353,22 @@ export class Core {
 				return;
 			}
 
+			case CommandMessages.SettingsPageSaveUiOption: {
+				if (!message.uiOptions)
+					return;
+				settingsLib.current.uiOptions = message.uiOptions;
+				settingsOperationLib.saveUIOptions();
+
+				if (sendResponse) {
+					sendResponse({
+						success: true,
+						// UI options saved successfully.
+						message: api.i18n.getMessage('settingsSaveUiOptionsSuccess') || 'UI options saved successfully.',
+					});
+				}
+				return;
+			}
+
 			case CommandMessages.SettingsPageSaveProxyServers: {
 				if (!message.saveData)
 					return;
