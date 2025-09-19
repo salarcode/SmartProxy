@@ -1613,9 +1613,17 @@ export class settingsPage {
 			{
 				name: "enabled", data: "enabled", title: api.i18n.getMessage("settingsRulesGridColEnabled"),
 				render: function (data, type, row: ProxyRule) {
-					if (row && row.whiteList)
-						return `${data} <i class="far fa-hand-paper" title="${api.i18n.getMessage("settingsRuleActionWhitelist")}"></i>`;
-					return data;
+					const uniqueId = `ruleToggle_${row.ruleId}_${Utils.getNewUniqueIdString()}`;
+					const checkedAttr = data ? 'checked' : '';
+					const whiteListIcon = row && row.whiteList 
+						? ` <i class="far fa-hand-paper ms-2" title="${api.i18n.getMessage("settingsRuleActionWhitelist")}"></i>`
+						: '';
+					
+					return `
+						<div class="form-check form-switch d-inline-flex align-items-center">
+							<input class="form-check-input rule-enabled-toggle" type="checkbox" id="${uniqueId}" ${checkedAttr}>
+							<label class="form-check-label" for="${uniqueId}"></label>
+						</div>${whiteListIcon}`;
 				},
 			},
 			{
@@ -1958,15 +1966,21 @@ export class settingsPage {
 
 		rowElement.find("#btnRulesRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesRemoveClick(pageProfile, e));
 		rowElement.find("#btnRulesEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesEditClick(pageProfile, e));
+		
+		// Bind toggle switch for enabled state
+		rowElement.find(".rule-enabled-toggle").on("change", (e: any) => settingsPage.uiEvents.onRuleEnabledToggleChange(pageProfile, e));
 	}
 
-	private static refreshRulesGridAllRows(pageProfile: SettingsPageSmartProfile) {
+		private static refreshRulesGridAllRows(pageProfile: SettingsPageSmartProfile) {
 		var nodes = pageProfile.grdRules.rows().nodes();
 		for (let index = 0; index < nodes.length; index++) {
 			const rowElement = jq(nodes[index]);
 
 			rowElement.find("#btnRulesRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesRemoveClick(pageProfile, e));
 			rowElement.find("#btnRulesEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesEditClick(pageProfile, e));
+			
+			// Bind toggle switch for enabled state
+			rowElement.find(".rule-enabled-toggle").on("change", (e: any) => settingsPage.uiEvents.onRuleEnabledToggleChange(pageProfile, e));
 		}
 	}
 
@@ -3186,6 +3200,25 @@ export class settingsPage {
 
 			modal.modal("show");
 			modal.find("#txtRuleSource").focus();
+		},
+		onRuleEnabledToggleChange(pageProfile: SettingsPageSmartProfile, e: any) {
+			const checkbox = jq(e.target);
+			const isEnabled = checkbox.prop('checked');
+			
+			// Get the row data
+			const row = pageProfile.grdRules.row(checkbox.closest('tr'));
+			const ruleData: ProxyRule = row.data();
+			
+			if (ruleData) {
+				// Update the enabled property
+				ruleData.enabled = isEnabled;
+				
+				// Mark profile as changed to enable save button
+				settingsPage.changeTracking.smartProfiles = true;
+				
+				// Refresh the row properly
+				settingsPage.refreshRulesGridRow(pageProfile, row);
+			}
 		},
 		onRulesRemoveClick(pageProfile: SettingsPageSmartProfile, e: any) {
 			var row = settingsPage.readSelectedRuleRow(pageProfile, e);
