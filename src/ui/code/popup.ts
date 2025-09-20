@@ -16,7 +16,7 @@
  */
 import { api, environment } from "../../lib/environment";
 import { jQuery, messageBox } from "../../lib/External";
-import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType, getSmartProfileTypeIcon, ProxyServerFromSubscription } from "../../core/definitions";
+import { CommandMessages, PopupInternalDataType, ProxyableDomainType, FailedRequestType, ProxyServer, CompiledProxyRuleSource, SmartProfileBase, SmartProfileType, getSmartProfileTypeIcon, ProxyServerFromSubscription, ProxyRuleSpecialProxyServer } from "../../core/definitions";
 import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
@@ -644,6 +644,13 @@ export class popup {
 
 		// Clear existing options except default
 		select.find("option:not(:first)").remove();
+
+		// Add special "Use Profile Proxy" option for rules
+		let profileProxyOption = jQuery("<option>")
+			.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)
+			.text(api.i18n.getMessage("settingsRulesProxyFromProfile"));
+		
+		select.append(profileProxyOption);
 
 		popup.populateProxyServerOptions(select, popup.popupData.proxyServers, popup.popupData.proxyServersSubscribed);
 
