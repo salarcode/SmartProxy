@@ -1,7 +1,8 @@
 import { api } from "../lib/environment";
 import { Utils } from "../lib/Utils";
-import { ProxyRule, ProxyRuleType, RuleId, SmartProfile } from "./definitions";
+import { ProxyRule, ProxyRuleType, RuleId, SmartProfile, ProxyRuleSpecialProxyServer, ProxyServer } from "./definitions";
 import { ProfileOperations } from "./ProfileOperations";
+import { SettingsOperation } from "./SettingsOperation";
 
 export class ProfileRules {
 
@@ -162,6 +163,68 @@ export class ProfileRules {
 		}
 
 		return ProfileRules.enableByHostnameInternal(smartProfile, hostname);
+	}
+
+	public static changeProxyForRule(ruleId: number, proxyServerId: string): {
+		success: boolean,
+		message: string,
+		rule: ProxyRule
+	} {
+		let smartProfile = ProfileOperations.getActiveSmartProfile();
+		if (smartProfile == null) {
+			return {
+				success: false,
+				message: "No active profile found",
+				rule: null
+			};
+		}
+
+		if (!smartProfile.profileTypeConfig.editable ||
+			!ProfileOperations.profileTypeSupportsRules(smartProfile.profileType)) {
+			return {
+				success: false,
+				message: api.i18n.getMessage("settingsEnableByDomainSmartProfileNonEditable").replace("{0}", smartProfile.profileName),
+				rule: null
+			};
+		}
+
+		// Find the rule by ID
+		let rule = ProfileRules.getRuleById(smartProfile, ruleId);
+		if (rule == null) {
+			return {
+				success: false,
+				message: "Rule not found",
+				rule: null
+			};
+		}
+
+		// Validate proxy server ID and get proxy server object
+		let proxyServer: ProxyServer = null;
+		if (proxyServerId === ProxyRuleSpecialProxyServer.DefaultGeneral || 
+			proxyServerId === ProxyRuleSpecialProxyServer.ProfileProxy) {
+			// Special proxy server IDs - proxy should be null
+			proxyServer = null;
+		} else {
+			// Check if it's a valid proxy server
+			proxyServer = SettingsOperation.findProxyServerById(proxyServerId);
+			if (proxyServer == null) {
+				return {
+					success: false,
+					message: "Invalid proxy server ID",
+					rule: null
+				};
+			}
+		}
+
+		// Update both proxy server ID and proxy object
+		rule.proxyServerId = proxyServerId;
+		rule.proxy = proxyServer;
+
+		return {
+			success: true,
+			message: null,
+			rule: rule
+		};
 	}
 
 	private static enableByHostnameInternal(smartProfile: SmartProfile, hostname: string): {

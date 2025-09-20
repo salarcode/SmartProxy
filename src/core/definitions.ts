@@ -153,6 +153,7 @@ export class CommandMessages {
 	public static PopupChangeActiveProfile = 'Popup_ChangeActiveProfile';
 	public static PopupChangeActiveProxyServer = 'Popup_ChangeActiveProxyServer';
 	public static PopupToggleProxyForDomain = 'Popup_ToggleProxyForDomain';
+	public static PopupChangeProxyForRule = 'Popup_ChangeProxyForRule';
 	public static PopupAddDomainListToProxyRule = 'Popup_AddDomainListToProxyRule';
 	public static PopupAddDomainListToIgnored = 'Popup_AddDomainListToIgnored';
 
@@ -264,6 +265,7 @@ export type ProxyableDomainType = {
 	ruleSource: CompiledProxyRuleSource;
 	ruleMatchSource: CompiledProxyRulesMatchedSource;
 	ruleHasWhiteListMatch?: boolean;
+	proxyServerId?: string;
 };
 
 export type SettingsPageInternalDataType = {
