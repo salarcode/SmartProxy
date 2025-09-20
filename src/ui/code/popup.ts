@@ -342,11 +342,8 @@ export class popup {
 			item.find(".proxyable-arrow-btn").on("click", function (e) {
 				e.preventDefault();
 				e.stopPropagation();
-				popup.onProxyableArrowClick(this);
+				popup.onProxyableArrowClick(this, proxyableDomain);
 			});
-
-			// Populate the proxy dropdown for this item
-			popup.populateProxyableDomainProxyList(item, proxyableDomain);
 
 			divProxyableDomainItem.hide();
 		}
@@ -607,7 +604,7 @@ export class popup {
 		}
 	}
 
-	private static onProxyableArrowClick(buttonElement: HTMLElement) {
+	private static onProxyableArrowClick(buttonElement: HTMLElement, proxyableDomain: ProxyableDomainType) {
 		let button = jQuery(buttonElement);
 		let item = button.closest("li");
 		let panel = item.find(".proxyable-panel");
@@ -624,6 +621,12 @@ export class popup {
 				jQuery(this).closest("li").find(".proxyable-arrow-btn i")
 					.removeClass("fa-chevron-up").addClass("fa-chevron-down");
 			});
+
+			// Populate the proxy dropdown if not already populated
+			if (!panel.data("proxy-servers-populated")) {
+				popup.populateProxyableDomainProxyList(item, proxyableDomain);
+				panel.data("proxy-servers-populated", true);
+			}
 
 			// Open this panel
 			panel.slideDown(200);
