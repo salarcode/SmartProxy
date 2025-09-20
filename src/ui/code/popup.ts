@@ -257,59 +257,7 @@ export class popup {
 
 			let currentProxyServerId = dataForPopup.currentProxyServerId;
 
-			// display select options
-			jQuery.each(dataForPopup.proxyServers, (index: number, proxyServer: ProxyServer) => {
-				// proxyServer
-				cmbActiveProxy.append(
-					jQuery("<option>")
-						.attr("value", proxyServer.id)
-						.text(proxyServer.name)
-						.prop("selected", proxyServer.id === currentProxyServerId));
-			});
-
-			if (dataForPopup.proxyServersSubscribed.length > 0) {
-				let subscriptionGroup = jQuery("<optgroup>")
-					// -Subscriptions-
-					.attr("label", api.i18n.getMessage("popupSubscriptions"))
-					.hide()
-					.appendTo(cmbActiveProxy);
-				let hasDefaultGroup = false;
-				let groups = [];
-
-				dataForPopup.proxyServersSubscribed.forEach((proxyServer: ProxyServerFromSubscription) => {
-					let groupToAdd = subscriptionGroup;
-
-					if (proxyServer.subscriptionName) {
-						let subGroup = groups[proxyServer.subscriptionName];
-						if (subGroup) {
-							groupToAdd = subGroup;
-						}
-						else {
-							// create a new group for this subscription
-							subGroup = jQuery("<optgroup>")
-								.attr("label", proxyServer.subscriptionName)
-								.appendTo(cmbActiveProxy);
-							groups[proxyServer.subscriptionName] = subGroup;
-							groupToAdd = subGroup;
-						}
-					}
-					else {
-						hasDefaultGroup = true;
-					}
-
-					// proxyServer
-					let $option = jQuery("<option>")
-						.attr("value", proxyServer.id)
-						.text(proxyServer.name)
-						.appendTo(groupToAdd);
-
-					$option.prop("selected", (proxyServer.id === currentProxyServerId));
-				});
-
-				if (hasDefaultGroup) {
-					subscriptionGroup.show();
-				}
-			}
+			popup.populateProxyServerOptions(cmbActiveProxy, dataForPopup.proxyServers, dataForPopup.proxyServersSubscribed, currentProxyServerId);
 
 			cmbActiveProxy.on("change", popup.onActiveProxyChange);
 
@@ -352,6 +300,8 @@ export class popup {
 			item.data("proxyable-domain-type", proxyableDomain);
 
 			var itemIcon = item.find(".proxyable-status-icon");
+			var arrowButton = item.find(".proxyable-arrow-btn");
+
 			if (proxyableDomain.ruleSource == CompiledProxyRuleSource.Subscriptions) {
 				// disabling the item for subscriptions since these rules can't be disabled/enabled individually
 
@@ -368,10 +318,13 @@ export class popup {
 
 				item.find(".nav-link").addClass("disabled")
 					.attr("title", `Subscription Rule, can't be disabled individually`);
+
+				// Show arrow button for subscription items (they are enabled)
+				arrowButton.show();
 			}
 			else if (proxyableDomain.ruleMatched) {
-				itemIcon.removeClass("fa-square")
-					.addClass("fa-check-square");
+				// Use helper function for consistent UI updates
+				popup.toggleProxyableItemUI(item, true);
 
 				// if the matching rule is not for this host
 				if (!proxyableDomain.ruleMatchedThisHost) {
@@ -379,11 +332,21 @@ export class popup {
 						.attr("title", `Enabled by other domains`);
 				}
 			} else {
-				itemIcon.removeClass("fa-check-square")
-					.addClass("fa-square");
+				// Use helper function for consistent UI updates
+				popup.toggleProxyableItemUI(item, false);
 			}
 
 			item.on("click", popup.onProxyableDomainClick);
+
+			// Setup arrow button click handler
+			item.find(".proxyable-arrow-btn").on("click", function (e) {
+				e.preventDefault();
+				e.stopPropagation();
+				popup.onProxyableArrowClick(this);
+			});
+
+			// Populate the proxy dropdown for this item
+			popup.populateProxyableDomainProxyList(item, proxyableDomain);
 
 			divProxyableDomainItem.hide();
 		}
@@ -529,8 +492,82 @@ export class popup {
 		popup.refreshActiveTabIfNeeded();
 	}
 
+	private static populateProxyServerOptions(selectElement: any, proxyServers: ProxyServer[], proxyServersSubscribed: ProxyServerFromSubscription[], selectedProxyId?: string) {
+		// Add proxy servers
+		jQuery.each(proxyServers, (index: number, proxyServer: ProxyServer) => {
+			let option = jQuery("<option>")
+				.attr("value", proxyServer.id)
+				.text(proxyServer.name);
+			
+			if (selectedProxyId && proxyServer.id === selectedProxyId) {
+				option.prop("selected", true);
+			}
+			
+			selectElement.append(option);
+		});
+
+		// Add subscribed proxy servers
+		if (proxyServersSubscribed.length > 0) {
+			let subscriptionGroup = jQuery("<optgroup>")
+				.attr("label", api.i18n.getMessage("popupSubscriptions"))
+				.hide()
+				.appendTo(selectElement);
+			let hasDefaultGroup = false;
+			let groups = [];
+
+			proxyServersSubscribed.forEach((proxyServer: ProxyServerFromSubscription) => {
+				let groupToAdd = subscriptionGroup;
+
+				if (proxyServer.subscriptionName) {
+					let subGroup = groups[proxyServer.subscriptionName];
+					if (subGroup) {
+						groupToAdd = subGroup;
+					} else {
+						subGroup = jQuery("<optgroup>")
+							.attr("label", proxyServer.subscriptionName)
+							.appendTo(selectElement);
+						groups[proxyServer.subscriptionName] = subGroup;
+						groupToAdd = subGroup;
+					}
+				} else {
+					hasDefaultGroup = true;
+				}
+
+				let option = jQuery("<option>")
+					.attr("value", proxyServer.id)
+					.text(proxyServer.name);
+
+				if (selectedProxyId && proxyServer.id === selectedProxyId) {
+					option.prop("selected", true);
+				}
+
+				groupToAdd.append(option);
+			});
+
+			if (hasDefaultGroup) {
+				subscriptionGroup.show();
+			}
+		}
+	}
+
+	private static toggleProxyableItemUI(item: any, willBeEnabled: boolean) {
+		let itemIcon = item.find(".proxyable-status-icon");
+		let arrowButton = item.find(".proxyable-arrow-btn");
+
+		if (willBeEnabled) {
+			// Will be enabled
+			itemIcon.removeClass("fa-square").addClass("fa-check-square");
+			arrowButton.show();
+		} else {
+			// Will be disabled
+			itemIcon.removeClass("fa-check-square").addClass("fa-square");
+			arrowButton.hide();
+		}
+	}
+
 	private static onProxyableDomainClick() {
-		let proxyableDomain: ProxyableDomainType = jQuery(this).data("proxyable-domain-type");
+		let clickedItem = jQuery(this);
+		let proxyableDomain: ProxyableDomainType = clickedItem.data("proxyable-domain-type");
 
 		if (proxyableDomain.ruleSource == CompiledProxyRuleSource.Subscriptions)
 			return;
@@ -542,6 +579,17 @@ export class popup {
 		if (!hasMatchingRule || (hasMatchingRule && ruleIsForThisHost == true)) {
 			PolyFill.runtimeSendMessage(`proxyable-host-name: ${domain}`);
 
+			// Toggle UI immediately for better UX
+			// If hasMatchingRule is true, it will be disabled; if false, it will be enabled
+			let ruleIsBeingEnabled = !hasMatchingRule;
+			popup.toggleProxyableItemUI(clickedItem, ruleIsBeingEnabled);
+
+			// Update the data object to reflect the new state for subsequent clicks
+			proxyableDomain.ruleMatched = ruleIsBeingEnabled;
+			proxyableDomain.ruleMatchedThisHost = ruleIsBeingEnabled;
+			// Update the data in the element
+			clickedItem.data("proxyable-domain-type", proxyableDomain);
+
 			PolyFill.runtimeSendMessage({
 				command: CommandMessages.PopupToggleProxyForDomain,
 				domain: domain,
@@ -549,10 +597,76 @@ export class popup {
 			});
 
 			popup.refreshActiveTabIfNeeded();
-			popup.closeSelf();
+			if (ruleIsBeingEnabled)
+				popup.closeSelfWhenRefreshTabNeeded();
+			else
+				// disabling a rule, close the popup
+				popup.closeSelf();
 		} else {
 			PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
 		}
+	}
+
+	private static onProxyableArrowClick(buttonElement: HTMLElement) {
+		let button = jQuery(buttonElement);
+		let item = button.closest("li");
+		let panel = item.find(".proxyable-panel");
+		let icon = button.find("i");
+
+		if (panel.is(":visible")) {
+			// Close panel
+			panel.slideUp(200);
+			icon.removeClass("fa-chevron-up").addClass("fa-chevron-down");
+		} else {
+			// Close any other open panels first
+			jQuery(".proxyable-panel:visible").each(function () {
+				jQuery(this).slideUp(200);
+				jQuery(this).closest("li").find(".proxyable-arrow-btn i")
+					.removeClass("fa-chevron-up").addClass("fa-chevron-down");
+			});
+
+			// Open this panel
+			panel.slideDown(200);
+			icon.removeClass("fa-chevron-down").addClass("fa-chevron-up");
+		}
+	}
+
+	private static populateProxyableDomainProxyList(item: any, proxyableDomain: ProxyableDomainType) {
+		let select = item.find(".proxyable-proxy-select");
+
+		if (!popup.popupData.proxyServers)
+			popup.popupData.proxyServers = [];
+		if (!popup.popupData.proxyServersSubscribed)
+			popup.popupData.proxyServersSubscribed = [];
+
+		// Clear existing options except default
+		select.find("option:not(:first)").remove();
+
+		popup.populateProxyServerOptions(select, popup.popupData.proxyServers, popup.popupData.proxyServersSubscribed);
+
+		// Add change event handler
+		select.on("change", function () {
+			popup.onProxyableDomainProxyChange(this, proxyableDomain);
+		});
+
+		select.on("click", function (e) {
+			// Add click event handler to stop propagation
+			e.stopPropagation();
+		});
+	}
+
+	private static onProxyableDomainProxyChange(selectElement: HTMLElement, proxyableDomain: ProxyableDomainType) {
+		let select = jQuery(selectElement);
+		let selectedProxyId = select.val() as string;
+
+		PolyFill.runtimeSendMessage({
+			command: CommandMessages.PopupChangeProxyForRule,
+			domain: proxyableDomain.domain,
+			ruleId: proxyableDomain.ruleId,
+			proxyServerId: selectedProxyId
+		});
+
+		popup.refreshActiveTabIfNeeded();
 	}
 
 	private static getSelectedFailedRequests(): string[] {
@@ -669,7 +783,12 @@ export class popup {
 	private static closeSelf() {
 		window.close();
 	}
-	//#endregion
+	private static closeSelfWhenRefreshTabNeeded() {
+		if (popup.popupData.refreshTabOnConfigChanges) {
+			window.close();
+		}
+
+	}	//#endregion
 }
 
 popup.initialize();

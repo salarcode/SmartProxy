@@ -295,14 +295,14 @@ button:disabled {
 	}
 }
 .delayed3seconds {
-    opacity: 0;
-    animation: delayed3secondsFrames 1s ease-in-out forwards;
-    animation-delay: 3s;
+	opacity: 0;
+	animation: delayed3secondsFrames 1s ease-in-out forwards;
+	animation-delay: 3s;
 }
 @keyframes delayed3secondsFrames {
-    to {
-        opacity: 1;
-    }
+	to {
+		opacity: 1;
+	}
 }
 /* ============================== */
 
@@ -605,5 +605,55 @@ button:disabled {
 	.theme-auto .affiliate-ad-label {
 		background: rgba(173, 181, 189, 0.3);
 		color: #212529;
+	}
+}
+
+/* Proxyable Domain Panel Styles */
+.proxyable-arrow-btn {
+	border: none;
+	outline: none;
+	box-shadow: none;
+	padding: 2px 6px;
+	margin: 0px -5px 0px 4px;
+	min-width: auto;
+	transition: transform 0.2s ease;
+}
+
+.proxyable-arrow-btn:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+	border-radius: 3px;
+}
+
+.proxyable-arrow-btn:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.proxyable-panel {
+	margin: 0;
+	overflow: hidden;
+	background: #f8f9fa;
+	border-top: 1px solid #dee2e6;
+	padding: 10px;
+}
+
+.proxyable-panel .form-control-sm {
+	font-size: 0.8rem;
+	padding: 0.25rem 0.5rem;
+}
+
+.proxyable-panel label {
+	font-weight: 500;
+	margin-bottom: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.theme-auto .proxyable-panel {
+		background: #343a40 !important;
+		border-color: #495057 !important;
+	}
+
+	.theme-auto .proxyable-arrow-btn:hover {
+		background-color: rgba(255, 255, 255, 0.1) !important;
 	}
 }

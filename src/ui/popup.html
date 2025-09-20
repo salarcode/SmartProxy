@@ -153,19 +153,30 @@
 					<li id="divProxyableDomainItem" style="display: none">
 						<a class="nav-link list-group-item list-group-item-action" href="#">
 							<div class="row proxyable-item">
-								<div class="col-10 text-nowrap">
+								<div class="col-9 text-nowrap">
 									<i class="fas fa-globe-americas fa-lg text-primary"></i>
 									<span class="proxyable-host-name font-url">-</span>
 									<div class="proxyable-is-subscription" style="display: none;"
 										data-localize="popupRuleIsFromSubscription">(From subscription)</div>
 								</div>
-								<div class="col-2 text-center p-0 pl-1">
-									<i class="proxyable-status-icon far fa-square fa-lg background-white"></i>
-									<!--<i title="Not enabled" class="far fa-check-square fa-lg" aria-hidden="true"></i>-->
-									<!--<i title="Enabled" class="far fa-check-square fa-lg" aria-hidden="true"></i>-->
+								<div class="col-3 text-center d-flex align-items-center justify-content-end">
+									<i class="proxyable-status-icon far fa-square fa-lg background-white mr-1"></i>
+									<button class="btn btn-sm btn-link proxyable-arrow-btn" type="button" style="display: none;">
+										<i class="fas fa-chevron-down fa-sm text-muted"></i>
+									</button>
 								</div>
 							</div>
 						</a>
+						<div class="proxyable-panel" style="display: none; ">
+							<div class="row">
+								<div class="col-12">
+									<label class="small text-muted mb-1">Proxy for this rule:</label>
+									<select class="proxyable-proxy-select form-select">
+										<option value="0">Default (Profile setting)</option>
+									</select>
+								</div>
+							</div>
+						</div>
 					</li>
 				</ul>
 			</div>
