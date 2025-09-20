@@ -652,7 +652,10 @@ export class popup {
 		
 		select.append(profileProxyOption);
 
-		popup.populateProxyServerOptions(select, popup.popupData.proxyServers, popup.popupData.proxyServersSubscribed);
+		// Get current proxy server ID from the proxyable domain data
+		let currentProxyServerId = proxyableDomain.proxyServerId || null;
+
+		popup.populateProxyServerOptions(select, popup.popupData.proxyServers, popup.popupData.proxyServersSubscribed, currentProxyServerId);
 
 		// Add change event handler
 		select.on("change", function () {

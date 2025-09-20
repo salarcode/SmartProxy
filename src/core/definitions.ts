@@ -265,6 +265,7 @@ export type ProxyableDomainType = {
 	ruleSource: CompiledProxyRuleSource;
 	ruleMatchSource: CompiledProxyRulesMatchedSource;
 	ruleHasWhiteListMatch?: boolean;
+	proxyServerId?: string;
 };
 
 export type SettingsPageInternalDataType = {
