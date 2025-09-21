@@ -278,6 +278,33 @@ export class Core {
 				return;
 			}
 
+			case CommandMessages.PopupChangeProxyForRule: {
+				if (!message.ruleId || message.proxyServerId === undefined)
+					return;
+
+				let ruleId = message.ruleId;
+				let proxyServerId = message.proxyServerId;
+
+				let result = ProfileRules.changeProxyForRule(ruleId, proxyServerId);
+				
+				if (result.success) {
+					settingsOperationLib.saveSmartProfiles();
+					settingsOperationLib.saveAllSync();
+
+					// notify the proxy script
+					proxyEngineLib.notifyProxyRulesChanged();
+
+					// update active proxy tab status
+					Core.setBrowserActionStatus();
+				}
+
+				if (sendResponse) {
+					sendResponse(result);
+				}
+
+				return;
+			}
+
 			case CommandMessages.PopupAddDomainListToProxyRule: {
 				if (!message.domainList)
 					return;
@@ -838,6 +865,7 @@ export class Core {
 			return dataForPopup;
 
 		let activeSmartProfile = settingsActive.activeProfile;
+		let originalSmartProfile = settings.proxyProfiles.find(p => p.profileId == settings.activeProfileId);
 
 		if (proxyableDomainList.length == 1) {
 			let proxyableDomain = proxyableDomainList[0];
@@ -848,6 +876,10 @@ export class Core {
 				let ruleIsWhitelist = testResult.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistRules ||
 					testResult.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistSubscriptionRules;
 
+				// Get the actual rule to access proxy server ID
+				let actualRule = originalSmartProfile ? originalSmartProfile.proxyRules.find(r => r.ruleId == matchedRule.ruleId) : null;
+				let proxyServerId = actualRule ? actualRule.proxyServerId : null;
+
 				// add the domain with matched rule
 				dataForPopup.proxyableDomains.push({
 					ruleId: matchedRule.ruleId,
@@ -857,6 +889,7 @@ export class Core {
 					ruleSource: matchedRule.compiledRuleSource,
 					ruleMatchSource: testResult.matchedRuleSource,
 					ruleHasWhiteListMatch: ruleIsWhitelist,
+					proxyServerId: proxyServerId,
 				});
 			}
 			else {
@@ -869,6 +902,7 @@ export class Core {
 					ruleSource: null,
 					ruleMatchSource: null,
 					ruleHasWhiteListMatch: false,
+					proxyServerId: null,
 				});
 			}
 		}
@@ -901,6 +935,10 @@ export class Core {
 					let ruleIsWhitelist = resultRuleInfo.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistRules ||
 						resultRuleInfo.matchedRuleSource == CompiledProxyRulesMatchedSource.WhitelistSubscriptionRules;
 
+					// Get the actual rule to access proxy server ID
+					let actualRule = originalSmartProfile ? originalSmartProfile.proxyRules.find(r => r.ruleId == resultRule.ruleId) : null;
+					let proxyServerId = actualRule ? actualRule.proxyServerId : null;
+
 					// add the domain with matched rule
 					dataForPopup.proxyableDomains.push({
 						ruleId: resultRule.ruleId,
@@ -910,6 +948,7 @@ export class Core {
 						ruleSource: resultRule.compiledRuleSource,
 						ruleMatchSource: resultRuleInfo.matchedRuleSource,
 						ruleHasWhiteListMatch: ruleIsWhitelist,
+						proxyServerId: proxyServerId,
 					});
 				}
 				else {
@@ -922,6 +961,7 @@ export class Core {
 						ruleSource: null,
 						ruleMatchSource: null,
 						ruleHasWhiteListMatch: false,
+						proxyServerId: null,
 					});
 				}
 			}
