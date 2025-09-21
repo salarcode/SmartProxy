@@ -284,7 +284,6 @@ export class Core {
 
 				let ruleId = message.ruleId;
 				let proxyServerId = message.proxyServerId;
-				debugger;
 
 				let result = ProfileRules.changeProxyForRule(ruleId, proxyServerId);
 				

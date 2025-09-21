@@ -323,7 +323,7 @@ export class popup {
 				arrowButton.show();
 			}
 			else if (proxyableDomain.ruleMatched) {
-				// Use helper function for consistent UI updates
+				// Updating the rule checkbox status
 				popup.toggleProxyableItemUI(item, true);
 
 				// if the matching rule is not for this host
@@ -332,7 +332,7 @@ export class popup {
 						.attr("title", `Enabled by other domains`);
 				}
 			} else {
-				// Use helper function for consistent UI updates
+				// Updating the rule checkbox status
 				popup.toggleProxyableItemUI(item, false);
 			}
 
@@ -547,16 +547,14 @@ export class popup {
 		}
 	}
 
-	private static toggleProxyableItemUI(item: any, willBeEnabled: boolean) {
+	private static toggleProxyableItemUI(item: any, enabled: boolean) {
 		let itemIcon = item.find(".proxyable-status-icon");
 		let arrowButton = item.find(".proxyable-arrow-btn");
 
-		if (willBeEnabled) {
-			// Will be enabled
+		if (enabled) {
 			itemIcon.removeClass("fa-square").addClass("fa-check-square");
 			arrowButton.show();
 		} else {
-			// Will be disabled
 			itemIcon.removeClass("fa-check-square").addClass("fa-square");
 			arrowButton.hide();
 		}
@@ -581,10 +579,9 @@ export class popup {
 			let ruleIsBeingEnabled = !hasMatchingRule;
 			popup.toggleProxyableItemUI(clickedItem, ruleIsBeingEnabled);
 
-			// Update the data object to reflect the new state for subsequent clicks
 			proxyableDomain.ruleMatched = ruleIsBeingEnabled;
 			proxyableDomain.ruleMatchedThisHost = ruleIsBeingEnabled;
-			// Update the data in the element
+			
 			clickedItem.data("proxyable-domain-type", proxyableDomain);
 
 			PolyFill.runtimeSendMessage({
@@ -594,11 +591,13 @@ export class popup {
 			});
 
 			popup.refreshActiveTabIfNeeded();
-			if (ruleIsBeingEnabled)
+			if (ruleIsBeingEnabled) {
 				popup.closeSelfWhenRefreshTabNeeded();
-			else
+			}
+			else {
 				// disabling a rule, close the popup
 				popup.closeSelf();
+			}
 		} else {
 			PolyFill.runtimeSendMessage(`rule is not for this domain: ${domain}`);
 		}
@@ -635,34 +634,35 @@ export class popup {
 	}
 
 	private static populateProxyableDomainProxyList(item: any, proxyableDomain: ProxyableDomainType) {
-		let select = item.find(".proxyable-proxy-select");
+		let cmbRuleProxy = item.find(".proxyable-proxy-select");
+		cmbRuleProxy.empty();
+
+		if (cmbRuleProxy.length) {
+			// the default value which is empty string
+			jQuery("<option>")
+				.attr("value", ProxyRuleSpecialProxyServer.DefaultGeneral)
+				.text(api.i18n.getMessage("settingsRulesProxyDefault")) // [Use Active Proxy]
+				.appendTo(cmbRuleProxy);
+			jQuery("<option>")
+				.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)
+				.text(api.i18n.getMessage("settingsRulesProxyFromProfile")) // [Use Profile Proxy]
+				.appendTo(cmbRuleProxy);
+		}
 
 		if (!popup.popupData.proxyServers)
 			popup.popupData.proxyServers = [];
 		if (!popup.popupData.proxyServersSubscribed)
 			popup.popupData.proxyServersSubscribed = [];
 
-		// Clear existing options except default
-		select.find("option:not(:first)").remove();
+		let ruleProxyServerId = proxyableDomain.proxyServerId || null;
 
-		// Add special "Use Profile Proxy" option for rules
-		let profileProxyOption = jQuery("<option>")
-			.attr("value", ProxyRuleSpecialProxyServer.ProfileProxy)
-			.text(api.i18n.getMessage("settingsRulesProxyFromProfile"));
-		
-		select.append(profileProxyOption);
+		popup.populateProxyServerOptions(cmbRuleProxy, popup.popupData.proxyServers, popup.popupData.proxyServersSubscribed, ruleProxyServerId);
 
-		// Get current proxy server ID from the proxyable domain data
-		let currentProxyServerId = proxyableDomain.proxyServerId || null;
-
-		popup.populateProxyServerOptions(select, popup.popupData.proxyServers, popup.popupData.proxyServersSubscribed, currentProxyServerId);
-
-		// Add change event handler
-		select.on("change", function () {
+		cmbRuleProxy.on("change", function () {
 			popup.onProxyableDomainProxyChange(this, proxyableDomain);
 		});
 
-		select.on("click", function (e) {
+		cmbRuleProxy.on("click", function (e) {
 			// Add click event handler to stop propagation
 			e.stopPropagation();
 		});
@@ -801,7 +801,8 @@ export class popup {
 			window.close();
 		}
 
-	}	//#endregion
+	}	
+	//#endregion
 }
 
 popup.initialize();
