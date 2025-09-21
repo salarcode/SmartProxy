@@ -390,8 +390,8 @@
 	"settingsAddServerButton": {
 		"message": "افزودن پراکسی سرور"
 	},
-	"settingsRemoveMultipleServerButton": {
-		"message": "Delete Multiple"
+		"settingsRemoveMultipleServerButton": {
+			"message": "حذف چندتایی"
 	},
 	"settingsSaveChangesButton": {
 		"message": "ذخیره تغییرات"
@@ -498,8 +498,8 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "از حذف پراکسی سرور انتخاب شده مطمئن هستید؟"
 	},
-	"settingsConfirmRemoveMultipleProxyServer": {
-		"message": "Are you sure to remove the selected proxy servers?"
+		"settingsConfirmRemoveMultipleProxyServer": {
+			"message": "از حذف پراکسی سرورهای انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllProxyServers": {
 		"message": "از حذف همه پراکسی ها مطمئن هستید؟"
@@ -531,8 +531,8 @@
 	"settingsConfirmRemoveProxyRule": {
 		"message": "از حذف قانون انتخاب شده مطمئن هستید؟"
 	},
-	"settingsConfirmRemoveMultipleProxyRule": {
-		"message": "Are you sure to remove the selected rules?"
+		"settingsConfirmRemoveMultipleProxyRule": {
+			"message": "از حذف قوانین انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllRules": {
 		"message": "از حذف همه قوانین مطمئن هستید؟"
@@ -852,8 +852,8 @@
 	"importerImportSuccess": {
 		"message": "از کل تعداد {0} قانون {1} مورد اضافه شد.<br>ذخیره تغییرات فراموش نشود."
 	},
-	"settingsRemoveMultipleProxyRuleButton": {
-		"message": "Delete Multiple"
+		"settingsRemoveMultipleProxyRuleButton": {
+			"message": "حذف چندتایی"
 	},
 	"settingsAddMultipleRulesButton": {
 		"message": "افزودن چندین قانون جدید"
@@ -888,8 +888,8 @@
 	"settingsServerSubscriptionModalTitle": {
 		"message": "مشترک شدن در لیست پراکسی سرور"
 	},
-	"settingsRemoveMultipleServerSubscriptionButton": {
-		"message": "Delete Multiple"
+		"settingsRemoveMultipleServerSubscriptionButton": {
+			"message": "حذف چندتایی"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "نام لیست:"
@@ -1026,8 +1026,8 @@
 	"settingsAddRulesSubscriptionButton": {
 		"message": "ایجاد اشتراک قوانین"
 	},
-	"settingsRemoveMultipleRulesSubscriptionButton": {
-		"message": "Delete Multiple"
+		"settingsRemoveMultipleRulesSubscriptionButton": {
+			"message": "حذف چندتایی"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "اشتراک قوانین"
@@ -1095,8 +1095,8 @@
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "از حذف اشتراک قوانین انتخاب شده مطمئن هستید؟"
 	},
-	"settingsConfirmRemoveMultipleRulesSubscription": {
-		"message": "Are you sure to remove the selected rules subscriptions?"
+		"settingsConfirmRemoveMultipleRulesSubscription": {
+			"message": "از حذف اشتراکات قوانین انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "لطفا فیلد های اجباری را کامل نمایید"
