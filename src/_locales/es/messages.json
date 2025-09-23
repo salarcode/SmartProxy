@@ -75,11 +75,11 @@
 	"popupFailedRequestsDesc": {
 		"message": "Estos son los dominios que han fallado o superado el tiempo de espera.<br/> Si crees que estos dominios están bloqueados, aquí puedes agregarlos a la lista de las reglas Proxy."
 	},
-	"popupAddFailedRequestsConfirm": {
-		"message": "¿Agregar los dominios seleccionados a la lista de reglas?"
-	},
 	"popupAddFailedRequests": {
 		"message": "Agregar a la lista de reglas"
+	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": ""
 	},
 	"popupAddIgnoredFailures": {
 		"message": "Ignore them"
@@ -270,6 +270,42 @@
 	"settingsGeneralSyncActiveProxyDesc": {
 		"message": "Check if you want the selected proxy server to be synced"
 	},
+	"settingsGeneralSyncToBrowser": {
+		"message": "Use the browser's sync servers"
+	},
+	"settingsGeneralSyncToWebDAV": {
+		"message": "Sync to a WebDAV server"
+	},
+	"settingsGeneralWebDavServerUrl": {
+		"message": "WebDAV Server URL:"
+	},
+	"settingsGeneralWebDavBackupFilename": {
+		"message": "Backup Filename:"
+	},
+	"settingsGeneralWebDavServerUser": {
+		"message": "WebDAV Server Username:"
+	},
+	"settingsGeneralWebDavServerPassword": {
+		"message": "WebDAV Server Password:"
+	},
+	"settingsGeneralWebDavBehaviourDesc": {
+		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+	},
+	"settingsGeneralWebDavServerBackupNow": {
+		"message": "Backup Now"
+	},
+	"settingsGeneralWebDav_ErrorValidUrl": {
+		"message": "Please enter a valid WebDAV Server URL"
+	},
+	"settingsGeneralWebDav_ErrorEmptyFilename": {
+		"message": "WebDAV Server Backup Filename cannot be empty"
+	},
+	"settingsGeneralWebDavBackupNowSuccess": {
+		"message": "WebDav backup completed successfully!"
+	},
+	"settingsGeneralWebDavBackupNowFailed": {
+		"message": "WebDav backup failed:"
+	},
 	"settingsGeneralErrorDetection": {
 		"message": "Error Detection"
 	},
@@ -387,11 +423,17 @@
 	"settingsAddServerButton": {
 		"message": "Agregar servidor"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "Guardar Cambios"
 	},
 	"settingsRejectChangesButton": {
 		"message": "Rechazar Cambios"
+	},
+	"settingsEditButton": {
+		"message": "Edit"
 	},
 	"settingsFullBackupButton": {
 		"message": "Crear un respaldo completo"
@@ -441,6 +483,9 @@
 	"settingsImportRulesSelectButton": {
 		"message": "Archivo de copia de seguridad de regla"
 	},
+	"settingsImportRulesText": {
+		"message": "Rules Backup Text"
+	},
 	"settingsImportRulesFrom": {
 		"message": "Desde"
 	},
@@ -486,6 +531,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Are you sure to remove the selected proxy server?"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "¿Estás seguro de eliminar los servidores proxy seleccionados?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "¿Seguro que deseas eliminar todos los servidores Proxy?"
 	},
@@ -510,8 +558,14 @@
 	"settingsChangesReverted": {
 		"message": "Cambios aplicados con éxito."
 	},
+	"settingsConfirmSaveAllChanged": {
+		"message": "Do you want to save all unsaved changes?"
+	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Are you sure to remove the selected rule?"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "¿Estás seguro de eliminar las reglas seleccionadas?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "¿Seguro que deseas eliminar todas las reglas?"
@@ -533,6 +587,9 @@
 	},
 	"settingsImportRulesFailed": {
 		"message": "Falla al importar el archivo."
+	},
+	"settingsImportRulesTextIsEmpty": {
+		"message": "Please enter rules in the box"
 	},
 	"settingsServerNameRequired": {
 		"message": "¡Especifica el nombre del servidor!"
@@ -589,7 +646,7 @@
 		"message": "Cotraseña"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is no longer supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
 	},
 	"settingsServersCancel": {
 		"message": "Cancelar"
@@ -795,6 +852,9 @@
 	"settingsRuleActionWhitelist": {
 		"message": "Whitelist (No proxy)"
 	},
+	"settingsRuleActionWhitelistDesc": {
+		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+	},
 	"settingsServerPortInvalid": {
 		"message": "Puerto del servidor '{0}' inválido"
 	},
@@ -831,6 +891,9 @@
 	"importerImportSuccess": {
 		"message": "Total {0} a {1} proxies son agregados.<br>No olvides guardar los cambios."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Eliminar múltiples"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Add Multiple Rules"
 	},
@@ -863,6 +926,9 @@
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "Suscribirse a una lista de servidores proxy"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Eliminar múltiples"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "Nombre:"
@@ -936,6 +1002,9 @@
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "¿Seguro que deseas eliminar todas las suscripciones de servidores Proxy?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "¿Estás seguro de eliminar las subscripciones seleccionadas?"
+	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "Todos los servidores Proxy se han removido.<br/>Tienes que guardar para aplicar los cambios."
 	},
@@ -995,6 +1064,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Subscribe to a rules list"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Subscribe to a rules list"
@@ -1062,6 +1134,9 @@
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "Are you sure to remove the selected rules subscription?"
 	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
+	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Please fill the required fields in the right format"
 	},
@@ -1121,6 +1196,21 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "Got it"
+	},
+	"settingsSubscriptionStatsStatusSuccess": {
+		"message": "Status: Success"
+	},
+	"settingsSubscriptionStatsStatusFail": {
+		"message": "Status: Failed"
+	},
+	"settingsSubscriptionStatsLastTry": {
+		"message": "Last Try:"
+	},
+	"settingsSubscriptionStatsMessage": {
+		"message": "Message:"
+	},
+	"settingsSubscriptionStatsLastSuccess": {
+		"message": "Last Success:"
 	},
 	"settings_SmartProfileType_Direct": {
 		"message": "Direct"
