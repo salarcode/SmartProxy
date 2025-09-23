@@ -10,7 +10,7 @@
 		"message": "پراکسی هوشمند"
 	},
 	"extensionDescription": {
-		"message": "خودکارسازی اعمال پراکسی به سایت‌هایی که مشاهده می‌کنید با استفاده از لیستی از قوانین که قبلاً توسط شما با یک کلیک اضافه شده‌اند."
+		"message": "خودکار سازی اعمال پراکسی به سایتهایی که در حال مشاهده هستید بدون اینکه کاری انجام دهید. این کار با استفاده از لیستی از قوانینی که برای اعمال پراکسی بر روی سایتها قبلا توسط شما و با یک کلیک اضافه شده اند، انجام می شود."
 	},
 	"toolbarTooltipEffectiveRule": {
 		"message": "دامنه تطبیق یافته:"
@@ -74,9 +74,6 @@
 	},
 	"popupFailedRequestsDesc": {
 		"message": "لیست زیر دامنه هایی است که یا از آنها پاسخی دریافت نشده و یا با خطا مواجه شده اند<br />اگر فکر می کنید که اینها مسدود شده اند، میتوانید آنها را به لیست قوانین اضافه کنید."
-	},
-	"popupAddFailedRequestsConfirm": {
-		"message": "دامنه های انتخابی به لیست قوانین اضافه شوند؟"
 	},
 	"popupAddFailedRequests": {
 		"message": "اضافه کردن به لیست قوانین"
@@ -272,6 +269,42 @@
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
 		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا پراکسی سروری را که به عنوان سرور فعال انتخاب کرده اید همگام سازی کنید"
+	},
+	"settingsGeneralSyncToBrowser": {
+		"message": "Use the browser's sync servers"
+	},
+	"settingsGeneralSyncToWebDAV": {
+		"message": "Sync to a WebDAV server"
+	},
+	"settingsGeneralWebDavServerUrl": {
+		"message": "WebDAV Server URL:"
+	},
+	"settingsGeneralWebDavBackupFilename": {
+		"message": "Backup Filename:"
+	},
+	"settingsGeneralWebDavServerUser": {
+		"message": "WebDAV Server Username:"
+	},
+	"settingsGeneralWebDavServerPassword": {
+		"message": "WebDAV Server Password:"
+	},
+	"settingsGeneralWebDavBehaviourDesc": {
+		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+	},
+	"settingsGeneralWebDavServerBackupNow": {
+		"message": "الان یه پشتیبان بگیر"
+	},
+	"settingsGeneralWebDav_ErrorValidUrl": {
+		"message": "Please enter a valid WebDAV Server URL"
+	},
+	"settingsGeneralWebDav_ErrorEmptyFilename": {
+		"message": "WebDAV Server Backup Filename cannot be empty"
+	},
+	"settingsGeneralWebDavBackupNowSuccess": {
+		"message": "WebDav backup completed successfully!"
+	},
+	"settingsGeneralWebDavBackupNowFailed": {
+		"message": "WebDav backup failed:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "شناسایی خطاها"
@@ -612,6 +645,9 @@
 	"settingsServersPassword": {
 		"message": "کلمه عبور"
 	},
+	"settingsServersAuthChromeMv3Limitation": {
+		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+	},
 	"settingsServersCancel": {
 		"message": "انصراف"
 	},
@@ -815,6 +851,9 @@
 	},
 	"settingsRuleActionWhitelist": {
 		"message": "نادیده گرفته شود (بدون پراکسی)"
+	},
+	"settingsRuleActionWhitelistDesc": {
+		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
 	},
 	"settingsServerPortInvalid": {
 		"message": "پورت سرور '{0}' نامعتبر است"
