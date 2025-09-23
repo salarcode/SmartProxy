@@ -271,40 +271,40 @@
 		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا پراکسی سروری را که به عنوان سرور فعال انتخاب کرده اید همگام سازی کنید"
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "Use the browser's sync servers"
+		"message": "استفاده از سرور همگام سازی مرورگر"
 	},
 	"settingsGeneralSyncToWebDAV": {
-		"message": "Sync to a WebDAV server"
+		"message": "همگام سازی با سرور WebDAV"
 	},
 	"settingsGeneralWebDavServerUrl": {
-		"message": "WebDAV Server URL:"
+		"message": "آدرس سرور WebDAV:"
 	},
 	"settingsGeneralWebDavBackupFilename": {
-		"message": "Backup Filename:"
+		"message": "نام فایل پشتیبان:"
 	},
 	"settingsGeneralWebDavServerUser": {
-		"message": "WebDAV Server Username:"
+		"message": "نام کاربری سرور WebDAV:"
 	},
 	"settingsGeneralWebDavServerPassword": {
-		"message": "WebDAV Server Password:"
+		"message": "کلمه عبور سرور WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+		"message": "لطفا توجه داشته باشید که پشتیبان گیری در هر تغییری در تنظیمات انجام می شود، در حالی که بازیابی فقط هنگام شروع مرورگر انجام می شود."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "الان یه پشتیبان بگیر"
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
-		"message": "Please enter a valid WebDAV Server URL"
+		"message": "لطفا آدرس معتبر سرور WebDAV وارد کنید"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
-		"message": "WebDAV Server Backup Filename cannot be empty"
+		"message": "نام فایل پشتیبان سرور WebDAV نمی تواند خالی باشد"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
-		"message": "WebDav backup completed successfully!"
+		"message": "پشتیبان گیری WebDAV با موفقیت تکمیل شد!"
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
-		"message": "WebDav backup failed:"
+		"message": "پشتیبان گیری WebDAV ناموفق بود:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "شناسایی خطاها"
@@ -646,7 +646,7 @@
 		"message": "کلمه عبور"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(متاسفانه احراز هویت پراکسی سرور توسط کروم از طریق API افزونه ها پشتیبانی نمی شود. این \"عمدی\" است.)"
 	},
 	"settingsServersCancel": {
 		"message": "انصراف"
@@ -853,7 +853,7 @@
 		"message": "نادیده گرفته شود (بدون پراکسی)"
 	},
 	"settingsRuleActionWhitelistDesc": {
-		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+		"message": "(قوانین لیست سفید اولویت بالاتری نسبت به قوانین پراکسی دارند، صرف نظر از جایگاه آنها)"
 	},
 	"settingsServerPortInvalid": {
 		"message": "پورت سرور '{0}' نامعتبر است"
