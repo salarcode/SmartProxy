@@ -10,7 +10,7 @@
 		"message": "SmartProxy"
 	},
 	"extensionDescription": {
-		"message": "SmartProxy, ziyaret ettiğiniz siteler için özelleştirilebilir kalıplara dayalı olarak proxy'yi otomatik etkinleştirir/devreder."
+		"message": "SmartProxy, ziyaret ettiğiniz siteler için, özelleştirilebilir kalıplara dayalı olarak otomatik olarak proxy'yi etkinleştirecek / devre dışı bırakacaktır."
 	},
 	"toolbarTooltipEffectiveRule": {
 		"message": "Matched rule source:"
@@ -75,11 +75,11 @@
 	"popupFailedRequestsDesc": {
 		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list."
 	},
-	"popupAddFailedRequestsConfirm": {
-		"message": "Seçili alan adlarını kural listesine mi eklensin?"
-	},
 	"popupAddFailedRequests": {
 		"message": "Kural Listesine Ekle"
+	},
+	"popupProfileTypeDoesNotSupportsRules": {
+		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
 	},
 	"popupAddIgnoredFailures": {
 		"message": "Görmezden gel"
@@ -270,6 +270,42 @@
 	"settingsGeneralSyncActiveProxyDesc": {
 		"message": "Check if you want the selected proxy server to be synced"
 	},
+	"settingsGeneralSyncToBrowser": {
+		"message": "Use the browser's sync servers"
+	},
+	"settingsGeneralSyncToWebDAV": {
+		"message": "Sync to a WebDAV server"
+	},
+	"settingsGeneralWebDavServerUrl": {
+		"message": "WebDAV Server URL:"
+	},
+	"settingsGeneralWebDavBackupFilename": {
+		"message": "Backup Filename:"
+	},
+	"settingsGeneralWebDavServerUser": {
+		"message": "WebDAV Server Username:"
+	},
+	"settingsGeneralWebDavServerPassword": {
+		"message": "WebDAV Server Password:"
+	},
+	"settingsGeneralWebDavBehaviourDesc": {
+		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+	},
+	"settingsGeneralWebDavServerBackupNow": {
+		"message": "Backup Now"
+	},
+	"settingsGeneralWebDav_ErrorValidUrl": {
+		"message": "Please enter a valid WebDAV Server URL"
+	},
+	"settingsGeneralWebDav_ErrorEmptyFilename": {
+		"message": "WebDAV Server Backup Filename cannot be empty"
+	},
+	"settingsGeneralWebDavBackupNowSuccess": {
+		"message": "WebDav backup completed successfully!"
+	},
+	"settingsGeneralWebDavBackupNowFailed": {
+		"message": "WebDav backup failed:"
+	},
 	"settingsGeneralErrorDetection": {
 		"message": "Hata Tespiti"
 	},
@@ -387,11 +423,17 @@
 	"settingsAddServerButton": {
 		"message": "Sunucu ekle"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "Değişiklikleri Kaydet"
 	},
 	"settingsRejectChangesButton": {
 		"message": "Değişiklikleri Reddet"
+	},
+	"settingsEditButton": {
+		"message": "Edit"
 	},
 	"settingsFullBackupButton": {
 		"message": "Tam yedek oluştur"
@@ -441,6 +483,9 @@
 	"settingsImportRulesSelectButton": {
 		"message": "Kural Yedekleme Dosyası"
 	},
+	"settingsImportRulesText": {
+		"message": "Rules Backup Text"
+	},
 	"settingsImportRulesFrom": {
 		"message": "Itibaren"
 	},
@@ -486,6 +531,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Are you sure to remove the selected proxy server?"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Tüm proxy sunucularını kaldırdığınızdan emin misiniz?"
 	},
@@ -510,8 +558,14 @@
 	"settingsChangesReverted": {
 		"message": "Değişiklikler başarıyla geri döndü."
 	},
+	"settingsConfirmSaveAllChanged": {
+		"message": "Do you want to save all unsaved changes?"
+	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "Are you sure to remove the selected rule?"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "Tüm kuralları kaldırdığınızdan emin misiniz?"
@@ -533,6 +587,9 @@
 	},
 	"settingsImportRulesFailed": {
 		"message": "Dosya içe aktarılamadı."
+	},
+	"settingsImportRulesTextIsEmpty": {
+		"message": "Please enter rules in the box"
 	},
 	"settingsServerNameRequired": {
 		"message": "Sunucunun adını belirtin!"
@@ -795,6 +852,9 @@
 	"settingsRuleActionWhitelist": {
 		"message": "Doğrudan (Vekil sunucu yok.)"
 	},
+	"settingsRuleActionWhitelistDesc": {
+		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+	},
 	"settingsServerPortInvalid": {
 		"message": "Sunucu bağlantı noktası '{0}' geçersiz"
 	},
@@ -831,6 +891,9 @@
 	"importerImportSuccess": {
 		"message": "{1} vekilin tamamı {0} dışarı aktarılıyor. <br> Değişiklikleri kaydetmeyi unutma."
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Çoklu Kural Ekle"
 	},
@@ -863,6 +926,9 @@
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "Bir proxy sunucusu listesine abone olun"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "Adı:"
@@ -936,6 +1002,9 @@
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Tüm proxy sunucusu aboneliklerini kaldırdığınızdan emin misiniz?"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "Tüm proxy sunucu abonelikleri kaldırılır. <br/> Değişiklikleri uygulamak için kaydetmeniz gerekir."
 	},
@@ -995,6 +1064,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Bir kural listesine abone ol"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Bir kural listesine abone ol"
@@ -1062,6 +1134,9 @@
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "Seçili kural aboneliklerini kaldırmak istediğinize emin misiniz?"
 	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
+	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Lütfen gerekli alanları doğru biçimde doldurunuz"
 	},
@@ -1121,6 +1196,21 @@
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "Anladım"
+	},
+	"settingsSubscriptionStatsStatusSuccess": {
+		"message": "Status: Success"
+	},
+	"settingsSubscriptionStatsStatusFail": {
+		"message": "Status: Failed"
+	},
+	"settingsSubscriptionStatsLastTry": {
+		"message": "Last Try:"
+	},
+	"settingsSubscriptionStatsMessage": {
+		"message": "Message:"
+	},
+	"settingsSubscriptionStatsLastSuccess": {
+		"message": "Last Success:"
 	},
 	"settings_SmartProfileType_Direct": {
 		"message": "Direct"

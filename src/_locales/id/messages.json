@@ -3,14 +3,14 @@
 		"message": "ltr"
 	},
 	"languageCode": {
-		"message": "es",
+		"message": "id",
 		"description": "We need to know the code which might not match what browser UI has"
 	},
 	"extensionName": {
 		"message": "SmartProxy"
 	},
 	"extensionDescription": {
-		"message": "Proxy inteligente automáticamente habilitará/deshabilitará proxy para los sitios que visites, basado en patrones personalizables."
+		"message": "Smart Proxy akan secara otomatis mengaktifkan/menonaktifkan proksi untuk situs yang Anda kunjungi, berdasarkan pola yang sudah ditentukan."
 	},
 	"toolbarTooltipEffectiveRule": {
 		"message": "Matched rule source:"
@@ -22,22 +22,22 @@
 		"message": "Rule pattern:"
 	},
 	"popupTitle": {
-		"message": "Activación de Proxy inteligente"
+		"message": "Penggiatan SmartProxy"
 	},
 	"popupPrivateBrowsingMode": {
 		"message": "Private Browsing Mode"
 	},
 	"popupNoProxy": {
-		"message": "Directo (Sin Proxy)"
+		"message": "Langsung (Tanpa Proksi)"
 	},
 	"popupSmartProxy": {
-		"message": "Proxy Inteligente"
+		"message": "Proksi Pintar"
 	},
 	"popupAlwaysEnable": {
-		"message": "Siempre habilitado"
+		"message": "Selalu Diaktifkan"
 	},
 	"popupSystemProxy": {
-		"message": "Sistema Proxy"
+		"message": "Sistem Proksi"
 	},
 	"popupActiveProxy": {
 		"message": "Active Proxy (this profile):"
@@ -46,7 +46,7 @@
 		"message": "Active Proxy (Default Setting):"
 	},
 	"popupEnableProxyOn": {
-		"message": "Habilitar Proxy encendido"
+		"message": "Aktifkan proksi pada"
 	},
 	"popupIgnoreTheseDomains": {
 		"message": "Ignore these domains"
@@ -55,31 +55,31 @@
 		"message": "(From subscription)"
 	},
 	"popupProxyableResources": {
-		"message": "Recursos del Proxy"
+		"message": "Sumber Proksi"
 	},
 	"popupSettings": {
-		"message": "Opciones"
+		"message": "Pengaturan"
 	},
 	"popupSubscriptions": {
-		"message": "-Subscripciones-"
+		"message": "-Langganan-"
 	},
 	"popupUpdateText": {
-		"message": "Actualización a {0} está disponible"
+		"message": "Pembaruan ke {0} telah tersedia"
 	},
 	"popupFailedRequestsMenu": {
-		"message": "Peticiones fallidas"
+		"message": "Permintaan Gagal"
 	},
 	"popupFailedRequestsTitle": {
-		"message": "Lista de peticiones fallidas"
+		"message": "Daftar Permintaan Gagal"
 	},
 	"popupFailedRequestsDesc": {
-		"message": "Estos son los dominios que han fallado o superado el tiempo de espera.<br/> Si crees que estos dominios están bloqueados, aquí puedes agregarlos a la lista de las reglas Proxy."
+		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list."
 	},
 	"popupAddFailedRequests": {
-		"message": "Agregar a la lista de reglas"
+		"message": "Tambahkan Ke Daftar Peraturan"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": ""
+		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
 	},
 	"popupAddIgnoredFailures": {
 		"message": "Ignore them"
@@ -94,46 +94,46 @@
 		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>."
 	},
 	"proxyableTitle": {
-		"message": "Recursos del Proxy"
+		"message": "Sumber Proksi"
 	},
 	"proxyableHeader": {
-		"message": "Ítemes del Proxy en esta página"
+		"message": "Item proksi pada halaman ini"
 	},
 	"proxyableReload": {
-		"message": "Recargar"
+		"message": "Memuat ulang"
 	},
 	"proxyableClose": {
-		"message": "Cerrar"
+		"message": "Tutup"
 	},
 	"proxyableHeaderDesc": {
-		"message": "Aquí está la lista de recursos que son usados o invocados por este sitio. Utiliza esta lista para agregar estos recursos a las reglas de activación del proxy. <br /> Si no ves nada, recarga la página para ver los recursos."
+		"message": "Berikut adalah daftar sumber yang digunakan atau dipanggil dari halaman ini. Gunakan daftar ini untuk menambahkan sumber ini ke aturan penggiatan proksi.<br />Jika Anda tidak melihat apa pun di sini, muat ulang halaman untuk melihat sumbernya."
 	},
 	"proxyableErrNoSourceTab": {
-		"message": "¡Pestaña de origen no encontrada!"
+		"message": "Tab sumebr tidak ditemukan!"
 	},
 	"proxyableCreateRuleConfirm": {
-		"message": "Estás seguro de crear una regla para el dominio seleccionado"
+		"message": "Anda yakin membuat aturan untuk domain yang dipilih"
 	},
 	"proxyableDisableButton": {
-		"message": "Deshabilitar"
+		"message": "Nonaktifkan"
 	},
 	"proxyableEnableButton": {
-		"message": "Habilitar"
+		"message": "Aktifkan"
 	},
 	"proxyableEnableButtonDomain": {
-		"message": "Habilitado para: "
+		"message": "Aktif untuk: "
 	},
 	"proxyableSubscriptionRule": {
 		"message": "(Subscription Rule)"
 	},
 	"proxyableDeleteRuleConfirm": {
-		"message": "Seguro que deseas eliminar la regla seleccionada para:"
+		"message": "Anda yakin ingin menghapus aturan terpilih untuk:"
 	},
 	"proxyableGridNoDataContent": {
-		"message": "No hay peticiones"
+		"message": "Tidak ada permintaan"
 	},
 	"proxyableGridColUrl": {
-		"message": "Solicitar Url"
+		"message": "Meminta URL"
 	},
 	"proxyableGridColRuleStatus": {
 		"message": "Rule status"
@@ -187,13 +187,13 @@
 		"message": "AlwaysEnabled <br> Forced By Rules"
 	},
 	"settingsTitle": {
-		"message": "Opciones de Proxy Inteligente"
+		"message": "Pengaturan SmartProxy"
 	},
 	"settingsTabAbout": {
-		"message": "Acerca de"
+		"message": "Tentang"
 	},
 	"settingsTabGeneral": {
-		"message": "Opciones generales"
+		"message": "Pilihan Umum"
 	},
 	"settingsTabSmartProfiles": {
 		"message": "Smart Profiles"
@@ -202,19 +202,19 @@
 		"message": "Add new Smart Profile"
 	},
 	"settingsTabProxyServers": {
-		"message": "Servidores Proxy"
+		"message": "Server Proksi"
 	},
 	"settingsTabProxyServerSubscriptions": {
-		"message": "Subscriptores del servidor Proxy"
+		"message": "Langganan Server Proksi"
 	},
 	"settingsTabBackupRestore": {
-		"message": "Recuperar/ Restaurar"
+		"message": "Cadangkan/Pulihkan"
 	},
 	"settingsTabUpdateText": {
-		"message": "Actualizado a {0}"
+		"message": "Perbarui ke {0}"
 	},
 	"settingsTabAboutDescription": {
-		"message": "Usa patrones para automáticamente definir reglas para Proxificar tu experiencia web. Con Proxy inteligente, no necesitas cambiar manualmente el Proxy y encenderlo y apagarlo. Puedes agregar tus sitios web deseados a la lista de las reglas del Proxy con sólo un click. Luego de eso, cuando visites ese sitio web específico, Proxy Inteligente actuará y toda tu data para el sitio web será transferida por el proxy, sin hacer nada."
+		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything."
 	},
 	"settingsGeneralSmartFeatures": {
 		"message": "Smart Features"
@@ -247,16 +247,16 @@
 		"message": "Select a private browsing profile if you want to force it to be used when tab/window is in Private Browsing mode. This option will override the active profile."
 	},
 	"settingsGeneralEnableSyncing": {
-		"message": "Habilitar configuración de sincronización"
+		"message": "Aktifkan pengaturan menyinkronkan"
 	},
 	"settingsGeneralEnableSyncingDesc": {
-		"message": "Al habilitar sincronización, todas las configuraciones, incluyendo reglas, servidores y subscriptores, estarán disponibles en todos los navegadores."
+		"message": "Dengan mengaktifkan menyinkronkan, semua pengaturan Anda termasuk aturan, server dan langganan akan bekerja di semua peramban."
 	},
 	"settingsSaveGeneralOptionsButton": {
-		"message": "Guardar Cambios"
+		"message": "Simpan Perubahan"
 	},
 	"settingsRejectGeneralOptionsButton": {
-		"message": "Rechazar Cambios"
+		"message": "Tolak Perubahan"
 	},
 	"settingsGeneralSyncProxyMode": {
 		"message": "Enable syncing active profile"
@@ -403,49 +403,49 @@
 		"message": "Keyboard shortcuts are not supported on mobile devices."
 	},
 	"settingsTabProxyServersTitle": {
-		"message": "Manejar tus servidores Proxy:"
+		"message": "Mengatur server proksi Anda:"
 	},
 	"settingsTabProxyServersDescription": {
-		"message": "Aquí está la lista de los servidores Proxy. Puedes definir tantos Proxy como quieras y cambiar entre ellos desde la barra de herramientas."
+		"message": "Berikut adalah daftar server proksi. Anda bisa memakai banyak proksi dan bisa menggantinya dari bilah alat."
 	},
 	"settingsTabBackupRestoreDescription": {
-		"message": "Puedes hacer un respaldo completo o parcial de tus configuraciones."
+		"message": "Anda bisa membuat cadangan penuh atau sebagain untuk pengaturan."
 	},
 	"settingsErrNoServersTitle": {
-		"message": "¡No hay servidores!"
+		"message": "Tidak Ada Server!"
 	},
 	"settingsErrNoServersDescription": {
-		"message": "Antes que nada, debes definir los servidores Proxy."
+		"message": "Sebelumnya Anda harus menentukan server proksi."
 	},
 	"settingsActiveProxyServer": {
 		"message": "Default Proxy Server:"
 	},
 	"settingsAddServerButton": {
-		"message": "Agregar servidor"
+		"message": "Tambahkan Server"
 	},
 	"settingsRemoveMultipleServerButton": {
 		"message": "Delete Multiple"
 	},
 	"settingsSaveChangesButton": {
-		"message": "Guardar Cambios"
+		"message": "Simpan Perubahan"
 	},
 	"settingsRejectChangesButton": {
-		"message": "Rechazar Cambios"
+		"message": "Tolak Perubahan"
 	},
 	"settingsEditButton": {
 		"message": "Edit"
 	},
 	"settingsFullBackupButton": {
-		"message": "Crear un respaldo completo"
+		"message": "Membuat cadangan penuh"
 	},
 	"settingsFullBackupButtonDesc": {
-		"message": "Hacer un respaldo completo de las opciones (Incluyendo reglas y servidores Proxy)."
+		"message": "Buat pilihan cadangan penuh (termasuk server proksi dan aturan)."
 	},
 	"settingsRestoreBackupButton": {
-		"message": "Restaurar copia de seguridad"
+		"message": "Pulihkan cadangan"
 	},
 	"settingsRestoreBackupButtonDesc": {
-		"message": "Restaurar la copia de seguridad previa de un archivo local"
+		"message": "Pulihkan cadangan yang Anda ambil sebelumnya dari berkas lokal"
 	},
 	"settingsDangerZoneDesc": {
 		"message": "Danger zone"
@@ -466,97 +466,97 @@
 		"message": "Import/Export individual list of proxies servers."
 	},
 	"settingsImportProxiesButtonBackup": {
-		"message": "Importar servidores Proxy"
+		"message": "Impor Server Proksi"
 	},
 	"settingsExportProxiesButtonBackup": {
-		"message": "Exportar Servidores Proxy"
+		"message": "Ekspor Server Proksi"
 	},
 	"settingsAddRuleButton": {
-		"message": "Agregar Regla"
+		"message": "Tambahkan Peraturan"
 	},
 	"settingsImportRulesButton": {
-		"message": "Importar reglas"
+		"message": "Impor Peraturan"
 	},
 	"settingsImportRulesTitle": {
-		"message": "Importar reglas"
+		"message": "Impor Peraturan"
 	},
 	"settingsImportRulesSelectButton": {
-		"message": "Archivo de copia de seguridad de regla"
+		"message": "Berkas Cadangan Aturan"
 	},
 	"settingsImportRulesText": {
 		"message": "Rules Backup Text"
 	},
 	"settingsImportRulesFrom": {
-		"message": "Desde"
+		"message": "Dari"
 	},
 	"settingsImportRulesOptionAppend": {
-		"message": "Agregar a las reglas existentes"
+		"message": "Tambahkan ke aturan saat ini"
 	},
 	"settingsImportRulesOptionOverride": {
-		"message": "Reemplazar reglas actuales (Use con precaución)"
+		"message": "Gantikan aturan saat ini (pertimbangkan)"
 	},
 	"settingsImportRulesCancelButton": {
-		"message": "Cancelar"
+		"message": "Batal"
 	},
 	"settingsImportRulesImportButton": {
-		"message": "Importar"
+		"message": "Impor"
 	},
 	"settingsImportProxiesButton": {
-		"message": "Importar Proxies"
+		"message": "Impor Proksi"
 	},
 	"settingsExportProxiesButton": {
-		"message": "Exportar Proxies"
+		"message": "Ekspor Proksi"
 	},
 	"settingsImportProxiesTitle": {
-		"message": "Importar lista de Proxy"
+		"message": "Impor Daftar Proksi"
 	},
 	"settingsImportProxiesSelectFileButton": {
-		"message": "Archivo de lista de Proxy"
+		"message": "Berkas daftar proksi"
 	},
 	"settingsImportProxiesSelectTextButton": {
-		"message": "Texto de lista Proxy"
+		"message": "Teks daftar proksi"
 	},
 	"settingsImportProxiesOptionAppend": {
-		"message": "Agregar a los Proxies existentes"
+		"message": "Tambahkan ke proksi saat ini"
 	},
 	"settingsImportProxiesOptionOverride": {
-		"message": "Reemplazar proxies actuales (Use con precaución)"
+		"message": "Gantikan proksi saat ini (pertimbangkan)"
 	},
 	"settingsImportProxiesCancelButton": {
-		"message": "Cancelar"
+		"message": "Batal"
 	},
 	"settingsImportProxiesImportButton": {
-		"message": "Importar"
+		"message": "Impor"
 	},
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Are you sure to remove the selected proxy server?"
 	},
 	"settingsConfirmRemoveMultipleProxyServer": {
-		"message": "¿Estás seguro de eliminar los servidores proxy seleccionados?"
+		"message": "Are you sure to remove the selected proxy servers?"
 	},
 	"settingsRemoveAllProxyServers": {
-		"message": "¿Seguro que deseas eliminar todos los servidores Proxy?"
+		"message": "Anda yakin menghapus semua server proksi?"
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "Todos los servidores Proxy se han removido.<br/>Tienes que guardar para aplicar los cambios."
+		"message": "Semua server proksi dihapus.<br/>Anda harus menyimpan dulu untuk menerapkan perubahan."
 	},
 	"settingsImportProxiesFileNotSelected": {
-		"message": "Por favor, selecciona un archivo de lista de Proxy"
+		"message": "Silakan pilih berkas daftar proksi"
 	},
 	"settingsImportProxyListTextIsEmpty": {
-		"message": "Por favor, introduce la lista de Proxy"
+		"message": "Masukkan daftar proksi"
 	},
 	"settingsImportProxyServersFailed": {
-		"message": "Falla al importar los servidores proxy"
+		"message": "Gagal mengimpor server proksi"
 	},
 	"importerImportProxySuccess": {
-		"message": "Total {0} a {1} proxies son importados.<br>No olvides guardar los cambios."
+		"message": "Total {0} dari {1} proksi telah diimpor.<br>Jangan lupa untuk menyimpan perubahan."
 	},
 	"settingsErrorFailedToSaveServers": {
-		"message": "Falla al guardar los servidores."
+		"message": "Gagal untuk menyimpan server."
 	},
 	"settingsChangesReverted": {
-		"message": "Cambios aplicados con éxito."
+		"message": "Berhasil mengembalikan perubahan."
 	},
 	"settingsConfirmSaveAllChanged": {
 		"message": "Do you want to save all unsaved changes?"
@@ -565,97 +565,97 @@
 		"message": "Are you sure to remove the selected rule?"
 	},
 	"settingsConfirmRemoveMultipleProxyRule": {
-		"message": "¿Estás seguro de eliminar las reglas seleccionadas?"
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
-		"message": "¿Seguro que deseas eliminar todas las reglas?"
+		"message": "Anda yakin menghapus semua aturan?"
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "Todas las reglas removidas.<br/>Debes guardas para aplicar los cambios."
+		"message": "Semua aturan dihapus.<br/>Anda harus menyimpan dulu untuk menerapkan perubahan."
 	},
 	"settingsRestoreBackupFailed": {
-		"message": "Hubo un error recuperando la copia de seguridad"
+		"message": "Terjadi eror saat memulihkan cadangan"
 	},
 	"settingsRestoreBackupFileError": {
-		"message": "Falla al leer el archivo seleccionado"
+		"message": "Gagal membaca berkas yang dipilih"
 	},
 	"settingsRulesFileNotSelected": {
-		"message": "Por favor, seleccione un archivo de regla"
+		"message": "Pilih berkas aturan"
 	},
 	"settingsSourceTypeNotSelected": {
-		"message": "Por favor, seleccione un tipo de fuente"
+		"message": "Pilih jenis sumber"
 	},
 	"settingsImportRulesFailed": {
-		"message": "Falla al importar el archivo."
+		"message": "Gagal mengimpor berkas."
 	},
 	"settingsImportRulesTextIsEmpty": {
 		"message": "Please enter rules in the box"
 	},
 	"settingsServerNameRequired": {
-		"message": "¡Especifica el nombre del servidor!"
+		"message": "Tentukan nama server!"
 	},
 	"settingsServerNameExists": {
-		"message": "¡Ya existe un servidor con el mismo nombre!"
+		"message": "Server dengan nama yang sama sudah ada!"
 	},
 	"settingsServerServerAddressIsEmpty": {
-		"message": "La dirección del servidor no puede estar vacía"
+		"message": "Alamat server tidak boleh kosong"
 	},
 	"settingsServerPortNoInvalid": {
-		"message": "Por favor, introduzca un número de puerto válido"
+		"message": "Masukkan nomor porta yang valid"
 	},
 	"settingsServerAuthenticationInvalid": {
-		"message": "Nombre de usuario y contraseña son requeridos para la autenticación"
+		"message": "Nama pengguna dankata sandi diperlukan untuk pembuktian keaslian"
 	},
 	"settingsServersGridNoDataContent": {
-		"message": "No hay servidores definidos"
+		"message": "Tidak ada server yang digunakan"
 	},
 	"settingsServersGridColName": {
-		"message": "Nombre"
+		"message": "Nama"
 	},
 	"settingsServersGridColProtocol": {
-		"message": "Protocolo"
+		"message": "Protokol"
 	},
 	"settingsServersGridColServer": {
-		"message": "Servidor"
+		"message": "Server"
 	},
 	"settingsServersGridColPort": {
-		"message": "Puerto"
+		"message": "Porta"
 	},
 	"settingsServersModalTitle": {
-		"message": "Detalles del servidor Proxy"
+		"message": "Detail Server Proksi"
 	},
 	"settingsServersServerName": {
-		"message": "Nombre del servidor"
+		"message": "Nama Server"
 	},
 	"settingsServersSeverAddress": {
-		"message": "Dirección del servidor"
+		"message": "Alamat Server"
 	},
 	"settingsServersProtocol": {
-		"message": "Protocolo"
+		"message": "Proxy Protocol"
 	},
 	"settingsServersPort": {
-		"message": "Puerto"
+		"message": "Porta"
 	},
 	"settingsServersProxyDNS": {
-		"message": "Proxy DNS cuando use SOCKS v5"
+		"message": "Proxy DNS when using SOCKS 5"
 	},
 	"settingsServersUsername": {
-		"message": "Nombre de usuario"
+		"message": "Nama pengguna"
 	},
 	"settingsServersPassword": {
-		"message": "Cotraseña"
+		"message": "Kata sandi"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
 		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
 	},
 	"settingsServersCancel": {
-		"message": "Cancelar"
+		"message": "Batal"
 	},
 	"settingsServersSave": {
 		"message": "Save"
 	},
 	"settingsServersImport": {
-		"message": "Importar"
+		"message": "Impor"
 	},
 	"settingsProfilesNameTitle": {
 		"message": "Smart Profile:"
@@ -700,7 +700,7 @@
 		"message": "Smart Rules"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
-		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+		"message": "In this type of profile, proxy will be applied to the requests based on some <em>rules</em> that you will need to define. To define these rules you can use the popup menu in the menu bar or you can add them from settings and also you can do that from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
 		"message": "Always Enabled"
@@ -751,19 +751,19 @@
 		"message": "Failed to save smart profile."
 	},
 	"settingsRuleSourceRequired": {
-		"message": "¡Por favor especifica el origen de la regla!"
+		"message": "Please specify the source domain of the rule!"
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "Fuente inválida, el nombre de la fuente debe ser algo como 'google.com'"
+		"message": "Source domain is invalid, source domain should be something like 'google.com'"
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'Fuente' inválida '{0}'"
+		"message": "'source domain' is not valid '{0}'"
 	},
 	"settingsRuleSourceAlreadyExists": {
-		"message": "¡Ya existe una regla con el mismo nombre!"
+		"message": "Aturan dengan sumber yang sama sudah ada!"
 	},
 	"settingsRuleHostInvalid": {
-		"message": "Nombre de anfitrión '{0}' inválido, nombre de anfitrión debe ser algo como 'google.com'"
+		"message": "Nama nang '{0}' tidak valid, nama inang harus seperti 'google.com'"
 	},
 	"settingsRuleRegexNotMatchDomain": {
 		"message": "Regex rule does not match the source domain '{0}'"
@@ -781,22 +781,22 @@
 		"message": "Url '{0}' is not valid"
 	},
 	"settingsRulesGridNoDataContent": {
-		"message": "No hay reglas definidas"
+		"message": "Tidak ada aturan yang digunakan"
 	},
 	"settingsRulesGridColRuleType": {
 		"message": "Rule Type"
 	},
 	"settingsRulesGridColSource": {
-		"message": "Fuente"
+		"message": "Sumber"
 	},
 	"settingsRulesGridColRule": {
 		"message": "Rule"
 	},
 	"settingsRulesGridColEnabled": {
-		"message": "Habilitar"
+		"message": "Diaktifkan"
 	},
 	"settingsRulesGridColProxy": {
-		"message": "Servidor Proxy"
+		"message": "Server Proksi"
 	},
 	"settingsRulesProxyDefault": {
 		"message": "[Use Active Proxy]"
@@ -805,19 +805,19 @@
 		"message": "[Use Profile Proxy]"
 	},
 	"settingsRulesModalTitle": {
-		"message": "Detalles de la regla"
+		"message": "Detail Aturan"
 	},
 	"settingsRulesRuleType": {
 		"message": "Rule Type"
 	},
 	"settingsRulesSourceDomain": {
-		"message": "Dominio de origen de regla"
+		"message": "Domain Sumber Aturan"
 	},
 	"settingsRulesSourceDomainDesc": {
-		"message": "(p.e google.com)"
+		"message": "(cth. google.com)"
 	},
 	"settingsRulesPattern": {
-		"message": "Coincidencia de patrón"
+		"message": "Mencocokkan Pola"
 	},
 	"settingsRulesGeneratePattern": {
 		"message": "Generate pattern automatically"
@@ -826,22 +826,22 @@
 		"message": "Url Regex"
 	},
 	"settingsRulesExactUrl": {
-		"message": "Exact Url"
+		"message": "Exact Url (in lowercase)"
 	},
 	"settingsRulesProxyServer": {
-		"message": "Servidor Proxy"
+		"message": "Server Proksi"
 	},
 	"settingsRulesProxyServerNotAuth": {
 		"message": "(Servers with authentication are not supported in Chrome)"
 	},
 	"settingsRulesEnabled": {
-		"message": "Habilitar"
+		"message": "Aktifkan"
 	},
 	"settingsRulesModalCancel": {
-		"message": "Cancelar"
+		"message": "Batal"
 	},
 	"settingsRulesModalSave": {
-		"message": "Guardar"
+		"message": "Simpan"
 	},
 	"settingsRulesActionType": {
 		"message": "Action"
@@ -856,16 +856,16 @@
 		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
 	},
 	"settingsServerPortInvalid": {
-		"message": "Puerto del servidor '{0}' inválido"
+		"message": "Porta server '{0}' tidak valid"
 	},
 	"settingsServerHostInvalid": {
-		"message": "Anfitrión del servidor '{0}' inválido"
+		"message": "Inang server '{0}' tidak valid"
 	},
 	"settingsRestoreSettingsSuccess": {
-		"message": "La configuración se ha restaurado correctamente"
+		"message": "Berhasil memulihkan pengaturan"
 	},
 	"settingsRestoreSettingsFailed": {
-		"message": "Hubo un error recuperando la copia de seguridad"
+		"message": "Terjadi eror dalam pemulihan pengaturan"
 	},
 	"settingsRestoreSettingsFailedInvalid": {
 		"message": "Backup data is invalid or corrupted"
@@ -877,22 +877,22 @@
 		"message": "Invalid data provided for default proxy server"
 	},
 	"settingsEnableByDomainInvalid": {
-		"message": "El dominio seleccionado no es válido"
+		"message": "Domain yang dipilih tidak valid"
 	},
 	"settingsEnableByDomainExists": {
-		"message": "Ya existe una regla para el dominio"
+		"message": "Aturan untuk domain sudah ada"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
 		"message": "The current profile '{0}' cannot be updated with rules"
 	},
 	"settingsNoRuleFoundForDomain": {
-		"message": "No hay ninguna regla para '{0}'"
+		"message": "Tidak ada aturan untuk '{0}'"
 	},
 	"importerImportSuccess": {
-		"message": "Total {0} a {1} proxies son agregados.<br>No olvides guardar los cambios."
+		"message": "Total {0} dari {1} aturan ditambahkan.<br>Jangan lupa untuk menyimpan perubahan."
 	},
 	"settingsRemoveMultipleProxyRuleButton": {
-		"message": "Eliminar múltiples"
+		"message": "Delete Multiple"
 	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Add Multiple Rules"
@@ -910,46 +910,46 @@
 		"message": "No new rule is added"
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
-		"message": "Administrar suscripciones de servidor proxy:"
+		"message": "Kelola langganan server proksi:"
 	},
 	"settingsTabProxyServerSubscriptionsDescription": {
-		"message": "Aquí puede suscribirse a listas de proxy y cambiar entre los intermediarios más adelante. Tenga en cuenta que largas listas pueden causar fallas en la sincronización de datos entre dispositivos."
+		"message": "Di sini Anda bisa berlangganan daftar proksi dan beralih di antara proksi kemudian. Harap dicatat bahwa daftar panjang dapat menyebabkan kegagalan dalam menyinkronkan data antar perangkat."
 	},
 	"settingsErrorFailedToSaveGeneral": {
-		"message": "No se pudo guardar valores de opciones."
+		"message": "Gagal menyimpan pengaturan pilihan."
 	},
 	"settingsSaveOptionsSuccess": {
-		"message": "Opciones generales guardadas con éxito."
+		"message": "Berhasil menyimpan pilihan umum."
 	},
 	"settingsAddServerSubscriptionButton": {
-		"message": "Suscribirse a la lista"
+		"message": "Berlangganan ke daftar"
 	},
 	"settingsServerSubscriptionModalTitle": {
-		"message": "Suscribirse a una lista de servidores proxy"
+		"message": "Berlangganan ke daftar server proksi"
 	},
 	"settingsRemoveMultipleServerSubscriptionButton": {
-		"message": "Eliminar múltiples"
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionName": {
-		"message": "Nombre:"
+		"message": "Nama:"
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsServerSubscriptionRefreshRate": {
-		"message": "Frecuencia de actualización:"
+		"message": "Frekuensi Penyegaran:"
 	},
 	"settingsServerSubscriptionRefreshRateHelp": {
-		"message": "(en minutos, 0 significa no actualizar)"
+		"message": "(dalam menit, 0 berarti tidak ada penyegaran)"
 	},
 	"settingsServerSubscriptionEnabled": {
-		"message": "Habilitar"
+		"message": "Diaktifkan"
 	},
 	"settingsServerSubscriptionProtocol": {
-		"message": "Protocolo:"
+		"message": "Protokol:"
 	},
 	"settingsServerSubscriptionObfuscation": {
-		"message": "Ofuscación:"
+		"message": "Membingungkan:"
 	},
 	"settingsServerSubscriptionFormat": {
 		"message": "Format:"
@@ -973,91 +973,91 @@
 		"message": "Selected Proxy"
 	},
 	"settingsServerSubscriptionUsername": {
-		"message": "Nombre de usuario:"
+		"message": "Nama pengguna:"
 	},
 	"settingsServerSubscriptionPassword": {
-		"message": "Contraseña:"
+		"message": "Kata sandi:"
 	},
 	"settingsServerSubscriptionAuthenticationHelp": {
-		"message": "(Si el sitio requiere autenticación)"
+		"message": "(jika daftar membutuhkan pembuktian keaslian)"
 	},
 	"settingsServerSubscriptionCancelButton": {
-		"message": "Cancelar"
+		"message": "Batal"
 	},
 	"settingsServerSubscriptionSaveButton": {
-		"message": "Guardar"
+		"message": "Simpan"
 	},
 	"settingsServerSubscriptionSavingButton": {
-		"message": "Guardando..."
+		"message": "Menyimpan..."
 	},
 	"settingsServerSubscriptionTestButton": {
-		"message": "Prueba"
+		"message": "Tes"
 	},
 	"settingsServerSubscriptionTestingButton": {
-		"message": "Comprobando..."
+		"message": "Pengujian..."
 	},
 	"settingsConfirmRemoveServerSubscription": {
 		"message": "Are you sure to remove the selected subscription?"
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
-		"message": "¿Seguro que deseas eliminar todas las suscripciones de servidores Proxy?"
+		"message": "Anda yakin menghapus semua langganan server proksi?"
 	},
 	"settingsConfirmRemoveMultipleServerSubscription": {
-		"message": "¿Estás seguro de eliminar las subscripciones seleccionadas?"
+		"message": "Are you sure to remove the selected subscriptions?"
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
-		"message": "Todos los servidores Proxy se han removido.<br/>Tienes que guardar para aplicar los cambios."
+		"message": "Semua langganan server proksi dihapus.<br/>Anda harus menyimpan dulu untuk menerapkan perubahan."
 	},
 	"settingsServerSubscriptionProtocolDefault": {
-		"message": "(Detección automática con reserva HTTP)"
+		"message": "(Secara otomatis mendeteksi jika HTTP bermasalah)"
 	},
 	"settingsInitializeFailed": {
-		"message": "Error al leer las configuraciones. Cierre la página de configuración y vuelva a intentarlo."
+		"message": "Gagal membaca pengaturan. Harap tutup halaman pengaturan dan coba lagi."
 	},
 	"settingsActiveProxyServerSubscriptions": {
-		"message": "-Subscripciones-"
+		"message": "-Langganan-"
 	},
 	"settingsServerSubscriptionsGridNoDataContent": {
-		"message": "No hay suscripciones"
+		"message": "Tidak ada langganan"
 	},
 	"settingsServerSubscriptionsGridColName": {
-		"message": "Nombre"
+		"message": "Nama"
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsServerSubscriptionsGridColCount": {
-		"message": "Cuenta"
+		"message": "Jumlah"
 	},
 	"settingsServerSubscriptionsGridColEnabled": {
-		"message": "Habilitar"
+		"message": "Aktifkan"
 	},
 	"settingsServerSubscriptionIncompleteForm": {
-		"message": "Por favor llene los campos requeridos en el formato adecuado"
+		"message": "Silakan isi kolom dengan format yang benar"
 	},
 	"settingsServerSubscriptionInvalidForm": {
-		"message": "Detalles de suscripción de servidor proxy inválidos"
+		"message": "Detail langganan server proksi tidak valid"
 	},
 	"settingsServerSubscriptionDuplicateName": {
-		"message": "El nombre introducido ya está en uso, por favor introduzca otro nombre."
+		"message": "Nama yang dimasukkan sudah digunakan, masukkan nama lain."
 	},
 	"settingsServerSubscriptionSaveUpdated": {
-		"message": "La suscripción se actualiza con proxies {0} en él. <br/> No olvides guardar los cambios."
+		"message": "Langganan diperbarui dengan proksi {0} di dalamnya.<br/>Jangan lupa menyimpan perubahan."
 	},
 	"settingsServerSubscriptionSaveAdded": {
-		"message": "La suscripción se actualiza con proxies {0} en él. <br/> No olvides guardar los cambios."
+		"message": "Langganan telah ditambahkan dengan proksi {0} di dalamnya.<br/>Jangan lupa menyimpan perubahan."
 	},
 	"settingsServerSubscriptionSaveFailedGet": {
-		"message": "Falla al obtener los Proxies."
+		"message": "Gagal mendapatkan proksi."
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "Prueba exitosa. La lista retornó {0} proxies."
+		"message": "Test was successful. The list returned {0} proxies."
 	},
 	"settingsServerSubscriptionTestFailed": {
-		"message": "Prueba fallida"
+		"message": "Pengujian gagal"
 	},
 	"settingsSaveProxyServerSubscriptionsSuccess": {
-		"message": "Suscripciones de servidor proxy guardadas correctamente."
+		"message": "Berhasil menyimpan langganan server proksi."
 	},
 	"settingsFailedToSaveProxySubscriptions": {
 		"message": "Failed to save proxy servers subscriptions"

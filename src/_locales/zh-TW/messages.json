@@ -75,9 +75,6 @@
 	"popupFailedRequestsDesc": {
 		"message": "下列爲連接超時或失敗的域名。<br />如認爲被屏蔽，請在此處添加到代理規則列表中。"
 	},
-	"popupAddFailedRequestsConfirm": {
-		"message": "添加選中的域名到代理規則？"
-	},
 	"popupAddFailedRequests": {
 		"message": "添加到代理規則"
 	},
@@ -273,6 +270,42 @@
 	"settingsGeneralSyncActiveProxyDesc": {
 		"message": "檢查是否需要同步所選代理服務器"
 	},
+	"settingsGeneralSyncToBrowser": {
+		"message": "Use the browser's sync servers"
+	},
+	"settingsGeneralSyncToWebDAV": {
+		"message": "Sync to a WebDAV server"
+	},
+	"settingsGeneralWebDavServerUrl": {
+		"message": "WebDAV Server URL:"
+	},
+	"settingsGeneralWebDavBackupFilename": {
+		"message": "Backup Filename:"
+	},
+	"settingsGeneralWebDavServerUser": {
+		"message": "WebDAV Server Username:"
+	},
+	"settingsGeneralWebDavServerPassword": {
+		"message": "WebDAV Server Password:"
+	},
+	"settingsGeneralWebDavBehaviourDesc": {
+		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+	},
+	"settingsGeneralWebDavServerBackupNow": {
+		"message": "Backup Now"
+	},
+	"settingsGeneralWebDav_ErrorValidUrl": {
+		"message": "Please enter a valid WebDAV Server URL"
+	},
+	"settingsGeneralWebDav_ErrorEmptyFilename": {
+		"message": "WebDAV Server Backup Filename cannot be empty"
+	},
+	"settingsGeneralWebDavBackupNowSuccess": {
+		"message": "WebDav backup completed successfully!"
+	},
+	"settingsGeneralWebDavBackupNowFailed": {
+		"message": "WebDav backup failed:"
+	},
 	"settingsGeneralErrorDetection": {
 		"message": "檢測出錯"
 	},
@@ -390,6 +423,9 @@
 	"settingsAddServerButton": {
 		"message": "添加服務器"
 	},
+	"settingsRemoveMultipleServerButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsSaveChangesButton": {
 		"message": "保存更改"
 	},
@@ -447,6 +483,9 @@
 	"settingsImportRulesSelectButton": {
 		"message": "規則備份文件"
 	},
+	"settingsImportRulesText": {
+		"message": "Rules Backup Text"
+	},
 	"settingsImportRulesFrom": {
 		"message": "規則導入來源"
 	},
@@ -492,6 +531,9 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "確定移除所選代理服務器？"
 	},
+	"settingsConfirmRemoveMultipleProxyServer": {
+		"message": "Are you sure to remove the selected proxy servers?"
+	},
 	"settingsRemoveAllProxyServers": {
 		"message": "你確定移除所有代理服務器？"
 	},
@@ -516,8 +558,14 @@
 	"settingsChangesReverted": {
 		"message": "成功回滾更改。"
 	},
+	"settingsConfirmSaveAllChanged": {
+		"message": "Do you want to save all unsaved changes?"
+	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "確定移除所選規則？"
+	},
+	"settingsConfirmRemoveMultipleProxyRule": {
+		"message": "Are you sure to remove the selected rules?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "確定移除所有規則？"
@@ -539,6 +587,9 @@
 	},
 	"settingsImportRulesFailed": {
 		"message": "導入文件失敗。"
+	},
+	"settingsImportRulesTextIsEmpty": {
+		"message": "Please enter rules in the box"
 	},
 	"settingsServerNameRequired": {
 		"message": "請指定服務器名稱！"
@@ -595,7 +646,7 @@
 		"message": "密碼"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is no longer supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
 	},
 	"settingsServersCancel": {
 		"message": "取消"
@@ -801,6 +852,9 @@
 	"settingsRuleActionWhitelist": {
 		"message": "白名單（無代理）"
 	},
+	"settingsRuleActionWhitelistDesc": {
+		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+	},
 	"settingsServerPortInvalid": {
 		"message": "服務器端口 '{0}' 無效"
 	},
@@ -837,6 +891,9 @@
 	"importerImportSuccess": {
 		"message": "{0} / {1} 條規則已添加。<br>注意保存更改。"
 	},
+	"settingsRemoveMultipleProxyRuleButton": {
+		"message": "Delete Multiple"
+	},
 	"settingsAddMultipleRulesButton": {
 		"message": "添加多重規則"
 	},
@@ -869,6 +926,9 @@
 	},
 	"settingsServerSubscriptionModalTitle": {
 		"message": "訂閱一個代理服務器列表"
+	},
+	"settingsRemoveMultipleServerSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "名稱："
@@ -942,6 +1002,9 @@
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "你希望移除所有代理服務器訂閱？"
 	},
+	"settingsConfirmRemoveMultipleServerSubscription": {
+		"message": "Are you sure to remove the selected subscriptions?"
+	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "所有代理服務器訂閱已移除。<br/>你必須保存以應用更改。"
 	},
@@ -1001,6 +1064,9 @@
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "訂閱規則列表"
+	},
+	"settingsRemoveMultipleRulesSubscriptionButton": {
+		"message": "Delete Multiple"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "訂閱規則列表"
@@ -1067,6 +1133,9 @@
 	},
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "確定要移除所選的規則訂閱嗎？"
+	},
+	"settingsConfirmRemoveMultipleRulesSubscription": {
+		"message": "Are you sure to remove the selected rules subscriptions?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "請以正確格式填寫必需項"
