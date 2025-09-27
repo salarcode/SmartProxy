@@ -214,13 +214,13 @@
 		"message": "Zu {0} aktualisieren"
 	},
 	"settingsTabAboutDescription": {
-		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything."
+		"message": "Proxys zu verwenden, könnte dank SmartProxy nicht einfacher sein. Es handelt sich quasi um eine Einmal-konfigurieren-und-dann-vergessen-Lösung. Mit SmartProxy müssen Sie Ihren Proxy weder manuell ändern noch an- oder ausschalten. Ein Klick reicht aus, um SmartProxy mitzuteilen, ob Sie den Proxy für eine bestimmte Website einschalten wollen. Wenn Sie danach jene Website aufrufen, wird SmartProxy alle übertragenen Daten durch den Proxy leiten, ohne dass Sie irgendetwas tun müssen."
 	},
 	"settingsGeneralSmartFeatures": {
-		"message": "Smart Features"
+		"message": "Intelligente Funktionen"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome."
+		"message": "<strong>Nur in <a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a>!</strong> Leider ist diese Funktion in Chrome nicht unterstützt."
 	},
 	"settingsGeneralProxyPerOrigin": {
 		"message": "Enable proxy per tab/origin"
