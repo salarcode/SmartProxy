@@ -10,22 +10,22 @@
 		"message": "SmartProxy"
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy wird automatisch Proxy aktivieren/deaktivieren für die Seiten die Sie besuchen, besierend auf anpassbaren Mustern."
+		"message": "Smart Proxy wird automatisch den Proxy aktivieren/deaktivieren für die Seiten, die Sie besuchen, basierend auf anpassbaren Mustern."
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Matched rule source:"
+		"message": "Quelle der passenden Regel:"
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "No matching rule"
+		"message": "Keine passende Regel"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "Rule pattern:"
+		"message": "Regelmuster:"
 	},
 	"popupTitle": {
 		"message": "SmartProxy Aktivierung"
 	},
 	"popupPrivateBrowsingMode": {
-		"message": "Private Browsing Mode"
+		"message": "Privater Modus"
 	},
 	"popupNoProxy": {
 		"message": "Direkt (Kein Proxy)"
@@ -37,22 +37,22 @@
 		"message": "Immer Aktiv"
 	},
 	"popupSystemProxy": {
-		"message": "System Proxy"
+		"message": "System-Proxy"
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy (this profile):"
+		"message": "Aktiver Proxy (dieses Profil):"
 	},
 	"popupActiveProxyDefault": {
-		"message": "Active Proxy (Default Setting):"
+		"message": "Aktiver Proxy (Standardeinstellung):"
 	},
 	"popupEnableProxyOn": {
 		"message": "Proxy aktivieren"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Ignore these domains"
+		"message": "Diese Domains ignorieren"
 	},
 	"popupRuleIsFromSubscription": {
-		"message": "(From subscription)"
+		"message": "(Von Abonnement)"
 	},
 	"popupProxyableResources": {
 		"message": "Proxyfähige Quellen"
@@ -67,31 +67,31 @@
 		"message": "Aktualisierung zu {0} ist verfügbar"
 	},
 	"popupFailedRequestsMenu": {
-		"message": "Fehlgeschlagene Anforderungen"
+		"message": "Fehlgeschlagene Anfragen"
 	},
 	"popupFailedRequestsTitle": {
-		"message": "Fehlgeschlagene Anforderungen Liste"
+		"message": "Fehlgeschlagene-Anfragen-Liste"
 	},
 	"popupFailedRequestsDesc": {
-		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list."
+		"message": "Dies sind die Domains, bei deren Verbindung entweder eine Zeitüberschreitung aufgetreten oder die fehlgeschlagen ist.<br />Wenn Sie glauben, dass diese Domains blockiert sind, können Sie sie hier zur Proxy-Regelliste hinzufügen."
 	},
 	"popupAddFailedRequests": {
 		"message": "Zur Regelnliste hinzufügen"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+		"message": "Ausgewähltes Profil „{0}“ unterstützt keine Regeln, bitte wählen Sie ein anderes Profil."
 	},
 	"popupAddIgnoredFailures": {
-		"message": "Ignore them"
+		"message": "Ignorieren"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
+		"message": "Sind Sie sich sicher, dass Sie die ausgewählten Fehler ignorieren möchten? Falls ja, werden Sie keine weiteren Fehler von ihnen erhalten. Sie können dies später in den Einstellungen abändern."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>."
+		"message": "Leider ist die Inkognito-Berechtigung nötig, um die Browsereinstellungen so zu ändern, dass der Systemproxy verwendet wird. Bitte gehen Sie zu den Einstellungen des SmartProxy-Addons im Browser und gewähren Sie die Berechtigung „In privaten Fenstern ausführen“. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Erfahre wie</a>."
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>."
+		"message": "Seit Firefox 67 ist die „Privater-Modus“-Berechtigung erforderlich, um die Browsereinstellungen so zu ändern, dass der Systemproxy verwendet wird. Bitte gehe in die SmartProxy-Addon-Einstellungen im Browser und gewähre die Berechtigung „In privaten Fenstern auführen“."
 	},
 	"proxyableTitle": {
 		"message": "Proxyfähige Quellen"
@@ -112,7 +112,7 @@
 		"message": "Quellen tab nicht gefunden!"
 	},
 	"proxyableCreateRuleConfirm": {
-		"message": "Sind Sie sicher eine Regel zu erstellen für den ausgewählten Domain"
+		"message": "Sind Sie sich sicher, dass Sie eine Regel für die ausgewählte Domain erstellen möchten?"
 	},
 	"proxyableDisableButton": {
 		"message": "Deaktivieren"
@@ -124,70 +124,70 @@
 		"message": "Aktivieren für: "
 	},
 	"proxyableSubscriptionRule": {
-		"message": "(Subscription Rule)"
+		"message": "(Abonnement-Regel)"
 	},
 	"proxyableDeleteRuleConfirm": {
-		"message": "Sind Sie sicher dass Sie die ausgewählte Regel löschen möchten für:"
+		"message": "Sind Sie sich sicher, dass Sie die ausgewählte Regel löschen möchten für:"
 	},
 	"proxyableGridNoDataContent": {
 		"message": "Keine Anfragen"
 	},
 	"proxyableGridColUrl": {
-		"message": "Url benötigt"
+		"message": "Anfrage-URL"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Rule status"
+		"message": "Regelstatus"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Proxy status"
+		"message": "Proxystatus"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Rule domain"
+		"message": "Regeldomain"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Rule pattern"
+		"message": "Regelmuster"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "No Proxy"
+		"message": "Kein Proxy"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
 		"message": "Special"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "Vom übergeordneten Tab"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Übereinstimmung"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Immer aktiv"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "System Proxy Applied"
+		"message": "System-Proxy angewandt"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "No Match"
+		"message": "Keine Übereinstimmung"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
 		"message": "Special"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "Vom übergeordneten Tab"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Übereinstimmung"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Whitelisted"
+		"message": "Auf der weißen Liste"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "AlwaysEnabled <br> Bypassed"
+		"message": "„Immer aktiviert“ <br> umgangen"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "AlwaysEnabled <br> Forced By Rules"
+		"message": "„Immer aktiviert“ <br> erzwungen durch Regeln"
 	},
 	"settingsTitle": {
-		"message": "SmartProxy Einstellungen"
+		"message": "SmartProxy-Einstellungen"
 	},
 	"settingsTabAbout": {
 		"message": "Über"
@@ -196,19 +196,19 @@
 		"message": "Allgemeine Optionen"
 	},
 	"settingsTabSmartProfiles": {
-		"message": "Smart Profiles"
+		"message": "Intelligente Profile"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Add new Smart Profile"
+		"message": "Neues intelligentes Profil hinzufügen"
 	},
 	"settingsTabProxyServers": {
-		"message": "Proxy Server"
+		"message": "Proxy-Server"
 	},
 	"settingsTabProxyServerSubscriptions": {
-		"message": "Proxy Server Abonnements"
+		"message": "Proxy-Server-Abonnements"
 	},
 	"settingsTabBackupRestore": {
-		"message": "Sichern / Wiederherstellen"
+		"message": "Sichern/Wiederherstellen"
 	},
 	"settingsTabUpdateText": {
 		"message": "Zu {0} aktualisieren"
