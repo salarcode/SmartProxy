@@ -517,7 +517,7 @@
 		"message": "Proxy-Listen-Text"
 	},
 	"settingsImportProxiesOptionAppend": {
-		"message": "Zu bestehenden Proxies hinzufügen"
+		"message": "Zu bestehenden Proxys hinzufügen"
 	},
 	"settingsImportProxiesOptionOverride": {
 		"message": "Aktuelle Regeln ersetzen (mit Vorsicht benutzen)"
@@ -529,52 +529,52 @@
 		"message": "Importieren"
 	},
 	"settingsConfirmRemoveProxyServer": {
-		"message": "Are you sure to remove the selected proxy server?"
+		"message": "Sind Sie sich sicher, dass Sie den ausgewählten Proxy-Server entfernen möchten?"
 	},
 	"settingsConfirmRemoveMultipleProxyServer": {
-		"message": "Are you sure to remove the selected proxy servers?"
+		"message": "Sind Sie sich sicher, dass Sie die ausgewählten Proxy-Server entfernen möchten?"
 	},
 	"settingsRemoveAllProxyServers": {
-		"message": "Sind Sie sicher alle Proxy Servers zu entfernen?"
+		"message": "Sind Sie sich sicher, dass Sie alle Proxy-Server entfernen möchten?"
 	},
 	"settingsRemoveAllProxyServersSuccess": {
-		"message": "Alle Proxy Serves wurden entfernt.<br/>Sie müssen speichern um die Veränderungen zu übernehmen."
+		"message": "Alle Proxy-Serve wurden entfernt.<br/>Sie müssen speichern, um die Veränderungen zu übernehmen."
 	},
 	"settingsImportProxiesFileNotSelected": {
-		"message": "Bitte wählen sie eine Proxy Listdatei"
+		"message": "Bitte wählen sie eine Proxy-Listen-Datei"
 	},
 	"settingsImportProxyListTextIsEmpty": {
-		"message": "Bitte geben Sie eine Proxy Liste ein"
+		"message": "Bitte geben Sie eine Proxy-Liste ein"
 	},
 	"settingsImportProxyServersFailed": {
-		"message": "Proxy Servers importieren fehlgeschlagen"
+		"message": "Importieren der Proxy-Server fehlgeschlagen"
 	},
 	"importerImportProxySuccess": {
-		"message": "Total {0} von {1} Proxies wurden importiert.<br>Vergessen Sie nicht die Veränderungen zu speichern."
+		"message": "Insgesamt wurden {0} von {1} Proxys importiert.<br>Vergessen Sie nicht, die Veränderungen zu speichern."
 	},
 	"settingsErrorFailedToSaveServers": {
-		"message": "Servers speichern fehlgeschlagen."
+		"message": "Speichern der Server fehlgeschlagen."
 	},
 	"settingsChangesReverted": {
 		"message": "Veränderungen erfolgreich rückgängig gemacht."
 	},
 	"settingsConfirmSaveAllChanged": {
-		"message": "Do you want to save all unsaved changes?"
+		"message": "Möchten Sie alle ungespeicherten Änderungen speichern?"
 	},
 	"settingsConfirmRemoveProxyRule": {
-		"message": "Are you sure to remove the selected rule?"
+		"message": "Sind Sie sich sicher, dass Sie die ausgewählte Regel entfernen möchten?"
 	},
 	"settingsConfirmRemoveMultipleProxyRule": {
-		"message": "Are you sure to remove the selected rules?"
+		"message": "Sind Sie sich sicher, dass Sie die ausgewählten Regeln entfernen möchten?"
 	},
 	"settingsRemoveAllRules": {
-		"message": "Sind Sie sicher alle Regeln zu entfernen?"
+		"message": "Sind Sie sich sicher, dass Sie alle Regeln entfernen möchten?"
 	},
 	"settingsRemoveAllRulesSuccess": {
-		"message": "Alle Regeln wurden entfernt.<br/>Sie müssen Speichern um die Veränderungen zu übernehmen."
+		"message": "Alle Regeln wurden entfernt.<br/>Sie müssen speichern, um die Veränderungen zu übernehmen."
 	},
 	"settingsRestoreBackupFailed": {
-		"message": "Es gab einen Fehler bei der Wiederherstellung der Backup"
+		"message": "Es gab einen Fehler bei der Wiederherstellung der Sicherung"
 	},
 	"settingsRestoreBackupFileError": {
 		"message": "Lesen der ausgewählten Datei fehlgeschlagen"
@@ -589,16 +589,16 @@
 		"message": "Importieren der Datei fehlgeschlagen."
 	},
 	"settingsImportRulesTextIsEmpty": {
-		"message": "Please enter rules in the box"
+		"message": "Bitte Regeln in das Feld eingeben"
 	},
 	"settingsServerNameRequired": {
-		"message": "Spezifizieren Sie den Namen des Servers!"
+		"message": "Geben Sie den Namen des Servers an!"
 	},
 	"settingsServerNameExists": {
 		"message": "Ein Server mit dem gleichen Namen existiert bereits!"
 	},
 	"settingsServerServerAddressIsEmpty": {
-		"message": "Server adresse darf nicht leer sein"
+		"message": "Serveradresse darf nicht leer sein"
 	},
 	"settingsServerPortNoInvalid": {
 		"message": "Bitte geben Sie eine gültige Portnummer ein"
