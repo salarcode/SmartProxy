@@ -235,16 +235,16 @@
 		"message": "Proxy per tab/origin disabled"
 	},
 	"settingsGeneralSyncing": {
-		"message": "Syncing"
+		"message": "Synchronisieren"
 	},
 	"settingsGeneralIncognitoProfile": {
-		"message": "Private Browsing Profile"
+		"message": "Privates Profil"
 	},
 	"settingsGeneralIncognitoProfileDisabled": {
-		"message": "(Disabled)"
+		"message": "(Deaktiviert)"
 	},
 	"settingsGeneralIncognitoProfileDesc": {
-		"message": "Select a private browsing profile if you want to force it to be used when tab/window is in Private Browsing mode. This option will override the active profile."
+		"message": "Wählen Sie ein privates Profil, wenn Sie erzwingen wollen, dass es für private Tabs/Fenster verwendet wird. Diese Option überschreibt das aktive Profil."
 	},
 	"settingsGeneralEnableSyncing": {
 		"message": "Einstellungen Synchronisierung aktivieren"
@@ -259,172 +259,172 @@
 		"message": "Änderungen ablehnen"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Enable syncing active profile"
+		"message": "Aktives Profil synchronisieren"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Check if you want the active profile to be synced."
+		"message": "Aktivieren, wenn das aktive Profil synchronisiert werden soll."
 	},
 	"settingsGeneralSyncActiveProxy": {
-		"message": "Enable syncing active proxy"
+		"message": "Aktiven Proxy synchronisieren"
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
-		"message": "Check if you want the selected proxy server to be synced"
+		"message": "Aktivieren, wenn der ausgewählte Proxy-Server synchronisiert werden soll"
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "Use the browser's sync servers"
+		"message": "Synchronisationsserver des Browsers verwenden"
 	},
 	"settingsGeneralSyncToWebDAV": {
-		"message": "Sync to a WebDAV server"
+		"message": "Mit einem WebDAV-Server synchronisieren"
 	},
 	"settingsGeneralWebDavServerUrl": {
-		"message": "WebDAV Server URL:"
+		"message": "WebDAV-Server-URL:"
 	},
 	"settingsGeneralWebDavBackupFilename": {
-		"message": "Backup Filename:"
+		"message": "Dateiname der Sicherung:"
 	},
 	"settingsGeneralWebDavServerUser": {
-		"message": "WebDAV Server Username:"
+		"message": "WebDAV-Server-Benutzername:"
 	},
 	"settingsGeneralWebDavServerPassword": {
-		"message": "WebDAV Server Password:"
+		"message": "WebDAV-Server-Passwort:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+		"message": "Bitte beachten Sie, dass bei jeder Änderung der Einstellungen eine Sicherung gemacht wird, wohingegen die Wiederherstellung erst beim Start des Browsers erfolgt."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
-		"message": "Backup Now"
+		"message": "Jetzt sichern"
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
-		"message": "Please enter a valid WebDAV Server URL"
+		"message": "Bitte geben Sie eine gültige WebDAV-Server-URL ein"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
-		"message": "WebDAV Server Backup Filename cannot be empty"
+		"message": "WebDAV-Server-Sicherungs-Dateiname darf nicht leer sein"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
-		"message": "WebDav backup completed successfully!"
+		"message": "WebDAV-Sicherung erfolgreich abgeschlossen!"
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
-		"message": "WebDav backup failed:"
+		"message": "WebDAV-Sicherung fehlgeschlagen:"
 	},
 	"settingsGeneralErrorDetection": {
-		"message": "Error Detection"
+		"message": "Fehlererkennung"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "Detect request failures"
+		"message": "Anfrage-Fehler erkennen"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "Request failures detection will help you identify the domains that needs proxy."
+		"message": "Die Erkennung von Anfragefehlern hilft Ihnen dabei, Domains zu identifizieren, für die ein Proxy nötig ist."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Enter Rules"
+		"message": "Regeln eingeben"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Ignore failure detection based on these rules"
+		"message": "Fehlererkennung auf der Grundlage dieser Regeln ignorieren"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Add rules to disable failure detection."
+		"message": "Regeln hinzufügen, um die Fehlererkennung zu deaktivieren."
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "Display failed requests count on toolbar icon badge"
+		"message": "Anzahl fehlgeschlagener Anfragen im Symbolleisten-Abzeichen anzeigen"
 	},
 	"settingsGeneralThemes": {
-		"message": "Themes"
+		"message": "Designs"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "Auto switch by the Browser theme"
+		"message": "Automatischer Wechsel durch das Browser-Theme"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system."
+		"message": "Automatisch zwischen den unten ausgewählten Designs wechseln und dem Design Ihres Browsers folgen, welches wiederum unter Umständen dem Design Ihres Betriebssystems folgt."
 	},
 	"settingsGeneralThemesLight": {
-		"message": "Light Theme"
+		"message": "Helles Design"
 	},
 	"settingsGeneralThemes_Default": {
-		"message": "(Default)"
+		"message": "(Standard)"
 	},
 	"settingsGeneralThemes_Custom": {
 		"message": "(Custom)"
 	},
 	"settingsGeneralThemes_CustomUrl": {
-		"message": "Custom Styles (Css) Url:"
+		"message": "URL der eigenen Styles (CSS):"
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency."
+		"message": "URL muss mit „HTTP“ beginnen. Bedenken Sie, dass importierte Schriftarten und andere Styles im folgenden benutzerdefinierten Style die Popups in Ihrem Browser verlangsamen oder blockieren können. Sie können Styles von bootswatch.com ausprobieren, aber beachten Sie deren Abhängigkeit von Google Fonts."
 	},
 	"settingsGeneralThemesDark": {
-		"message": "Dark Theme"
+		"message": "Dunkles Design"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Light Theme and the url should be 'https'."
+		"message": "Bitte geben Sie eine gültige CSS-URL für das helle Design ein; die URL sollte mit „HTTPS“ beginnen."
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'."
+		"message": "Bitte geben Sie eine gültige CSS-URL für das dunkle Design ein; die URL sollte mit „HTTPS“ beginnen."
 	},
 	"settingsGeneralOtherSettings": {
-		"message": "Other Settings"
+		"message": "Andere Einstellungen"
 	},
 	"settingsGeneralEnableShortcuts": {
-		"message": "Enable Shortcuts"
+		"message": "Tastenkürzel aktivieren"
 	},
 	"settingsGeneralEnableShortcutsDesc": {
-		"message": "You can configure shortcuts from browser addon settings page."
+		"message": "Sie können Tastenkürzel über die Browser-Addon-Einstellungen konfigurieren."
 	},
 	"settingsGeneralViewShortcuts": {
-		"message": "View shortcuts"
+		"message": "Tastenkürzel ansehen"
 	},
 	"settingsGeneralShortcutNotification": {
-		"message": "Enable shortcut notification"
+		"message": "Tastenkürzel-Benachrichtigung aktivieren"
 	},
 	"settingsGeneralViewShortcutKeys": {
-		"message": "Shortcut Keys"
+		"message": "Tastenkombinationen"
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Display applied rule source on badge"
+		"message": "Quelle der angewandten Regel am Icon anzeigen"
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
-		"message": "Display applied rule pattern on badge"
+		"message": "Angewandtes Regelmuster am Icon anzeigen"
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
-		"message": "Refresh active tab when profile or proxy changed"
+		"message": "Aktiven Tab neu laden, wenn sich das Profil oder der Proxy ändert"
 	},
 	"settingsGeneralCancelButton": {
-		"message": "Cancel"
+		"message": "Abbrechen"
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "Save Changes"
+		"message": "Änderungen speichern"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "Keyboard shortcuts"
+		"message": "Tastenkombinationen"
 	},
 	"settingsGeneralCloseButton": {
-		"message": "Close"
+		"message": "Schließen"
 	},
 	"settingsGeneralKeyboardShortcutsNotSupported": {
-		"message": "Keyboard shortcuts are not supported on mobile devices."
+		"message": "Tastenkombinationen werden auf mobilen Geräten nicht unterstützt."
 	},
 	"settingsTabProxyServersTitle": {
-		"message": "Verwalten Sie Ihre Proxy Server:"
+		"message": "Verwalten Sie Ihre Proxy-Server:"
 	},
 	"settingsTabProxyServersDescription": {
-		"message": "Hier ist die Liste der Proxy Server. Sie können so viele Proxy wie Sie möchten definieren und von der Toolbar zwischen denen wechseln."
+		"message": "Hier ist die Liste der Proxy-Server. Sie können so viele Proxy wie Sie möchten definieren und von der Toolbar aus zwischen ihnen wechseln."
 	},
 	"settingsTabBackupRestoreDescription": {
-		"message": "Sie können entweder vollen oder teilweisenden Backup Ihrer Einstellungen machen."
+		"message": "Sie können entweder eine vollständige oder eine teilweise Sicherung Ihrer Einstellungen machen."
 	},
 	"settingsErrNoServersTitle": {
 		"message": "Keine Server!"
 	},
 	"settingsErrNoServersDescription": {
-		"message": "Vor allem müssen Sie Proxy Servers definieren."
+		"message": "Vor allem müssen Sie Proxy-Server definieren."
 	},
 	"settingsActiveProxyServer": {
-		"message": "Default Proxy Server:"
+		"message": "Standard-Proxy-Server:"
 	},
 	"settingsAddServerButton": {
 		"message": "Server hinzufügen"
 	},
 	"settingsRemoveMultipleServerButton": {
-		"message": "Delete Multiple"
+		"message": "Mehrere löschen"
 	},
 	"settingsSaveChangesButton": {
 		"message": "Veränderungen speichern"
@@ -433,43 +433,43 @@
 		"message": "Veränderungen ablehnen"
 	},
 	"settingsEditButton": {
-		"message": "Edit"
+		"message": "Bearbeiten"
 	},
 	"settingsFullBackupButton": {
-		"message": "Vollständigen Backup ertsellen"
+		"message": "Vollständige Sicherung ertsellen"
 	},
 	"settingsFullBackupButtonDesc": {
-		"message": "Machen Sie einen vollständigen Backup der Optionen (einschließlich Proxy Servers und Regeln)."
+		"message": "Machen Sie eine vollständige Sicherung der Optionen (einschließlich Proxy-Server und Regeln)."
 	},
 	"settingsRestoreBackupButton": {
-		"message": "Backup wiederherstellen"
+		"message": "Sicherung wiederherstellen"
 	},
 	"settingsRestoreBackupButtonDesc": {
-		"message": "Wiederherstellen Sie Ihren vorherig genomennen Backup von einer lokalen Datei"
+		"message": "Stellen Sie Ihre zuvor gemachte Sicherung von einer lokalen Datei wieder her"
 	},
 	"settingsDangerZoneDesc": {
-		"message": "Danger zone"
+		"message": "Gefahrenzone"
 	},
 	"settingsFactoryResetButton": {
-		"message": "Factory Reset"
+		"message": "Auf Werkseinstellungen zurücksetzen"
 	},
 	"settingsFactoryResetDesc": {
-		"message": "Reset everything. This will remove all rules and proxy servers and reset the options. Permanently."
+		"message": "Alles zurücksetzen. Dadurch werden alle Regeln und Proxy-Server entfernt und die Optionen zurückgesetzt. Dauerhaft."
 	},
 	"settingsFactoryResetConfirm": {
-		"message": "Are you sure to reset EVERYTHING ? Sure? There is no way back!"
+		"message": "Sind Sie sich sicher, dass Sie ALLES zurücksetzen wollen? Sicher? Es gibt keinen Weg zurück!"
 	},
 	"settingsFactoryResetSuccess": {
-		"message": "Factory reset is completed successfully"
+		"message": "Zurücksetzen auf Werkseinstellungen erfolgreich abgeschlossen"
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import/Export individual list of proxies servers."
+		"message": "Einzelne Liste mit Proxy-Servern importieren/exportieren."
 	},
 	"settingsImportProxiesButtonBackup": {
-		"message": "Proxy Servers importieren"
+		"message": "Proxy-Server importieren"
 	},
 	"settingsExportProxiesButtonBackup": {
-		"message": "Proxy Servers exportieren"
+		"message": "Proxy-Server exportieren"
 	},
 	"settingsAddRuleButton": {
 		"message": "Regel hinzufügen"
@@ -481,10 +481,10 @@
 		"message": "Regeln importieren"
 	},
 	"settingsImportRulesSelectButton": {
-		"message": "Regel Backup Datei"
+		"message": "Regel-Sicherungsdatei"
 	},
 	"settingsImportRulesText": {
-		"message": "Rules Backup Text"
+		"message": "Regel-Sicherungs-Text"
 	},
 	"settingsImportRulesFrom": {
 		"message": "Von"
@@ -502,19 +502,19 @@
 		"message": "Importieren"
 	},
 	"settingsImportProxiesButton": {
-		"message": "Proxies importieren"
+		"message": "Proxys importieren"
 	},
 	"settingsExportProxiesButton": {
-		"message": "Proxies exportieren"
+		"message": "Proxys exportieren"
 	},
 	"settingsImportProxiesTitle": {
-		"message": "Proxy Liste importieren"
+		"message": "Proxy-Liste importieren"
 	},
 	"settingsImportProxiesSelectFileButton": {
-		"message": "Proxy Liste Datei"
+		"message": "Proxy-Listen-Datei"
 	},
 	"settingsImportProxiesSelectTextButton": {
-		"message": "Proxy Liste Text"
+		"message": "Proxy-Listen-Text"
 	},
 	"settingsImportProxiesOptionAppend": {
 		"message": "Zu bestehenden Proxies hinzufügen"
