@@ -622,22 +622,22 @@
 		"message": "Port"
 	},
 	"settingsServersModalTitle": {
-		"message": "Proxy Server Details"
+		"message": "Proxy-Server-Details"
 	},
 	"settingsServersServerName": {
-		"message": "Server Name"
+		"message": "Servername"
 	},
 	"settingsServersSeverAddress": {
-		"message": "Sever Adresse"
+		"message": "Serveradresse"
 	},
 	"settingsServersProtocol": {
-		"message": "Proxy Protocol"
+		"message": "Proxyprotokoll"
 	},
 	"settingsServersPort": {
 		"message": "Port"
 	},
 	"settingsServersProxyDNS": {
-		"message": "Proxy DNS when using SOCKS 5"
+		"message": "Bei Verwendung von SOCKS 5 DNS-Anfragen durch Proxy leiten"
 	},
 	"settingsServersUsername": {
 		"message": "Benutzername"
@@ -646,64 +646,64 @@
 		"message": "Passwort"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(Leider wird die Proxy-Server-Authentifizierung durch Chromes Erweiterungen-API nicht unterstützt. Dies ist &quot;Absicht&quot;.)"
 	},
 	"settingsServersCancel": {
 		"message": "Abbrechen"
 	},
 	"settingsServersSave": {
-		"message": "Save"
+		"message": "Speichern"
 	},
 	"settingsServersImport": {
 		"message": "Importieren"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "Smart Profile:"
+		"message": "Intelligentes Profil:"
 	},
 	"settingsProfilesEnabled": {
-		"message": "Enabled"
+		"message": "Aktiviert"
 	},
 	"settingsProfilesTypeTitle": {
-		"message": "Profile Type:"
+		"message": "Profiltyp:"
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
-		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+		"message": "In diesem Profil wird kein Proxy angewandt, es sei denn, Sie definieren intelligente Regeln. Sie werden Schwarze-Liste-Regeln erstellen, d.h. Ausnahmeregeln zur Anwendung des Proxys."
 	},
 	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
-		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+		"message": "In diesem Profil werden Proxy-Server immer angewandt, es sei denn, Sie definieren intelligente Regeln zum Aussetzen des Proxys. Sie werden Weiße-Liste-Regeln erstellen, d.h. Ausnahmeregeln zum Aussetzen des Proxys."
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
-		"message": "Ignore failure detection for these domains by adding rules."
+		"message": "Fehlererkennung für diese Domains durch Hinzufügen von Regeln ignorieren."
 	},
 	"settingsProfilesProfileProxyServer": {
-		"message": "Profile Proxy Server:"
+		"message": "Proxy-Server des Profils:"
 	},
 	"settingsProfilesDefaultProfileProxyServer": {
-		"message": "(Use Default Proxy Server)"
+		"message": "(Standard-Proxy-Server verwenden)"
 	},
 	"settingsProfilesProfileProxyServerDesc": {
-		"message": "(While using this profile, this is going to be the active proxy server)"
+		"message": "(Bei Verwendung dieses Profils wird dies der aktive Proxy-Server sein)"
 	},
 	"settingsProfilesRulesSection": {
-		"message": "Rules"
+		"message": "Regeln"
 	},
 	"settingsProfilesDelete": {
-		"message": "Delete"
+		"message": "Löschen"
 	},
 	"settingsProfilesAddNewLabel": {
-		"message": "Add New Smart Profile"
+		"message": "Neues intelligentes Profil hinzufügen"
 	},
 	"settingsProfilesAddNewTypeLead": {
-		"message": "Please select the <b>type of profile</b> you want to add:"
+		"message": "Bitte wählen Sie den <b>Typ des Profils</b> aus, welches Sie hinzufügen möchten:"
 	},
 	"settingsProfilesAddNewType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Intelligente Regeln"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
-		"message": "In this type of profile, proxy will be applied to the requests based on some <em>rules</em> that you will need to define. To define these rules you can use the popup menu in the menu bar or you can add them from settings and also you can do that from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+		"message": "In diesem Profiltyp wird der Proxy auf Basis einiger <em>Regeln</em> angewandt, die Sie werden definieren müssen. Das können Sie über das Popup-Menü in der Menüleiste, in den Einstellungen oder im <em>Proxyfähige-Ressourcen</em>-Fenster tun.<br>Sie haben auch die Möglichkeit, verschiedene Regellisten zu abonnieren, wie z.B. „Gfwlist“."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Immer aktiv"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
 		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
