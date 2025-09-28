@@ -1192,54 +1192,54 @@
 		"message": "Willkommen bei SmartProxy"
 	},
 	"settingsWelcomeMessage": {
-		"message": "<p>\n\tWelcome! I'm glad that you have chosen SmartProxy, the smart proxy switcher.\n\t<br>\n\tPlease follow these steps to get started:\n</p>\n<ol>\n\t<li>\n\t\tAdd a Proxy Server\n\t\t<br>\n\t\t<small>(Head to Proxy Servers tab and add a proxy server there)</small>\n\t</li>\n\t<li>\n\t\tSet proxy mode to Smart Proxy mode\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to change the active mode to Smart Proxy)</small>\n\t</li>\n\t<li>\n\t\tDefine Proxy Rules\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to add rules or add/modify rules from Proxy Rules tab)</small>\n\t</li>\n\t<li>\n\t\tYou're all set.\n\t</li>\n</ol>"
+		"message": "<p>\n\tWillkommen! Ich bin froh, dass Sie sich für SmartProxy entschieden haben, den intelligenten Proxy-Wechsler.\n\t<br>\n\tBitte befolgen Sie diese Schritte, um loszulegen:\n</p>\n<ol>\n\t<li>\n\t\tProxy-Server hinzufügen\n\t\t<br>\n\t\t<small>(Gehen Sie zum Proxy-Server-Tab und fügen Sie dort einen Proxy-Server hinzu)</small>\n\t</li>\n\t<li>\n\t\tProxy-Modus „Intelligenter Proxy“ einstellen\n\t\t<br>\n\t\t<small>(Verwenden Sie das Popup-Menü in der Menüleiste, um „Intelligenter Proxy“ als aktiven Modus zu wählen.)</small>\n\t</li>\n\t<li>\n\t\tProxy-Regeln definieren\n\t\t<br>\n\t\t<small>(Verwenden Sie das Popup-Menü in der Menüleiste, um Regeln hinzuzufügen, oder bearbeiten Sie die Regeln im Proxy-Regeln-Tab.)</small>\n\t</li>\n\t<li>\n\t\tSchon geschafft!\n\t</li>\n</ol>"
 	},
 	"settingsWelcomeSkipButton": {
-		"message": "Got it"
+		"message": "Verstanden"
 	},
 	"settingsSubscriptionStatsStatusSuccess": {
-		"message": "Status: Success"
+		"message": "Status: Erfolg"
 	},
 	"settingsSubscriptionStatsStatusFail": {
-		"message": "Status: Failed"
+		"message": "Status: fehlgeschlagen"
 	},
 	"settingsSubscriptionStatsLastTry": {
-		"message": "Last Try:"
+		"message": "Letzter Versuch:"
 	},
 	"settingsSubscriptionStatsMessage": {
-		"message": "Message:"
+		"message": "Meldung:"
 	},
 	"settingsSubscriptionStatsLastSuccess": {
-		"message": "Last Success:"
+		"message": "Letzter erfolgreicher Versuch:"
 	},
 	"settings_SmartProfileType_Direct": {
-		"message": "Direct"
+		"message": "Direkt"
 	},
 	"settings_SmartProfileType_SystemProxy": {
-		"message": "System Proxy"
+		"message": "System-Proxy"
 	},
 	"settings_SmartProfileType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Intelligente Regeln"
 	},
 	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
-		"message": "Always Enabled with Bypass Rules"
+		"message": "Immer aktiviert mit Ausnahmeregeln"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
-		"message": "Ignore Failures Rules"
+		"message": "Regeln zum Fehlerignorieren"
 	},
 	"notificationNoNextProxyServer": {
-		"message": "There is no further next proxy server"
+		"message": "Es gibt keinen weiteren Proxy-Server"
 	},
 	"notificationNoPreviousProxyServer": {
-		"message": "There is no further previous proxy server"
+		"message": "Es gibt keinen vorherigen Proxy-Server"
 	},
 	"notificationShortcutTitle": {
-		"message": "SmartProxy shortcut notification"
+		"message": "SmartProxy-Tastenkürzel-Benachrichtigung"
 	},
 	"notificationShortcutProxyModeMessage": {
-		"message": "Proxy mode changed to {0}"
+		"message": "Proxy-Modus zu {0} geändert"
 	},
 	"notificationShortcutProxyServerChanged": {
-		"message": "Proxy server changed to {0}"
+		"message": "Proxy-Server auf {0} geändert"
 	}
 }
