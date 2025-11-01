@@ -10,7 +10,7 @@
 		"message": "پراکسی هوشمند"
 	},
 	"extensionDescription": {
-		"message": "خودکارسازی اعمال پراکسی به سایت‌هایی که مشاهده می‌کنید با استفاده از لیستی از قوانین که قبلاً توسط شما با یک کلیک اضافه شده‌اند."
+		"message": "خودکار سازی اعمال پراکسی به سایتهایی که در حال مشاهده هستید بدون اینکه کاری انجام دهید. این کار با استفاده از لیستی از قوانینی که برای اعمال پراکسی بر روی سایتها قبلا توسط شما و با یک کلیک اضافه شده اند، انجام می شود."
 	},
 	"toolbarTooltipEffectiveRule": {
 		"message": "دامنه تطبیق یافته:"
@@ -273,6 +273,42 @@
 	"settingsGeneralSyncActiveProxyDesc": {
 		"message": "این گزینه را انتخاب کنید اگر مایل هستید تا پراکسی سروری را که به عنوان سرور فعال انتخاب کرده اید همگام سازی کنید"
 	},
+	"settingsGeneralSyncToBrowser": {
+		"message": "استفاده از سرور همگام سازی مرورگر"
+	},
+	"settingsGeneralSyncToWebDAV": {
+		"message": "همگام سازی با سرور WebDAV"
+	},
+	"settingsGeneralWebDavServerUrl": {
+		"message": "آدرس سرور WebDAV:"
+	},
+	"settingsGeneralWebDavBackupFilename": {
+		"message": "نام فایل پشتیبان:"
+	},
+	"settingsGeneralWebDavServerUser": {
+		"message": "نام کاربری سرور WebDAV:"
+	},
+	"settingsGeneralWebDavServerPassword": {
+		"message": "کلمه عبور سرور WebDAV:"
+	},
+	"settingsGeneralWebDavBehaviourDesc": {
+		"message": "لطفا توجه داشته باشید که پشتیبان گیری در هر تغییری در تنظیمات انجام می شود، در حالی که بازیابی فقط هنگام شروع مرورگر انجام می شود."
+	},
+	"settingsGeneralWebDavServerBackupNow": {
+		"message": "الان یه پشتیبان بگیر"
+	},
+	"settingsGeneralWebDav_ErrorValidUrl": {
+		"message": "لطفا آدرس معتبر سرور WebDAV وارد کنید"
+	},
+	"settingsGeneralWebDav_ErrorEmptyFilename": {
+		"message": "نام فایل پشتیبان سرور WebDAV نمی تواند خالی باشد"
+	},
+	"settingsGeneralWebDavBackupNowSuccess": {
+		"message": "پشتیبان گیری WebDAV با موفقیت تکمیل شد!"
+	},
+	"settingsGeneralWebDavBackupNowFailed": {
+		"message": "پشتیبان گیری WebDAV ناموفق بود:"
+	},
 	"settingsGeneralErrorDetection": {
 		"message": "شناسایی خطاها"
 	},
@@ -390,7 +426,7 @@
 	"settingsAddServerButton": {
 		"message": "افزودن پراکسی سرور"
 	},
-		"settingsRemoveMultipleServerButton": {
+	"settingsRemoveMultipleServerButton": {
 			"message": "حذف چندتایی"
 	},
 	"settingsSaveChangesButton": {
@@ -498,7 +534,7 @@
 	"settingsConfirmRemoveProxyServer": {
 		"message": "از حذف پراکسی سرور انتخاب شده مطمئن هستید؟"
 	},
-		"settingsConfirmRemoveMultipleProxyServer": {
+	"settingsConfirmRemoveMultipleProxyServer": {
 			"message": "از حذف پراکسی سرورهای انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllProxyServers": {
@@ -531,7 +567,7 @@
 	"settingsConfirmRemoveProxyRule": {
 		"message": "از حذف قانون انتخاب شده مطمئن هستید؟"
 	},
-		"settingsConfirmRemoveMultipleProxyRule": {
+	"settingsConfirmRemoveMultipleProxyRule": {
 			"message": "از حذف قوانین انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllRules": {
@@ -611,6 +647,9 @@
 	},
 	"settingsServersPassword": {
 		"message": "کلمه عبور"
+	},
+	"settingsServersAuthChromeMv3Limitation": {
+		"message": "(متاسفانه احراز هویت پراکسی سرور توسط کروم از طریق Api افزونه ها پشتیبانی نمی شود. این &quot;عمدی&quot; است.)"
 	},
 	"settingsServersCancel": {
 		"message": "انصراف"
@@ -816,6 +855,9 @@
 	"settingsRuleActionWhitelist": {
 		"message": "نادیده گرفته شود (بدون پراکسی)"
 	},
+	"settingsRuleActionWhitelistDesc": {
+		"message": "(قوانین لیست سفید اولویت بالاتری نسبت به قوانین پراکسی دارند، صرف نظر از جایگاه آنها)"
+	},
 	"settingsServerPortInvalid": {
 		"message": "پورت سرور '{0}' نامعتبر است"
 	},
@@ -852,7 +894,7 @@
 	"importerImportSuccess": {
 		"message": "از کل تعداد {0} قانون {1} مورد اضافه شد.<br>ذخیره تغییرات فراموش نشود."
 	},
-		"settingsRemoveMultipleProxyRuleButton": {
+	"settingsRemoveMultipleProxyRuleButton": {
 			"message": "حذف چندتایی"
 	},
 	"settingsAddMultipleRulesButton": {
@@ -888,7 +930,7 @@
 	"settingsServerSubscriptionModalTitle": {
 		"message": "مشترک شدن در لیست پراکسی سرور"
 	},
-		"settingsRemoveMultipleServerSubscriptionButton": {
+	"settingsRemoveMultipleServerSubscriptionButton": {
 			"message": "حذف چندتایی"
 	},
 	"settingsServerSubscriptionName": {
@@ -1026,7 +1068,7 @@
 	"settingsAddRulesSubscriptionButton": {
 		"message": "ایجاد اشتراک قوانین"
 	},
-		"settingsRemoveMultipleRulesSubscriptionButton": {
+	"settingsRemoveMultipleRulesSubscriptionButton": {
 			"message": "حذف چندتایی"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
@@ -1095,7 +1137,7 @@
 	"settingsConfirmRemoveRulesSubscription": {
 		"message": "از حذف اشتراک قوانین انتخاب شده مطمئن هستید؟"
 	},
-		"settingsConfirmRemoveMultipleRulesSubscription": {
+	"settingsConfirmRemoveMultipleRulesSubscription": {
 			"message": "از حذف اشتراکات قوانین انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
