@@ -646,7 +646,7 @@
 		"message": "کلمه عبور"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(متاسفانه احراز هویت پراکسی سرور توسط کروم از طریق API افزونه ها پشتیبانی نمی شود. این \"عمدی\" است.)"
+		"message": "(متاسفانه احراز هویت پراکسی سرور توسط کروم از طریق Api افزونه ها پشتیبانی نمی شود. این &quot;عمدی&quot; است.)"
 	},
 	"settingsServersCancel": {
 		"message": "انصراف"
