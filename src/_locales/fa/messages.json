@@ -424,7 +424,7 @@
 		"message": "افزودن پراکسی سرور"
 	},
 	"settingsRemoveMultipleServerButton": {
-			"message": "حذف چندتایی"
+		"message": "حذف چندتایی"
 	},
 	"settingsSaveChangesButton": {
 		"message": "ذخیره تغییرات"
@@ -532,7 +532,7 @@
 		"message": "از حذف پراکسی سرور انتخاب شده مطمئن هستید؟"
 	},
 	"settingsConfirmRemoveMultipleProxyServer": {
-			"message": "از حذف پراکسی سرورهای انتخاب شده مطمئن هستید؟"
+		"message": "از حذف پراکسی سرورهای انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllProxyServers": {
 		"message": "از حذف همه پراکسی ها مطمئن هستید؟"
@@ -565,7 +565,7 @@
 		"message": "از حذف قانون انتخاب شده مطمئن هستید؟"
 	},
 	"settingsConfirmRemoveMultipleProxyRule": {
-			"message": "از حذف قوانین انتخاب شده مطمئن هستید؟"
+		"message": "از حذف قوانین انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRemoveAllRules": {
 		"message": "از حذف همه قوانین مطمئن هستید؟"
@@ -892,7 +892,7 @@
 		"message": "از کل تعداد {0} قانون {1} مورد اضافه شد.<br>ذخیره تغییرات فراموش نشود."
 	},
 	"settingsRemoveMultipleProxyRuleButton": {
-			"message": "حذف چندتایی"
+		"message": "حذف چندتایی"
 	},
 	"settingsAddMultipleRulesButton": {
 		"message": "افزودن چندین قانون جدید"
@@ -928,7 +928,7 @@
 		"message": "مشترک شدن در لیست پراکسی سرور"
 	},
 	"settingsRemoveMultipleServerSubscriptionButton": {
-			"message": "حذف چندتایی"
+		"message": "حذف چندتایی"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "نام لیست:"
@@ -1066,7 +1066,7 @@
 		"message": "ایجاد اشتراک قوانین"
 	},
 	"settingsRemoveMultipleRulesSubscriptionButton": {
-			"message": "حذف چندتایی"
+		"message": "حذف چندتایی"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "اشتراک قوانین"
@@ -1135,7 +1135,7 @@
 		"message": "از حذف اشتراک قوانین انتخاب شده مطمئن هستید؟"
 	},
 	"settingsConfirmRemoveMultipleRulesSubscription": {
-			"message": "از حذف اشتراکات قوانین انتخاب شده مطمئن هستید؟"
+		"message": "از حذف اشتراکات قوانین انتخاب شده مطمئن هستید؟"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "لطفا فیلد های اجباری را کامل نمایید"
