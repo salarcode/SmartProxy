@@ -1,0 +1,149 @@
+<h2 class="text-primary">
+	SmartProxy
+</h2>
+<p data-localize="settingsTabAboutDescription">
+	Proxys zu verwenden, war dank SmartProxy nie einfacher. Betrachten Sie es als Einmal-konfigurieren-und-dann-vergessen-Lösung.
+	Mit SmartProxy müssen Sie Ihre Proxy-Einstellungen nicht manuell ändern oder ein- und ausschalten.
+	Ein Klick reicht aus, um SmartProxy anzuweisen, den Proxy für eine bestimmte Website zu verwenden.
+	Wenn Sie danach jene Website aufrufen, wird SmartProxy alle übertragenen Daten durch den Proxy leiten, ohne dass Sie irgendetwas tun müssen.
+</p>
+<p>
+	SmartProxy biete eine Vielzahl von Funktionen für Einsteiger und fortgeschrittene Nutzer, darunter:
+</p>
+<ul>
+	<li>Den Proxy für eine einzelne Seite in einem Tab aktivieren, sodass für alles in jenem Tab der Proxy verwendet wird. Diese Funktion nennt sich „Proxy für Tab“.</li>
+	<li>Auf Basis von Regelmustern automatisch erkennen, wenn der Proxy für bestimmte Websites ein- oder ausgeschaltet werden soll.</li>
+	<li>Ganz einfach zwischen mehreren Servern als aktiven Proxy wechseln.</li>
+	<li>Mit nur einem Klick den Proxy für die gerade geöffnete Seite aktivieren.</li>
+	<li>Die Ressourcen und Anfragen auf der gerade geöffneten Seite einsehen und mit einem Klick entscheiden, ob der Proxy für sie aktiviert werden soll.</li>
+	<li>Einfach zwischen Proxy-Modi wechseln oder den Proxy für alle Domains aktivieren.</li>
+	<li>Einstellungen und Regeln sichern/wiederherstellen.</li>
+</ul>
+<br />
+<h3>Bitte beachten Sie:</h3>
+<p>
+<div class="text-info">
+	<i class="fas fa-info-circle" aria-hidden="true"></i>
+	SmartProxy bietet selbst keinerlei Proxy-Server an.
+</div>
+<div class="text-danger">
+	<i class="fas fa-eye-slash" aria-hidden="true"></i>
+	SmartProxy verfolgt Ihr Surfverhalten in keiner Weise.
+</div>
+<div class="text-warning">
+	<i class="fas fa-eye-slash" aria-hidden="true"></i>
+	Smart Proxy ist werbefrei und greift nicht in Webseiten und deren Inhalte ein.
+</div>
+</p>
+<br>
+<h3>Ihre Meinung ist uns wichtig</h3>
+<p>
+<div>
+	<i class="fas fa-star text-warning"></i>
+	Wenn Sie SmartProxy <i class="fas fa-heart text-danger">mögen</i>, bewerten Sie es bitte auf der <a id="linkAddonsMarket" href="#" target="_blank">Erweiterungen</a>-Seite.
+</div>
+<div class="">
+	<i class="fas fa-question-circle text-primary"></i>
+	Wenn Sie Fragen oder Probleme haben, besuchen Sie bitte die <i>Issues</i>-Seite und öffnen ein Ticket, um <a href="https://github.com/salarcode/SmartProxy/issues" target="_blank">Probleme zu melden</a>.
+</div>
+</p>
+<br>
+<h3>Legende des Menüleisten-Aktions-Icons</h3>
+<p>
+	Das Icon in Ihrer Browser-Menüleiste ändert sich, um den Status von SmartProxy anzuzeigen. Die verschiedenen Icons bedeuten Folgendes:
+	<br />
+
+<div class="table-responsive">
+	<table class="table table-sm table table-striped caption-top table-borderless  align-middle table-responsive">
+		<caption><b>Icon-Legende (alle Browser):</b></caption>
+		<thead>
+			<tr>
+				<th style="width: 70px;">Icon</th>
+				<th>Bedeutung</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-disabled.svg" class=""></td>
+				<td>Für die Anfragen wird kein Proxy verwendet.</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/smartproxy.svg" class=""></td>
+				<td>
+					Auf diejenigen Anfragen, die auf die definierten Regeln passen, wurde der Proxy angewandt oder wird angewandt werden.
+					<br /> Oder keine Regel passt beim Tab.
+					<br />Profil:<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Intelligente Regeln
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-always.svg" class=""></td>
+				<td>
+					Proxy wird auf alle Anfragen im aktuellen Tab angewandt. (Domains auf der weißen Liste werden in Chrome-basierten Browsern als solche angezeigt.)<br />Profil: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i> Immer aktiv
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-system.svg" class=""></td>
+				<td>
+					Die Entscheidung über die Verwendung eines Proxys wird an das Betriebssystem abgeben.
+					<br/>Profil: System
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="table-responsive">
+	<table class="table table-sm table table-striped caption-top table-borderless  align-middle table-responsive">
+		<caption><b>Icon-Legende (nur für Firefox):</b></caption>
+		<thead>
+			<tr>
+				<th style="width: 70px;">Icon</th>
+				<th>Bedeutung</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-green.svg" class=""></td>
+				<td>
+					Eine Regel passt auf den aktuellen Tab. Alle nachfolgenden Anfragen werden durch den Proxy geleitet werden.
+					<br />Profil:<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Intelligente Regeln
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-failed.svg" class=""></td>
+				<td>
+					Eine Regel passt auf den aktuellen Tab. Es gibt mindestens eine fehlgeschlagene bzw. nicht abgeschlossene Anfrage.
+					<br />Profil:<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Intelligente Regeln
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-bypassed.svg" class=""></td>
+				<td>
+					Eine Regel passt auf den aktuellen Tab. Mindestens für eine nachfolgende Anfrage wurde der Proxy aufgrund einer Regel umgangen.
+					<br />Profil:<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Intelligente Regeln
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-has-unmatched.svg" class=""></td>
+				<td>
+					Eine Regel passt auf den aktuellen Tab. Mindestens eine nachfolgende Anfrage entspricht keiner Regel und wird nicht durch den Proxy geleitet.
+					<br />Profil:<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Intelligente Regeln
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-smartrules-noproxy-has-matched.svg" class=""></td>
+				<td>
+					Keine Regel passt auf den aktuellen Tab. Mindestens eine nachfolgende Anfrage entspricht einer Regel und wird durch einen Proxy geleitet.
+					<br />Profil:<i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Intelligente Regeln
+				</td>
+			</tr>
+			<tr>
+				<td class="p-2"><img src="../icons/profile-always-bypassed.svg" class=""></td>
+				<td>
+					Proxy wird auf alle Anfragen im aktuellen Tab angewandt. Mindestens für eine nachfolgende Anfrage wurde der Proxy aufgrund einer Regel umgangen.
+					<br />Profil: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i> Immer aktiv
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</p>
