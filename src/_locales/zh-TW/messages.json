@@ -13,19 +13,19 @@
 		"message": "Smart Proxy 將基於用戶設定的規則自動決定是否在訪問時使用代理。"
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Matched rule source:"
+		"message": "匹配的規則來源："
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "No matching rule"
+		"message": "無匹配的規則"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "Rule pattern:"
+		"message": "規則模式："
 	},
 	"popupTitle": {
 		"message": "SmartProxy 模式："
 	},
 	"popupPrivateBrowsingMode": {
-		"message": "Private Browsing Mode"
+		"message": "隱私瀏覽模式"
 	},
 	"popupNoProxy": {
 		"message": "直接連接（無代理）"
@@ -40,16 +40,16 @@
 		"message": "系統代理"
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy (this profile):"
+		"message": "此方案的代理："
 	},
 	"popupActiveProxyDefault": {
-		"message": "Active Proxy (Default Setting):"
+		"message": "預設設定的代理："
 	},
 	"popupEnableProxyOn": {
 		"message": "以下頁面使用代理"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Ignore these domains"
+		"message": "忽略這些網域"
 	},
 	"popupRuleIsFromSubscription": {
 		"message": "(來自訂閱)"
@@ -79,13 +79,13 @@
 		"message": "添加到代理規則"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+		"message": "所選方案「{0}」不支援規則，請選擇其他方案。"
 	},
 	"popupAddIgnoredFailures": {
 		"message": "忽略"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
+		"message": "確定要忽略所選的失敗項目嗎？忽略後將不會再收到相關錯誤。之後可在設定中變更。"
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
 		"message": "修改瀏覽器使用系統代理需要`incognito`權限。請打開SmartProxy擴展的設置，請允許`incognito`權限。 <a href='https://support.google.com/chrome_webstore/answer/2664769'>點擊瞭解如何操作</a>."
@@ -136,55 +136,55 @@
 		"message": "請求 URL"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Rule status"
+		"message": "規則狀態"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Proxy status"
+		"message": "代理狀態"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Rule domain"
+		"message": "規則網域"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Rule pattern"
+		"message": "規則模式"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "No Proxy"
+		"message": "無代理"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Special"
+		"message": "特殊"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "遵循父標籤頁"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "已匹配"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "始終啟用"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "System Proxy Applied"
+		"message": "已套用系統代理"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "No Match"
+		"message": "無匹配"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Special"
+		"message": "特殊"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "遵循父標籤頁"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "已匹配"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Whitelisted"
+		"message": "白名單"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "AlwaysEnabled <br> Bypassed"
+		"message": "始終啟用 <br> 已被繞過"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "AlwaysEnabled <br> Forced By Rules"
+		"message": "始終啟用 <br> 被規則強制套用"
 	},
 	"settingsTitle": {
 		"message": "SmartProxy 設置"
@@ -196,10 +196,10 @@
 		"message": "常規"
 	},
 	"settingsTabSmartProfiles": {
-		"message": "Smart Profiles"
+		"message": "智慧方案"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Add new Smart Profile"
+		"message": "新增智慧方案"
 	},
 	"settingsTabProxyServers": {
 		"message": "代理服務器"
@@ -220,13 +220,13 @@
 		"message": "智能功能"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome."
+		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> 獨享！</strong> 很遺憾，Chrome 不支援此功能。"
 	},
 	"settingsGeneralProxyPerOrigin": {
 		"message": "爲每個標籤/來源啓用代理"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
+		"message": "若某條規則匹配標籤頁的網址，該標籤頁的連線將套用該代理。一般情況下，頁面內的其它請求可能不會有匹配規則，因此不會套用代理。啟用「按標籤/來源套用代理」後，整個頁面（包含從不同網域或來源的連線）都會使用與標籤頁來源相同的代理，亦可避免需為每個網域建立規則。請注意：若標籤頁未套用任何代理，規則仍會對該頁面的其它連線個別生效。"
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
 		"message": "已爲每個標籤/來源啓用代理"
@@ -235,16 +235,16 @@
 		"message": "已爲每個標籤/來源停用代理"
 	},
 	"settingsGeneralSyncing": {
-		"message": "Syncing"
+		"message": "同步"
 	},
 	"settingsGeneralIncognitoProfile": {
-		"message": "Private Browsing Profile"
+		"message": "隱私瀏覽方案"
 	},
 	"settingsGeneralIncognitoProfileDisabled": {
-		"message": "(Disabled)"
+		"message": "(已停用)"
 	},
 	"settingsGeneralIncognitoProfileDesc": {
-		"message": "Select a private browsing profile if you want to force it to be used when tab/window is in Private Browsing mode. This option will override the active profile."
+		"message": "選擇要在隱私視窗中強制使用的方案，該設定將覆蓋當前啟用的方案。"
 	},
 	"settingsGeneralEnableSyncing": {
 		"message": "開啓選項同步"
@@ -259,52 +259,52 @@
 		"message": "放棄更改"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Enable syncing active profile"
+		"message": "同步當前方案"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Check if you want the active profile to be synced."
+		"message": "啟用後將同步目前啟用的方案。"
 	},
 	"settingsGeneralSyncActiveProxy": {
-		"message": "啓用同步活躍代理"
+		"message": "同步預設代理伺服器"
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
-		"message": "檢查是否需要同步所選代理服務器"
+		"message": "啟用後將同步目前選擇的預設代理伺服器。"
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "Use the browser's sync servers"
+		"message": "使用瀏覽器的同步伺服器"
 	},
 	"settingsGeneralSyncToWebDAV": {
-		"message": "Sync to a WebDAV server"
+		"message": "同步至 WebDAV 伺服器"
 	},
 	"settingsGeneralWebDavServerUrl": {
-		"message": "WebDAV Server URL:"
+		"message": "WebDAV 伺服器 URL："
 	},
 	"settingsGeneralWebDavBackupFilename": {
-		"message": "Backup Filename:"
+		"message": "備份檔名："
 	},
 	"settingsGeneralWebDavServerUser": {
-		"message": "WebDAV Server Username:"
+		"message": "WebDAV 伺服器使用者："
 	},
 	"settingsGeneralWebDavServerPassword": {
-		"message": "WebDAV Server Password:"
+		"message": "WebDAV 伺服器密碼："
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+		"message": "請注意，每次設定變更都會備份，還原僅會在瀏覽器啟動時發生。"
 	},
 	"settingsGeneralWebDavServerBackupNow": {
-		"message": "Backup Now"
+		"message": "立即備份"
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
-		"message": "Please enter a valid WebDAV Server URL"
+		"message": "請輸入有效的 WebDAV 伺服器 URL"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
-		"message": "WebDAV Server Backup Filename cannot be empty"
+		"message": "WebDAV 備份檔名不可為空"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
-		"message": "WebDav backup completed successfully!"
+		"message": "WebDav 備份成功完成！"
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
-		"message": "WebDav backup failed:"
+		"message": "WebDav 備份失敗："
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "檢測出錯"
@@ -316,49 +316,49 @@
 		"message": "請求失敗檢測將幫助您識別需要代理的域名。"
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Enter Rules"
+		"message": "輸入規則"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Ignore failure detection based on these rules"
+		"message": "根據這些規則忽略失敗檢測"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Add rules to disable failure detection."
+		"message": "新增規則以停用失敗檢測。"
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
 		"message": "在工具欄圖標徽章上顯示請求失敗的次數"
 	},
 	"settingsGeneralThemes": {
-		"message": "Themes"
+		"message": "主題"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "Auto switch by the Browser theme"
+		"message": "根據瀏覽器主題自動切換"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system."
+		"message": "在以下選擇的主題間自動切換。這會跟隨您的瀏覽器主題，而瀏覽器主題也可以跟隨您作業系統的主題。"
 	},
 	"settingsGeneralThemesLight": {
-		"message": "Light Theme"
+		"message": "淺色主題"
 	},
 	"settingsGeneralThemes_Default": {
-		"message": "(Default)"
+		"message": "（預設）"
 	},
 	"settingsGeneralThemes_Custom": {
-		"message": "(Custom)"
+		"message": "（自訂）"
 	},
 	"settingsGeneralThemes_CustomUrl": {
-		"message": "Custom Styles (Css) Url:"
+		"message": "自訂樣式 (CSS) 網址："
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency."
+		"message": "網址必須是 'Https'。請注意自訂樣式中的匯入字體和其他樣式，它們可能會阻塞或拖慢瀏覽器中的彈出視窗。您可以嘗試 bootswatch.com 的主題，但請注意它們對 Google 字體的依賴性。"
 	},
 	"settingsGeneralThemesDark": {
-		"message": "Dark Theme"
+		"message": "深色主題"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Light Theme and the url should be 'https'."
+		"message": "請為淺色主題輸入有效的 CSS 網址，且網址應為 'https'。"
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'."
+		"message": "請為深色主題輸入有效的 CSS 網址，且網址應為 'https'。"
 	},
 	"settingsGeneralOtherSettings": {
 		"message": "其它設置"
@@ -379,13 +379,13 @@
 		"message": "快捷鍵"
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Display applied rule source on badge"
+		"message": "在徽章上顯示已套用的規則來源"
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
-		"message": "Display applied rule pattern on badge"
+		"message": "在徽章上顯示已套用的規則模式"
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
-		"message": "Refresh active tab when profile or proxy changed"
+		"message": "當設定檔或代理伺服器變更時重新整理活動分頁"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "取消"
@@ -400,7 +400,7 @@
 		"message": "關閉"
 	},
 	"settingsGeneralKeyboardShortcutsNotSupported": {
-		"message": "Keyboard shortcuts are not supported on mobile devices."
+		"message": "行動裝置不支援快捷鍵。"
 	},
 	"settingsTabProxyServersTitle": {
 		"message": "管理您的代理服務器："
@@ -418,13 +418,13 @@
 		"message": "您必須先定義代理服務器。"
 	},
 	"settingsActiveProxyServer": {
-		"message": "Default Proxy Server:"
+		"message": "預設代理伺服器："
 	},
 	"settingsAddServerButton": {
 		"message": "添加服務器"
 	},
 	"settingsRemoveMultipleServerButton": {
-		"message": "Delete Multiple"
+		"message": "刪除多個"
 	},
 	"settingsSaveChangesButton": {
 		"message": "保存更改"
@@ -433,7 +433,7 @@
 		"message": "放棄更改"
 	},
 	"settingsEditButton": {
-		"message": "Edit"
+		"message": "編輯"
 	},
 	"settingsFullBackupButton": {
 		"message": "創建完整備份"
@@ -448,22 +448,22 @@
 		"message": "從本地備份文件還原"
 	},
 	"settingsDangerZoneDesc": {
-		"message": "Danger zone"
+		"message": "危險區域"
 	},
 	"settingsFactoryResetButton": {
-		"message": "Factory Reset"
+		"message": "恢復出廠設定"
 	},
 	"settingsFactoryResetDesc": {
-		"message": "Reset everything. This will remove all rules and proxy servers and reset the options. Permanently."
+		"message": "重設所有內容。這將移除所有規則和代理伺服器並重設選項。此操作無法復原。"
 	},
 	"settingsFactoryResetConfirm": {
-		"message": "Are you sure to reset EVERYTHING ? Sure? There is no way back!"
+		"message": "您確定要重設所有內容嗎？確定嗎？沒有辦法復原！"
 	},
 	"settingsFactoryResetSuccess": {
-		"message": "Factory reset is completed successfully"
+		"message": "恢復出廠設定已成功完成"
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import/Export individual list of proxies servers."
+		"message": "匯入/匯出個別的代理伺服器清單。"
 	},
 	"settingsImportProxiesButtonBackup": {
 		"message": "導入代理服務器設置"
@@ -484,7 +484,7 @@
 		"message": "規則備份文件"
 	},
 	"settingsImportRulesText": {
-		"message": "Rules Backup Text"
+		"message": "規則備份文字"
 	},
 	"settingsImportRulesFrom": {
 		"message": "規則導入來源"
@@ -532,7 +532,7 @@
 		"message": "確定移除所選代理服務器？"
 	},
 	"settingsConfirmRemoveMultipleProxyServer": {
-		"message": "Are you sure to remove the selected proxy servers?"
+		"message": "確定移除所選的代理伺服器？"
 	},
 	"settingsRemoveAllProxyServers": {
 		"message": "你確定移除所有代理服務器？"
@@ -559,13 +559,13 @@
 		"message": "成功回滾更改。"
 	},
 	"settingsConfirmSaveAllChanged": {
-		"message": "Do you want to save all unsaved changes?"
+		"message": "您要儲存所有未儲存的變更嗎？"
 	},
 	"settingsConfirmRemoveProxyRule": {
 		"message": "確定移除所選規則？"
 	},
 	"settingsConfirmRemoveMultipleProxyRule": {
-		"message": "Are you sure to remove the selected rules?"
+		"message": "確定移除所選的規則？"
 	},
 	"settingsRemoveAllRules": {
 		"message": "確定移除所有規則？"
@@ -589,7 +589,7 @@
 		"message": "導入文件失敗。"
 	},
 	"settingsImportRulesTextIsEmpty": {
-		"message": "Please enter rules in the box"
+		"message": "請在框中輸入規則"
 	},
 	"settingsServerNameRequired": {
 		"message": "請指定服務器名稱！"
@@ -646,7 +646,7 @@
 		"message": "密碼"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "（很抱歉，Chrome 擴充功能 API 不支援代理伺服器驗證，這是刻意設計的。）"
 	},
 	"settingsServersCancel": {
 		"message": "取消"
@@ -658,97 +658,97 @@
 		"message": "導入"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "Smart Profile:"
+		"message": "智能設定檔："
 	},
 	"settingsProfilesEnabled": {
-		"message": "Enabled"
+		"message": "已啟用"
 	},
 	"settingsProfilesTypeTitle": {
-		"message": "Profile Type:"
+		"message": "設定檔類型："
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
-		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+		"message": "在此設定檔中，除非您定義智能規則，否則不會套用代理。您將定義黑名單規則，或換言之，用來套用代理的規則。"
 	},
 	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
-		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+		"message": "在此設定檔中，代理伺服器總是會被套用，除非您定義智能規則來跳過它們。您將定義白名單規則，或換言之，用來跳過代理而不套用代理的規則。"
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
-		"message": "Ignore failure detection for these domains by adding rules."
+		"message": "透過新增規則來忽略這些域名的失敗檢測。"
 	},
 	"settingsProfilesProfileProxyServer": {
-		"message": "Profile Proxy Server:"
+		"message": "設定檔代理伺服器："
 	},
 	"settingsProfilesDefaultProfileProxyServer": {
-		"message": "(Use Default Proxy Server)"
+		"message": "(使用預設代理伺服器)"
 	},
 	"settingsProfilesProfileProxyServerDesc": {
-		"message": "(While using this profile, this is going to be the active proxy server)"
+		"message": "(使用此設定檔時，這將是作用中的代理伺服器)"
 	},
 	"settingsProfilesRulesSection": {
-		"message": "Rules"
+		"message": "規則"
 	},
 	"settingsProfilesDelete": {
-		"message": "Delete"
+		"message": "刪除"
 	},
 	"settingsProfilesAddNewLabel": {
-		"message": "Add New Smart Profile"
+		"message": "新增智能設定檔"
 	},
 	"settingsProfilesAddNewTypeLead": {
-		"message": "Please select the <b>type of profile</b> you want to add:"
+		"message": "請選擇您要新增的<b>設定檔類型</b>："
 	},
 	"settingsProfilesAddNewType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "智能規則"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
-		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+		"message": "在此類型的設定檔中，代理會根據您定義的<em>規則</em>套用到請求。您可以透過工具列彈出選單、設定頁面，或從<em>可代理資源</em>視窗新增規則。<br>此外，您也可以訂閱不同的規則清單，例如 Gfwlist。"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "一律啟用"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
-		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
+		"message": "在此類型的設定檔中，除非您定義規則來繞過它，否則代理將總是套用到請求。定義規則的步驟與智能規則設定檔類型相同。"
 	},
 	"settingsProfilesAddNewBtnContinue": {
-		"message": "Continue"
+		"message": "繼續"
 	},
 	"settingsProfilesAddNewBtnCancel": {
-		"message": "Cancel"
+		"message": "取消"
 	},
 	"settingsProfilesAddErrorTypeRequired": {
-		"message": "Please select a profile type"
+		"message": "請選擇設定檔類型"
 	},
 	"settingsProfilesAddErrorNameRequired": {
-		"message": "Profile name is mandatory"
+		"message": "設定檔名稱為必填"
 	},
 	"settingsProfilesAddErrorNameExists": {
-		"message": "Profile name already exists, please enter another one"
+		"message": "設定檔名稱已存在，請輸入另一個"
 	},
 	"settingsProfilesDeleteConfirm": {
-		"message": "Are you sure to delete this profile? Warning, this action cannot be undone!"
+		"message": "確定要刪除此設定檔嗎？警告，此操作無法復原！"
 	},
 	"settingsProfilesDeleteFailed": {
-		"message": "Failed to delete the selected profile."
+		"message": "刪除所選設定檔失敗。"
 	},
 	"settingsProfilesDeleteDone": {
-		"message": "The profile is deleted successfully"
+		"message": "設定檔已成功刪除"
 	},
 	"settingsProfilesDeleteBuiltinFail": {
-		"message": "Cannot delete built-in profiles"
+		"message": "無法刪除內建設定檔"
 	},
 	"settingsProfilesProxyServer": {
-		"message": "[Use Default Proxy Server]"
+		"message": "[使用預設代理伺服器]"
 	},
 	"settingsProfilesRulesSubscriptionsTitle": {
-		"message": "Rules Subscriptions"
+		"message": "規則訂閱"
 	},
 	"settingsProfilesRulesSubscriptionsDesc": {
-		"message": "Here you can subscribe to rules lists."
+		"message": "您可以在此訂閱規則清單。"
 	},
 	"settingsSaveSmartProfileSuccess": {
-		"message": "Smart Profile saved successfully."
+		"message": "智能設定檔已成功儲存。"
 	},
 	"settingsErrorFailedToSaveSmartProfile": {
-		"message": "Failed to save smart profile."
+		"message": "儲存智能設定檔失敗。"
 	},
 	"settingsRuleSourceRequired": {
 		"message": "請指定代理規則源域名！"
@@ -799,10 +799,10 @@
 		"message": "代理服務器"
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[Use Active Proxy]"
+		"message": "［使用作用中的代理］"
 	},
 	"settingsRulesProxyFromProfile": {
-		"message": "[Use Profile Proxy]"
+		"message": "［使用方案代理］"
 	},
 	"settingsRulesModalTitle": {
 		"message": "規則詳情"
@@ -853,7 +853,7 @@
 		"message": "白名單（無代理）"
 	},
 	"settingsRuleActionWhitelistDesc": {
-		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+		"message": "（白名單規則優先於代理規則，無論其位置如何）"
 	},
 	"settingsServerPortInvalid": {
 		"message": "服務器端口 '{0}' 無效"
@@ -868,13 +868,13 @@
 		"message": "還原設置時出錯"
 	},
 	"settingsRestoreSettingsFailedInvalid": {
-		"message": "Backup data is invalid or corrupted"
+		"message": "備份資料無效或已損壞"
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
-		"message": "Invalid data provided for active profile"
+		"message": "為作用中設定檔提供的資料無效"
 	},
 	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
-		"message": "Invalid data provided for default proxy server"
+		"message": "為預設代理伺服器提供的資料無效"
 	},
 	"settingsEnableByDomainInvalid": {
 		"message": "所選域名無效"
@@ -883,7 +883,7 @@
 		"message": "該域名的規則已經存在"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
-		"message": "The current profile '{0}' cannot be updated with rules"
+		"message": "目前的設定檔「{0}」無法新增或修改規則"
 	},
 	"settingsNoRuleFoundForDomain": {
 		"message": "沒有對域名 '{0}' 的規則"
@@ -892,7 +892,7 @@
 		"message": "{0} / {1} 條規則已添加。<br>注意保存更改。"
 	},
 	"settingsRemoveMultipleProxyRuleButton": {
-		"message": "Delete Multiple"
+		"message": "刪除多個"
 	},
 	"settingsAddMultipleRulesButton": {
 		"message": "添加多重規則"
@@ -928,7 +928,7 @@
 		"message": "訂閱一個代理服務器列表"
 	},
 	"settingsRemoveMultipleServerSubscriptionButton": {
-		"message": "Delete Multiple"
+		"message": "刪除多個"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "名稱："
@@ -1003,7 +1003,7 @@
 		"message": "你希望移除所有代理服務器訂閱？"
 	},
 	"settingsConfirmRemoveMultipleServerSubscription": {
-		"message": "Are you sure to remove the selected subscriptions?"
+		"message": "您確定要移除所選的訂閱嗎？"
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "所有代理服務器訂閱已移除。<br/>你必須保存以應用更改。"
@@ -1024,7 +1024,7 @@
 		"message": "名稱"
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "URL"
+		"message": "網址"
 	},
 	"settingsServerSubscriptionsGridColCount": {
 		"message": "計數"
@@ -1066,7 +1066,7 @@
 		"message": "訂閱規則列表"
 	},
 	"settingsRemoveMultipleRulesSubscriptionButton": {
-		"message": "Delete Multiple"
+		"message": "刪除多個"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "訂閱規則列表"
@@ -1075,7 +1075,7 @@
 		"message": "名稱"
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "網址"
 	},
 	"settingsRulesSubscriptionsGridColCount": {
 		"message": "數量"
@@ -1135,7 +1135,7 @@
 		"message": "確定要移除所選的規則訂閱嗎？"
 	},
 	"settingsConfirmRemoveMultipleRulesSubscription": {
-		"message": "Are you sure to remove the selected rules subscriptions?"
+		"message": "您確定要移除所選的規則訂閱嗎？"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "請以正確格式填寫必需項"
@@ -1198,34 +1198,34 @@
 		"message": "明白"
 	},
 	"settingsSubscriptionStatsStatusSuccess": {
-		"message": "Status: Success"
+		"message": "狀態：成功"
 	},
 	"settingsSubscriptionStatsStatusFail": {
-		"message": "Status: Failed"
+		"message": "狀態：失敗"
 	},
 	"settingsSubscriptionStatsLastTry": {
-		"message": "Last Try:"
+		"message": "最後嘗試："
 	},
 	"settingsSubscriptionStatsMessage": {
-		"message": "Message:"
+		"message": "訊息："
 	},
 	"settingsSubscriptionStatsLastSuccess": {
-		"message": "Last Success:"
+		"message": "上次成功："
 	},
 	"settings_SmartProfileType_Direct": {
-		"message": "Direct"
+		"message": "直連"
 	},
 	"settings_SmartProfileType_SystemProxy": {
-		"message": "System Proxy"
+		"message": "系統代理"
 	},
 	"settings_SmartProfileType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "智能規則"
 	},
 	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
-		"message": "Always Enabled with Bypass Rules"
+		"message": "一律啟用（可繞過規則）"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
-		"message": "Ignore Failures Rules"
+		"message": "忽略失敗規則"
 	},
 	"notificationNoNextProxyServer": {
 		"message": "沒有下一個代理服務器"
