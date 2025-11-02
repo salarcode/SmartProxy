@@ -10,7 +10,7 @@
 		"message": "SmartProxy"
 	},
 	"extensionDescription": {
-		"message": "Smart Proxy wird automatisch den Proxy aktivieren/deaktivieren für die Seiten, die Sie besuchen, basierend auf anpassbaren Mustern."
+		"message": "SmartProxy wird automatisch den Proxy aktivieren/deaktivieren für die Seiten, die Sie besuchen, basierend auf anpassbaren Mustern."
 	},
 	"toolbarTooltipEffectiveRule": {
 		"message": "Quelle der passenden Regel:"
@@ -31,7 +31,7 @@
 		"message": "Direkt (Kein Proxy)"
 	},
 	"popupSmartProxy": {
-		"message": "Smart Proxy"
+		"message": "SmartProxy"
 	},
 	"popupAlwaysEnable": {
 		"message": "Immer Aktiv"
@@ -151,7 +151,7 @@
 		"message": "Kein Proxy"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Special"
+		"message": "Spezial"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
 		"message": "Vom übergeordneten Tab"
@@ -169,7 +169,7 @@
 		"message": "Keine Übereinstimmung"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Special"
+		"message": "Spezial"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
 		"message": "Vom übergeordneten Tab"
@@ -223,16 +223,16 @@
 		"message": "<strong>Nur in <a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a>!</strong> Leider ist diese Funktion in Chrome nicht unterstützt."
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin"
+		"message": "Proxy pro Tab/Origin aktivieren"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
+		"message": "Wenn eine Regel mit der URL eines Tabs übereinstimmt, wird der Proxy auf die Verbindung dieses Tabs angewendet. Normalerweise gibt es auf jeder Seite weitere Anfragen, die möglicherweise keiner Regel entsprechen und daher keinen Proxy für ihre Verbindung erhalten. Die Option `Proxy pro Tab/Origin aktivieren` sorgt dafür, dass die gesamte Seite – einschließlich aller Verbindungen von unterschiedlichen Domains und Origins – denselben Proxy verwendet, der auf die Origin des Tabs angewandt wurde. Außerdem entfällt dadurch die Notwendigkeit, für jede einzelne Domain eine Regel anzulegen. Bitte beachten Sie, dass wenn kein Proxy auf das Tab angewendet wird, Proxy-Regeln weiterhin funktionieren und Proxy individuell auf andere Verbindungen der Seite anwenden."
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "Proxy per tab/origin enabled"
+		"message": "Proxy pro Tab/Origin aktiviert"
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "Proxy per tab/origin disabled"
+		"message": "Proxy pro Tab/Origin deaktiviert"
 	},
 	"settingsGeneralSyncing": {
 		"message": "Synchronisieren"
@@ -343,7 +343,7 @@
 		"message": "(Standard)"
 	},
 	"settingsGeneralThemes_Custom": {
-		"message": "(Custom)"
+		"message": "(Benutzerdefiniert)"
 	},
 	"settingsGeneralThemes_CustomUrl": {
 		"message": "URL der eigenen Styles (CSS):"
