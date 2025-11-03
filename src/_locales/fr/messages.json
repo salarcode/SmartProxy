@@ -465,14 +465,98 @@
 	"settingsImportExportProxiesDesc": {
 		"message": "Importer/Exporter la liste individuelle des serveurs proxy."
 	},
+	"settingsImportProxiesButtonBackup": {
+		"message": "Importer Serveurs Proxy"
+	},
+	"settingsExportProxiesButtonBackup": {
+		"message": "Exporter Serveurs Proxy"
+	},
+	"settingsAddRuleButton": {
+		"message": "Ajoutez Règle"
+	},
+	"settingsImportRulesButton": {
+		"message": "Importer Règles"
+	},
+	"settingsImportRulesTitle": {
+		"message": "Importer Règles"
+	},
+	"settingsImportRulesSelectButton": {
+		"message": "Fichier de règles de sauvegarde"
+	},
 	"settingsImportRulesText": {
 		"message": "Texte de sauvegarde des règles"
+	},
+	"settingsImportRulesFrom": {
+		"message": "De"
+	},
+	"settingsImportRulesOptionAppend": {
+		"message": "Ajouter aux règles en vigueur"
+	},
+	"settingsImportRulesOptionOverride": {
+		"message": "Remplacer les règles actuelles (à utiliser avec prudence)"
+	},
+	"settingsImportRulesCancelButton": {
+		"message": "Annuler"
+	},
+	"settingsImportRulesImportButton": {
+		"message": "Importer"
+	},
+	"settingsImportProxiesButton": {
+		"message": "Importer Proxies"
+	},
+	"settingsExportProxiesButton": {
+		"message": "Exporter Proxies"
+	},
+	"settingsImportProxiesTitle": {
+		"message": "Importer Liste de Proxy"
+	},
+	"settingsImportProxiesSelectFileButton": {
+		"message": "Fichier de liste de proxy"
+	},
+	"settingsImportProxiesSelectTextButton": {
+		"message": "Texte de liste de proxy"
+	},
+	"settingsImportProxiesOptionAppend": {
+		"message": "Ajouter aux proxies existantes"
+	},
+	"settingsImportProxiesOptionOverride": {
+		"message": "Remplacer les proxies actuelles (à utiliser avec prudence)"
+	},
+	"settingsImportProxiesCancelButton": {
+		"message": "Annuler"
+	},
+	"settingsImportProxiesImportButton": {
+		"message": "Importer"
 	},
 	"settingsConfirmRemoveProxyServer": {
 		"message": "Êtes-vous sûr de supprimer le serveur proxy sélectionné ?"
 	},
 	"settingsConfirmRemoveMultipleProxyServer": {
 		"message": "Êtes-vous sûr de supprimer les serveurs proxy sélectionnés ?"
+	},
+	"settingsRemoveAllProxyServers": {
+		"message": "Êtes-vous sûr de supprimer tous les serveurs proxy?"
+	},
+	"settingsRemoveAllProxyServersSuccess": {
+		"message": "Tous les serveurs proxy sont enlevés.<br/>Vous devez enregistrer pour appliquer les modifications."
+	},
+	"settingsImportProxiesFileNotSelected": {
+		"message": "Sélectionner un fichier de liste de proxy s'il vous plaît"
+	},
+	"settingsImportProxyListTextIsEmpty": {
+		"message": "Entrez la liste de proxy s'il vous plaît"
+	},
+	"settingsImportProxyServersFailed": {
+		"message": "Impossible d'importer les serveurs proxy"
+	},
+	"importerImportProxySuccess": {
+		"message": "Total {0} hors {1} proxies sont importés.<br>N’oubliez pas d’enregistrer les modifications."
+	},
+	"settingsErrorFailedToSaveServers": {
+		"message": "Impossible d'enregistrer serveurs."
+	},
+	"settingsChangesReverted": {
+		"message": "Changements revenue avec succès."
 	},
 	"settingsConfirmSaveAllChanged": {
 		"message": "Voulez-vous enregistrer toutes les modifications non enregistrées ?"
@@ -483,8 +567,65 @@
 	"settingsConfirmRemoveMultipleProxyRule": {
 		"message": "Êtes-vous sûr de supprimer les règles sélectionnées ?"
 	},
+	"settingsRemoveAllRules": {
+		"message": "Êtes-vous sûr de supprimer toutes les règles?"
+	},
+	"settingsRemoveAllRulesSuccess": {
+		"message": "Toutes les règles sont supprimées.<br/>Vous devez enregistrer pour appliquer les modifications."
+	},
+	"settingsRestoreBackupFailed": {
+		"message": "Il y avait une erreur dans la restauration de la sauvegarde"
+	},
+	"settingsRestoreBackupFileError": {
+		"message": "Impossible de lire le fichier sélectionné"
+	},
+	"settingsRulesFileNotSelected": {
+		"message": "Veuillez sélectionner un fichier de règles"
+	},
+	"settingsSourceTypeNotSelected": {
+		"message": "Veuillez sélectionner le type de source"
+	},
+	"settingsImportRulesFailed": {
+		"message": "Impossible d'importer le fichier."
+	},
 	"settingsImportRulesTextIsEmpty": {
 		"message": "Veuillez entrer les règles dans la boîte"
+	},
+	"settingsServerNameRequired": {
+		"message": "Spécifiez le nom du serveur!"
+	},
+	"settingsServerNameExists": {
+		"message": "Un Serveur portant le même nom existe déjà!"
+	},
+	"settingsServerServerAddressIsEmpty": {
+		"message": "Adresse du serveur ne peut pas être vide"
+	},
+	"settingsServerPortNoInvalid": {
+		"message": "Entrer un numéro de port valide s'il vous plaît"
+	},
+	"settingsServerAuthenticationInvalid": {
+		"message": "Tous les deux nom d'utilisateur et mot de passe sont requis pour l'authentification"
+	},
+	"settingsServersGridNoDataContent": {
+		"message": "Aucun serveur est défini"
+	},
+	"settingsServersGridColName": {
+		"message": "Nom"
+	},
+	"settingsServersGridColProtocol": {
+		"message": "Protocole"
+	},
+	"settingsServersGridColServer": {
+		"message": "Serveur"
+	},
+	"settingsServersGridColPort": {
+		"message": "Port"
+	},
+	"settingsServersModalTitle": {
+		"message": "Détails du Serveur Proxy"
+	},
+	"settingsServersServerName": {
+		"message": "Nom du Serveur"
 	},
 	"settingsServersSeverAddress": {
 		"message": "Adresse du serveur"
@@ -492,14 +633,29 @@
 	"settingsServersProtocol": {
 		"message": "Protocole proxy"
 	},
+	"settingsServersPort": {
+		"message": "Port"
+	},
 	"settingsServersProxyDNS": {
 		"message": "Proxy DNS lors de l'utilisation de SOCKS 5"
+	},
+	"settingsServersUsername": {
+		"message": "Nom d’Utilisateur"
+	},
+	"settingsServersPassword": {
+		"message": "Mot de passe"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
 		"message": "(Malheureusement, l'authentification du serveur proxy n'est pas prise en charge par Chrome via l'API des extensions. C'est &quot;intentionnel&quot;.)"
 	},
+	"settingsServersCancel": {
+		"message": "Annuler"
+	},
 	"settingsServersSave": {
 		"message": "Sauvegarder"
+	},
+	"settingsServersImport": {
+		"message": "Importer"
 	},
 	"settingsProfilesNameTitle": {
 		"message": "Profil Smart :"
@@ -624,11 +780,23 @@
 	"settingsRuleUrlInvalid": {
 		"message": "L'URL '{0}' n'est pas valide"
 	},
+	"settingsRulesGridNoDataContent": {
+		"message": "Aucune règle n'est définie"
+	},
 	"settingsRulesGridColRuleType": {
 		"message": "Type de règle"
 	},
+	"settingsRulesGridColSource": {
+		"message": "Source"
+	},
 	"settingsRulesGridColRule": {
 		"message": "Règle"
+	},
+	"settingsRulesGridColEnabled": {
+		"message": "Activé"
+	},
+	"settingsRulesGridColProxy": {
+		"message": "Serveur Proxy"
 	},
 	"settingsRulesProxyDefault": {
 		"message": "[Utiliser le proxy actif]"
@@ -636,8 +804,20 @@
 	"settingsRulesProxyFromProfile": {
 		"message": "[Utiliser le proxy du profil]"
 	},
+	"settingsRulesModalTitle": {
+		"message": "Détails de Règle"
+	},
 	"settingsRulesRuleType": {
 		"message": "Type de règle"
+	},
+	"settingsRulesSourceDomain": {
+		"message": "Domaine de Règle de Source"
+	},
+	"settingsRulesSourceDomainDesc": {
+		"message": "(par exemple google.com)"
+	},
+	"settingsRulesPattern": {
+		"message": "Patron de correspondance"
 	},
 	"settingsRulesGeneratePattern": {
 		"message": "Générer le modèle automatiquement"
@@ -648,8 +828,20 @@
 	"settingsRulesExactUrl": {
 		"message": "URL exacte (en minuscules)"
 	},
+	"settingsRulesProxyServer": {
+		"message": "Serveur Proxy"
+	},
 	"settingsRulesProxyServerNotAuth": {
 		"message": "(Les serveurs avec authentification ne sont pas pris en charge dans Chrome)"
+	},
+	"settingsRulesEnabled": {
+		"message": "Activé"
+	},
+	"settingsRulesModalCancel": {
+		"message": "Annuler"
+	},
+	"settingsRulesModalSave": {
+		"message": "Sauvegarder"
 	},
 	"settingsRulesActionType": {
 		"message": "Action"
@@ -663,6 +855,18 @@
 	"settingsRuleActionWhitelistDesc": {
 		"message": "(Les règles de liste blanche ont une priorité plus élevée que les règles de proxy, indépendamment de leur placement)"
 	},
+	"settingsServerPortInvalid": {
+		"message": "Port de serveur '{0}' n’est pas valide"
+	},
+	"settingsServerHostInvalid": {
+		"message": "Hôte du serveur '{0}' n’est pas valide"
+	},
+	"settingsRestoreSettingsSuccess": {
+		"message": "Paramètres sont restaurés avec succès"
+	},
+	"settingsRestoreSettingsFailed": {
+		"message": "Il y avait une erreur dans la restauration des paramètres"
+	},
 	"settingsRestoreSettingsFailedInvalid": {
 		"message": "Les données de sauvegarde sont invalides ou corrompues"
 	},
@@ -671,6 +875,12 @@
 	},
 	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
 		"message": "Données invalides fournies pour le serveur proxy par défaut"
+	},
+	"settingsEnableByDomainInvalid": {
+		"message": "Le domaine sélectionné n’est pas valide"
+	},
+	"settingsEnableByDomainExists": {
+		"message": "Règle pour le domaine existe déjà"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
 		"message": "The current profile '{0}' cannot be updated with rules"
