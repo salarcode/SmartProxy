@@ -49,7 +49,7 @@
 		"message": "Activer le proxy sur"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Ignore these domains"
+		"message": "Ignorer ces domaines"
 	},
 	"popupRuleIsFromSubscription": {
 		"message": "(Depuis l'abonnement)"
