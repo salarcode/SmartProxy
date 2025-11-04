@@ -2,18 +2,19 @@
 	SmartProxy
 </h2>
 <p data-localize="settingsTabAboutDescription">
-	استفاده از پروکسی هرگز با SmartProxy آسان‌تر نبوده است. آن را به عنوان یک راه‌حل یکبار تنظیم و فراموش کردن در نظر بگیرید.
-	با SmartProxy، نیازی نیست تنظیمات پروکسی خود را به صورت دستی تغییر دهید یا آن را روشن و خاموش کنید.
-	به سادگی با یک کلیک به SmartProxy بگویید که پروکسی را برای وب‌سایت مورد نظر شما فعال کند.
-	پس از آن، هر زمان که از آن وب‌سایت خاص بازدید کنید، SmartProxy به طور خودکار
-	تمام داده‌های شما را از طریق پروکسی بدون نیاز به اقدام بیشتر از طرف شما هدایت می‌کند.
+	Using proxies has never been easier with SmartProxy. Think of it as configure once and forget
+	solution.
+	With SmartProxy, you don't need to change your proxy settings manually or turn it on and off.
+	Simply tell SmartProxy to enable the proxy for your desired website with just one click.
+	After that, whenever you visit that specific website, SmartProxy will automatically route
+	all your data through the proxy without any further action needed from you.
 </p>
 <p>
 	SmartProxy مجموعه‌ای از ویژگی‌های مناسب برای کاربران مبتدی و پیشرفته را ارائه می‌دهد، از جمله:
 </p>
 <ul>
-	<li>فعال‌سازی پروکسی برای یک سایت در یک تب، و همه چیز در آن تب به طور خودکار
-		از پروکسی استفاده خواهد کرد. این ویژگی پروکسی-به-ازای-تب نامیده می‌شود.</li>
+	<li>Enable the proxy for a single site on a tab, and everything on that tab will automatically
+		use the proxy. This feature is called proxy-per-tab.</li>
 	<li>تشخیص خودکار زمان فعال یا غیرفعال کردن پروکسی برای وب‌سایت‌های خاص بر اساس الگوهای قوانین.</li>
 	<li>تعویض آسان بین چندین سرور پروکسی به عنوان تنظیمات سرور پروکسی فعال شما.</li>
 	<li>فعال‌سازی پروکسی برای سایت فعلی که در آن هستید تنها با یک کلیک.</li>
@@ -56,8 +57,8 @@
 <br>
 <h3>راهنمای نمادهای آیکون نوار ابزار</h3>
 <p>
-	آیکون در نوار ابزار مرورگر شما برای نمایش وضعیت SmartProxy تغییر خواهد کرد. در اینجا معنی آیکون‌های مختلف
-	آمده است:
+	The icon in your browser toolbar will change to represent the status of SmartProxy. Here is what the different icons
+	mean:
 	<br />
 
 <div class="table-responsive">
@@ -77,29 +78,29 @@
 			<tr>
 				<td class="p-2"><img src="../icons/smartproxy.svg" class=""></td>
 				<td>
-					پروکسی برای درخواست‌هایی که با قوانین تعریف‌شده مطابقت دارند اعمال شده یا اعمال خواهد شد.
-					<br /> یا هیچ قانونی با تب مطابقت ندارد.
+					Proxy has applied or will apply to the requests that match the defined rules.
+					<br /> Or no rule is matched for the tab.
 					<br />
-					پروفایل: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>
-					قوانین هوشمند
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i>
+					Smart Rules
 				</td>
 			</tr>
 			<tr>
 				<td class="p-2"><img src="../icons/profile-always.svg" class=""></td>
 				<td>
-					پروکسی برای تمام درخواست‌ها در تب فعلی اعمال می‌شود. (دامنه‌های لیست سفید در
-					مرورگرهای مبتنی بر کروم نمایش داده می‌شوند)
+					Proxy is applied to all requests within the current tab. (Whitelisted domains are represented in
+					Chrome based browsers)
 					<br />
-					پروفایل: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i>
-					همیشه فعال
+					Profile: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i>
+					Always Enable
 				</td>
 			</tr>
 			<tr>
 				<td class="p-2"><img src="../icons/profile-system.svg" class=""></td>
 				<td>
-					تصمیم در مورد استفاده از هر پروکسی به سیستم عامل واگذار می‌شود.
+					The decision about using any proxy is passed on to the operation system.
 					<br/>
-					پروفایل: سیستم
+					Profile: System
 				</td>
 			</tr>
 		</tbody>
@@ -118,50 +119,50 @@
 			<tr>
 				<td class="p-2"><img src="../icons/profile-smartrules-green.svg" class=""></td>
 				<td>
-					یک قانون با تب فعلی مطابقت دارد. تمام درخواست‌های بعدی از طریق پروکسی انجام می‌شوند.
+					A rule is matched for the current tab. All subsequent requests are going through proxy.
 					<br />
-					پروفایل: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> قوانین هوشمند
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
 				</td>
 			</tr>
 			<tr>
 				<td class="p-2"><img src="../icons/profile-smartrules-has-failed.svg" class=""></td>
 				<td>
-					یک قانون با تب فعلی مطابقت دارد. حداقل یک درخواست بدون پاسخ / ناموفق وجود دارد.
+					A rule is matched for the current tab. There is at least one unresponsive / failed request.
 					<br />
-					پروفایل: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> قوانین هوشمند
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
 				</td>
 			</tr>
 			<tr>
 				<td class="p-2"><img src="../icons/profile-smartrules-has-bypassed.svg" class=""></td>
 				<td>
-					یک قانون با تب فعلی مطابقت دارد. حداقل یک درخواست بعدی از طریق یک قانون، پروکسی را دور زده است.
+					A rule is matched for the current tab. At least one subsequent request has bypassed the proxy via a rule.
 					<br />
-					پروفایل: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> قوانین هوشمند
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
 				</td>
 			</tr>
 			<tr>
 				<td class="p-2"><img src="../icons/profile-smartrules-has-unmatched.svg" class=""></td>
 				<td>
-					یک قانون با تب فعلی مطابقت دارد. حداقل یک درخواست بعدی با هیچ قانونی مطابقت ندارد و از طریق پروکسی انجام نمی‌شود.
+					A rule is matched for the current tab. At least one subsequent request has not matched any rule and is not going through proxy.
 					<br />
-					پروفایل: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> قوانین هوشمند
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
 				</td>
 			</tr>
 			<tr>
 				<td class="p-2"><img src="../icons/profile-smartrules-noproxy-has-matched.svg" class=""></td>
 				<td>
-					هیچ قانونی با تب فعلی مطابقت ندارد. حداقل یک درخواست بعدی با یک قانون مطابقت دارد و از طریق پروکسی انجام می‌شود.
+					No rule is matched for the current tab. At least one subsequent request has matched a rule and it is going through a proxy.
 					<br />
-					پروفایل: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> قوانین هوشمند
+					Profile: <i class="icon fa-sm fas fa-magic text-primary" aria-hidden="true"></i> Smart Rules
 				</td>
 			</tr>
 			<tr>
 				<td class="p-2"><img src="../icons/profile-always-bypassed.svg" class=""></td>
 				<td>
-					پروکسی برای تمام درخواست‌ها در تب فعلی اعمال می‌شود. حداقل یک درخواست بعدی از طریق یک قانون، پروکسی را دور زده است.
+					Proxy is applied to all requests within the current tab. At least one subsequent request has bypassed the proxy via a rule.
 					<br />
-					پروفایل: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i> همیشه
-					فعال
+					Profile: <i class="icon fa-sm fas fa-globe-americas text-success" aria-hidden="true"></i> Always
+					Enable
 				</td>
 			</tr>
 		</tbody>
