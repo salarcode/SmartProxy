@@ -48,8 +48,8 @@
 	"popupEnableProxyOn": {
 		"message": "Activer le proxy sur"
 	},
-	"popupIgnoreTheseDomaines": {
-		"message": "Ignorer ces domaines"
+	"popupIgnoreTheseDomains": {
+		"message": "Ignore these domains"
 	},
 	"popupRuleIsFromSubscription": {
 		"message": "(Depuis l'abonnement)"
