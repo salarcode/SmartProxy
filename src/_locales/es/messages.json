@@ -82,13 +82,13 @@
 		"message": "El perfil seleccionado '{0}' no admite reglas. Por favor, seleccione otro perfil."
 	},
 	"popupAddIgnoredFailures": {
-		"message": "Ignore them"
+		"message": "Ignórelos"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
+		"message": "¿Estás seguro de ignorar los fallos seleccionados? Si lo haces, no recibirás más errores de ellos. Puedes cambiar esto desde la configuración más tarde."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>."
+		"message": "Desafortunadamente, cambiar la configuración del navegador para usar el proxy del sistema requiere el permiso de 'incógnito'. Por favor, ve a la configuración de la extensión SmartProxy en el navegador y marca el permiso 'Permitir en incógnito'. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Aprende cómo</a>."
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
 		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>."
@@ -136,49 +136,49 @@
 		"message": "Solicitar Url"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Rule status"
+		"message": "Estado de la regla"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Proxy status"
+		"message": "Estado del proxy"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Rule domain"
+		"message": "Dominio de la regla"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Rule pattern"
+		"message": "Patrón de la regla"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "No Proxy"
+		"message": "Sin proxy"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Special"
+		"message": "Especial"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "De la pestaña principal"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Coincidente"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Siempre habilitado"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "System Proxy Applied"
+		"message": "Proxy del sistema aplicado"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "No Match"
+		"message": "Sin coincidencia"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Special"
+		"message": "Especial"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "De la pestaña principal"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Coincidente"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Whitelisted"
+		"message": "En lista blanca"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
 		"message": "AlwaysEnabled <br> Bypassed"
@@ -310,10 +310,10 @@
 		"message": "Error Detection"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "Detect request failures"
+		"message": "Usar los servidores de sincronización del navegador"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "Request failures detection will help you identify the domains that needs proxy."
+		"message": "La detección de fallos en las solicitudes te ayudará a identificar los dominios que necesitan proxy."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
 		"message": "Enter Rules"
@@ -370,7 +370,7 @@
 		"message": "You can configure shortcuts from browser addon settings page."
 	},
 	"settingsGeneralViewShortcuts": {
-		"message": "View shortcuts"
+		"message": "Ver atajos"
 	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Enable shortcut notification"
@@ -391,10 +391,10 @@
 		"message": "Cancel"
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "Save Changes"
+		"message": "Guardar cambios"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "Keyboard shortcuts"
+		"message": "Atajos de teclado"
 	},
 	"settingsGeneralCloseButton": {
 		"message": "Close"
