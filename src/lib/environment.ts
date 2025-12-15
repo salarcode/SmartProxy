@@ -61,7 +61,7 @@ export let environment = {
 export var api: any = {};
 declare var chrome: any;
 
-if (typeof (browser) != 'undefined') {
+if (isGecko()) {
 	api = browser;
 }
 else if (typeof (chrome) != 'undefined') {
@@ -85,4 +85,18 @@ else {
 			if (details.name == "Fennec")
 				environment.mobile = true;
 		});
+}
+
+function isGecko() {
+    // Check if the 'browser' namespace is present (Firefox standard)
+    // AND check the manifest for the 'gecko' specific settings.
+
+    try {
+        const manifest = browser.runtime.getManifest();
+        if (manifest && manifest.browser_specific_settings && manifest.browser_specific_settings.gecko) {
+            return true; // The 'gecko' property is a Firefox-only manifest key
+        }
+    } catch  {}
+
+    return false;
 }
