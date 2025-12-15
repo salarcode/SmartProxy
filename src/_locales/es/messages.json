@@ -79,7 +79,7 @@
 		"message": "Agregar a la lista de reglas"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+		"message": "El perfil seleccionado '{0}' no admite reglas. Por favor, seleccione otro perfil."
 	},
 	"popupAddIgnoredFailures": {
 		"message": "Ignore them"
