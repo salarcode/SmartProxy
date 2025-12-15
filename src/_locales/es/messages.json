@@ -13,19 +13,19 @@
 		"message": "Proxy inteligente automáticamente habilitará/deshabilitará proxy para los sitios que visites, basado en patrones personalizables."
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Matched rule source:"
+		"message": "Fuente de la regla coincidente:"
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "No matching rule"
+		"message": "Sin regla coincidente"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "Rule pattern:"
+		"message": "Patrón de la regla:"
 	},
 	"popupTitle": {
 		"message": "Activación de Proxy inteligente"
 	},
 	"popupPrivateBrowsingMode": {
-		"message": "Private Browsing Mode"
+		"message": "Modo de navegación privada"
 	},
 	"popupNoProxy": {
 		"message": "Directo (Sin Proxy)"
@@ -40,19 +40,19 @@
 		"message": "Sistema Proxy"
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy (this profile):"
+		"message": "Proxy activo (este perfil):"
 	},
 	"popupActiveProxyDefault": {
-		"message": "Active Proxy (Default Setting):"
+		"message": "Proxy activo (configuración predeterminada):"
 	},
 	"popupEnableProxyOn": {
 		"message": "Habilitar Proxy encendido"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Ignore these domains"
+		"message": "Ignorar estos dominios"
 	},
 	"popupRuleIsFromSubscription": {
-		"message": "(From subscription)"
+		"message": "(De suscripción)"
 	},
 	"popupProxyableResources": {
 		"message": "Recursos del Proxy"
@@ -82,16 +82,16 @@
 		"message": ""
 	},
 	"popupAddIgnoredFailures": {
-		"message": "Ignore them"
+		"message": "Ignorarlos"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
+		"message": "¿Estás seguro de ignorar los fallos seleccionados? Si lo haces, no recibirás más errores de ellos. Puedes cambiar esto desde la configuración más tarde."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>."
+		"message": "Desafortunadamente, cambiar la configuración del navegador para usar el proxy del sistema requiere el permiso de 'incógnito'. Por favor, ve a la configuración de la extensión SmartProxy en el navegador y marca el permiso 'Permitir en incógnito'. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Aprende cómo</a>."
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>."
+		"message": "Desde Firefox 67, cambiar la configuración del navegador para usar el proxy del sistema requiere el permiso de 'Navegación privada'. Por favor, ve a la configuración del complemento SmartProxy en el navegador y permite la opción 'Ejecutar en ventanas privadas'. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Aprende cómo</a>."
 	},
 	"proxyableTitle": {
 		"message": "Recursos del Proxy"
@@ -124,7 +124,7 @@
 		"message": "Habilitado para: "
 	},
 	"proxyableSubscriptionRule": {
-		"message": "(Subscription Rule)"
+		"message": "(Regla de suscripción)"
 	},
 	"proxyableDeleteRuleConfirm": {
 		"message": "Seguro que deseas eliminar la regla seleccionada para:"
@@ -136,55 +136,55 @@
 		"message": "Solicitar Url"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Rule status"
+		"message": "Estado de la regla"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Proxy status"
+		"message": "Estado del proxy"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Rule domain"
+		"message": "Dominio de la regla"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Rule pattern"
+		"message": "Patrón de la regla"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "No Proxy"
+		"message": "Sin proxy"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Special"
+		"message": "Especial"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "De la pestaña principal"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Coincidente"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Siempre habilitado"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "System Proxy Applied"
+		"message": "Proxy del sistema aplicado"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "No Match"
+		"message": "Sin coincidencia"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Special"
+		"message": "Especial"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "De la pestaña principal"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Coincidente"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Whitelisted"
+		"message": "En lista blanca"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "AlwaysEnabled <br> Bypassed"
+		"message": "Siempre habilitado <br> Omitido"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "AlwaysEnabled <br> Forced By Rules"
+		"message": "Siempre habilitado <br> Forzado por reglas"
 	},
 	"settingsTitle": {
 		"message": "Opciones de Proxy Inteligente"
