@@ -79,7 +79,7 @@
 		"message": "Agregar a la lista de reglas"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": ""
+		"message": "El perfil seleccionado '{0}' no admite reglas. Por favor, seleccione otro perfil."
 	},
 	"popupAddIgnoredFailures": {
 		"message": "Ignorarlos"
@@ -199,7 +199,7 @@
 		"message": "Smart Profiles"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Add new Smart Profile"
+		"message": "Añadir nuevo perfil inteligente"
 	},
 	"settingsTabProxyServers": {
 		"message": "Servidores Proxy"
@@ -217,7 +217,7 @@
 		"message": "Usa patrones para automáticamente definir reglas para Proxificar tu experiencia web. Con Proxy inteligente, no necesitas cambiar manualmente el Proxy y encenderlo y apagarlo. Puedes agregar tus sitios web deseados a la lista de las reglas del Proxy con sólo un click. Luego de eso, cuando visites ese sitio web específico, Proxy Inteligente actuará y toda tu data para el sitio web será transferida por el proxy, sin hacer nada."
 	},
 	"settingsGeneralSmartFeatures": {
-		"message": "Smart Features"
+		"message": "Características inteligentes"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
 		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome."
@@ -310,10 +310,10 @@
 		"message": "Error Detection"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "Detect request failures"
+		"message": "Usar los servidores de sincronización del navegador"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "Request failures detection will help you identify the domains that needs proxy."
+		"message": "La detección de fallos en las solicitudes te ayudará a identificar los dominios que necesitan proxy."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
 		"message": "Enter Rules"
@@ -370,7 +370,7 @@
 		"message": "You can configure shortcuts from browser addon settings page."
 	},
 	"settingsGeneralViewShortcuts": {
-		"message": "View shortcuts"
+		"message": "Ver atajos"
 	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Enable shortcut notification"
@@ -391,10 +391,10 @@
 		"message": "Cancel"
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "Save Changes"
+		"message": "Guardar cambios"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "Keyboard shortcuts"
+		"message": "Atajos de teclado"
 	},
 	"settingsGeneralCloseButton": {
 		"message": "Close"
