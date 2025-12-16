@@ -52,7 +52,7 @@
 		"message": "Ignore these domains"
 	},
 	"popupRuleIsFromSubscription": {
-		"message": "(From subscription)"
+		"message": "(Dari langganan)"
 	},
 	"popupProxyableResources": {
 		"message": "Sumber Proksi"
