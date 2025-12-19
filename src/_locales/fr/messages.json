@@ -757,7 +757,7 @@
 		"message": "Le domaine source est invalide, le domaine source devrait être quelque chose comme 'google.com'"
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'source domain' is not valid '{0}'"
+		"message": "Le domaine source '{0}' n'est pas valide"
 	},
 	"settingsRuleSourceAlreadyExists": {
 		"message": "Une règle ayant la même source existe déjà!"
@@ -883,7 +883,7 @@
 		"message": "Règle pour le domaine existe déjà"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
-		"message": "The current profile '{0}' cannot be updated with rules"
+		"message": "Le profil actuel '{0}' ne peut pas être mis à jour avec des règles"
 	},
 	"settingsNoRuleFoundForDomain": {
 		"message": "Il n’est pas une règle pour '{0}'"
@@ -952,7 +952,7 @@
 		"message": "Obscurcissement:"
 	},
 	"settingsServerSubscriptionFormat": {
-		"message": "Format:"
+		"message": "Format :"
 	},
 	"settingsServerSubscriptionApplyProxy": {
 		"message": "Passer par le proxy :"
@@ -991,7 +991,7 @@
 		"message": "Sauvegarde en cours..."
 	},
 	"settingsServerSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Tester"
 	},
 	"settingsServerSubscriptionTestingButton": {
 		"message": "Test en cours..."
@@ -1123,7 +1123,7 @@
 		"message": "Mot de passe :"
 	},
 	"settingsRulesSubscriptionsTestButton": {
-		"message": "Test"
+		"message": "Tester"
 	},
 	"settingsRulesSubscriptionsSaveButton": {
 		"message": "Sauvegarder"
@@ -1150,7 +1150,7 @@
 		"message": "Sauvegarde en cours..."
 	},
 	"settingsRulesSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Tester"
 	},
 	"settingsRulesSubscriptionTestingButton": {
 		"message": "Test en cours..."
