@@ -31,13 +31,13 @@
 		"message": "Bezpośrednio (bez proxy)"
 	},
 	"popupSmartProxy": {
-		"message": "Smart Proxy"
+		"message": "Inteligentny Proxy"
 	},
 	"popupAlwaysEnable": {
 		"message": "Zawsze włączone"
 	},
 	"popupSystemProxy": {
-		"message": "System Proxy"
+		"message": "Proxy Systemowy"
 	},
 	"popupActiveProxy": {
 		"message": "Aktywne proxy (ten profil):"
@@ -934,7 +934,7 @@
 		"message": "Nazwa:"
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsServerSubscriptionRefreshRate": {
 		"message": "Częstotliwość odświeżania:"
@@ -949,13 +949,13 @@
 		"message": "Protokół:"
 	},
 	"settingsServerSubscriptionObfuscation": {
-		"message": "Obfuscation:"
+		"message": "Obfuskacja:"
 	},
 	"settingsServerSubscriptionFormat": {
 		"message": "Format:"
 	},
 	"settingsServerSubscriptionApplyProxy": {
-		"message": "Pass through proxy:"
+		"message": "Przejdź przez proxy:"
 	},
 	"settingsServerSubscriptionApplyProxyHelpFirefox": {
 		"message": "(Zdecyduj na podstawie swojego dostępu do serwera)"
@@ -991,7 +991,7 @@
 		"message": "Zapisywanie..."
 	},
 	"settingsServerSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Sprawdź"
 	},
 	"settingsServerSubscriptionTestingButton": {
 		"message": "Testowanie..."
@@ -1015,7 +1015,7 @@
 		"message": "Nie udało się odczytać konfiguracji. Zamknij stronę ustawień i spróbuj ponownie."
 	},
 	"settingsActiveProxyServerSubscriptions": {
-		"message": "-Subscriptions-"
+		"message": "-Subskrypcje-"
 	},
 	"settingsServerSubscriptionsGridNoDataContent": {
 		"message": "Brak subskrypcji"
@@ -1024,7 +1024,7 @@
 		"message": "Nazwa"
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsServerSubscriptionsGridColCount": {
 		"message": "Ilość"
@@ -1075,7 +1075,7 @@
 		"message": "Nazwa"
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsRulesSubscriptionsGridColCount": {
 		"message": "Liczba"
@@ -1087,7 +1087,7 @@
 		"message": "Nazwa:"
 	},
 	"settingsRulesSubscriptionsUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsRulesSubscriptionsRefreshRate": {
 		"message": "Częstotliwość odświeżania:"
@@ -1099,7 +1099,7 @@
 		"message": "Włączona"
 	},
 	"settingsRulesSubscriptionsObfuscation": {
-		"message": "Obfuscation:"
+		"message": "Obfuskacja:"
 	},
 	"settingsRulesSubscriptionsFormat": {
 		"message": "Format:"
@@ -1123,7 +1123,7 @@
 		"message": "Hasło:"
 	},
 	"settingsRulesSubscriptionsTestButton": {
-		"message": "Test"
+		"message": "Sprawdź"
 	},
 	"settingsRulesSubscriptionsSaveButton": {
 		"message": "Zapisz"
@@ -1150,7 +1150,7 @@
 		"message": "Zapisywanie..."
 	},
 	"settingsRulesSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Sprawdź"
 	},
 	"settingsRulesSubscriptionTestingButton": {
 		"message": "Testowanie..."
