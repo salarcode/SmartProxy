@@ -13,19 +13,19 @@
 		"message": "Smart Proxy akan secara otomatis mengaktifkan/menonaktifkan proksi untuk situs yang Anda kunjungi, berdasarkan pola yang sudah ditentukan."
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Matched rule source:"
+		"message": "Sumber aturan yang cocok:"
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "No matching rule"
+		"message": "Tidak ada aturan yang cocok"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "Rule pattern:"
+		"message": "Pola aturan:"
 	},
 	"popupTitle": {
 		"message": "Penggiatan SmartProxy"
 	},
 	"popupPrivateBrowsingMode": {
-		"message": "Private Browsing Mode"
+		"message": "Mode Penelusuran Pribadi"
 	},
 	"popupNoProxy": {
 		"message": "Langsung (Tanpa Proksi)"
@@ -40,16 +40,16 @@
 		"message": "Sistem Proksi"
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy (this profile):"
+		"message": "Proxy Aktif (profil ini):"
 	},
 	"popupActiveProxyDefault": {
-		"message": "Active Proxy (Default Setting):"
+		"message": "Proxy Aktif (Pengaturan Default):"
 	},
 	"popupEnableProxyOn": {
 		"message": "Aktifkan proksi pada"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Ignore these domains"
+		"message": "Abaikan domain-domain ini"
 	},
 	"popupRuleIsFromSubscription": {
 		"message": "(Dari langganan)"
@@ -73,25 +73,25 @@
 		"message": "Daftar Permintaan Gagal"
 	},
 	"popupFailedRequestsDesc": {
-		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list."
+		"message": "Ini adalah domain yang mengalami waktu habis atau gagal.<br />Jika Anda percaya domain-domain ini diblokir, Anda dapat menambahkannya ke daftar aturan proxy di sini."
 	},
 	"popupAddFailedRequests": {
 		"message": "Tambahkan Ke Daftar Peraturan"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+		"message": "Profil yang dipilih '{0}' tidak mendukung aturan, silakan pilih profil lain."
 	},
 	"popupAddIgnoredFailures": {
-		"message": "Ignore them"
+		"message": "Abaikan"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
+		"message": "Yakin ingin mengabaikan kegagalan yang dipilih? Jika iya, Anda tidak akan menerima kesalahan lagi dari mereka. Anda bisa mengubahnya di pengaturan nanti."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>."
+		"message": "Sayangnya, mengubah pengaturan browser untuk menggunakan Proxy Sistem memerlukan izin `incognito`. Buka pengaturan ekstensi SmartProxy di browser dan aktifkan izin `Allow in incognito`. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Lihat panduan</a>."
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>."
+		"message": "Sejak Firefox 67, mengubah pengaturan browser untuk menggunakan Proxy Sistem memerlukan izin `Private Browsing`. Buka pengaturan add-on SmartProxy dan `Allow` izin `Run in Private Windows`. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Lihat panduan</a>."
 	},
 	"proxyableTitle": {
 		"message": "Sumber Proksi"
@@ -124,7 +124,7 @@
 		"message": "Aktif untuk: "
 	},
 	"proxyableSubscriptionRule": {
-		"message": "(Subscription Rule)"
+		"message": "(Aturan Langganan)"
 	},
 	"proxyableDeleteRuleConfirm": {
 		"message": "Anda yakin ingin menghapus aturan terpilih untuk:"
@@ -136,55 +136,55 @@
 		"message": "Meminta URL"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Rule status"
+		"message": "Status aturan"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Proxy status"
+		"message": "Status proxy"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Rule domain"
+		"message": "Domain aturan"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Rule pattern"
+		"message": "Pola aturan"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "No Proxy"
+		"message": "Tanpa Proxy"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Special"
+		"message": "Spesial"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "Dari tab induk"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Cocok"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Selalu Diaktifkan"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "System Proxy Applied"
+		"message": "Proxy Sistem Diterapkan"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "No Match"
+		"message": "Tidak Ada Kecocokan"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Special"
+		"message": "Spesial"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "Dari tab induk"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Cocok"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Whitelisted"
+		"message": "Dalam Daftar Putih"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "AlwaysEnabled <br> Bypassed"
+		"message": "Selalu Diaktifkan <br> Dilewati"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "AlwaysEnabled <br> Forced By Rules"
+		"message": "Selalu Diaktifkan <br> Dipaksa oleh Aturan"
 	},
 	"settingsTitle": {
 		"message": "Pengaturan SmartProxy"
@@ -196,10 +196,10 @@
 		"message": "Pilihan Umum"
 	},
 	"settingsTabSmartProfiles": {
-		"message": "Smart Profiles"
+		"message": "Profil Pintar"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Add new Smart Profile"
+		"message": "Tambah Profil Pintar Baru"
 	},
 	"settingsTabProxyServers": {
 		"message": "Server Proksi"
@@ -214,19 +214,19 @@
 		"message": "Perbarui ke {0}"
 	},
 	"settingsTabAboutDescription": {
-		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything."
+		"message": "Menggunakan proxy jadi lebih mudah dengan SmartProxy. Anggap ini sebagai solusi \"konfigurasi sekali, lupakan\". Dengan SmartProxy Anda tidak perlu mengubah proxy secara manual atau menyalakan/mematikan. Cukup beri tahu SmartProxy bahwa Anda ingin mengaktifkan proxy untuk situs yang diinginkan dengan satu klik. Setelah itu, ketika Anda mengunjungi situs tersebut, SmartProxy akan bekerja dan semua data untuk situs itu akan dikirim melalui proxy tanpa tindakan tambahan dari Anda."
 	},
 	"settingsGeneralSmartFeatures": {
 		"message": "Smart Features"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome."
+		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Hanya Firefox</a>!</strong> Sayangnya fitur ini tidak didukung oleh Chrome."
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin"
+		"message": "Aktifkan proxy per tab/asal"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
+		"message": "Jika sebuah aturan cocok dengan URL pada sebuah tab, proxy akan diterapkan ke koneksi tab tersebut. Biasanya ada permintaan lain pada setiap halaman yang mungkin tidak memiliki aturan yang cocok sehingga tidak menerapkan proxy. Opsi `Aktifkan proxy per tab/asal` memastikan seluruh halaman, termasuk semua koneksi dari domain dan asal berbeda, menggunakan proxy yang sama yang diterapkan pada asal tab. Opsi ini juga menghilangkan kebutuhan aturan untuk setiap domain. Perlu dicatat bahwa jika tidak ada proxy diterapkan pada tab, aturan proxy tetap akan bekerja dan menerapkan proxy pada koneksi lain secara individual."
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
 		"message": "Proxy per tab/origin enabled"
@@ -277,43 +277,43 @@
 		"message": "Sync to a WebDAV server"
 	},
 	"settingsGeneralWebDavServerUrl": {
-		"message": "WebDAV Server URL:"
+		"message": "URL Server WebDAV:"
 	},
 	"settingsGeneralWebDavBackupFilename": {
-		"message": "Backup Filename:"
+		"message": "Nama File Backup:"
 	},
 	"settingsGeneralWebDavServerUser": {
-		"message": "WebDAV Server Username:"
+		"message": "Nama Pengguna Server WebDAV:"
 	},
 	"settingsGeneralWebDavServerPassword": {
-		"message": "WebDAV Server Password:"
+		"message": "Kata Sandi Server WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+		"message": "Perlu diperhatikan bahwa backup akan dibuat setiap kali ada perubahan pada pengaturan, sedangkan pemulihan hanya terjadi saat browser dimulai."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
-		"message": "Backup Now"
+		"message": "Backup Sekarang"
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
-		"message": "Please enter a valid WebDAV Server URL"
+		"message": "Masukkan URL Server WebDAV yang valid"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
-		"message": "WebDAV Server Backup Filename cannot be empty"
+		"message": "Nama file backup WebDAV tidak boleh kosong"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
-		"message": "WebDav backup completed successfully!"
+		"message": "Backup WebDav berhasil diselesaikan!"
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
-		"message": "WebDav backup failed:"
+		"message": "Backup WebDav gagal:"
 	},
 	"settingsGeneralErrorDetection": {
-		"message": "Error Detection"
+		"message": "Deteksi Kesalahan"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "Detect request failures"
+		"message": "Deteksi kegagalan permintaan"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "Request failures detection will help you identify the domains that needs proxy."
+		"message": "Deteksi kegagalan permintaan akan membantu Anda mengidentifikasi domain yang memerlukan proxy."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
 		"message": "Enter Rules"
@@ -325,34 +325,34 @@
 		"message": "Add rules to disable failure detection."
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "Display failed requests count on toolbar icon badge"
+		"message": "Tampilkan jumlah permintaan gagal pada lencana ikon toolbar"
 	},
 	"settingsGeneralThemes": {
-		"message": "Themes"
+		"message": "Tema"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "Auto switch by the Browser theme"
+		"message": "Beralih otomatis berdasarkan tema Browser"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system."
+		"message": "Beralih otomatis antara tema yang dipilih di bawah. Ini mengikuti tema browser Anda yang bisa mengikuti tema sistem operasi."
 	},
 	"settingsGeneralThemesLight": {
-		"message": "Light Theme"
+		"message": "Tema Terang"
 	},
 	"settingsGeneralThemes_Default": {
 		"message": "(Default)"
 	},
 	"settingsGeneralThemes_Custom": {
-		"message": "(Custom)"
+		"message": "(Kustom)"
 	},
 	"settingsGeneralThemes_CustomUrl": {
-		"message": "Custom Styles (Css) Url:"
+		"message": "URL Gaya Kustom (CSS):"
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency."
+		"message": "URL harus 'https'. Waspadai font dan gaya lain yang diimpor dalam gaya kustom; ini dapat memblokir atau memperlambat popup. Anda dapat mencoba tema dari bootswatch.com, tetapi perhatikan ketergantungan Google Fonts mereka."
 	},
 	"settingsGeneralThemesDark": {
-		"message": "Dark Theme"
+		"message": "Tema Gelap"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
 		"message": "Please enter a valid css url for Light Theme and the url should be 'https'."
@@ -388,16 +388,16 @@
 		"message": "Refresh active tab when profile or proxy changed"
 	},
 	"settingsGeneralCancelButton": {
-		"message": "Cancel"
+		"message": "Batal"
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "Save Changes"
+		"message": "Simpan Perubahan"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
 		"message": "Keyboard shortcuts"
 	},
 	"settingsGeneralCloseButton": {
-		"message": "Close"
+		"message": "Tutup"
 	},
 	"settingsGeneralKeyboardShortcutsNotSupported": {
 		"message": "Keyboard shortcuts are not supported on mobile devices."
@@ -418,13 +418,13 @@
 		"message": "Sebelumnya Anda harus menentukan server proksi."
 	},
 	"settingsActiveProxyServer": {
-		"message": "Default Proxy Server:"
+		"message": "Proxy Server Default:"
 	},
 	"settingsAddServerButton": {
 		"message": "Tambahkan Server"
 	},
 	"settingsRemoveMultipleServerButton": {
-		"message": "Delete Multiple"
+		"message": "Hapus Banyak"
 	},
 	"settingsSaveChangesButton": {
 		"message": "Simpan Perubahan"
@@ -448,19 +448,19 @@
 		"message": "Pulihkan cadangan yang Anda ambil sebelumnya dari berkas lokal"
 	},
 	"settingsDangerZoneDesc": {
-		"message": "Danger zone"
+		"message": "Zona Berbahaya"
 	},
 	"settingsFactoryResetButton": {
-		"message": "Factory Reset"
+		"message": "Kembalikan ke Pengaturan Pabrik"
 	},
 	"settingsFactoryResetDesc": {
-		"message": "Reset everything. This will remove all rules and proxy servers and reset the options. Permanently."
+		"message": "Atur ulang semua. Ini akan menghapus semua aturan dan server proxy serta mengembalikan opsi ke pengaturan awal secara permanen."
 	},
 	"settingsFactoryResetConfirm": {
-		"message": "Are you sure to reset EVERYTHING ? Sure? There is no way back!"
+		"message": "Apakah Anda yakin ingin mengatur ulang SEMUANYA? Tidak ada jalan kembali!"
 	},
 	"settingsFactoryResetSuccess": {
-		"message": "Factory reset is completed successfully"
+		"message": "Reset pabrik berhasil diselesaikan"
 	},
 	"settingsImportExportProxiesDesc": {
 		"message": "Import/Export individual list of proxies servers."
