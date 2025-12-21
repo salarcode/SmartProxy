@@ -217,7 +217,7 @@
 		"message": "Menggunakan proxy jadi lebih mudah dengan SmartProxy. Anggap ini sebagai solusi \"konfigurasi sekali, lupakan\". Dengan SmartProxy Anda tidak perlu mengubah proxy secara manual atau menyalakan/mematikan. Cukup beri tahu SmartProxy bahwa Anda ingin mengaktifkan proxy untuk situs yang diinginkan dengan satu klik. Setelah itu, ketika Anda mengunjungi situs tersebut, SmartProxy akan bekerja dan semua data untuk situs itu akan dikirim melalui proxy tanpa tindakan tambahan dari Anda."
 	},
 	"settingsGeneralSmartFeatures": {
-		"message": "Smart Features"
+		"message": "Fitur Pintar"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
 		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Hanya Firefox</a>!</strong> Sayangnya fitur ini tidak didukung oleh Chrome."
@@ -340,7 +340,7 @@
 		"message": "Tema Terang"
 	},
 	"settingsGeneralThemes_Default": {
-		"message": "(Default)"
+		"message": "(Bawaan)"
 	},
 	"settingsGeneralThemes_Custom": {
 		"message": "(Kustom)"
@@ -433,7 +433,7 @@
 		"message": "Tolak Perubahan"
 	},
 	"settingsEditButton": {
-		"message": "Edit"
+		"message": "Sunting"
 	},
 	"settingsFullBackupButton": {
 		"message": "Membuat cadangan penuh"
@@ -646,7 +646,7 @@
 		"message": "Kata sandi"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(Sayangnya otentikasi server proxy tidak didukung oleh Chrome melalui API ekstensi. Ini dilakukan \"sengaja\".)"
 	},
 	"settingsServersCancel": {
 		"message": "Batal"
@@ -658,52 +658,52 @@
 		"message": "Impor"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "Smart Profile:"
+		"message": "Profil Pintar:"
 	},
 	"settingsProfilesEnabled": {
-		"message": "Enabled"
+		"message": "Diaktifkan"
 	},
 	"settingsProfilesTypeTitle": {
-		"message": "Profile Type:"
+		"message": "Jenis Profil:"
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
-		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+		"message": "Dalam profil ini tidak ada proxy yang diterapkan kecuali Anda mendefinisikan aturan pintar. Anda akan menentukan aturan daftar hitam, atau dengan kata lain aturan untuk menerapkan proxy."
 	},
 	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
-		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+		"message": "Dalam profil ini server proxy selalu diterapkan; buat aturan pintar untuk melewatkannya. Anda akan menentukan aturan daftar putih, atau dengan kata lain aturan untuk melewati proxy dan tidak menerapkannya."
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
-		"message": "Ignore failure detection for these domains by adding rules."
+		"message": "Abaikan deteksi kegagalan untuk domain-domain ini dengan menambahkan aturan."
 	},
 	"settingsProfilesProfileProxyServer": {
-		"message": "Profile Proxy Server:"
+		"message": "Server Proxy Profil:"
 	},
 	"settingsProfilesDefaultProfileProxyServer": {
-		"message": "(Use Default Proxy Server)"
+		"message": "(Gunakan Server Proxy Bawaan)"
 	},
 	"settingsProfilesProfileProxyServerDesc": {
-		"message": "(While using this profile, this is going to be the active proxy server)"
+		"message": "(Saat menggunakan profil ini, ini akan menjadi server proxy aktif)"
 	},
 	"settingsProfilesRulesSection": {
-		"message": "Rules"
+		"message": "Aturan"
 	},
 	"settingsProfilesDelete": {
-		"message": "Delete"
+		"message": "Hapus"
 	},
 	"settingsProfilesAddNewLabel": {
-		"message": "Add New Smart Profile"
+		"message": "Tambah Profil Pintar Baru"
 	},
 	"settingsProfilesAddNewTypeLead": {
 		"message": "Silakan pilih <b>jenis profil</b> yang ingin Anda tambahkan:"
 	},
 	"settingsProfilesAddNewType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Aturan Pintar"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
 		"message": "Pada jenis profil ini, proxy akan diterapkan pada permintaan berdasarkan beberapa <em>aturan</em> yang harus Anda definisikan. Untuk mendefinisikan aturan ini Anda dapat menggunakan menu popup di bilah alat atau menambahkannya dari pengaturan dan juga dari jendela <em>Sumber yang Dapat Diproksikan</em>.<br>Anda juga dapat berlangganan daftar aturan seperti Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Selalu Diaktifkan"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
 		"message": "Pada jenis profil ini, proxy akan selalu diterapkan pada permintaan kecuali Anda menambahkan aturan untuk melewatinya. Langkah-langkah mendefinisikan aturan sama seperti pada tipe profil Smart Rules."
