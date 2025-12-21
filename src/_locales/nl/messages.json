@@ -277,7 +277,7 @@
 		"message": "Synchroniseren naar een WebDAV server"
 	},
 	"settingsGeneralWebDavServerUrl": {
-		"message": "WebDAV Server URL:"
+		"message": "WebDAV-server-URL:"
 	},
 	"settingsGeneralWebDavBackupFilename": {
 		"message": "Back-up bestandsnaam:"
@@ -394,7 +394,7 @@
 		"message": "Wijzigingen opslaan"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "Keyboard shortcuts"
+		"message": "Sneltoetsen"
 	},
 	"settingsGeneralCloseButton": {
 		"message": "Sluiten"
