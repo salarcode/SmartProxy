@@ -13,19 +13,19 @@
 		"message": "SmartProxy, ziyaret ettiğiniz siteler için, özelleştirilebilir kalıplara dayalı olarak otomatik olarak proxy'yi etkinleştirecek / devre dışı bırakacaktır."
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Matched rule source:"
+		"message": "Eşleşen kural kaynağı:"
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "No matching rule"
+		"message": "Eşleşen kural yok"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "Rule pattern:"
+		"message": "Kural deseni:"
 	},
 	"popupTitle": {
 		"message": "SmartProxy Etkinleştirme"
 	},
 	"popupPrivateBrowsingMode": {
-		"message": "Private Browsing Mode"
+		"message": "Özel Tarama Modu"
 	},
 	"popupNoProxy": {
 		"message": "Doğrudan (Proxy Yok)"
@@ -40,16 +40,16 @@
 		"message": "Sistem Proxy'si"
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy (this profile):"
+		"message": "Etkin Vekil Sunucu (bu profil):"
 	},
 	"popupActiveProxyDefault": {
-		"message": "Active Proxy (Default Setting):"
+		"message": "Etkin Vekil Sunucu (Varsayılan Ayar):"
 	},
 	"popupEnableProxyOn": {
 		"message": "Proxy'yi etkinleştir"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Ignore these domains"
+		"message": "Bu alan adlarını yoksay"
 	},
 	"popupRuleIsFromSubscription": {
 		"message": "(Abonelikten)"
@@ -73,25 +73,25 @@
 		"message": "Başarısız İstek Listesi"
 	},
 	"popupFailedRequestsDesc": {
-		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list."
+		"message": "Bunlar zaman aşımına uğrayan veya başarısız olan alan adlarıdır.<br />Bu alan adlarının engellendiğini düşünüyorsanız, bunları proxy kuralları listesine buradan ekleyebilirsiniz."
 	},
 	"popupAddFailedRequests": {
 		"message": "Kural Listesine Ekle"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+		"message": "Seçili profil '{0}' kuralları desteklemiyor, lütfen başka bir profil seçin."
 	},
 	"popupAddIgnoredFailures": {
 		"message": "Görmezden gel"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
+		"message": "Seçili hataları yoksaymak istediğinizden emin misiniz? Yaparsanız, bunlardan artık hata almayacaksınız. Bunu sonradan ayarlardan değiştirebilirsiniz."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>."
+		"message": "Maalesef tarayıcı ayarlarını Sistem Proxy`s kullanacak şekilde değiştirmek `incognito` izni gerektirir. Lütfen tarayıcıdaki SmartProxy eklenti ayarlarına gidip `Gizli modda çalıştırmaya izin ver` iznini etkinleştirin. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Daha fazla bilgi</a>."
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>."
+		"message": "Firefox 67 ve sonrası için tarayıcı ayarlarını Sistem Proxy`s kullanacak şekilde değiştirmek `Özel Tarama` izni gerektirir. Lütfen tarayıcıdaki SmartProxy eklenti ayarlarına gidip `Özel Pencerelerde Çalıştır` iznini verin. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Daha fazla bilgi</a>."
 	},
 	"proxyableTitle": {
 		"message": "Yedeklenebilir Kaynaklar"
@@ -136,55 +136,55 @@
 		"message": "Url İste"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Rule status"
+		"message": "Kural durumu"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Proxy status"
+		"message": "Proxy durumu"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Rule domain"
+		"message": "Kural alan adı"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Rule pattern"
+		"message": "Kural deseni"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "No Proxy"
+		"message": "Proxy yok"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Special"
+		"message": "Özel"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "Üst sekmeden alınan"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Eşleşti"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Her Zaman Etkin"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "System Proxy Applied"
+		"message": "Sistem Proxy'si Uygulandı"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "No Match"
+		"message": "Eşleşme yok"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Special"
+		"message": "Özel"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "Üst sekmeden alınan"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Eşleşti"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Whitelisted"
+		"message": "Beyaz listede"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "AlwaysEnabled <br> Bypassed"
+		"message": "HerZamanEtkin <br> Yoksayıldı"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "AlwaysEnabled <br> Forced By Rules"
+		"message": "HerZamanEtkin <br> Kurallar tarafından Zorlandı"
 	},
 	"settingsTitle": {
 		"message": "SmartProxy ayarları"
@@ -196,10 +196,10 @@
 		"message": "Genel Ayarlar"
 	},
 	"settingsTabSmartProfiles": {
-		"message": "Smart Profiles"
+		"message": "Akıllı Profiller"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Add new Smart Profile"
+		"message": "Yeni Akıllı Profil Ekle"
 	},
 	"settingsTabProxyServers": {
 		"message": "Proxy Sunucuları"
@@ -214,37 +214,37 @@
 		"message": "{0} için güncelleme"
 	},
 	"settingsTabAboutDescription": {
-		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything."
+		"message": "SmartProxy ile proxy kullanmak hiç bu kadar kolay olmamıştı. Bir kez yapılandır ve unut çözümü olarak düşünebilirsiniz. SmartProxy ile proxy'yi elle değiştirmeye veya açıp kapamaya gerek yok. Yapmanız gereken tek şey, istediğiniz web sitesi için proxy'yi etkinleştirmek istediğinizi SmartProxy'ye bir tıklama ile söylemektir. Ardından o siteyi ziyaret ettiğinizde SmartProxy devreye girer ve o siteye ait tüm veriler proxy üzerinden aktarılır."
 	},
 	"settingsGeneralSmartFeatures": {
 		"message": "Akıllı Özellikler"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome."
+		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Sadece Firefox</a>!</strong> Maalesef bu özellik Chrome tarafından desteklenmiyor."
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin"
+		"message": "Sekme/orijin başına proxy etkinleştir"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
+		"message": "Bir kural sekmenin URL'iyle eşleşirse, sonuç olarak proxy sekmenin bağlantısına uygulanır. Normalde sayfada başka istekler de olacaktır ve bunların bazıları eşleşen kurala sahip olmayabilir ve dolayısıyla bağlantılarına proxy uygulanmayabilir. `Sekme/orijin başına proxy etkinleştir` seçeneği, sayfanın tamamının, farklı alan adları ve originlerden gelen tüm bağlantıların sekmenin orijinine uygulanan aynı proxy'yi kullanmasını sağlar. Ayrıca bu seçenek her bir alan adı için ayrı kural gereksinimini ortadan kaldırır. Lütfen sekmeye herhangi bir proxy uygulanmamışsa, proxy kurallarının devam edip sayfadaki diğer bağlantılara bireysel olarak proxy uygulamaya devam edeceğini unutmayın."
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "Proxy per tab/origin enabled"
+		"message": "Sekme/orijin başına proxy etkin"
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "Proxy per tab/origin disabled"
+		"message": "Sekme/orijin başına proxy devre dışı"
 	},
 	"settingsGeneralSyncing": {
-		"message": "Syncing"
+		"message": "Eşitleme"
 	},
 	"settingsGeneralIncognitoProfile": {
-		"message": "Private Browsing Profile"
+		"message": "Özel Tarama Profili"
 	},
 	"settingsGeneralIncognitoProfileDisabled": {
-		"message": "(Disabled)"
+		"message": "(Devre Dışı)"
 	},
 	"settingsGeneralIncognitoProfileDesc": {
-		"message": "Select a private browsing profile if you want to force it to be used when tab/window is in Private Browsing mode. This option will override the active profile."
+		"message": "Sekme/pencere Özel Tarama modundayken kullanılması için bir özel tarama profili seçin. Bu seçenek etkin profili geçersiz kılacaktır."
 	},
 	"settingsGeneralEnableSyncing": {
 		"message": "Senkronizasyon ayarlarını etkinleştir"
@@ -259,106 +259,106 @@
 		"message": "Değişiklikleri Reddet"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Enable syncing active profile"
+		"message": "Etkin profilin eşitlenmesini etkinleştir"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Check if you want the active profile to be synced."
+		"message": "Etkin profilin eşitlenmesini istiyorsanız işaretleyin."
 	},
 	"settingsGeneralSyncActiveProxy": {
-		"message": "Enable syncing active proxy"
+		"message": "Etkin vekil sunucunun eşitlenmesini etkinleştir"
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
-		"message": "Check if you want the selected proxy server to be synced"
+		"message": "Seçili proxy sunucusunun eşitlenmesini istiyorsanız işaretleyin"
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "Use the browser's sync servers"
+		"message": "Tarayıcının eşitleme sunucularını kullan"
 	},
 	"settingsGeneralSyncToWebDAV": {
-		"message": "Sync to a WebDAV server"
+		"message": "Bir WebDAV sunucusuna eşitle"
 	},
 	"settingsGeneralWebDavServerUrl": {
-		"message": "WebDAV Server URL:"
+		"message": "WebDAV Sunucu URL'si:"
 	},
 	"settingsGeneralWebDavBackupFilename": {
-		"message": "Backup Filename:"
+		"message": "Yedek Dosya Adı:"
 	},
 	"settingsGeneralWebDavServerUser": {
-		"message": "WebDAV Server Username:"
+		"message": "WebDAV Sunucu Kullanıcı Adı:"
 	},
 	"settingsGeneralWebDavServerPassword": {
-		"message": "WebDAV Server Password:"
+		"message": "WebDAV Sunucu Parolası:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+		"message": "Lütfen dikkat: ayarlarda her değişiklik yapıldığında yedekleme gerçekleşir; geri yükleme ise yalnızca tarayıcı başlatıldığında yapılır."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
-		"message": "Backup Now"
+		"message": "Şimdi Yedekle"
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
-		"message": "Please enter a valid WebDAV Server URL"
+		"message": "Lütfen geçerli bir WebDAV Sunucu URL'si girin"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
-		"message": "WebDAV Server Backup Filename cannot be empty"
+		"message": "WebDAV Yedek Dosya Adı boş olamaz"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
-		"message": "WebDav backup completed successfully!"
+		"message": "WebDav yedeklemesi başarıyla tamamlandı!"
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
-		"message": "WebDav backup failed:"
+		"message": "WebDav yedeklemesi başarısız oldu:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Hata Tespiti"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "Detect request failures"
+		"message": "İstek hatalarını tespit et"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "Request failures detection will help you identify the domains that needs proxy."
+		"message": "İstek hatası tespiti, hangi alan adlarının proxy gerektirdiğini belirlemenize yardımcı olur."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Enter Rules"
+		"message": "Kuralları Girin"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Ignore failure detection based on these rules"
+		"message": "Bu kurallara göre hata tespitini yoksay"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Add rules to disable failure detection."
+		"message": "Hata tespitini devre dışı bırakmak için kurallar ekleyin."
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "Display failed requests count on toolbar icon badge"
+		"message": "Araç çubuğu simgesi rozeti üzerinde başarısız istek sayısını göster"
 	},
 	"settingsGeneralThemes": {
-		"message": "Themes"
+		"message": "Temalar"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "Auto switch by the Browser theme"
+		"message": "Tarayıcı temasına göre otomatik değiştir"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system."
+		"message": "Aşağıda seçilen temalar arasında otomatik geçiş yapar. Bu, tarayıcınızın temasını takip eder ve işletim sisteminizin temasını da takip edebilir."
 	},
 	"settingsGeneralThemesLight": {
-		"message": "Light Theme"
+		"message": "Açık Tema"
 	},
 	"settingsGeneralThemes_Default": {
-		"message": "(Default)"
+		"message": "(Varsayılan)"
 	},
 	"settingsGeneralThemes_Custom": {
-		"message": "(Custom)"
+		"message": "(Özel)"
 	},
 	"settingsGeneralThemes_CustomUrl": {
-		"message": "Custom Styles (Css) Url:"
+		"message": "Özel Stiller (CSS) URL'si:"
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency."
+		"message": "URL 'Https' olmalıdır. Takip edilen fontlar ve diğer stiller açılır pencereleri (popup) engelleyebilir/yavaşlatabilir. bootswatch.com'dan temalar deneyebilirsiniz ancak Google font bağımlılıklarına dikkat edin."
 	},
 	"settingsGeneralThemesDark": {
-		"message": "Dark Theme"
+		"message": "Koyu Tema"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Light Theme and the url should be 'https'."
+		"message": "Açık Tema için geçerli bir CSS URL'si girin; URL 'https' olmalıdır."
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'."
+		"message": "Koyu Tema için geçerli bir CSS URL'si girin; URL 'https' olmalıdır."
 	},
 	"settingsGeneralOtherSettings": {
 		"message": "Diğer Seçenekler"
@@ -367,7 +367,7 @@
 		"message": "Kısayolu Etkinleştir"
 	},
 	"settingsGeneralEnableShortcutsDesc": {
-		"message": "You can configure shortcuts from browser addon settings page."
+		"message": "Kısayolları tarayıcı eklenti ayarları sayfasından yapılandırabilirsiniz."
 	},
 	"settingsGeneralViewShortcuts": {
 		"message": "Kısayolları Listele"
@@ -379,13 +379,13 @@
 		"message": "Kısayol Tuşları"
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Display applied rule source on badge"
+		"message": "Rozette uygulanan kural kaynağını göster"
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
-		"message": "Display applied rule pattern on badge"
+		"message": "Rozette uygulanan kural desenini göster"
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
-		"message": "Refresh active tab when profile or proxy changed"
+		"message": "Profil veya proxy değiştiğinde etkin sekmeyi yenile"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "İptal"
@@ -400,7 +400,7 @@
 		"message": "Kapat"
 	},
 	"settingsGeneralKeyboardShortcutsNotSupported": {
-		"message": "Keyboard shortcuts are not supported on mobile devices."
+		"message": "Klavye kısayolları mobil cihazlarda desteklenmiyor."
 	},
 	"settingsTabProxyServersTitle": {
 		"message": "Proxy sunucularınızı yönetin:"
@@ -418,13 +418,13 @@
 		"message": "Daha önce bir şey proxy sunucularını tanımlamak zorunda."
 	},
 	"settingsActiveProxyServer": {
-		"message": "Default Proxy Server:"
+		"message": "Varsayılan Vekil Sunucu:"
 	},
 	"settingsAddServerButton": {
 		"message": "Sunucu ekle"
 	},
 	"settingsRemoveMultipleServerButton": {
-		"message": "Delete Multiple"
+		"message": "Çoklu Sil"
 	},
 	"settingsSaveChangesButton": {
 		"message": "Değişiklikleri Kaydet"
@@ -433,7 +433,7 @@
 		"message": "Değişiklikleri Reddet"
 	},
 	"settingsEditButton": {
-		"message": "Edit"
+		"message": "Düzenle"
 	},
 	"settingsFullBackupButton": {
 		"message": "Tam yedek oluştur"
@@ -448,22 +448,22 @@
 		"message": "Daha önce alınan yedeklemenizi bir yerel dosyadan geri yükleyin"
 	},
 	"settingsDangerZoneDesc": {
-		"message": "Danger zone"
+		"message": "Tehlike bölgesi"
 	},
 	"settingsFactoryResetButton": {
-		"message": "Factory Reset"
+		"message": "Fabrika Ayarlarına Sıfırla"
 	},
 	"settingsFactoryResetDesc": {
-		"message": "Reset everything. This will remove all rules and proxy servers and reset the options. Permanently."
+		"message": "Her şeyi sıfırla. Bu, tüm kuralları ve proxy sunucularını kaldırır ve seçenekleri kalıcı olarak sıfırlar."
 	},
 	"settingsFactoryResetConfirm": {
-		"message": "Are you sure to reset EVERYTHING ? Sure? There is no way back!"
+		"message": "HER ŞEYİ sıfırlamak istediğinizden emin misiniz? Emin misiniz? Geri dönüş yok!"
 	},
 	"settingsFactoryResetSuccess": {
-		"message": "Factory reset is completed successfully"
+		"message": "Fabrika ayarlarına sıfırlama başarıyla tamamlandı"
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import/Export individual list of proxies servers."
+		"message": "Proxy sunucuları listesini içe/dışa aktar."
 	},
 	"settingsImportProxiesButtonBackup": {
 		"message": "Proxy Sunucularını Al"
@@ -484,7 +484,7 @@
 		"message": "Kural Yedekleme Dosyası"
 	},
 	"settingsImportRulesText": {
-		"message": "Rules Backup Text"
+		"message": "Kurallar Yedek Metni"
 	},
 	"settingsImportRulesFrom": {
 		"message": "Itibaren"
@@ -529,10 +529,10 @@
 		"message": "İçe aktar"
 	},
 	"settingsConfirmRemoveProxyServer": {
-		"message": "Are you sure to remove the selected proxy server?"
+		"message": "Seçili proxy sunucusunu kaldırmak istediğinizden emin misiniz?"
 	},
 	"settingsConfirmRemoveMultipleProxyServer": {
-		"message": "Are you sure to remove the selected proxy servers?"
+		"message": "Seçili proxy sunucularını kaldırmak istediğinizden emin misiniz?"
 	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Tüm proxy sunucularını kaldırdığınızdan emin misiniz?"
@@ -559,13 +559,13 @@
 		"message": "Değişiklikler başarıyla geri döndü."
 	},
 	"settingsConfirmSaveAllChanged": {
-		"message": "Do you want to save all unsaved changes?"
+		"message": "Tüm kaydedilmemiş değişiklikleri kaydetmek istiyor musunuz?"
 	},
 	"settingsConfirmRemoveProxyRule": {
-		"message": "Are you sure to remove the selected rule?"
+		"message": "Seçili kuralı kaldırmak istediğinizden emin misiniz?"
 	},
 	"settingsConfirmRemoveMultipleProxyRule": {
-		"message": "Are you sure to remove the selected rules?"
+		"message": "Seçili kuralları kaldırmak istediğinizden emin misiniz?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "Tüm kuralları kaldırdığınızdan emin misiniz?"
@@ -589,7 +589,7 @@
 		"message": "Dosya içe aktarılamadı."
 	},
 	"settingsImportRulesTextIsEmpty": {
-		"message": "Please enter rules in the box"
+		"message": "Lütfen kutuya kuralları girin"
 	},
 	"settingsServerNameRequired": {
 		"message": "Sunucunun adını belirtin!"
@@ -658,106 +658,106 @@
 		"message": "İçe aktar"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "Smart Profile:"
+		"message": "Akıllı Profil:"
 	},
 	"settingsProfilesEnabled": {
-		"message": "Enabled"
+		"message": "Etkin"
 	},
 	"settingsProfilesTypeTitle": {
-		"message": "Profile Type:"
+		"message": "Profil Türü:"
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
-		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+		"message": "Bu profilde akıllı kurallar tanımlanana kadar proxy uygulanmaz. Kara liste kuralları yani proxy uygulanacak kuralları tanımlayacaksınız."
 	},
 	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
-		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+		"message": "Bu profilde proxy sunucuları her zaman uygulanır; akıllı kurallar tanımlayıp bunları atlayabilirsiniz. Beyaz liste kuralları yani proxy atlanacak kuralları tanımlayacaksınız."
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
-		"message": "Ignore failure detection for these domains by adding rules."
+		"message": "Bu alan adları için hata tespitini yoksaymak üzere kurallar ekleyin."
 	},
 	"settingsProfilesProfileProxyServer": {
-		"message": "Profile Proxy Server:"
+		"message": "Profil Vekil Sunucusu:"
 	},
 	"settingsProfilesDefaultProfileProxyServer": {
-		"message": "(Use Default Proxy Server)"
+		"message": "(Varsayılan Vekil Sunucuyu Kullan)"
 	},
 	"settingsProfilesProfileProxyServerDesc": {
-		"message": "(While using this profile, this is going to be the active proxy server)"
+		"message": "(Bu profili kullanırken, bu etkin proxy sunucusu olacaktır)"
 	},
 	"settingsProfilesRulesSection": {
-		"message": "Rules"
+		"message": "Kurallar"
 	},
 	"settingsProfilesDelete": {
-		"message": "Delete"
+		"message": "Sil"
 	},
 	"settingsProfilesAddNewLabel": {
-		"message": "Add New Smart Profile"
+		"message": "Yeni Akıllı Profil Ekle"
 	},
 	"settingsProfilesAddNewTypeLead": {
-		"message": "Please select the <b>type of profile</b> you want to add:"
+		"message": "Eklemek istediğiniz <b>profil türünü</b> seçin:"
 	},
 	"settingsProfilesAddNewType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Akıllı Kurallar"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
 		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Her Zaman Etkin"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
-		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
+		"message": "Bu tür profilde, atlama kuralları tanımlamadığınız sürece proxy her zaman isteklerde uygulanır. Kural tanımlama adımları SmartRule profil türü ile aynıdır."
 	},
 	"settingsProfilesAddNewBtnContinue": {
-		"message": "Continue"
+		"message": "Devam"
 	},
 	"settingsProfilesAddNewBtnCancel": {
-		"message": "Cancel"
+		"message": "İptal"
 	},
 	"settingsProfilesAddErrorTypeRequired": {
-		"message": "Please select a profile type"
+		"message": "Lütfen bir profil türü seçin"
 	},
 	"settingsProfilesAddErrorNameRequired": {
-		"message": "Profile name is mandatory"
+		"message": "Profil adı zorunludur"
 	},
 	"settingsProfilesAddErrorNameExists": {
-		"message": "Profile name already exists, please enter another one"
+		"message": "Profil adı zaten var, lütfen başka bir ad girin"
 	},
 	"settingsProfilesDeleteConfirm": {
-		"message": "Are you sure to delete this profile? Warning, this action cannot be undone!"
+		"message": "Bu profili silmek istediğinizden emin misiniz? Uyarı, bu işlem geri alınamaz!"
 	},
 	"settingsProfilesDeleteFailed": {
-		"message": "Failed to delete the selected profile."
+		"message": "Seçili profil silinemedi."
 	},
 	"settingsProfilesDeleteDone": {
-		"message": "The profile is deleted successfully"
+		"message": "Profil başarıyla silindi"
 	},
 	"settingsProfilesDeleteBuiltinFail": {
-		"message": "Cannot delete built-in profiles"
+		"message": "Yerleşik profiller silinemez"
 	},
 	"settingsProfilesProxyServer": {
-		"message": "[Use Default Proxy Server]"
+		"message": "[Varsayılan Vekil Sunucuyu Kullan]"
 	},
 	"settingsProfilesRulesSubscriptionsTitle": {
-		"message": "Rules Subscriptions"
+		"message": "Kural Abonelikleri"
 	},
 	"settingsProfilesRulesSubscriptionsDesc": {
-		"message": "Here you can subscribe to rules lists."
+		"message": "Buradan kural listelerine abone olabilirsiniz."
 	},
 	"settingsSaveSmartProfileSuccess": {
-		"message": "Smart Profile saved successfully."
+		"message": "Akıllı Profil başarıyla kaydedildi."
 	},
 	"settingsErrorFailedToSaveSmartProfile": {
-		"message": "Failed to save smart profile."
+		"message": "Akıllı profil kaydedilemedi."
 	},
 	"settingsRuleSourceRequired": {
 		"message": "Lütfen kuralın kaynak alanadını belirtin!"
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "Source domain is invalid, source domain should be something like 'google.com'"
+		"message": "Kaynak alan adı geçersiz, kaynak alan adı örneğin 'google.com' olmalıdır"
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'source domain' is not valid '{0}'"
+		"message": "'kaynak alan adı' geçerli değil '{0}'"
 	},
 	"settingsRuleSourceAlreadyExists": {
 		"message": "Aynı kaynaktan olan bir kural zaten var!"
@@ -766,10 +766,10 @@
 		"message": "'{0}' ana makine adı geçersiz, ana bilgisayar adı 'google.com' gibi olmalıdır"
 	},
 	"settingsRuleRegexNotMatchDomain": {
-		"message": "Regex rule does not match the source domain '{0}'"
+		"message": "Regex kuralı kaynak alan adı '{0}' ile eşleşmiyor"
 	},
 	"settingsRuleDoesntIncludeDomain": {
-		"message": "The rule does not match the source domain '{0}'"
+		"message": "Kural kaynak alan adı '{0}' ile eşleşmiyor"
 	},
 	"settingsRuleRegexInvalid": {
 		"message": "Regex kuralı {0} geçerli değil"
@@ -799,10 +799,10 @@
 		"message": "Proxy Sunucusu"
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[Use Active Proxy]"
+		"message": "[Etkin Proxy'yi Kullan]"
 	},
 	"settingsRulesProxyFromProfile": {
-		"message": "[Use Profile Proxy]"
+		"message": "[Profil Proxy'sini Kullan]"
 	},
 	"settingsRulesModalTitle": {
 		"message": "Kural Detayları"
@@ -823,7 +823,7 @@
 		"message": "Şablonu otomatik oluştur"
 	},
 	"settingsRulesRegex": {
-		"message": "Url Regex"
+		"message": "URL Regex"
 	},
 	"settingsRulesExactUrl": {
 		"message": "Url ile Tam Eşleşme"
@@ -853,7 +853,7 @@
 		"message": "Doğrudan (Vekil sunucu yok.)"
 	},
 	"settingsRuleActionWhitelistDesc": {
-		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+		"message": "(Beyaz liste kuralları, yerleşimlerinden bağımsız olarak proxy kurallarından daha yüksek önceliğe sahiptir)"
 	},
 	"settingsServerPortInvalid": {
 		"message": "Sunucu bağlantı noktası '{0}' geçersiz"
@@ -868,13 +868,13 @@
 		"message": "Yedeğin geri yüklenmesinde bir hata oluştu"
 	},
 	"settingsRestoreSettingsFailedInvalid": {
-		"message": "Backup data is invalid or corrupted"
+		"message": "Yedek verisi geçersiz veya bozuk"
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
-		"message": "Invalid data provided for active profile"
+		"message": "Etkin profil için geçersiz veri sağlandı"
 	},
 	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
-		"message": "Invalid data provided for default proxy server"
+		"message": "Varsayılan proxy sunucusu için geçersiz veri sağlandı"
 	},
 	"settingsEnableByDomainInvalid": {
 		"message": "Seçili yer geçerli değil"
@@ -883,7 +883,7 @@
 		"message": "Etki alanı için kural zaten var"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
-		"message": "The current profile '{0}' cannot be updated with rules"
+		"message": "Geçerli profil '{0}' kurallarla güncellenemez"
 	},
 	"settingsNoRuleFoundForDomain": {
 		"message": "'{0}' için herhangi bir kural değil"
@@ -892,7 +892,7 @@
 		"message": "{1} vekilin tamamı {0} dışarı aktarılıyor. <br> Değişiklikleri kaydetmeyi unutma."
 	},
 	"settingsRemoveMultipleProxyRuleButton": {
-		"message": "Delete Multiple"
+		"message": "Çoklu Sil"
 	},
 	"settingsAddMultipleRulesButton": {
 		"message": "Çoklu Kural Ekle"
@@ -907,7 +907,7 @@
 		"message": "Host adı '{0}' geçerli değil"
 	},
 	"settingsMultipleRuleNoNewRuleAdded": {
-		"message": "No new rule is added"
+		"message": "Yeni kural eklenmedi"
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
 		"message": "Proxy sunucu abonelikleri yönet:"
@@ -928,13 +928,13 @@
 		"message": "Bir proxy sunucusu listesine abone olun"
 	},
 	"settingsRemoveMultipleServerSubscriptionButton": {
-		"message": "Delete Multiple"
+		"message": "Çoklu Sil"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "Adı:"
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsServerSubscriptionRefreshRate": {
 		"message": "Yenileme Oranı:"
@@ -955,16 +955,16 @@
 		"message": "Biçim:"
 	},
 	"settingsServerSubscriptionApplyProxy": {
-		"message": "Pass through proxy:"
+		"message": "Proxy üzerinden geçir:"
 	},
 	"settingsServerSubscriptionApplyProxyHelpFirefox": {
-		"message": "(Decide base on your access to the server)"
+		"message": "(Sunucuya erişiminize göre karar verin)"
 	},
 	"settingsServerSubscriptionApplyProxyHelpChrome": {
-		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)"
+		"message": "(Maalesef bu özellik Chrome'da kullanılamıyor. Mevcut proxy uygulanacaktır)"
 	},
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
-		"message": "No Proxy"
+		"message": "Proxy yok"
 	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
 		"message": "Aktif Vekil Sunucu"
@@ -997,13 +997,13 @@
 		"message": "Deneniyor..."
 	},
 	"settingsConfirmRemoveServerSubscription": {
-		"message": "Are you sure to remove the selected subscription?"
+		"message": "Seçili aboneliği kaldırmak istediğinizden emin misiniz?"
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Tüm proxy sunucusu aboneliklerini kaldırdığınızdan emin misiniz?"
 	},
 	"settingsConfirmRemoveMultipleServerSubscription": {
-		"message": "Are you sure to remove the selected subscriptions?"
+		"message": "Seçili abonelikleri kaldırmak istediğinizden emin misiniz?"
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "Tüm proxy sunucu abonelikleri kaldırılır. <br/> Değişiklikleri uygulamak için kaydetmeniz gerekir."
@@ -1024,7 +1024,7 @@
 		"message": "İsim"
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsServerSubscriptionsGridColCount": {
 		"message": "Sayı"
@@ -1060,13 +1060,13 @@
 		"message": "Proxy sunucu abonelikleri başarıyla kaydedildi."
 	},
 	"settingsFailedToSaveProxySubscriptions": {
-		"message": "Failed to save proxy servers subscriptions"
+		"message": "Proxy sunucu abonelikleri kaydedilemedi"
 	},
 	"settingsAddRulesSubscriptionButton": {
 		"message": "Bir kural listesine abone ol"
 	},
 	"settingsRemoveMultipleRulesSubscriptionButton": {
-		"message": "Delete Multiple"
+		"message": "Çoklu Sil"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
 		"message": "Bir kural listesine abone ol"
@@ -1087,7 +1087,7 @@
 		"message": "Adı:"
 	},
 	"settingsRulesSubscriptionsUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsRulesSubscriptionsRefreshRate": {
 		"message": "Yenileme Hızı:"
@@ -1108,7 +1108,7 @@
 		"message": "Proxy üzerinden geçir:"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
-		"message": "(Decide base on your access to the server)"
+		"message": "(Sunucuya erişiminize göre karar verin)"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(Maalesef bu özellik henüz Chrome'da mümkün değil. Aktif proxy kullanılacak)"
@@ -1135,7 +1135,7 @@
 		"message": "Seçili kural aboneliklerini kaldırmak istediğinize emin misiniz?"
 	},
 	"settingsConfirmRemoveMultipleRulesSubscription": {
-		"message": "Are you sure to remove the selected rules subscriptions?"
+		"message": "Seçili kural aboneliklerini kaldırmak istediğinizden emin misiniz?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
 		"message": "Lütfen gerekli alanları doğru biçimde doldurunuz"
@@ -1156,10 +1156,10 @@
 		"message": "Test Ediliyor..."
 	},
 	"settingsRulesSubscriptionSaveUpdated": {
-		"message": "The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes."
+		"message": "Abonelik '{0}' proxy kuralları ile güncellendi: {0} proxy kuralı ve {1} beyaz liste kuralı bulundu. <br/>Değişiklikleri kaydetmeyi unutmayın."
 	},
 	"settingsRulesSubscriptionSaveAdded": {
-		"message": "The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes."
+		"message": "Abonelik eklendi: {0} proxy kuralı ve {1} beyaz liste kuralı bulundu. <br/>Değişiklikleri kaydetmeyi unutmayın."
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
 		"message": "Kurallar alınamadı."
@@ -1177,10 +1177,10 @@
 		"message": "Abonelik kuralları kaydedilemedi"
 	},
 	"settingsRemoveAllProxyRulesSubscriptions": {
-		"message": "Are you sure to remove all the proxy rules subscriptions?"
+		"message": "Tüm proxy kuralı aboneliklerini kaldırmak istediğinizden emin misiniz?"
 	},
 	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
-		"message": "All the proxy rules subscriptions are removed.<br/>You have to save to apply the changes."
+		"message": "Tüm proxy kuralı abonelikleri kaldırıldı.<br/>Değişiklikleri uygulamak için kaydetmelisiniz."
 	},
 	"importerImportRulesSuccess": {
 		"message": "Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes."
