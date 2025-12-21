@@ -991,7 +991,7 @@
 		"message": "Speichert..."
 	},
 	"settingsServerSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Testen"
 	},
 	"settingsServerSubscriptionTestingButton": {
 		"message": "Testet..."
@@ -1123,7 +1123,7 @@
 		"message": "Passwort:"
 	},
 	"settingsRulesSubscriptionsTestButton": {
-		"message": "Test"
+		"message": "Testen"
 	},
 	"settingsRulesSubscriptionsSaveButton": {
 		"message": "Speichern"
@@ -1150,7 +1150,7 @@
 		"message": "Speichern..."
 	},
 	"settingsRulesSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Testen"
 	},
 	"settingsRulesSubscriptionTestingButton": {
 		"message": "Testen…"
