@@ -31,7 +31,7 @@
 		"message": "Diretto (Nessun Proxy)"
 	},
 	"popupSmartProxy": {
-		"message": "Smart Proxy"
+		"message": "Proxy Intelligente"
 	},
 	"popupAlwaysEnable": {
 		"message": "Sempre Abiitato"
@@ -277,16 +277,16 @@
 		"message": "Sincronizza su un server WebDAV"
 	},
 	"settingsGeneralWebDavServerUrl": {
-		"message": "WebDAV Server URL:"
+		"message": "URL del Server WebDAV:"
 	},
 	"settingsGeneralWebDavBackupFilename": {
-		"message": "Backup Filename:"
+		"message": "Nome del File di Backup:"
 	},
 	"settingsGeneralWebDavServerUser": {
-		"message": "WebDAV Server Username:"
+		"message": "Nome Utente del Server WebDAV:"
 	},
 	"settingsGeneralWebDavServerPassword": {
-		"message": "WebDAV Server Password:"
+		"message": "Password del Server WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
 		"message": "Si noti che i backup avverranno ad ogni modifica delle impostazioni, mentre il ripristino avviene solo all'avvio del browser."
@@ -298,13 +298,13 @@
 		"message": "Inserisci un URL WebDAV Server valido"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
-		"message": "WebDAV Server Backup Filename cannot be empty"
+		"message": "Il Nome del File di Backup del Server WebDAV non può essere vuoto"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
-		"message": "WebDav backup completed successfully!"
+		"message": "Backup WebDAV completato con successo!"
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
-		"message": "WebDav backup failed:"
+		"message": "Backup WebDAV fallito:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Rilevamento Errori"
@@ -658,7 +658,7 @@
 		"message": "Importa"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "Smart Profile:"
+		"message": "Profilo Intelligente:"
 	},
 	"settingsProfilesEnabled": {
 		"message": "Abilitato"
@@ -697,7 +697,7 @@
 		"message": "Seleziona il <b>tipo di profilo</b> che vuoi aggiungere:"
 	},
 	"settingsProfilesAddNewType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Regole Intelligenti"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
 		"message": "In questo tipo di profilo, il proxy verrà applicato alle richieste in base ad alcune <em>regole</em> che dovrai definire. Per definire queste regole puoi utilizzare il menu popup nella barra dei menu o puoi aggiungerle dalle impostazioni e puoi anche farlo dalla finestra <em>Risorsa Proxyable</em>.<br>Inoltre hai la possibilità di iscriverti a diverse liste di regole come Gfwlist."
@@ -784,7 +784,7 @@
 		"message": "Nessuna regola è definita"
 	},
 	"settingsRulesGridColRuleType": {
-		"message": "Rule Type"
+		"message": "Tipo di Regola"
 	},
 	"settingsRulesGridColSource": {
 		"message": "Fonte"
@@ -823,7 +823,7 @@
 		"message": "Genera modello automaticamente"
 	},
 	"settingsRulesRegex": {
-		"message": "Url Regex"
+		"message": "Regex URL"
 	},
 	"settingsRulesExactUrl": {
 		"message": "Url Esatto (in minuscolo)"
@@ -934,7 +934,7 @@
 		"message": "Nome:"
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsServerSubscriptionRefreshRate": {
 		"message": "Frequenza di aggiornamento:"
@@ -964,13 +964,13 @@
 		"message": "(Sfortunatamente questa funzione non è disponibile in Chrome. Verrà applicato il proxy corrente)"
 	},
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
-		"message": "No Proxy"
+		"message": "Nessun Proxy"
 	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
-		"message": "Current Proxy"
+		"message": "Proxy Corrente"
 	},
 	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
-		"message": "Selected Proxy"
+		"message": "Proxy Selezionato"
 	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Nome Utente:"
@@ -1024,7 +1024,7 @@
 		"message": "Nome"
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsServerSubscriptionsGridColCount": {
 		"message": "Conto"
@@ -1075,7 +1075,7 @@
 		"message": "Nome"
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsRulesSubscriptionsGridColCount": {
 		"message": "Conteggio"
@@ -1087,7 +1087,7 @@
 		"message": "Nome:"
 	},
 	"settingsRulesSubscriptionsUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsRulesSubscriptionsRefreshRate": {
 		"message": "Frequenza di Aggiornamento:"

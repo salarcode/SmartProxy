@@ -1003,7 +1003,7 @@
 		"message": "از حذف همه اشتراکات لیست پراکسی ها مطمئن هستید؟"
 	},
 	"settingsConfirmRemoveMultipleServerSubscription": {
-		"message": "Are you sure to remove the selected subscriptions?"
+		"message": "آیا از حذف اشتراک‌های انتخاب‌شده اطمینان دارید؟"
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "تمامی اشتراکات لیست پروکسی ها حذف شدند. <br/>برای اعمال تغییرات باید ذخیره سازی را انجام دهید."

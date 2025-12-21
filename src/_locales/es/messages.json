@@ -79,7 +79,7 @@
 		"message": "Agregar a la lista de reglas"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": ""
+		"message": "El perfil seleccionado '{0}' no soporta reglas, por favor seleccione otro perfil."
 	},
 	"popupAddIgnoredFailures": {
 		"message": "Ignorarlos"
@@ -196,10 +196,10 @@
 		"message": "Opciones generales"
 	},
 	"settingsTabSmartProfiles": {
-		"message": "Smart Profiles"
+		"message": "Perfiles inteligentes"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Add new Smart Profile"
+		"message": "Agregar nuevo perfil inteligente"
 	},
 	"settingsTabProxyServers": {
 		"message": "Servidores Proxy"
@@ -217,34 +217,34 @@
 		"message": "Usa patrones para automáticamente definir reglas para Proxificar tu experiencia web. Con Proxy inteligente, no necesitas cambiar manualmente el Proxy y encenderlo y apagarlo. Puedes agregar tus sitios web deseados a la lista de las reglas del Proxy con sólo un click. Luego de eso, cuando visites ese sitio web específico, Proxy Inteligente actuará y toda tu data para el sitio web será transferida por el proxy, sin hacer nada."
 	},
 	"settingsGeneralSmartFeatures": {
-		"message": "Smart Features"
+		"message": "Funciones inteligentes"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome."
+		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> únicamente</strong>. Lamentablemente, esta función no es compatible con Chrome."
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin"
+		"message": "Habilitar proxy por pestaña/origen"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
+		"message": "Si una regla coincide con la URL de una pestaña, el proxy se aplicará a la conexión de esa pestaña. Normalmente hay otras solicitudes en cada página que pueden no coincidir con una regla y, por tanto, no tendrán proxy en su conexión. La opción `Habilitar proxy por pestaña/origen` asegura que toda la página, incluidas las conexiones de distintos dominios y orígenes, use el mismo proxy que se aplica al origen de la pestaña. Además, esta opción elimina la necesidad de tener una regla para cada dominio. Tenga en cuenta que si no se aplica ningún proxy a la pestaña, las reglas de proxy seguirán funcionando y aplicarán proxy a otras conexiones de la página de forma individual."
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "Proxy per tab/origin enabled"
+		"message": "Proxy por pestaña/origen habilitado"
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "Proxy per tab/origin disabled"
+		"message": "Proxy por pestaña/origen deshabilitado"
 	},
 	"settingsGeneralSyncing": {
-		"message": "Syncing"
+		"message": "Sincronización"
 	},
 	"settingsGeneralIncognitoProfile": {
-		"message": "Private Browsing Profile"
+		"message": "Perfil de navegación privada"
 	},
 	"settingsGeneralIncognitoProfileDisabled": {
-		"message": "(Disabled)"
+		"message": "(Deshabilitado)"
 	},
 	"settingsGeneralIncognitoProfileDesc": {
-		"message": "Select a private browsing profile if you want to force it to be used when tab/window is in Private Browsing mode. This option will override the active profile."
+		"message": "Seleccione un perfil de navegación privada si desea forzar su uso cuando la pestaña/ventana esté en modo de navegación privada. Esta opción anulará el perfil activo."
 	},
 	"settingsGeneralEnableSyncing": {
 		"message": "Habilitar configuración de sincronización"
@@ -259,148 +259,148 @@
 		"message": "Rechazar Cambios"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Enable syncing active profile"
+		"message": "Habilitar sincronización del perfil activo"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Check if you want the active profile to be synced."
+		"message": "Marque si desea que el perfil activo se sincronice."
 	},
 	"settingsGeneralSyncActiveProxy": {
-		"message": "Enable syncing active proxy"
+		"message": "Habilitar sincronización del proxy activo"
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
-		"message": "Check if you want the selected proxy server to be synced"
+		"message": "Marque si desea que el servidor proxy seleccionado se sincronice"
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "Use the browser's sync servers"
+		"message": "Usar los servidores de sincronización del navegador"
 	},
 	"settingsGeneralSyncToWebDAV": {
-		"message": "Sync to a WebDAV server"
+		"message": "Sincronizar con un servidor WebDAV"
 	},
 	"settingsGeneralWebDavServerUrl": {
-		"message": "WebDAV Server URL:"
+		"message": "URL del servidor WebDAV:"
 	},
 	"settingsGeneralWebDavBackupFilename": {
-		"message": "Backup Filename:"
+		"message": "Nombre de archivo de respaldo:"
 	},
 	"settingsGeneralWebDavServerUser": {
-		"message": "WebDAV Server Username:"
+		"message": "Nombre de usuario del servidor WebDAV:"
 	},
 	"settingsGeneralWebDavServerPassword": {
-		"message": "WebDAV Server Password:"
+		"message": "Contraseña del servidor WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+		"message": "Tenga en cuenta que se realizarán copias de seguridad cada vez que cambien las configuraciones, mientras que la restauración solo ocurre al iniciar el navegador."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
-		"message": "Backup Now"
+		"message": "Hacer copia de seguridad ahora"
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
-		"message": "Please enter a valid WebDAV Server URL"
+		"message": "Por favor, introduzca una URL válida del servidor WebDAV"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
-		"message": "WebDAV Server Backup Filename cannot be empty"
+		"message": "El nombre de archivo de copia de seguridad de WebDAV no puede estar vacío"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
-		"message": "WebDav backup completed successfully!"
+		"message": "¡Copia de seguridad WebDav completada con éxito!"
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
-		"message": "WebDav backup failed:"
+		"message": "La copia de seguridad de WebDav falló:"
 	},
 	"settingsGeneralErrorDetection": {
-		"message": "Error Detection"
+		"message": "Detección de errores"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "Detect request failures"
+		"message": "Detectar fallos de solicitudes"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "Request failures detection will help you identify the domains that needs proxy."
+		"message": "La detección de fallos de solicitudes le ayudará a identificar los dominios que necesitan proxy."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Enter Rules"
+		"message": "Introducir reglas"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Ignore failure detection based on these rules"
+		"message": "Ignorar detección de fallos según estas reglas"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Add rules to disable failure detection."
+		"message": "Agregue reglas para desactivar la detección de fallos."
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "Display failed requests count on toolbar icon badge"
+		"message": "Mostrar el conteo de solicitudes fallidas en la insignia del icono"
 	},
 	"settingsGeneralThemes": {
-		"message": "Themes"
+		"message": "Temas"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "Auto switch by the Browser theme"
+		"message": "Cambio automático según el tema del navegador"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system."
+		"message": "Cambiar automáticamente entre los temas seleccionados abajo. Esto sigue el tema de su navegador, que a su vez puede seguir el tema del sistema operativo."
 	},
 	"settingsGeneralThemesLight": {
-		"message": "Light Theme"
+		"message": "Tema claro"
 	},
 	"settingsGeneralThemes_Default": {
-		"message": "(Default)"
+		"message": "(Predeterminado)"
 	},
 	"settingsGeneralThemes_Custom": {
-		"message": "(Custom)"
+		"message": "(Personalizado)"
 	},
 	"settingsGeneralThemes_CustomUrl": {
-		"message": "Custom Styles (Css) Url:"
+		"message": "URL de estilos personalizados (CSS):"
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency."
+		"message": "La URL debe ser 'https'. Tenga en cuenta las fuentes y otros estilos importados en el estilo personalizado, pueden bloquear/ralentizar los popups en su navegador. Puede probar temas de bootswatch.com, pero tenga en cuenta su dependencia de Google Fonts."
 	},
 	"settingsGeneralThemesDark": {
-		"message": "Dark Theme"
+		"message": "Tema oscuro"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Light Theme and the url should be 'https'."
+		"message": "Por favor, introduzca una URL CSS válida para el tema claro y la URL debe ser 'https'."
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'."
+		"message": "Por favor, introduzca una URL CSS válida para el tema oscuro y la URL debe ser 'https'."
 	},
 	"settingsGeneralOtherSettings": {
-		"message": "Other Settings"
+		"message": "Otras opciones"
 	},
 	"settingsGeneralEnableShortcuts": {
-		"message": "Enable Shortcuts"
+		"message": "Habilitar atajos"
 	},
 	"settingsGeneralEnableShortcutsDesc": {
-		"message": "You can configure shortcuts from browser addon settings page."
+		"message": "Puede configurar los atajos desde la página de extensiones del navegador."
 	},
 	"settingsGeneralViewShortcuts": {
-		"message": "View shortcuts"
+		"message": "Ver atajos"
 	},
 	"settingsGeneralShortcutNotification": {
-		"message": "Enable shortcut notification"
+		"message": "Habilitar notificaciones de atajos"
 	},
 	"settingsGeneralViewShortcutKeys": {
-		"message": "Shortcut Keys"
+		"message": "Teclas de atajo"
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Display applied rule source on badge"
+		"message": "Mostrar la fuente de la regla aplicada en la insignia"
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
-		"message": "Display applied rule pattern on badge"
+		"message": "Mostrar el patrón de la regla aplicada en la insignia"
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
-		"message": "Refresh active tab when profile or proxy changed"
+		"message": "Actualizar la pestaña activa cuando cambie el perfil o el proxy"
 	},
 	"settingsGeneralCancelButton": {
-		"message": "Cancel"
+		"message": "Cancelar"
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "Save Changes"
+		"message": "Guardar cambios"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
-		"message": "Keyboard shortcuts"
+		"message": "Atajos de teclado"
 	},
 	"settingsGeneralCloseButton": {
-		"message": "Close"
+		"message": "Cerrar"
 	},
 	"settingsGeneralKeyboardShortcutsNotSupported": {
-		"message": "Keyboard shortcuts are not supported on mobile devices."
+		"message": "Los atajos de teclado no son compatibles en dispositivos móviles."
 	},
 	"settingsTabProxyServersTitle": {
 		"message": "Manejar tus servidores Proxy:"
@@ -418,13 +418,13 @@
 		"message": "Antes que nada, debes definir los servidores Proxy."
 	},
 	"settingsActiveProxyServer": {
-		"message": "Default Proxy Server:"
+		"message": "Servidor proxy predeterminado:"
 	},
 	"settingsAddServerButton": {
 		"message": "Agregar servidor"
 	},
 	"settingsRemoveMultipleServerButton": {
-		"message": "Delete Multiple"
+		"message": "Eliminar varios"
 	},
 	"settingsSaveChangesButton": {
 		"message": "Guardar Cambios"
@@ -433,7 +433,7 @@
 		"message": "Rechazar Cambios"
 	},
 	"settingsEditButton": {
-		"message": "Edit"
+		"message": "Editar"
 	},
 	"settingsFullBackupButton": {
 		"message": "Crear un respaldo completo"
@@ -448,22 +448,22 @@
 		"message": "Restaurar la copia de seguridad previa de un archivo local"
 	},
 	"settingsDangerZoneDesc": {
-		"message": "Danger zone"
+		"message": "Zona de peligro"
 	},
 	"settingsFactoryResetButton": {
-		"message": "Factory Reset"
+		"message": "Restablecer valores de fábrica"
 	},
 	"settingsFactoryResetDesc": {
-		"message": "Reset everything. This will remove all rules and proxy servers and reset the options. Permanently."
+		"message": "Restablecer todo. Esto eliminará todas las reglas y servidores proxy y restablecerá las opciones. De forma permanente."
 	},
 	"settingsFactoryResetConfirm": {
-		"message": "Are you sure to reset EVERYTHING ? Sure? There is no way back!"
+		"message": "¿Está seguro de restablecer TODO? ¿Seguro? ¡No hay vuelta atrás!"
 	},
 	"settingsFactoryResetSuccess": {
-		"message": "Factory reset is completed successfully"
+		"message": "El restablecimiento de fábrica se completó correctamente"
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import/Export individual list of proxies servers."
+		"message": "Importar/Exportar listas individuales de servidores proxy."
 	},
 	"settingsImportProxiesButtonBackup": {
 		"message": "Importar servidores Proxy"
@@ -484,7 +484,7 @@
 		"message": "Archivo de copia de seguridad de regla"
 	},
 	"settingsImportRulesText": {
-		"message": "Rules Backup Text"
+		"message": "Texto de copia de seguridad de reglas"
 	},
 	"settingsImportRulesFrom": {
 		"message": "Desde"
@@ -529,7 +529,7 @@
 		"message": "Importar"
 	},
 	"settingsConfirmRemoveProxyServer": {
-		"message": "Are you sure to remove the selected proxy server?"
+		"message": "¿Está seguro de eliminar el servidor proxy seleccionado?"
 	},
 	"settingsConfirmRemoveMultipleProxyServer": {
 		"message": "¿Estás seguro de eliminar los servidores proxy seleccionados?"
@@ -559,10 +559,10 @@
 		"message": "Cambios aplicados con éxito."
 	},
 	"settingsConfirmSaveAllChanged": {
-		"message": "Do you want to save all unsaved changes?"
+		"message": "¿Desea guardar todos los cambios sin guardar?"
 	},
 	"settingsConfirmRemoveProxyRule": {
-		"message": "Are you sure to remove the selected rule?"
+		"message": "¿Está seguro de eliminar la regla seleccionada?"
 	},
 	"settingsConfirmRemoveMultipleProxyRule": {
 		"message": "¿Estás seguro de eliminar las reglas seleccionadas?"
@@ -589,7 +589,7 @@
 		"message": "Falla al importar el archivo."
 	},
 	"settingsImportRulesTextIsEmpty": {
-		"message": "Please enter rules in the box"
+		"message": "Por favor, introduzca reglas en el cuadro"
 	},
 	"settingsServerNameRequired": {
 		"message": "¡Especifica el nombre del servidor!"
@@ -646,109 +646,109 @@
 		"message": "Cotraseña"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(Desafortunadamente la autenticación de servidores proxy no es compatible con Chrome mediante la API de extensiones. Esto es &quot;intencionado&quot;.)"
 	},
 	"settingsServersCancel": {
 		"message": "Cancelar"
 	},
 	"settingsServersSave": {
-		"message": "Save"
+		"message": "Guardar"
 	},
 	"settingsServersImport": {
 		"message": "Importar"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "Smart Profile:"
+		"message": "Perfil inteligente:"
 	},
 	"settingsProfilesEnabled": {
-		"message": "Enabled"
+		"message": "Habilitado"
 	},
 	"settingsProfilesTypeTitle": {
-		"message": "Profile Type:"
+		"message": "Tipo de perfil:"
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
-		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+		"message": "En este perfil no se aplica proxy a menos que defina reglas inteligentes. Definirá reglas en lista negra, es decir, reglas para aplicar proxy."
 	},
 	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
-		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+		"message": "En este perfil los servidores proxy se aplican siempre; defina reglas inteligentes para omitirlos. Definirá reglas en lista blanca, es decir, reglas para omitir el proxy."
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
-		"message": "Ignore failure detection for these domains by adding rules."
+		"message": "Ignorar la detección de fallos para estos dominios agregando reglas."
 	},
 	"settingsProfilesProfileProxyServer": {
-		"message": "Profile Proxy Server:"
+		"message": "Servidor proxy del perfil:"
 	},
 	"settingsProfilesDefaultProfileProxyServer": {
-		"message": "(Use Default Proxy Server)"
+		"message": "(Usar servidor proxy predeterminado)"
 	},
 	"settingsProfilesProfileProxyServerDesc": {
-		"message": "(While using this profile, this is going to be the active proxy server)"
+		"message": "(Mientras usa este perfil, este será el servidor proxy activo)"
 	},
 	"settingsProfilesRulesSection": {
-		"message": "Rules"
+		"message": "Reglas"
 	},
 	"settingsProfilesDelete": {
-		"message": "Delete"
+		"message": "Eliminar"
 	},
 	"settingsProfilesAddNewLabel": {
-		"message": "Add New Smart Profile"
+		"message": "Agregar nuevo perfil inteligente"
 	},
 	"settingsProfilesAddNewTypeLead": {
-		"message": "Please select the <b>type of profile</b> you want to add:"
+		"message": "Por favor seleccione el <b>tipo de perfil</b> que desea agregar:"
 	},
 	"settingsProfilesAddNewType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Reglas inteligentes"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
 		"message": "In this type of profile, proxy will be applied to the requests based on the<em>rules</em> that you need to define. To define these rule you can use the popup menu in the menu bar, you can do it from settings and also you can add them from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Siempre habilitado"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
-		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
+		"message": "En este tipo de perfil, el proxy se aplicará siempre a las solicitudes a menos que defina reglas para omitirlo. Los pasos para definir reglas son iguales que en el tipo de perfil Regla inteligente."
 	},
 	"settingsProfilesAddNewBtnContinue": {
-		"message": "Continue"
+		"message": "Continuar"
 	},
 	"settingsProfilesAddNewBtnCancel": {
-		"message": "Cancel"
+		"message": "Cancelar"
 	},
 	"settingsProfilesAddErrorTypeRequired": {
-		"message": "Please select a profile type"
+		"message": "Por favor seleccione un tipo de perfil"
 	},
 	"settingsProfilesAddErrorNameRequired": {
-		"message": "Profile name is mandatory"
+		"message": "El nombre del perfil es obligatorio"
 	},
 	"settingsProfilesAddErrorNameExists": {
-		"message": "Profile name already exists, please enter another one"
+		"message": "El nombre del perfil ya existe, por favor introduzca otro"
 	},
 	"settingsProfilesDeleteConfirm": {
-		"message": "Are you sure to delete this profile? Warning, this action cannot be undone!"
+		"message": "¿Está seguro de eliminar este perfil? Advertencia, ¡esta acción no se puede deshacer!"
 	},
 	"settingsProfilesDeleteFailed": {
-		"message": "Failed to delete the selected profile."
+		"message": "Error al eliminar el perfil seleccionado."
 	},
 	"settingsProfilesDeleteDone": {
-		"message": "The profile is deleted successfully"
+		"message": "El perfil se eliminó correctamente"
 	},
 	"settingsProfilesDeleteBuiltinFail": {
-		"message": "Cannot delete built-in profiles"
+		"message": "No se pueden eliminar perfiles incorporados"
 	},
 	"settingsProfilesProxyServer": {
-		"message": "[Use Default Proxy Server]"
+		"message": "[Usar servidor proxy predeterminado]"
 	},
 	"settingsProfilesRulesSubscriptionsTitle": {
-		"message": "Rules Subscriptions"
+		"message": "Suscripciones de reglas"
 	},
 	"settingsProfilesRulesSubscriptionsDesc": {
-		"message": "Here you can subscribe to rules lists."
+		"message": "Aquí puede suscribirse a listas de reglas."
 	},
 	"settingsSaveSmartProfileSuccess": {
-		"message": "Smart Profile saved successfully."
+		"message": "Perfil inteligente guardado correctamente."
 	},
 	"settingsErrorFailedToSaveSmartProfile": {
-		"message": "Failed to save smart profile."
+		"message": "Error al guardar el perfil inteligente."
 	},
 	"settingsRuleSourceRequired": {
 		"message": "¡Por favor especifica el origen de la regla!"
@@ -766,31 +766,31 @@
 		"message": "Nombre de anfitrión '{0}' inválido, nombre de anfitrión debe ser algo como 'google.com'"
 	},
 	"settingsRuleRegexNotMatchDomain": {
-		"message": "Regex rule does not match the source domain '{0}'"
+		"message": "La regla regex no coincide con el dominio de origen '{0}'"
 	},
 	"settingsRuleDoesntIncludeDomain": {
-		"message": "The rule does not match the source domain '{0}'"
+		"message": "La regla no coincide con el dominio de origen '{0}'"
 	},
 	"settingsRuleRegexInvalid": {
-		"message": "Regex rule '{0}' is not valid"
+		"message": "La regla regex '{0}' no es válida"
 	},
 	"settingsRuleExactUrlInvalid": {
-		"message": "Url '{0}' is not valid"
+		"message": "La URL '{0}' no es válida"
 	},
 	"settingsRuleUrlInvalid": {
-		"message": "Url '{0}' is not valid"
+		"message": "La URL '{0}' no es válida"
 	},
 	"settingsRulesGridNoDataContent": {
 		"message": "No hay reglas definidas"
 	},
 	"settingsRulesGridColRuleType": {
-		"message": "Rule Type"
+		"message": "Tipo de regla"
 	},
 	"settingsRulesGridColSource": {
 		"message": "Fuente"
 	},
 	"settingsRulesGridColRule": {
-		"message": "Rule"
+		"message": "Regla"
 	},
 	"settingsRulesGridColEnabled": {
 		"message": "Habilitar"
@@ -799,16 +799,16 @@
 		"message": "Servidor Proxy"
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[Use Active Proxy]"
+		"message": "[Usar proxy activo]"
 	},
 	"settingsRulesProxyFromProfile": {
-		"message": "[Use Profile Proxy]"
+		"message": "[Usar proxy del perfil]"
 	},
 	"settingsRulesModalTitle": {
 		"message": "Detalles de la regla"
 	},
 	"settingsRulesRuleType": {
-		"message": "Rule Type"
+		"message": "Tipo de regla"
 	},
 	"settingsRulesSourceDomain": {
 		"message": "Dominio de origen de regla"
@@ -820,10 +820,10 @@
 		"message": "Coincidencia de patrón"
 	},
 	"settingsRulesGeneratePattern": {
-		"message": "Generate pattern automatically"
+		"message": "Generar patrón automáticamente"
 	},
 	"settingsRulesRegex": {
-		"message": "Url Regex"
+		"message": "Regex de URL"
 	},
 	"settingsRulesExactUrl": {
 		"message": "Exact Url"
@@ -832,7 +832,7 @@
 		"message": "Servidor Proxy"
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(Servers with authentication are not supported in Chrome)"
+		"message": "(Los servidores con autenticación no son compatibles en Chrome)"
 	},
 	"settingsRulesEnabled": {
 		"message": "Habilitar"
@@ -844,16 +844,16 @@
 		"message": "Guardar"
 	},
 	"settingsRulesActionType": {
-		"message": "Action"
+		"message": "Acción"
 	},
 	"settingsRuleActionApplyProxy": {
-		"message": "Apply Proxy"
+		"message": "Aplicar proxy"
 	},
 	"settingsRuleActionWhitelist": {
-		"message": "Whitelist (No proxy)"
+		"message": "Lista blanca (Sin proxy)"
 	},
 	"settingsRuleActionWhitelistDesc": {
-		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+		"message": "(Las reglas en lista blanca tienen mayor prioridad que las reglas de proxy, independientemente de su posición)"
 	},
 	"settingsServerPortInvalid": {
 		"message": "Puerto del servidor '{0}' inválido"
@@ -868,13 +868,13 @@
 		"message": "Hubo un error recuperando la copia de seguridad"
 	},
 	"settingsRestoreSettingsFailedInvalid": {
-		"message": "Backup data is invalid or corrupted"
+		"message": "Los datos de la copia de seguridad no son válidos o están corruptos"
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
-		"message": "Invalid data provided for active profile"
+		"message": "Datos inválidos proporcionados para el perfil activo"
 	},
 	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
-		"message": "Invalid data provided for default proxy server"
+		"message": "Datos inválidos proporcionados para el servidor proxy predeterminado"
 	},
 	"settingsEnableByDomainInvalid": {
 		"message": "El dominio seleccionado no es válido"
@@ -883,7 +883,7 @@
 		"message": "Ya existe una regla para el dominio"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
-		"message": "The current profile '{0}' cannot be updated with rules"
+		"message": "El perfil actual '{0}' no puede actualizarse con reglas"
 	},
 	"settingsNoRuleFoundForDomain": {
 		"message": "No hay ninguna regla para '{0}'"
@@ -895,19 +895,19 @@
 		"message": "Eliminar múltiples"
 	},
 	"settingsAddMultipleRulesButton": {
-		"message": "Add Multiple Rules"
+		"message": "Agregar múltiples reglas"
 	},
 	"settingsAddMultipleRuleTitle": {
-		"message": "Add Multiple Rules"
+		"message": "Agregar múltiples reglas"
 	},
 	"settingsMultipleRuleList": {
-		"message": "Host/Rule list:"
+		"message": "Lista de host/reglas:"
 	},
 	"settingsMultipleRuleInvalidHost": {
-		"message": "Host name '{0}' is invalid"
+		"message": "El nombre de host '{0}' no es válido"
 	},
 	"settingsMultipleRuleNoNewRuleAdded": {
-		"message": "No new rule is added"
+		"message": "No se agregó ninguna regla nueva"
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
 		"message": "Administrar suscripciones de servidor proxy:"
@@ -934,7 +934,7 @@
 		"message": "Nombre:"
 	},
 	"settingsServerSubscriptionUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsServerSubscriptionRefreshRate": {
 		"message": "Frecuencia de actualización:"
@@ -952,25 +952,25 @@
 		"message": "Ofuscación:"
 	},
 	"settingsServerSubscriptionFormat": {
-		"message": "Format:"
+		"message": "Formato:"
 	},
 	"settingsServerSubscriptionApplyProxy": {
-		"message": "Pass through proxy:"
+		"message": "Pasar por proxy:"
 	},
 	"settingsServerSubscriptionApplyProxyHelpFirefox": {
-		"message": "(Decide base on your access to the server)"
+		"message": "(Decida según su acceso al servidor)"
 	},
 	"settingsServerSubscriptionApplyProxyHelpChrome": {
-		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)"
+		"message": "(Desafortunadamente esta función no está disponible en Chrome. Se aplicará el proxy actual)"
 	},
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
-		"message": "No Proxy"
+		"message": "Sin proxy"
 	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
-		"message": "Current Proxy"
+		"message": "Proxy actual"
 	},
 	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
-		"message": "Selected Proxy"
+		"message": "Proxy seleccionado"
 	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Nombre de usuario:"
@@ -997,7 +997,7 @@
 		"message": "Comprobando..."
 	},
 	"settingsConfirmRemoveServerSubscription": {
-		"message": "Are you sure to remove the selected subscription?"
+		"message": "¿Está seguro de eliminar la suscripción seleccionada?"
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "¿Seguro que deseas eliminar todas las suscripciones de servidores Proxy?"
@@ -1024,7 +1024,7 @@
 		"message": "Nombre"
 	},
 	"settingsServerSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsServerSubscriptionsGridColCount": {
 		"message": "Cuenta"
@@ -1060,186 +1060,186 @@
 		"message": "Suscripciones de servidor proxy guardadas correctamente."
 	},
 	"settingsFailedToSaveProxySubscriptions": {
-		"message": "Failed to save proxy servers subscriptions"
+		"message": "Error al guardar las suscripciones de servidores proxy"
 	},
 	"settingsAddRulesSubscriptionButton": {
-		"message": "Subscribe to a rules list"
+		"message": "Suscribirse a una lista de reglas"
 	},
 	"settingsRemoveMultipleRulesSubscriptionButton": {
-		"message": "Delete Multiple"
+		"message": "Eliminar varios"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
-		"message": "Subscribe to a rules list"
+		"message": "Suscribirse a una lista de reglas"
 	},
 	"settingsRulesSubscriptionsGridColName": {
-		"message": "Name"
+		"message": "Nombre"
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsRulesSubscriptionsGridColCount": {
-		"message": "Count"
+		"message": "Cantidad"
 	},
 	"settingsRulesSubscriptionsGridColEnabled": {
-		"message": "Enabled"
+		"message": "Habilitado"
 	},
 	"settingsRulesSubscriptionsName": {
-		"message": "Name:"
+		"message": "Nombre:"
 	},
 	"settingsRulesSubscriptionsUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsRulesSubscriptionsRefreshRate": {
-		"message": "Refresh Rate:"
+		"message": "Frecuencia de actualización:"
 	},
 	"settingsRulesSubscriptionsRefreshRateHelp": {
-		"message": "(in minutes, 0 means no refresh)"
+		"message": "(en minutos, 0 significa sin actualización)"
 	},
 	"settingsRulesSubscriptionEnabled": {
-		"message": "Enabled"
+		"message": "Habilitado"
 	},
 	"settingsRulesSubscriptionsObfuscation": {
-		"message": "Obfuscation:"
+		"message": "Ofuscación:"
 	},
 	"settingsRulesSubscriptionsFormat": {
-		"message": "Format:"
+		"message": "Formato:"
 	},
 	"settingsRulesSubscriptionsApplyProxy": {
-		"message": "Pass through proxy:"
+		"message": "Pasar por proxy:"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
-		"message": "(Decide base on your access to the server)"
+		"message": "(Decida según su acceso al servidor)"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
-		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)"
+		"message": "(Desafortunadamente esta función no está disponible en Chrome. Se aplicará el proxy actual)"
 	},
 	"settingsRulesSubscriptionsUsername": {
-		"message": "Username:"
+		"message": "Usuario:"
 	},
 	"settingsRulesSubscriptionsAuthenticationHelp": {
-		"message": "(if the list requires authentication)"
+		"message": "(si la lista requiere autenticación)"
 	},
 	"settingsRulesSubscriptionsPassword": {
-		"message": "Password:"
+		"message": "Contraseña:"
 	},
 	"settingsRulesSubscriptionsTestButton": {
-		"message": "Test"
+		"message": "Probar"
 	},
 	"settingsRulesSubscriptionsSaveButton": {
-		"message": "Save"
+		"message": "Guardar"
 	},
 	"settingsRulesSubscriptionsCancelButton": {
-		"message": "Cancel"
+		"message": "Cancelar"
 	},
 	"settingsConfirmRemoveRulesSubscription": {
-		"message": "Are you sure to remove the selected rules subscription?"
+		"message": "¿Está seguro de eliminar la suscripción de reglas seleccionada?"
 	},
 	"settingsConfirmRemoveMultipleRulesSubscription": {
-		"message": "Are you sure to remove the selected rules subscriptions?"
+		"message": "¿Está seguro de eliminar las suscripciones de reglas seleccionadas?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
-		"message": "Please fill the required fields in the right format"
+		"message": "Por favor llene los campos requeridos con el formato correcto"
 	},
 	"settingsRulesSubscriptionInvalidForm": {
-		"message": "Invalid proxy server subscription details"
+		"message": "Detalles inválidos de la suscripción del servidor proxy"
 	},
 	"settingsRulesSubscriptionDuplicateName": {
-		"message": "The entered name is already used, please enter another name."
+		"message": "El nombre ingresado ya está en uso, por favor introduzca otro nombre."
 	},
 	"settingsRulesSubscriptionSavingButton": {
-		"message": "Saving..."
+		"message": "Guardando..."
 	},
 	"settingsRulesSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Probar"
 	},
 	"settingsRulesSubscriptionTestingButton": {
-		"message": "Testing..."
+		"message": "Probando..."
 	},
 	"settingsRulesSubscriptionSaveUpdated": {
-		"message": "The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes."
+		"message": "La suscripción se actualizó con {0} reglas de proxy y {1} reglas en lista blanca. <br/>No olvide guardar los cambios."
 	},
 	"settingsRulesSubscriptionSaveAdded": {
-		"message": "The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes."
+		"message": "La suscripción se agregó con {0} reglas de proxy y {1} reglas en lista blanca. <br/>No olvide guardar los cambios."
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
-		"message": "Failed to get rules."
+		"message": "Error al obtener las reglas."
 	},
 	"settingsRulesSubscriptionRefreshOnDisabled": {
-		"message": "Cannot refresh a disabled subscription"
+		"message": "No se puede actualizar una suscripción deshabilitada"
 	},
 	"settingsRulesSubscriptionTestSuccess": {
-		"message": "Test was successful. The list returned {0} proxy rules and {1} white listed rules."
+		"message": "La prueba fue exitosa. La lista devolvió {0} reglas de proxy y {1} reglas en lista blanca."
 	},
 	"settingsRulesSubscriptionTestFailed": {
-		"message": "Test failed"
+		"message": "La prueba falló"
 	},
 	"settingsFailedToSaveRulesSubscriptions": {
-		"message": "Failed to save rules subscriptions"
+		"message": "Error al guardar las suscripciones de reglas"
 	},
 	"settingsRemoveAllProxyRulesSubscriptions": {
-		"message": "Are you sure to remove all the proxy rules subscriptions?"
+		"message": "¿Está seguro de eliminar todas las suscripciones de reglas de proxy?"
 	},
 	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
-		"message": "All the proxy rules subscriptions are removed.<br/>You have to save to apply the changes."
+		"message": "Todas las suscripciones de reglas de proxy se han eliminado.<br/>Debe guardar para aplicar los cambios."
 	},
 	"importerImportRulesSuccess": {
-		"message": "Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes."
+		"message": "Un total de {0} reglas de proxy y {1} reglas en lista blanca han sido devueltas.<br>No olvide guardar los cambios."
 	},
 	"settingsRulePatternIsEmpty": {
-		"message": "Rule doesn't have pattern defined"
+		"message": "La regla no tiene un patrón definido"
 	},
 	"settingsWelcomeTitle": {
-		"message": "Welcome to SmartProxy"
+		"message": "Bienvenido a SmartProxy"
 	},
 	"settingsWelcomeMessage": {
-		"message": "<p>\n\tWelcome! I'm glad that you have chosen SmartProxy, the smart proxy switcher.\n\t<br>\n\tPlease follow these steps to get started:\n</p>\n<ol>\n\t<li>\n\t\tAdd a Proxy Server\n\t\t<br>\n\t\t<small>(Head to Proxy Servers tab and add a proxy server there)</small>\n\t</li>\n\t<li>\n\t\tSet proxy mode to Smart Proxy mode\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to change the active mode to Smart Proxy)</small>\n\t</li>\n\t<li>\n\t\tDefine Proxy Rules\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to add rules or add/modify rules from Proxy Rules tab)</small>\n\t</li>\n\t<li>\n\t\tYou're all set.\n\t</li>\n</ol>"
+		"message": "<p>\n\t¡Bienvenido! Me alegra que haya elegido SmartProxy, el conmutador de proxy inteligente.\n\t<br>\n\tPor favor siga estos pasos para comenzar:\n</p>\n<ol>\n\t<li>\n\t\tAgregar un servidor proxy\n\t\t<br>\n\t\t<small>(Vaya a la pestaña Servidores proxy y agregue un servidor proxy allí)</small>\n\t</li>\n\t<li>\n\t\tConfigurar el modo a Proxy inteligente\n\t\t<br>\n\t\t<small>(Utilice el menú emergente de la barra de herramientas para cambiar el modo activo a Proxy inteligente)</small>\n\t</li>\n\t<li>\n\t\tDefinir reglas de proxy\n\t\t<br>\n\t\t<small>(Utilice el menú emergente de la barra de herramientas para agregar reglas o agregue/modifique reglas desde la pestaña Reglas de proxy)</small>\n\t</li>\n\t<li>\n\t\tYa está todo listo.\n\t</li>\n</ol>"
 	},
 	"settingsWelcomeSkipButton": {
-		"message": "Got it"
+		"message": "Entendido"
 	},
 	"settingsSubscriptionStatsStatusSuccess": {
-		"message": "Status: Success"
+		"message": "Estado: Éxito"
 	},
 	"settingsSubscriptionStatsStatusFail": {
-		"message": "Status: Failed"
+		"message": "Estado: Falló"
 	},
 	"settingsSubscriptionStatsLastTry": {
-		"message": "Last Try:"
+		"message": "Último intento:"
 	},
 	"settingsSubscriptionStatsMessage": {
-		"message": "Message:"
+		"message": "Mensaje:"
 	},
 	"settingsSubscriptionStatsLastSuccess": {
-		"message": "Last Success:"
+		"message": "Último éxito:"
 	},
 	"settings_SmartProfileType_Direct": {
-		"message": "Direct"
+		"message": "Directo"
 	},
 	"settings_SmartProfileType_SystemProxy": {
-		"message": "System Proxy"
+		"message": "Proxy del sistema"
 	},
 	"settings_SmartProfileType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Reglas inteligentes"
 	},
 	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
-		"message": "Always Enabled with Bypass Rules"
+		"message": "Siempre habilitado con reglas de omisión"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
-		"message": "Ignore Failures Rules"
+		"message": "Reglas para ignorar fallos"
 	},
 	"notificationNoNextProxyServer": {
-		"message": "There is no further next proxy server"
+		"message": "No hay un siguiente servidor proxy"
 	},
 	"notificationNoPreviousProxyServer": {
-		"message": "There is no further previous proxy server"
+		"message": "No hay un servidor proxy anterior"
 	},
 	"notificationShortcutTitle": {
-		"message": "SmartProxy shortcut notification"
+		"message": "Notificación de atajo de SmartProxy"
 	},
 	"notificationShortcutProxyModeMessage": {
-		"message": "Proxy mode changed to {0}"
+		"message": "El modo de proxy cambió a {0}"
 	},
 	"notificationShortcutProxyServerChanged": {
-		"message": "Proxy server changed to {0}"
+		"message": "El servidor proxy cambió a {0}"
 	}
 }

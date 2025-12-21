@@ -13,25 +13,25 @@
 		"message": "Smart Proxy zal automatisch inschakelen/uitschakelen proxy voor de sites die u bezoekt, op basis van aanpasbare patronen."
 	},
 	"toolbarTooltipEffectiveRule": {
-		"message": "Matched rule source:"
+		"message": "Bron van overeenkomende regel:"
 	},
 	"toolbarTooltipEffectiveRuleNone": {
-		"message": "No matching rule"
+		"message": "Geen overeenkomende regel"
 	},
 	"toolbarTooltipEffectiveRulePattern": {
-		"message": "Rule pattern:"
+		"message": "Regelpatroon:"
 	},
 	"popupTitle": {
 		"message": "SmartProxy Activering"
 	},
 	"popupPrivateBrowsingMode": {
-		"message": "Private Browsing Mode"
+		"message": "Privé Browsermodus"
 	},
 	"popupNoProxy": {
 		"message": "Direct (geen Proxy)"
 	},
 	"popupSmartProxy": {
-		"message": "Smart Proxy"
+		"message": "Slimme Proxy"
 	},
 	"popupAlwaysEnable": {
 		"message": "Altijd Inschakelen"
@@ -40,19 +40,19 @@
 		"message": "Systeem Proxy"
 	},
 	"popupActiveProxy": {
-		"message": "Active Proxy (this profile):"
+		"message": "Actieve Proxy (dit profiel):"
 	},
 	"popupActiveProxyDefault": {
-		"message": "Active Proxy (Default Setting):"
+		"message": "Actieve Proxy (Standaardinstelling):"
 	},
 	"popupEnableProxyOn": {
 		"message": "Proxy inschakelen"
 	},
 	"popupIgnoreTheseDomains": {
-		"message": "Ignore these domains"
+		"message": "Deze domeinen negeren"
 	},
 	"popupRuleIsFromSubscription": {
-		"message": "(From subscription)"
+		"message": "(Van abonnement)"
 	},
 	"popupProxyableResources": {
 		"message": "Proxy Bronnen"
@@ -73,25 +73,25 @@
 		"message": "Mislukte aanvragenlijst"
 	},
 	"popupFailedRequestsDesc": {
-		"message": "These are the domains that are either timed-out or failed.<br />If you believe that these domains are blocked, here you can add them to proxy rules list."
+		"message": "Dit zijn de domeinen die zijn uitgevallen of gefaald.<br />Als u denkt dat deze domeinen geblokkeerd zijn, kunt u ze hier toevoegen aan de proxyregels lijst."
 	},
 	"popupAddFailedRequests": {
 		"message": "Toevoegen aan de regellijst"
 	},
 	"popupProfileTypeDoesNotSupportsRules": {
-		"message": "Selected profile '{0}' doesn't support rules, please select another profile."
+		"message": "Geselecteerd profiel '{0}' ondersteunt geen regels, selecteer alstublieft een ander profiel."
 	},
 	"popupAddIgnoredFailures": {
-		"message": "Ignore them"
+		"message": "Negeer ze"
 	},
 	"popupAddIgnoredFailuresConfirm": {
-		"message": "Are you sure to ignore the selected failures? If you do, you won't receive any more errors from them. You can change this from settings later."
+		"message": "Weet u zeker dat u de geselecteerde fouten wilt negeren? Als u dat doet, ontvangt u geen foutmeldingen meer van hen. U kunt dit later wijzigen in de instellingen."
 	},
 	"popupNotAllowedSetProxySettingsChrome": {
-		"message": "Unfortunately changing browser settings to use System`s Proxy requires `incognito` permission. Please go to SmartProxy extension settings in browser and check the `Allow in incognito` permission. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Learn how</a>."
+		"message": "Helaas vereist het wijzigen van browserinstellingen om de systeemproxy te gebruiken de `incognito` toestemming. Ga naar de instellingen van de SmartProxy-extensie in de browser en vink de `Toestaan in incognito` toestemming aan. <a href='https://support.google.com/chrome_webstore/answer/2664769'>Leer hoe</a>."
 	},
 	"popupNotAllowedSetProxySettingsFirefox": {
-		"message": "Since Firefox 67 changing browser settings to use System`s Proxy requires `Private Browsing` permission. Please go to SmartProxy addon settings in browser and `Allow` the `Run in Private Windows` permission. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Learn how</a>."
+		"message": "Sinds Firefox 67 vereist het wijzigen van browserinstellingen om de systeemproxy te gebruiken de `Privé Browsen` toestemming. Ga naar de instellingen van de SmartProxy-add-on in de browser en `Sta toe` de `Uitvoeren in privévensters` toestemming. <a href='https://support.mozilla.org/en-US/kb/extensions-private-browsing'>Leer hoe</a>."
 	},
 	"proxyableTitle": {
 		"message": "Proxy Bronnen"
@@ -124,7 +124,7 @@
 		"message": "Inschakelen voor: "
 	},
 	"proxyableSubscriptionRule": {
-		"message": "(Subscription Rule)"
+		"message": "(Abonnementsregel)"
 	},
 	"proxyableDeleteRuleConfirm": {
 		"message": "Weet u zeker dat u de geselecteerde regel wilt verwijderen voor:"
@@ -136,55 +136,55 @@
 		"message": "Aanvraag-Url"
 	},
 	"proxyableGridColRuleStatus": {
-		"message": "Rule status"
+		"message": "Regelstatus"
 	},
 	"proxyableGridColProxifiedStatus": {
-		"message": "Proxy status"
+		"message": "Proxystatus"
 	},
 	"proxyableGridColRuleHost": {
-		"message": "Rule domain"
+		"message": "Regeldomein"
 	},
 	"proxyableGridColRulePattern": {
-		"message": "Rule pattern"
+		"message": "Regelpatroon"
 	},
 	"proxyableGridCol_ProxifiedStatus_NoProxy": {
-		"message": "No Proxy"
+		"message": "Geen Proxy"
 	},
 	"proxyableGridCol_ProxifiedStatus_Special": {
-		"message": "Special"
+		"message": "Speciaal"
 	},
 	"proxyableGridCol_ProxifiedStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "Van bovenliggende tab"
 	},
 	"proxyableGridCol_ProxifiedStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Overeenkomend"
 	},
 	"proxyableGridCol_ProxifiedStatus_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Altijd Ingeschakeld"
 	},
 	"proxyableGridCol_ProxifiedStatus_SystemProxyApplied": {
-		"message": "System Proxy Applied"
+		"message": "Systeem Proxy Toegepast"
 	},
 	"proxyableGridCol_RuleStatus_NoneMatched": {
-		"message": "No Match"
+		"message": "Geen overeenkomst"
 	},
 	"proxyableGridCol_RuleStatus_Special": {
-		"message": "Special"
+		"message": "Speciaal"
 	},
 	"proxyableGridCol_RuleStatus_ProxyPerOrigin": {
-		"message": "From parent tab"
+		"message": "Van bovenliggende tab"
 	},
 	"proxyableGridCol_RuleStatus_MatchedRule": {
-		"message": "Matched"
+		"message": "Overeenkomend"
 	},
 	"proxyableGridCol_RuleStatus_Whitelisted": {
-		"message": "Whitelisted"
+		"message": "Witgelijst"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledByPassed": {
-		"message": "AlwaysEnabled <br> Bypassed"
+		"message": "Altijd ingeschakeld <br> Omzeild"
 	},
 	"proxyableGridCol_RuleStatus_AlwaysEnabledForcedByRules": {
-		"message": "AlwaysEnabled <br> Forced By Rules"
+		"message": "Altijd ingeschakeld <br> Gedwongen door regels"
 	},
 	"settingsTitle": {
 		"message": "SmartProxy instellingen"
@@ -196,10 +196,10 @@
 		"message": "Algemene Opties"
 	},
 	"settingsTabSmartProfiles": {
-		"message": "Smart Profiles"
+		"message": "Slimme Profielen"
 	},
 	"settingsTabAddSmartProfile": {
-		"message": "Add new Smart Profile"
+		"message": "Nieuw slim profiel toevoegen"
 	},
 	"settingsTabProxyServers": {
 		"message": "Proxyservers"
@@ -214,37 +214,37 @@
 		"message": "Update naar {0}"
 	},
 	"settingsTabAboutDescription": {
-		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything."
+		"message": "Het gebruik van proxies kan niet eenvoudiger zijn met SmartProxy. Beschouw het als een configureer-eens-en-vergeet-oplossing. Met SmartProxy hoef je je proxy niet handmatig te veranderen of aan en uit te zetten. Alles wat je hoeft te doen is SmartProxy vertellen dat je proxy wilt inschakelen voor je gewenste website met slechts één klik. Daarna, wanneer je die specifieke website bezoekt, zal SmartProxy optreden en al je gegevens voor die website worden overgedragen via de proxy, zonder dat je iets doet."
 	},
 	"settingsGeneralSmartFeatures": {
-		"message": "Smart Features"
+		"message": "Slimme functies"
 	},
 	"settingsGeneralSmartFeaturesNoChrome": {
-		"message": "<strong><a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not supported by Chrome."
+		"message": "<strong>Alleen <a href='https://www.getfirefox.com/' target='_blank' rel='noopener'>Firefox</a>!</strong> Helaas wordt deze functie niet ondersteund door Chrome."
 	},
 	"settingsGeneralProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin"
+		"message": "Proxy per tab/oorsprong inschakelen"
 	},
 	"settingsGeneralProxyPerOriginDesc": {
-		"message": "If a rule matches the url of a tab, as a result proxy will be applied to connection of the tab. Normally there will be other requests in each page and those might not have a matched rule and thus won't have proxy applied to their connection. What `Enable proxy per tab/origin` option does is it makes sure that the whole page including all the connections from different domains and origins are using the same proxy that is applied the origin of the tab. Also this option eliminates the need to have a rule for every single domain. Please note that if no proxy is applied to the tab, proxy rules will continue to work and apply proxy to other connections in the page individually."
+		"message": "Als een regel overeenkomt met de URL van een tabblad, wordt als gevolg daarvan proxy toegepast op de verbinding van het tabblad. Normaal gesproken zullen er andere verzoeken op elke pagina zijn en die hebben mogelijk geen overeenkomende regel en dus geen proxy toegepast op hun verbinding. Wat de optie `Proxy per tab/oorsprong inschakelen` doet, is ervoor zorgen dat de hele pagina, inclusief alle verbindingen van verschillende domeinen en oorsprongen, dezelfde proxy gebruiken die wordt toegepast op de oorsprong van het tabblad. Deze optie elimineert ook de behoefte aan een regel voor elk afzonderlijk domein. Houd er rekening mee dat als geen proxy wordt toegepast op het tabblad, proxyregels blijven werken en proxy toepassen op andere verbindingen op de pagina individueel."
 	},
 	"settingsGeneralProxyPerOriginEnabled": {
-		"message": "Proxy per tab/origin enabled"
+		"message": "Proxy per tab/oorsprong ingeschakeld"
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
-		"message": "Proxy per tab/origin disabled"
+		"message": "Proxy per tab/oorsprong uitgeschakeld"
 	},
 	"settingsGeneralSyncing": {
-		"message": "Syncing"
+		"message": "Synchroniseren"
 	},
 	"settingsGeneralIncognitoProfile": {
-		"message": "Private Browsing Profile"
+		"message": "Privé browsen profiel"
 	},
 	"settingsGeneralIncognitoProfileDisabled": {
-		"message": "(Disabled)"
+		"message": "(Uitgeschakeld)"
 	},
 	"settingsGeneralIncognitoProfileDesc": {
-		"message": "Select a private browsing profile if you want to force it to be used when tab/window is in Private Browsing mode. This option will override the active profile."
+		"message": "Selecteer een privé browsen profiel als je wilt dat het wordt gebruikt wanneer het tabblad/venster in Privé Browsen modus is. Deze optie overschrijft het actieve profiel."
 	},
 	"settingsGeneralEnableSyncing": {
 		"message": "Synchronisatie instellingen inschakelen"
@@ -259,148 +259,148 @@
 		"message": "Wijzigingen negeren"
 	},
 	"settingsGeneralSyncProxyMode": {
-		"message": "Enable syncing active profile"
+		"message": "Synchroniseren van actief profiel inschakelen"
 	},
 	"settingsGeneralSyncProxyModeDesc": {
-		"message": "Check if you want the active profile to be synced."
+		"message": "Vink aan als je wilt dat het actieve profiel wordt gesynchroniseerd."
 	},
 	"settingsGeneralSyncActiveProxy": {
-		"message": "Enable syncing active proxy"
+		"message": "Synchroniseren van actieve proxy inschakelen"
 	},
 	"settingsGeneralSyncActiveProxyDesc": {
-		"message": "Check if you want the selected proxy server to be synced"
+		"message": "Vink aan als je wilt dat de geselecteerde proxy server wordt gesynchroniseerd"
 	},
 	"settingsGeneralSyncToBrowser": {
-		"message": "Use the browser's sync servers"
+		"message": "Gebruik de synchronisatieservers van de browser"
 	},
 	"settingsGeneralSyncToWebDAV": {
-		"message": "Sync to a WebDAV server"
+		"message": "Synchroniseren naar een WebDAV server"
 	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "WebDAV Server URL:"
 	},
 	"settingsGeneralWebDavBackupFilename": {
-		"message": "Backup Filename:"
+		"message": "Back-up bestandsnaam:"
 	},
 	"settingsGeneralWebDavServerUser": {
-		"message": "WebDAV Server Username:"
+		"message": "WebDAV Server gebruikersnaam:"
 	},
 	"settingsGeneralWebDavServerPassword": {
-		"message": "WebDAV Server Password:"
+		"message": "WebDAV Server wachtwoord:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+		"message": "Houd er rekening mee dat back-ups plaatsvinden bij elke wijziging in de instellingen, terwijl herstellen alleen gebeurt wanneer de browser start."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
-		"message": "Backup Now"
+		"message": "Nu back-up maken"
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
-		"message": "Please enter a valid WebDAV Server URL"
+		"message": "Voer een geldige WebDAV Server-URL in"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
-		"message": "WebDAV Server Backup Filename cannot be empty"
+		"message": "Back-up bestandsnaam van de WebDAV-server mag niet leeg zijn"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
-		"message": "WebDav backup completed successfully!"
+		"message": "WebDAV-back-up succesvol voltooid!"
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
-		"message": "WebDav backup failed:"
+		"message": "WebDAV-back-up mislukt:"
 	},
 	"settingsGeneralErrorDetection": {
-		"message": "Error Detection"
+		"message": "Foutdetectie"
 	},
 	"settingsGeneralDetectFailures": {
-		"message": "Detect request failures"
+		"message": "Detecteer verzoekfouten"
 	},
 	"settingsGeneralDetectFailuresDesc": {
-		"message": "Request failures detection will help you identify the domains that needs proxy."
+		"message": "Detectie van verzoekfouten helpt je de domeinen te identificeren die een proxy nodig hebben."
 	},
 	"settingsGeneralSelectIgnoredDomains": {
-		"message": "Enter Rules"
+		"message": "Voer regels in"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomains": {
-		"message": "Ignore failure detection based on these rules"
+		"message": "Negeer foutdetectie op basis van deze regels"
 	},
 	"settingsGeneralIgnoreRequestFailuresForDomainsDesc": {
-		"message": "Add rules to disable failure detection."
+		"message": "Voeg regels toe om foutdetectie uit te schakelen."
 	},
 	"settingsGeneralDisplayFailedOnBadge": {
-		"message": "Display failed requests count on toolbar icon badge"
+		"message": "Toon aantal mislukte verzoeken op het badge-pictogram van de werkbalk"
 	},
 	"settingsGeneralThemes": {
-		"message": "Themes"
+		"message": "Thema's"
 	},
 	"settingsGeneralThemesAutoSwitch": {
-		"message": "Auto switch by the Browser theme"
+		"message": "Automatisch wisselen op basis van browserthema"
 	},
 	"settingsGeneralThemesAutoSwitchDesc": {
-		"message": "Auto switch between the themes selected below. This follow your browsers theme which that can also follow the theme of your operation system."
+		"message": "Schakelt automatisch tussen de hieronder geselecteerde thema's. Dit volgt het browserthema, dat op zijn beurt het thema van uw besturingssysteem kan volgen."
 	},
 	"settingsGeneralThemesLight": {
-		"message": "Light Theme"
+		"message": "Licht thema"
 	},
 	"settingsGeneralThemes_Default": {
-		"message": "(Default)"
+		"message": "(Standaard)"
 	},
 	"settingsGeneralThemes_Custom": {
-		"message": "(Custom)"
+		"message": "(Aangepast)"
 	},
 	"settingsGeneralThemes_CustomUrl": {
-		"message": "Custom Styles (Css) Url:"
+		"message": "Aangepaste stijlen (CSS) URL:"
 	},
 	"settingsGeneralThemes_CustomUrlDesc": {
-		"message": "Url must be 'Https'. Be aware of imported fonts and other styles in the following custom style, they can block/slow down the Popups in your browser. You can try themes from bootswatch.com but be aware of their google fonts dependency."
+		"message": "De URL moet 'https' zijn. Let op geïmporteerde lettertypen en andere stijlen in de aangepaste stijl; deze kunnen pop-ups blokkeren of vertragen."
 	},
 	"settingsGeneralThemesDark": {
-		"message": "Dark Theme"
+		"message": "Donker thema"
 	},
 	"settingsGeneralThemesLight_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Light Theme and the url should be 'https'."
+		"message": "Voer een geldige CSS-URL in voor het lichte thema; de URL moet 'https' zijn."
 	},
 	"settingsGeneralThemesDark_ErrorValidUrl": {
-		"message": "Please enter a valid css url for Dark Theme and the url should be 'https'."
+		"message": "Voer een geldige CSS-URL in voor het donkere thema; de URL moet 'https' zijn."
 	},
 	"settingsGeneralOtherSettings": {
-		"message": "Other Settings"
+		"message": "Andere instellingen"
 	},
 	"settingsGeneralEnableShortcuts": {
-		"message": "Enable Shortcuts"
+		"message": "Sneltoetsen inschakelen"
 	},
 	"settingsGeneralEnableShortcutsDesc": {
-		"message": "You can configure shortcuts from browser addon settings page."
+		"message": "U kunt sneltoetsen configureren op de instellingenpagina van de extensie."
 	},
 	"settingsGeneralViewShortcuts": {
-		"message": "View shortcuts"
+		"message": "Bekijk sneltoetsen"
 	},
 	"settingsGeneralShortcutNotification": {
-		"message": "Enable shortcut notification"
+		"message": "Sneltoetsmelding inschakelen"
 	},
 	"settingsGeneralViewShortcutKeys": {
-		"message": "Shortcut Keys"
+		"message": "Sneltoetsen"
 	},
 	"settingsGeneralDisplayAppliedProxyOnBadge": {
-		"message": "Display applied rule source on badge"
+		"message": "Toon bron van toegepaste regel op badge"
 	},
 	"settingsGeneralDisplayAppliedRulePatternOnBadge": {
-		"message": "Display applied rule pattern on badge"
+		"message": "Toon patroon van toegepaste regel op badge"
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
-		"message": "Refresh active tab when profile or proxy changed"
+		"message": "Active tab vernieuwen wanneer profiel of proxy is gewijzigd"
 	},
 	"settingsGeneralCancelButton": {
-		"message": "Cancel"
+		"message": "Annuleren"
 	},
 	"settingsGeneralSaveChanges": {
-		"message": "Save Changes"
+		"message": "Wijzigingen opslaan"
 	},
 	"settingsGeneralKeyboardShortcutsTitle": {
 		"message": "Keyboard shortcuts"
 	},
 	"settingsGeneralCloseButton": {
-		"message": "Close"
+		"message": "Sluiten"
 	},
 	"settingsGeneralKeyboardShortcutsNotSupported": {
-		"message": "Keyboard shortcuts are not supported on mobile devices."
+		"message": "Sneltoetsen worden niet ondersteund op mobiele apparaten."
 	},
 	"settingsTabProxyServersTitle": {
 		"message": "Uw proxyservers beheren:"
@@ -418,13 +418,13 @@
 		"message": "Allereerst moet u proxyservers definiëren."
 	},
 	"settingsActiveProxyServer": {
-		"message": "Default Proxy Server:"
+		"message": "Standaard proxyserver:"
 	},
 	"settingsAddServerButton": {
 		"message": "Server toevoegen"
 	},
 	"settingsRemoveMultipleServerButton": {
-		"message": "Delete Multiple"
+		"message": "Verwijder meerdere"
 	},
 	"settingsSaveChangesButton": {
 		"message": "Wijzigingen opslaan"
@@ -433,7 +433,7 @@
 		"message": "Wijzigingen negeren"
 	},
 	"settingsEditButton": {
-		"message": "Edit"
+		"message": "Bewerken"
 	},
 	"settingsFullBackupButton": {
 		"message": "Volledige back-up maken"
@@ -448,22 +448,22 @@
 		"message": "Herstel de eerder gemaakte back-up van het lokale bestand"
 	},
 	"settingsDangerZoneDesc": {
-		"message": "Danger zone"
+		"message": "Gevarenzone"
 	},
 	"settingsFactoryResetButton": {
-		"message": "Factory Reset"
+		"message": "Fabrieksinstellingen herstellen"
 	},
 	"settingsFactoryResetDesc": {
-		"message": "Reset everything. This will remove all rules and proxy servers and reset the options. Permanently."
+		"message": "Alles terugzetten. Dit verwijdert alle regels en proxyservers en zet de opties permanent terug naar de standaardwaarden."
 	},
 	"settingsFactoryResetConfirm": {
-		"message": "Are you sure to reset EVERYTHING ? Sure? There is no way back!"
+		"message": "Weet u zeker dat u ALLES wilt resetten? Er is geen weg terug!"
 	},
 	"settingsFactoryResetSuccess": {
-		"message": "Factory reset is completed successfully"
+		"message": "Fabrieksreset is succesvol voltooid"
 	},
 	"settingsImportExportProxiesDesc": {
-		"message": "Import/Export individual list of proxies servers."
+		"message": "Individuele lijsten met proxyservers importeren/exporteren."
 	},
 	"settingsImportProxiesButtonBackup": {
 		"message": "Proxyservers importeren"
@@ -484,7 +484,7 @@
 		"message": "Regel back-upbestand"
 	},
 	"settingsImportRulesText": {
-		"message": "Rules Backup Text"
+		"message": "Regel-back-uptekst"
 	},
 	"settingsImportRulesFrom": {
 		"message": "Van"
@@ -529,10 +529,10 @@
 		"message": "Importeren"
 	},
 	"settingsConfirmRemoveProxyServer": {
-		"message": "Are you sure to remove the selected proxy server?"
+		"message": "Weet u zeker dat u de geselecteerde proxyserver wilt verwijderen?"
 	},
 	"settingsConfirmRemoveMultipleProxyServer": {
-		"message": "Are you sure to remove the selected proxy servers?"
+		"message": "Weet u zeker dat u de geselecteerde proxyservers wilt verwijderen?"
 	},
 	"settingsRemoveAllProxyServers": {
 		"message": "Weet u zeker dat u alle proxy servers wilt verwijderen?"
@@ -559,13 +559,13 @@
 		"message": "Wijzigingen zijn met succes teruggezet."
 	},
 	"settingsConfirmSaveAllChanged": {
-		"message": "Do you want to save all unsaved changes?"
+		"message": "Wilt u alle niet-opgeslagen wijzigingen opslaan?"
 	},
 	"settingsConfirmRemoveProxyRule": {
-		"message": "Are you sure to remove the selected rule?"
+		"message": "Weet u zeker dat u de geselecteerde regel wilt verwijderen?"
 	},
 	"settingsConfirmRemoveMultipleProxyRule": {
-		"message": "Are you sure to remove the selected rules?"
+		"message": "Weet u zeker dat u de geselecteerde regels wilt verwijderen?"
 	},
 	"settingsRemoveAllRules": {
 		"message": "Weet u zeker dat u alle regels wilt verwijderen?"
@@ -589,7 +589,7 @@
 		"message": "Bestand importeren is mislukt."
 	},
 	"settingsImportRulesTextIsEmpty": {
-		"message": "Please enter rules in the box"
+		"message": "Voer regels in het veld in"
 	},
 	"settingsServerNameRequired": {
 		"message": "Geef de naam van de server!"
@@ -622,7 +622,7 @@
 		"message": "Poort"
 	},
 	"settingsServersModalTitle": {
-		"message": "Proxy Server Details"
+		"message": "Details proxyserver"
 	},
 	"settingsServersServerName": {
 		"message": "Servernaam"
@@ -631,13 +631,13 @@
 		"message": "Server adres"
 	},
 	"settingsServersProtocol": {
-		"message": "Proxy Protocol"
+		"message": "Proxyprotocol"
 	},
 	"settingsServersPort": {
 		"message": "Poort"
 	},
 	"settingsServersProxyDNS": {
-		"message": "Proxy DNS when using SOCKS 5"
+		"message": "Proxy-DNS bij gebruik van SOCKS5"
 	},
 	"settingsServersUsername": {
 		"message": "Gebruikersnaam"
@@ -646,118 +646,118 @@
 		"message": "Wachtwoord"
 	},
 	"settingsServersAuthChromeMv3Limitation": {
-		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
+		"message": "(Helaas wordt proxyserverauthenticatie door Chrome niet ondersteund via de extensie-API. Dit is &quot;opzettelijk&quot;.)"
 	},
 	"settingsServersCancel": {
 		"message": "Annuleren"
 	},
 	"settingsServersSave": {
-		"message": "Save"
+		"message": "Opslaan"
 	},
 	"settingsServersImport": {
 		"message": "Importeren"
 	},
 	"settingsProfilesNameTitle": {
-		"message": "Smart Profile:"
+		"message": "Slim profiel:"
 	},
 	"settingsProfilesEnabled": {
-		"message": "Enabled"
+		"message": "Ingeschakeld"
 	},
 	"settingsProfilesTypeTitle": {
-		"message": "Profile Type:"
+		"message": "Profieltype:"
 	},
 	"settingsProfilesTypeDesc_SmartRules": {
-		"message": "In this profile no proxy is applied unless you define smart rules. You will define black listed rules or in other words rules to apply proxy."
+		"message": "In dit profiel wordt geen proxy toegepast tenzij u slimme regels definieert. U definieert regels om proxy toe te passen (blacklist)."
 	},
 	"settingsProfilesTypeDesc_AlwaysEnabledBypassRules": {
-		"message": "In this profile proxy servers are always applied define smart rules and skip them. You will define white listed rule or in other words rules to skip proxy and do not apply proxy."
+		"message": "In dit profiel worden proxyservers altijd toegepast; definieer slimme regels om deze over te slaan. U definieert witgelijste regels, oftewel regels om de proxy niet toe te passen."
 	},
 	"settingsProfilesTypeDesc_IgnoreFailureRules": {
-		"message": "Ignore failure detection for these domains by adding rules."
+		"message": "Negeer foutdetectie voor deze domeinen door regels toe te voegen."
 	},
 	"settingsProfilesProfileProxyServer": {
-		"message": "Profile Proxy Server:"
+		"message": "Profielproxyserver:"
 	},
 	"settingsProfilesDefaultProfileProxyServer": {
-		"message": "(Use Default Proxy Server)"
+		"message": "(Gebruik standaard proxyserver)"
 	},
 	"settingsProfilesProfileProxyServerDesc": {
-		"message": "(While using this profile, this is going to be the active proxy server)"
+		"message": "(Bij gebruik van dit profiel is dit de actieve proxyserver)"
 	},
 	"settingsProfilesRulesSection": {
-		"message": "Rules"
+		"message": "Regels"
 	},
 	"settingsProfilesDelete": {
-		"message": "Delete"
+		"message": "Verwijderen"
 	},
 	"settingsProfilesAddNewLabel": {
-		"message": "Add New Smart Profile"
+		"message": "Nieuw slim profiel toevoegen"
 	},
 	"settingsProfilesAddNewTypeLead": {
-		"message": "Please select the <b>type of profile</b> you want to add:"
+		"message": "Selecteer het <b>type profiel</b> dat u wilt toevoegen:"
 	},
 	"settingsProfilesAddNewType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Slimme regels"
 	},
 	"settingsProfilesAddNewType_SmartRulesDesc": {
-		"message": "In this type of profile, proxy will be applied to the requests based on some <em>rules</em> that you will need to define. To define these rules you can use the popup menu in the menu bar or you can add them from settings and also you can do that from <em>Proxyable Resource</em> window.<br>Also you have the ability to subscribe to different rules list like Gfwlist."
+		"message": "In dit profieltype wordt proxy toegepast op verzoeken op basis van bepaalde <em>regels</em> die u moet definiëren. Om deze regels te definiëren kunt u het pop-upmenu in de menubalk gebruiken of ze toevoegen via de instellingen; dit kan ook vanuit het venster <em>Proxyable Resource</em>.<br>U kunt zich ook abonneren op verschillende regellijsten zoals Gfwlist."
 	},
 	"settingsProfilesAddNewType_AlwaysEnabled": {
-		"message": "Always Enabled"
+		"message": "Altijd ingeschakeld"
 	},
 	"settingsProfilesAddNewType_AlwaysEnabledDesc": {
-		"message": "In this type of profile, proxy will always be applied to the requests unless you define rules to bypass it. Defining rules steps are same as in the SmartRule profile type."
+		"message": "In dit profieltype wordt de proxy altijd toegepast, tenzij u regels definieert om deze te omzeilen. Het definiëren van regels verloopt op dezelfde manier als bij het Smart Rules-profieltype."
 	},
 	"settingsProfilesAddNewBtnContinue": {
-		"message": "Continue"
+		"message": "Doorgaan"
 	},
 	"settingsProfilesAddNewBtnCancel": {
-		"message": "Cancel"
+		"message": "Annuleren"
 	},
 	"settingsProfilesAddErrorTypeRequired": {
-		"message": "Please select a profile type"
+		"message": "Selecteer een profieltype"
 	},
 	"settingsProfilesAddErrorNameRequired": {
-		"message": "Profile name is mandatory"
+		"message": "Profielnaam is verplicht"
 	},
 	"settingsProfilesAddErrorNameExists": {
-		"message": "Profile name already exists, please enter another one"
+		"message": "Profielnaam bestaat al, kies een andere"
 	},
 	"settingsProfilesDeleteConfirm": {
-		"message": "Are you sure to delete this profile? Warning, this action cannot be undone!"
+		"message": "Weet u zeker dat u dit profiel wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt!"
 	},
 	"settingsProfilesDeleteFailed": {
-		"message": "Failed to delete the selected profile."
+		"message": "Kon het geselecteerde profiel niet verwijderen."
 	},
 	"settingsProfilesDeleteDone": {
-		"message": "The profile is deleted successfully"
+		"message": "Het profiel is succesvol verwijderd"
 	},
 	"settingsProfilesDeleteBuiltinFail": {
-		"message": "Cannot delete built-in profiles"
+		"message": "Kan ingebouwde profielen niet verwijderen"
 	},
 	"settingsProfilesProxyServer": {
-		"message": "[Use Default Proxy Server]"
+		"message": "[Gebruik standaard proxyserver]"
 	},
 	"settingsProfilesRulesSubscriptionsTitle": {
-		"message": "Rules Subscriptions"
+		"message": "Regelabonnementen"
 	},
 	"settingsProfilesRulesSubscriptionsDesc": {
-		"message": "Here you can subscribe to rules lists."
+		"message": "Hier kunt u zich abonneren op lijsten met regels."
 	},
 	"settingsSaveSmartProfileSuccess": {
-		"message": "Smart Profile saved successfully."
+		"message": "Slim profiel succesvol opgeslagen."
 	},
 	"settingsErrorFailedToSaveSmartProfile": {
-		"message": "Failed to save smart profile."
+		"message": "Kon slim profiel niet opslaan."
 	},
 	"settingsRuleSourceRequired": {
-		"message": "Please specify the source domain of the rule!"
+		"message": "Geef het bron-domein van de regel op!"
 	},
 	"settingsRuleSourceInvalid": {
-		"message": "Source domain is invalid, source domain should be something like 'google.com'"
+		"message": "Bron-domein is ongeldig; het moet iets zijn als 'google.com'"
 	},
 	"settingsRuleSourceInvalidFormat": {
-		"message": "'source domain' is not valid '{0}'"
+		"message": "Het 'source domain' is niet geldig '{0}'"
 	},
 	"settingsRuleSourceAlreadyExists": {
 		"message": "Een regel met dezelfde bron bestaat al!"
@@ -766,49 +766,49 @@
 		"message": "Hostnaam '{0}' is ongeldig, hostnaam moet zoals 'google.nl' zijn"
 	},
 	"settingsRuleRegexNotMatchDomain": {
-		"message": "Regex rule does not match the source domain '{0}'"
+		"message": "Regex-regel komt niet overeen met het bron-domein '{0}'"
 	},
 	"settingsRuleDoesntIncludeDomain": {
-		"message": "The rule does not match the source domain '{0}'"
+		"message": "De regel komt niet overeen met het bron-domein '{0}'"
 	},
 	"settingsRuleRegexInvalid": {
-		"message": "Regex rule '{0}' is not valid"
+		"message": "Regex-regel '{0}' is niet geldig"
 	},
 	"settingsRuleExactUrlInvalid": {
-		"message": "Url '{0}' is not valid"
+		"message": "URL '{0}' is niet geldig"
 	},
 	"settingsRuleUrlInvalid": {
-		"message": "Url '{0}' is not valid"
+		"message": "URL '{0}' is niet geldig"
 	},
 	"settingsRulesGridNoDataContent": {
 		"message": "Geen regel is gedefinieerd"
 	},
 	"settingsRulesGridColRuleType": {
-		"message": "Rule Type"
+		"message": "Regeltype"
 	},
 	"settingsRulesGridColSource": {
 		"message": "Bron"
 	},
 	"settingsRulesGridColRule": {
-		"message": "Rule"
+		"message": "Regel"
 	},
 	"settingsRulesGridColEnabled": {
 		"message": "Ingeschakeld"
 	},
 	"settingsRulesGridColProxy": {
-		"message": "Proxy Server"
+		"message": "Proxyserver"
 	},
 	"settingsRulesProxyDefault": {
-		"message": "[Use Active Proxy]"
+		"message": "[Gebruik actieve proxy]"
 	},
 	"settingsRulesProxyFromProfile": {
-		"message": "[Use Profile Proxy]"
+		"message": "[Gebruik profielproxy]"
 	},
 	"settingsRulesModalTitle": {
 		"message": "Regel Details"
 	},
 	"settingsRulesRuleType": {
-		"message": "Rule Type"
+		"message": "Regeltype"
 	},
 	"settingsRulesSourceDomain": {
 		"message": "Regel brondomein"
@@ -820,19 +820,19 @@
 		"message": "Match patroon"
 	},
 	"settingsRulesGeneratePattern": {
-		"message": "Generate pattern automatically"
+		"message": "Genereer patroon automatisch"
 	},
 	"settingsRulesRegex": {
-		"message": "Url Regex"
+		"message": "URL-regex"
 	},
 	"settingsRulesExactUrl": {
-		"message": "Exact Url (in lowercase)"
+		"message": "Exacte URL (in kleine letters)"
 	},
 	"settingsRulesProxyServer": {
-		"message": "Proxy Server"
+		"message": "Proxyserver"
 	},
 	"settingsRulesProxyServerNotAuth": {
-		"message": "(Servers with authentication are not supported in Chrome)"
+		"message": "(Servers met authenticatie worden niet ondersteund in Chrome)"
 	},
 	"settingsRulesEnabled": {
 		"message": "Ingeschakeld"
@@ -844,16 +844,16 @@
 		"message": "Opslaan"
 	},
 	"settingsRulesActionType": {
-		"message": "Action"
+		"message": "Actie"
 	},
 	"settingsRuleActionApplyProxy": {
-		"message": "Apply Proxy"
+		"message": "Proxy toepassen"
 	},
 	"settingsRuleActionWhitelist": {
-		"message": "Whitelist (No proxy)"
+		"message": "Witlijst (Geen proxy)"
 	},
 	"settingsRuleActionWhitelistDesc": {
-		"message": "(Whitelist rules have higher priority than proxy rules, regardless of their placement)"
+		"message": "(Witlijstregels hebben hogere prioriteit dan proxyregels, ongeacht hun plaatsing)"
 	},
 	"settingsServerPortInvalid": {
 		"message": "Server poort '{0}' is ongeldig"
@@ -868,13 +868,13 @@
 		"message": "Er is een fout opgetreden tijdens het herstellen van de instellingen"
 	},
 	"settingsRestoreSettingsFailedInvalid": {
-		"message": "Backup data is invalid or corrupted"
+		"message": "Back-upgegevens zijn ongeldig of beschadigd"
 	},
 	"settingsRestoreSettingsFailedInvalidActiveProfile": {
-		"message": "Invalid data provided for active profile"
+		"message": "Ongeldige gegevens voor actief profiel"
 	},
 	"settingsRestoreSettingsFailedInvalidDefaultProxyServer": {
-		"message": "Invalid data provided for default proxy server"
+		"message": "Ongeldige gegevens voor de standaard proxyserver"
 	},
 	"settingsEnableByDomainInvalid": {
 		"message": "Geselecteerde domein is ongeldig"
@@ -883,7 +883,7 @@
 		"message": "Er bestaat al een regel voor het domein"
 	},
 	"settingsEnableByDomainSmartProfileNonEditable": {
-		"message": "The current profile '{0}' cannot be updated with rules"
+		"message": "Het huidige profiel '{0}' kan niet worden bijgewerkt met regels"
 	},
 	"settingsNoRuleFoundForDomain": {
 		"message": "Er is geen regel voor '{0}'"
@@ -892,22 +892,22 @@
 		"message": "Totale {0} tot {1} proxy's zijn toegevoegd.<br>Vergeet niet om de wijzigingen op te slaan."
 	},
 	"settingsRemoveMultipleProxyRuleButton": {
-		"message": "Delete Multiple"
+		"message": "Verwijder meerdere"
 	},
 	"settingsAddMultipleRulesButton": {
-		"message": "Add Multiple Rules"
+		"message": "Meerdere regels toevoegen"
 	},
 	"settingsAddMultipleRuleTitle": {
-		"message": "Add Multiple Rules"
+		"message": "Meerdere regels toevoegen"
 	},
 	"settingsMultipleRuleList": {
-		"message": "Host/Rule list:"
+		"message": "Host/Regel-lijst:"
 	},
 	"settingsMultipleRuleInvalidHost": {
-		"message": "Host name '{0}' is invalid"
+		"message": "Hostnaam '{0}' is ongeldig"
 	},
 	"settingsMultipleRuleNoNewRuleAdded": {
-		"message": "No new rule is added"
+		"message": "Er is geen nieuwe regel toegevoegd"
 	},
 	"settingsTabProxyServerSubscriptionsTitle": {
 		"message": "Proxy server abonnementen beheren:"
@@ -928,7 +928,7 @@
 		"message": "Abonneer u op de lijst met proxyservers"
 	},
 	"settingsRemoveMultipleServerSubscriptionButton": {
-		"message": "Delete Multiple"
+		"message": "Verwijder meerdere"
 	},
 	"settingsServerSubscriptionName": {
 		"message": "Naam:"
@@ -952,25 +952,25 @@
 		"message": "Verduistering:"
 	},
 	"settingsServerSubscriptionFormat": {
-		"message": "Format:"
+		"message": "Formaat:"
 	},
 	"settingsServerSubscriptionApplyProxy": {
-		"message": "Pass through proxy:"
+		"message": "Doorgaan via proxy:"
 	},
 	"settingsServerSubscriptionApplyProxyHelpFirefox": {
-		"message": "(Decide base on your access to the server)"
+		"message": "(Kies op basis van uw toegang tot de server)"
 	},
 	"settingsServerSubscriptionApplyProxyHelpChrome": {
-		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)"
+		"message": "(Helaas is deze functie niet beschikbaar in Chrome. De huidige proxy wordt toegepast)"
 	},
 	"settingsServerSubscriptionApplyProxy_NoProxy": {
-		"message": "No Proxy"
+		"message": "Geen proxy"
 	},
 	"settingsServerSubscriptionApplyProxy_CurrentProxy": {
-		"message": "Current Proxy"
+		"message": "Huidige proxy"
 	},
 	"settingsServerSubscriptionApplyProxy_SelectedProxy": {
-		"message": "Selected Proxy"
+		"message": "Geselecteerde proxy"
 	},
 	"settingsServerSubscriptionUsername": {
 		"message": "Gebruikersnaam:"
@@ -991,19 +991,19 @@
 		"message": "Bezig met opslaan..."
 	},
 	"settingsServerSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Testen"
 	},
 	"settingsServerSubscriptionTestingButton": {
 		"message": "Aan het testen..."
 	},
 	"settingsConfirmRemoveServerSubscription": {
-		"message": "Are you sure to remove the selected subscription?"
+		"message": "Weet u zeker dat u het geselecteerde abonnement wilt verwijderen?"
 	},
 	"settingsRemoveAllProxyServerSubscriptions": {
 		"message": "Weet u zeker dat alle proxy server-abonnementen wilt verwijderen?"
 	},
 	"settingsConfirmRemoveMultipleServerSubscription": {
-		"message": "Are you sure to remove the selected subscriptions?"
+		"message": "Weet u zeker dat u de geselecteerde abonnementen wilt verwijderen?"
 	},
 	"settingsRemoveAllProxyServerSubscriptionsSuccess": {
 		"message": "Alle proxy server-abonnementen zijn verwijderd.<br/>U moet opslaan om de wijzigingen toe te passen."
@@ -1051,7 +1051,7 @@
 		"message": "Proxy kan niet worden ontvangen."
 	},
 	"settingsServerSubscriptionTestSuccess": {
-		"message": "Test was successful. The list returned {0} proxies."
+		"message": "Test succesvol. De lijst gaf {0} proxies terug."
 	},
 	"settingsServerSubscriptionTestFailed": {
 		"message": "Test mislukt"
@@ -1060,186 +1060,186 @@
 		"message": "Proxyserver abonnementen zijn succesvol opgeslagen."
 	},
 	"settingsFailedToSaveProxySubscriptions": {
-		"message": "Failed to save proxy servers subscriptions"
+		"message": "Kon proxyserver-abonnementen niet opslaan"
 	},
 	"settingsAddRulesSubscriptionButton": {
-		"message": "Subscribe to a rules list"
+		"message": "Abonneren op regellijst"
 	},
 	"settingsRemoveMultipleRulesSubscriptionButton": {
-		"message": "Delete Multiple"
+		"message": "Verwijder meerdere"
 	},
 	"settingsRulesSubscriptionsModalTitle": {
-		"message": "Subscribe to a rules list"
+		"message": "Abonneren op regellijst"
 	},
 	"settingsRulesSubscriptionsGridColName": {
-		"message": "Name"
+		"message": "Naam"
 	},
 	"settingsRulesSubscriptionsGridColUrl": {
-		"message": "Url"
+		"message": "URL"
 	},
 	"settingsRulesSubscriptionsGridColCount": {
-		"message": "Count"
+		"message": "Aantal"
 	},
 	"settingsRulesSubscriptionsGridColEnabled": {
-		"message": "Enabled"
+		"message": "Ingeschakeld"
 	},
 	"settingsRulesSubscriptionsName": {
-		"message": "Name:"
+		"message": "Naam:"
 	},
 	"settingsRulesSubscriptionsUrl": {
-		"message": "Url:"
+		"message": "URL:"
 	},
 	"settingsRulesSubscriptionsRefreshRate": {
-		"message": "Refresh Rate:"
+		"message": "Verversingsfrequentie:"
 	},
 	"settingsRulesSubscriptionsRefreshRateHelp": {
-		"message": "(in minutes, 0 means no refresh)"
+		"message": "(in minuten, 0 betekent geen verversing)"
 	},
 	"settingsRulesSubscriptionEnabled": {
-		"message": "Enabled"
+		"message": "Ingeschakeld"
 	},
 	"settingsRulesSubscriptionsObfuscation": {
-		"message": "Obfuscation:"
+		"message": "Obfuscatie:"
 	},
 	"settingsRulesSubscriptionsFormat": {
-		"message": "Format:"
+		"message": "Formaat:"
 	},
 	"settingsRulesSubscriptionsApplyProxy": {
-		"message": "Pass through proxy:"
+		"message": "Doorgaan via proxy:"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpFirefox": {
-		"message": "(Decide base on your access to the server)"
+		"message": "(Kies op basis van uw toegang tot de server)"
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
-		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)"
+		"message": "(Helaas is deze functie niet beschikbaar in Chrome. De huidige proxy wordt toegepast)"
 	},
 	"settingsRulesSubscriptionsUsername": {
-		"message": "Username:"
+		"message": "Gebruikersnaam:"
 	},
 	"settingsRulesSubscriptionsAuthenticationHelp": {
-		"message": "(if the list requires authentication)"
+		"message": "(als de lijst authenticatie vereist)"
 	},
 	"settingsRulesSubscriptionsPassword": {
-		"message": "Password:"
+		"message": "Wachtwoord:"
 	},
 	"settingsRulesSubscriptionsTestButton": {
-		"message": "Test"
+		"message": "Testen"
 	},
 	"settingsRulesSubscriptionsSaveButton": {
-		"message": "Save"
+		"message": "Opslaan"
 	},
 	"settingsRulesSubscriptionsCancelButton": {
-		"message": "Cancel"
+		"message": "Annuleren"
 	},
 	"settingsConfirmRemoveRulesSubscription": {
-		"message": "Are you sure to remove the selected rules subscription?"
+		"message": "Weet u zeker dat u het geselecteerde regels-abonnement wilt verwijderen?"
 	},
 	"settingsConfirmRemoveMultipleRulesSubscription": {
-		"message": "Are you sure to remove the selected rules subscriptions?"
+		"message": "Weet u zeker dat u de geselecteerde regels-abonnementen wilt verwijderen?"
 	},
 	"settingsRulesSubscriptionIncompleteForm": {
-		"message": "Please fill the required fields in the right format"
+		"message": "Vul de vereiste velden in in het juiste formaat"
 	},
 	"settingsRulesSubscriptionInvalidForm": {
-		"message": "Invalid proxy server subscription details"
+		"message": "Ongeldige proxyserver-abonnementsgegevens"
 	},
 	"settingsRulesSubscriptionDuplicateName": {
-		"message": "The entered name is already used, please enter another name."
+		"message": "De ingevoerde naam is al in gebruik, kies een andere naam."
 	},
 	"settingsRulesSubscriptionSavingButton": {
-		"message": "Saving..."
+		"message": "Bezig met opslaan..."
 	},
 	"settingsRulesSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Testen"
 	},
 	"settingsRulesSubscriptionTestingButton": {
-		"message": "Testing..."
+		"message": "Bezig met testen..."
 	},
 	"settingsRulesSubscriptionSaveUpdated": {
-		"message": "The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes."
+		"message": "Het abonnement is bijgewerkt met {0} proxyregels en {1} witgelijste regels. <br/>Vergeet niet de wijzigingen op te slaan."
 	},
 	"settingsRulesSubscriptionSaveAdded": {
-		"message": "The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes."
+		"message": "Het abonnement is toegevoegd met {0} proxyregels en {1} witgelijste regels. <br/>Vergeet niet de wijzigingen op te slaan."
 	},
 	"settingsRulesSubscriptionSaveFailedGet": {
-		"message": "Failed to get rules."
+		"message": "Kon regels niet ophalen."
 	},
 	"settingsRulesSubscriptionRefreshOnDisabled": {
-		"message": "Cannot refresh a disabled subscription"
+		"message": "Kan een uitgeschakeld abonnement niet verversen"
 	},
 	"settingsRulesSubscriptionTestSuccess": {
-		"message": "Test was successful. The list returned {0} proxy rules and {1} white listed rules."
+		"message": "Test succesvol. De lijst gaf {0} proxyregels en {1} witgelijste regels terug."
 	},
 	"settingsRulesSubscriptionTestFailed": {
-		"message": "Test failed"
+		"message": "Test mislukt"
 	},
 	"settingsFailedToSaveRulesSubscriptions": {
-		"message": "Failed to save rules subscriptions"
+		"message": "Kon regels-abonnementen niet opslaan"
 	},
 	"settingsRemoveAllProxyRulesSubscriptions": {
-		"message": "Are you sure to remove all the proxy rules subscriptions?"
+		"message": "Weet u zeker dat u alle proxyregels-abonnementen wilt verwijderen?"
 	},
 	"settingsRemoveAllProxyRulesSubscriptionsSuccess": {
-		"message": "All the proxy rules subscriptions are removed.<br/>You have to save to apply the changes."
+		"message": "Alle proxyregels-abonnementen zijn verwijderd.<br/>U moet opslaan om de wijzigingen toe te passen."
 	},
 	"importerImportRulesSuccess": {
-		"message": "Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes."
+		"message": "Totaal {0} proxyregels en {1} witgelijste regels zijn geretourneerd.<br>Vergeet niet de wijzigingen op te slaan."
 	},
 	"settingsRulePatternIsEmpty": {
-		"message": "Rule doesn't have pattern defined"
+		"message": "Regel heeft geen patroon gedefinieerd"
 	},
 	"settingsWelcomeTitle": {
-		"message": "Welcome to SmartProxy"
+		"message": "Welkom bij SmartProxy"
 	},
 	"settingsWelcomeMessage": {
-		"message": "<p>\n\tWelcome! I'm glad that you have chosen SmartProxy, the smart proxy switcher.\n\t<br>\n\tPlease follow these steps to get started:\n</p>\n<ol>\n\t<li>\n\t\tAdd a Proxy Server\n\t\t<br>\n\t\t<small>(Head to Proxy Servers tab and add a proxy server there)</small>\n\t</li>\n\t<li>\n\t\tSet proxy mode to Smart Proxy mode\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to change the active mode to Smart Proxy)</small>\n\t</li>\n\t<li>\n\t\tDefine Proxy Rules\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to add rules or add/modify rules from Proxy Rules tab)</small>\n\t</li>\n\t<li>\n\t\tYou're all set.\n\t</li>\n</ol>"
+		"message": "<p>\n\tWelkom! Fijn dat u voor SmartProxy heeft gekozen, de slimme proxy-switcher.\n\t<br>\n\tVolg de volgende stappen om aan de slag te gaan:\n</p>\n<ol>\n\t<li>\n\t\tVoeg een proxyserver toe\n\t\t<br>\n\t\t<small>(Ga naar het tabblad Proxy Servers en voeg daar een proxyserver toe)</small>\n\t</li>\n\t<li>\n\t\tStel de proxymode in op Smart Proxy\n\t\t<br>\n\t\t<small>(Gebruik het pop-upmenu in de werkbalk om de actieve modus te wijzigen naar Smart Proxy)</small>\n\t</li>\n\t<li>\n\t\tDefinieer proxregels\n\t\t<br>\n\t\t<small>(Gebruik het pop-upmenu in de werkbalk om regels toe te voegen of wijzig regels in het tabblad Proxy Rules)</small>\n\t</li>\n\t<li>\n\t\tU bent klaar.\n\t</li>\n</ol>"
 	},
 	"settingsWelcomeSkipButton": {
-		"message": "Got it"
+		"message": "Begrepen"
 	},
 	"settingsSubscriptionStatsStatusSuccess": {
-		"message": "Status: Success"
+		"message": "Status: Succes"
 	},
 	"settingsSubscriptionStatsStatusFail": {
-		"message": "Status: Failed"
+		"message": "Status: Mislukt"
 	},
 	"settingsSubscriptionStatsLastTry": {
-		"message": "Last Try:"
+		"message": "Laatste poging:"
 	},
 	"settingsSubscriptionStatsMessage": {
-		"message": "Message:"
+		"message": "Bericht:"
 	},
 	"settingsSubscriptionStatsLastSuccess": {
-		"message": "Last Success:"
+		"message": "Laatste succes:"
 	},
 	"settings_SmartProfileType_Direct": {
 		"message": "Direct"
 	},
 	"settings_SmartProfileType_SystemProxy": {
-		"message": "System Proxy"
+		"message": "Systeemproxy"
 	},
 	"settings_SmartProfileType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Slimme regels"
 	},
 	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
-		"message": "Always Enabled with Bypass Rules"
+		"message": "Altijd ingeschakeld met omzeilregels"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
-		"message": "Ignore Failures Rules"
+		"message": "Negeer foutregels"
 	},
 	"notificationNoNextProxyServer": {
-		"message": "There is no further next proxy server"
+		"message": "Er is geen volgende proxyserver beschikbaar"
 	},
 	"notificationNoPreviousProxyServer": {
-		"message": "There is no further previous proxy server"
+		"message": "Er is geen vorige proxyserver beschikbaar"
 	},
 	"notificationShortcutTitle": {
-		"message": "SmartProxy shortcut notification"
+		"message": "SmartProxy sneltoetsmelding"
 	},
 	"notificationShortcutProxyModeMessage": {
-		"message": "Proxy mode changed to {0}"
+		"message": "Proxymodus gewijzigd naar {0}"
 	},
 	"notificationShortcutProxyServerChanged": {
-		"message": "Proxy server changed to {0}"
+		"message": "Proxyserver gewijzigd naar {0}"
 	}
 }
