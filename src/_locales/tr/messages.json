@@ -1123,7 +1123,7 @@
 		"message": "Şifre:"
 	},
 	"settingsRulesSubscriptionsTestButton": {
-		"message": "Test"
+		"message": "Test Et"
 	},
 	"settingsRulesSubscriptionsSaveButton": {
 		"message": "Kaydet"
@@ -1150,7 +1150,7 @@
 		"message": "Kaydediliyor..."
 	},
 	"settingsRulesSubscriptionTestButton": {
-		"message": "Test"
+		"message": "Test Et"
 	},
 	"settingsRulesSubscriptionTestingButton": {
 		"message": "Test Ediliyor..."
@@ -1183,7 +1183,7 @@
 		"message": "Tüm proxy kuralı abonelikleri kaldırıldı.<br/>Değişiklikleri uygulamak için kaydetmelisiniz."
 	},
 	"importerImportRulesSuccess": {
-		"message": "Total of {0} proxy rules and {1} white listed rules are returned.<br>Don't forget to save the changes."
+		"message": "Toplam {0} proxy kuralı ve {1} beyaz liste kuralı döndürüldü.<br>Değişiklikleri kaydetmeyi unutmayın."
 	},
 	"settingsRulePatternIsEmpty": {
 		"message": "Kuralda herhangi bir şablon tanımlanmamış"
@@ -1192,46 +1192,46 @@
 		"message": "SmartProxy'e Hoş Geldiniz"
 	},
 	"settingsWelcomeMessage": {
-		"message": "<p>\n\tWelcome! I'm glad that you have chosen SmartProxy, the smart proxy switcher.\n\t<br>\n\tPlease follow these steps to get started:\n</p>\n<ol>\n\t<li>\n\t\tAdd a Proxy Server\n\t\t<br>\n\t\t<small>(Head to Proxy Servers tab and add a proxy server there)</small>\n\t</li>\n\t<li>\n\t\tSet proxy mode to Smart Proxy mode\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to change the active mode to Smart Proxy)</small>\n\t</li>\n\t<li>\n\t\tDefine Proxy Rules\n\t\t<br>\n\t\t<small>(Use toolbar popup menu to add rules or add/modify rules from Proxy Rules tab)</small>\n\t</li>\n\t<li>\n\t\tYou're all set.\n\t</li>\n</ol>"
+		"message": "<p>\n\tHoş geldiniz! SmartProxy'yi, akıllı proxy anahtarını seçtiğiniz için memnunuz.\n\t<br>\n\tBaşlarken lütfen şu adımları izleyin:\n</p>\n<ol>\n\t<li>\n\t\tProxy Sunucusu ekleyin\n\t\t<br>\n\t\t<small>(Proxy Sunucuları sekmesine gidip oraya bir proxy sunucusu ekleyin)</small>\n\t</li>\n\t<li>\n\t\tProxy modunu Akıllı Proxy olarak ayarlayın\n\t\t<br>\n\t\t<small>(Aktif modu Akıllı Proxy olarak değiştirmek için araç çubuğu açılır menüsünü kullanın)</small>\n\t</li>\n\t<li>\n\t\tProxy Kurallarını tanımlayın\n\t\t<br>\n\t\t<small>(Kural eklemek için araç çubuğu açılır menüsünü kullanın veya Proxy Kuralları sekmesinden ekleyin/değiştirin)</small>\n\t</li>\n\t<li>\n\t\tHer şey hazır.\n\t</li>\n</ol>"
 	},
 	"settingsWelcomeSkipButton": {
 		"message": "Anladım"
 	},
 	"settingsSubscriptionStatsStatusSuccess": {
-		"message": "Status: Success"
+		"message": "Durum: Başarılı"
 	},
 	"settingsSubscriptionStatsStatusFail": {
-		"message": "Status: Failed"
+		"message": "Durum: Başarısız"
 	},
 	"settingsSubscriptionStatsLastTry": {
-		"message": "Last Try:"
+		"message": "Son Deneme:"
 	},
 	"settingsSubscriptionStatsMessage": {
-		"message": "Message:"
+		"message": "Mesaj:"
 	},
 	"settingsSubscriptionStatsLastSuccess": {
-		"message": "Last Success:"
+		"message": "Son Başarı:"
 	},
 	"settings_SmartProfileType_Direct": {
-		"message": "Direct"
+		"message": "Doğrudan"
 	},
 	"settings_SmartProfileType_SystemProxy": {
-		"message": "System Proxy"
+		"message": "Sistem Proxy'si"
 	},
 	"settings_SmartProfileType_SmartRules": {
-		"message": "Smart Rules"
+		"message": "Akıllı Kurallar"
 	},
 	"settings_SmartProfileType_AlwaysEnabledBypassRules": {
-		"message": "Always Enabled with Bypass Rules"
+		"message": "Baypas Kuralları ile Her Zaman Etkin"
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
-		"message": "Ignore Failures Rules"
+		"message": "Hataları Yoksayma Kuralları"
 	},
 	"notificationNoNextProxyServer": {
-		"message": "There is no further next proxy server"
+		"message": "Daha sonraki bir proxy sunucusu yok."
 	},
 	"notificationNoPreviousProxyServer": {
-		"message": "There is no further previous proxy server"
+		"message": "Önceki bir proxy sunucusu yok."
 	},
 	"notificationShortcutTitle": {
 		"message": "SmartProxy kısayol bildirimi"
