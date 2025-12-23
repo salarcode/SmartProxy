@@ -550,7 +550,7 @@
 		"message": "導入代理服務器失敗"
 	},
 	"importerImportProxySuccess": {
-		"message": "總計導入 ${parsedRuleList.length} 個代理服務器當中的 ${importedRuleList.length} 個。<br>請注意保存更改。"
+		"message": "總計導入 {0} 個代理服務器當中的 {1} 個。<br>請注意保存更改。"
 	},
 	"settingsErrorFailedToSaveServers": {
 		"message": "保存服務器失敗。"
