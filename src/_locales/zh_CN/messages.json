@@ -550,7 +550,7 @@
 		"message": "导入代理服务器失败"
 	},
 	"importerImportProxySuccess": {
-		"message": "总计导入 ${parsedRuleList.length} 个代理服务器当中的 ${importedRuleList.length} 个。<br>请注意保存更改。"
+		"message": "总计导入 {0} 个代理服务器当中的 {1} 个。<br>请注意保存更改。"
 	},
 	"settingsErrorFailedToSaveServers": {
 		"message": "保存服务器失败。"
