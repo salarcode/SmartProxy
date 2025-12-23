@@ -189,7 +189,7 @@ export const ProxyImporter = {
 		if (!proxyListText || typeof (proxyListText) !== "string") return null;
 
 		// ip or host:port [protocol] [name] [username] [password]
-		const proxyRegex = /((?:[A-Za-z0-9-]+\.)+[A-Za-z0-9]{1,6})(?:(?::+|[\t\s,]+)(\d{2,5}))?(?:[\t\s]+\[(\w+)\][\t\s]+\[([\w\s\:\.-]+)\](?:[\t\s]+\[(.+)\][\t\s]+\[(.+)\])?)?/i;
+		const proxyRegex = /((?:[A-Za-z0-9-]+\.)+[A-Za-z0-9]{1,6})(?:(?::+|[\t\s,]+)(\d{2,5}))?(?:[\t\s]+\[(\w+)\][\t\s]+\[([\p{L}\p{N}_\s:\.-]+)\](?:[\t\s]+\[(.+)\][\t\s]+\[(.+)\])?)?/iu;
 
 		if (options && options.obfuscation) {
 			try {
