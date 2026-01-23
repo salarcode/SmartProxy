@@ -9,7 +9,15 @@ Write-Output "Creating Browser Markets Release Packs..."
 
 # Copy IP2Location database to assets
 Write-Output "Copying IP2Location database..."
-Copy-Item -Path "IPCountryDB\IP2LOCATION-LITE-DB1.CSV" -Destination "src\assets\IPCountryDB\IP2LOCATION-LITE-DB1.CSV" -Force
+$csvSource = "IPCountryDB\IP2LOCATION-LITE-DB1.CSV"
+$csvDestination = "src\assets\IPCountryDB\IP2LOCATION-LITE-DB1.CSV"
+
+if (Test-Path $csvSource) {
+    Copy-Item -Path $csvSource -Destination $csvDestination -Force
+    Write-Output "IP2Location database copied successfully."
+} else {
+    Write-Warning "IP2Location database not found at '$csvSource'. Build will continue without country code database."
+}
 
 Function BuildAndPack($Build, $BuildName) {
 
