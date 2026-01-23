@@ -22,7 +22,8 @@
 		"webRequestBlocking",
 		"storage",
 		"unlimitedStorage",
-		"notifications"
+		"notifications",
+		"dns"
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 	"browser_action": {

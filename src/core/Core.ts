@@ -45,6 +45,7 @@ import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
 import { ProfileOperations } from './ProfileOperations';
 import { ProfileRules } from './ProfileRules';
 import { Icons } from './Icons';
+import { CountryCode } from '../lib/CountryCode';
 
 const subscriptionUpdaterLib = SubscriptionUpdater;
 const proxyEngineLib = ProxyEngine;
@@ -69,6 +70,10 @@ export class Core {
 			// register the proxy when config is ready
 			proxyEngineLib.registerEngine();
 
+			// read the country database file on startup
+			CountryCode.onInitialized = onCountryCodeInitialized;
+			CountryCode.initialize();
+
 			// set the title
 			Core.setBrowserActionStatus();
 
@@ -85,6 +90,11 @@ export class Core {
 			DiagDebug?.trace("Core.settingReadComplete end");
 
 			Core.dumpDiagnosticsInfo();
+		};
+		
+		const onCountryCodeInitialized = async () => {
+			// Update country codes after database is loaded
+			await subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode();
 		};
 
 		settingsLib.onInitializedLocally = settingReadComplete;
@@ -286,7 +296,7 @@ export class Core {
 				let proxyServerId = message.proxyServerId;
 
 				let result = ProfileRules.changeProxyForRule(ruleId, proxyServerId);
-				
+
 				if (result.success) {
 					settingsOperationLib.saveSmartProfiles();
 					settingsOperationLib.saveAllSync();
@@ -492,6 +502,7 @@ export class Core {
 
 				// update the timers
 				subscriptionUpdaterLib.setServerSubscriptionsRefreshTimers();
+				subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode();
 
 				// it is possible that active proxy is changed
 				proxyEngineLib.updateBrowsersProxyConfig();

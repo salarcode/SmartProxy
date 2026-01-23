@@ -172,6 +172,75 @@ export class Utils {
 		return false;
 	}
 
+	public static isIPRelaxed(address: string): boolean {
+		if (!address) return false;
+
+		// Remove brackets from IPv6 addresses (e.g., [::1])
+		const cleaned = address.replace(/^\[|\]$/g, '');
+
+		// Quick check for IPv4-like pattern (contains only digits and dots)
+		if (/^\d+\.\d+\.\d+\.\d+$/.test(cleaned)) {
+			return true;
+		}
+
+		// Quick check for IPv6-like pattern (contains colons and hex chars)
+		if (/:/.test(cleaned) && /^[0-9a-fA-F:]+$/.test(cleaned.replace(/%.*$/, ''))) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public static isLocalIP(address: string): boolean {
+		if (!address) return false;
+
+		// Remove brackets from IPv6 addresses
+		const cleaned = address.replace(/^\[|\]$/g, '');
+
+		// Check IPv4 private/local ranges
+		if (/^\d+\.\d+\.\d+\.\d+$/.test(cleaned)) {
+			const parts = cleaned.split('.').map(Number);
+			
+			// 127.0.0.0/8 (loopback)
+			if (parts[0] === 127) return true;
+			
+			// 10.0.0.0/8 (private)
+			if (parts[0] === 10) return true;
+			
+			// 172.16.0.0/12 (private)
+			if (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) return true;
+			
+			// 192.168.0.0/16 (private)
+			if (parts[0] === 192 && parts[1] === 168) return true;
+			
+			// 169.254.0.0/16 (link-local)
+			if (parts[0] === 169 && parts[1] === 254) return true;
+			
+			// 0.0.0.0/8 (current network)
+			if (parts[0] === 0) return true;
+		}
+
+		// Check IPv6 private/local ranges
+		if (/:/.test(cleaned)) {
+			// ::1 (loopback)
+			if (/^::1$/.test(cleaned) || /^0*:0*:0*:0*:0*:0*:0*:1$/.test(cleaned)) return true;
+			
+			// fe80::/10 (link-local)
+			if (/^fe[89ab][0-9a-f]:/i.test(cleaned)) return true;
+			
+			// fc00::/7 (unique local)
+			if (/^f[cd][0-9a-f]{2}:/i.test(cleaned)) return true;
+			
+			// ::ffff:0:0/96 (IPv4-mapped IPv6 - check the IPv4 part)
+			const ipv4Mapped = cleaned.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/i);
+			if (ipv4Mapped) {
+				return Utils.isLocalIP(ipv4Mapped[1]);
+			}
+		}
+
+		return false;
+	}
+
 	public static isValidUrl(url: string): boolean {
 		try {
 			const u = new URL(url);

@@ -21,6 +21,7 @@ import { PolyFill } from "../../lib/PolyFill";
 import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
 import { ProfileOperations } from "../../core/ProfileOperations";
+import { CountryCode } from "../../lib/CountryCode";
 
 export class popup {
 	private static popupData: PopupInternalDataType = null;
@@ -492,9 +493,12 @@ export class popup {
 	private static populateProxyServerOptions(selectElement: any, proxyServers: ProxyServer[], proxyServersSubscribed: ProxyServerFromSubscription[], selectedProxyId?: string) {
 		// Add proxy servers
 		jQuery.each(proxyServers, (index: number, proxyServer: ProxyServer) => {
+			let flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
+			let displayName = flagEmoji + proxyServer.name;
+			
 			let option = jQuery("<option>")
 				.attr("value", proxyServer.id)
-				.text(proxyServer.name);
+				.text(displayName);
 			
 			if (selectedProxyId && proxyServer.id === selectedProxyId) {
 				option.prop("selected", true);
@@ -530,9 +534,12 @@ export class popup {
 					hasDefaultGroup = true;
 				}
 
+				let flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
+				let displayName = flagEmoji + proxyServer.name;
+
 				let option = jQuery("<option>")
 					.attr("value", proxyServer.id)
-					.text(proxyServer.name);
+					.text(displayName);
 
 				if (selectedProxyId && proxyServer.id === selectedProxyId) {
 					option.prop("selected", true);

@@ -11,7 +11,8 @@ const ENV = process.env.ENV = process.env.NODE_ENV;
 let plugins = [
   new CleanWebpackPlugin({
     cleanAfterEveryBuildPatterns: ['**/*.LICENSE.txt'],
-    protectWebpackAssets: false
+    protectWebpackAssets: false,
+    cleanOnceBeforeBuildPatterns: ['**/*', '!assets/**'] // exclude the assets folder from being cleaned
   }),
   new CopyPlugin({
     patterns: [
@@ -27,7 +28,8 @@ let plugins = [
         globOptions: {
           ignore: ['**/code/*', '**/*.zip']
         }
-      }
+      },
+      { from: './src/assets', to: 'assets' }
     ]
   })
 ];

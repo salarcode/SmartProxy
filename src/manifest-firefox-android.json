@@ -22,7 +22,8 @@
 		"webRequestBlocking",
 		"storage",
 		"unlimitedStorage",
-		"notifications"
+		"notifications",
+		"dns"
 	],
 	"browser_action": {
 		"browser_style": true,
