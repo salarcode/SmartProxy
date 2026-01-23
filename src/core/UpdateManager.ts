@@ -22,7 +22,6 @@ export class UpdateManager {
 	private static updateIsChecking = false;
 
 	public static readUpdateInfo() {
-
 		if (UpdateManager.updateIsChecking) {
 			DiagDebug?.trace("Checking for update is already in progress...");
 			return;
@@ -53,6 +52,7 @@ export class UpdateManager {
 
 
 		function checkForUpdate(updatePackage: any) {
+
 			if (!updatePackage || !updatePackage.latestVersion || !updatePackage.latestVersion.version) {
 				Debug.warn("Invalid update info has received", updatePackage);
 				return;
@@ -74,9 +74,9 @@ export class UpdateManager {
 					latestVersion.downloadPage = browserSpecificVersion.downloadPage || latestVersion.downloadPage;
 				}
 			}
-
+			
 			// checking...
-			if (latestVersion.version > manifestVersion) {
+			if (UpdateManager.compareVersions(latestVersion.version, manifestVersion)) {
 				DiagDebug?.trace("New update is found", latestVersion);
 
 				SettingsOperation.saveUpdateInfo({
@@ -98,6 +98,18 @@ export class UpdateManager {
 				});
 			}
 		}
+	}
+	private static compareVersions(a, b) {
+		const pa = a.split('.').map(Number);
+		const pb = b.split('.').map(Number);
+		const len = Math.max(pa.length, pb.length);
+
+		for (let i = 0; i < len; i++) {
+			const na = pa[i] ?? 0;
+			const nb = pb[i] ?? 0;
+			if (na !== nb) return na > nb;
+		}
+		return false; // equal
 	}
 }
 

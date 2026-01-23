@@ -7,6 +7,10 @@ $global:version = ""
 
 Write-Output "Creating Browser Markets Release Packs..."
 
+# Copy IP2Location database to assets
+Write-Output "Copying IP2Location database..."
+Copy-Item -Path "IPCountryDB\IP2LOCATION-LITE-DB1.CSV" -Destination "src\assets\IPCountryDB\IP2LOCATION-LITE-DB1.CSV" -Force
+
 Function BuildAndPack($Build, $BuildName) {
 
  if(!$global:Success) {

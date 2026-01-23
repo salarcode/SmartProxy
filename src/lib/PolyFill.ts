@@ -438,6 +438,23 @@ export class PolyFill {
 			}, null);
 		}
 	}
+	public static dnsResolve(hostname: string, flags?: string[], success?: Function, fail?: Function) {
+		if (environment.chrome) {
+			// DNS API is not available in Chrome
+			if (fail) {
+				fail({ message: "dns.resolve is not supported in Chrome" });
+			}
+		} else {
+			if (api.dns && api.dns.resolve) {
+				api.dns.resolve(hostname, flags)
+					.then(success, fail);
+			} else {
+				if (fail) {
+					fail({ message: "dns.resolve is not available" });
+				}
+			}
+		}
+	}
 }
 PolyFill.runtimeGetBrowserInfo((response: any) => {
 	environment.version = parseInt(response.version) || 1.0;

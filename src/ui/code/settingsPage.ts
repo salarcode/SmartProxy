@@ -25,6 +25,7 @@ import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxySer
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 import { SettingsOperation } from "../../core/SettingsOperation";
+import { CountryCode } from "../../lib/CountryCode";
 
 const jq = jQuery;
 
@@ -551,9 +552,11 @@ export class settingsPage {
 				return;
 
 			// proxyServer
+			const flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
+			const displayName = flagEmoji + proxyServer.name;
 			let option = jq("<option>")
 				.attr("value", proxyServer.id)
-				.text(proxyServer.name)
+				.text(displayName)
 				.appendTo(comboBox);
 
 			let selected = (proxyServer.id === selectedProxyId);
@@ -582,9 +585,11 @@ export class settingsPage {
 						// exit loop
 						return;
 
+					const flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
+					const displayName = flagEmoji + proxyServer.name;
 					let option = jq("<option>")
 						.attr("value", proxyServer.id)
-						.text(proxyServer.name)
+						.text(displayName)
 						.appendTo(subscriptionGroup);
 
 					let selected = (proxyServer.id === selectedProxyId);

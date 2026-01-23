@@ -300,3 +300,5 @@ __pycache__/
 /src/manifest.json
 *.map
 *.js
+src/assets/IPCountryDB
+IPCountryDB

@@ -785,6 +785,8 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 	public id: string;
 	public name: string = '';
 	public failoverTimeout: number;
+	public countryCode: string;
+	//public countryFlagEmoji: string;
 
 	constructor() {
 		super();
@@ -803,6 +805,7 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 		this.password = source['password'];
 		if (source['proxyDNS'] != null) this.proxyDNS = source['proxyDNS'] == true ? true : false;
 		this.failoverTimeout = source['failoverTimeout'] > 0 ? source['failoverTimeout'] : null;
+		this.countryCode = source['countryCode'];
 
 		if (!this.protocol) {
 			this.protocol = 'HTTP';

@@ -21,6 +21,9 @@ import { SettingsOperation } from "./SettingsOperation";
 import { RuleImporter } from "../lib/RuleImporter";
 import { ProxyEngine } from "./ProxyEngine";
 import { ImportedProxyRule, ProxyRulesSubscription, ProxyServer, SubscriptionStats } from "./definitions";
+import { Utils } from "../lib/Utils";
+import { PolyFill } from "../lib/PolyFill";
+import { CountryCode } from "../lib/CountryCode";
 
 export class SubscriptionUpdater {
 	private static serverSubscriptionTimers: SubscriptionTimerType[] = [{ timerId: null, subscriptionId: null, refreshRate: null }];
@@ -183,6 +186,9 @@ export class SubscriptionUpdater {
 
 					SettingsOperation.saveProxyServerSubscriptions();
 					SettingsOperation.saveAllSync(false);
+
+					// Fire-and-forget: update country codes for proxy servers
+					SubscriptionUpdater.updateProxyServersCountryCode(subscription.proxies);
 
 				} else {
 					SubscriptionStats.updateStats(subscription.stats, false);
@@ -409,6 +415,83 @@ export class SubscriptionUpdater {
 			index: number
 		} {
 		return SubscriptionUpdater._getSubscriptionIdTimer(SubscriptionUpdater.rulesSubscriptionTimers, id);
+	}
+
+	public static async updateProxyServerSubscriptionsCountryCode(save: boolean = true) {
+		// Update country codes for all proxy server subscriptions
+		const proxyServerSubscriptions = Settings.current.proxyServerSubscriptions;
+
+		for (const subscription of proxyServerSubscriptions) {
+			if (!subscription.enabled || !subscription.proxies || !subscription.proxies.length) {
+				continue;
+			}
+
+			// Update country codes for this subscription's proxies (don't save yet)
+			await SubscriptionUpdater.updateProxyServersCountryCode(subscription.proxies, false);
+		}
+
+		// Save once at the end if any updates were made
+		if (save) {
+			SettingsOperation.saveProxyServerSubscriptions();
+			SettingsOperation.saveAllSync(false);
+		}
+	}
+
+	public static async updateProxyServersCountryCode(proxies: ProxyServer[], save: boolean = true) {
+		if (!proxies || !proxies.length) return;
+
+		let updated = false;
+
+		try {
+			for (const proxy of proxies) {
+				// Skip if already has country code or no host
+				if (proxy.countryCode || !proxy.host) continue;
+
+				let ipAddress = proxy.host;
+
+				// Check if host is already an IP address
+				if (!Utils.isIPRelaxed(proxy.host)) {
+					// Need to resolve hostname to IP
+					try {
+						// Use Promise wrapper for DNS resolve
+						const dnsResult = await new Promise<any>((resolve, reject) => {
+							PolyFill.dnsResolve(proxy.host, [], resolve, reject);
+						});
+
+						if (dnsResult?.addresses?.length > 0) {
+							ipAddress = dnsResult.addresses[0];
+						} else {
+							continue; // Skip if DNS resolution failed
+						}
+					} catch (dnsError) {
+						// DNS resolution not supported or failed, skip this proxy
+						continue;
+					}
+				}
+
+				// Check if IP is local/private
+				if (Utils.isLocalIP(ipAddress)) {
+					proxy.countryCode = "LOCAL";
+					updated = true;
+					continue;
+				}
+
+				// Get country code from IP
+				const countryInfo = CountryCode.getRecord(ipAddress);
+				if (countryInfo?.isoCode) {
+					proxy.countryCode = countryInfo.isoCode;
+					updated = true;
+				}
+			}
+
+			// Save if any proxy was updated
+			if (updated && save) {
+				SettingsOperation.saveProxyServerSubscriptions();
+				SettingsOperation.saveAllSync(false);
+			}
+		} catch (error) {
+			Debug.warn("Failed to update subscription servers country code", error);
+		}
 	}
 }
 
