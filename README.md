@@ -58,3 +58,7 @@ https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#
 4.	Enable Developer Mode by clicking the toggle switch next to Developer mode.
 5.	Click the LOAD UNPACKED button and select the extension's 'build' directory.
 
+#### Attribution
+
+SmartProxy uses [IP2Location LITE](https://lite.ip2location.com) for IP geolocation. Database is not included in the repo due to licensing requirements. 
+
