@@ -1,3 +1,5 @@
+import { api } from "./environment";
+
 interface IPLocationRecord {
 	ipFrom: number;
 	ipTo: number;
@@ -10,13 +12,15 @@ let isInitialized = false;
 
 export class CountryCode {
 
-	static async initialize() {
+		public static onInitialized: Function = null;
+
+		static async initialize() {
 		if (isInitialized) {
 			return;
 		}
 
 		try {
-			const csvUrl = browser.runtime.getURL('assets/IPCountryDB/IP2LOCATION-LITE-DB1.CSV');
+			const csvUrl = api.runtime.getURL('assets/IPCountryDB/IP2LOCATION-LITE-DB1.CSV');
 			const response = await fetch(csvUrl);
 			const csvText = await response.text();
 
@@ -44,11 +48,10 @@ export class CountryCode {
 
 			isInitialized = true;
 			CountryCode.loadingCompleted();
+			CountryCode.onInitialized?.();
+
 		} catch (error) {
 			console.error('Failed to initialize IP2Location database:', error);
-		}
-		finally {
-			console.warn("CountryCode initialization finally block");
 		}
 	}
 

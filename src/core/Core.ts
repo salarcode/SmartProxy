@@ -71,6 +71,7 @@ export class Core {
 			proxyEngineLib.registerEngine();
 
 			// read the country database file on startup
+			CountryCode.onInitialized = onCountryCodeInitialized;
 			CountryCode.initialize();
 
 			// set the title
@@ -79,7 +80,6 @@ export class Core {
 			// update the timers
 			subscriptionUpdaterLib.setServerSubscriptionsRefreshTimers();
 			subscriptionUpdaterLib.reloadEmptyServerSubscriptions();
-			subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode(); // Called as fire-and-forget
 
 			subscriptionUpdaterLib.setRulesSubscriptionsRefreshTimers();
 			subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
@@ -90,6 +90,11 @@ export class Core {
 			DiagDebug?.trace("Core.settingReadComplete end");
 
 			Core.dumpDiagnosticsInfo();
+		};
+		
+		const onCountryCodeInitialized = async () => {
+			// Update country codes after database is loaded
+			await subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode();
 		};
 
 		settingsLib.onInitializedLocally = settingReadComplete;
