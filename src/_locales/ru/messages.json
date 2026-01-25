@@ -294,11 +294,26 @@
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Резервировать"
 	},
+	"settingsGeneralWebDavServerRestoreNow": {
+		"message": "Восстановить"
+	},
+	"settingsGeneralWebDavRestoreNowConfirm": {
+		"message": "Текущие настройки сервера WebDAV будут заменены. Это действие невозможно отменить. Продолжить?"
+	},
+	"settingsGeneralWebDavRestoreNowSuccess": {
+		"message": "Восстановление настроек WebDAV успешно завершено!"
+	},
+	"settingsGeneralWebDavRestoreNowFailed": {
+		"message": "Ошибка восстановления настроек WebDAV:"
+	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
 		"message": "Введите правильный URL WebDAV-сервера"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
 		"message": "Имя файла резервной копии на WebDAV-сервере не может быть пустым"
+	},
+	"settingsGeneralWebDav_ErrorRequiredFields": {
+		"message": "Заполните все необходимые поля настроек WebDAV."
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
 		"message": "Резервирование на WebDAV успешно завершено!"

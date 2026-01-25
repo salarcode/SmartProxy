@@ -294,11 +294,26 @@
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Utwórz kopię zapasową teraz"
 	},
+	"settingsGeneralWebDavServerRestoreNow": {
+		"message": "Restore Now"
+	},
+	"settingsGeneralWebDavRestoreNowConfirm": {
+		"message": "This will override your current settings from WebDAV server. This action is not revertable, be cautious. Proceed?"
+	},
+	"settingsGeneralWebDavRestoreNowSuccess": {
+		"message": "WebDAV restore completed successfully!"
+	},
+	"settingsGeneralWebDavRestoreNowFailed": {
+		"message": "WebDAV restore failed:"
+	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
 		"message": "Wprowadź prawidłowy adres URL serwera WebDAV"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
 		"message": "Nazwa pliku kopii zapasowej serwera WebDAV nie może być pusta"
+	},
+	"settingsGeneralWebDav_ErrorRequiredFields": {
+		"message": "Please fill in all required WebDAV fields."
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
 		"message": "Kopia zapasowa WebDAV zakończona pomyślnie!"

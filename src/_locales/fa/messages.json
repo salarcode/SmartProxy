@@ -294,11 +294,26 @@
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "الان یه پشتیبان بگیر"
 	},
+	"settingsGeneralWebDavServerRestoreNow": {
+		"message": "Restore Now"
+	},
+	"settingsGeneralWebDavRestoreNowConfirm": {
+		"message": "This will override your current settings from WebDAV server. This action is not revertable, be cautious. Proceed?"
+	},
+	"settingsGeneralWebDavRestoreNowSuccess": {
+		"message": "WebDAV restore completed successfully!"
+	},
+	"settingsGeneralWebDavRestoreNowFailed": {
+		"message": "WebDAV restore failed:"
+	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
 		"message": "لطفا آدرس معتبر سرور WebDAV وارد کنید"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
 		"message": "نام فایل پشتیبان سرور WebDAV نمی تواند خالی باشد"
+	},
+	"settingsGeneralWebDav_ErrorRequiredFields": {
+		"message": "Please fill in all required WebDAV fields."
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
 		"message": "پشتیبان گیری WebDAV با موفقیت تکمیل شد!"

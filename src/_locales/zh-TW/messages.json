@@ -294,11 +294,26 @@
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "立即備份"
 	},
+	"settingsGeneralWebDavServerRestoreNow": {
+		"message": "Restore Now"
+	},
+	"settingsGeneralWebDavRestoreNowConfirm": {
+		"message": "This will override your current settings from WebDAV server. This action is not revertable, be cautious. Proceed?"
+	},
+	"settingsGeneralWebDavRestoreNowSuccess": {
+		"message": "WebDAV restore completed successfully!"
+	},
+	"settingsGeneralWebDavRestoreNowFailed": {
+		"message": "WebDAV restore failed:"
+	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
 		"message": "請輸入有效的 WebDAV 伺服器 URL"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
 		"message": "WebDAV 備份檔名不可為空"
+	},
+	"settingsGeneralWebDav_ErrorRequiredFields": {
+		"message": "Please fill in all required WebDAV fields."
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
 		"message": "WebDav 備份成功完成！"
