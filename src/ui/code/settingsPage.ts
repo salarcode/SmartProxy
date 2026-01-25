@@ -151,7 +151,7 @@ export class settingsPage {
 
 	private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
 		this.currentSettings = settingsData.settings;
-		
+
 		CommonUi.applyThemes(this.currentSettings.options);
 		this.populateSettingsUiData(settingsData);
 		this.loadServersGrid(this.currentSettings.proxyServers);
@@ -554,7 +554,7 @@ export class settingsPage {
 
 			// proxyServer
 			const flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
-			const displayName = flagEmoji + proxyServer.name;
+			let displayName = `${flagEmoji} ${proxyServer.name}`;
 			let option = jq("<option>")
 				.attr("value", proxyServer.id)
 				.text(displayName)
@@ -587,7 +587,7 @@ export class settingsPage {
 						return;
 
 					const flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
-					const displayName = flagEmoji + proxyServer.name;
+					let displayName = `${flagEmoji} ${proxyServer.name}`;
 					let option = jq("<option>")
 						.attr("value", proxyServer.id)
 						.text(displayName)
@@ -1621,10 +1621,10 @@ export class settingsPage {
 				render: function (data, type, row: ProxyRule) {
 					const uniqueId = `ruleToggle_${row.ruleId}_${Utils.getNewUniqueIdString()}`;
 					const checkedAttr = data ? 'checked' : '';
-					const whiteListIcon = row && row.whiteList 
+					const whiteListIcon = row && row.whiteList
 						? ` <i class="far fa-hand-paper ms-2" title="${api.i18n.getMessage("settingsRuleActionWhitelist")}"></i>`
 						: '';
-					
+
 					return `
 						<div class="form-check form-switch d-inline-flex align-items-center">
 							<input class="form-check-input rule-enabled-toggle" type="checkbox" id="${uniqueId}" ${checkedAttr}>
@@ -1972,19 +1972,19 @@ export class settingsPage {
 
 		rowElement.find("#btnRulesRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesRemoveClick(pageProfile, e));
 		rowElement.find("#btnRulesEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesEditClick(pageProfile, e));
-		
+
 		// Bind toggle switch for enabled state
 		rowElement.find(".rule-enabled-toggle").on("change", (e: any) => settingsPage.uiEvents.onRuleEnabledToggleChange(pageProfile, e));
 	}
 
-		private static refreshRulesGridAllRows(pageProfile: SettingsPageSmartProfile) {
+	private static refreshRulesGridAllRows(pageProfile: SettingsPageSmartProfile) {
 		var nodes = pageProfile.grdRules.rows().nodes();
 		for (let index = 0; index < nodes.length; index++) {
 			const rowElement = jq(nodes[index]);
 
 			rowElement.find("#btnRulesRemove").on("click", (e: any) => settingsPage.uiEvents.onRulesRemoveClick(pageProfile, e));
 			rowElement.find("#btnRulesEdit").on("click", (e: any) => settingsPage.uiEvents.onRulesEditClick(pageProfile, e));
-			
+
 			// Bind toggle switch for enabled state
 			rowElement.find(".rule-enabled-toggle").on("change", (e: any) => settingsPage.uiEvents.onRuleEnabledToggleChange(pageProfile, e));
 		}
@@ -2832,7 +2832,7 @@ export class settingsPage {
 
 					hostName = Utils.extractHostFromUrl(ruleLineNormalized);
 
-					if (!Utils.isValidHost(hostName)) {
+					if (!Utils.isNotInternalHostName(hostName)) {
 						messageBox.error(api.i18n.getMessage("settingsMultipleRuleInvalidHost").replace("{0}", hostName || ruleLine));
 						return;
 					}
@@ -3049,7 +3049,7 @@ export class settingsPage {
 
 			if (hostName) {
 				// NOTE: if hostName is entered it must be a valid one, without RegEx or MatchPattern chars
-				if (!Utils.isValidHost(hostName)) {
+				if (!Utils.isNotInternalHostName(hostName)) {
 					// source is invalid, source name should be something like 'google.com'
 					messageBox.error(api.i18n.getMessage("settingsRuleSourceInvalid"));
 					return;
@@ -3061,7 +3061,7 @@ export class settingsPage {
 				}
 
 				let extractedHost = Utils.extractHostFromUrl(checkHostName);
-				if (extractedHost == null || !Utils.isValidHost(extractedHost)) {
+				if (extractedHost == null || !Utils.isNotInternalHostName(extractedHost)) {
 
 					// `Host name '${extractedHost}' is invalid, host name should be something like 'google.com'`
 					messageBox.error(
@@ -3247,18 +3247,18 @@ export class settingsPage {
 		onRuleEnabledToggleChange(pageProfile: SettingsPageSmartProfile, e: any) {
 			const checkbox = jq(e.target);
 			const isEnabled = checkbox.prop('checked');
-			
+
 			// Get the row data
 			const row = pageProfile.grdRules.row(checkbox.closest('tr'));
 			const ruleData: ProxyRule = row.data();
-			
+
 			if (ruleData) {
 				// Update the enabled property
 				ruleData.enabled = isEnabled;
-				
+
 				// Mark profile as changed to enable save button
 				settingsPage.changeTracking.smartProfiles = true;
-				
+
 				// Refresh the row properly
 				settingsPage.refreshRulesGridRow(pageProfile, row);
 			}

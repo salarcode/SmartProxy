@@ -465,7 +465,7 @@ export class ProxyRules {
 		result?: any
 	} {
 		if (rule.hostName) {
-			if (!Utils.isValidHost(rule.hostName)) {
+			if (!Utils.isNotInternalHostName(rule.hostName)) {
 				// 'source' is not valid '${rule.source}
 				return { success: false, message: api.i18n.getMessage("settingsRuleSourceInvalidFormat").replace("{0}", rule.hostName) };
 			}

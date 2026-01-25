@@ -12,9 +12,9 @@ let isInitialized = false;
 
 export class CountryCode {
 
-		public static onInitialized: Function = null;
+	public static onInitialized: Function = null;
 
-		static async initialize() {
+	static async initialize() {
 		if (isInitialized) {
 			return;
 		}
@@ -141,11 +141,11 @@ export class CountryCode {
 
 	static getCountryFlagEmoji(countryCode: string): string {
 		if (!countryCode) return '';
-		
+
 		if (countryCode === 'LOCAL') {
-			return '🏠 '; // House emoji for local/private IPs
+			return '🏠'; // House emoji for local/private IPs
 		}
-		
+
 		// Convert country code to flag emoji
 		// Regional Indicator Symbol Letter A starts at 0x1F1E6 (127462)
 		// Country codes are uppercase letters, so 'A' = 65
@@ -153,8 +153,8 @@ export class CountryCode {
 			.toUpperCase()
 			.split('')
 			.map(char => 127397 + char.charCodeAt(0));
-		
-		return String.fromCodePoint(...codePoints) + ' ';
+
+		return String.fromCodePoint(...codePoints);
 	}
 
 	private static loadingCompleted() {

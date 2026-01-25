@@ -494,16 +494,16 @@ export class popup {
 		// Add proxy servers
 		jQuery.each(proxyServers, (index: number, proxyServer: ProxyServer) => {
 			let flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
-			let displayName = flagEmoji + proxyServer.name;
-			
+			let displayName = `${flagEmoji} ${proxyServer.name}`;
+
 			let option = jQuery("<option>")
 				.attr("value", proxyServer.id)
 				.text(displayName);
-			
+
 			if (selectedProxyId && proxyServer.id === selectedProxyId) {
 				option.prop("selected", true);
 			}
-			
+
 			selectElement.append(option);
 		});
 
@@ -535,7 +535,7 @@ export class popup {
 				}
 
 				let flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
-				let displayName = flagEmoji + proxyServer.name;
+				let displayName = `${flagEmoji} ${proxyServer.name}`;
 
 				let option = jQuery("<option>")
 					.attr("value", proxyServer.id)
@@ -588,7 +588,7 @@ export class popup {
 
 			proxyableDomain.ruleMatched = ruleIsBeingEnabled;
 			proxyableDomain.ruleMatchedThisHost = ruleIsBeingEnabled;
-			
+
 			clickedItem.data("proxyable-domain-type", proxyableDomain);
 
 			PolyFill.runtimeSendMessage({
@@ -808,7 +808,7 @@ export class popup {
 			window.close();
 		}
 
-	}	
+	}
 	//#endregion
 }
 

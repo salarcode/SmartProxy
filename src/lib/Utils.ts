@@ -162,7 +162,7 @@ export class Utils {
 		return result;
 	}
 
-	public static isValidHost(host: string): boolean {
+	public static isNotInternalHostName(host: string): boolean {
 		if (host) {
 			if (Utils.invalidHostSchemas.indexOf(host) >= 0)
 				return false;

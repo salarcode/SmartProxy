@@ -25,7 +25,7 @@ export class ProfileRules {
 			}
 		}
 
-		if (!Utils.isValidHost(hostName))
+		if (!Utils.isNotInternalHostName(hostName))
 			// this is an extra check!
 			return;
 
@@ -233,7 +233,7 @@ export class ProfileRules {
 		rule: ProxyRule
 	} {
 		// current url should be valid
-		if (!Utils.isValidHost(hostname))
+		if (!Utils.isNotInternalHostName(hostname))
 			// The selected domain is not valid
 			return {
 				success: false,
@@ -276,7 +276,7 @@ export class ProfileRules {
 		let rule = ProfileRules.getRuleByHostname(smartProfile, hostName);
 
 		if (rule == null) {
-			if (!Utils.isValidHost(hostName))
+			if (!Utils.isNotInternalHostName(hostName))
 				// this is an extra check!
 				return;
 

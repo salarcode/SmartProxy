@@ -57,7 +57,7 @@ export class Core {
 	/** Start the application */
 	public static initializeApp() {
 
-		//Debug.disable(); // comment this for debugging
+		Debug.disable(); // comment this for debugging
 		//Debug.enableDiagnostics(true); // uncomment for verbose logs
 
 		proxyEngineLib.configureEnginePrematurely();
@@ -863,7 +863,7 @@ export class Core {
 		let urlHost = Utils.extractHostFromUrl(currentTabData.url);
 
 		// current url should be valid
-		if (!Utils.isValidHost(urlHost))
+		if (!Utils.isNotInternalHostName(urlHost))
 			return dataForPopup;
 
 		// extract list of domain and subdomain

@@ -551,7 +551,7 @@ export class Settings {
 			};
 		}
 
-		if (!server.host || !Utils.isValidHost(server.host)) {
+		if (!server.host || !Utils.isNotInternalHostName(server.host)) {
 			return {
 				success: false,
 				message: api.i18n.getMessage('settingsServerHostInvalid').replace('{0}', `${server.host}:${server.port}`),

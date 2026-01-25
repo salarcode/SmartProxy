@@ -819,7 +819,7 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 			return false;
 		if (!this.port || this.port <= 0 || this.port > 65535)
 			return false;
-		if (!this.host || !Utils.isValidHost(this.host))
+		if (!this.host || !Utils.isNotInternalHostName(this.host))
 			return false;
 
 		return true;
