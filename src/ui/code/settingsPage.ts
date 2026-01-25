@@ -184,6 +184,7 @@ export class settingsPage {
 		jq("#chkSyncToBrowser").on("change", settingsPage.uiEvents.onSyncDestinationChanged);
 		jq("#chkSyncToWebDAV").on("change", settingsPage.uiEvents.onSyncDestinationChanged);
 		jq("#btnWebDavServerBackupNow").click(settingsPage.uiEvents.onClickWebDavBackupNow);
+		jq("#btnWebDavServerRestoreNow").click(settingsPage.uiEvents.onClickWebDavRestoreNow);
 
 		jq("#btnIgnoreRequestFailuresForDomains").click(settingsPage.uiEvents.onClickIgnoreRequestFailuresForDomains);
 
@@ -2388,7 +2389,7 @@ export class settingsPage {
 			let backupFilename = jq("#txtWebDavBackupFilename").val();
 
 			if (!serverUrl || !username || !password) {
-				messageBox.error("Please fill in all required WebDAV fields.");
+				messageBox.error(api.i18n.getMessage("settingsGeneralWebDav_ErrorRequiredFields"));
 				return;
 			}
 
@@ -2411,6 +2412,43 @@ export class settingsPage {
 					}
 				}
 			);
+		},
+		onClickWebDavRestoreNow() {
+			let serverUrl = jq("#txtWebDavServerUrl").val();
+			let username = jq("#txtWebDavServerUser").val();
+			let password = jq("#txtWebDavServerPassword").val();
+			let backupFilename = jq("#txtWebDavBackupFilename").val();
+
+			if (!serverUrl || !username || !password) {
+				messageBox.error(api.i18n.getMessage("settingsGeneralWebDav_ErrorRequiredFields"));
+				return;
+			}
+
+			// This will override your current settings from WebDAV server. This action is not revertable, be cautious. Proceed?
+			messageBox.confirm(api.i18n.getMessage("settingsGeneralWebDavRestoreNowConfirm"),
+				() => {
+					// Simulate restore operation
+					PolyFill.runtimeSendMessage(
+						{
+							command: CommandMessages.SettingsPageWebDavRestoreNow,
+							serverUrl: serverUrl,
+							username: username,
+							password: password,
+							backupFilename: backupFilename,
+						},
+						(response) => {
+							if (response.success) {
+								// WebDav restore completed successfully!
+								messageBox.success(api.i18n.getMessage("settingsGeneralWebDavRestoreNowSuccess"));
+								// Reload the page to show restored settings
+								setTimeout(() => window.location.reload(), 1000);
+							} else if (!response.success) {
+								// WebDav restore failed: 
+								messageBox.error(api.i18n.getMessage("settingsGeneralWebDavRestoreNowFailed") + " " + response.message);
+							}
+						}
+					);
+				});
 		},
 		onClickIgnoreRequestFailuresForDomains() {
 			let settings = settingsPage.currentSettings;

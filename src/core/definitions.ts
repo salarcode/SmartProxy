@@ -171,6 +171,7 @@ export class CommandMessages {
 	public static SettingsPageSkipWelcome = 'SettingsPage_SkipWelcome';
 	public static SettingsPageFactoryReset = 'SettingsPage_FactoryReset';
 	public static SettingsPageWebDavBackupNow = 'SettingsPage_WebDavBackupNow';
+	public static SettingsPageWebDavRestoreNow = 'SettingsPage_WebDavRestoreNow';
 	public static SettingsPageSaveUiOption = 'SettingsPage_SaveUiOption';
 
 	// Request Logger

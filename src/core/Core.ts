@@ -57,10 +57,11 @@ export class Core {
 	/** Start the application */
 	public static initializeApp() {
 
-		Debug.disable(); // comment this for debugging
+		//Debug.disable(); // comment this for debugging
 		//Debug.enableDiagnostics(true); // uncomment for verbose logs
 
 		proxyEngineLib.configureEnginePrematurely();
+
 
 		const settingReadComplete = () => {
 			DiagDebug?.trace("Core.settingReadComplete start");
@@ -91,7 +92,7 @@ export class Core {
 
 			Core.dumpDiagnosticsInfo();
 		};
-		
+
 		const onCountryCodeInitialized = async () => {
 			// Update country codes after database is loaded
 			await subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode();
@@ -615,48 +616,44 @@ export class Core {
 				}
 			}
 			case CommandMessages.SettingsPageWebDavBackupNow: {
-				return new Promise((resolve) => {
-					settingsOperationLib.saveToWebDavServer(
-						message.serverUrl,
-						message.backupFilename,
-						message.username,
-						message.password,
-						null,
-						() => {
-							resolve({
-								success: true
-							});
-
-							if (environment.chrome) {
-								// BUGFIX: on Chrome Promises don't work
-								PolyFill.runtimeSendMessage(
-									{
-										command: CommandMessages.SettingsPageShowMessage,
-										success: true,
-										message: api.i18n.getMessage('settingsGeneralWebDavBackupNowSuccess')
-									});
-							}
-
-						},
-						(error) => {
-							resolve({
-								success: false,
-								message: error?.message
-							});
-
-							if (environment.chrome) {
-								// BUGFIX: on Chrome Promises don't work
-								PolyFill.runtimeSendMessage(
-									{
-										command: CommandMessages.SettingsPageShowMessage,
-										success: false,
-										message: api.i18n.getMessage("settingsGeneralWebDavBackupNowFailed") + " " + error?.message
-									});
-							}
-						}
-					);
+				return settingsOperationLib.handleWebDavBackupNow(
+					message.serverUrl,
+					message.backupFilename,
+					message.username,
+					message.password
+				).then((result) => {
+					if (environment.chrome) {
+						// BUGFIX: on Chrome Promises don't work
+						PolyFill.runtimeSendMessage({
+							command: CommandMessages.SettingsPageShowMessage,
+							success: result.success,
+							message: result.success 
+								? api.i18n.getMessage('settingsGeneralWebDavBackupNowSuccess')
+								: api.i18n.getMessage('settingsGeneralWebDavBackupNowFailed') + ' ' + result.message
+						});
+					}
+					return result;
 				});
-
+			}
+			case CommandMessages.SettingsPageWebDavRestoreNow: {
+				return settingsOperationLib.handleWebDavRestoreNow(
+					message.serverUrl,
+					message.backupFilename,
+					message.username,
+					message.password
+				).then((result) => {
+					if (environment.chrome) {
+						// BUGFIX: on Chrome Promises don't work
+						PolyFill.runtimeSendMessage({
+							command: CommandMessages.SettingsPageShowMessage,
+							success: result.success,
+							message: result.success 
+								? api.i18n.getMessage('settingsGeneralWebDavRestoreNowSuccess')
+								: api.i18n.getMessage('settingsGeneralWebDavRestoreNowFailed') + ' ' + result.message
+						});
+					}
+					return result;
+				});
 			}
 			default:
 				{ }

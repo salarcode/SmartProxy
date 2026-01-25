@@ -1005,6 +1005,71 @@ export class SettingsOperation {
 			return { success: false, message: api.i18n.getMessage("settingsRestoreSettingsFailed") };
 		}
 	}
+
+	public static handleWebDavBackupNow(
+		serverUrl: string,
+		backupFilename: string,
+		username: string,
+		password: string
+	): Promise<{ success: boolean, message?: string }> {
+		return new Promise((resolve) => {
+			me.saveToWebDavServer(
+				serverUrl,
+				backupFilename,
+				username,
+				password,
+				null,
+				() => {
+					resolve({
+						success: true
+					});
+				},
+				(error) => {
+					resolve({
+						success: false,
+						message: error?.message
+					});
+				}
+			);
+		});
+	}
+
+	public static handleWebDavRestoreNow(
+		serverUrl: string,
+		backupFilename: string,
+		username: string,
+		password: string
+	): Promise<{ success: boolean, message?: string }> {
+		return new Promise((resolve) => {
+			me.readFromWebDavServer(
+				serverUrl,
+				backupFilename,
+				username,
+				password,
+				(restoredSettings: SettingsConfig) => {
+					// Apply restored settings while preserving sync options
+					// Note: applySyncSettings internally calls Settings.updateActiveSettings()
+					me.applySyncSettings(restoredSettings);
+					
+					// Save synced settings if needed
+					me.saveAllSync();
+					
+					// Update proxy rules/config
+					proxyEngineLib.updateBrowsersProxyConfig();
+					
+					resolve({
+						success: true
+					});
+				},
+				(error) => {
+					resolve({
+						success: false,
+						message: error?.message
+					});
+				}
+			);
+		});
+	}
 }
 
 let me = SettingsOperation;
