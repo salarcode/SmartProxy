@@ -294,11 +294,26 @@
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Nu back-up maken"
 	},
+	"settingsGeneralWebDavServerRestoreNow": {
+		"message": "Restore Now"
+	},
+	"settingsGeneralWebDavRestoreNowConfirm": {
+		"message": "This will override your current settings from WebDAV server. This action is not revertable, be cautious. Proceed?"
+	},
+	"settingsGeneralWebDavRestoreNowSuccess": {
+		"message": "WebDAV restore completed successfully!"
+	},
+	"settingsGeneralWebDavRestoreNowFailed": {
+		"message": "WebDAV restore failed:"
+	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
 		"message": "Voer een geldige WebDAV Server-URL in"
 	},
 	"settingsGeneralWebDav_ErrorEmptyFilename": {
 		"message": "Back-up bestandsnaam van de WebDAV-server mag niet leeg zijn"
+	},
+	"settingsGeneralWebDav_ErrorRequiredFields": {
+		"message": "Please fill in all required WebDAV fields."
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
 		"message": "WebDAV-back-up succesvol voltooid!"
