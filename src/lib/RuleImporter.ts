@@ -336,7 +336,7 @@ export const RuleImporter = {
 	}
 };
 
-const externalAppRuleParser = {
+export const externalAppRuleParser = {
 	// -----------------------------------------------
 	/*
 	-----------------------------------------------
