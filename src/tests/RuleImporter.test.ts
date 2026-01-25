@@ -4,12 +4,12 @@ import { CompiledProxyRuleType } from '../core/definitions';
 describe('externalAppRuleParser.GFWList', () => {
   describe('convertLineRegex', () => {
     it('should convert IP address with port correctly', () => {
-      const line = '10.19.29.157:9080';
+      const line = '10.19.29.150:9080';
       const result = externalAppRuleParser.GFWList.convertLineRegex(line);
 
       expect(result).toBeDefined();
-      expect(result.search).toBe('10.19.29.157:9080');
-      expect(result.name).toBe('10.19.29.157:9080');
+      expect(result.search).toBe('10.19.29.150:9080');
+      expect(result.name).toBe('10.19.29.150:9080');
       expect(result.importedRuleType).toBe(CompiledProxyRuleType.SearchDomainAndPath);
       expect(result.regex).toBeUndefined();
     });
@@ -106,12 +106,12 @@ example.net
     });
 
     it('should parse IP address with port in subscription format', () => {
-      const text = '10.19.29.157:9080';
+      const text = '10.19.29.150:9080';
 
       const result = externalAppRuleParser.GFWList.parse(text);
 
       expect(result.blackList).toHaveLength(1);
-      expect(result.blackList[0].search).toBe('10.19.29.157:9080');
+      expect(result.blackList[0].search).toBe('10.19.29.150:9080');
       expect(result.blackList[0].importedRuleType).toBe(CompiledProxyRuleType.SearchDomainAndPath);
     });
   });
@@ -148,7 +148,7 @@ example.com
 
     it('should parse IP address with port', () => {
       const text = `#BEGIN
-10.19.29.157:9080
+10.19.29.150:9080
 #END`;
       const result = externalAppRuleParser.Switchy.parseAndCompile(text);
       expect(result).toBeTruthy();
@@ -208,7 +208,7 @@ http://example.com/*
 
     it('should convert IP address with port to regex rule', () => {
       const text = `#BEGIN
-10.19.29.157:9080
+10.19.29.150:9080
 #END`;
       const result = externalAppRuleParser.Switchy.parseAndCompile(text);
       const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
@@ -217,7 +217,7 @@ http://example.com/*
       expect(rules.length).toBeGreaterThan(0);
       
       const rule = rules[0];
-      expect(rule.name).toBe('10.19.29.157:9080');
+      expect(rule.name).toBe('10.19.29.150:9080');
       expect(rule.regex).toBeTruthy();
       // The regex should match the IP:port pattern
       expect(rule.regex).toContain('10');
@@ -227,11 +227,41 @@ http://example.com/*
       expect(rule.regex).toContain('9080');
     });
 
+    it('should convert IP wildcard pattern to match IP range', () => {
+      const text = `#BEGIN
+10.*.*.*
+#END`;
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+      
+      expect(rules).toBeDefined();
+      expect(rules.length).toBeGreaterThan(0);
+      
+      const rule = rules[0];
+      expect(rule.name).toBe('10.*.*.*');
+      expect(rule.regex).toBeTruthy();
+      expect(rule.importedRuleType).toBe(CompiledProxyRuleType.RegexUrl);
+      // The regex should use .* for wildcards
+      expect(rule.regex).toContain('10\\.');
+      expect(rule.regex).toContain('.*');
+      
+      // Verify it actually matches the specific IP with port
+      const regex = new RegExp(rule.regex);
+      expect(regex.test('http://10.19.29.150:9080/test')).toBe(true);
+      expect(regex.test('https://10.19.29.150:9080')).toBe(true);
+      // Should also match other IPs in 10.*.*.* range
+      expect(regex.test('http://10.0.0.1')).toBe(true);
+      expect(regex.test('http://10.255.255.254:8080')).toBe(true);
+      // Should not match IPs outside the range
+      expect(regex.test('http://192.168.1.1')).toBe(false);
+      expect(regex.test('http://11.0.0.1')).toBe(false);
+    });
+
     it('should handle multiple rules', () => {
       const text = `#BEGIN
 *.example.com
 *.google.com
-10.19.29.157:9080
+10.19.25.150:9080
 #END`;
       const result = externalAppRuleParser.Switchy.parseAndCompile(text);
       const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
