@@ -37,6 +37,7 @@ export class settingsPage {
 	private static currentSettings: SettingsConfig;
 	private static pageSmartProfiles: SettingsPageSmartProfile[] = [];
 	private static debugDiagnosticsRequested = false;
+	private static lastNewRuleType: ProxyRuleType = ProxyRuleType.DomainSubdomain;
 
 	/** Used to track changes and restore when reject changes selected */
 	private static originalSettings: SettingsConfig;
@@ -735,7 +736,7 @@ export class settingsPage {
 		} else {
 
 			modalContainer.find("#chkRuleGeneratePattern").prop('checked', true);
-			modalContainer.find("#cmdRuleType").val(ProxyRuleType.DomainSubdomain);
+			modalContainer.find("#cmdRuleType").val(settingsPage.lastNewRuleType);
 
 			modalContainer.find("#txtRuleSource").val("");
 			modalContainer.find("#txtRuleMatchPattern").val("");
@@ -772,6 +773,8 @@ export class settingsPage {
 		}
 
 		let ruleType = tabContainer.find("#cmdRuleType").val();
+		// Remember the last selected rule type for new rules
+		settingsPage.lastNewRuleType = parseInt(ruleType) || ProxyRuleType.DomainSubdomain;
 
 		if (ruleType == ProxyRuleType.MatchPatternHost ||
 			ruleType == ProxyRuleType.MatchPatternUrl) {
@@ -831,6 +834,12 @@ export class settingsPage {
 		ruleInfo.proxyServerId = selectedProxyId;
 		ruleInfo.enabled = modalContainer.find("#chkRuleEnabled").prop("checked");
 		ruleInfo.whiteList = parseInt(modalContainer.find("#cmdRuleAction").val()) != 0;
+
+		let isEditing: boolean = modalContainer.data("editing") != null;
+		if (!isEditing) {
+			settingsPage.lastNewRuleType = ruleInfo.ruleType;
+		}
+
 		return ruleInfo;
 	}
 
