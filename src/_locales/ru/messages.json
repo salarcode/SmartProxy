@@ -1243,25 +1243,25 @@
 		"message": "Игнорировать правила сбоев"
 	},
 	"settingsRuleCidrIPAddress": {
-		"message": "IP Address"
+		"message": "IP-адрес"
 	},
 	"settingsRuleCidrPrefixLength": {
-		"message": "Prefix Length"
+		"message": "Длина префикса"
 	},
 	"settingsRuleCidrNotationDesc": {
-		"message": "(Please note that this rule will not resolve hostname to IPs.)"
+		"message": "(Обратите внимание, что это правило не преобразует имена узлов в IP-адреса.)"
 	},
 	"settingsRuleCidrIPInvalid": {
-		"message": "Please enter a valid IP address"
+		"message": "Введите правильный IP-адрес"
 	},
 	"settingsRuleCidrPrefixLengthInvalid": {
-		"message": "Please enter a valid prefix length"
+		"message": "Введите правильную длину префикса"
 	},
 	"settingsRuleCidrNotationInvalid": {
-		"message": "CIDR notation '{0}' is not valid"
+		"message": "Запись CIDR «{0}» неправильная"
 	},
 	"settingsRuleCidrNotationInvalidMatch": {
-		"message": "CIDR rule does not match '{0}'"
+		"message": "Правило CIDR не соответствует «{0}»"
 	},
 	"notificationNoNextProxyServer": {
 		"message": "Следующий прокси-сервер отсутствует"
