@@ -814,6 +814,7 @@
 														<option value="3">Url regex</option>
 														<option value="4">Exact Url</option>
 														<option value="5">Search Domain and Subdomain</option>
+														<option value="10">IP CIDR Notation</option>
 													</select>
 												</div>
 												<div class="form-group col-sm-6">
@@ -871,6 +872,21 @@
 														Exact Url</label>
 													<input type="url" id="txtRuleUrlExact" class="form-control" />
 												</div>
+											</div>
+											<div class="row mb-3" id="divRuleCidrNotation" style="display: none;">
+												<div class="form-group col">
+													<label for="txtRuleCidrIPAddress" data-localize="settingsRuleCidrIPAddress"
+														class="form-label">IP Address</label>
+													<input type="text" id="txtRuleCidrIPAddress" class="form-control" pattern="^((?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)){3}|(?:[A-Fa-f0-9]{1,4}(?::[A-Fa-f0-9]{1,4}){1,7}|::(?:[A-Fa-f0-9]{1,4}:){0,6}[A-Fa-f0-9]{1,4}))$" />
+												</div>
+												<div class="form-group col">
+													<label for="txtRuleCidrPrefixLength" data-localize="settingsRuleCidrPrefixLength"
+														class="form-label">Prefix Length</label>
+													<input type="number" min="0" max="128" id="txtRuleCidrPrefixLength" class="form-control" />
+												</div>
+												<span class="form-text text-muted small" data-localize="settingsRuleCidrNotationDesc">
+													(Please note that this rule will not resolve hostname to IPs.)</span>
+												</span>
 											</div>
 											<div class="row">
 												<div class="form-group col-sm-6">

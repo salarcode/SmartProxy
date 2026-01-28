@@ -125,6 +125,16 @@ export class ProxyRules {
 					newCompiled.compiledRuleType = CompiledProxyRuleType.SearchUrl;
 					break;
 
+				case ProxyRuleType.IpCidrNotation:
+					{
+						let regex = Utils.ipCidrNotationToRegExp(rule.rulePattern, rule.rulePattern);
+						if (regex == null)
+							continue;
+						newCompiled.regex = regex;
+						newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
+					}
+					break;
+
 				default:
 					continue;
 			}

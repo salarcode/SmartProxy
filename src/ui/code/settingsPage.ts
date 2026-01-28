@@ -722,6 +722,8 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val(proxyRule.ruleRegex);
 			modalContainer.find("#txtRuleUrlExact").val(proxyRule.ruleExact);
 			modalContainer.find("#chkRuleEnabled").prop('checked', proxyRule.enabled);
+			modalContainer.find("#txtRuleCidrIPAddress").val(proxyRule.ruleSearch);
+			modalContainer.find("#txtRuleCidrPrefixLength").val(proxyRule.rulePattern);
 			cmdRuleAction.val(proxyRule.whiteList ? "1" : "0");
 
 			let proxyServerId = proxyRule.proxyServerId;
@@ -743,6 +745,8 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val("");
 			modalContainer.find("#txtRuleUrlExact").val("");
 			modalContainer.find("#chkRuleEnabled").prop('checked', true);
+			modalContainer.find("#txtRuleCidrIPAddress").val("");
+			modalContainer.find("#txtRuleCidrPrefixLength").val("");
 
 			if (cmdRuleAction.length) {
 				if (pageProfile.smartProfile.profileTypeConfig.defaultRuleActionIsWhitelist == true) {
@@ -776,43 +780,38 @@ export class settingsPage {
 		// Remember the last selected rule type for new rules
 		settingsPage.lastNewRuleType = parseInt(ruleType) || ProxyRuleType.DomainSubdomain;
 
+		tabContainer.find("#divRuleCidrNotation").hide();
+		tabContainer.find("#divRuleMatchPattern").hide();
+		tabContainer.find("#divRuleGeneratePattern").hide();
+		tabContainer.find("#divRuleUrlRegex").hide();
+		tabContainer.find("#divRuleUrlExact").hide();
+
 		if (ruleType == ProxyRuleType.MatchPatternHost ||
 			ruleType == ProxyRuleType.MatchPatternUrl) {
 			tabContainer.find("#divRuleMatchPattern").show();
 			tabContainer.find("#divRuleGeneratePattern").show();
-			tabContainer.find("#divRuleUrlRegex").hide();
-			tabContainer.find("#divRuleUrlExact").hide();
 		}
 		else if (ruleType == ProxyRuleType.RegexHost ||
 			ruleType == ProxyRuleType.RegexUrl) {
-			tabContainer.find("#divRuleMatchPattern").hide();
-			tabContainer.find("#divRuleGeneratePattern").hide();
 			tabContainer.find("#divRuleUrlRegex").show();
-			tabContainer.find("#divRuleUrlExact").hide();
 		} else if (ruleType == ProxyRuleType.DomainSubdomain ||
 			ruleType == ProxyRuleType.DomainExact ||
 			ruleType == ProxyRuleType.DomainAndPath ||
 			ruleType == ProxyRuleType.DomainSubdomainAndPath ||
 			ruleType == ProxyRuleType.SearchUrl) {
-			tabContainer.find("#divRuleMatchPattern").hide();
-			tabContainer.find("#divRuleGeneratePattern").hide();
-			tabContainer.find("#divRuleUrlRegex").hide();
-			tabContainer.find("#divRuleUrlExact").hide();
+		}
+		else if (ruleType == ProxyRuleType.IpCidrNotation) {
+			tabContainer.find("#divRuleCidrNotation").show();
 		}
 		else {
-			tabContainer.find("#divRuleMatchPattern").hide();
-			tabContainer.find("#divRuleGeneratePattern").hide();
-			tabContainer.find("#divRuleUrlRegex").hide();
 			tabContainer.find("#divRuleUrlExact").show();
 		}
 		let whiteList = parseInt(tabContainer.find("#cmdRuleAction").val()) != 0
 		if (whiteList) {
-			tabContainer.find("#divRuleProxyServer").hide();
 			tabContainer.find("#divRuleActionWhitelistDesc").show();
 		}
 		else {
 			tabContainer.find("#divRuleProxyServer").show();
-			tabContainer.find("#divRuleActionWhitelistDesc").hide();
 		}
 	}
 
@@ -834,6 +833,10 @@ export class settingsPage {
 		ruleInfo.proxyServerId = selectedProxyId;
 		ruleInfo.enabled = modalContainer.find("#chkRuleEnabled").prop("checked");
 		ruleInfo.whiteList = parseInt(modalContainer.find("#cmdRuleAction").val()) != 0;
+		if (ruleInfo.ruleType == ProxyRuleType.IpCidrNotation) {
+			ruleInfo.ruleSearch = modalContainer.find("#txtRuleCidrIPAddress").val().trim();
+			ruleInfo.rulePattern = modalContainer.find("#txtRuleCidrPrefixLength").val();
+		}
 
 		let isEditing: boolean = modalContainer.data("editing") != null;
 		if (!isEditing) {
@@ -3171,6 +3174,52 @@ export class settingsPage {
 					// Regex rule '{0}' is not valid
 					messageBox.error(
 						api.i18n.getMessage("settingsRuleRegexInvalid").replace("{0}", ruleInfo.ruleRegex)
+					);
+					return;
+				}
+			}
+			else if (ruleInfo.ruleType == ProxyRuleType.IpCidrNotation) {
+				let ipAddress = ruleInfo.ruleSearch;
+				let prefixLength = ruleInfo.rulePattern;
+				ruleInfo.hostName = hostName || ipAddress;
+
+				try {
+					if (!ipAddress || !modal.find("#txtRuleCidrIPAddress")[0].checkValidity()) {
+						messageBox.error(
+							api.i18n.getMessage("settingsRuleCidrIPInvalid").replace("{0}", ipAddress)
+						);
+						return;
+					}
+					if (!prefixLength || !modal.find("#txtRuleCidrPrefixLength")[0].checkValidity()) {
+						messageBox.error(
+							api.i18n.getMessage("settingsRuleCidrPrefixLengthInvalid").replace("{0}", prefixLength)
+						);
+						return;
+					}
+
+					let regex = Utils.ipCidrNotationToRegExp(ipAddress, prefixLength);
+					if (!regex) {
+						messageBox.error(
+							api.i18n.getMessage("settingsRuleCidrNotationInvalid").replace("{0}", ipAddress + "/" + prefixLength)
+						);
+						return;
+					}
+
+					if (hostName) {
+						let testHost = Utils.normalizeIpForMatching(hostName);
+						if (!regex.test(testHost)) {
+							// CIDR rule does not match the source domain '{0}'
+							messageBox.error(
+								api.i18n.getMessage("settingsRuleCidrNotationInvalidMatch").replace("{0}", hostName)
+							);
+							return;
+						}
+					}
+
+				} catch (error) {
+					// CIDR rule '{0}' is not valid
+					messageBox.error(
+						api.i18n.getMessage("settingsRuleCidrNotationInvalid").replace("{0}", ipAddress + "/" + prefixLength)
 					);
 					return;
 				}

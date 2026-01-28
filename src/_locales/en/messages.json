@@ -1242,6 +1242,27 @@
 	"settings_SmartProfileType_IgnoreFailureRules": {
 		"message": "Ignore Failures Rules"
 	},
+	"settingsRuleCidrIPAddress": {
+		"message": "IP Address"
+	},
+	"settingsRuleCidrPrefixLength": {
+		"message": "Prefix Length"
+	},
+	"settingsRuleCidrNotationDesc": {
+		"message": "(Please note that this rule will not resolve hostname to IPs.)"
+	},
+	"settingsRuleCidrIPInvalid": {
+		"message": "Please enter a valid IP address"
+	},
+	"settingsRuleCidrPrefixLengthInvalid": {
+		"message": "Please enter a valid prefix length"
+	},
+	"settingsRuleCidrNotationInvalid": {
+		"message": "CIDR notation '{0}' is not valid"
+	},
+	"settingsRuleCidrNotationInvalidMatch": {
+		"message": "CIDR rule does not match '{0}'"
+	},
 	"notificationNoNextProxyServer": {
 		"message": "There is no further next proxy server"
 	},

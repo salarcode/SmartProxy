@@ -77,7 +77,8 @@ export enum ProxyRuleType {
 	DomainExact,
 	DomainAndPath,
 	DomainSubdomainAndPath,
-	SearchUrl
+	SearchUrl,
+	IpCidrNotation
 }
 export enum CompiledProxyRuleType {
 	RegexHost,
@@ -638,13 +639,13 @@ export class UIOptions implements Cloneable, Comparable {
 	public rulesSubscriptionsGridRows: number = 10;
 
 	CopyFrom(source: any) {
-		if (source['proxyServersGridRows'] != null) 
+		if (source['proxyServersGridRows'] != null)
 			this.proxyServersGridRows = parseInt(source['proxyServersGridRows']) || 10;
-		if (source['serverSubscriptionsGridRows'] != null) 
+		if (source['serverSubscriptionsGridRows'] != null)
 			this.serverSubscriptionsGridRows = parseInt(source['serverSubscriptionsGridRows']) || 10;
-		if (source['smartRulesGridRows'] != null) 
+		if (source['smartRulesGridRows'] != null)
 			this.smartRulesGridRows = parseInt(source['smartRulesGridRows']) || 10;
-		if (source['rulesSubscriptionsGridRows'] != null) 
+		if (source['rulesSubscriptionsGridRows'] != null)
 			this.rulesSubscriptionsGridRows = parseInt(source['rulesSubscriptionsGridRows']) || 10;
 	}
 
@@ -877,6 +878,13 @@ export class ProxyRule implements Cloneable {
 
 			case ProxyRuleType.Exact:
 				return this.ruleExact;
+
+			case ProxyRuleType.IpCidrNotation:
+				{
+					let ipAddress = this.ruleSearch;
+					let prefixLength = this.rulePattern;
+					return `${ipAddress}/${prefixLength}`;
+				}
 		}
 		return '';
 	}

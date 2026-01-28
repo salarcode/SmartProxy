@@ -200,22 +200,22 @@ export class Utils {
 		// Check IPv4 private/local ranges
 		if (/^\d+\.\d+\.\d+\.\d+$/.test(cleaned)) {
 			const parts = cleaned.split('.').map(Number);
-			
+
 			// 127.0.0.0/8 (loopback)
 			if (parts[0] === 127) return true;
-			
+
 			// 10.0.0.0/8 (private)
 			if (parts[0] === 10) return true;
-			
+
 			// 172.16.0.0/12 (private)
 			if (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) return true;
-			
+
 			// 192.168.0.0/16 (private)
 			if (parts[0] === 192 && parts[1] === 168) return true;
-			
+
 			// 169.254.0.0/16 (link-local)
 			if (parts[0] === 169 && parts[1] === 254) return true;
-			
+
 			// 0.0.0.0/8 (current network)
 			if (parts[0] === 0) return true;
 		}
@@ -224,13 +224,13 @@ export class Utils {
 		if (/:/.test(cleaned)) {
 			// ::1 (loopback)
 			if (/^::1$/.test(cleaned) || /^0*:0*:0*:0*:0*:0*:0*:1$/.test(cleaned)) return true;
-			
+
 			// fe80::/10 (link-local)
 			if (/^fe[89ab][0-9a-f]:/i.test(cleaned)) return true;
-			
+
 			// fc00::/7 (unique local)
 			if (/^f[cd][0-9a-f]{2}:/i.test(cleaned)) return true;
-			
+
 			// ::ffff:0:0/96 (IPv4-mapped IPv6 - check the IPv4 part)
 			const ipv4Mapped = cleaned.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/i);
 			if (ipv4Mapped) {
@@ -462,6 +462,236 @@ export class Utils {
 				+ (port ? "\\:" + escape(port) : "")
 				+ (path ? (path == "*" ? "(?:\\/.*)?" : ("\\/" + escape(path).replace(/\*/g, ".*"))) : "\\/?")
 				+ ")$", ignoreCase ? "i" : undefined);
+		}
+	}
+
+	public static ipCidrNotationToRegExp(ipAddress: string, prefixLengthStr: string): RegExp | null {
+		/*
+			The top-level public method delegates to ipv4CidrToRegExp or ipv6CidrToRegExp.
+			IPv4 regex is precise for fixed/partial/wildcard octets; large partial ranges fall back to a correct generic octet matcher.
+			IPv6 operates on expanded (8-group) addresses. The produced RegExp matches full expanded IPv6 strings (e.g. "2001:0db8:0000:0000:0000:0000:0000:0001") and is case-insensitive. If you want compressed forms to be matched directly, either:
+				expand compressed IPv6 before testing, or
+				add a more complex regexp to accept :: compression (not included here to keep the code maintainable).
+		*/
+
+		// Accept "/24" or "24"
+		const prefixStr = prefixLengthStr ? prefixLengthStr.replace(/^\s*\/\s*/, '') : '';
+		const prefix = Number(prefixStr);
+		if (!Number.isFinite(prefix))
+			return null;
+
+		// strip brackets
+		ipAddress = (ipAddress || '').replace(/^\[|\]$/g, '');
+
+		// Handle IPv4-mapped IPv6 forms (e.g. ::ffff:192.0.2.0/120)
+		if (ipAddress.indexOf(':') >= 0 && ipAddress.indexOf('.') >= 0) {
+			const m = ipAddress.match(/(\d+\.\d+\.\d+\.\d+)$/);
+			if (m) {
+				const ipv4 = m[1];
+				// IPv4 portion occupies last 32 bits of IPv6 address. Adjust prefix if needed.
+				const ipv4Prefix = prefix - 96;
+				if (ipv4Prefix < 0 || ipv4Prefix > 32) return null;
+				return Utils.ipv4CidrToRegExp(ipv4, ipv4Prefix);
+			}
+		}
+
+		// Decide IPv4 vs IPv6 (normal cases)
+		if (Utils.isIPv4String(ipAddress)) {
+			return Utils.ipv4CidrToRegExp(ipAddress, prefix);
+		}
+
+		if (ipAddress.indexOf(':') >= 0) {
+			return Utils.ipv6CidrToRegExp(ipAddress, prefix);
+		}
+
+		return null;
+	}
+
+	private static isIPv4String(ip: string): boolean {
+		if (!ip) return false;
+		return /^\d+\.\d+\.\d+\.\d+$/.test(ip.replace(/^\[|\]$/g, ''));
+	}
+
+	private static ipv4CidrToRegExp(ip: string, prefix: number): RegExp | null {
+		if (prefix < 0 || prefix > 32) return null;
+
+		const octets = ip.split('.').map(s => Number(s));
+		if (octets.length !== 4 || octets.some(o => Number.isNaN(o) || o < 0 || o > 255))
+			return null;
+
+		// Build 32-bit integers for mask and address
+		const maskInt = prefix === 0 ? 0 >>> 0 : ((0xFFFFFFFF << (32 - prefix)) >>> 0);
+		const ipInt =
+			((octets[0] << 24) >>> 0) |
+			((octets[1] << 16) >>> 0) |
+			((octets[2] << 8) >>> 0) |
+			(octets[3] >>> 0);
+
+		const netInt = (ipInt & maskInt) >>> 0;
+
+		const partsRegex: string[] = [];
+
+		for (let i = 0; i < 4; i++) {
+			const shift = 24 - i * 8;
+			const maskOctet = (maskInt >>> shift) & 0xFF;
+			const netOctet = (netInt >>> shift) & 0xFF;
+
+			if (maskOctet === 0xFF) {
+				// fixed octet
+				partsRegex.push(String(netOctet));
+			} else if (maskOctet === 0x00) {
+				// wildcard octet
+				partsRegex.push('(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])');
+			} else {
+				// partial mask -> compute start and end
+				const start = netOctet & maskOctet;
+				const end = start | (~maskOctet & 0xFF);
+				partsRegex.push(Utils.ipv4OctetRangeToRegex(start, end));
+			}
+		}
+
+		try {
+			return new RegExp('^' + partsRegex.join('\\.') + '$');
+		} catch {
+			return null;
+		}
+	}
+
+	private static ipv4OctetRangeToRegex(start: number, end: number): string {
+		if (start === end) return String(start);
+		if (start === 0 && end === 255)
+			return '(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])';
+
+		// small range -> enumerate
+		if (end - start <= 10) {
+			const vals: string[] = [];
+			for (let v = start; v <= end; v++) vals.push(String(v));
+			return `(?:${vals.join('|')})`;
+		}
+
+		// fallback generic octet matcher when range is large
+		return '(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])';
+	}
+
+	public static expandIPv6ToGroups(ipv6: string): string[] | null {
+		// Expand compressed IPv6 into 8 groups of 4 hex digits (lowercase)
+		ipv6 = ipv6.replace(/^\[|\]$/g, '').toLowerCase();
+
+		// Reject IPv4-mapped or dotted-IPv4 mixed forms (caller should avoid these)
+		if (ipv6.includes('.')) return null;
+
+		const parts = ipv6.split('::');
+		if (parts.length > 2) return null;
+
+		const left = parts[0] ? parts[0].split(':').filter(Boolean) : [];
+		const right = parts[1] ? parts[1].split(':').filter(Boolean) : [];
+		const missing = 8 - (left.length + right.length);
+		if (missing < 0) return null;
+
+		const full: string[] = [];
+		for (const p of left) full.push(p.padStart(4, '0'));
+		for (let i = 0; i < missing; i++) full.push('0000');
+		for (const p of right) full.push(p.padStart(4, '0'));
+
+		if (full.length !== 8) return null;
+		return full;
+	}
+
+	/**
+	 * Normalize a host string for IP matching.
+	 * - strips surrounding brackets
+	 * - removes numeric port suffixes
+	 * - extracts IPv4 tail from IPv4-mapped IPv6 (::ffff:192.0.2.1)
+	 * - expands compressed IPv6 into full 8-group lowercase form
+	 * Returns normalized IPv4 (dotted) or expanded IPv6 (8 groups) or null if cannot normalize.
+	 */
+	public static normalizeIpForMatching(host: string): string | null {
+		if (!host) return null;
+		let h = host.trim();
+
+		// remove surrounding brackets if any
+		h = h.replace(/^\[|\]$/g, '');
+
+		// If there's an IPv4 tail (possibly with a port), extract it: ::ffff:192.0.2.1 or 192.0.2.1:8080
+		const ipv4Tail = h.match(/(\d+\.\d+\.\d+\.\d+)(?::\d+)?$/);
+		if (ipv4Tail) {
+			return ipv4Tail[1];
+		}
+
+		// Remove trailing :port for IPv6 hosts that lost brackets earlier (e.g. ::1:8080)
+		if (/:\d+$/.test(h)) {
+			// Only strip if it looks like a port (all digits) and the rest contains ':' (likely IPv6)
+			const withoutPort = h.replace(/:\d+$/, '');
+			if (withoutPort.indexOf(':') >= 0) {
+				h = withoutPort;
+			}
+		}
+
+		// If it looks like IPv6, try to expand
+		if (h.indexOf(':') >= 0) {
+			const groups = Utils.expandIPv6ToGroups(h);
+			if (groups) return groups.join(':');
+			// fallback: return the raw host (without brackets/port)
+			return h;
+		}
+
+		// Otherwise return as-is (likely IPv4)
+		return h;
+	}
+
+	private static ipv6CidrToRegExp(ipv6: string, prefix: number): RegExp | null {
+		if (prefix < 0 || prefix > 128) return null;
+
+		const groups = Utils.expandIPv6ToGroups(ipv6);
+		if (!groups) return null;
+
+		// mask groups: each group 16 bits
+		const maskGroups: number[] = new Array(8).fill(0);
+		let remaining = prefix;
+		for (let i = 0; i < 8; i++) {
+			const bits = Math.max(0, Math.min(16, remaining));
+			maskGroups[i] = bits === 0 ? 0 : ((0xFFFF << (16 - bits)) & 0xFFFF) >>> 0;
+			remaining -= bits;
+		}
+
+		const groupInts = groups.map(g => parseInt(g, 16) & 0xFFFF);
+		const netGroups = groupInts.map((g, i) => g & maskGroups[i]);
+
+		const groupRegex: string[] = [];
+
+		for (let i = 0; i < 8; i++) {
+			const mg = maskGroups[i];
+			const ng = netGroups[i];
+
+			if (mg === 0xFFFF) {
+				// fully fixed group -> exact hex, allow 0-padding up to 4 chars
+				const hex = ng.toString(16);
+				groupRegex.push(`(?:0{0,${4 - hex.length}}${hex})`);
+			} else if (mg === 0x0000) {
+				// fully wildcard group
+				groupRegex.push('[0-9a-fA-F]{1,4}');
+			} else {
+				// partial group: compute start/end
+				const start = ng;
+				const end = ng | (~mg & 0xFFFF);
+
+				// small ranges -> enumerate
+				if (end - start <= 10) {
+					const vals: string[] = [];
+					for (let v = start; v <= end; v++) vals.push(v.toString(16));
+					groupRegex.push(`(?:${vals.join('|')})`);
+				} else {
+					// fallback: permissive group matcher
+					groupRegex.push('[0-9a-fA-F]{1,4}');
+				}
+			}
+		}
+
+		try {
+			// Matches full expanded IPv6 form (8 groups). Case-insensitive.
+			return new RegExp('^' + groupRegex.join(':') + '$', 'i');
+		} catch {
+			return null;
 		}
 	}
 
