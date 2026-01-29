@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "Tastenkürzel ansehen"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Tastenkürzel-Benachrichtigung aktivieren"
 	},
