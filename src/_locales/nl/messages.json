@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "Bekijk sneltoetsen"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Sneltoetsmelding inschakelen"
 	},
