@@ -1242,6 +1242,27 @@
 	"settings_SmartProfileType_IgnoreFailureRules": {
 		"message": "Игнорировать правила сбоев"
 	},
+	"settingsRuleCidrIPAddress": {
+		"message": "IP-адрес"
+	},
+	"settingsRuleCidrPrefixLength": {
+		"message": "Длина префикса"
+	},
+	"settingsRuleCidrNotationDesc": {
+		"message": "(Обратите внимание, что это правило не преобразует имена узлов в IP-адреса.)"
+	},
+	"settingsRuleCidrIPInvalid": {
+		"message": "Введите правильный IP-адрес"
+	},
+	"settingsRuleCidrPrefixLengthInvalid": {
+		"message": "Введите правильную длину префикса"
+	},
+	"settingsRuleCidrNotationInvalid": {
+		"message": "Запись CIDR «{0}» неправильная"
+	},
+	"settingsRuleCidrNotationInvalidMatch": {
+		"message": "Правило CIDR не соответствует «{0}»"
+	},
 	"notificationNoNextProxyServer": {
 		"message": "Следующий прокси-сервер отсутствует"
 	},
