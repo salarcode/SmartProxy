@@ -417,6 +417,19 @@ export class PolyFill {
 		}
 	}
 
+	public static openShortcutSettings(success?: Function, fail?: Function) {
+		if (environment.chrome) {
+			// Chrome: open the extensions shortcuts page
+			PolyFill.tabsCreate({ url: "chrome://extensions/shortcuts" }, success, fail);
+		} else {
+			if (api.commands && api.commands.openShortcutSettings) {
+				api.commands.openShortcutSettings().then(success, fail);
+			} else {
+				if (fail) fail({ message: "openShortcutSettings is not available" });
+			}
+		}
+	}
+
 	public static extensionGetURL(path: string) {
 		if (environment.chrome) {
 

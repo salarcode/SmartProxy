@@ -190,6 +190,7 @@ export class settingsPage {
 		jq("#btnIgnoreRequestFailuresForDomains").click(settingsPage.uiEvents.onClickIgnoreRequestFailuresForDomains);
 
 		jq("#btnViewShortcuts").click(settingsPage.uiEvents.onClickViewShortcuts);
+		jq("#btnConfigureShortcuts,#btnConfigureShortcutsModal").click(settingsPage.uiEvents.onClickConfigureShortcuts);
 
 		jq("#cmbThemesLight").change(settingsPage.uiEvents.onChangeThemesLight);
 
@@ -2511,6 +2512,10 @@ export class settingsPage {
 
 				modal.modal("show");
 			});
+			return false;
+		},
+		onClickConfigureShortcuts() {
+			PolyFill.openShortcutSettings();
 			return false;
 		},
 		onChangeThemesLight() {
