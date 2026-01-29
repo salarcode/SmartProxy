@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "Visualizza scorciatoie"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Abilita notifica scorciatoia"
 	},
