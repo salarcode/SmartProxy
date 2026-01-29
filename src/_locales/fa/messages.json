@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "مشاهده میانبر های صفحه کلید"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "اطلاع رسانی استفاده شدن از کلید میانبر ها فعال باشد"
 	},
