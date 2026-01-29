@@ -38,7 +38,7 @@ import {
 	CompiledProxyRulesMatchedSource,
 	SmartProfile,
 	PartialThemeDataType,
-	TabProxyStatus,
+	TabProxyStatus
 } from './definitions';
 import { KeyboardShortcuts } from './KeyboardShortcuts';
 import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
@@ -46,6 +46,7 @@ import { ProfileOperations } from './ProfileOperations';
 import { ProfileRules } from './ProfileRules';
 import { Icons } from './Icons';
 import { CountryCode } from '../lib/CountryCode';
+import { ActionIcon } from './ActionIcon';
 
 const subscriptionUpdaterLib = SubscriptionUpdater;
 const proxyEngineLib = ProxyEngine;
@@ -120,6 +121,9 @@ export class Core {
 
 		// listen to shortcut events
 		KeyboardShortcuts.startMonitor();
+
+		// listen to shortcut events
+		ActionIcon.startMonitor();
 	}
 
 	public static initializeFromServiceWorker() {

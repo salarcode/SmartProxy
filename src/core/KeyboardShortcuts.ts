@@ -13,43 +13,50 @@ export class KeyboardShortcuts {
             api.commands.onCommand.addListener(KeyboardShortcuts.handleCommand);
     }
 
+    public static CycleToNextProxyServer() {
+        let nextResult = Core.CycleToNextProxyServer();
+        if (nextResult.success) {
+            KeyboardShortcuts.displayShortcutNotification(
+                api.i18n.getMessage("notificationShortcutProxyServerChanged").replace("{0}", nextResult.value.name),
+                "cycle-proxy-server",
+                PolyFill.extensionGetURL("icons/smartproxy-48.png"));
+        }
+        else {
+            KeyboardShortcuts.displayShortcutNotification(
+                nextResult.message,
+                "cycle-proxy-server",
+                null);
+        }
+    }
+
+    public static CycleToPreviousProxyServer() {
+
+        let previousResult = Core.CycleToPreviousProxyServer();
+        if (previousResult.success) {
+            KeyboardShortcuts.displayShortcutNotification(
+                api.i18n.getMessage("notificationShortcutProxyServerChanged").replace("{0}", previousResult.value.name),
+                "cycle-proxy-server",
+                PolyFill.extensionGetURL("icons/smartproxy-48.png"));
+        }
+        else {
+            KeyboardShortcuts.displayShortcutNotification(
+                previousResult.message,
+                "cycle-proxy-server",
+                null);
+        }
+    }
+
     private static handleCommand(command: string) {
         if (!Settings.current.options.enableShortcuts)
             return;
 
         switch (command) {
             case ShortcutCommands.NextProxyServer:
-
-                let nextResult = Core.CycleToNextProxyServer();
-                if (nextResult.success) {
-                    KeyboardShortcuts.displayShortcutNotification(
-                        api.i18n.getMessage("notificationShortcutProxyServerChanged").replace("{0}", nextResult.value.name),
-                        "cycle-proxy-server",
-                        PolyFill.extensionGetURL("icons/smartproxy-48.png"));
-                }
-                else {
-                    KeyboardShortcuts.displayShortcutNotification(
-                        nextResult.message,
-                        "cycle-proxy-server",
-                        null);
-                }
+                KeyboardShortcuts.CycleToNextProxyServer();
                 break;
 
             case ShortcutCommands.PreviousProxyServer:
-
-                let previousResult = Core.CycleToPreviousProxyServer();
-                if (previousResult.success) {
-                    KeyboardShortcuts.displayShortcutNotification(
-                        api.i18n.getMessage("notificationShortcutProxyServerChanged").replace("{0}", previousResult.value.name),
-                        "cycle-proxy-server",
-                        PolyFill.extensionGetURL("icons/smartproxy-48.png"));
-                }
-                else {
-                    KeyboardShortcuts.displayShortcutNotification(
-                        previousResult.message,
-                        "cycle-proxy-server",
-                        null);
-                }
+                KeyboardShortcuts.CycleToPreviousProxyServer();
                 break;
 
             case ShortcutCommands.BuiltinProfileNone:
@@ -115,7 +122,7 @@ export class KeyboardShortcuts {
 
     }
 
-    private static displayShortcutNotification(message: string, id: string, iconUrl?: string) {
+    public static displayShortcutNotification(message: string, id: string, iconUrl?: string) {
         if (!Settings.current.options.shortcutNotification)
             return;
 
