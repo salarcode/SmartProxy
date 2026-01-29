@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "查看快捷键"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "按快捷键时显示通知"
 	},
