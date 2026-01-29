@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "Voir les raccourcis"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Activer la notification de raccourci"
 	},
