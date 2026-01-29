@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "Wyświetl skróty"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Włącz powiadomienia o skrótach"
 	},
