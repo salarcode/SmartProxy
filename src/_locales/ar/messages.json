@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "عرض الاختصارات"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "تمكين إشعارات الاختصارات"
 	},
