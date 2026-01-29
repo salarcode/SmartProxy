@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "Lihat pintasan"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Aktifkan notifikasi pintasan"
 	},
