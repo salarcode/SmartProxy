@@ -14,7 +14,22 @@ export class CountryCode {
 
 	public static onInitialized: Function = null;
 
-	static async initialize() {
+	public static async ensureInitialized(onInitialized: Function = null) {
+		if (isInitialized) {
+			if (onInitialized) {
+				onInitialized();
+			}
+			return;
+		}
+
+		await CountryCode.initialize();
+
+		if (onInitialized) {
+			onInitialized();
+		}
+	}
+
+	public static async initialize() {
 		if (isInitialized) {
 			return;
 		}
@@ -55,12 +70,12 @@ export class CountryCode {
 		}
 	}
 
-	static unload() {
+	public static unload() {
 		ipDatabase = [];
 		isInitialized = false;
 	}
 
-	static ipToNumber(ip: string): number {
+	public static ipToNumber(ip: string): number {
 		const parts = ip.split('.');
 		return (
 			(parseInt(parts[0], 10) << 24) +
@@ -70,7 +85,7 @@ export class CountryCode {
 		) >>> 0; // Convert to unsigned 32-bit integer
 	}
 
-	static getRecords(ips: string[]) {
+	public static getRecords(ips: string[]) {
 		try {
 			if (!isInitialized || ipDatabase.length === 0) {
 				console.warn('IP2Location database not initialized');
@@ -98,7 +113,7 @@ export class CountryCode {
 		}
 	}
 
-	static getRecord(ip: string) {
+	public static getRecord(ip: string) {
 		try {
 			if (!isInitialized || ipDatabase.length === 0) {
 				//console.warn('IP2Location database not initialized');
@@ -139,7 +154,7 @@ export class CountryCode {
 		}
 	}
 
-	static getCountryFlagEmoji(countryCode: string): string {
+	public static getCountryFlagEmoji(countryCode: string): string {
 		if (!countryCode) return '';
 
 		if (countryCode === 'LOCAL') {

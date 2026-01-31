@@ -45,7 +45,6 @@ import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
 import { ProfileOperations } from './ProfileOperations';
 import { ProfileRules } from './ProfileRules';
 import { Icons } from './Icons';
-import { CountryCode } from '../lib/CountryCode';
 
 const subscriptionUpdaterLib = SubscriptionUpdater;
 const proxyEngineLib = ProxyEngine;
@@ -71,10 +70,6 @@ export class Core {
 			// register the proxy when config is ready
 			proxyEngineLib.registerEngine();
 
-			// read the country database file on startup
-			CountryCode.onInitialized = onCountryCodeInitialized;
-			CountryCode.initialize();
-
 			// set the title
 			Core.setBrowserActionStatus();
 
@@ -85,17 +80,14 @@ export class Core {
 			subscriptionUpdaterLib.setRulesSubscriptionsRefreshTimers();
 			subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
 
+			subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode();
+
 			// check for updates, in all browsers
 			UpdateManager.readUpdateInfo();
 
 			DiagDebug?.trace("Core.settingReadComplete end");
 
 			Core.dumpDiagnosticsInfo();
-		};
-
-		const onCountryCodeInitialized = async () => {
-			// Update country codes after database is loaded
-			await subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode();
 		};
 
 		settingsLib.onInitializedLocally = settingReadComplete;

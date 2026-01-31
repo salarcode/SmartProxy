@@ -443,6 +443,7 @@ export class SubscriptionUpdater {
 		let updated = false;
 
 		try {
+			let proxiesToUpdate: any[] = [];
 			for (const proxy of proxies) {
 				// Skip if already has country code or no host
 				if (proxy.countryCode || !proxy.host) continue;
@@ -476,18 +477,29 @@ export class SubscriptionUpdater {
 					continue;
 				}
 
-				// Get country code from IP
-				const countryInfo = CountryCode.getRecord(ipAddress);
-				if (countryInfo?.isoCode) {
-					proxy.countryCode = countryInfo.isoCode;
-					updated = true;
-				}
+				proxiesToUpdate.push({
+					proxy,
+					ipAddress
+				});
 			}
 
-			// Save if any proxy was updated
-			if (updated && save) {
-				SettingsOperation.saveProxyServerSubscriptions();
-				SettingsOperation.saveAllSync(false);
+			if (proxiesToUpdate.length > 0) {
+				CountryCode.ensureInitialized(() => {
+					for (const item of proxiesToUpdate) {
+						// Get country code from IP
+						const countryInfo = CountryCode.getRecord(item.ipAddress);
+						if (countryInfo?.isoCode) {
+							item.proxy.countryCode = countryInfo.isoCode;
+							updated = true;
+						}
+					}
+
+					// Save if any proxy was updated
+					if (updated && save) {
+						SettingsOperation.saveProxyServerSubscriptions();
+						SettingsOperation.saveAllSync(false);
+					}
+				})
 			}
 		} catch (error) {
 			Debug.warn("Failed to update subscription servers country code", error);
