@@ -843,6 +843,9 @@
 	"settingsRulesRegex": {
 		"message": "URL 正則表達式"
 	},
+	"settingsRulesHostRegex": {
+		"message": "Host Regex"
+	},
 	"settingsRulesExactUrl": {
 		"message": "精確的 URL"
 	},
