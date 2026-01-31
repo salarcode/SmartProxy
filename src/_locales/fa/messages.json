@@ -843,6 +843,9 @@
 	"settingsRulesRegex": {
 		"message": "RegEx برای Url"
 	},
+	"settingsRulesHostRegex": {
+		"message": "Host Regex"
+	},
 	"settingsRulesExactUrl": {
 		"message": "دقیقا خود Url"
 	},
