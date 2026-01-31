@@ -843,6 +843,9 @@
 	"settingsRulesRegex": {
 		"message": "Regex للرابط"
 	},
+	"settingsRulesHostRegex": {
+		"message": "Host Regex"
+	},
 	"settingsRulesExactUrl": {
 		"message": "رابط دقيق (بأحرف صغيرة)"
 	},
