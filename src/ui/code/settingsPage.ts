@@ -708,8 +708,10 @@ export class settingsPage {
 		if (environment.chrome) {
 			dontIncludeAuthServers = true;
 
-			modalContainer.find("#cmdRuleType")
-				.find(`option[value=${ProxyRuleType.MatchPatternUrl}],option[value=${ProxyRuleType.RegexUrl}],option[value=${ProxyRuleType.Exact}]`)
+			let cmdRuleType = modalContainer.find("#cmdRuleType");
+			cmdRuleType.find(`optgroup[label=Url]`)
+				.remove();
+			cmdRuleType.find(`option[value=${ProxyRuleType.MatchPatternUrl}],option[value=${ProxyRuleType.RegexUrl}],option[value=${ProxyRuleType.Exact}]`)
 				.remove();
 		}
 
@@ -792,10 +794,17 @@ export class settingsPage {
 			tabContainer.find("#divRuleMatchPattern").show();
 			tabContainer.find("#divRuleGeneratePattern").show();
 		}
-		else if (ruleType == ProxyRuleType.RegexHost ||
-			ruleType == ProxyRuleType.RegexUrl) {
-			tabContainer.find("#divRuleUrlRegex").show();
-		} else if (ruleType == ProxyRuleType.DomainSubdomain ||
+		else if (ruleType == ProxyRuleType.RegexHost) {
+			tabContainer.find("#divRuleUrlRegex")
+				.show()
+				.find('label').text(api.i18n.getMessage("settingsRulesHostRegex"));
+		}
+		else if (ruleType == ProxyRuleType.RegexUrl) {
+			tabContainer.find("#divRuleUrlRegex")
+				.show()
+				.find('label').text(api.i18n.getMessage("settingsRulesRegex"));
+		}
+		else if (ruleType == ProxyRuleType.DomainSubdomain ||
 			ruleType == ProxyRuleType.DomainExact ||
 			ruleType == ProxyRuleType.DomainAndPath ||
 			ruleType == ProxyRuleType.DomainSubdomainAndPath ||

@@ -843,6 +843,9 @@
 	"settingsRulesRegex": {
 		"message": "Url Regex"
 	},
+	"settingsRulesHostRegex": {
+		"message": "Host Regex"
+	},
 	"settingsRulesExactUrl": {
 		"message": "Exact Url (in lowercase)"
 	},
