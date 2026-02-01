@@ -844,7 +844,7 @@
 		"message": "URL Regex"
 	},
 	"settingsRulesHostRegex": {
-		"message": "Host Regex"
+		"message": "Regex хоста"
 	},
 	"settingsRulesExactUrl": {
 		"message": "Точный URL-адрес"
@@ -1255,7 +1255,7 @@
 		"message": "Длина префикса"
 	},
 	"settingsRuleCidrNotationDesc": {
-		"message": "(Обратите внимание, что это правило не преобразует имена узлов в IP-адреса.)"
+		"message": "(Обратите внимание, что это правило не преобразует имена хостов в IP-адреса.)"
 	},
 	"settingsRuleCidrIPInvalid": {
 		"message": "Введите правильный IP-адрес"
