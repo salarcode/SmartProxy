@@ -295,7 +295,7 @@
 		"message": "نسخ احتياطي الآن"
 	},
 	"settingsGeneralWebDavServerRestoreNow": {
-		"message": "Restore Now"
+		"message": "استعادة الآن"
 	},
 	"settingsGeneralWebDavRestoreNowConfirm": {
 		"message": "This will override your current settings from WebDAV server. This action is not revertable, be cautious. Proceed?"
@@ -388,7 +388,7 @@
 		"message": "عرض الاختصارات"
 	},
 	"settingsGeneralConfigureShortcuts": {
-		"message": "Configure shortcuts"
+		"message": "تكوين الاختصارات"
 	},
 	"settingsGeneralShortcutNotification": {
 		"message": "تمكين إشعارات الاختصارات"
@@ -844,7 +844,7 @@
 		"message": "Regex للرابط"
 	},
 	"settingsRulesHostRegex": {
-		"message": "Host Regex"
+		"message": "مضيف Regex"
 	},
 	"settingsRulesExactUrl": {
 		"message": "رابط دقيق (بأحرف صغيرة)"
@@ -1249,13 +1249,13 @@
 		"message": "قواعد تجاهل الفشل"
 	},
 	"settingsRuleCidrIPAddress": {
-		"message": "IP Address"
+		"message": "عنوان IP"
 	},
 	"settingsRuleCidrPrefixLength": {
-		"message": "Prefix Length"
+		"message": "طول البادئة"
 	},
 	"settingsRuleCidrNotationDesc": {
-		"message": "(Please note that this rule will not resolve hostname to IPs.)"
+		"message": "(يرجى ملاحظة أن هذه القاعدة لن تقوم بتحويل اسم المضيف إلى عناوين IP.)"
 	},
 	"settingsRuleCidrIPInvalid": {
 		"message": "Please enter a valid IP address"
