@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "查看快捷鍵"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "啓用快鍵鍵提示"
 	},
@@ -840,6 +843,9 @@
 	"settingsRulesRegex": {
 		"message": "URL 正則表達式"
 	},
+	"settingsRulesHostRegex": {
+		"message": "Host Regex"
+	},
 	"settingsRulesExactUrl": {
 		"message": "精確的 URL"
 	},
@@ -1241,6 +1247,27 @@
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
 		"message": "忽略失敗規則"
+	},
+	"settingsRuleCidrIPAddress": {
+		"message": "IP Address"
+	},
+	"settingsRuleCidrPrefixLength": {
+		"message": "Prefix Length"
+	},
+	"settingsRuleCidrNotationDesc": {
+		"message": "(Please note that this rule will not resolve hostname to IPs.)"
+	},
+	"settingsRuleCidrIPInvalid": {
+		"message": "Please enter a valid IP address"
+	},
+	"settingsRuleCidrPrefixLengthInvalid": {
+		"message": "Please enter a valid prefix length"
+	},
+	"settingsRuleCidrNotationInvalid": {
+		"message": "CIDR notation '{0}' is not valid"
+	},
+	"settingsRuleCidrNotationInvalidMatch": {
+		"message": "CIDR rule does not match '{0}'"
 	},
 	"notificationNoNextProxyServer": {
 		"message": "沒有下一個代理服務器"

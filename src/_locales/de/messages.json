@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "Tastenkürzel ansehen"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Tastenkürzel-Benachrichtigung aktivieren"
 	},
@@ -840,6 +843,9 @@
 	"settingsRulesRegex": {
 		"message": "URL-Regex"
 	},
+	"settingsRulesHostRegex": {
+		"message": "Host Regex"
+	},
 	"settingsRulesExactUrl": {
 		"message": "Exakte URL (in Kleinbuchstaben)"
 	},
@@ -1241,6 +1247,27 @@
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
 		"message": "Regeln zum Fehlerignorieren"
+	},
+	"settingsRuleCidrIPAddress": {
+		"message": "IP Address"
+	},
+	"settingsRuleCidrPrefixLength": {
+		"message": "Prefix Length"
+	},
+	"settingsRuleCidrNotationDesc": {
+		"message": "(Please note that this rule will not resolve hostname to IPs.)"
+	},
+	"settingsRuleCidrIPInvalid": {
+		"message": "Please enter a valid IP address"
+	},
+	"settingsRuleCidrPrefixLengthInvalid": {
+		"message": "Please enter a valid prefix length"
+	},
+	"settingsRuleCidrNotationInvalid": {
+		"message": "CIDR notation '{0}' is not valid"
+	},
+	"settingsRuleCidrNotationInvalidMatch": {
+		"message": "CIDR rule does not match '{0}'"
 	},
 	"notificationNoNextProxyServer": {
 		"message": "Es gibt keinen weiteren Proxy-Server"

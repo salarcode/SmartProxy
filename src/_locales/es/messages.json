@@ -387,6 +387,9 @@
 	"settingsGeneralViewShortcuts": {
 		"message": "Ver atajos"
 	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "Configure shortcuts"
+	},
 	"settingsGeneralShortcutNotification": {
 		"message": "Habilitar notificaciones de atajos"
 	},
@@ -840,6 +843,9 @@
 	"settingsRulesRegex": {
 		"message": "Regex de URL"
 	},
+	"settingsRulesHostRegex": {
+		"message": "Host Regex"
+	},
 	"settingsRulesExactUrl": {
 		"message": "Exact Url"
 	},
@@ -1241,6 +1247,27 @@
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
 		"message": "Reglas para ignorar fallos"
+	},
+	"settingsRuleCidrIPAddress": {
+		"message": "IP Address"
+	},
+	"settingsRuleCidrPrefixLength": {
+		"message": "Prefix Length"
+	},
+	"settingsRuleCidrNotationDesc": {
+		"message": "(Please note that this rule will not resolve hostname to IPs.)"
+	},
+	"settingsRuleCidrIPInvalid": {
+		"message": "Please enter a valid IP address"
+	},
+	"settingsRuleCidrPrefixLengthInvalid": {
+		"message": "Please enter a valid prefix length"
+	},
+	"settingsRuleCidrNotationInvalid": {
+		"message": "CIDR notation '{0}' is not valid"
+	},
+	"settingsRuleCidrNotationInvalidMatch": {
+		"message": "CIDR rule does not match '{0}'"
 	},
 	"notificationNoNextProxyServer": {
 		"message": "No hay un siguiente servidor proxy"

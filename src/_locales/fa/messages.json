@@ -295,16 +295,16 @@
 		"message": "الان یه پشتیبان بگیر"
 	},
 	"settingsGeneralWebDavServerRestoreNow": {
-		"message": "Restore Now"
+		"message": "بازیابی"
 	},
 	"settingsGeneralWebDavRestoreNowConfirm": {
-		"message": "This will override your current settings from WebDAV server. This action is not revertable, be cautious. Proceed?"
+		"message": "این کار تنظیمات فعلی شما را با تنظیمات دریافت‌شده از سرور WebDAV جایگزین می‌کند. این اقدام قابل بازگشت نیست؛ لطفاً با احتیاط ادامه دهید. آیا مایل به ادامه هستید؟"
 	},
 	"settingsGeneralWebDavRestoreNowSuccess": {
-		"message": "WebDAV restore completed successfully!"
+		"message": "بازیابی از WebDAV با موفقیت انجام شد!"
 	},
 	"settingsGeneralWebDavRestoreNowFailed": {
-		"message": "WebDAV restore failed:"
+		"message": "بازیابی از WebDAV ناموفق بود:"
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
 		"message": "لطفا آدرس معتبر سرور WebDAV وارد کنید"
@@ -313,7 +313,7 @@
 		"message": "نام فایل پشتیبان سرور WebDAV نمی تواند خالی باشد"
 	},
 	"settingsGeneralWebDav_ErrorRequiredFields": {
-		"message": "Please fill in all required WebDAV fields."
+		"message": "لطفاً تمام فیلدهای الزامی WebDAV را تکمیل کنید."
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
 		"message": "پشتیبان گیری WebDAV با موفقیت تکمیل شد!"
@@ -386,6 +386,9 @@
 	},
 	"settingsGeneralViewShortcuts": {
 		"message": "مشاهده میانبر های صفحه کلید"
+	},
+	"settingsGeneralConfigureShortcuts": {
+		"message": "پیکربندی میان‌برها"
 	},
 	"settingsGeneralShortcutNotification": {
 		"message": "اطلاع رسانی استفاده شدن از کلید میانبر ها فعال باشد"
@@ -840,6 +843,9 @@
 	"settingsRulesRegex": {
 		"message": "RegEx برای Url"
 	},
+	"settingsRulesHostRegex": {
+		"message": "Regex برای هاست"
+	},
 	"settingsRulesExactUrl": {
 		"message": "دقیقا خود Url"
 	},
@@ -1241,6 +1247,27 @@
 	},
 	"settings_SmartProfileType_IgnoreFailureRules": {
 		"message": "قوانین نادیده گرفتن خطاها"
+	},
+	"settingsRuleCidrIPAddress": {
+		"message": "آدرس IP"
+	},
+	"settingsRuleCidrPrefixLength": {
+		"message": "طول Prefix"
+	},
+	"settingsRuleCidrNotationDesc": {
+		"message": "(توجه داشته باشید که این قانون نام میزبان را به آدرس‌های IP بازیابی نمی‌کند.)"
+	},
+	"settingsRuleCidrIPInvalid": {
+		"message": "لطفاً یک آدرس IP معتبر وارد کنید"
+	},
+	"settingsRuleCidrPrefixLengthInvalid": {
+		"message": "لطفاً یک طول پیشوند (Prefix) معتبر وارد کنید."
+	},
+	"settingsRuleCidrNotationInvalid": {
+		"message": "آدرس CIDR '{0}' معتبر نیست."
+	},
+	"settingsRuleCidrNotationInvalidMatch": {
+		"message": "قانون CIDR با '{0}' مطابقت ندارد."
 	},
 	"notificationNoNextProxyServer": {
 		"message": "به انتهای لیست پراکسی سرور ها رسیدید"
