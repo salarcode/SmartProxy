@@ -295,16 +295,16 @@
 		"message": "立即备份"
 	},
 	"settingsGeneralWebDavServerRestoreNow": {
-		"message": "Restore Now"
+		"message": "立即恢复"
 	},
 	"settingsGeneralWebDavRestoreNowConfirm": {
-		"message": "This will override your current settings from WebDAV server. This action is not revertable, be cautious. Proceed?"
+		"message": "这将覆盖您当前来自 WebDAV 服务器的设置。此操作不可撤销，请谨慎操作。是否继续？"
 	},
 	"settingsGeneralWebDavRestoreNowSuccess": {
-		"message": "WebDAV restore completed successfully!"
+		"message": "WebDAV 恢复已成功完成！"
 	},
 	"settingsGeneralWebDavRestoreNowFailed": {
-		"message": "WebDAV restore failed:"
+		"message": "WebDAV 恢复失败："
 	},
 	"settingsGeneralWebDav_ErrorValidUrl": {
 		"message": "请输入一个有效的 WebDAV 服务器 URL"
@@ -313,7 +313,7 @@
 		"message": "WebDAV 服务器备份文件名不能为空"
 	},
 	"settingsGeneralWebDav_ErrorRequiredFields": {
-		"message": "Please fill in all required WebDAV fields."
+		"message": "请填写所有必需的 WebDAV 字段。"
 	},
 	"settingsGeneralWebDavBackupNowSuccess": {
 		"message": "WebDav 备份成功完成！"
@@ -388,7 +388,7 @@
 		"message": "查看快捷键"
 	},
 	"settingsGeneralConfigureShortcuts": {
-		"message": "Configure shortcuts"
+		"message": "配置快捷键"
 	},
 	"settingsGeneralShortcutNotification": {
 		"message": "按快捷键时显示通知"
@@ -844,7 +844,7 @@
 		"message": "URL 正则表达式"
 	},
 	"settingsRulesHostRegex": {
-		"message": "Host Regex"
+		"message": "主机名正则表达式"
 	},
 	"settingsRulesExactUrl": {
 		"message": "精确的 URL"
@@ -1249,25 +1249,25 @@
 		"message": "忽略加载失败的规则"
 	},
 	"settingsRuleCidrIPAddress": {
-		"message": "IP Address"
+		"message": "IP 地址"
 	},
 	"settingsRuleCidrPrefixLength": {
-		"message": "Prefix Length"
+		"message": "前缀长度"
 	},
 	"settingsRuleCidrNotationDesc": {
-		"message": "(Please note that this rule will not resolve hostname to IPs.)"
+		"message": "（请注意，此规则不会将主机名解析为 IP 地址。）"
 	},
 	"settingsRuleCidrIPInvalid": {
-		"message": "Please enter a valid IP address"
+		"message": "请输入有效的 IP 地址"
 	},
 	"settingsRuleCidrPrefixLengthInvalid": {
-		"message": "Please enter a valid prefix length"
+		"message": "请输入有效的前缀长度"
 	},
 	"settingsRuleCidrNotationInvalid": {
-		"message": "CIDR notation '{0}' is not valid"
+		"message": "CIDR 表示法 “{0}” 无效"
 	},
 	"settingsRuleCidrNotationInvalidMatch": {
-		"message": "CIDR rule does not match '{0}'"
+		"message": "CIDR 规则与 “{0}” 不匹配"
 	},
 	"notificationNoNextProxyServer": {
 		"message": "没有下一个代理服务器"
