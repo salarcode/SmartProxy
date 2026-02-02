@@ -1,7 +1,7 @@
 {
 	"latestVersion": {
-		"version": "1.7.1",
-		"versionName": "1.7.1",
+		"version": "2.0",
+		"versionName": "2.0",
 		"downloadPage": "https://github.com/salarcode/SmartProxy/releases"
 	},
 	"browsers": {
@@ -14,8 +14,8 @@
 		},
 		"Firefox": {
 			"latestVersion": {
-				"version": "1.7.1",
-				"versionName": "1.7.1",
+				"version": "2.0",
+				"versionName": "2.0",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
 		},
