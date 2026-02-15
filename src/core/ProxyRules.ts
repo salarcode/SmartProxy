@@ -127,9 +127,11 @@ export class ProxyRules {
 
 				case ProxyRuleType.IpCidrNotation:
 					{
-						let regex = Utils.ipCidrNotationToRegExp(rule.rulePattern, rule.rulePattern);
-						if (regex == null)
+						let regex = Utils.ipCidrNotationToRegExp(rule.ruleSearch, rule.rulePattern);
+						if (regex == null) {
+							Debug.warn(`Failed to compile CIDR rule ${rule.ruleSearch}/${rule.rulePattern} to regex`, rule);
 							continue;
+						}
 						newCompiled.regex = regex;
 						newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
 					}
