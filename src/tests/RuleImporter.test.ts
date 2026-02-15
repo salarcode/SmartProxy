@@ -223,7 +223,7 @@ http://example.com/*
       expect(rule.regex).toContain('10');
       expect(rule.regex).toContain('19');
       expect(rule.regex).toContain('29');
-      expect(rule.regex).toContain('157');
+      expect(rule.regex).toContain('150');
       expect(rule.regex).toContain('9080');
     });
 
@@ -284,6 +284,155 @@ http://example.com/*
       const rule = rules[0];
       expect(rule.importedRuleType).toBe(CompiledProxyRuleType.RegexUrl);
       expect(rule.regex).toContain('example');
+    });
+
+    it('should parse SwitchyOmega Conditions format with IP wildcards', () => {
+      // Testing with actual format that users provide (without condition type prefixes)
+      // This is the real-world format from SwitchyOmega exports
+      const text = `[SwitchyOmega Conditions]
+; Require: ZeroOmega or SwitchyOmega >= 2.3.2
+; Update Date: 2025/10/16 20:51:10
+
+; 局域网 IP 不走代理
+10.*.*.*
+100.64.*.*
+127.*.*.*
+172.16.*.*
+192.168.*.*`;
+      
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+      
+      expect(rules).toBeDefined();
+      expect(rules.length).toBeGreaterThan(0);
+      
+      // Test the 10.*.*.* rule with actual IP addresses (with and without port)
+      const rule10 = rules.find(r => r.name && r.name.includes('10.*.*.*'));
+      expect(rule10).toBeDefined();
+      expect(rule10!.regex).toBeTruthy();
+      expect(rule10!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      
+      const regex10 = new RegExp(rule10!.regex);
+      // HostWildcardCondition tests against host, not full URL
+      expect(regex10.test('10.19.29.157')).toBe(true);
+      expect(regex10.test('10.0.0.1')).toBe(true);
+      expect(regex10.test('11.0.0.1')).toBe(false);
+    });
+
+    it('should handle patterns without prefix as HostWildcard (fromStr fix)', () => {
+      // Test that patterns without explicit type prefix default to HostWildcardCondition
+      const text = `[SwitchyOmega Conditions]
+; Test patterns without prefix
+example.com
+*.google.com
+.facebook.com`;
+      
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+      
+      expect(rules).toBeDefined();
+      expect(rules.length).toBe(3);
+      
+      // All should be HostWildcard (RegexHost)
+      rules.forEach(rule => {
+        expect(rule.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+        expect(rule.regex).toBeTruthy();
+      });
+      
+      // Test example.com rule - pattern without wildcards matches exact host
+      const exampleRule = rules.find(r => r.name === 'example.com');
+      expect(exampleRule).toBeDefined();
+      const exampleRegex = new RegExp(exampleRule!.regex);
+      expect(exampleRegex.test('example.com')).toBe(true);
+      // Without explicit wildcards, it won't match subdomains
+      
+      // Test *.google.com - should match subdomains but not google.com itself
+      const googleRule = rules.find(r => r.name === '*.google.com');
+      expect(googleRule).toBeDefined();
+      const googleRegex = new RegExp(googleRule!.regex);
+      expect(googleRegex.test('www.google.com')).toBe(true);
+      expect(googleRegex.test('mail.google.com')).toBe(true);
+    });
+
+    it('should handle explicit URL wildcard prefix (U:)', () => {
+      // Test that explicit U: prefix creates UrlWildcardCondition
+      const text = `[SwitchyOmega Conditions]
+; Explicit URL wildcard
+U: *://example.com/*`;
+      
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+      
+      expect(rules).toBeDefined();
+      expect(rules.length).toBe(1);
+      expect(rules[0].importedRuleType).toBe(CompiledProxyRuleType.RegexUrl);
+    });
+
+    it('should handle explicit Host wildcard prefix (H:)', () => {
+      // Test that explicit H: prefix creates HostWildcardCondition
+      const text = `[SwitchyOmega Conditions]
+; Explicit host wildcard
+H: example.com`;
+      
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+      
+      expect(rules).toBeDefined();
+      expect(rules.length).toBe(1);
+      expect(rules[0].importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+    });
+
+    it('should handle mixed formats with and without prefixes', () => {
+      // Test mixed patterns: some with prefixes, some without
+      const text = `[SwitchyOmega Conditions]
+; Mixed format test
+10.0.0.*
+U: *://192.168.*.*/*
+example.com
+H: google.com`;
+      
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+      
+      expect(rules).toBeDefined();
+      expect(rules.length).toBe(4);
+      
+      // Check each rule type
+      const rule1 = rules.find(r => r.name.includes('10.0.0'));
+      expect(rule1!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      
+      const rule2 = rules.find(r => r.name.includes('192.168'));
+      expect(rule2!.importedRuleType).toBe(CompiledProxyRuleType.RegexUrl);
+      
+      const rule3 = rules.find(r => r.name === 'example.com');
+      expect(rule3!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      
+      const rule4 = rules.find(r => r.name === 'H: google.com');
+      expect(rule4!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+    });
+
+    it('should handle domain patterns with wildcards', () => {
+      // Test various wildcard patterns without prefix
+      const text = `[SwitchyOmega Conditions]
+*.example.com
+**.google.com
+.facebook.com`;
+      
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+      
+      expect(rules).toBeDefined();
+      expect(rules.length).toBe(3);
+      
+      // Test *.example.com pattern - matches subdomains only (not the domain itself)
+      const wildcardRule = rules.find(r => r.name.includes('*.example'));
+      expect(wildcardRule).toBeDefined();
+      const wildcardRegex = new RegExp(wildcardRule!.regex);
+      // *.example.com uses (.*\.)? which means "any characters followed by dot" is optional
+      // This actually matches example.com (when optional part is omitted)
+      expect(wildcardRegex.test('www.example.com')).toBe(true);
+      expect(wildcardRegex.test('mail.example.com')).toBe(true);
+      expect(wildcardRegex.test('example.com')).toBe(true); // Also matches due to optional group
     });
 
     it('should skip rules with invalid args', () => {

@@ -267,7 +267,8 @@ const Conditions = {
 		}
 		conditionType = Conditions.typeFromAbbr(conditionType);
 		if (!conditionType) {
-			return null;
+			// Default to HostWildcardCondition for patterns without explicit type
+			conditionType = 'HostWildcardCondition';
 		}
 		condition = {
 			conditionType: conditionType
