@@ -1,21 +1,21 @@
 {
 	"latestVersion": {
-		"version": "2.0",
-		"versionName": "2.0",
+		"version": "2.1",
+		"versionName": "2.1",
 		"downloadPage": "https://github.com/salarcode/SmartProxy/releases"
 	},
 	"browsers": {
 		"Chrome": {
 			"latestVersion": {
-				"version": "2.0",
-				"versionName": "2.0",
+				"version": "2.1",
+		"versionName": "2.1",
 				"downloadPage": "https://chrome.google.com/webstore/detail/smartproxy/jogcnplbkgkfdakgdenhlpcfhjioidoj"
 			}
 		},
 		"Firefox": {
 			"latestVersion": {
-				"version": "2.0",
-				"versionName": "2.0",
+				"version": "2.1",
+				"versionName": "2.1",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
 		},
