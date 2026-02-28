@@ -44,6 +44,6 @@
   "license": "GPL-3.0",
   "dependencies": {
     "pako": "^2.1.0",
-    "webdav": "^5.8.0"
+    "webdav": "^5.9.0"
   }
 }
