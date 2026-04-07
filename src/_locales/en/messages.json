@@ -420,6 +420,12 @@
 	"settingsGeneralKeyboardShortcutsNotSupported": {
 		"message": "Keyboard shortcuts are not supported on mobile devices."
 	},
+	"settingsGeneralEnableRating": {
+    "message": "Enable rating for proxies"
+},
+"settingsGeneralEnableRatingDesc": {
+    "message": "Allows rating of proxies (working/not working) and sorting by rating."
+},
 	"settingsTabProxyServersTitle": {
 		"message": "Manage your proxy servers:"
 	},
@@ -639,6 +645,12 @@
 	"settingsServersGridColPort": {
 		"message": "Port"
 	},
+	"settingsServersGridColCountry": {
+    "message": "Country"
+},
+"settingsServersGridColRating": {
+    "message": "Rating"
+},
 	"settingsServersModalTitle": {
 		"message": "Proxy Server Details"
 	},
@@ -1283,5 +1295,17 @@
 	},
 	"notificationShortcutProxyServerChanged": {
 		"message": "Proxy server changed to {0}"
-	}
+	},
+	"popupRatingDialogTitle": {
+    "message": "Works?"
+},
+"popupRatingWorksButton": {
+    "message": "Yes (+1)"
+},
+"popupRatingFailsButton": {
+    "message": "No (-1)"
+},
+"popupRatingCancelButton": {
+    "message": "Cancel"
+}
 }

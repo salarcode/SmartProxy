@@ -184,65 +184,97 @@ export const ProxyImporter = {
 		}
 
 	},
-	parseText: (proxyListText: string, options?: ProxyServerSubscription): ProxyServer[] => {
-		///<summary>Parses the proxy</summary>
-		if (!proxyListText || typeof (proxyListText) !== "string") return null;
+parseText: (proxyListText: string, options?: ProxyServerSubscription): ProxyServer[] => {
+    ///<summary>Parses the proxy</summary>
+    if (!proxyListText || typeof (proxyListText) !== "string") return null;
 
-		// ip or host:port [protocol] [name] [username] [password]
-		const proxyRegex = /((?:[A-Za-z0-9-]+\.)+[A-Za-z0-9]{1,6})(?:(?::+|[\t\s,]+)(\d{2,5}))?(?:[\t\s]+\[(\w+)\][\t\s]+\[([\p{L}\p{N}_\s:\.-]+)\](?:[\t\s]+\[(.+)\][\t\s]+\[(.+)\])?)?/iu;
+    if (options && options.obfuscation) {
+        try {
+            if (options.obfuscation.toLowerCase() == "base64") {
+                proxyListText = atob(proxyListText);
+            }
+        } catch (e) {
+            return null;
+        }
+    }
 
-		if (options && options.obfuscation) {
-			try {
-				if (options.obfuscation.toLowerCase() == "base64") {
-					// decode base64
-					proxyListText = atob(proxyListText);
-				}
-			} catch (e) {
-				return null;
-			}
-		}
+    let proxyListLines = proxyListText.split(/(\r|\n)/);
+    let parsedProxies: ProxyServer[] = [];
+    let defaultProxyProtocol = options?.proxyProtocol || "HTTP";
 
-		let proxyListLines = proxyListText.split(/(\r|\n)/);
-		let parsedProxies: ProxyServer[] = [];
+    // Список поддерживаемых протоколов
+    // const validProtocols = ['HTTP', 'HTTPS', 'SOCKS4', 'SOCKS5'];
 
-		let defaultProxyProtocol = "HTTP";
-		if (options && options.proxyProtocol)
-			defaultProxyProtocol = options.proxyProtocol;
+    for (let proxyLine of proxyListLines) {
+        proxyLine = proxyLine.trim();
+        if (proxyLine.length < 4) continue;
 
-		for (let proxyLine of proxyListLines) {
-			// simple check
-			if (proxyLine.length < 4)
-				continue;
+        // 1. Ищем протокол в квадратных скобках [PROTOCOL] среди всех скобок
+        let protocol = defaultProxyProtocol;
+        let lineWithoutProtocol = proxyLine;
+        let proxyName: string = null;
+        
+        // Регулярное выражение для поиска [ПРОТОКОЛ] (регистронезависимо)
+        const protocolBracketRegex = /\[(HTTP|HTTPS|SOCKS4|SOCKS5)\]/i;
+        const match = proxyLine.match(protocolBracketRegex);
+        if (match) {
+            protocol = match[1].toUpperCase();
+            // Удаляем эту конкретную скобку из строки (оставляем остальные)
+            lineWithoutProtocol = proxyLine.replace(protocolBracketRegex, '').trim();
+        }
 
-			let match = proxyRegex.exec(proxyLine);
-			if (!match) {
-				continue;
-			}
+        // 2. Извлекаем имя/описание из остальных квадратных скобок (если есть)
+        const nameMatches = lineWithoutProtocol.match(/\[([^\]]+)\]/g);
+        if (nameMatches && nameMatches.length > 0) {
+            // Берём первую скобку после удаления протокола как имя
+            const firstName = nameMatches[0].replace(/\[|\]/g, '').trim();
+            if (firstName) proxyName = firstName;
+            // Удаляем все квадратные скобки для дальнейшего парсинга host:port
+            lineWithoutProtocol = lineWithoutProtocol.replace(/\[[^\]]+\]/g, '').trim();
+        }
 
-			let [, ip, port, protocol, name, username, password] = match;
-			if (!ip || !port) {
-				continue;
-			}
-			if (!protocol)
-				protocol = defaultProxyProtocol;
-			else
-				protocol = protocol.toUpperCase();
+        // 3. Теперь разбираем оставшуюся часть как host:port или host port или URL-формат
+        let host: string = null;
+        let port: number = null;
+        let username: string = null;
+        let password: string = null;
 
-			let proxy = new ProxyServer();
+        // Формат protocol://user:pass@host:port (переопределяет протокол, если он был извлечён из скобок)
+        const urlMatch = lineWithoutProtocol.match(/^(https?|socks4|socks5):\/\/(?:([^:@]+)(?::([^@]+))?@)?([^:\/]+)(?::(\d+))?/i);
+        if (urlMatch) {
+            protocol = urlMatch[1].toUpperCase();
+            username = urlMatch[2] || null;
+            password = urlMatch[3] || null;
+            host = urlMatch[4];
+            const portStr = urlMatch[5];
+            if (portStr) port = parseInt(portStr, 10);
+        } else {
+            // Простой формат host:port или host port
+            const parts = lineWithoutProtocol.split(/[:\s]+/);
+            if (parts.length >= 2) {
+                host = parts[0];
+                port = parseInt(parts[1], 10);
+                // Если есть ещё части, возможно, это username:password (не обрабатываем)
+            }
+        }
 
-			proxy.name = name || `${ip}:${port}`;
-			proxy.id = proxy.name; // id should be same as name, because id should be consistent between multiple reads
-			proxy.host = ip;
-			proxy.port = parseInt(port);
-			proxy.protocol = protocol;
-			proxy.username = username;
-			proxy.password = password;
+        if (!host || !port || isNaN(port)) continue;
 
-			parsedProxies.push(proxy);
-		}
+        const proxy = new ProxyServer();
+        proxy.host = host;
+        proxy.port = port;
+        proxy.protocol = protocol;
+        proxy.username = username;
+        proxy.password = password;
+        // Если есть извлечённое имя, используем его, иначе стандартное
+        proxy.name = proxyName ? proxyName : `${host}:${port}`;
+        proxy.id = proxy.name;
 
-		return parsedProxies;
-	},
+        parsedProxies.push(proxy);
+    }
+
+    return parsedProxies;
+},
 	parseJson: (proxyListText: string, options?: ProxyServerSubscription): ProxyServer[] => {
 
 		if (options && options.obfuscation) {
@@ -272,7 +304,15 @@ export const ProxyImporter = {
 				item.id = item.name; // id should be same as name, because id should be consistent between multiple reads
 				item.host = proxy["ip"];
 				item.port = parseInt(proxy["port"]);
-				item.protocol = proxy["protocol"];
+				
+				// Нормализуем протокол в верхний регистр
+				let protocol = proxy["protocol"];
+				if (protocol) {
+					item.protocol = protocol.toUpperCase();
+				} else {
+					item.protocol = "HTTP";
+				}
+				
 				item.username = proxy["username"];
 				item.password = proxy["password"];
 

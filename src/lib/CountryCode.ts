@@ -39,18 +39,16 @@ export class CountryCode {
 			const response = await fetch(csvUrl);
 			const csvText = await response.text();
 
-			// Parse CSV (simple parser for quoted CSV format)
 			const lines = csvText.split('\n');
 			ipDatabase = [];
 
 			for (const line of lines) {
 				if (!line.trim()) continue;
 
-				// Parse CSV line: "ipFrom","ipTo","code","name"
 				const matches = line.match(/"([^"]*)","([^"]*)","([^"]*)","([^"]*)"/);
 				if (matches) {
 					const [, ipFrom, ipTo, countryCode, countryName] = matches;
-					if (countryCode !== '-') { // Skip unknown entries
+					if (countryCode !== '-') {
 						ipDatabase.push({
 							ipFrom: parseInt(ipFrom, 10),
 							ipTo: parseInt(ipTo, 10),
@@ -82,7 +80,7 @@ export class CountryCode {
 			(parseInt(parts[1], 10) << 16) +
 			(parseInt(parts[2], 10) << 8) +
 			parseInt(parts[3], 10)
-		) >>> 0; // Convert to unsigned 32-bit integer
+		) >>> 0;
 	}
 
 	public static getRecords(ips: string[]) {
@@ -116,18 +114,15 @@ export class CountryCode {
 	public static getRecord(ip: string) {
 		try {
 			if (!isInitialized || ipDatabase.length === 0) {
-				//console.warn('IP2Location database not initialized');
 				return null;
 			}
 
-			// Only handle IPv4 for now
 			if (!ip.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/)) {
 				return null;
 			}
 
 			const ipNum = CountryCode.ipToNumber(ip);
 
-			// Binary search for efficiency
 			let left = 0;
 			let right = ipDatabase.length - 1;
 
@@ -156,20 +151,14 @@ export class CountryCode {
 
 	public static getCountryFlagEmoji(countryCode: string): string {
 		if (!countryCode) return '';
-
-		if (countryCode === 'LOCAL') {
-			return '🏠'; // House emoji for local/private IPs
-		}
-
-		// Convert country code to flag emoji
-		// Regional Indicator Symbol Letter A starts at 0x1F1E6 (127462)
-		// Country codes are uppercase letters, so 'A' = 65
-		const codePoints = countryCode
-			.toUpperCase()
-			.split('')
-			.map(char => 127397 + char.charCodeAt(0));
-
-		return String.fromCodePoint(...codePoints);
+		if (countryCode === 'LOCAL') return '🏠';
+		const code = countryCode.toUpperCase();
+		if (code.length !== 2) return '';
+		// Regional Indicator Symbol Letters: '🇦' = 127462, 'A' = 65
+		const first = 127462 + (code.charCodeAt(0) - 65);
+		const second = 127462 + (code.charCodeAt(1) - 65);
+		if (first < 127462 || first > 127487 || second < 127462 || second > 127487) return '';
+		return String.fromCodePoint(first, second);
 	}
 
 	private static loadingCompleted() {
@@ -186,12 +175,15 @@ export class CountryCode {
 	static testIt(ip: string = "151.101.65.69") {
 		try {
 			var record = CountryCode.getRecord(ip);
-
 			console.log(`Record for ${ip} is`, record);
-
 			return record ? JSON.stringify(record) : null;
 		} catch (error) {
 			console.error(`Failed to get data for ${ip}`, error);
 		}
+	}
+
+	public static getCountryCode(ip: string): string | null {
+		const record = this.getRecord(ip);
+		return record ? record.isoCode.toUpperCase() : null;
 	}
 }

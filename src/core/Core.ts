@@ -647,6 +647,11 @@ export class Core {
 					return result;
 				});
 			}
+					case "UpdateProxyRating": {
+    const success = SettingsOperation.updateProxyRating(message.proxyId, message.delta);
+    sendResponse({ success: success });
+    return;
+}
 			default:
 				{ }
 				break;
@@ -825,6 +830,7 @@ export class Core {
 		dataForPopup.notSupportedSetProxySettings = environment.notSupported.setProxySettings;
 		dataForPopup.notAllowedSetProxySettings = environment.notAllowed.setProxySettings;
 		dataForPopup.refreshTabOnConfigChanges = settings.options.refreshTabOnConfigChanges;
+		dataForPopup.enableRating = settings.options.enableRating;   // <-- добавьте
 		let themeData = new PartialThemeDataType();
 		themeData.themeType = settings.options.themeType;
 		themeData.themesLight = settings.options.themesLight;

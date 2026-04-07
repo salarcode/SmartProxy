@@ -1,4 +1,4 @@
-﻿import { Settings } from './Settings';
+﻿﻿import { Settings } from './Settings';
 import { api, environment } from '../lib/environment';
 import { Utils } from '../lib/Utils';
 import { ProfileOperations } from './ProfileOperations';
@@ -238,6 +238,7 @@ export class PopupInternalDataType {
 	public notAllowedSetProxySettings: boolean;
 	public themeData: PartialThemeDataType;
 	public refreshTabOnConfigChanges: boolean;
+	public enableRating: boolean = true;
 }
 export class PartialThemeDataType {
 	public themeType: ThemeType = ThemeType.Auto;
@@ -684,6 +685,7 @@ export class GeneralOptions implements Cloneable, Comparable {
 	public displayAppliedProxyOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public displayMatchedRuleOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public refreshTabOnConfigChanges: boolean = false;
+	public enableRating: boolean = true;
 	public proxyPerOrigin: boolean = true;
 	public activeIncognitoProfileId: string;
 	public enableShortcuts: boolean = true;
@@ -716,6 +718,7 @@ export class GeneralOptions implements Cloneable, Comparable {
 			this.displayMatchedRuleOnBadge = source['displayMatchedRuleOnBadge'] == true ? true : false;
 		if (source['refreshTabOnConfigChanges'] != null)
 			this.refreshTabOnConfigChanges = source['refreshTabOnConfigChanges'] == true ? true : false;
+		if (source['enableRating'] != null) this.enableRating = source['enableRating'] == true ? true : false;
 		if (source['proxyPerOrigin'] != null) this.proxyPerOrigin = source['proxyPerOrigin'] == true ? true : false;
 		if (source['enableShortcuts'] != null) this.enableShortcuts = source['enableShortcuts'] == true ? true : false;
 		if (source['shortcutNotification'] != null)
@@ -741,6 +744,7 @@ export class GeneralOptions implements Cloneable, Comparable {
 		if (neq(other.displayAppliedProxyOnBadge, this.displayAppliedProxyOnBadge)) return false;
 		if (neq(other.displayMatchedRuleOnBadge, this.displayMatchedRuleOnBadge)) return false;
 		if (neq(other.refreshTabOnConfigChanges, this.refreshTabOnConfigChanges)) return false;
+		if (neq(other.enableRating, this.enableRating)) return false;
 		if (neq(other.proxyPerOrigin, this.proxyPerOrigin)) return false;
 		if (neq(other.activeIncognitoProfileId, this.activeIncognitoProfileId)) return false;
 		if (neq(other.enableShortcuts, this.enableShortcuts)) return false;
@@ -789,6 +793,7 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 	public failoverTimeout: number;
 	public countryCode: string;
 	//public countryFlagEmoji: string;
+	public rating: number = 0;
 
 	constructor() {
 		super();
@@ -802,16 +807,27 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 		this.name = source['name'];
 		this.host = source['host'];
 		this.port = +source['port'];
-		this.protocol = source['protocol'];
+		
+		// ИСПРАВЛЕНИЕ: нормализуем протокол в верхний регистр и проверяем валидность
+		let protocol = source['protocol'];
+		if (protocol) {
+			protocol = protocol.toUpperCase();
+			// Проверяем, что протокол поддерживается
+			if (proxyServerProtocols.indexOf(protocol) !== -1) {
+				this.protocol = protocol;
+			} else {
+				this.protocol = 'HTTP';
+			}
+		} else {
+			this.protocol = 'HTTP';
+		}
+		
 		this.username = source['username'];
 		this.password = source['password'];
 		if (source['proxyDNS'] != null) this.proxyDNS = source['proxyDNS'] == true ? true : false;
 		this.failoverTimeout = source['failoverTimeout'] > 0 ? source['failoverTimeout'] : null;
 		this.countryCode = source['countryCode'];
-
-		if (!this.protocol) {
-			this.protocol = 'HTTP';
-		}
+		this.rating = source['rating'] ?? 0;
 	}
 
 	public isValid(): boolean {

@@ -59,6 +59,10 @@ html.popup body {
 	font-family: Segoe UI, Courier New, Courier, monospace;
 }
 
+.flag-emoji {
+    font-family: 'Twemoji Country Flags', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
+}
+
 .rtl {
 	font-family: Tahoma, sans-serif;
 }
@@ -674,4 +678,32 @@ button:disabled {
 	.theme-auto .proxyable-arrow-btn:hover {
 		background-color: rgba(255, 255, 255, 0.1) !important;
 	}
+}
+
+.has-country-flags, .has-country-flags * {
+    font-family: "Twemoji Country Flags", var(--bs-body-font-family) !important;
+}
+
+/* Убираем затемнение при выборе прокси из списка в попапе */
+#cmbActiveProxy,
+#cmbActiveProxy:focus,
+#cmbActiveProxy:active,
+#cmbActiveProxy option:checked,
+#cmbActiveProxy option:active {
+    background-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Для тёмной темы делаем фон немного темнее, но без затемнения */
+.theme-dark #cmbActiveProxy,
+.theme-dark #cmbActiveProxy:focus,
+.theme-dark #cmbActiveProxy:active {
+    background-color: #2d2d2d !important;
+}
+
+/* Опционально: можно задать цвет текста, чтобы он был хорошо виден */
+#cmbActiveProxy,
+#cmbActiveProxy option {
+    color: inherit !important;
 }

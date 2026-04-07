@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
  * Copyright (C) 2025 Salar Khalilzadeh <salar2k@gmail.com>
  *
@@ -583,12 +583,15 @@ export class Settings {
 			}
 		}
 
+		// ИСПРАВЛЕНИЕ: нормализуем протокол и проверяем валидность
 		if (!server.protocol) {
 			server.protocol = 'HTTP';
 		} else {
 			server.protocol = server.protocol.toUpperCase();
-			if (proxyServerProtocols.indexOf(server.protocol) == -1) {
+			// Используем импортированный массив протоколов
+			if (proxyServerProtocols.indexOf(server.protocol) === -1) {
 				// not valid protocol, resetting
+				Debug.warn(`Invalid protocol detected: ${server.protocol}, resetting to HTTP`);
 				server.protocol = 'HTTP';
 			}
 		}

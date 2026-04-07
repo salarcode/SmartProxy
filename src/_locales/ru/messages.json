@@ -420,6 +420,12 @@
 	"settingsGeneralKeyboardShortcutsNotSupported": {
 		"message": "Горячие клавиши не поддерживаются на мобильных устройствах."
 	},
+	"settingsGeneralEnableRating": {
+    "message": "Включить рейтинг для адресов"
+},
+"settingsGeneralEnableRatingDesc": {
+    "message": "Позволяет оценивать прокси (работает/не работает) и сортировать по рейтингу."
+},
 	"settingsTabProxyServersTitle": {
 		"message": "Управление своими прокси-серверами:"
 	},
@@ -639,6 +645,12 @@
 	"settingsServersGridColPort": {
 		"message": "Порт"
 	},
+	"settingsServersGridColCountry": {
+    "message": "Страна"
+},
+"settingsServersGridColRating": {
+    "message": "Рейтинг"
+},
 	"settingsServersModalTitle": {
 		"message": "Сведения о прокси-сервере"
 	},
@@ -1283,5 +1295,17 @@
 	},
 	"notificationShortcutProxyServerChanged": {
 		"message": "Прокси-сервер изменён на {0}"
-	}
+	},
+	"popupRatingDialogTitle": {
+    "message": "Работает?"
+},
+"popupRatingWorksButton": {
+    "message": "Да (+1)"
+},
+"popupRatingFailsButton": {
+    "message": "Нет (-1)"
+},
+"popupRatingCancelButton": {
+    "message": "Отмена"
+}
 }

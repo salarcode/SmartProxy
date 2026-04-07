@@ -534,6 +534,24 @@ export class SettingsOperation {
 				Debug.error(`SettingsOperation.saveRules error: ${error.message}`);
 			});
 	}
+	public static updateProxyRating(proxyId: string, delta: number): boolean {
+    let proxies = Settings.current.proxyServers;
+    let proxy = proxies.find(p => p.id === proxyId);
+    if (!proxy) {
+        // Поиск в подписках
+        for (const sub of Settings.current.proxyServerSubscriptions) {
+            proxy = sub.proxies.find(p => p.id === proxyId);
+            if (proxy) break;
+        }
+        if (!proxy) return false;
+    }
+    let newRating = (proxy.rating || 0) + delta;
+    newRating = Math.min(10, Math.max(-10, newRating));
+    proxy.rating = newRating;
+    SettingsOperation.saveProxyServers();
+    SettingsOperation.saveAllSync(false);
+    return true;
+}
 	public static saveProxyServerSubscriptions() {
 		if (Settings.current.options.syncSettings)
 			// don't save in local when sync enabled

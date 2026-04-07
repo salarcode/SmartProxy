@@ -151,21 +151,29 @@ export class settingsPage {
 	}
 
 	private static populateDataForSettings(settingsData: SettingsPageInternalDataType) {
-		this.currentSettings = settingsData.settings;
+    this.currentSettings = settingsData.settings;
 
-		CommonUi.applyThemes(this.currentSettings.options);
-		this.populateSettingsUiData(settingsData);
-		this.loadServersGrid(this.currentSettings.proxyServers);
-		this.loadServerSubscriptionsGrid(this.currentSettings.proxyServerSubscriptions);
-		this.loadDefaultProxyServer(this.currentSettings.proxyServers, this.currentSettings.proxyServerSubscriptions);
-		this.loadSmartProfiles(this.currentSettings.proxyProfiles);
-		this.loadGeneralOptions(this.currentSettings.options);
-		CommonUi.onDocumentReady(this.loadAllProfilesProxyServers);
+    CommonUi.applyThemes(this.currentSettings.options);
+    this.populateSettingsUiData(settingsData);
+    this.loadServersGrid(this.currentSettings.proxyServers);
+    this.loadServerSubscriptionsGrid(this.currentSettings.proxyServerSubscriptions);
+    this.loadDefaultProxyServer(this.currentSettings.proxyServers, this.currentSettings.proxyServerSubscriptions);
+    this.loadSmartProfiles(this.currentSettings.proxyProfiles);
+    this.loadGeneralOptions(this.currentSettings.options);
+    // Эту строку УДАЛЯЕМ (она больше не нужна здесь):
+    // CommonUi.onDocumentReady(this.loadAllProfilesProxyServers);
 
-		// make copy
-		this.originalSettings = new SettingsConfig();
-		this.originalSettings.CopyFrom(this.currentSettings);
-	}
+    // make copy
+    this.originalSettings = new SettingsConfig();
+    // Принудительная загрузка базы IP2Location (для определения стран)
+    CountryCode.ensureInitialized(() => {
+        // Перезагрузить таблицу прокси, чтобы обновить колонку «Страна»
+        this.loadServersGrid(this.currentSettings.proxyServers);
+        // Загрузить профили (выпадающие списки в Smart Profiles)
+        this.loadAllProfilesProxyServers();
+    });
+    this.originalSettings.CopyFrom(this.currentSettings);
+}
 
 	private static bindEvents() {
 		// off canvas
@@ -256,6 +264,8 @@ export class settingsPage {
 		// Get saved page length for servers grid
 		settingsPage.grdServers = jq("#grdServers").DataTable({
 			"dom": dataTableCustomDom,
+			order: [[0, 'asc']],
+			stateSave: true,
 			paging: true,
 			pageLength: settingsPage.currentSettings?.uiOptions?.proxyServersGridRows || 10,
 			select: { style: "os" },
@@ -273,34 +283,54 @@ export class settingsPage {
 				{ targets: 0, visible: false }
 			],
 			columns: [
-				{
-					name: "order", data: "order", title: '', defaultContent: `<i class="fas fa-random"></i>`, width: 20, orderable: false
-				},
-				{
-					name: "name", data: "name", title: api.i18n.getMessage("settingsServersGridColName"),
-					render: (data, type, row: ProxyServer) => {
-						return `<i class="fas fa-bars fa-xs px-2 cursor-move"></i>  ` + (row.name || '')
-					},
-					orderable: false,
-					responsivePriority: 1
-				},
-				{
-					name: "protocol", data: "protocol", title: api.i18n.getMessage("settingsServersGridColProtocol"), orderable: false
-				},
-				{
-					name: "host", data: "host", title: api.i18n.getMessage("settingsServersGridColServer"), orderable: false
-				},
-				{
-					name: "port", data: "port", type: "num", title: api.i18n.getMessage("settingsServersGridColPort"), orderable: false
-				},
-				{
-					"width": "70px",
-					"data": null, orderable: false,
-					"className": "text-nowrap",
-					"defaultContent": `<button class='btn btn-sm btn-success' id='btnServersEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>`,
-					responsivePriority: 2
-				}
-			],
+    {
+        name: "order", data: "order", title: '', defaultContent: `<i class="fas fa-random"></i>`, width: 20, orderable: false
+    },
+    {
+        name: "name", data: "name", title: api.i18n.getMessage("settingsServersGridColName"),
+        render: (data, type, row: ProxyServer) => {
+            return `<i class="fas fa-bars fa-xs px-2 cursor-move"></i>  ` + (row.name || '')
+        },
+        orderable: false,
+        responsivePriority: 1
+    },
+    {
+    name: "country", data: "countryCode", title: api.i18n.getMessage("settingsServersGridColCountry"), orderable: true,
+    render: (data, type, row: ProxyServer) => {
+        let countryCode = row.countryCode;
+        if (!countryCode && row.host) {
+            countryCode = CountryCode.getCountryCode(row.host);
+        }
+        const flag = CountryCode.getCountryFlagEmoji(countryCode?.toUpperCase());
+        const code = countryCode ? countryCode.toUpperCase() : "??";
+        return `<span class="flag-emoji">${flag}</span> ${code}`;
+    }
+},
+    {
+        name: "protocol", data: "protocol", title: api.i18n.getMessage("settingsServersGridColProtocol"), orderable: true
+    },
+    {
+        name: "host", data: "host", title: api.i18n.getMessage("settingsServersGridColServer"), orderable: false
+    },
+    {
+        name: "port", data: "port", type: "num", title: api.i18n.getMessage("settingsServersGridColPort"), orderable: false
+    },
+	{
+    name: "rating", data: "rating", title: api.i18n.getMessage("settingsServersGridColRating"), orderable: true,
+    render: (data, type, row: ProxyServer) => {
+        const rating = row.rating ?? 0;
+        if (rating === 0) return "0";
+        return rating > 0 ? `+${rating}` : `${rating}`;
+    }
+},
+    {
+        "width": "70px",
+        "data": null, orderable: false,
+        "className": "text-nowrap",
+        "defaultContent": `<button class='btn btn-sm btn-success' id='btnServersEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>`,
+        responsivePriority: 2
+    }
+],
 		});
 		settingsPage.grdServers.on('responsive-display',
 			function (e, dataTable, row, showHide, update) {
@@ -318,6 +348,10 @@ export class settingsPage {
 			settingsPage.currentSettings.uiOptions.proxyServersGridRows = len || 10;
 			settingsPage.saveUiOptions();
 		});
+		// Скрыть колонку рейтинга, если рейтинг отключён
+if (settingsPage.currentSettings?.options?.enableRating === false) {
+    settingsPage.grdServers.column(6).visible(false);
+}
 		settingsPage.grdServers.draw();
 
 		settingsPage.grdServerSubscriptions = jq("#grdServerSubscriptions").DataTable({
@@ -543,9 +577,7 @@ export class settingsPage {
 		if (!serverSubscriptions)
 			serverSubscriptions = settingsPage.readServerSubscriptions();
 
-		let hasSelectedItem =
-			comboBox.val() == ProxyRuleSpecialProxyServer.DefaultGeneral ||
-			comboBox.val() == ProxyRuleSpecialProxyServer.ProfileProxy;
+		let hasSelectedItem = false;
 
 		// adding select options
 		proxyServers.forEach((proxyServer: ProxyServer) => {
@@ -555,8 +587,12 @@ export class settingsPage {
 				return;
 
 			// proxyServer
-			const flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
-			let displayName = `${flagEmoji} ${proxyServer.name}`;
+			let countryCode = proxyServer.countryCode;
+if (!countryCode && proxyServer.host) {
+    countryCode = CountryCode.getCountryCode(proxyServer.host);
+}
+const flagEmoji = CountryCode.getCountryFlagEmoji(countryCode?.toUpperCase());
+let displayName = `${flagEmoji} ${proxyServer.name}`;
 			let option = jq("<option>")
 				.attr("value", proxyServer.id)
 				.text(displayName)
@@ -588,8 +624,12 @@ export class settingsPage {
 						// exit loop
 						return;
 
-					const flagEmoji = CountryCode.getCountryFlagEmoji(proxyServer.countryCode);
-					let displayName = `${flagEmoji} ${proxyServer.name}`;
+					let countryCode = proxyServer.countryCode;
+if (!countryCode && proxyServer.host) {
+    countryCode = CountryCode.getCountryCode(proxyServer.host);
+}
+const flagEmoji = CountryCode.getCountryFlagEmoji(countryCode?.toUpperCase());
+let displayName = `${flagEmoji} ${proxyServer.name}`;
 					let option = jq("<option>")
 						.attr("value", proxyServer.id)
 						.text(displayName)
@@ -609,10 +649,12 @@ export class settingsPage {
 				subscriptionGroup.remove();
 			}
 		}
-		if (!hasSelectedItem) {
-			// first item
+		// FIXED: если ничего не выбрано, сбрасываем на первый элемент или пусто
+		if (!hasSelectedItem && comboBox[0] && comboBox[0].options.length > 0) {
 			comboBox[0].selectedIndex = 0;
 			comboBox.trigger("change");
+		} else if (!hasSelectedItem && comboBox[0]) {
+			comboBox.val(null);
 		}
 	}
 
@@ -1065,6 +1107,7 @@ export class settingsPage {
 		divGeneral.find("#chkDisplayFailedOnBadge").prop("checked", options.displayFailedOnBadge || false);
 
 		divGeneral.find("#chkEnableShortcuts").prop("checked", options.enableShortcuts || false);
+		divGeneral.find("#chkEnableRating").prop("checked", options.enableRating);
 		divGeneral.find("#chkShortcutNotification").prop("checked", options.shortcutNotification || false);
 		divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked", options.displayAppliedProxyOnBadge || false);
 		divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked", options.displayMatchedRuleOnBadge || false);
@@ -1114,6 +1157,7 @@ export class settingsPage {
 		generalOptions.displayFailedOnBadge = divGeneral.find("#chkDisplayFailedOnBadge").prop("checked");
 
 		generalOptions.enableShortcuts = divGeneral.find("#chkEnableShortcuts").prop("checked");
+		generalOptions.enableRating = divGeneral.find("#chkEnableRating").prop("checked");
 		generalOptions.shortcutNotification = divGeneral.find("#chkShortcutNotification").prop("checked");
 		generalOptions.displayAppliedProxyOnBadge = divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked");
 		generalOptions.displayMatchedRuleOnBadge = divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked");
@@ -1161,38 +1205,71 @@ export class settingsPage {
 
 	//#region Servers tab functions --------------
 
-	private static loadServersGrid(servers: any[]) {
-		if (!this.grdServers)
-			return;
-		this.grdServers.clear();
-		this.grdServers.rows.add(servers).draw('full-hold');
+private static loadServersGrid(servers: any[]) {
+    if (!this.grdServers) return;
 
-		// Apply saved page length if available
-		const savedPageLength = settingsPage.currentSettings?.uiOptions?.proxyServersGridRows;
-		if (savedPageLength && savedPageLength !== this.grdServers.page.len()) {
-			this.grdServers.page.len(savedPageLength).draw();
-		}
+    // Заполняем countryCode для всех прокси, у которых его нет
+    for (const proxy of servers) {
+        if (!proxy.countryCode && proxy.host) {
+            proxy.countryCode = CountryCode.getCountryCode(proxy.host);
+        }
+    }
 
-		// binding the events for all the rows
-		this.refreshServersGridAllRows();
-	}
+    // Очищаем таблицу и добавляем серверы в исходном порядке (как в servers)
+    this.grdServers.clear();
+    this.grdServers.rows.add(servers).draw('full-hold');
 
+    // Восстанавливаем сохранённую длину страницы
+    const savedPageLength = settingsPage.currentSettings?.uiOptions?.proxyServersGridRows;
+    if (savedPageLength && savedPageLength !== this.grdServers.page.len()) {
+        this.grdServers.page.len(savedPageLength).draw();
+    }
+
+    this.refreshServersGridAllRows();
+
+    // Применить видимость колонки рейтинга
+    if (this.currentSettings?.options) {
+        const enableRating = this.currentSettings.options.enableRating !== false;
+        this.grdServers.column(6).visible(enableRating);
+    }
+}
 	private static loadDefaultProxyServer(proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
-		let defaultProxyServerId = this.currentSettings.defaultProxyServerId;
+    let defaultProxyServerId = this.currentSettings.defaultProxyServerId;
+    let cmbActiveProxyServer = jq("#cmbActiveProxyServer");
 
-		let cmbActiveProxyServer = jq("#cmbActiveProxyServer");
+    // remove previous items
+    cmbActiveProxyServer.children().remove();
 
-		// remove previous items
-		cmbActiveProxyServer.children().remove();
+    // Ждём загрузку базы, затем заполняем выпадающий список
+    CountryCode.ensureInitialized(() => {
+        this.populateProxyServersToComboBox(cmbActiveProxyServer, defaultProxyServerId, proxyServers, serverSubscriptions);
 
-		// populate
-		this.populateProxyServersToComboBox(cmbActiveProxyServer, defaultProxyServerId, proxyServers, serverSubscriptions);
-	}
+        // Проверяем, что выбранное значение действительно существует
+        let selectedValue = cmbActiveProxyServer.val();
+        if (selectedValue && selectedValue !== defaultProxyServerId) {
+            let newDefaultId = selectedValue || null;
+            if (this.currentSettings.defaultProxyServerId !== newDefaultId) {
+                this.currentSettings.defaultProxyServerId = newDefaultId;
+                this.changeTracking.activeProxy = true;
+            }
+        } else if (!selectedValue && defaultProxyServerId) {
+            this.currentSettings.defaultProxyServerId = null;
+            this.changeTracking.activeProxy = true;
+        }
+    });
+}
 
-	private static readServers(): ProxyServer[] {
-		return this.grdServers.data().toArray();
-	}
-
+private static readServers(): ProxyServer[] {
+    let servers: ProxyServer[] = [];
+    let rows = this.grdServers.rows({ order: 'current' }).nodes();
+    for (let i = 0; i < rows.length; i++) {
+        let rowData = this.grdServers.row(rows[i]).data();
+        if (rowData) {
+            servers.push(rowData);
+        }
+    }
+    return servers;
+}
 	private static readSelectedServer(e?: any): any {
 		let dataItem;
 
@@ -1597,23 +1674,23 @@ export class settingsPage {
 	}
 
 	private static loadProfileProxyServer(pageProfile: SettingsPageSmartProfile, proxyServers?: ProxyServer[], serverSubscriptions?: any[]) {
-		let profileProxyServerId = pageProfile.smartProfile.profileProxyServerId;
+    let profileProxyServerId = pageProfile.smartProfile.profileProxyServerId;
+    let tabContainer = pageProfile.htmlProfileTab;
+    let cmbProfileProxyServer = tabContainer.find("#cmbProfileProxyServer");
 
-		let tabContainer = pageProfile.htmlProfileTab;
-		let cmbProfileProxyServer = tabContainer.find("#cmbProfileProxyServer");
-
-		if (cmbProfileProxyServer.length) {
-			// remove previous items
-			cmbProfileProxyServer.children().remove();
-			jq("<option>")
-				.attr("value", "")
-				.text(api.i18n.getMessage("settingsProfilesProxyServer"))
-				.appendTo(cmbProfileProxyServer);
-
-			// populate
-			this.populateProxyServersToComboBox(cmbProfileProxyServer, profileProxyServerId, proxyServers, serverSubscriptions);
-		}
-	}
+    if (cmbProfileProxyServer.length) {
+        cmbProfileProxyServer.children().remove();
+        jq("<option>")
+            .attr("value", "")
+            .text(api.i18n.getMessage("settingsProfilesProxyServer"))
+            .appendTo(cmbProfileProxyServer);
+        
+        // Ждём загрузку базы перед заполнением
+        CountryCode.ensureInitialized(() => {
+            this.populateProxyServersToComboBox(cmbProfileProxyServer, profileProxyServerId, proxyServers, serverSubscriptions);
+        });
+    }
+}
 
 	private static loadAllProfilesProxyServers() {
 		for (const pageProfile of settingsPage.pageSmartProfiles) {
@@ -2356,6 +2433,11 @@ export class settingsPage {
 
 						settingsPage.currentSettings.options = generalOptions;
 						settingsPage.changeTracking.options = false;
+						// Обновить видимость колонки рейтинга в таблице прокси
+if (settingsPage.grdServers) {
+    const enableRating = settingsPage.currentSettings.options.enableRating;
+    settingsPage.grdServers.column(6).visible(enableRating);
+}
 					} else {
 						if (response.message)
 							messageBox.error(response.message);
@@ -2587,18 +2669,23 @@ export class settingsPage {
 			// ---
 			modal.modal("hide");
 		},
+		// FIXED: обработчик изменения активного прокси
 		onChangeActiveProxyServer() {
 			let proxyServerId = jq("#cmbActiveProxyServer").val();
 
 			let server = settingsPage.findProxyServerById(proxyServerId);
 
 			if (server) {
-				// this can be null
 				settingsPage.currentSettings.defaultProxyServerId = server.id;
 				settingsPage.changeTracking.activeProxy = true;
-			}
-			else {
-				Debug.warn("Settings> Selected ActiveProxyServer ID not found!");
+			} else {
+				// Если сервер не найден, сбрасываем выбор
+				Debug.warn(`Selected ActiveProxyServer ID ${proxyServerId} not found, resetting.`);
+				settingsPage.currentSettings.defaultProxyServerId = null;
+				settingsPage.changeTracking.activeProxy = true;
+				// Обновляем комбобокс, чтобы отобразить пустое значение
+				let cmbActiveProxyServer = jq("#cmbActiveProxyServer");
+				cmbActiveProxyServer.val(null);
 			}
 		},
 		onClickAddProxyServer() {
@@ -4146,21 +4233,23 @@ export class settingsPage {
 					if (!response) return;
 
 					if (response.success) {
-						if (response.message)
-							messageBox.info(response.message);
-
-						// empty the input
-						modalContainer.find("#btnImportProxyServerSelectFile")[0].value = "";
-						modalContainer.find("#btnImportProxyServerListText").val("");
-
-						let servers = response.result;
-						settingsPage.loadServersGrid(servers);
-						settingsPage.loadDefaultProxyServer();
-
-						settingsPage.changeTracking.servers = true;
-						// close the window
-						modalContainer.modal("hide");
-					} else {
+    if (response.message)
+        messageBox.info(response.message);
+    // empty the input
+    modalContainer.find("#btnImportProxyServerSelectFile")[0].value = "";
+    modalContainer.find("#btnImportProxyServerListText").val("");
+    let servers = response.result;
+    
+    // Ждём загрузку базы, затем обновляем таблицу и выпадающий список
+    CountryCode.ensureInitialized(() => {
+        settingsPage.loadServersGrid(servers);
+        settingsPage.loadDefaultProxyServer();
+    });
+    
+    settingsPage.changeTracking.servers = true;
+    // close the window
+    modalContainer.modal("hide");
+} else {
 						if (response.message)
 							messageBox.error(response.message);
 					}

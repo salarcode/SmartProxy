@@ -509,48 +509,52 @@
 						</div>
 						<div>
 							<hr class="afshin-line" />
-							<h3 data-localize="settingsGeneralOtherSettings">Other Settings</h3>
-							<label class="mx-2 form-label">
-								<input id="chkEnableShortcuts" checked type="checkbox" class="form-check-input" />
-								<span data-localize="settingsGeneralEnableShortcuts">Enable Shortcuts</span>
-								<div class="form-text text-muted">
-									<span data-localize="settingsGeneralEnableShortcutsDesc">You can configure shortcuts
-										from browser addon settings page.</span>
-									<a id="btnViewShortcuts" href="#" data-localize="settingsGeneralViewShortcuts">View
-										shortcuts</a>
-									<a id="btnConfigureShortcuts" href="#" data-localize="settingsGeneralConfigureShortcuts">Configure
-										shortcuts</a>
-								</div>
-							</label>
-							<br />
-							<label class="mx-4 form-label">
-								<input id="chkShortcutNotification" checked type="checkbox" class="form-check-input" />
-								<span data-localize="settingsGeneralShortcutNotification">Enable shortcut
-									notification</span>
-							</label>
-							<br />
-							<label class="mx-2 form-label firefox-only">
-								<input id="chkDisplayAppliedProxyOnBadge" checked type="checkbox"
-									class="form-check-input" />
-								<span data-localize="settingsGeneralDisplayAppliedProxyOnBadge">Display applied rule
-									source on badge</span>
-							</label>
-							<br class="firefox-only" />
-							<label class="mx-2 form-label firefox-only">
-								<input id="chkDisplayMatchedRuleOnBadge" checked type="checkbox"
-									class="form-check-input" />
-								<span data-localize="settingsGeneralDisplayAppliedRulePatternOnBadge">Display applied
-									rule pattern on badge</span>
-							</label>
-							<br class="firefox-only" />
-							<label class="mx-2 form-label">
-								<input id="chkRefreshTabOnConfigChanges" checked type="checkbox"
-									class="form-check-input" />
-								<span data-localize="settingsGeneralRefreshTabOnConfigChanges">Refresh active tab when
-									proxy profile changed</span>
-							</label>
-						</div>
-						<div class="mt-5"></div>
+<h3 data-localize="settingsGeneralOtherSettings">Other Settings</h3>
+
+<label class="mx-2 form-label">
+    <input id="chkEnableRating" checked type="checkbox" class="form-check-input" />
+    <span data-localize="settingsGeneralEnableRating">Enable rating for proxies</span>
+    <div class="form-text text-muted" data-localize="settingsGeneralEnableRatingDesc">
+        Allows rating of proxies (working/not working) and sorting by rating.
+    </div>
+</label>
+<br />
+
+<label class="mx-2 form-label">
+    <input id="chkEnableShortcuts" checked type="checkbox" class="form-check-input" />
+    <span data-localize="settingsGeneralEnableShortcuts">Enable Shortcuts</span>
+    <div class="form-text text-muted">
+        <span data-localize="settingsGeneralEnableShortcutsDesc">You can configure shortcuts from browser addon settings page.</span>
+        <a id="btnViewShortcuts" href="#" data-localize="settingsGeneralViewShortcuts">View shortcuts</a>
+        <a id="btnConfigureShortcuts" href="#" data-localize="settingsGeneralConfigureShortcuts">Configure shortcuts</a>
+    </div>
+</label>
+<br />
+
+<label class="mx-4 form-label">
+    <input id="chkShortcutNotification" checked type="checkbox" class="form-check-input" />
+    <span data-localize="settingsGeneralShortcutNotification">Enable shortcut notification</span>
+</label>
+<br />
+
+<label class="mx-2 form-label firefox-only">
+    <input id="chkDisplayAppliedProxyOnBadge" checked type="checkbox" class="form-check-input" />
+    <span data-localize="settingsGeneralDisplayAppliedProxyOnBadge">Display applied rule source on badge</span>
+</label>
+<br class="firefox-only" />
+
+<label class="mx-2 form-label firefox-only">
+    <input id="chkDisplayMatchedRuleOnBadge" checked type="checkbox" class="form-check-input" />
+    <span data-localize="settingsGeneralDisplayAppliedRulePatternOnBadge">Display applied rule pattern on badge</span>
+</label>
+<br class="firefox-only" />
+
+<label class="mx-2 form-label">
+    <input id="chkRefreshTabOnConfigChanges" checked type="checkbox" class="form-check-input" />
+    <span data-localize="settingsGeneralRefreshTabOnConfigChanges">Refresh active tab when proxy profile changed</span>
+</label>
+</div>
+<div class="mt-5"></div>
 						<p class="mt-4"></p>
 						<div class="position-sticky-bottom">
 							<div class="sticky-save-buttons-bar">
@@ -579,7 +583,7 @@
 						</h5>
 						<div class="row mb-3">
 							<div class="col-6">
-								<select id="cmbActiveProxyServer" class="form-select">
+								<select id="cmbActiveProxyServer" class="form-select has-country-flags">
 									<option value="0">(Select)</option>
 								</select>
 							</div>
