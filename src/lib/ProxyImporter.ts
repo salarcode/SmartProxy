@@ -18,315 +18,278 @@ import { Utils } from "./Utils";
 import { api } from "./environment";
 import { ProxyServerSubscription, ProxyServer, ProxyServerSubscriptionFormat } from "../core/definitions";
 import { Debug } from "./Debug";
-import { Settings } from "../core/Settings";
 import { ProxyEngineSpecialRequests } from "../core/ProxyEngineSpecialRequests";
 
 export const ProxyImporter = {
-	readFromServer(serverDetail: ProxyServerSubscription, success?: Function, fail?: Function) {
-		if (!serverDetail || !serverDetail.url) {
-			if (fail) fail();
-			return;
-		}
-		if (!success) throw "onSuccess callback is mandatory";
+    readFromServer(serverDetail: ProxyServerSubscription, success?: Function, fail?: Function) {
+        if (!serverDetail || !serverDetail.url) {
+            if (fail) fail();
+            return;
+        }
+        if (!success) throw "onSuccess callback is mandatory";
 
-		function ajaxSuccess(response: any) {
-			if (!response)
-				if (fail) fail();
-			ProxyImporter.importText(response,
-				null,
-				false,
-				null,
-				(importResult: {
-					success: boolean,
-					message: string,
-					result: ProxyServer[]
-				}) => {
-					if (!importResult.success) {
-						if (fail)
-							fail(importResult);
-						return;
-					}
-					if (success)
-						success(importResult);
-				},
-				(error: Error) => {
-					if (fail)
-						fail(error);
-				},
-				serverDetail);
-		}
-
-		if (serverDetail.applyProxy !== null)
-			// mark this request as special
-			ProxyEngineSpecialRequests.setSpecialUrl(serverDetail.url, serverDetail.applyProxy);
-
-		fetch(serverDetail.url, {
-			method: "GET",
-			cache: 'no-store',
-			headers: {
-				...(serverDetail.username
-					? {
-						Authorization: 'Basic ' + btoa(serverDetail.username + ':' + atob(serverDetail.password)),
-					}
-					: {}),
-			}
-		})
-			.then(async res => {
-				if (res.status === 200) {
-					ajaxSuccess(await res.text());
-				} else
-					if (fail) fail(new Error(`${res.status}, ${res.statusText}`));
-
-			})
-			.catch(err => {
-				if (fail) fail(err);
-			});
-	},
-	importText(text: string | ArrayBuffer, file: any, append: boolean, currentProxies: ProxyServer[], success: Function, fail?: Function, options?: ProxyServerSubscription) {
-		if (!file && !text) {
-			if (fail) fail();
-			return;
-		}
-
-		if (text) {
-			doImport(text as string, options);
-		}
-		else {
-			let reader = new FileReader();
-			reader.onerror = event => {
-				if (fail) fail(event);
-			};
-			reader.onload = event => {
-				//let textFile = event.target;
-				let fileText = reader.result;
-
-				doImport(fileText as string, options);
-			};
-			reader.readAsText(file);
-		}
-
-
-		function doImport(text: string, options?: ProxyServerSubscription) {
-
-			let parsedProxies: ProxyServer[];
-
-			if (options && options.format == ProxyServerSubscriptionFormat.Json)
-				parsedProxies = ProxyImporter.parseJson(text, options);
-			else
-				parsedProxies = ProxyImporter.parseText(text, options);
-
-			if (parsedProxies == null) {
-				if (fail) fail();
-				return;
-			}
-
-			let importedProxies: ProxyServer[] = Utils.removeDuplicatesFunc(parsedProxies,
-				(item1: ProxyServer, item2: ProxyServer) => item1.host == item2.host &&
-					item1.port == item2.port &&
-					item1.username == item2.username &&
-					item1.password == item2.password);
-
-
-			// proxies are ready
-			if (append) {
-				if (!currentProxies)
-					currentProxies = [];
-
-				// make a copy
-				let appendedProxyList: ProxyServer[] = currentProxies.slice();
-				let appendedProxyCount = 0;
-
-				for (let importedProxy of importedProxies) {
-					let proxyExists = currentProxies.some(cp => {
-						return (cp.host == importedProxy.host &&
-							cp.port == importedProxy.port &&
-							cp.username == importedProxy.username &&
-							cp.password == importedProxy.password)
-					});
-					if (proxyExists)
-						continue;
-
-					// append imported proxy
-					appendedProxyList.push(importedProxy);
-					appendedProxyCount++;
-				}
-
-				// Total ${appendedProxyCount} out of ${appendedProxyList.length} proxies are appended.<br>Don't forget to save the changes.
-				let message = api.i18n.getMessage("importerImportProxySuccess")
-					.replace("{0}", appendedProxyCount.toString())
-					.replace("{1}", importedProxies.length.toString());
-
-				if (success) {
-					// not need for any check, return straight away
-					success({
-						success: true,
-						message: message,
-						result: appendedProxyList
-					});
-				}
-
-			} else {
-
-				// Total ${importedRuleList.length} out of ${parsedRuleList.length} proxies are imported.<br>Don't forget to save the changes.
-				let message = api.i18n.getMessage("importerImportProxySuccess")
-					.replace("{0}", importedProxies.length.toString())
-					.replace("{1}", parsedProxies.length.toString());
-
-				if (success) {
-					// not need for any check, return straight away
-					success({
-						success: true,
-						message: message,
-						result: importedProxies
-					});
-				}
-			}
-		}
-
-	},
-parseText: (proxyListText: string, options?: ProxyServerSubscription): ProxyServer[] => {
-    ///<summary>Parses the proxy</summary>
-    if (!proxyListText || typeof (proxyListText) !== "string") return null;
-
-    if (options && options.obfuscation) {
-        try {
-            if (options.obfuscation.toLowerCase() == "base64") {
-                proxyListText = atob(proxyListText);
+        function ajaxSuccess(response: any) {
+            if (!response) {
+                if (fail) fail();
+                return;
             }
+            ProxyImporter.importText(response,
+                null,
+                false,
+                null,
+                (importResult: { success: boolean, message: string, result: ProxyServer[] }) => {
+                    if (!importResult.success) {
+                        if (fail) fail(importResult);
+                        return;
+                    }
+                    if (success) success(importResult);
+                },
+                (error: Error) => {
+                    if (fail) fail(error);
+                },
+                serverDetail);
+        }
+
+        if (serverDetail.applyProxy !== null)
+            ProxyEngineSpecialRequests.setSpecialUrl(serverDetail.url, serverDetail.applyProxy);
+
+        fetch(serverDetail.url, {
+            method: "GET",
+            cache: 'no-store',
+            headers: {
+                ...(serverDetail.username
+                    ? { Authorization: 'Basic ' + btoa(serverDetail.username + ':' + atob(serverDetail.password)) }
+                    : {}),
+            }
+        })
+            .then(async res => {
+                if (res.status === 200) {
+                    ajaxSuccess(await res.text());
+                } else if (fail) {
+                    fail(new Error(`${res.status}, ${res.statusText}`));
+                }
+            })
+            .catch(err => {
+                if (fail) fail(err);
+            });
+    },
+
+    importText(text: string | ArrayBuffer, file: any, append: boolean, currentProxies: ProxyServer[], success: Function, fail?: Function, options?: ProxyServerSubscription) {
+        if (!file && !text) {
+            if (fail) fail();
+            return;
+        }
+
+        if (text) {
+            doImport(text as string, options);
+        } else {
+            let reader = new FileReader();
+            reader.onerror = event => { if (fail) fail(event); };
+            reader.onload = () => {
+                doImport(reader.result as string, options);
+            };
+            reader.readAsText(file);
+        }
+
+        function doImport(text: string, options?: ProxyServerSubscription) {
+            let parsedProxies: ProxyServer[] = (options && options.format === ProxyServerSubscriptionFormat.Json)
+                ? ProxyImporter.parseJson(text, options)
+                : ProxyImporter.parseText(text, options);
+
+            if (parsedProxies == null) {
+                if (fail) fail();
+                return;
+            }
+
+            let importedProxies: ProxyServer[] = Utils.removeDuplicatesFunc(parsedProxies,
+                (item1: ProxyServer, item2: ProxyServer) =>
+                    item1.host === item2.host &&
+                    item1.port === item2.port &&
+                    item1.username === item2.username &&
+                    item1.password === item2.password);
+
+            if (append) {
+                if (!currentProxies) currentProxies = [];
+                let appendedProxyList: ProxyServer[] = currentProxies.slice();
+                let appendedProxyCount = 0;
+
+                for (let importedProxy of importedProxies) {
+                    let exists = currentProxies.some(cp =>
+                        cp.host === importedProxy.host &&
+                        cp.port === importedProxy.port &&
+                        cp.username === importedProxy.username &&
+                        cp.password === importedProxy.password);
+                    if (exists) continue;
+
+                    appendedProxyList.push(importedProxy);
+                    appendedProxyCount++;
+                }
+
+                let message = api.i18n.getMessage("importerImportProxySuccess")
+                    .replace("{0}", appendedProxyCount.toString())
+                    .replace("{1}", importedProxies.length.toString());
+
+                success({ success: true, message: message, result: appendedProxyList });
+            } else {
+                let message = api.i18n.getMessage("importerImportProxySuccess")
+                    .replace("{0}", importedProxies.length.toString())
+                    .replace("{1}", parsedProxies.length.toString());
+
+                success({ success: true, message: message, result: importedProxies });
+            }
+        }
+    },
+
+    /** Финальная версия parseText с поддержкой IPv6, протоколов и авторизации */
+    parseText: (proxyListText: string, options?: ProxyServerSubscription): ProxyServer[] => {
+        ///<summary>Parses proxy list with robust support for IPv4, IPv6, protocols, auth and names</summary>
+        if (!proxyListText || typeof proxyListText !== "string") return null;
+
+        // Обработка base64 обфускации
+        if (options?.obfuscation?.toLowerCase() === "base64") {
+            try {
+                proxyListText = atob(proxyListText);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        const lines = proxyListText.split(/\r?\n/);
+        const parsedProxies: ProxyServer[] = [];
+        const defaultProtocol = (options?.proxyProtocol || "HTTP").toUpperCase();
+
+        for (let line of lines) {
+            line = line.trim();
+            if (line.length < 4 || line.startsWith('#') || line.startsWith('//')) continue;
+
+            let protocol = defaultProtocol;
+            let name: string | null = null;
+            let username = '';
+            let password = '';
+            let host = '';
+            let port = 0;
+            let workingLine = line;
+
+            // 1. Префикс протокола (http:// https:// socks4:// socks5:// socks://)
+            const prefixMatch = workingLine.match(/^(https?|socks[45]?):\/\//i);
+            if (prefixMatch) {
+                let p = prefixMatch[1].toUpperCase();
+                protocol = (p === 'SOCKS') ? 'SOCKS5' : p;
+                workingLine = workingLine.replace(prefixMatch[0], '').trim();
+            }
+
+            // 2. Протокол в квадратных скобках [HTTP], [HTTPS], [SOCKS4], [SOCKS5]
+            const protoBracket = workingLine.match(/\[(HTTP|HTTPS|SOCKS4|SOCKS5)\]/i);
+            if (protoBracket) {
+                protocol = protoBracket[1].toUpperCase();
+                workingLine = workingLine.replace(protoBracket[0], '').trim();
+            }
+
+            // 3. Имя в квадратных скобках [My Proxy Name]
+            const nameBracket = workingLine.match(/\[([^\]]+)\]/);
+            if (nameBracket) {
+                name = nameBracket[1].trim();
+                workingLine = workingLine.replace(nameBracket[0], '').trim();
+            }
+
+            // НЕ удаляем все оставшиеся квадратные скобки — это ломает IPv6!
+
+            // ==================== 4. Надёжный парсинг адреса с IPv6 ====================
+
+            let addressPart = workingLine;
+            let authPart = '';
+
+            // Отделяем user:pass@ (используем последний @)
+            const atIndex = workingLine.lastIndexOf('@');
+            if (atIndex !== -1) {
+                authPart = workingLine.substring(0, atIndex);
+                addressPart = workingLine.substring(atIndex + 1).trim();
+
+                const colonIndex = authPart.indexOf(':');
+                if (colonIndex !== -1) {
+                    username = authPart.substring(0, colonIndex).trim();
+                    password = authPart.substring(colonIndex + 1).trim();
+                } else {
+                    username = authPart.trim();
+                }
+            }
+
+            // Парсим host:port или [IPv6]:port
+            let portSeparatorIndex = -1;
+
+            // IPv6 в скобках — ищем маркер ']:'
+            if (addressPart.startsWith('[')) {
+                const closingBracket = addressPart.indexOf(']');
+                if (closingBracket !== -1 && addressPart[closingBracket + 1] === ':') {
+                    portSeparatorIndex = closingBracket + 1;
+                }
+            }
+
+            // Обычный случай — последнее двоеточие
+            if (portSeparatorIndex === -1) {
+                portSeparatorIndex = addressPart.lastIndexOf(':');
+            }
+
+            // Fallback — пробел как разделитель
+            if (portSeparatorIndex === -1) {
+                const partsBySpace = addressPart.split(/\s+/);
+                if (partsBySpace.length >= 2) {
+                    host = partsBySpace[0].trim();
+                    port = parseInt(partsBySpace[1], 10);
+                }
+            } else {
+                host = addressPart.substring(0, portSeparatorIndex).trim();
+                port = parseInt(addressPart.substring(portSeparatorIndex + 1), 10);
+            }
+
+            // Убираем квадратные скобки вокруг IPv6
+            if (host.startsWith('[') && host.endsWith(']')) {
+                host = host.slice(1, -1);
+            }
+
+            if (!host || !port || isNaN(port) || port < 1 || port > 65535) continue;
+
+            // =====================================================================
+
+            const proxy = new ProxyServer();
+            proxy.CopyFrom({
+                name: name || `${host}:${port}`,
+                host: host,
+                port: port,
+                protocol: protocol,
+                username: username,
+                password: password,
+                rating: 0,
+                order: 999999
+            });
+
+            parsedProxies.push(proxy);
+        }
+
+        return parsedProxies;
+    },
+
+    parseJson: (jsonText: string, options?: ProxyServerSubscription): ProxyServer[] => {
+        try {
+            const data = JSON.parse(jsonText);
+            if (!Array.isArray(data)) return null;
+
+            const proxies: ProxyServer[] = [];
+            for (const item of data) {
+                if (typeof item === 'object' && item !== null) {
+                    const proxy = new ProxyServer();
+                    proxy.CopyFrom({
+                        ...item,
+                        rating: item.rating ?? 0,
+                        order: item.order ?? 999999
+                    });
+                    proxies.push(proxy);
+                }
+            }
+            return proxies;
         } catch (e) {
+            Debug.error("ProxyImporter.parseJson failed", e);
             return null;
         }
     }
-
-    let proxyListLines = proxyListText.split(/(\r|\n)/);
-    let parsedProxies: ProxyServer[] = [];
-    let defaultProxyProtocol = options?.proxyProtocol || "HTTP";
-
-    // Список поддерживаемых протоколов
-    // const validProtocols = ['HTTP', 'HTTPS', 'SOCKS4', 'SOCKS5'];
-
-    for (let proxyLine of proxyListLines) {
-        proxyLine = proxyLine.trim();
-        if (proxyLine.length < 4) continue;
-
-        // 1. Ищем протокол в квадратных скобках [PROTOCOL] среди всех скобок
-        let protocol = defaultProxyProtocol;
-        let lineWithoutProtocol = proxyLine;
-        let proxyName: string = null;
-        
-        // Регулярное выражение для поиска [ПРОТОКОЛ] (регистронезависимо)
-        const protocolBracketRegex = /\[(HTTP|HTTPS|SOCKS4|SOCKS5)\]/i;
-        const match = proxyLine.match(protocolBracketRegex);
-        if (match) {
-            protocol = match[1].toUpperCase();
-            // Удаляем эту конкретную скобку из строки (оставляем остальные)
-            lineWithoutProtocol = proxyLine.replace(protocolBracketRegex, '').trim();
-        }
-
-        // 2. Извлекаем имя/описание из остальных квадратных скобок (если есть)
-        const nameMatches = lineWithoutProtocol.match(/\[([^\]]+)\]/g);
-        if (nameMatches && nameMatches.length > 0) {
-            // Берём первую скобку после удаления протокола как имя
-            const firstName = nameMatches[0].replace(/\[|\]/g, '').trim();
-            if (firstName) proxyName = firstName;
-            // Удаляем все квадратные скобки для дальнейшего парсинга host:port
-            lineWithoutProtocol = lineWithoutProtocol.replace(/\[[^\]]+\]/g, '').trim();
-        }
-
-        // 3. Теперь разбираем оставшуюся часть как host:port или host port или URL-формат
-        let host: string = null;
-        let port: number = null;
-        let username: string = null;
-        let password: string = null;
-
-        // Формат protocol://user:pass@host:port (переопределяет протокол, если он был извлечён из скобок)
-        const urlMatch = lineWithoutProtocol.match(/^(https?|socks4|socks5):\/\/(?:([^:@]+)(?::([^@]+))?@)?([^:\/]+)(?::(\d+))?/i);
-        if (urlMatch) {
-            protocol = urlMatch[1].toUpperCase();
-            username = urlMatch[2] || null;
-            password = urlMatch[3] || null;
-            host = urlMatch[4];
-            const portStr = urlMatch[5];
-            if (portStr) port = parseInt(portStr, 10);
-        } else {
-            // Простой формат host:port или host port
-            const parts = lineWithoutProtocol.split(/[:\s]+/);
-            if (parts.length >= 2) {
-                host = parts[0];
-                port = parseInt(parts[1], 10);
-                // Если есть ещё части, возможно, это username:password (не обрабатываем)
-            }
-        }
-
-        if (!host || !port || isNaN(port)) continue;
-
-        const proxy = new ProxyServer();
-        proxy.host = host;
-        proxy.port = port;
-        proxy.protocol = protocol;
-        proxy.username = username;
-        proxy.password = password;
-        // Если есть извлечённое имя, используем его, иначе стандартное
-        proxy.name = proxyName ? proxyName : `${host}:${port}`;
-        proxy.id = proxy.name;
-
-        parsedProxies.push(proxy);
-    }
-
-    return parsedProxies;
-},
-	parseJson: (proxyListText: string, options?: ProxyServerSubscription): ProxyServer[] => {
-
-		if (options && options.obfuscation) {
-			try {
-				if (options.obfuscation.toLowerCase() == "base64") {
-					// decode base64
-					proxyListText = atob(proxyListText);
-				}
-			} catch (e) {
-				return null;
-			}
-		}
-
-		let resultProxies: ProxyServer[] = [];
-		try {
-			let proxyJsonList = JSON.parse(proxyListText);
-			if (!proxyJsonList)
-				return null;
-
-			if (!Array.isArray(proxyJsonList))
-				proxyJsonList = [proxyJsonList];
-
-			for (const proxy of proxyJsonList) {
-				let item = new ProxyServer();
-
-				item.name = proxy["name"] || ((proxy["country"] ? `${proxy["country"]} - ` : '') + `${proxy["ip"]}:${proxy["port"]}`);
-				item.id = item.name; // id should be same as name, because id should be consistent between multiple reads
-				item.host = proxy["ip"];
-				item.port = parseInt(proxy["port"]);
-				
-				// Нормализуем протокол в верхний регистр
-				let protocol = proxy["protocol"];
-				if (protocol) {
-					item.protocol = protocol.toUpperCase();
-				} else {
-					item.protocol = "HTTP";
-				}
-				
-				item.username = proxy["username"];
-				item.password = proxy["password"];
-
-				if (!Settings.validateProxyServer(item, true).success)
-					continue;
-
-				resultProxies.push(item);
-			}
-
-			return resultProxies;
-
-		} catch (error) {
-			Debug.log("ProxyImporter.parseJson failed", error, proxyListText);
-			return null;
-		}
-	}
-}
+};

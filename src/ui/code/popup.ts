@@ -264,29 +264,31 @@ export class popup {
 
 			cmbActiveProxy.on("change", popup.onActiveProxyChange);
 
-			// Add context menu for rating change (right-click on the select)
-			if (popup.popupData?.enableRating) {
-			cmbActiveProxy.on("contextmenu", (e: any) => {
-				e.preventDefault();
-				const selectedOption = cmbActiveProxy.find("option:selected");
-				if (!selectedOption.length) return;
-				const proxyId = selectedOption.val();
-				const proxyName = selectedOption.text();
+// Add context menu for rating change (right-click on the select)
+if (popup.popupData?.enableRating) {
+    // Удаляем все предыдущие обработчики, чтобы избежать дублирования
+    cmbActiveProxy.off("contextmenu");
+    cmbActiveProxy.on("contextmenu", (e: any) => {
+        e.preventDefault();
+        const selectedOption = cmbActiveProxy.find("option:selected");
+        if (!selectedOption.length) return;
+        const proxyId = selectedOption.val();
+        const proxyName = selectedOption.text();
 
-				popup.showRatingDialog(proxyName, (delta: number) => {
-					if (delta === 0) return;
-					PolyFill.runtimeSendMessage({
-						command: "UpdateProxyRating",
-						proxyId: proxyId,
-						delta: delta
-					}, (response: any) => {
-						if (response && response.success) {
-							popup.refreshPopupData();
-						}
-					});
-				});
-				return false;
-			});
+        popup.showRatingDialog(proxyName, (delta: number) => {
+            if (delta === 0) return;
+            PolyFill.runtimeSendMessage({
+                command: "UpdateProxyRating",
+                proxyId: proxyId,
+                delta: delta
+            }, (response: any) => {
+                if (response && response.success) {
+                    popup.refreshPopupData();
+                }
+            });
+        });
+        return false;
+    });
 }
 		} else {
 			// for one or less we dont show the select proxy

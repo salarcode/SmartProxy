@@ -254,192 +254,258 @@ export class settingsPage {
 
 		// Debug
 		jq("#btnEnableDiagnostics").click(settingsPage.uiEvents.onClickEnableDiagnostics);
+		// Обработчик включения/выключения рейтинга (заменяет существующий)
+jq("#chkEnableRating").off('change').on('change', async function () {
+    const enabled = jq(this).prop('checked');
+
+    const generalOptions = settingsPage.readGeneralOptions();
+    generalOptions.enableRating = enabled;
+    
+    PolyFill.runtimeSendMessage(
+        {
+            command: CommandMessages.SettingsPageSaveOptions,
+            options: generalOptions
+        },
+        (response: ResultHolder) => {
+            if (response && response.success) {
+                settingsPage.currentSettings.options.enableRating = enabled;
+                
+                if (!settingsPage.grdServers) return;
+                
+                settingsPage.grdServers.column(6).visible(enabled);
+                
+                if (enabled) {
+                    settingsPage.sortTableByRating();
+                } else {
+                    const currentData = settingsPage.grdServers.rows({ order: 'current' }).data().toArray() as ProxyServer[];
+                    const sortedByOrder = [...currentData].sort((a, b) => 
+                        (a.order ?? 999999) - (b.order ?? 999999)
+                    );
+                    
+                    settingsPage.grdServers
+                        .clear()
+                        .rows.add(sortedByOrder)
+                        .order([])
+                        .draw(false);
+                }
+            } else {
+                if (response && response.message)
+                    messageBox.error(response.message);
+                jq(this).prop('checked', !enabled);
+            }
+        },
+        (error: Error) => {
+            messageBox.error(api.i18n.getMessage("settingsErrorFailedToSaveGeneral") + " " + error.message);
+            jq(this).prop('checked', !enabled);
+        }
+    );
+});
 
 		jq(window).on("beforeunload", settingsPage.uiEvents.onWindowUnload);
 	}
 
 	private static initializeGrids() {
 
-		let dataTableCustomDom = '<t><"row"<"col-sm-12 col-md-5"<"text-left float-left"f>><"col-sm-12 col-md-7"<"text-right"l>>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>';
-		// Get saved page length for servers grid
-		settingsPage.grdServers = jq("#grdServers").DataTable({
-			"dom": dataTableCustomDom,
-			order: [[0, 'asc']],
-			stateSave: true,
-			paging: true,
-			pageLength: settingsPage.currentSettings?.uiOptions?.proxyServersGridRows || 10,
-			select: { style: "os" },
-			scrollY: 460,
-			scrollCollapse: true,
-			responsive: true,
-			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-			ordering: true,
-			rowReorder: {
-				dataSrc: 'order',
-				selector: 'tr>td:first-child>i',
-				snapX: true
-			},
-			columnDefs: [
-				{ targets: 0, visible: false }
-			],
-			columns: [
-    {
-        name: "order", data: "order", title: '', defaultContent: `<i class="fas fa-random"></i>`, width: 20, orderable: false
-    },
-    {
-        name: "name", data: "name", title: api.i18n.getMessage("settingsServersGridColName"),
-        render: (data, type, row: ProxyServer) => {
-            return `<i class="fas fa-bars fa-xs px-2 cursor-move"></i>  ` + (row.name || '')
+    let dataTableCustomDom = '<t><"row"<"col-sm-12 col-md-5"<"text-left float-left"f>><"col-sm-12 col-md-7"<"text-right"l>>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>';
+    // Get saved page length for servers grid
+    settingsPage.grdServers = jq("#grdServers").DataTable({
+        "dom": dataTableCustomDom,
+        order: [[0, 'asc']],
+        stateSave: true,
+        paging: true,
+        pageLength: settingsPage.currentSettings?.uiOptions?.proxyServersGridRows || 10,
+        select: { style: "os" },
+        scrollY: 460,
+        scrollCollapse: true,
+        responsive: true,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        ordering: true,
+        rowReorder: {
+            dataSrc: 'order',
+            selector: 'tr>td:first-child>i',
+            snapX: true
         },
-        orderable: false,
-        responsivePriority: 1
-    },
-    {
-    name: "country", data: "countryCode", title: api.i18n.getMessage("settingsServersGridColCountry"), orderable: true,
-    render: (data, type, row: ProxyServer) => {
-        let countryCode = row.countryCode;
-        if (!countryCode && row.host) {
-            countryCode = CountryCode.getCountryCode(row.host);
+        columnDefs: [
+            { targets: 0, visible: false }
+        ],
+        columns: [
+            {
+                name: "order", data: "order", title: '', defaultContent: `<i class="fas fa-random"></i>`, width: 20, orderable: false
+            },
+            {
+                name: "name", data: "name", title: api.i18n.getMessage("settingsServersGridColName"),
+                render: (data, type, row: ProxyServer) => {
+                    return `<i class="fas fa-bars fa-xs px-2 cursor-move"></i>  ` + (row.name || '')
+                },
+                orderable: false,
+                responsivePriority: 1
+            },
+            {
+                name: "country", data: "countryCode", title: api.i18n.getMessage("settingsServersGridColCountry"), orderable: true,
+                render: (data, type, row: ProxyServer) => {
+                    let countryCode = row.countryCode;
+                    if (!countryCode && row.host) {
+                        countryCode = CountryCode.getCountryCode(row.host);
+                    }
+                    const flag = CountryCode.getCountryFlagEmoji(countryCode?.toUpperCase());
+                    const code = countryCode ? countryCode.toUpperCase() : "??";
+                    return `<span class="flag-emoji">${flag}</span> ${code}`;
+                }
+            },
+            {
+                name: "protocol", data: "protocol", title: api.i18n.getMessage("settingsServersGridColProtocol"), orderable: true
+            },
+            {
+                name: "host", data: "host", title: api.i18n.getMessage("settingsServersGridColServer"), orderable: false
+            },
+            {
+                name: "port", data: "port", type: "num", title: api.i18n.getMessage("settingsServersGridColPort"), orderable: false
+            },
+            {
+                name: "rating", data: "rating", title: api.i18n.getMessage("settingsServersGridColRating"), orderable: true,
+                render: (data, type, row: ProxyServer) => {
+                    const rating = row.rating ?? 0;
+                    if (rating === 0) return "0";
+                    return rating > 0 ? `+${rating}` : `${rating}`;
+                }
+            },
+            {
+                "width": "70px",
+                "data": null, orderable: false,
+                "className": "text-nowrap",
+                "defaultContent": `<button class='btn btn-sm btn-success' id='btnServersEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>`,
+                responsivePriority: 2
+            }
+        ],
+    });
+
+    // ================================================
+    // СИНХРОНИЗАЦИЯ ПОРЯДКА ПРИ ЛЮБЫХ ИЗМЕНЕНИЯХ
+    // ================================================
+
+    // После любой перерисовки таблицы (включая восстановление stateSave)
+    settingsPage.grdServers.on('draw.dt', () => {
+        settingsPage.syncProxyOrderFromCurrentView();
+    });
+
+    // При сортировке по любой колонке (клик по заголовку)
+    settingsPage.grdServers.on('order.dt', () => {
+        settingsPage.changeTracking.servers = true;
+    });
+
+    // При ручном перетаскивании строк (rowReorder)
+    settingsPage.grdServers.on('row-reorder.dt', () => {
+        settingsPage.syncProxyOrderFromCurrentView();
+        settingsPage.changeTracking.servers = true;
+    });
+
+    // Существующие обработчики
+    settingsPage.grdServers.on('responsive-display',
+        function (e, dataTable, row, showHide, update) {
+            let rowChild = row.child();
+            if (showHide && rowChild && rowChild.length)
+                settingsPage.refreshServersGridRowElement(rowChild[0]);
         }
-        const flag = CountryCode.getCountryFlagEmoji(countryCode?.toUpperCase());
-        const code = countryCode ? countryCode.toUpperCase() : "??";
-        return `<span class="flag-emoji">${flag}</span> ${code}`;
-    }
-},
-    {
-        name: "protocol", data: "protocol", title: api.i18n.getMessage("settingsServersGridColProtocol"), orderable: true
-    },
-    {
-        name: "host", data: "host", title: api.i18n.getMessage("settingsServersGridColServer"), orderable: false
-    },
-    {
-        name: "port", data: "port", type: "num", title: api.i18n.getMessage("settingsServersGridColPort"), orderable: false
-    },
-	{
-    name: "rating", data: "rating", title: api.i18n.getMessage("settingsServersGridColRating"), orderable: true,
-    render: (data, type, row: ProxyServer) => {
-        const rating = row.rating ?? 0;
-        if (rating === 0) return "0";
-        return rating > 0 ? `+${rating}` : `${rating}`;
-    }
-},
-    {
-        "width": "70px",
-        "data": null, orderable: false,
-        "className": "text-nowrap",
-        "defaultContent": `<button class='btn btn-sm btn-success' id='btnServersEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnServersRemove'><i class='fas fa-times'></button>`,
-        responsivePriority: 2
-    }
-],
-		});
-		settingsPage.grdServers.on('responsive-display',
-			function (e, dataTable, row, showHide, update) {
-				let rowChild = row.child();
+    );
+    settingsPage.grdServers.on("select deselect", () => {
+        settingsPage.uiEvents.onRowSelectionChanged(settingsPage.grdServers, jq("#btnRemoveMultipleProxyServer"));
+    });
+    settingsPage.grdServers.on('length.dt', function (e, settings, len) {
+        // Save page length when changed
+        settingsPage.currentSettings.uiOptions.proxyServersGridRows = len || 10;
+        settingsPage.saveUiOptions();
+    });
 
-				if (showHide && rowChild && rowChild.length)
-					settingsPage.refreshServersGridRowElement(rowChild[0]);
-			}
-		);
-		settingsPage.grdServers.on("select deselect", () => {
-			settingsPage.uiEvents.onRowSelectionChanged(settingsPage.grdServers, jq("#btnRemoveMultipleProxyServer"));
-		});
-		settingsPage.grdServers.on('length.dt', function (e, settings, len) {
-			// Save page length when changed
-			settingsPage.currentSettings.uiOptions.proxyServersGridRows = len || 10;
-			settingsPage.saveUiOptions();
-		});
-		// Скрыть колонку рейтинга, если рейтинг отключён
-if (settingsPage.currentSettings?.options?.enableRating === false) {
-    settingsPage.grdServers.column(6).visible(false);
+    // Скрыть колонку рейтинга, если рейтинг отключён
+    if (settingsPage.currentSettings?.options?.enableRating === false) {
+        settingsPage.grdServers.column(6).visible(false);
+    }
+
+    settingsPage.grdServers.draw();
+
+    // Далее инициализация таблицы подписок (без изменений)
+    settingsPage.grdServerSubscriptions = jq("#grdServerSubscriptions").DataTable({
+        "dom": dataTableCustomDom,
+        paging: true,
+        pageLength: settingsPage.currentSettings?.uiOptions?.serverSubscriptionsGridRows || 10,
+        select: { style: "os" },
+        scrollY: 460,
+        scrollCollapse: true,
+        responsive: true,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        ordering: false,
+        columns: [
+            {
+                name: "name", data: "name", title: api.i18n.getMessage("settingsServerSubscriptionsGridColName"),
+                responsivePriority: 1
+            },
+            {
+                name: "url", data: "url", title: api.i18n.getMessage("settingsServerSubscriptionsGridColUrl"),
+                responsivePriority: 3,
+                render: (data, type, row: ProxyServerSubscription) => {
+                    let render = row.url;
+                    let stats = row.stats;
+                    if (stats) {
+                        let status = SubscriptionStats.ToString(stats);
+                        if (row.stats.lastStatus) {
+                            render += ` <div id='btnServerSubscriptionsViewStats' title='${status}' class='cursor-pointer float-end'><i class="fas fa-check-circle text-success"></i></div> `;
+                        } else {
+                            render += ` <div id='btnServerSubscriptionsViewStats' title='${status}' class='cursor-pointer float-end'><i class="fas fa-exclamation-triangle text-danger"></i></div> `;
+                        }
+                    }
+                    return render;
+                },
+            },
+            {
+                name: "totalCount", data: "totalCount", type: "num", title: api.i18n.getMessage("settingsServerSubscriptionsGridColCount")
+            },
+            {
+                name: "enabled", data: "enabled", title: api.i18n.getMessage("settingsServerSubscriptionsGridColEnabled"),
+            },
+            {
+                "width": "70px",
+                "data": null,
+                "className": "text-nowrap",
+                "defaultContent": `<button class='btn btn-sm btn-success' id='btnSubscriptionsEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnSubscriptionsRemove'><i class='fas fa-times'></button>`,
+                responsivePriority: 2
+            }
+        ],
+    });
+
+    settingsPage.grdServerSubscriptions.on('responsive-display',
+        function (e, dataTable, row, showHide, update) {
+            let rowChild = row.child();
+            if (showHide && rowChild && rowChild.length)
+                settingsPage.refreshServerSubscriptionsGridRowElement(rowChild[0]);
+        }
+    );
+    settingsPage.grdServerSubscriptions.on("select deselect", () => {
+        settingsPage.uiEvents.onRowSelectionChanged(settingsPage.grdServerSubscriptions, jq("#btnRemoveMultipleServerSubscription"));
+    });
+    settingsPage.grdServerSubscriptions.on('length.dt', function (e, settings, len) {
+        // Save page length when changed
+        settingsPage.currentSettings.uiOptions.serverSubscriptionsGridRows = len || 10;
+        settingsPage.saveUiOptions();
+    });
+    settingsPage.grdServerSubscriptions.draw();
+
+    if (settingsPage.currentSettings) {
+        if (settingsPage.currentSettings.proxyServers)
+            settingsPage.loadServersGrid(settingsPage.currentSettings.proxyServers);
+        if (settingsPage.currentSettings.proxyServerSubscriptions)
+            settingsPage.loadServerSubscriptionsGrid(settingsPage.currentSettings.proxyServerSubscriptions);
+    } else {
+        settingsPage.loadServersGrid([]);
+        settingsPage.loadServerSubscriptionsGrid([]);
+    }
+
+    jq(`.nav-link[href='#tab-servers'],
+        .nav-link[href='#tab-server-subscriptions']`).on('shown.bs.tab', (e: any) => {
+        // DataTables columns are not adjusted when hidden, needs to be done manually
+        settingsPage.grdServers.columns.adjust().draw();
+        settingsPage.grdServerSubscriptions.columns.adjust().draw();
+    });
 }
-		settingsPage.grdServers.draw();
-
-		settingsPage.grdServerSubscriptions = jq("#grdServerSubscriptions").DataTable({
-			"dom": dataTableCustomDom,
-			paging: true,
-			pageLength: settingsPage.currentSettings?.uiOptions?.serverSubscriptionsGridRows || 10,
-			select: { style: "os" },
-			scrollY: 460,
-			scrollCollapse: true,
-			responsive: true,
-			lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-			ordering: false,
-			columns: [
-				{
-					name: "name", data: "name", title: api.i18n.getMessage("settingsServerSubscriptionsGridColName"),
-					responsivePriority: 1
-				},
-				{
-					name: "url", data: "url", title: api.i18n.getMessage("settingsServerSubscriptionsGridColUrl"),
-					responsivePriority: 3,
-					render: (data, type, row: ProxyServerSubscription) => {
-						let render = row.url;
-						let stats = row.stats;
-						if (stats) {
-							let status = SubscriptionStats.ToString(stats);
-
-							if (row.stats.lastStatus) {
-								render += ` <div id='btnServerSubscriptionsViewStats' title='${status}' class='cursor-pointer float-end'><i class="fas fa-check-circle text-success"></i></div> `;
-							}
-							else {
-								render += ` <div id='btnServerSubscriptionsViewStats' title='${status}' class='cursor-pointer float-end'><i class="fas fa-exclamation-triangle text-danger"></i></div> `;
-							}
-						}
-						return render;
-					},
-				},
-				{
-					name: "totalCount", data: "totalCount", type: "num", title: api.i18n.getMessage("settingsServerSubscriptionsGridColCount")
-				},
-				{
-					name: "enabled", data: "enabled", title: api.i18n.getMessage("settingsServerSubscriptionsGridColEnabled"),
-				},
-				{
-					"width": "70px",
-					"data": null,
-					"className": "text-nowrap",
-					"defaultContent": `<button class='btn btn-sm btn-success' id='btnSubscriptionsEdit'>${api.i18n.getMessage("settingsEditButton")}</button> <button class='btn btn-sm btn-danger' id='btnSubscriptionsRemove'><i class='fas fa-times'></button>`,
-					responsivePriority: 2
-				}
-			],
-		});
-		settingsPage.grdServerSubscriptions.on('responsive-display',
-			function (e, dataTable, row, showHide, update) {
-				let rowChild = row.child();
-				if (showHide && rowChild && rowChild.length)
-					settingsPage.refreshServerSubscriptionsGridRowElement(rowChild[0]);
-			}
-		);
-		settingsPage.grdServerSubscriptions.on("select deselect", () => {
-			settingsPage.uiEvents.onRowSelectionChanged(settingsPage.grdServerSubscriptions, jq("#btnRemoveMultipleServerSubscription"));
-		});
-		settingsPage.grdServerSubscriptions.on('length.dt', function (e, settings, len) {
-			// Save page length when changed
-			settingsPage.currentSettings.uiOptions.serverSubscriptionsGridRows = len || 10;
-			settingsPage.saveUiOptions();
-		});
-		settingsPage.grdServerSubscriptions.draw();
-
-		if (settingsPage.currentSettings) {
-			if (settingsPage.currentSettings.proxyServers)
-				settingsPage.loadServersGrid(settingsPage.currentSettings.proxyServers);
-
-			if (settingsPage.currentSettings.proxyServerSubscriptions)
-				settingsPage.loadServerSubscriptionsGrid(settingsPage.currentSettings.proxyServerSubscriptions);
-		}
-		else {
-			settingsPage.loadServersGrid([]);
-			settingsPage.loadServerSubscriptionsGrid([]);
-		}
-		jq(`.nav-link[href='#tab-servers'],
-			.nav-link[href='#tab-server-subscriptions']`).on('shown.bs.tab', (e: any) => {
-
-			// DataTables columns are not adjusted when hidden, needs to be done manually
-			settingsPage.grdServers.columns.adjust().draw();
-			settingsPage.grdServerSubscriptions.columns.adjust().draw();
-		});
-	}
-
 	private static localizeUi() {
 		if (settingsPage.localized)
 			return;
@@ -1261,14 +1327,48 @@ private static loadServersGrid(servers: any[]) {
 
 private static readServers(): ProxyServer[] {
     let servers: ProxyServer[] = [];
+    // Получаем строки в ТЕКУЩЕМ визуальном порядке (после любой сортировки колонок, перетаскивания или stateSave)
     let rows = this.grdServers.rows({ order: 'current' }).nodes();
+
     for (let i = 0; i < rows.length; i++) {
-        let rowData = this.grdServers.row(rows[i]).data();
+        let rowData = this.grdServers.row(rows[i]).data() as ProxyServer;
         if (rowData) {
+            rowData.order = i;                    // Ключевое исправление — сохраняем актуальный порядок
             servers.push(rowData);
         }
     }
     return servers;
+}
+/**
+ * Синхронизирует поле .order у всех прокси с текущим визуальным порядком таблицы.
+ * Вызывается после draw, сортировки и перетаскивания.
+ */
+private static syncProxyOrderFromCurrentView(): void {
+    let hasChanges = false;
+    const rows = this.grdServers.rows({ order: 'current' }).nodes();
+
+    for (let i = 0; i < rows.length; i++) {
+        const rowData = this.grdServers.row(rows[i]).data() as ProxyServer;
+        if (rowData && rowData.order !== i) {
+            rowData.order = i;
+            hasChanges = true;
+        }
+    }
+
+    if (hasChanges) {
+        this.changeTracking.servers = true;
+    }
+}
+
+/**
+ * Автоматически сортирует таблицу по колонке "Rating" по убыванию
+ */
+private static sortTableByRating(): void {
+    const ratingColumnIndex = 6;   // Рейтинг находится под индексом 6
+
+    this.grdServers
+        .order([ratingColumnIndex, 'desc'])
+        .draw(false);
 }
 	private static readSelectedServer(e?: any): any {
 		let dataItem;
