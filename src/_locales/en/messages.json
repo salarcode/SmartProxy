@@ -1297,7 +1297,7 @@
 		"message": "Proxy server changed to {0}"
 	},
 	"popupRatingDialogTitle": {
-    "message": "Works?"
+    "message": "Address working?"
 },
 "popupRatingWorksButton": {
     "message": "Yes (+1)"

@@ -1297,7 +1297,7 @@
 		"message": "Прокси-сервер изменён на {0}"
 	},
 	"popupRatingDialogTitle": {
-    "message": "Работает?"
+    "message": "Адрес работает?"
 },
 "popupRatingWorksButton": {
     "message": "Да (+1)"
