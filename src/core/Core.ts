@@ -366,7 +366,36 @@ export class Core {
 			case CommandMessages.SettingsPageSaveOptions: {
 				if (!message.options)
 					return;
+				const syncWasEnabled = settingsLib.current.options?.syncSettings === true;
+				const previousOptions = settingsLib.current.options;
 				settingsLib.current.options = message.options;
+
+				if (!syncWasEnabled && message.options.syncSettings) {
+					settingsOperationLib.performInitialSyncMerge(
+						() => {
+							// update proxy rules
+							proxyEngineLib.updateBrowsersProxyConfig();
+
+							if (sendResponse) {
+								sendResponse({
+									success: true,
+									// General options saved successfully.
+									message: api.i18n.getMessage('settingsSaveOptionsSuccess'),
+								});
+							}
+						},
+						(error: Error) => {
+							settingsLib.current.options = previousOptions;
+							if (sendResponse) {
+								sendResponse({
+									success: false,
+									message: api.i18n.getMessage("settingsErrorFailedToSaveGeneral") + " " + error.message
+								});
+							}
+						});
+					return true;
+				}
+
 				settingsOperationLib.saveOptions();
 				settingsOperationLib.saveAllSync();
 

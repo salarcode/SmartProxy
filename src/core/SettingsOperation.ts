@@ -19,7 +19,7 @@ import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyServerFromSubscription, ProxyServerSubscription, SettingsConfig, SmartProfile, UpdateInfo } from "./definitions";
+import { GeneralOptions, ProxyRule, ProxyRulesSubscription, ProxyServer, ProxyServerFromSubscription, ProxyServerSubscription, SettingsConfig, SmartProfile, UpdateInfo } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
@@ -165,6 +165,58 @@ export class SettingsOperation {
 		Settings.current = restoredSyncedSettings;
 
 		Settings.updateActiveSettings();
+	}
+	public static performInitialSyncMerge(onSuccess?: Function, onError?: Function) {
+		me.readConfiguredSyncSettings(
+			(syncedSettings: SettingsConfig) => {
+				if (!syncedSettings?.options) {
+					me.saveAllSync();
+					me.reloadSubscriptionsAfterSyncMerge();
+					if (onSuccess)
+						onSuccess();
+					return;
+				}
+
+				const remoteSettings = Settings.getRestorableSettings(JSON.parse(JSON.stringify(syncedSettings)));
+				const remoteSettingsSyncable = JSON.stringify(me.getStrippedSyncableSettings(remoteSettings));
+				const mergedSettings = me.mergeSettingsForInitialSync(remoteSettings, Settings.current);
+				const mergedSettingsSyncable = JSON.stringify(me.getStrippedSyncableSettings(mergedSettings));
+				const mergeChangedSettings = remoteSettingsSyncable !== mergedSettingsSyncable;
+
+				me.applySyncSettings(mergedSettings);
+				SettingsOperation.saveAllLocal(true);
+
+				if (mergeChangedSettings) {
+					me.saveAllSync();
+				}
+
+				me.reloadSubscriptionsAfterSyncMerge();
+
+				if (onSuccess)
+					onSuccess();
+			},
+			(error: Error) => {
+				if (me.isMissingSyncDataError(error)) {
+					me.saveAllSync();
+					me.reloadSubscriptionsAfterSyncMerge();
+					if (onSuccess)
+						onSuccess();
+					return;
+				}
+
+				if (onError)
+					onError(error);
+			});
+	}
+	public static mergeSettingsForInitialSync(baseSettings: SettingsConfig, incomingSettings: SettingsConfig): SettingsConfig {
+		let mergedSettings = Settings.getRestorableSettings(JSON.parse(JSON.stringify(baseSettings)));
+
+		me.mergeProxyServers(mergedSettings, incomingSettings);
+		me.mergeProxyServerSubscriptions(mergedSettings, incomingSettings);
+		me.mergeSmartProfiles(mergedSettings, incomingSettings);
+
+		Settings.ensureIntegrityOfSettings(mergedSettings);
+		return mergedSettings;
 	}
 
 	/** In local options if sync is disabled for these particular options, don't update them from sync server */
@@ -493,6 +545,151 @@ export class SettingsOperation {
 			return new TextDecoder().decode(rawData);
 
 		return String(rawData);
+	}
+	private static readConfiguredSyncSettings(onSuccess: Function, onError?: Function) {
+		if (Settings.current.options.syncWebDavServerEnabled) {
+			me.readFromWebDavServer(
+				Settings.current.options.syncWebDavServerUrl,
+				Settings.current.options.syncWebDavBackupFilename,
+				Settings.current.options.syncWebDavServerUser,
+				Settings.current.options.syncWebDavServerPassword,
+				onSuccess,
+				onError);
+			return;
+		}
+
+		polyFillLib.storageSyncGet(
+			null,
+			(data: any) => {
+				try {
+					onSuccess(utilsLib.decodeSyncData(data));
+				} catch (e) {
+					if (onError)
+						onError(me.normalizeError(e));
+				}
+			},
+			(error: any) => {
+				if (onError)
+					onError(me.normalizeError(error));
+			});
+	}
+	private static reloadSubscriptionsAfterSyncMerge() {
+		subscriptionUpdaterLib.setServerSubscriptionsRefreshTimers();
+		subscriptionUpdaterLib.reloadEmptyServerSubscriptions();
+		subscriptionUpdaterLib.setRulesSubscriptionsRefreshTimers();
+		subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
+		subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode();
+	}
+	private static mergeProxyServers(targetSettings: SettingsConfig, sourceSettings: SettingsConfig) {
+		if (!sourceSettings?.proxyServers?.length)
+			return;
+
+		targetSettings.proxyServers ||= [];
+		for (const proxyServer of sourceSettings.proxyServers) {
+			if (!proxyServer?.id)
+				continue;
+
+			if (targetSettings.proxyServers.find(existing => existing.id === proxyServer.id))
+				continue;
+
+			let copyProxy = new ProxyServer();
+			copyProxy.CopyFrom(proxyServer);
+			if (copyProxy.isValid())
+				targetSettings.proxyServers.push(copyProxy);
+		}
+	}
+	private static mergeProxyServerSubscriptions(targetSettings: SettingsConfig, sourceSettings: SettingsConfig) {
+		if (!sourceSettings?.proxyServerSubscriptions?.length)
+			return;
+
+		targetSettings.proxyServerSubscriptions ||= [];
+		for (const subscription of sourceSettings.proxyServerSubscriptions) {
+			if (!subscription)
+				continue;
+
+			let existingSubscription = targetSettings.proxyServerSubscriptions.find(existing =>
+				existing.name === subscription.name &&
+				existing.url === subscription.url);
+			if (existingSubscription)
+				continue;
+
+			let copySubscription = new ProxyServerSubscription();
+			copySubscription.CopyFrom(subscription);
+			if (copySubscription.isValid())
+				targetSettings.proxyServerSubscriptions.push(copySubscription);
+		}
+	}
+	private static mergeSmartProfiles(targetSettings: SettingsConfig, sourceSettings: SettingsConfig) {
+		if (!sourceSettings?.proxyProfiles?.length)
+			return;
+
+		targetSettings.proxyProfiles ||= [];
+		for (const profile of sourceSettings.proxyProfiles) {
+			if (!profile)
+				continue;
+
+			let existingProfile = targetSettings.proxyProfiles.find(existing =>
+				existing.profileId === profile.profileId ||
+				(existing.profileTypeConfig?.builtin && existing.profileType === profile.profileType) ||
+				existing.profileName === profile.profileName);
+
+			if (!existingProfile) {
+				let copyProfile = new SmartProfile();
+				ProfileOperations.copySmartProfile(profile, copyProfile);
+				targetSettings.proxyProfiles.push(copyProfile);
+				continue;
+			}
+
+			existingProfile.proxyRules ||= [];
+			for (const rule of profile.proxyRules || []) {
+				let copyRule = new ProxyRule();
+				copyRule.CopyFrom(rule);
+
+				if (!copyRule.isValid())
+					continue;
+
+				if (existingProfile.proxyRules.find(existingRule => me.areProxyRulesEquivalent(existingRule, copyRule)))
+					continue;
+
+				existingProfile.proxyRules.push(copyRule);
+			}
+
+			existingProfile.rulesSubscriptions ||= [];
+			for (const subscription of profile.rulesSubscriptions || []) {
+				let existingSubscription = existingProfile.rulesSubscriptions.find(existing =>
+					existing.id === subscription.id ||
+					(existing.name === subscription.name && existing.url === subscription.url));
+				if (existingSubscription)
+					continue;
+
+				let copySubscription = new ProxyRulesSubscription();
+				copySubscription.CopyFrom(subscription);
+				if (copySubscription.isValid())
+					existingProfile.rulesSubscriptions.push(copySubscription);
+			}
+		}
+	}
+	private static areProxyRulesEquivalent(firstRule: ProxyRule, secondRule: ProxyRule): boolean {
+		return +firstRule.ruleType === +secondRule.ruleType &&
+			(firstRule.hostName || '') === (secondRule.hostName || '') &&
+			(firstRule.ruleSearch || '') === (secondRule.ruleSearch || '') &&
+			(firstRule.rulePattern || '') === (secondRule.rulePattern || '') &&
+			(firstRule.ruleRegex || '') === (secondRule.ruleRegex || '') &&
+			(firstRule.ruleExact || '') === (secondRule.ruleExact || '') &&
+			(firstRule.whiteList || false) === (secondRule.whiteList || false) &&
+			(firstRule.proxyServerId || firstRule.proxy?.id || '') === (secondRule.proxyServerId || secondRule.proxy?.id || '');
+	}
+	private static isMissingSyncDataError(error: any): boolean {
+		const errorMessage = `${error?.message || error || ''}`.toLowerCase();
+		return errorMessage.includes('404') ||
+			errorMessage.includes('not found') ||
+			errorMessage.includes('no such file');
+	}
+	private static normalizeError(error: any): Error {
+		if (error instanceof Error)
+			return error;
+
+		return new Error(`${error}`);
 	}
 
 	public static saveAllLocal(forceSave: boolean = false) {
