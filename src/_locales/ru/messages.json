@@ -235,10 +235,10 @@
 		"message": "Прокси для вкладки/источника отключены"
 	},
 	"settingsRuleEnableProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin for this rule"
+		"message": "Включить прокси для вкладки/источника для этого правила"
 	},
 	"settingsRuleEnableProxyPerOriginDesc": {
-		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+		"message": "Если включено, запросы из соответствующей вкладки/источника также используют прокси этого правила."
 	},
 	"settingsGeneralSyncing": {
 		"message": "Синхронизация"

@@ -235,10 +235,10 @@
 		"message": "Proxy par onglet/origine désactivé"
 	},
 	"settingsRuleEnableProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin for this rule"
+		"message": "Activer le proxy par onglet/origine pour cette règle"
 	},
 	"settingsRuleEnableProxyPerOriginDesc": {
-		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+		"message": "Lorsqu’elle est activée, les requêtes provenant de l’onglet/de l’origine correspondants utilisent aussi le proxy de cette règle."
 	},
 	"settingsGeneralSyncing": {
 		"message": "Synchronisation"

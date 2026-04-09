@@ -235,10 +235,10 @@
 		"message": "تم تعطيل البروكسي لكل تبويب/أصل"
 	},
 	"settingsRuleEnableProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin for this rule"
+		"message": "تمكين الوكيل لكل علامة تبويب/مصدر لهذه القاعدة"
 	},
 	"settingsRuleEnableProxyPerOriginDesc": {
-		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+		"message": "عند التمكين، ستستخدم الطلبات من علامة التبويب/المصدر المطابق أيضًا وكيل هذه القاعدة."
 	},
 	"settingsGeneralSyncing": {
 		"message": "المزامنة"

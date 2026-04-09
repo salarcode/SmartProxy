@@ -235,10 +235,10 @@
 		"message": "Proxy per scheda/origine disabilitato"
 	},
 	"settingsRuleEnableProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin for this rule"
+		"message": "Abilita proxy per scheda/origine per questa regola"
 	},
 	"settingsRuleEnableProxyPerOriginDesc": {
-		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+		"message": "Quando è abilitata, anche le richieste della scheda/origine corrispondente usano il proxy di questa regola."
 	},
 	"settingsGeneralSyncing": {
 		"message": "Sincronizzazione"

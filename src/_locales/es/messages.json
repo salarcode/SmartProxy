@@ -235,10 +235,10 @@
 		"message": "Proxy por pestaña/origen deshabilitado"
 	},
 	"settingsRuleEnableProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin for this rule"
+		"message": "Habilitar proxy por pestaña/origen para esta regla"
 	},
 	"settingsRuleEnableProxyPerOriginDesc": {
-		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+		"message": "Cuando está activado, las solicitudes de la pestaña/origen coincidente también usan el proxy de esta regla."
 	},
 	"settingsGeneralSyncing": {
 		"message": "Sincronización"

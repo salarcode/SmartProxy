@@ -235,10 +235,10 @@
 		"message": "Proxy pro Tab/Origin deaktiviert"
 	},
 	"settingsRuleEnableProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin for this rule"
+		"message": "Proxy pro Tab/Ursprung für diese Regel aktivieren"
 	},
 	"settingsRuleEnableProxyPerOriginDesc": {
-		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+		"message": "Wenn aktiviert, verwenden Anfragen aus dem übereinstimmenden Tab/Ursprung ebenfalls den Proxy dieser Regel."
 	},
 	"settingsGeneralSyncing": {
 		"message": "Synchronisieren"

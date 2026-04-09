@@ -235,10 +235,10 @@
 		"message": "Sekme/orijin başına proxy devre dışı"
 	},
 	"settingsRuleEnableProxyPerOrigin": {
-		"message": "Enable proxy per tab/origin for this rule"
+		"message": "Bu kural için sekme/köken başına proxy'yi etkinleştir"
 	},
 	"settingsRuleEnableProxyPerOriginDesc": {
-		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+		"message": "Etkinleştirildiğinde, eşleşen sekme/kökenden gelen istekler de bu kuralın proxy'sini kullanır."
 	},
 	"settingsGeneralSyncing": {
 		"message": "Eşitleme"
