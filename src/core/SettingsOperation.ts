@@ -169,7 +169,7 @@ export class SettingsOperation {
 	public static performInitialSyncMerge(onSuccess?: Function, onError?: Function) {
 		me.readConfiguredSyncSettings(
 			(syncedSettings: SettingsConfig) => {
-				if (!syncedSettings?.options) {
+				if (!syncedSettings || !syncedSettings.options) {
 					me.saveAllSync();
 					me.reloadSubscriptionsAfterSyncMerge();
 					if (onSuccess)
