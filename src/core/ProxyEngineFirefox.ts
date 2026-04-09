@@ -216,34 +216,39 @@ export class ProxyEngineFirefox {
 						// document url is being changed, resetting the settings for that
 						tabData.resetTabState();
 					} else {
-						proxyLog.ruleHostName = tabData.proxyRuleHostName;
-
-						if (tabData.proxyMatchedRule) {
-							proxyLog.ruleSource = CompiledProxyRuleSource.Rules;
-
-							proxyLog.applyFromRule(tabData.proxyMatchedRule);
+						if (tabData.proxyMatchedRule?.noProxyPerOrigin === true) {
+							DiagDebug?.trace("FF.handleProxyRequest <ProxyPerOrigin skipped by rule>", 't=' + proxyLog.tabId, `OriginTab: ${tabData.url}`, proxyLog.url);
 						}
+						else {
+							proxyLog.ruleHostName = tabData.proxyRuleHostName;
 
-						if (tabData.proxyServerFromRule) {
-							if (tabData.proxyServerFromRule.username)
-								// Requires authentication. Mark as special and store authentication info.
-								ProxyEngineSpecialRequests.setSpecialUrl(
-									`${tabData.proxyServerFromRule.host}:${tabData.proxyServerFromRule.port}`,
-									null,
-									tabData.proxyServerFromRule,
-								);
+							if (tabData.proxyMatchedRule) {
+								proxyLog.ruleSource = CompiledProxyRuleSource.Rules;
 
-							// changing the active proxy server
-							currentProxyServer = tabData.proxyServerFromRule;
+								proxyLog.applyFromRule(tabData.proxyMatchedRule);
+							}
+
+							if (tabData.proxyServerFromRule) {
+								if (tabData.proxyServerFromRule.username)
+									// Requires authentication. Mark as special and store authentication info.
+									ProxyEngineSpecialRequests.setSpecialUrl(
+										`${tabData.proxyServerFromRule.host}:${tabData.proxyServerFromRule.port}`,
+										null,
+										tabData.proxyServerFromRule,
+									);
+
+								// changing the active proxy server
+								currentProxyServer = tabData.proxyServerFromRule;
+							}
+
+							proxyLog.matchedRuleStatus = ProxyableMatchedRuleStatus.ProxyPerOrigin;
+							proxyLog.proxifiedStatus = ProxyableProxifiedStatus.ProxyPerOrigin;
+
+							DiagDebug?.trace("FF.handleProxyRequest <ProxyPerOrigin>", 't=' + proxyLog.tabId, `OriginTab: ${tabData.url}`, proxyLog.url, SmartProfileType[activeProfileType]);
+
+							// TODO: since we do not return here anymore, check effects of `proxyLog.proxied = true`
+							return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
 						}
-
-						proxyLog.matchedRuleStatus = ProxyableMatchedRuleStatus.ProxyPerOrigin;
-						proxyLog.proxifiedStatus = ProxyableProxifiedStatus.ProxyPerOrigin;
-
-						DiagDebug?.trace("FF.handleProxyRequest <ProxyPerOrigin>", 't=' + proxyLog.tabId, `OriginTab: ${tabData.url}`, proxyLog.url, SmartProfileType[activeProfileType]);
-
-						// TODO: since we do not return here anymore, check effects of `proxyLog.proxied = true`
-						return ProxyEngineFirefox.getResultProxyInfo(currentProxyServer);
 					}
 				}
 			}

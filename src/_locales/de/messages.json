@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy pro Tab/Origin deaktiviert"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Enable proxy per tab/origin for this rule"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Synchronisieren"
 	},

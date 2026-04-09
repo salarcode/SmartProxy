@@ -42,6 +42,7 @@ export class ProxyRules {
 
 			newCompiled.ruleId = rule.ruleId;
 			newCompiled.whiteList = rule.whiteList;
+			newCompiled.noProxyPerOrigin = rule.noProxyPerOrigin;
 			newCompiled.hostName = rule.hostName;
 			newCompiled.proxy = rule.proxy;
 			if (rule.proxyServerId == ProxyRuleSpecialProxyServer.DefaultGeneral) {

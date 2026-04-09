@@ -725,6 +725,7 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val(proxyRule.ruleRegex);
 			modalContainer.find("#txtRuleUrlExact").val(proxyRule.ruleExact);
 			modalContainer.find("#chkRuleEnabled").prop('checked', proxyRule.enabled);
+			modalContainer.find("#chkRuleProxyPerOrigin").prop('checked', !proxyRule.noProxyPerOrigin);
 			modalContainer.find("#txtRuleCidrIPAddress").val(proxyRule.ruleSearch);
 			modalContainer.find("#txtRuleCidrPrefixLength").val(proxyRule.rulePattern);
 			cmdRuleAction.val(proxyRule.whiteList ? "1" : "0");
@@ -748,6 +749,7 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val("");
 			modalContainer.find("#txtRuleUrlExact").val("");
 			modalContainer.find("#chkRuleEnabled").prop('checked', true);
+			modalContainer.find("#chkRuleProxyPerOrigin").prop('checked', true);
 			modalContainer.find("#txtRuleCidrIPAddress").val("");
 			modalContainer.find("#txtRuleCidrPrefixLength").val("");
 
@@ -788,6 +790,9 @@ export class settingsPage {
 		tabContainer.find("#divRuleGeneratePattern").hide();
 		tabContainer.find("#divRuleUrlRegex").hide();
 		tabContainer.find("#divRuleUrlExact").hide();
+		tabContainer.find("#divRuleProxyServer").hide();
+		tabContainer.find("#divRuleActionWhitelistDesc").hide();
+		tabContainer.find("#divRuleProxyPerOrigin").hide();
 
 		if (ruleType == ProxyRuleType.MatchPatternHost ||
 			ruleType == ProxyRuleType.MatchPatternUrl) {
@@ -822,6 +827,7 @@ export class settingsPage {
 		}
 		else {
 			tabContainer.find("#divRuleProxyServer").show();
+			tabContainer.find("#divRuleProxyPerOrigin").show();
 		}
 	}
 
@@ -843,6 +849,7 @@ export class settingsPage {
 		ruleInfo.proxyServerId = selectedProxyId;
 		ruleInfo.enabled = modalContainer.find("#chkRuleEnabled").prop("checked");
 		ruleInfo.whiteList = parseInt(modalContainer.find("#cmdRuleAction").val()) != 0;
+		ruleInfo.noProxyPerOrigin = !modalContainer.find("#chkRuleProxyPerOrigin").prop("checked");
 		if (ruleInfo.ruleType == ProxyRuleType.IpCidrNotation) {
 			ruleInfo.ruleSearch = modalContainer.find("#txtRuleCidrIPAddress").val().trim();
 			ruleInfo.rulePattern = modalContainer.find("#txtRuleCidrPrefixLength").val();

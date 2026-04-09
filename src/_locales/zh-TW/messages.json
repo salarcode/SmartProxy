@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "已爲每個標籤/來源停用代理"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Enable proxy per tab/origin for this rule"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "When enabled, requests from the matched tab/origin also use this rule's proxy."
+	},
 	"settingsGeneralSyncing": {
 		"message": "同步"
 	},
