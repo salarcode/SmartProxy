@@ -665,14 +665,23 @@ export class SettingsOperation {
 		}
 	}
 	private static areProxyRulesEquivalent(firstRule: ProxyRule, secondRule: ProxyRule): boolean {
-		return +firstRule.ruleType === +secondRule.ruleType &&
-			(firstRule.hostName || '') === (secondRule.hostName || '') &&
-			(firstRule.ruleSearch || '') === (secondRule.ruleSearch || '') &&
-			(firstRule.rulePattern || '') === (secondRule.rulePattern || '') &&
-			(firstRule.ruleRegex || '') === (secondRule.ruleRegex || '') &&
-			(firstRule.ruleExact || '') === (secondRule.ruleExact || '') &&
-			(firstRule.whiteList || false) === (secondRule.whiteList || false) &&
-			(firstRule.proxyServerId || firstRule.proxy?.id || '') === (secondRule.proxyServerId || secondRule.proxy?.id || '');
+		const sameType = +firstRule.ruleType === +secondRule.ruleType;
+		const sameHostName = (firstRule.hostName || '') === (secondRule.hostName || '');
+		const sameSearch = (firstRule.ruleSearch || '') === (secondRule.ruleSearch || '');
+		const samePattern = (firstRule.rulePattern || '') === (secondRule.rulePattern || '');
+		const sameRegex = (firstRule.ruleRegex || '') === (secondRule.ruleRegex || '');
+		const sameExact = (firstRule.ruleExact || '') === (secondRule.ruleExact || '');
+		const sameWhitelistMode = (firstRule.whiteList || false) === (secondRule.whiteList || false);
+		const sameProxyServer = (firstRule.proxyServerId || firstRule.proxy?.id || '') === (secondRule.proxyServerId || secondRule.proxy?.id || '');
+
+		return sameType &&
+			sameHostName &&
+			sameSearch &&
+			samePattern &&
+			sameRegex &&
+			sameExact &&
+			sameWhitelistMode &&
+			sameProxyServer;
 	}
 	private static findMatchingProfileForMerge(profiles: SmartProfile[], profileToMerge: SmartProfile): SmartProfile {
 		let profileById = profiles.find(existing => existing.profileId === profileToMerge.profileId);
