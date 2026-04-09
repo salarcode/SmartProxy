@@ -177,7 +177,7 @@ export class SettingsOperation {
 					return;
 				}
 
-				const remoteSettings = Settings.getRestorableSettings(JSON.parse(JSON.stringify(syncedSettings)));
+				const remoteSettings = Settings.getRestorableSettings(me.cloneSettingsConfig(syncedSettings));
 				const remoteSettingsSyncable = JSON.stringify(me.getStrippedSyncableSettings(remoteSettings));
 				const mergedSettings = me.mergeSettingsForInitialSync(remoteSettings, Settings.current);
 				const mergedSettingsSyncable = JSON.stringify(me.getStrippedSyncableSettings(mergedSettings));
@@ -209,7 +209,7 @@ export class SettingsOperation {
 			});
 	}
 	public static mergeSettingsForInitialSync(remoteSettings: SettingsConfig, localSettings: SettingsConfig): SettingsConfig {
-		let mergedSettings = Settings.getRestorableSettings(JSON.parse(JSON.stringify(remoteSettings)));
+		let mergedSettings = remoteSettings;
 
 		me.mergeProxyServers(mergedSettings, localSettings);
 		me.mergeProxyServerSubscriptions(mergedSettings, localSettings);
@@ -665,7 +665,7 @@ export class SettingsOperation {
 		}
 	}
 	private static areProxyRulesEquivalent(firstRule: ProxyRule, secondRule: ProxyRule): boolean {
-		const sameType = +firstRule.ruleType === +secondRule.ruleType;
+		const sameType = Number(firstRule.ruleType) === Number(secondRule.ruleType);
 		const sameHostName = (firstRule.hostName || '') === (secondRule.hostName || '');
 		const sameSearch = (firstRule.ruleSearch || '') === (secondRule.ruleSearch || '');
 		const samePattern = (firstRule.rulePattern || '') === (secondRule.rulePattern || '');
@@ -711,11 +711,23 @@ export class SettingsOperation {
 			errorMessage.includes('not found') ||
 			errorMessage.includes('no such file');
 	}
+	private static cloneSettingsConfig(settings: SettingsConfig): SettingsConfig {
+		if (typeof structuredClone === 'function')
+			return structuredClone(settings);
+
+		return JSON.parse(JSON.stringify(settings));
+	}
 	private static normalizeError(error: any): Error {
 		if (error instanceof Error)
 			return error;
 
-		return new Error(`${error}`);
+		if (typeof error === 'string')
+			return new Error(error);
+
+		if (error && typeof error === 'object' && typeof error.message === 'string')
+			return new Error(error.message);
+
+		return new Error('Unknown error');
 	}
 
 	public static saveAllLocal(forceSave: boolean = false) {
