@@ -366,7 +366,7 @@ export class Core {
 			case CommandMessages.SettingsPageSaveOptions: {
 				if (!message.options)
 					return;
-				const syncWasEnabled = settingsLib.current.options?.syncSettings === true;
+				const syncWasEnabled = settingsLib.current.options?.syncSettings;
 				const previousOptions = settingsLib.current.options;
 				settingsLib.current.options = message.options;
 

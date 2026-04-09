@@ -166,7 +166,7 @@ export class SettingsOperation {
 
 		Settings.updateActiveSettings();
 	}
-	public static performInitialSyncMerge(onSuccess?: Function, onError?: Function) {
+	public static performInitialSyncMerge(onSuccess?: () => void, onError?: (error: Error) => void) {
 		me.readConfiguredSyncSettings(
 			(syncedSettings: SettingsConfig) => {
 				if (!syncedSettings || !syncedSettings.options) {
@@ -208,12 +208,12 @@ export class SettingsOperation {
 					onError(error);
 			});
 	}
-	public static mergeSettingsForInitialSync(baseSettings: SettingsConfig, incomingSettings: SettingsConfig): SettingsConfig {
-		let mergedSettings = Settings.getRestorableSettings(JSON.parse(JSON.stringify(baseSettings)));
+	public static mergeSettingsForInitialSync(remoteSettings: SettingsConfig, localSettings: SettingsConfig): SettingsConfig {
+		let mergedSettings = Settings.getRestorableSettings(JSON.parse(JSON.stringify(remoteSettings)));
 
-		me.mergeProxyServers(mergedSettings, incomingSettings);
-		me.mergeProxyServerSubscriptions(mergedSettings, incomingSettings);
-		me.mergeSmartProfiles(mergedSettings, incomingSettings);
+		me.mergeProxyServers(mergedSettings, localSettings);
+		me.mergeProxyServerSubscriptions(mergedSettings, localSettings);
+		me.mergeSmartProfiles(mergedSettings, localSettings);
 
 		Settings.ensureIntegrityOfSettings(mergedSettings);
 		return mergedSettings;
@@ -546,7 +546,7 @@ export class SettingsOperation {
 
 		return String(rawData);
 	}
-	private static readConfiguredSyncSettings(onSuccess: Function, onError?: Function) {
+	private static readConfiguredSyncSettings(onSuccess: (settings: SettingsConfig) => void, onError?: (error: Error) => void) {
 		if (Settings.current.options.syncWebDavServerEnabled) {
 			me.readFromWebDavServer(
 				Settings.current.options.syncWebDavServerUrl,
@@ -628,10 +628,7 @@ export class SettingsOperation {
 			if (!profile)
 				continue;
 
-			let existingProfile = targetSettings.proxyProfiles.find(existing =>
-				existing.profileId === profile.profileId ||
-				(existing.profileTypeConfig?.builtin && existing.profileType === profile.profileType) ||
-				existing.profileName === profile.profileName);
+			let existingProfile = me.findMatchingProfileForMerge(targetSettings.proxyProfiles, profile);
 
 			if (!existingProfile) {
 				let copyProfile = new SmartProfile();
@@ -656,9 +653,7 @@ export class SettingsOperation {
 
 			existingProfile.rulesSubscriptions ||= [];
 			for (const subscription of profile.rulesSubscriptions || []) {
-				let existingSubscription = existingProfile.rulesSubscriptions.find(existing =>
-					existing.id === subscription.id ||
-					(existing.name === subscription.name && existing.url === subscription.url));
+				let existingSubscription = me.findMatchingRulesSubscriptionForMerge(existingProfile.rulesSubscriptions, subscription);
 				if (existingSubscription)
 					continue;
 
@@ -678,6 +673,28 @@ export class SettingsOperation {
 			(firstRule.ruleExact || '') === (secondRule.ruleExact || '') &&
 			(firstRule.whiteList || false) === (secondRule.whiteList || false) &&
 			(firstRule.proxyServerId || firstRule.proxy?.id || '') === (secondRule.proxyServerId || secondRule.proxy?.id || '');
+	}
+	private static findMatchingProfileForMerge(profiles: SmartProfile[], profileToMerge: SmartProfile): SmartProfile {
+		let profileById = profiles.find(existing => existing.profileId === profileToMerge.profileId);
+		if (profileById)
+			return profileById;
+
+		let builtinProfile = profiles.find(existing =>
+			existing.profileTypeConfig?.builtin &&
+			existing.profileType === profileToMerge.profileType);
+		if (builtinProfile)
+			return builtinProfile;
+
+		return profiles.find(existing => existing.profileName === profileToMerge.profileName);
+	}
+	private static findMatchingRulesSubscriptionForMerge(subscriptions: ProxyRulesSubscription[], subscriptionToMerge: ProxyRulesSubscription): ProxyRulesSubscription {
+		let subscriptionById = subscriptions.find(existing => existing.id === subscriptionToMerge.id);
+		if (subscriptionById)
+			return subscriptionById;
+
+		return subscriptions.find(existing =>
+			existing.name === subscriptionToMerge.name &&
+			existing.url === subscriptionToMerge.url);
 	}
 	private static isMissingSyncDataError(error: any): boolean {
 		const errorMessage = `${error?.message || error || ''}`.toLowerCase();
