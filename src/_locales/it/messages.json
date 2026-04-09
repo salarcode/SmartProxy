@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Aggiorna scheda attiva quando il profilo o il proxy cambia"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Elimina la regola quando viene disattivata/deselezionata dal menu popup"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Annulla"
 	},

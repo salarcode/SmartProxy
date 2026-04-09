@@ -3,6 +3,7 @@ import { Utils } from "../lib/Utils";
 import { ProxyRule, ProxyRuleType, RuleId, SmartProfile, ProxyRuleSpecialProxyServer, ProxyServer } from "./definitions";
 import { ProfileOperations } from "./ProfileOperations";
 import { SettingsOperation } from "./SettingsOperation";
+import { Settings } from "./Settings";
 
 export class ProfileRules {
 
@@ -20,7 +21,7 @@ export class ProfileRules {
 			let rule = ProfileRules.getRuleById(smartProfile, ruleId);
 
 			if (rule != null) {
-				ProfileRules.removeRule(smartProfile, rule);
+				ProfileRules.toggleExistingRule(smartProfile, rule);
 				return;
 			}
 		}
@@ -245,6 +246,15 @@ export class ProfileRules {
 		let rule = ProfileRules.getRuleByHostname(smartProfile, hostname);
 
 		if (rule != null) {
+			if (!rule.enabled) {
+				rule.enabled = true;
+				return {
+					success: true,
+					message: null,
+					rule: rule
+				};
+			}
+
 			// Rule for the domain already exists
 			return {
 				success: true,
@@ -282,7 +292,19 @@ export class ProfileRules {
 
 			ProfileRules.addRuleByHostname(smartProfile, hostName);
 		} else {
-			ProfileRules.removeRule(smartProfile, rule);
+			ProfileRules.toggleExistingRule(smartProfile, rule);
+		}
+	}
+
+	private static toggleExistingRule(smartProfile: SmartProfile, rule: ProxyRule) {
+		if (rule.enabled) {
+			if (Settings.current?.options?.deleteRuleWhenDisabledFromPopup) {
+				ProfileRules.removeRule(smartProfile, rule);
+			} else {
+				rule.enabled = false;
+			}
+		} else {
+			rule.enabled = true;
 		}
 	}
 

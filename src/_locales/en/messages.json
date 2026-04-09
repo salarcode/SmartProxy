@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Refresh active tab when profile or proxy changed"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Delete rule when disabled/unchecked from popup menu"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Cancel"
 	},

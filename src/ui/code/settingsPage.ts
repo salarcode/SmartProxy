@@ -1069,6 +1069,7 @@ export class settingsPage {
 		divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked", options.displayAppliedProxyOnBadge || false);
 		divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked", options.displayMatchedRuleOnBadge || false);
 		divGeneral.find("#chkRefreshTabOnConfigChanges").prop("checked", options.refreshTabOnConfigChanges || false);
+		divGeneral.find("#chkDeleteRuleWhenDisabledFromPopup").prop("checked", options.deleteRuleWhenDisabledFromPopup || false);
 
 		divGeneral.find("#rbtnThemesAutoSwitchBySystem").prop("checked", options.themeType == ThemeType.Auto);
 		divGeneral.find("#rbtnThemesLight").prop("checked", options.themeType == ThemeType.Light);
@@ -1118,6 +1119,7 @@ export class settingsPage {
 		generalOptions.displayAppliedProxyOnBadge = divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked");
 		generalOptions.displayMatchedRuleOnBadge = divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked");
 		generalOptions.refreshTabOnConfigChanges = divGeneral.find("#chkRefreshTabOnConfigChanges").prop("checked");
+		generalOptions.deleteRuleWhenDisabledFromPopup = divGeneral.find("#chkDeleteRuleWhenDisabledFromPopup").prop("checked");
 		if (divGeneral.find("#rbtnThemesLight").prop("checked")) {
 			generalOptions.themeType = ThemeType.Light;
 		}

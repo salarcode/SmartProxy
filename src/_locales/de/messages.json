@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Aktiven Tab neu laden, wenn sich das Profil oder der Proxy ändert"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Regel löschen, wenn sie im Popup-Menü deaktiviert/abgewählt wird"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Abbrechen"
 	},

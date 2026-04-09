@@ -684,6 +684,7 @@ export class GeneralOptions implements Cloneable, Comparable {
 	public displayAppliedProxyOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public displayMatchedRuleOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public refreshTabOnConfigChanges: boolean = false;
+	public deleteRuleWhenDisabledFromPopup: boolean = false;
 	public proxyPerOrigin: boolean = true;
 	public activeIncognitoProfileId: string;
 	public enableShortcuts: boolean = true;
@@ -716,6 +717,8 @@ export class GeneralOptions implements Cloneable, Comparable {
 			this.displayMatchedRuleOnBadge = source['displayMatchedRuleOnBadge'] == true ? true : false;
 		if (source['refreshTabOnConfigChanges'] != null)
 			this.refreshTabOnConfigChanges = source['refreshTabOnConfigChanges'] == true ? true : false;
+		if (source['deleteRuleWhenDisabledFromPopup'] != null)
+			this.deleteRuleWhenDisabledFromPopup = source['deleteRuleWhenDisabledFromPopup'] == true ? true : false;
 		if (source['proxyPerOrigin'] != null) this.proxyPerOrigin = source['proxyPerOrigin'] == true ? true : false;
 		if (source['enableShortcuts'] != null) this.enableShortcuts = source['enableShortcuts'] == true ? true : false;
 		if (source['shortcutNotification'] != null)
@@ -741,6 +744,7 @@ export class GeneralOptions implements Cloneable, Comparable {
 		if (neq(other.displayAppliedProxyOnBadge, this.displayAppliedProxyOnBadge)) return false;
 		if (neq(other.displayMatchedRuleOnBadge, this.displayMatchedRuleOnBadge)) return false;
 		if (neq(other.refreshTabOnConfigChanges, this.refreshTabOnConfigChanges)) return false;
+		if (neq(other.deleteRuleWhenDisabledFromPopup, this.deleteRuleWhenDisabledFromPopup)) return false;
 		if (neq(other.proxyPerOrigin, this.proxyPerOrigin)) return false;
 		if (neq(other.activeIncognitoProfileId, this.activeIncognitoProfileId)) return false;
 		if (neq(other.enableShortcuts, this.enableShortcuts)) return false;

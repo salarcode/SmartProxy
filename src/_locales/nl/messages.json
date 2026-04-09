@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Active tab vernieuwen wanneer profiel of proxy is gewijzigd"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Regel verwijderen wanneer deze in het pop-upmenu wordt uitgeschakeld/uitgevinkt"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Annuleren"
 	},

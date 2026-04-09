@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Odśwież aktywną kartę po zmianie profilu lub proxy"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Usuń regułę po wyłączeniu/odznaczeniu jej w menu podręcznym"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Anuluj"
 	},

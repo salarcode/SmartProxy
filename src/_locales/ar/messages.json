@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "تحديث التبويب النشط عند تغيير الملف الشخصي أو البروكسي"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "احذف القاعدة عند تعطيلها/إلغاء تحديدها من القائمة المنبثقة"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "إلغاء"
 	},

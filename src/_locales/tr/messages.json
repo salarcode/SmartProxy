@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Profil veya proxy değiştiğinde etkin sekmeyi yenile"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Açılır menüden devre dışı bırakıldığında / işareti kaldırıldığında kuralı sil"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "İptal"
 	},

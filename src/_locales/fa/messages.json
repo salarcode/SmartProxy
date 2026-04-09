@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "بارگزاری مجدد زبانه انتخابی مرورگر وقتی پراکسی و یا پروفایل فعال را تغییر دادید"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "هنگام غیرفعال/بدون تیک شدن از منوی بازشو، قانون حذف شود"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "انصراف"
 	},

@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Actualizar la pestaña activa cuando cambie el perfil o el proxy"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Eliminar la regla al desactivarla/desmarcarla desde el menú emergente"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Cancelar"
 	},

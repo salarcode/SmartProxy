@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Actualiser l'onglet actif lorsque le profil ou le proxy change"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Supprimer la règle lorsqu’elle est désactivée/décochée dans le menu popup"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Annuler"
 	},

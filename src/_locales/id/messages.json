@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Muat ulang tab aktif ketika profil atau proxy berubah"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Hapus aturan saat dinonaktifkan/tidak dicentang dari menu popup"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Batal"
 	},

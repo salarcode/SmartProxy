@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "切换方案或代理服务器时刷新当前标签页"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "在弹出菜单中禁用/取消勾选规则时删除该规则"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "取消"
 	},

@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "當設定檔或代理伺服器變更時重新整理活動分頁"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "在彈出式選單中停用/取消勾選規則時刪除該規則"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "取消"
 	},

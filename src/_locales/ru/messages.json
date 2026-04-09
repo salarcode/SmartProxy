@@ -405,6 +405,9 @@
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Обновлять активную вкладку при изменении профиля или прокси"
 	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Удалять правило при отключении/снятии флажка во всплывающем меню"
+	},
 	"settingsGeneralCancelButton": {
 		"message": "Отмена"
 	},
