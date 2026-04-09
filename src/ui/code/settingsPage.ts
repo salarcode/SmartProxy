@@ -790,8 +790,6 @@ export class settingsPage {
 		tabContainer.find("#divRuleGeneratePattern").hide();
 		tabContainer.find("#divRuleUrlRegex").hide();
 		tabContainer.find("#divRuleUrlExact").hide();
-		tabContainer.find("#divRuleProxyServer").hide();
-		tabContainer.find("#divRuleActionWhitelistDesc").hide();
 		tabContainer.find("#divRuleProxyPerOrigin").hide();
 
 		if (ruleType == ProxyRuleType.MatchPatternHost ||
@@ -824,8 +822,10 @@ export class settingsPage {
 		let whiteList = parseInt(tabContainer.find("#cmdRuleAction").val()) != 0
 		if (whiteList) {
 			tabContainer.find("#divRuleActionWhitelistDesc").show();
+			tabContainer.find("#divRuleProxyServer").hide();
 		}
 		else {
+			tabContainer.find("#divRuleActionWhitelistDesc").hide();
 			tabContainer.find("#divRuleProxyServer").show();
 			tabContainer.find("#divRuleProxyPerOrigin").show();
 		}
