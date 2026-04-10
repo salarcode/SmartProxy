@@ -87,6 +87,33 @@ describe('ProxyRules.compileRules', () => {
 });
 
 describe('ProfileRules.toggleRule', () => {
+  const originalSettingsState = {
+    current: Settings.current,
+    active: Settings.active
+  };
+
+  let previousSettingsState = originalSettingsState;
+
+  const restoreSettingsState = (state: typeof previousSettingsState) => {
+    Settings.current = state.current;
+    Settings.active = state.active;
+  };
+
+  beforeEach(() => {
+    previousSettingsState = {
+      current: Settings.current,
+      active: Settings.active
+    };
+  });
+
+  afterEach(() => {
+    restoreSettingsState(previousSettingsState);
+  });
+
+  afterAll(() => {
+    restoreSettingsState(originalSettingsState);
+  });
+
   const createSettings = (deleteRuleWhenDisabledFromPopup = false): { settings: SettingsConfig; profile: SmartProfile } => {
     const profile = new SmartProfile();
     profile.profileId = 'profile-1';
