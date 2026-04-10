@@ -238,7 +238,7 @@
 		"message": "Enable proxy per tab/origin for this rule"
 	},
 	"settingsRuleEnableProxyPerOriginDesc": {
-		"message": "When enabled, requests from the matched tab/origin also treated as matched rules and proxies will apply to them."
+		"message": "When enabled, requests from the matched tab/origin are also treated as matched rules and proxies will apply to them."
 	},
 	"settingsGeneralSyncing": {
 		"message": "Syncing"
