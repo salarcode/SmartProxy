@@ -216,7 +216,7 @@ export class ProxyEngineFirefox {
 						// document url is being changed, resetting the settings for that
 						tabData.resetTabState();
 					} else {
-						if (tabData.proxyMatchedRule?.noProxyPerOrigin === true) {
+						if (tabData.proxyMatchedRule?.noProxyPerOrigin == true) {
 							DiagDebug?.trace("FF.handleProxyRequest <ProxyPerOrigin skipped by rule>", 't=' + proxyLog.tabId, `OriginTab: ${tabData.url}`, proxyLog.url, "continuing with regular rule evaluation");
 							// Intentionally skip the tab/origin shortcut and continue with regular per-request rule matching below.
 						}

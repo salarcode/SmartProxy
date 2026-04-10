@@ -415,6 +415,7 @@ export class settingsPage {
 	}
 
 	private static initializeUi() {
+		debugger;
 		if (environment.chrome) {
 			jq("#divAlertChrome").show().removeClass('d-none');
 			jq(".firefox-only").hide();
@@ -827,7 +828,11 @@ export class settingsPage {
 		else {
 			tabContainer.find("#divRuleActionWhitelistDesc").hide();
 			tabContainer.find("#divRuleProxyServer").show();
-			tabContainer.find("#divRuleProxyPerOrigin").show();
+
+			if (!environment.chrome)
+			{
+				tabContainer.find("#divRuleProxyPerOrigin").show();
+			}
 		}
 	}
 
