@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy por pestaña/origen deshabilitado"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Habilitar proxy por pestaña/origen para esta regla"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Cuando está activado, las solicitudes de la pestaña/origen coincidente también usan el proxy de esta regla."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Sincronización"
 	},
