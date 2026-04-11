@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "تم تعطيل البروكسي لكل تبويب/أصل"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "تمكين الوكيل لكل علامة تبويب/مصدر لهذه القاعدة"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "عند التمكين، ستستخدم الطلبات من علامة التبويب/المصدر المطابق أيضًا وكيل هذه القاعدة."
+	},
 	"settingsGeneralSyncing": {
 		"message": "المزامنة"
 	},
