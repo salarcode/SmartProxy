@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "关闭“按标签页统一代理”（各个资源分别代理）"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "为此规则启用按标签页/来源使用代理"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "启用后，来自匹配标签页/来源的请求也会使用此规则的代理。"
+	},
 	"settingsGeneralSyncing": {
 		"message": "同步"
 	},
