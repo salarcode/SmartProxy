@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Прокси для вкладки/источника отключены"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Включить прокси для вкладки/источника для этого правила"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Если включено, запросы из соответствующей вкладки/источника также используют прокси этого правила."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Синхронизация"
 	},
