@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "已爲每個標籤/來源停用代理"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "為此規則啟用依分頁/來源使用代理"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "啟用後，來自相符分頁/來源的請求也會使用此規則的代理。"
+	},
 	"settingsGeneralSyncing": {
 		"message": "同步"
 	},
