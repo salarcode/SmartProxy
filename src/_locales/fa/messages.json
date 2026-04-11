@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "وقتی پراکسی به کل تب یا صفحه اعمال نشده است"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "فعال‌سازی پراکسی برای هر تب/مبدأ برای این قانون"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "اگر فعال باشد، درخواست‌های تب/مبدأ منطبق نیز از پراکسی این قانون استفاده می‌کنند."
+	},
 	"settingsGeneralSyncing": {
 		"message": "تنظیمات همگام سازی"
 	},
