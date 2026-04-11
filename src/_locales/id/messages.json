@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy per tab/origin dinonaktifkan"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Aktifkan proxy per tab/origin untuk aturan ini"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Jika diaktifkan, permintaan dari tab/origin yang cocok juga menggunakan proxy aturan ini."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Sinkronisasi"
 	},
