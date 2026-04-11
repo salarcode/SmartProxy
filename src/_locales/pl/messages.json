@@ -234,6 +234,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy dla karty/źródła wyłączone"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Włącz proxy dla karty/źródła dla tej reguły"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Po włączeniu żądania z pasującej karty/źródła również używają proxy tej reguły."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Synchronizacja"
 	},
