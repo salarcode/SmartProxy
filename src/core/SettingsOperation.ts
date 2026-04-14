@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
  * Copyright (C) 2025 Salar Khalilzadeh <salar2k@gmail.com>
  *
@@ -684,26 +684,30 @@ export class SettingsOperation {
 			sameProxyServer;
 	}
 	private static findMatchingProfileForMerge(profiles: SmartProfile[], profileToMerge: SmartProfile): SmartProfile {
-		let profileById = profiles.find(existing => existing.profileId === profileToMerge.profileId);
-		if (profileById)
-			return profileById;
+		if (profileToMerge.profileId) {
+			let profileById = profiles.find(existing => existing.profileId == profileToMerge.profileId);
+			if (profileById)
+				return profileById;
+		}
 
 		let builtinProfile = profiles.find(existing =>
 			existing.profileTypeConfig?.builtin &&
-			existing.profileType === profileToMerge.profileType);
+			existing.profileType == profileToMerge.profileType);
 		if (builtinProfile)
 			return builtinProfile;
 
-		return profiles.find(existing => existing.profileName === profileToMerge.profileName);
+		return profiles.find(existing => existing.profileName == profileToMerge.profileName);
 	}
 	private static findMatchingRulesSubscriptionForMerge(subscriptions: ProxyRulesSubscription[], subscriptionToMerge: ProxyRulesSubscription): ProxyRulesSubscription {
-		let subscriptionById = subscriptions.find(existing => existing.id === subscriptionToMerge.id);
-		if (subscriptionById)
-			return subscriptionById;
+		if (subscriptionToMerge.id) {
+			let subscriptionById = subscriptions.find(existing => existing.id == subscriptionToMerge.id);
+			if (subscriptionById)
+				return subscriptionById;
+		}
 
 		return subscriptions.find(existing =>
-			existing.name === subscriptionToMerge.name &&
-			existing.url === subscriptionToMerge.url);
+			existing.name == subscriptionToMerge.name &&
+			existing.url == subscriptionToMerge.url);
 	}
 	private static isMissingSyncDataError(error: any): boolean {
 		const errorMessage = `${error?.message || error || ''}`.toLowerCase();
