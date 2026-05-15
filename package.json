@@ -43,6 +43,7 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
+    "ip-address": "5.8.9",
     "pako": "^2.1.0",
     "webdav": "^5.9.0"
   }

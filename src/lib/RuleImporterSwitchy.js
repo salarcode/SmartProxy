@@ -6,6 +6,13 @@
 * @source  https://github.com/FelisCatus/SwitchyOmega
 * @license  GPL3
 */
+const Utils = require('./Utils').Utils;
+const { Address4, Address6 } = require('ip-address');
+const IP = {
+  v4: { Address: Address4 },
+  v6: { Address: Address6 }
+};
+
 const strStartsWith = function (str, prefix) {
 	return str.substr(0, prefix.length) === prefix;
 };
@@ -871,101 +878,12 @@ const Conditions = {
 				return addr.isInSubnet(cache.addr);
 			},
 			compile: function (condition, cache) {
-				let hostIsInNet, hostIsInNetEx, hostLooksLikeIp;
 				cache = cache.analyzed;
-				hostLooksLikeIp = cache.addr.v4 ? new U2.AST_Binary({
-					left: new U2.AST_Sub({
-						expression: new U2.AST_SymbolRef({
-							name: 'host'
-						}),
-						property: new U2.AST_Binary({
-							left: new U2.AST_Dot({
-								expression: new U2.AST_SymbolRef({
-									name: 'host'
-								}),
-								property: 'length'
-							}),
-							operator: '-',
-							right: new U2.AST_Number({
-								value: 1
-							})
-						})
-					}),
-					operator: '>=',
-					right: new U2.AST_Number({
-						value: 0
-					})
-				}) : new U2.AST_Binary({
-					left: new U2.AST_Call({
-						expression: new U2.AST_Dot({
-							expression: new U2.AST_SymbolRef({
-								name: 'host'
-							}),
-							property: 'indexOf'
-						}),
-						args: [
-							new U2.AST_String({
-								value: ':'
-							})
-						]
-					}),
-					operator: '>=',
-					right: new U2.AST_Number({
-						value: 0
-					})
-				});
-				if (cache.addr.subnetMask === 0) {
-					return hostLooksLikeIp;
+				let regex = Utils.ipCidrNotationToRegExp(cache.normalized, cache.addr.parsedSubnet);
+				if (!regex) {
+					throw new Error(`Failed to compile CIDR rule ${cache.normalized}/${cache.addr.parsedSubnet} to regex`);
 				}
-				hostIsInNet = new U2.AST_Call({
-					expression: new U2.AST_SymbolRef({
-						name: 'isInNet'
-					}),
-					args: [
-						new U2.AST_SymbolRef({
-							name: 'host'
-						}), new U2.AST_String({
-							value: cache.normalized
-						}), new U2.AST_String({
-							value: cache.mask
-						})
-					]
-				});
-				if (!cache.addr.v4) {
-					hostIsInNetEx = new U2.AST_Call({
-						expression: new U2.AST_SymbolRef({
-							name: 'isInNetEx'
-						}),
-						args: [
-							new U2.AST_SymbolRef({
-								name: 'host'
-							}), new U2.AST_String({
-								value: cache.normalized + cache.addr.subnet
-							})
-						]
-					});
-					hostIsInNet = new U2.AST_Conditional({
-						condition: new U2.AST_Binary({
-							left: new U2.AST_UnaryPrefix({
-								operator: 'typeof',
-								expression: new U2.AST_SymbolRef({
-									name: 'isInNetEx'
-								})
-							}),
-							operator: '===',
-							right: new U2.AST_String({
-								value: 'function'
-							})
-						}),
-						consequent: hostIsInNetEx,
-						alternative: hostIsInNet
-					});
-				}
-				return new U2.AST_Binary({
-					left: hostLooksLikeIp,
-					operator: '&&',
-					right: hostIsInNet
-				});
+				return this.regTest('host', regex);
 			},
 			str: function (condition) {
 				return condition.ip + '/' + condition.prefixLength;
