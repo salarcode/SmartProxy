@@ -442,9 +442,9 @@ const Conditions = {
 	},
 	normalizeIp: function (addr) {
 		let ref1;
-		return ((ref1 = addr.correctForm) != null ? ref1 : addr.canonicalForm).call(addr);
+		return ((ref1 = addr.canonicalForm) != null ? ref1 : addr.correctForm).call(addr);
 	},
-	//ipv6Max: new IP.v6.Address('::/0').endAddress().canonicalForm(),
+	ipv6Max: new IP.v6.Address('::/0').endAddress().canonicalForm(),
 	localHosts: ["127.0.0.1", "[::1]", "localhost"],
 	getWeekdayList: function (condition) {
 		let i, j, k, results, results1;
