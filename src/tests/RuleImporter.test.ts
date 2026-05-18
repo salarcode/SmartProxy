@@ -352,6 +352,13 @@ http://example.com/*
 	  expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::2]/', compiledRules)).toBeNull();
     });
 
+  it('should reject malformed SwitchyOmega IPv6 Ip conditions', () => {
+    const text = `[SwitchyOmega Conditions]
+Ip: 2001:db8:12345::1/128`;
+
+    expect(() => externalAppRuleParser.Switchy.parseAndCompile(text)).toThrow('Invalid IP address');
+  });
+
     it('should handle patterns without prefix as HostWildcard (fromStr fix)', () => {
       // Test that patterns without explicit type prefix default to HostWildcardCondition
       const text = `[SwitchyOmega Conditions]

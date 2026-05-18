@@ -914,8 +914,14 @@ const Conditions = {
 					condition.ip = addr.addressMinusSuffix;
 					condition.prefixLength = addr.subnetMask;
 				} else {
-					condition.ip = '0.0.0.0';
-					condition.prefixLength = 0;
+					let prefixPos = str.lastIndexOf('/');
+					if (prefixPos >= 0) {
+						condition.ip = str.substring(0, prefixPos);
+						condition.prefixLength = parseInt(str.substring(prefixPos + 1), 10);
+					} else {
+						condition.ip = str;
+						condition.prefixLength = str.indexOf(':') >= 0 ? 128 : 32;
+					}
 				}
 				return condition;
 			}

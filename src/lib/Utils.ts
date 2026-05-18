@@ -571,16 +571,38 @@ export class Utils {
 		// Expand compressed IPv6 into 8 groups of 4 hex digits (lowercase)
 		ipv6 = ipv6.replace(/^\[|\]$/g, '').toLowerCase();
 
+		const zoneIndexMatch = ipv6.match(/^(.*?)(%[0-9a-z._~-]+)?$/i);
+		if (!zoneIndexMatch)
+			return null;
+		ipv6 = zoneIndexMatch[1];
+
 		// Reject IPv4-mapped or dotted-IPv4 mixed forms (caller should avoid these)
 		if (ipv6.includes('.')) return null;
 
 		const parts = ipv6.split('::');
 		if (parts.length > 2) return null;
 
-		const left = parts[0] ? parts[0].split(':').filter(Boolean) : [];
-		const right = parts[1] ? parts[1].split(':').filter(Boolean) : [];
+		const parseSide = (side: string): string[] | null => {
+			if (!side)
+				return [];
+
+			const groups = side.split(':');
+			for (const group of groups) {
+				if (!/^[0-9a-f]{1,4}$/i.test(group))
+					return null;
+			}
+			return groups;
+		};
+
+		const left = parseSide(parts[0]);
+		const right = parts.length === 2 ? parseSide(parts[1]) : [];
+		if (!left || !right)
+			return null;
+
 		const missing = 8 - (left.length + right.length);
 		if (missing < 0) return null;
+		if (parts.length === 1 && missing !== 0) return null;
+		if (parts.length === 2 && missing < 1) return null;
 
 		const full: string[] = [];
 		for (const p of left) full.push(p.padStart(4, '0'));

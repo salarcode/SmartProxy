@@ -150,5 +150,20 @@ describe('Utils.ipCidrNotationToRegExp edge cases', () => {
     const bracketed = Utils.normalizeIpForMatching('[2001:db8::1]:8080');
     expect(bracketed).toBe('2001:0db8:0000:0000:0000:0000:0000:0001');
   });
+
+   test('Invalid IPv6 group length returns null', () => {
+     expect(Utils.expandIPv6ToGroups('2001:db8:12345::1')).toBeNull();
+     expect(Utils.ipCidrNotationToRegExp('2001:db8:12345::1', '128')).toBeNull();
+   });
+
+   test('Invalid IPv6 hex digits return null', () => {
+     expect(Utils.expandIPv6ToGroups('2001:db8:zzzz::1')).toBeNull();
+     expect(Utils.ipCidrNotationToRegExp('2001:db8:zzzz::1', '128')).toBeNull();
+   });
+
+   test('Malformed IPv6 compression returns null', () => {
+     expect(Utils.expandIPv6ToGroups('2001:::1')).toBeNull();
+     expect(Utils.ipCidrNotationToRegExp('2001:::1', '128')).toBeNull();
+   });
 });
 
