@@ -416,6 +416,7 @@ export class settingsPage {
 	}
 
 	private static initializeUi() {
+		debugger;
 		if (environment.chrome) {
 			jq("#divAlertChrome").show().removeClass('d-none');
 			jq(".firefox-only").hide();
@@ -726,6 +727,7 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val(proxyRule.ruleRegex);
 			modalContainer.find("#txtRuleUrlExact").val(proxyRule.ruleExact);
 			modalContainer.find("#chkRuleEnabled").prop('checked', proxyRule.enabled);
+			modalContainer.find("#chkRuleProxyPerOrigin").prop('checked', !proxyRule.noProxyPerOrigin);
 			modalContainer.find("#txtRuleCidrIPAddress").val(proxyRule.ruleSearch);
 			modalContainer.find("#txtRuleCidrPrefixLength").val(proxyRule.rulePattern);
 			cmdRuleAction.val(proxyRule.whiteList ? "1" : "0");
@@ -749,6 +751,7 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val("");
 			modalContainer.find("#txtRuleUrlExact").val("");
 			modalContainer.find("#chkRuleEnabled").prop('checked', true);
+			modalContainer.find("#chkRuleProxyPerOrigin").prop('checked', true);
 			modalContainer.find("#txtRuleCidrIPAddress").val("");
 			modalContainer.find("#txtRuleCidrPrefixLength").val("");
 
@@ -789,6 +792,7 @@ export class settingsPage {
 		tabContainer.find("#divRuleGeneratePattern").hide();
 		tabContainer.find("#divRuleUrlRegex").hide();
 		tabContainer.find("#divRuleUrlExact").hide();
+		tabContainer.find("#divRuleProxyPerOrigin").hide();
 
 		if (ruleType == ProxyRuleType.MatchPatternHost ||
 			ruleType == ProxyRuleType.MatchPatternUrl) {
@@ -820,9 +824,16 @@ export class settingsPage {
 		let whiteList = parseInt(tabContainer.find("#cmdRuleAction").val()) != 0
 		if (whiteList) {
 			tabContainer.find("#divRuleActionWhitelistDesc").show();
+			tabContainer.find("#divRuleProxyServer").hide();
 		}
 		else {
+			tabContainer.find("#divRuleActionWhitelistDesc").hide();
 			tabContainer.find("#divRuleProxyServer").show();
+
+			if (!environment.chrome)
+			{
+				tabContainer.find("#divRuleProxyPerOrigin").show();
+			}
 		}
 	}
 
@@ -844,6 +855,7 @@ export class settingsPage {
 		ruleInfo.proxyServerId = selectedProxyId;
 		ruleInfo.enabled = modalContainer.find("#chkRuleEnabled").prop("checked");
 		ruleInfo.whiteList = parseInt(modalContainer.find("#cmdRuleAction").val()) != 0;
+		ruleInfo.noProxyPerOrigin = !modalContainer.find("#chkRuleProxyPerOrigin").prop("checked");
 		if (ruleInfo.ruleType == ProxyRuleType.IpCidrNotation) {
 			ruleInfo.ruleSearch = modalContainer.find("#txtRuleCidrIPAddress").val().trim();
 			ruleInfo.rulePattern = modalContainer.find("#txtRuleCidrPrefixLength").val();
@@ -1070,6 +1082,7 @@ export class settingsPage {
 		divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked", options.displayAppliedProxyOnBadge || false);
 		divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked", options.displayMatchedRuleOnBadge || false);
 		divGeneral.find("#chkRefreshTabOnConfigChanges").prop("checked", options.refreshTabOnConfigChanges || false);
+		divGeneral.find("#chkDeleteRuleWhenDisabledFromPopup").prop("checked", options.deleteRuleWhenDisabledFromPopup || false);
 
 		divGeneral.find("#rbtnThemesAutoSwitchBySystem").prop("checked", options.themeType == ThemeType.Auto);
 		divGeneral.find("#rbtnThemesLight").prop("checked", options.themeType == ThemeType.Light);
@@ -1119,6 +1132,7 @@ export class settingsPage {
 		generalOptions.displayAppliedProxyOnBadge = divGeneral.find("#chkDisplayAppliedProxyOnBadge").prop("checked");
 		generalOptions.displayMatchedRuleOnBadge = divGeneral.find("#chkDisplayMatchedRuleOnBadge").prop("checked");
 		generalOptions.refreshTabOnConfigChanges = divGeneral.find("#chkRefreshTabOnConfigChanges").prop("checked");
+		generalOptions.deleteRuleWhenDisabledFromPopup = divGeneral.find("#chkDeleteRuleWhenDisabledFromPopup").prop("checked");
 		if (divGeneral.find("#rbtnThemesLight").prop("checked")) {
 			generalOptions.themeType = ThemeType.Light;
 		}

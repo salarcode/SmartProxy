@@ -240,6 +240,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy par onglet/origine désactivé"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Activer le proxy par onglet/origine pour cette règle"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Lorsqu’elle est activée, les requêtes provenant de l’onglet/de l’origine correspondants utilisent aussi le proxy de cette règle."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Synchronisation"
 	},
@@ -416,6 +422,9 @@
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Actualiser l'onglet actif lorsque le profil ou le proxy change"
+	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Supprimer la règle lorsqu’elle est désactivée/décochée dans le menu popup"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "Annuler"

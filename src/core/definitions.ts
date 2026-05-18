@@ -685,6 +685,7 @@ export class GeneralOptions implements Cloneable, Comparable {
 	public displayAppliedProxyOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public displayMatchedRuleOnBadge: boolean = environment.initialConfig.displayTooltipOnBadge;
 	public refreshTabOnConfigChanges: boolean = false;
+	public deleteRuleWhenDisabledFromPopup: boolean = false;
 	public proxyPerOrigin: boolean = true;
 	public activeIncognitoProfileId: string;
 	public enableShortcuts: boolean = true;
@@ -717,6 +718,8 @@ export class GeneralOptions implements Cloneable, Comparable {
 			this.displayMatchedRuleOnBadge = source['displayMatchedRuleOnBadge'] == true ? true : false;
 		if (source['refreshTabOnConfigChanges'] != null)
 			this.refreshTabOnConfigChanges = source['refreshTabOnConfigChanges'] == true ? true : false;
+		if (source['deleteRuleWhenDisabledFromPopup'] != null)
+			this.deleteRuleWhenDisabledFromPopup = source['deleteRuleWhenDisabledFromPopup'] == true ? true : false;
 		if (source['proxyPerOrigin'] != null) this.proxyPerOrigin = source['proxyPerOrigin'] == true ? true : false;
 		if (source['enableShortcuts'] != null) this.enableShortcuts = source['enableShortcuts'] == true ? true : false;
 		if (source['shortcutNotification'] != null)
@@ -742,6 +745,7 @@ export class GeneralOptions implements Cloneable, Comparable {
 		if (neq(other.displayAppliedProxyOnBadge, this.displayAppliedProxyOnBadge)) return false;
 		if (neq(other.displayMatchedRuleOnBadge, this.displayMatchedRuleOnBadge)) return false;
 		if (neq(other.refreshTabOnConfigChanges, this.refreshTabOnConfigChanges)) return false;
+		if (neq(other.deleteRuleWhenDisabledFromPopup, this.deleteRuleWhenDisabledFromPopup)) return false;
 		if (neq(other.proxyPerOrigin, this.proxyPerOrigin)) return false;
 		if (neq(other.activeIncognitoProfileId, this.activeIncognitoProfileId)) return false;
 		if (neq(other.enableShortcuts, this.enableShortcuts)) return false;
@@ -854,6 +858,7 @@ export class ProxyRule implements Cloneable {
 	public proxyServerId: string;
 	public enabled: boolean = true;
 	public whiteList: boolean = false;
+	public noProxyPerOrigin: boolean = false;
 
 	get ruleTypeName(): string {
 		return ProxyRuleType[this.ruleType];
@@ -938,6 +943,9 @@ export class ProxyRule implements Cloneable {
 		if (source['whiteList'] != null)
 			this.whiteList = source['whiteList'] == true ? true : false;
 
+		if (source['noProxyPerOrigin'] != null)
+			this.noProxyPerOrigin = source['noProxyPerOrigin'] == true ? true : false;
+
 		if (this.proxy) {
 			if (!Settings.validateProxyServer(this.proxy, false, true).success) {
 				this.proxy = null;
@@ -991,6 +999,7 @@ export class CompiledProxyRule {
 
 	public proxy: ProxyServer;
 	public whiteList: boolean = false;
+	public noProxyPerOrigin: boolean = false;
 
 	/**getting rule text */
 	get ruleText(): string {

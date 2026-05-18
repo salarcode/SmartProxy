@@ -240,6 +240,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "已爲每個標籤/來源停用代理"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "為此規則啟用依分頁/來源使用代理"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "啟用後，來自相符分頁/來源的請求也會使用此規則的代理。"
+	},
 	"settingsGeneralSyncing": {
 		"message": "同步"
 	},
@@ -416,6 +422,9 @@
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "當設定檔或代理伺服器變更時重新整理活動分頁"
+	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "在彈出式選單中停用/取消勾選規則時刪除該規則"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "取消"

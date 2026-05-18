@@ -240,6 +240,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy per scheda/origine disabilitato"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Abilita proxy per scheda/origine per questa regola"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Quando è abilitata, anche le richieste della scheda/origine corrispondente usano il proxy di questa regola."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Sincronizzazione"
 	},
@@ -416,6 +422,9 @@
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Aggiorna scheda attiva quando il profilo o il proxy cambia"
+	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Elimina la regola quando viene disattivata/deselezionata dal menu popup"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "Annulla"

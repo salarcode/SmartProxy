@@ -240,6 +240,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy per tab/oorsprong uitgeschakeld"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Proxy per tab/oorsprong inschakelen voor deze regel"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Als dit is ingeschakeld, gebruiken aanvragen van de overeenkomende tab/oorsprong ook de proxy van deze regel."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Synchroniseren"
 	},
@@ -416,6 +422,9 @@
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Active tab vernieuwen wanneer profiel of proxy is gewijzigd"
+	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Regel verwijderen wanneer deze in het pop-upmenu wordt uitgeschakeld/uitgevinkt"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "Annuleren"

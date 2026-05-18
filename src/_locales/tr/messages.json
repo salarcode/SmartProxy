@@ -240,6 +240,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Sekme/orijin başına proxy devre dışı"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Bu kural için sekme/köken başına proxy'yi etkinleştir"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Etkinleştirildiğinde, eşleşen sekme/kökenden gelen istekler de bu kuralın proxy'sini kullanır."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Eşitleme"
 	},
@@ -416,6 +422,9 @@
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Profil veya proxy değiştiğinde etkin sekmeyi yenile"
+	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Açılır menüden devre dışı bırakıldığında / işareti kaldırıldığında kuralı sil"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "İptal"

@@ -559,6 +559,12 @@
 								<span data-localize="settingsGeneralRefreshTabOnConfigChanges">Refresh active tab when
 									proxy profile changed</span>
 							</label>
+							<br />
+							<label class="mx-2 form-label">
+								<input id="chkDeleteRuleWhenDisabledFromPopup" type="checkbox" class="form-check-input" />
+								<span data-localize="settingsGeneralDeleteRuleWhenDisabledFromPopup">Delete rule when
+									disabled/unchecked from popup menu</span>
+							</label>
 						</div>
 						<div class="mt-5"></div>
 						<p class="mt-4"></p>
@@ -927,8 +933,17 @@
 												</div>
 												<div class="col-sm-12">
 													<span id="divRuleActionWhitelistDesc" class="form-text text-muted small" style="display: none;" data-localize="settingsRuleActionWhitelistDesc">
-														(Whitelist rules have higher priority than proxy rules, regardless of their placement)</span>
+														(Whitelist rules have higher priority than proxy rules, regardless of their placement)
 													</span>
+												</div>
+												<div class="col-sm-12 firefox-only" id="divRuleProxyPerOrigin">
+													<label class="form-check-label mt-2">
+														<input class="form-check-input" type="checkbox" id="chkRuleProxyPerOrigin" checked>
+														<span data-localize="settingsRuleEnableProxyPerOrigin" class="user-select-none">Enable proxy per tab/origin for this rule</span>
+													</label>
+													<div class="form-text text-muted small" data-localize="settingsRuleEnableProxyPerOriginDesc">
+														When enabled, requests from the matched tab/origin also follow this rule.
+													</div>
 												</div>
 											</div>
 										</div>

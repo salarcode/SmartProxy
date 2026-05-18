@@ -240,6 +240,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy per tab/origin disabled"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Enable proxy per tab/origin for this rule"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "When enabled, requests from the matched tab/origin also follow this rule."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Syncing"
 	},
@@ -416,6 +422,9 @@
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Refresh active tab when profile or proxy changed"
+	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Delete rule when disabled/unchecked from popup menu"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "Cancel"

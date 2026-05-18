@@ -240,6 +240,12 @@
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy por pestaña/origen deshabilitado"
 	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Habilitar proxy por pestaña/origen para esta regla"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "Cuando está activado, las solicitudes de la pestaña/origen coincidente también usan el proxy de esta regla."
+	},
 	"settingsGeneralSyncing": {
 		"message": "Sincronización"
 	},
@@ -416,6 +422,9 @@
 	},
 	"settingsGeneralRefreshTabOnConfigChanges": {
 		"message": "Actualizar la pestaña activa cuando cambie el perfil o el proxy"
+	},
+	"settingsGeneralDeleteRuleWhenDisabledFromPopup": {
+		"message": "Eliminar la regla al desactivarla/desmarcarla desde el menú emergente"
 	},
 	"settingsGeneralCancelButton": {
 		"message": "Cancelar"
