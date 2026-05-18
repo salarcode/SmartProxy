@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "Zu {0} aktualisieren"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: VPN-Server auf Shared Hosting betreiben"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Stellen Sie zensurresistente VPN-Server auf guenstigem Shared Hosting bereit. Kein VPS erforderlich. Kostenlos nutzbar."
+	},
 	"settingsTabAboutDescription": {
 		"message": "Proxys zu verwenden, könnte dank SmartProxy nicht einfacher sein. Es handelt sich quasi um eine Einmal-konfigurieren-und-dann-vergessen-Lösung. Mit SmartProxy müssen Sie Ihren Proxy weder manuell ändern noch an- oder ausschalten. Ein Klick reicht aus, um SmartProxy mitzuteilen, ob Sie den Proxy für eine bestimmte Website einschalten wollen. Wenn Sie danach jene Website aufrufen, wird SmartProxy alle übertragenen Daten durch den Proxy leiten, ohne dass Sie irgendetwas tun müssen."
 	},
@@ -289,7 +295,7 @@
 		"message": "WebDAV-Server-Passwort:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Bitte beachten Sie, dass bei jeder Änderung der Einstellungen eine Sicherung gemacht wird, wohingegen die Wiederherstellung erst beim Start des Browsers erfolgt."
+		"message": "Bitte beachten Sie, dass jede Wiederherstellung die lokalen Einstellungen überschreibt. Sicherungen werden bei jeder Änderung der Einstellungen erstellt, während die Wiederherstellung nur beim Start des Browsers erfolgt."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Jetzt sichern"
@@ -320,6 +326,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "WebDAV-Sicherung fehlgeschlagen:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "Browsersynchronisierungs-Sicherung erfolgreich abgeschlossen!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "Browsersynchronisierungs-Sicherung fehlgeschlagen:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Fehlererkennung"

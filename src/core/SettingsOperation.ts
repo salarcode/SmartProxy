@@ -439,21 +439,42 @@ export class SettingsOperation {
 				strippedSettings);
 		}
 		else {
-			// Sync to browser servers
+			me.saveToBrowserSyncStorage(
+				strippedSettings,
+				() => {
+					Debug.log("SettingsOperation.saveAllSync: Settings saved to sync storage successfully.");
+				},
+				(error: Error) => {
+					Debug.error(`SettingsOperation.saveAllSync error: ${error.message}`);
+				}
+			);
+		}
+	}
 
-			let saveObject = utilsLib.encodeSyncData(strippedSettings);
-			try {
-				polyFillLib.storageSyncSet(saveObject,
-					() => {
-						Debug.log(`SettingsOperation.saveAllSync: Settings saved to sync storage successfully.`, saveObject);
-					},
-					(error: Error) => {
-						Debug.error(`SettingsOperation.saveAllSync error: ${error.message} `, saveObject);
-					});
+	private static saveToBrowserSyncStorage(
+		settingsToSave: SettingsConfig,
+		onSuccess?: (saveObject: any) => void,
+		onError?: (error: Error, saveObject: any) => void,
+	): void {
+		const saveObject = utilsLib.encodeSyncData(settingsToSave);
 
-			} catch (e) {
-				Debug.error(`SettingsOperation.saveAllSync error: ${e}`);
-			}
+		try {
+			polyFillLib.storageSyncSet(
+				saveObject,
+				() => {
+					if (onSuccess)
+						onSuccess(saveObject);
+				},
+				(error: any) => {
+					const normalizedError = me.normalizeError(error);
+					if (onError)
+						onError(normalizedError, saveObject);
+				}
+			);
+		} catch (e) {
+			const normalizedError = me.normalizeError(e);
+			if (onError)
+				onError(normalizedError, saveObject);
 		}
 	}
 	public static saveToWebDavServer(
@@ -1280,6 +1301,31 @@ export class SettingsOperation {
 					});
 				},
 				(error) => {
+					resolve({
+						success: false,
+						message: error?.message
+					});
+				}
+			);
+		});
+	}
+
+	public static handleBrowserSyncBackupNow(): Promise<{ success: boolean, message?: string }> {
+		return new Promise((resolve) => {
+			me.saveAllSync(false);
+
+			const strippedSettings = me.getStrippedSyncableSettings(Settings.current);
+
+			me.saveToBrowserSyncStorage(
+				strippedSettings,
+				(saveObject) => {
+					Debug.log("SettingsOperation.handleBrowserSyncBackupNow: Settings saved to sync storage successfully.", saveObject);
+					resolve({
+						success: true
+					});
+				},
+				(error: Error, saveObject: any) => {
+					Debug.error("SettingsOperation.handleBrowserSyncBackupNow error:", error, saveObject);
 					resolve({
 						success: false,
 						message: error?.message

@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "{0} için güncelleme"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: paylasimli hosting uzerinde VPN sunuculari calistirin"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Sansure dayanikli VPN sunucularini uygun fiyatli paylasimli hosting uzerinde kurun. VPS gerekmez. Kullanimi ucretsizdir."
+	},
 	"settingsTabAboutDescription": {
 		"message": "SmartProxy ile proxy kullanmak hiç bu kadar kolay olmamıştı. Bir kez yapılandır ve unut çözümü olarak düşünebilirsiniz. SmartProxy ile proxy'yi elle değiştirmeye veya açıp kapamaya gerek yok. Yapmanız gereken tek şey, istediğiniz web sitesi için proxy'yi etkinleştirmek istediğinizi SmartProxy'ye bir tıklama ile söylemektir. Ardından o siteyi ziyaret ettiğinizde SmartProxy devreye girer ve o siteye ait tüm veriler proxy üzerinden aktarılır."
 	},
@@ -289,7 +295,7 @@
 		"message": "WebDAV Sunucu Parolası:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Lütfen dikkat: ayarlarda her değişiklik yapıldığında yedekleme gerçekleşir; geri yükleme ise yalnızca tarayıcı başlatıldığında yapılır."
+		"message": "Dikkat: herhangi bir geri yükleme yerel ayarların üzerine yazacaktır. Ayarlarda yapılan her değişiklikte yedek oluşturulur; geri yükleme ise yalnızca tarayıcı başlatıldığında gerçekleşir."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Şimdi Yedekle"
@@ -320,6 +326,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "WebDav yedeklemesi başarısız oldu:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "Tarayıcı eşitleme yedeklemesi başarıyla tamamlandı!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "Tarayıcı eşitleme yedeklemesi başarısız oldu:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Hata Tespiti"

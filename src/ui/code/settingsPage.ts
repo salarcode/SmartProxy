@@ -184,6 +184,7 @@ export class settingsPage {
 
 		jq("#chkSyncToBrowser").on("change", settingsPage.uiEvents.onSyncDestinationChanged);
 		jq("#chkSyncToWebDAV").on("change", settingsPage.uiEvents.onSyncDestinationChanged);
+		jq("#btnSyncToBrowserBackupNow").click(settingsPage.uiEvents.onClickSyncToBrowserBackupNow);
 		jq("#btnWebDavServerBackupNow").click(settingsPage.uiEvents.onClickWebDavBackupNow);
 		jq("#btnWebDavServerRestoreNow").click(settingsPage.uiEvents.onClickWebDavRestoreNow);
 
@@ -2383,6 +2384,7 @@ export class settingsPage {
 				jq("#chkSyncActiveProxy").removeAttr("disabled");
 				jq("#chkSyncToBrowser").removeAttr("disabled");
 				jq("#chkSyncToWebDAV").removeAttr("disabled");
+				jq("#divSyncToBrowserFields button").removeAttr("disabled");
 				jq("#webDAVFields input,#webDAVFields button").removeAttr("disabled");
 			}
 			else {
@@ -2390,11 +2392,22 @@ export class settingsPage {
 				jq("#chkSyncActiveProxy").attr("disabled", "disabled");
 				jq("#chkSyncToBrowser").attr("disabled", "disabled");
 				jq("#chkSyncToWebDAV").attr("disabled", "disabled");
+				jq("#divSyncToBrowserFields button").attr("disabled", "disabled");
 				jq("#webDAVFields input,#webDAVFields button").attr("disabled", "disabled");
 			}
 		},
 		onSyncDestinationChanged() {
+			let isBrowserSelected = jq("#chkSyncToBrowser").prop("checked");
 			let isWebDavSelected = jq("#chkSyncToWebDAV").prop("checked");
+			const browserSyncDiv = jq("#divSyncToBrowserFields");
+			if (isBrowserSelected) {
+				browserSyncDiv.hide();
+				browserSyncDiv.removeClass("d-none");
+				browserSyncDiv.slideDown();
+			} else {
+				browserSyncDiv.addClass("d-none");
+			}
+
 			if (isWebDavSelected) {
 				const webDavDiv = jq("#webDAVFields");
 				webDavDiv.hide();
@@ -2403,6 +2416,13 @@ export class settingsPage {
 			} else {
 				jq("#webDAVFields").addClass("d-none");
 			}
+		},
+		onClickSyncToBrowserBackupNow() {
+			PolyFill.runtimeSendMessage(
+				{
+					command: CommandMessages.SettingsPageBrowserSyncBackupNow,
+				}
+			);
 		},
 		onClickWebDavBackupNow() {
 			let serverUrl = jq("#txtWebDavServerUrl").val();
@@ -2423,15 +2443,6 @@ export class settingsPage {
 					username: username,
 					password: password,
 					backupFilename: backupFilename,
-				},
-				(response) => {
-					if (response.success) {
-						// WebDav backup completed successfully!
-						messageBox.success(api.i18n.getMessage("settingsGeneralWebDavBackupNowSuccess"));
-					} else if (!response.success) {
-						// WebDav backup failed: 
-						messageBox.error(api.i18n.getMessage("settingsGeneralWebDavBackupNowFailed") + " " + response.message);
-					}
 				}
 			);
 		},

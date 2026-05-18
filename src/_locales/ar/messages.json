@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "تحديث إلى {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: شغّل خوادم VPN على الاستضافة المشتركة"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "انشر خوادم VPN مقاومة للرقابة على استضافة مشتركة منخفضة التكلفة. لا حاجة إلى VPS. مجاني للاستخدام."
+	},
 	"settingsTabAboutDescription": {
 		"message": "استخدام البروكسي أصبح أسهل مع SmartProxy. اعتبره حلًا \"اضبط مرة وانسَ\". مع SmartProxy لا تحتاج لتغيير البروكسي يدويًا أو تشغيله وإيقافه. كل ما عليك هو إخبار SmartProxy بأنك تريد تفعيل البروكسي لموقع معين بنقرة واحدة. بعد ذلك، عندما تزور ذلك الموقع، سيتولى SmartProxy توجيه جميع بيانات ذلك الموقع عبر البروكسي تلقائيًا."
 	},
@@ -289,7 +295,7 @@
 		"message": "كلمة مرور خادم WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "يرجى ملاحظة أن النسخ الاحتياطية ستتم عند كل تغيير في الإعدادات، بينما الاستعادة تتم فقط عند بدء المتصفح."
+		"message": "يرجى ملاحظة أن أي استعادة ستؤدي إلى الكتابة فوق الإعدادات المحلية. يتم إنشاء النسخ الاحتياطية عند كل تغيير في الإعدادات، بينما تتم الاستعادة فقط عند بدء تشغيل المتصفح."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "نسخ احتياطي الآن"
@@ -320,6 +326,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "فشل النسخ الاحتياطي إلى WebDAV:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "اكتملت عملية النسخ الاحتياطي لمزامنة المتصفح بنجاح!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "فشل النسخ الاحتياطي لمزامنة المتصفح:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "كشف الأخطاء"

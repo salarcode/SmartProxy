@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "Aggiornato A {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: esegui server VPN su hosting condiviso"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Distribuisci server VPN resistenti alla censura su hosting condiviso economico. Nessun VPS richiesto. Gratuito da usare."
+	},
 	"settingsTabAboutDescription": {
 		"message": "Utilizzare i proxy non può essere più facile con SmartProxy. Pensalo come una soluzione da configurare una volta e dimenticare. Con SmartProxy non è necessario modificare manualmente il proxy o accenderlo e spegnerlo. Tutto quello che devi fare è dire a SmartProxy che vuoi abilitare il proxy per il tuo sito web desiderato con un solo clic. Dopo di che, quando visiti quel sito specifico, SmartProxy agirà e tutti i tuoi dati per quel sito web verranno trasferiti attraverso il proxy, senza che tu faccia nulla."
 	},
@@ -289,7 +295,7 @@
 		"message": "Password del Server WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Si noti che i backup avverranno ad ogni modifica delle impostazioni, mentre il ripristino avviene solo all'avvio del browser."
+		"message": "Tieni presente che qualsiasi ripristino sovrascriverà le impostazioni locali. I backup verranno eseguiti a ogni modifica delle impostazioni, mentre il ripristino avverrà solo all'avvio del browser."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Esegui Backup Ora"
@@ -320,6 +326,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "Backup WebDAV fallito:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "Backup della sincronizzazione del browser completato con successo!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "Backup della sincronizzazione del browser fallito:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Rilevamento Errori"

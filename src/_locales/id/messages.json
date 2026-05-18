@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "Perbarui ke {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: jalankan server VPN di shared hosting"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Deploy server VPN tahan sensor di shared hosting murah. Tidak perlu VPS. Gratis digunakan."
+	},
 	"settingsTabAboutDescription": {
 		"message": "Menggunakan proxy jadi lebih mudah dengan SmartProxy. Anggap ini sebagai solusi \"konfigurasi sekali, lupakan\". Dengan SmartProxy Anda tidak perlu mengubah proxy secara manual atau menyalakan/mematikan. Cukup beri tahu SmartProxy bahwa Anda ingin mengaktifkan proxy untuk situs yang diinginkan dengan satu klik. Setelah itu, ketika Anda mengunjungi situs tersebut, SmartProxy akan bekerja dan semua data untuk situs itu akan dikirim melalui proxy tanpa tindakan tambahan dari Anda."
 	},
@@ -289,7 +295,7 @@
 		"message": "Kata Sandi Server WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Perlu diperhatikan bahwa backup akan dibuat setiap kali ada perubahan pada pengaturan, sedangkan pemulihan hanya terjadi saat browser dimulai."
+		"message": "Harap diperhatikan bahwa setiap pemulihan akan menimpa pengaturan lokal. Backup dibuat setiap kali pengaturan berubah, sedangkan pemulihan hanya terjadi saat browser dimulai."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Backup Sekarang"
@@ -320,6 +326,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "Backup WebDav gagal:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "Pencadangan sinkronisasi browser berhasil diselesaikan!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "Pencadangan sinkronisasi browser gagal:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Deteksi Kesalahan"

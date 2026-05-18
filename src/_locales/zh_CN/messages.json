@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "更新至版本 {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy：在共享主机上运行 VPN 服务器"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "在低成本共享主机上部署抗审查 VPN 服务器。无需 VPS。可免费使用。"
+	},
 	"settingsTabAboutDescription": {
 		"message": "使用模式来自动化定义用于代理你的网页的规则。SmartProxy 将让你无需手动改变和开关代理。你可以将所需页面添加到规则，之后，当你访问这些特定页面，SmartProxy 就会为页面自动启动代理。"
 	},
@@ -289,7 +295,7 @@
 		"message": "WebDAV 服务器密码："
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "注意，每次更改都产生备份，而还原仅在浏览器启动时发生。"
+		"message": "请注意，任何还原都会覆盖本地设置。每次设置更改时都会创建备份，而还原仅在浏览器启动时发生。"
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "立即备份"
@@ -320,6 +326,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "WebDav 备份失败："
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "浏览器同步备份已成功完成！"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "浏览器同步备份失败："
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "错误检测"
