@@ -142,5 +142,13 @@ describe('Utils.ipCidrNotationToRegExp edge cases', () => {
     expect(normalized).not.toBeNull();
     expect(r.test(normalized)).toBe(true);
   });
+
+  test('normalizeIpForMatching keeps the last IPv6 group on exact addresses', () => {
+    const normalized = Utils.normalizeIpForMatching('2001:db8::1');
+    expect(normalized).toBe('2001:0db8:0000:0000:0000:0000:0000:0001');
+
+    const bracketed = Utils.normalizeIpForMatching('[2001:db8::1]:8080');
+    expect(bracketed).toBe('2001:0db8:0000:0000:0000:0000:0000:0001');
+  });
 });
 

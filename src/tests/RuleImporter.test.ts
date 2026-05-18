@@ -1,5 +1,6 @@
 import { externalAppRuleParser } from '../lib/RuleImporter';
 import { CompiledProxyRuleType } from '../core/definitions';
+import { Utils } from '../lib/Utils';
 
 describe('externalAppRuleParser.GFWList', () => {
   describe('convertLineRegex', () => {
@@ -311,12 +312,44 @@ http://example.com/*
       expect(rule10).toBeDefined();
       expect(rule10!.regex).toBeTruthy();
       expect(rule10!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
-      
       const regex10 = new RegExp(rule10!.regex);
       // HostWildcardCondition tests against host, not full URL
       expect(regex10.test('10.19.29.157')).toBe(true);
       expect(regex10.test('10.0.0.1')).toBe(true);
       expect(regex10.test('11.0.0.1')).toBe(false);
+    });
+
+    it('should convert SwitchyOmega Ip conditions into internal RegexHost rules', () => {
+      const text = `[SwitchyOmega Conditions]
+  ; Require: https://github.com/salarcode/SmartProxy
+
+  Ip: 10.0.0.0/8
+  Ip: 172.16.0.0/12
+  Ip: 192.168.0.0/16
+  Ip: 2001:0db8:0000:0000:0000:0000:0000:0001/128
+  Ip: 2001:db8::1/128`;
+
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+
+      expect(rules).toBeDefined();
+      expect(rules.length).toBe(5);
+      rules.forEach(rule => {
+      expect(rule.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      expect(rule.regex).toBeTruthy();
+      });
+
+      const ipv4Rule = rules.find(r => r.name === 'Ip: 10.0.0.0/8');
+      expect(ipv4Rule).toBeDefined();
+      const ipv4Regex = new RegExp(ipv4Rule!.regex, 'i');
+      expect(ipv4Regex.test('10.19.29.150')).toBe(true);
+      expect(ipv4Regex.test('11.0.0.1')).toBe(false);
+
+      const ipv6ExactRule = rules.find(r => r.name === 'Ip: 2001:db8::1/128');
+      expect(ipv6ExactRule).toBeDefined();
+      const ipv6Regex = new RegExp(ipv6ExactRule!.regex, 'i');
+      expect(ipv6Regex.test(Utils.normalizeIpForMatching('2001:db8::1')!)).toBe(true);
+      expect(ipv6Regex.test(Utils.normalizeIpForMatching('2001:db8::2')!)).toBe(false);
     });
 
     it('should handle patterns without prefix as HostWildcard (fromStr fix)', () => {

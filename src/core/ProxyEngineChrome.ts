@@ -141,7 +141,7 @@ function FindProxyForURL(url, host, noDiagnostics) {
 		// subscription skip bypass rules/ don't apply proxy
 		let subMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.SubscriptionRules);
 		if (subMatchedRule) {
-			return makeResultForAlwaysEnabledForced(userMatchedRule)
+			return makeResultForAlwaysEnabledForced(subMatchedRule)
 		}
 
 		// subscription bypass rules/ apply proxy by force
