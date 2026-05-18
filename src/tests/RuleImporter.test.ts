@@ -1,6 +1,6 @@
 import { externalAppRuleParser } from '../lib/RuleImporter';
 import { CompiledProxyRuleType } from '../core/definitions';
-import { Utils } from '../lib/Utils';
+import { ProxyRules } from '../core/ProxyRules';
 
 describe('externalAppRuleParser.GFWList', () => {
   describe('convertLineRegex', () => {
@@ -341,15 +341,15 @@ http://example.com/*
 
       const ipv4Rule = rules.find(r => r.name === 'Ip: 10.0.0.0/8');
       expect(ipv4Rule).toBeDefined();
+      expect(ipv4Rule!.normalizeIpHostMatch).toBe(true);
       const ipv4Regex = new RegExp(ipv4Rule!.regex, 'i');
       expect(ipv4Regex.test('10.19.29.150')).toBe(true);
       expect(ipv4Regex.test('11.0.0.1')).toBe(false);
 
-      const ipv6ExactRule = rules.find(r => r.name === 'Ip: 2001:db8::1/128');
-      expect(ipv6ExactRule).toBeDefined();
-      const ipv6Regex = new RegExp(ipv6ExactRule!.regex, 'i');
-      expect(ipv6Regex.test(Utils.normalizeIpForMatching('2001:db8::1')!)).toBe(true);
-      expect(ipv6Regex.test(Utils.normalizeIpForMatching('2001:db8::2')!)).toBe(false);
+
+	  const compiledRules = ProxyRules.compileRulesSubscription(rules);
+	  expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::1]/', compiledRules)).not.toBeNull();
+	  expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::2]/', compiledRules)).toBeNull();
     });
 
     it('should handle patterns without prefix as HostWildcard (fromStr fix)', () => {

@@ -2437,15 +2437,6 @@ export class settingsPage {
 					username: username,
 					password: password,
 					backupFilename: backupFilename,
-				},
-				(response) => {
-					if (response.success) {
-						// WebDav backup completed successfully!
-						messageBox.success(api.i18n.getMessage("settingsGeneralWebDavBackupNowSuccess"));
-					} else if (!response.success) {
-						// WebDav backup failed: 
-						messageBox.error(api.i18n.getMessage("settingsGeneralWebDavBackupNowFailed") + " " + response.message);
-					}
 				}
 			);
 		},

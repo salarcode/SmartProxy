@@ -181,12 +181,12 @@ export const RuleImporter = {
 					for (let importedRule of importedRules) {
 						let convertedRule = importedRule.getProxyRule();
 
-						let ruleExists = currentRules.some((rule) => 
+						let ruleExists = currentRules.some((rule) =>
 							// NOTE: the comparison is limited to these properties because `getProxyRule` only fills these
 							rule.ruleType == convertedRule.ruleType &&
-								rule.ruleSearch == convertedRule.ruleSearch &&
-								rule.ruleRegex == convertedRule.ruleRegex &&
-								(!shouldBeWhiteList || (shouldBeWhiteList && rule.whiteList))
+							rule.ruleSearch == convertedRule.ruleSearch &&
+							rule.ruleRegex == convertedRule.ruleRegex &&
+							(!shouldBeWhiteList || (shouldBeWhiteList && rule.whiteList))
 						);
 						if (ruleExists)
 							continue;
@@ -949,6 +949,7 @@ export const externalAppRuleParser = {
 					rule.name = compiled.source;
 					rule.regex = regexSource;
 					rule.importedRuleType = CompiledProxyRuleType.RegexHost;
+					rule.normalizeIpHostMatch = compiled.normalizeIpHostMatch == true;
 					result.push(rule);
 				} else if (type == 'url') {
 					let rule = new ImportedProxyRule();
@@ -986,6 +987,7 @@ export const externalAppRuleParser = {
 
 				if (type == 'host') {
 					newRule.importedRuleType = CompiledProxyRuleType.RegexHost;
+					newRule.normalizeIpHostMatch = compiled.normalizeIpHostMatch == true;
 
 				} else if (type == 'url') {
 					newRule.importedRuleType = CompiledProxyRuleType.RegexUrl;

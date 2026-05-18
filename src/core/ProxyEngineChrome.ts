@@ -289,7 +289,7 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 				case CompiledProxyRuleType.RegexHost:
 					
-					if (rule.regex.test(host))
+					if (regexHostMatches(rule.regex, host, rule.normalizeIpHostMatch === true))
 						return rule;
 					break;
 
@@ -356,7 +356,7 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 
 					case CompiledProxyRuleType.RegexHost:
 
-						if (rule.regex.test(host))
+						if (regexHostMatches(rule.regex, host, rule.normalizeIpHostMatch === true))
 							return rule;
 						break;
 
@@ -390,6 +390,110 @@ function removeSchemaFromUrl(url) {
 		return url.substring(index + schemaSep.length, url.length);
 	else
 		return url;
+}
+function hostMayNeedIpNormalization(host) {
+	if (!host)
+		return false;
+
+	if (host.charCodeAt(0) === 91)
+		return true;
+
+	const firstColon = host.indexOf(':');
+	if (firstColon < 0)
+		return false;
+
+	if (host.indexOf(':', firstColon + 1) >= 0)
+		return true;
+
+	let hasDot = false;
+	for (let index = 0; index < firstColon; index++) {
+		const charCode = host.charCodeAt(index);
+		if (charCode === 46) {
+			hasDot = true;
+			continue;
+		}
+		if (charCode < 48 || charCode > 57)
+			return false;
+	}
+
+	if (!hasDot)
+		return false;
+
+	for (let index = firstColon + 1; index < host.length; index++) {
+		const charCode = host.charCodeAt(index);
+		if (charCode < 48 || charCode > 57)
+			return false;
+	}
+
+	return true;
+}
+function regexHostMatches(regex, host, normalizeIpHostMatch) {
+	if (!regex || !host)
+		return false;
+
+	if (regex.test(host))
+		return true;
+
+	if (normalizeIpHostMatch !== true || !hostMayNeedIpNormalization(host))
+		return false;
+
+	const normalizedHost = normalizeIpForMatching(host);
+	if (normalizedHost == null || normalizedHost === host)
+		return false;
+
+	return regex.test(normalizedHost);
+}
+function normalizeIpForMatching(host) {
+	if (!host)
+		return null;
+
+	let h = host.trim();
+	const bracketedHostMatch = h.match(/^\[([^\]]+)\](?::\d+)?$/);
+	if (bracketedHostMatch) {
+		h = bracketedHostMatch[1];
+	} else {
+		h = h.replace(/^\[|\]$/g, '');
+	}
+
+	const ipv4Tail = h.match(/(\d+\.\d+\.\d+\.\d+)(?::\d+)?$/);
+	if (ipv4Tail)
+		return ipv4Tail[1];
+
+	if (h.indexOf(':') >= 0) {
+		const groups = expandIPv6ToGroups(h);
+		if (groups)
+			return groups.join(':');
+		return h;
+	}
+
+	return h;
+}
+function expandIPv6ToGroups(ipv6) {
+	ipv6 = ipv6.replace(/^\[|\]$/g, '').toLowerCase();
+	if (ipv6.indexOf('.') >= 0)
+		return null;
+
+	const parts = ipv6.split('::');
+	if (parts.length > 2)
+		return null;
+
+	const left = parts[0] ? parts[0].split(':').filter(Boolean) : [];
+	const right = parts[1] ? parts[1].split(':').filter(Boolean) : [];
+	const missing = 8 - (left.length + right.length);
+	if (missing < 0)
+		return null;
+
+	const full = [];
+	for (const part of left)
+		full.push(part.padStart(4, '0'));
+	for (let i = 0; i < missing; i++)
+		full.push('0000');
+	for (const part of right)
+		full.push(part.padStart(4, '0'));
+
+	if (full.length !== 8)
+		return null;
+	return full;
 }
 function extractHostFromInvalidUrl(url) {
 	try {
@@ -452,9 +556,9 @@ function extractHostFromUrl(url) {
 				search = 'null';
 
 			if (rule.proxy) {
-				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},compiledRuleType:${rule.compiledRuleType},proxy:"${this.convertActiveProxyServer(rule.proxy)}"}`);
+				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},compiledRuleType:${rule.compiledRuleType},normalizeIpHostMatch:${rule.normalizeIpHostMatch === true},proxy:"${this.convertActiveProxyServer(rule.proxy)}"}`);
 			} else {
-				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},compiledRuleType:${rule.compiledRuleType}}`);
+				compiledRulesAsStringArray.push(`{search:${search},regex:${rule.regex?.toString() || 'null'},compiledRuleType:${rule.compiledRuleType},normalizeIpHostMatch:${rule.normalizeIpHostMatch === true}}`);
 			}
 		}
 		return compiledRulesAsStringArray;

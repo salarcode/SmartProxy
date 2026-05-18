@@ -1787,6 +1787,7 @@ let SwitchyCompiler = {
 					rule = rules[i];
 					let c = Conditions.compile(rule.condition);
 					c.source = rule.source;
+					c.normalizeIpHostMatch = rule.condition.conditionType === 'IpCondition';
 					compiled.push(c);
 				}
 				return {

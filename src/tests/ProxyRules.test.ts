@@ -2,6 +2,7 @@ import { ProxyRules } from '../core/ProxyRules';
 import { GeneralOptions, ProxyRule, ProxyRuleType, CompiledProxyRuleType, SmartProfileBase, SettingsConfig, SmartProfile, SmartProfileType, getSmartProfileTypeConfig } from '../core/definitions';
 import { ProfileRules } from '../core/ProfileRules';
 import { Settings } from '../core/Settings';
+import { Utils } from '../lib/Utils';
 
 describe('ProxyRules.compileRules', () => {
   // Create minimal mock profile for testing
@@ -83,6 +84,35 @@ describe('ProxyRules.compileRules', () => {
     expect(result.compiledList[0].search).toBe('blocked.com');
     expect(result.compiledWhiteList).toHaveLength(1);
     expect(result.compiledWhiteList[0].search).toBe('allowed.com');
+  });
+
+  it('should match imported IPv6 RegexHost rules against compressed request hosts', () => {
+    const ipv6Regex = Utils.ipCidrNotationToRegExp('2001:db8::1', '128');
+    expect(ipv6Regex).not.toBeNull();
+
+    const compiledRules = ProxyRules.compileRulesSubscription([
+      {
+        regex: ipv6Regex!.source,
+        importedRuleType: CompiledProxyRuleType.RegexHost,
+        normalizeIpHostMatch: true,
+      } as any,
+    ]);
+
+    expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::1]/', compiledRules)).not.toBeNull();
+    expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::2]/', compiledRules)).toBeNull();
+  });
+
+  it('should not enable IP normalization fallback for ordinary imported RegexHost rules', () => {
+    const compiledRules = ProxyRules.compileRulesSubscription([
+      {
+        regex: '^example\\.com$',
+        importedRuleType: CompiledProxyRuleType.RegexHost,
+      } as any,
+    ]);
+
+    expect(compiledRules).toHaveLength(1);
+    expect(compiledRules[0].normalizeIpHostMatch).toBeFalsy();
+    expect(ProxyRules.findMatchedUrlInRules('http://example.com/', compiledRules)).not.toBeNull();
   });
 });
 

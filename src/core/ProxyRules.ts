@@ -135,6 +135,7 @@ export class ProxyRules {
 						}
 						newCompiled.regex = regex;
 						newCompiled.compiledRuleType = CompiledProxyRuleType.RegexHost;
+						newCompiled.normalizeIpHostMatch = true;
 					}
 					break;
 
@@ -173,6 +174,7 @@ export class ProxyRules {
 			switch (rule.importedRuleType) {
 				case CompiledProxyRuleType.RegexHost:
 					newCompiled.regex = new RegExp(rule.regex, "i");
+					newCompiled.normalizeIpHostMatch = rule.normalizeIpHostMatch === true;
 					break;
 
 				case CompiledProxyRuleType.RegexUrl:
@@ -195,6 +197,60 @@ export class ProxyRules {
 		}
 
 		return compiledList;
+	}
+
+	private static hostMayNeedIpNormalization(host: string): boolean {
+		if (!host)
+			return false;
+
+		if (host.charCodeAt(0) === 91)
+			return true;
+
+		const firstColon = host.indexOf(':');
+		if (firstColon < 0)
+			return false;
+
+		if (host.indexOf(':', firstColon + 1) >= 0)
+			return true;
+
+		let hasDot = false;
+		for (let index = 0; index < firstColon; index++) {
+			const charCode = host.charCodeAt(index);
+			if (charCode === 46) {
+				hasDot = true;
+				continue;
+			}
+			if (charCode < 48 || charCode > 57)
+				return false;
+		}
+
+		if (!hasDot)
+			return false;
+
+		for (let index = firstColon + 1; index < host.length; index++) {
+			const charCode = host.charCodeAt(index);
+			if (charCode < 48 || charCode > 57)
+				return false;
+		}
+
+		return true;
+	}
+
+	private static regexHostMatches(regex: RegExp, host: string, normalizeIpHostMatch = false): boolean {
+		if (!regex || !host)
+			return false;
+
+		if (regex.test(host))
+			return true;
+
+		if (!normalizeIpHostMatch || !ProxyRules.hostMayNeedIpNormalization(host))
+			return false;
+
+		const normalizedHost = Utils.normalizeIpForMatching(host);
+		if (!normalizedHost || normalizedHost == host)
+			return false;
+
+		return regex.test(normalizedHost);
 	}
 
 	public static findMatchedDomainListInRulesInfo(domainList: string[], compiledRules: CompiledProxyRulesInfo): {
@@ -370,7 +426,7 @@ export class ProxyRules {
 							}
 						}
 
-						if (rule.regex.test(domainHostLowerCase))
+						if (ProxyRules.regexHostMatches(rule.regex, domainHostLowerCase, rule.normalizeIpHostMatch == true))
 							return rule;
 						break;
 
@@ -448,7 +504,7 @@ export class ProxyRules {
 
 							case CompiledProxyRuleType.RegexHost:
 
-								if (rule.regex.test(domainHostLowerCase))
+								if (ProxyRules.regexHostMatches(rule.regex, domainHostLowerCase, rule.normalizeIpHostMatch === true))
 									return rule;
 								break;
 

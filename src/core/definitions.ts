@@ -993,6 +993,7 @@ export class CompiledProxyRule {
 	public compiledRuleSource: CompiledProxyRuleSource;
 	public regex?: RegExp;
 	public search?: string;
+	public normalizeIpHostMatch?: boolean;
 
 	public hostName: string;
 
@@ -1026,6 +1027,7 @@ export class ImportedProxyRule {
 	public regex?: string;
 	public search?: string;
 	public importedRuleType?: CompiledProxyRuleType;
+	public normalizeIpHostMatch?: boolean;
 
 	public getProxyRule(): ProxyRule {
 		let newRule = new ProxyRule();
