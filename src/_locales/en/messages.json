@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "Update to {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: Run VPN Servers on Shared Hosting"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Deploy censorship resistant VPN servers on cheap shared hosting. No VPS required. Free to use."
+	},
 	"settingsTabAboutDescription": {
 		"message": "Using proxies cannot be easier with SmartProxy. Think of it as configure once and forget solution. With SmartProxy you don't need to change your proxy manually or turn it on and off. All you have to do is to tell SmartProxy that you want to enable proxy for your desired website with just one click. After that, when you visit that specific website, SmartProxy will act and all you data for that website will be transferred though the proxy, without you doing anything."
 	},
@@ -233,6 +239,12 @@
 	},
 	"settingsGeneralProxyPerOriginDisabled": {
 		"message": "Proxy per tab/origin disabled"
+	},
+	"settingsRuleEnableProxyPerOrigin": {
+		"message": "Enable proxy per tab/origin for this rule"
+	},
+	"settingsRuleEnableProxyPerOriginDesc": {
+		"message": "When enabled, requests from the matched tab/origin also follow this rule."
 	},
 	"settingsGeneralSyncing": {
 		"message": "Syncing"
@@ -289,7 +301,7 @@
 		"message": "WebDAV Server Password:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Please note that backups will occur on every change to the settings, while restore is only when the browser starts."
+		"message": "Be warned that any restore will override local settings. Backups will occur on every change to the settings, while restore is only when the browser starts."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Backup Now"
@@ -320,6 +332,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "WebDav backup failed:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "Browser sync backup completed successfully!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "Browser sync backup failed:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Error Detection"

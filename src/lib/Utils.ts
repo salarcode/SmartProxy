@@ -562,15 +562,9 @@ export class Utils {
 		if (start === 0 && end === 255)
 			return '(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])';
 
-		// small range -> enumerate
-		if (end - start <= 10) {
-			const vals: string[] = [];
-			for (let v = start; v <= end; v++) vals.push(String(v));
-			return `(?:${vals.join('|')})`;
-		}
-
-		// fallback generic octet matcher when range is large
-		return '(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])';
+		const vals: string[] = [];
+		for (let v = start; v <= end; v++) vals.push(String(v));
+		return `(?:${vals.join('|')})`;
 	}
 
 	public static expandIPv6ToGroups(ipv6: string): string[] | null {

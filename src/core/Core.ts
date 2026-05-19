@@ -366,7 +366,36 @@ export class Core {
 			case CommandMessages.SettingsPageSaveOptions: {
 				if (!message.options)
 					return;
+				const syncWasEnabled = settingsLib.current.options?.syncSettings;
+				const previousOptions = settingsLib.current.options;
 				settingsLib.current.options = message.options;
+
+				if (!syncWasEnabled && message.options.syncSettings) {
+					settingsOperationLib.performInitialSyncMerge(
+						() => {
+							// update proxy rules
+							proxyEngineLib.updateBrowsersProxyConfig();
+
+							if (sendResponse) {
+								sendResponse({
+									success: true,
+									// General options saved successfully.
+									message: api.i18n.getMessage('settingsSaveOptionsSuccess'),
+								});
+							}
+						},
+						(error: Error) => {
+							settingsLib.current.options = previousOptions;
+							if (sendResponse) {
+								sendResponse({
+									success: false,
+									message: api.i18n.getMessage("settingsErrorFailedToSaveGeneral") + " " + error.message
+								});
+							}
+						});
+					return true;
+				}
+
 				settingsOperationLib.saveOptions();
 				settingsOperationLib.saveAllSync();
 
@@ -613,19 +642,10 @@ export class Core {
 					message.backupFilename,
 					message.username,
 					message.password
-				).then((result) => {
-					if (environment.chrome) {
-						// BUGFIX: on Chrome Promises don't work
-						PolyFill.runtimeSendMessage({
-							command: CommandMessages.SettingsPageShowMessage,
-							success: result.success,
-							message: result.success 
-								? api.i18n.getMessage('settingsGeneralWebDavBackupNowSuccess')
-								: api.i18n.getMessage('settingsGeneralWebDavBackupNowFailed') + ' ' + result.message
-						});
-					}
-					return result;
-				});
+				);
+			}
+			case CommandMessages.SettingsPageBrowserSyncBackupNow: {
+				return settingsOperationLib.handleBrowserSyncBackupNow();
 			}
 			case CommandMessages.SettingsPageWebDavRestoreNow: {
 				return settingsOperationLib.handleWebDavRestoreNow(
@@ -633,19 +653,7 @@ export class Core {
 					message.backupFilename,
 					message.username,
 					message.password
-				).then((result) => {
-					if (environment.chrome) {
-						// BUGFIX: on Chrome Promises don't work
-						PolyFill.runtimeSendMessage({
-							command: CommandMessages.SettingsPageShowMessage,
-							success: result.success,
-							message: result.success 
-								? api.i18n.getMessage('settingsGeneralWebDavRestoreNowSuccess')
-								: api.i18n.getMessage('settingsGeneralWebDavRestoreNowFailed') + ' ' + result.message
-						});
-					}
-					return result;
-				});
+				);
 			}
 			default:
 				{ }

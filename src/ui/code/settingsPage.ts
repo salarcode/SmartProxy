@@ -184,6 +184,7 @@ export class settingsPage {
 
 		jq("#chkSyncToBrowser").on("change", settingsPage.uiEvents.onSyncDestinationChanged);
 		jq("#chkSyncToWebDAV").on("change", settingsPage.uiEvents.onSyncDestinationChanged);
+		jq("#btnSyncToBrowserBackupNow").click(settingsPage.uiEvents.onClickSyncToBrowserBackupNow);
 		jq("#btnWebDavServerBackupNow").click(settingsPage.uiEvents.onClickWebDavBackupNow);
 		jq("#btnWebDavServerRestoreNow").click(settingsPage.uiEvents.onClickWebDavRestoreNow);
 
@@ -415,6 +416,7 @@ export class settingsPage {
 	}
 
 	private static initializeUi() {
+		debugger;
 		if (environment.chrome) {
 			jq("#divAlertChrome").show().removeClass('d-none');
 			jq(".firefox-only").hide();
@@ -725,6 +727,7 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val(proxyRule.ruleRegex);
 			modalContainer.find("#txtRuleUrlExact").val(proxyRule.ruleExact);
 			modalContainer.find("#chkRuleEnabled").prop('checked', proxyRule.enabled);
+			modalContainer.find("#chkRuleProxyPerOrigin").prop('checked', !proxyRule.noProxyPerOrigin);
 			modalContainer.find("#txtRuleCidrIPAddress").val(proxyRule.ruleSearch);
 			modalContainer.find("#txtRuleCidrPrefixLength").val(proxyRule.rulePattern);
 			cmdRuleAction.val(proxyRule.whiteList ? "1" : "0");
@@ -748,6 +751,7 @@ export class settingsPage {
 			modalContainer.find("#txtRuleUrlRegex").val("");
 			modalContainer.find("#txtRuleUrlExact").val("");
 			modalContainer.find("#chkRuleEnabled").prop('checked', true);
+			modalContainer.find("#chkRuleProxyPerOrigin").prop('checked', true);
 			modalContainer.find("#txtRuleCidrIPAddress").val("");
 			modalContainer.find("#txtRuleCidrPrefixLength").val("");
 
@@ -788,6 +792,7 @@ export class settingsPage {
 		tabContainer.find("#divRuleGeneratePattern").hide();
 		tabContainer.find("#divRuleUrlRegex").hide();
 		tabContainer.find("#divRuleUrlExact").hide();
+		tabContainer.find("#divRuleProxyPerOrigin").hide();
 
 		if (ruleType == ProxyRuleType.MatchPatternHost ||
 			ruleType == ProxyRuleType.MatchPatternUrl) {
@@ -819,9 +824,16 @@ export class settingsPage {
 		let whiteList = parseInt(tabContainer.find("#cmdRuleAction").val()) != 0
 		if (whiteList) {
 			tabContainer.find("#divRuleActionWhitelistDesc").show();
+			tabContainer.find("#divRuleProxyServer").hide();
 		}
 		else {
+			tabContainer.find("#divRuleActionWhitelistDesc").hide();
 			tabContainer.find("#divRuleProxyServer").show();
+
+			if (!environment.chrome)
+			{
+				tabContainer.find("#divRuleProxyPerOrigin").show();
+			}
 		}
 	}
 
@@ -843,6 +855,7 @@ export class settingsPage {
 		ruleInfo.proxyServerId = selectedProxyId;
 		ruleInfo.enabled = modalContainer.find("#chkRuleEnabled").prop("checked");
 		ruleInfo.whiteList = parseInt(modalContainer.find("#cmdRuleAction").val()) != 0;
+		ruleInfo.noProxyPerOrigin = !modalContainer.find("#chkRuleProxyPerOrigin").prop("checked");
 		if (ruleInfo.ruleType == ProxyRuleType.IpCidrNotation) {
 			ruleInfo.ruleSearch = modalContainer.find("#txtRuleCidrIPAddress").val().trim();
 			ruleInfo.rulePattern = modalContainer.find("#txtRuleCidrPrefixLength").val();
@@ -2385,6 +2398,7 @@ export class settingsPage {
 				jq("#chkSyncActiveProxy").removeAttr("disabled");
 				jq("#chkSyncToBrowser").removeAttr("disabled");
 				jq("#chkSyncToWebDAV").removeAttr("disabled");
+				jq("#divSyncToBrowserFields button").removeAttr("disabled");
 				jq("#webDAVFields input,#webDAVFields button").removeAttr("disabled");
 			}
 			else {
@@ -2392,11 +2406,22 @@ export class settingsPage {
 				jq("#chkSyncActiveProxy").attr("disabled", "disabled");
 				jq("#chkSyncToBrowser").attr("disabled", "disabled");
 				jq("#chkSyncToWebDAV").attr("disabled", "disabled");
+				jq("#divSyncToBrowserFields button").attr("disabled", "disabled");
 				jq("#webDAVFields input,#webDAVFields button").attr("disabled", "disabled");
 			}
 		},
 		onSyncDestinationChanged() {
+			let isBrowserSelected = jq("#chkSyncToBrowser").prop("checked");
 			let isWebDavSelected = jq("#chkSyncToWebDAV").prop("checked");
+			const browserSyncDiv = jq("#divSyncToBrowserFields");
+			if (isBrowserSelected) {
+				browserSyncDiv.hide();
+				browserSyncDiv.removeClass("d-none");
+				browserSyncDiv.slideDown();
+			} else {
+				browserSyncDiv.addClass("d-none");
+			}
+
 			if (isWebDavSelected) {
 				const webDavDiv = jq("#webDAVFields");
 				webDavDiv.hide();
@@ -2405,6 +2430,20 @@ export class settingsPage {
 			} else {
 				jq("#webDAVFields").addClass("d-none");
 			}
+		},
+		onClickSyncToBrowserBackupNow() {
+			PolyFill.runtimeSendMessage(
+				{
+					command: CommandMessages.SettingsPageBrowserSyncBackupNow,
+				},
+				(response) => {
+					if (response.success) {
+						messageBox.success(api.i18n.getMessage("settingsGeneralBrowserSyncBackupNowSuccess"));
+					} else if (!response.success) {
+						messageBox.error(api.i18n.getMessage("settingsGeneralBrowserSyncBackupNowFailed") + " " + response.message);
+					}
+				}
+			);
 		},
 		onClickWebDavBackupNow() {
 			let serverUrl = jq("#txtWebDavServerUrl").val();
