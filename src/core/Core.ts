@@ -642,36 +642,10 @@ export class Core {
 					message.backupFilename,
 					message.username,
 					message.password
-				).then((result) => {
-					if (environment.chrome) {
-						// BUGFIX: on Chrome Promises don't work
-						PolyFill.runtimeSendMessage({
-							command: CommandMessages.SettingsPageShowMessage,
-							success: result.success,
-							message: result.success 
-								? api.i18n.getMessage('settingsGeneralWebDavBackupNowSuccess')
-								: api.i18n.getMessage('settingsGeneralWebDavBackupNowFailed') + ' ' + result.message
-						});
-					}
-					return result;
-				});
+				);
 			}
 			case CommandMessages.SettingsPageBrowserSyncBackupNow: {
-				return settingsOperationLib.handleBrowserSyncBackupNow()
-					.then((result) => {
-						if (environment.chrome) {
-							// BUGFIX: on Chrome Promises don't work
-							PolyFill.runtimeSendMessage({
-								command: CommandMessages.SettingsPageShowMessage,
-								success: result.success,
-								message: result.success
-									? api.i18n.getMessage('settingsGeneralBrowserSyncBackupNowSuccess')
-									: api.i18n.getMessage('settingsGeneralBrowserSyncBackupNowFailed') + ' ' + result.message
-							});
-						}
-
-						return result;
-					});
+				return settingsOperationLib.handleBrowserSyncBackupNow();
 			}
 			case CommandMessages.SettingsPageWebDavRestoreNow: {
 				return settingsOperationLib.handleWebDavRestoreNow(
@@ -679,19 +653,7 @@ export class Core {
 					message.backupFilename,
 					message.username,
 					message.password
-				).then((result) => {
-					if (environment.chrome) {
-						// BUGFIX: on Chrome Promises don't work
-						PolyFill.runtimeSendMessage({
-							command: CommandMessages.SettingsPageShowMessage,
-							success: result.success,
-							message: result.success 
-								? api.i18n.getMessage('settingsGeneralWebDavRestoreNowSuccess')
-								: api.i18n.getMessage('settingsGeneralWebDavRestoreNowFailed') + ' ' + result.message
-						});
-					}
-					return result;
-				});
+				);
 			}
 			default:
 				{ }
