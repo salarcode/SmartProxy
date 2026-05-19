@@ -2,6 +2,7 @@ import { ProxyRules } from '../core/ProxyRules';
 import { GeneralOptions, ProxyRule, ProxyRuleType, CompiledProxyRuleType, SmartProfileBase, SettingsConfig, SmartProfile, SmartProfileType, getSmartProfileTypeConfig } from '../core/definitions';
 import { ProfileRules } from '../core/ProfileRules';
 import { Settings } from '../core/Settings';
+import { externalAppRuleParser } from '../lib/RuleImporter';
 
 describe('ProxyRules.compileRules', () => {
   // Create minimal mock profile for testing
@@ -83,6 +84,20 @@ describe('ProxyRules.compileRules', () => {
     expect(result.compiledList[0].search).toBe('blocked.com');
     expect(result.compiledWhiteList).toHaveLength(1);
     expect(result.compiledWhiteList[0].search).toBe('allowed.com');
+  });
+
+  it('should match imported SwitchyOmega IPv6 CIDR rules after host normalization', () => {
+    const text = `[SwitchyOmega Conditions]
+Ip: 2001:db8::1/128`;
+
+    const parsed = externalAppRuleParser.Switchy.parseAndCompile(text);
+    const importedRules = externalAppRuleParser.Switchy.convertToProxyRule(parsed.compiled);
+    const proxyRules = importedRules.map(rule => rule.getProxyRule());
+    const result = ProxyRules.compileRules(createMockProfile(), proxyRules);
+
+    expect(result.compiledList).toHaveLength(1);
+    expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::1]/', result.compiledList)).toBeDefined();
+    expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::2]/', result.compiledList)).toBeNull();
   });
 });
 

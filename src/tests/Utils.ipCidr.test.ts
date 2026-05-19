@@ -142,5 +142,9 @@ describe('Utils.ipCidrNotationToRegExp edge cases', () => {
     expect(normalized).not.toBeNull();
     expect(r.test(normalized)).toBe(true);
   });
-});
 
+  test('normalizeIpForMatching preserves trailing IPv6 hextet and strips bracketed port', () => {
+    expect(Utils.normalizeIpForMatching('2001:db8::1')).toBe('2001:0db8:0000:0000:0000:0000:0000:0001');
+    expect(Utils.normalizeIpForMatching('[2001:db8::1]:443')).toBe('2001:0db8:0000:0000:0000:0000:0000:0001');
+  });
+});
