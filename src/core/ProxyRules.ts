@@ -20,6 +20,14 @@ import { Utils } from "../lib/Utils";
 import { SettingsOperation } from "./SettingsOperation";
 import { api } from "../lib/environment";
 
+function regexHostMatches(rule: CompiledProxyRule, host: string): boolean {
+	if (rule.regex.test(host))
+		return true;
+
+	let normalizedHost = Utils.normalizeIpForMatching(host);
+	return normalizedHost != null && normalizedHost !== host && rule.regex.test(normalizedHost);
+}
+
 export class ProxyRules {
 
 	public static compileRules(profile: SmartProfileBase, proxyRules: ProxyRule[]): {
@@ -280,13 +288,6 @@ export class ProxyRules {
 		let domainHostLowerCase: string;
 		let schemaLessUrlLowerCase: string;
 		let lowerCaseUrl = searchUrl.toLowerCase();
-		const regexHostMatches = (rule: CompiledProxyRule, host: string): boolean => {
-			if (rule.regex.test(host))
-				return true;
-
-			let normalizedHost = Utils.normalizeIpForMatching(host);
-			return normalizedHost != null && normalizedHost !== host && rule.regex.test(normalizedHost);
-		};
 
 		try {
 			for (let rule of rules) {
