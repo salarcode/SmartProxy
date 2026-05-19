@@ -41,6 +41,18 @@
     "build-th": "webpack --env browser=thunderbird",
     "build-th:watch": "webpack --watch --env browser=thunderbird --env dev=true"
   },
+  "jest": {
+    "setupFiles": [
+      "jest-webextension-mock"
+    ],
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/src/tests/**/*.test.ts"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
   "license": "GPL-3.0",
   "dependencies": {
     "pako": "^2.1.0",

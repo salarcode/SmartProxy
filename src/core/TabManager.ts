@@ -44,6 +44,20 @@ export class TabManager {
 		// listen to tab URL changes
 		api.tabs.onUpdated.addListener(TabManager.updateActiveTab);
 
+		let webNavigation = api.webNavigation;
+		if (webNavigation) {
+			if (webNavigation.onBeforeNavigate)
+				webNavigation.onBeforeNavigate.addListener(TabManager.handleNavigationStarted);
+			if (webNavigation.onCommitted)
+				webNavigation.onCommitted.addListener(TabManager.handleNavigationCommitted);
+			if (webNavigation.onHistoryStateUpdated)
+				webNavigation.onHistoryStateUpdated.addListener(TabManager.handleNavigationCommitted);
+			if (webNavigation.onReferenceFragmentUpdated)
+				webNavigation.onReferenceFragmentUpdated.addListener(TabManager.handleNavigationCommitted);
+			if (webNavigation.onErrorOccurred)
+				webNavigation.onErrorOccurred.addListener(TabManager.handleNavigationError);
+		}
+
 		api.tabs.onRemoved.addListener(TabManager.handleTabRemoved);
 
 		// listen for window switching
@@ -190,6 +204,56 @@ export class TabManager {
 		TabManager.onTabRemoved.trigger(tabData);
 
 		tabData.clearFailedRequests();
+	}
+
+	private static isMainFrameNavigation(details: any): boolean {
+		return details && details.tabId > -1 && details.frameId === 0 && details.url;
+	}
+
+	private static handleNavigationStarted(details: any) {
+		if (!TabManager.isMainFrameNavigation(details))
+			return;
+
+		TabManager.updateTabUrlFromNavigation(details.tabId, details.url);
+	}
+
+	private static handleNavigationCommitted(details: any) {
+		if (!TabManager.isMainFrameNavigation(details))
+			return;
+
+		TabManager.updateTabUrlFromNavigation(details.tabId, details.url);
+	}
+
+	private static handleNavigationError(details: any) {
+		if (!TabManager.isMainFrameNavigation(details))
+			return;
+
+		let tabData = TabManager.tabs[details.tabId];
+		if (!tabData || tabData.url !== details.url)
+			return;
+
+		TabManager.loadTabData(tabData);
+	}
+
+	private static updateTabUrlFromNavigation(tabId: number, url: string) {
+		let tabData = TabManager.tabs[tabId];
+		let tabDataCreated = false;
+		if (!tabData) {
+			tabData = TabManager.getOrSetTab(tabId, false, url);
+			tabDataCreated = true;
+		}
+
+		if (!tabDataCreated && tabData.url === url)
+			return;
+
+		tabData.clearFailedRequests();
+		tabData.resetTabState();
+		TabManager.setRuleForProxyPerOrigin(tabData, url);
+		tabData.updated = new Date();
+		tabData.url = url;
+		tabData.proxifiedParentDocumentUrl = url;
+
+		TabManager.onTabUpdated.trigger(tabData);
 	}
 
 	private static handleTabUpdated(tabId: number, changeInfo: any, tabInfo: any) {

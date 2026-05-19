@@ -16,6 +16,7 @@
 	"permissions": [
 		"activeTab",
 		"tabs",
+		"webNavigation",
 		"proxy",
 		"webRequest",
 		"webRequestAuthProvider",
