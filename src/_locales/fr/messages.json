@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "Metre à jour {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy : executez des serveurs VPN sur un hebergement mutualise"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Deployez des serveurs VPN resistants a la censure sur un hebergement mutualise economique. Aucun VPS requis. Utilisation gratuite."
+	},
 	"settingsTabAboutDescription": {
 		"message": "Utiliser des proxies ne peut pas être plus facile avec SmartProxy. Pensez-y comme une solution de configuration unique et oubli. Avec SmartProxy, vous n'avez pas besoin de changer votre proxy manuellement ou de l'activer et le désactiver. Tout ce que vous avez à faire est de dire à SmartProxy que vous voulez activer le proxy pour votre site web souhaité avec juste un clic. Après cela, lorsque vous visitez ce site web spécifique, SmartProxy agira et toutes vos données pour ce site web seront transférées via le proxy, sans que vous fassiez quoi que ce soit."
 	},
@@ -295,7 +301,7 @@
 		"message": "Mot de passe du serveur WebDAV :"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Veuillez noter que les sauvegardes se produiront à chaque changement des paramètres, tandis que la restauration n'a lieu qu'au démarrage du navigateur."
+		"message": "Veuillez noter que toute restauration écrasera les paramètres locaux. Les sauvegardes auront lieu à chaque modification des paramètres, tandis que la restauration ne se produira qu'au démarrage du navigateur."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Sauvegarder maintenant"
@@ -326,6 +332,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "Échec de la sauvegarde WebDAV :"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "Sauvegarde de synchronisation du navigateur terminée avec succès !"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "Échec de la sauvegarde de synchronisation du navigateur :"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Détection d'erreurs"
