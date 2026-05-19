@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "Aktualizuj do {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: uruchamiaj serwery VPN na hostingu wspoldzielonym"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Wdrazaj odporne na cenzure serwery VPN na tanim hostingu wspoldzielonym. VPS nie jest wymagany. Korzystanie jest darmowe."
+	},
 	"settingsTabAboutDescription": {
 		"message": "Korzystanie z proxy nie może być łatwiejsze dzięki SmartProxy. Pomyśl o tym jak o rozwiązaniu: skonfiguruj raz i zapomnij. Dzięki SmartProxy nie musisz ręcznie zmieniać swojego proxy ani włączać i wyłączać go. Wszystko co musisz zrobić to powiedzieć SmartProxy, że chcesz włączyć proxy dla wybranej strony jednym kliknięciem. Potem, gdy odwiedzisz tę konkretną stronę, SmartProxy zadziała i wszystkie twoje dane dla tej strony będą przesyłane przez proxy, bez żadnego twojego działania."
 	},
@@ -295,7 +301,7 @@
 		"message": "Hasło serwera WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Należy pamiętać, że kopie zapasowe będą tworzone przy każdej zmianie ustawień, podczas gdy przywracanie następuje tylko podczas uruchamiania przeglądarki."
+		"message": "Pamiętaj, że każde przywrócenie nadpisze ustawienia lokalne. Kopie zapasowe będą tworzone przy każdej zmianie ustawień, a przywracanie następuje tylko podczas uruchamiania przeglądarki."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Utwórz kopię zapasową teraz"
@@ -326,6 +332,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "Kopia zapasowa WebDAV nie powiodła się:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "Kopia zapasowa synchronizacji przeglądarki zakończona pomyślnie!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "Kopia zapasowa synchronizacji przeglądarki nie powiodła się:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Wykrywanie błędów"
