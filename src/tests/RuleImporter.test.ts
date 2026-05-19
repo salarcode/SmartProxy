@@ -1,5 +1,6 @@
 import { externalAppRuleParser } from '../lib/RuleImporter';
 import { CompiledProxyRuleType } from '../core/definitions';
+import { Utils } from '../lib/Utils';
 
 describe('externalAppRuleParser.GFWList', () => {
   describe('convertLineRegex', () => {
@@ -309,14 +310,108 @@ http://example.com/*
       // Test the 10.*.*.* rule with actual IP addresses (with and without port)
       const rule10 = rules.find(r => r.name && r.name.includes('10.*.*.*'));
       expect(rule10).toBeDefined();
-      expect(rule10!.regex).toBeTruthy();
-      expect(rule10!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      expect(rule10?.regex).toBeTruthy();
+      expect(rule10?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      if (!rule10?.regex) {
+        throw new Error('Expected 10.*.*.* rule regex');
+      }
       
-      const regex10 = new RegExp(rule10!.regex);
+      const regex10 = new RegExp(rule10.regex);
       // HostWildcardCondition tests against host, not full URL
       expect(regex10.test('10.19.29.157')).toBe(true);
       expect(regex10.test('10.0.0.1')).toBe(true);
       expect(regex10.test('11.0.0.1')).toBe(false);
+    });
+
+    it('should convert SwitchyOmega Ip conditions into regex host rules', () => {
+      const text = `[SwitchyOmega Conditions]
+Ip: 10.0.0.0/8
+Ip: [172.16.0.0/12]
+Ip: 192.168.0.0/16
+Ip: 2001:0db8:0000:0000:0000:0000:0000:0001/128
+Ip: 2001:db8::1/128
+*.github.com`;
+
+      const result = externalAppRuleParser.Switchy.parseAndCompile(text);
+      const rules = externalAppRuleParser.Switchy.convertToProxyRule(result.compiled);
+
+      expect(rules).toHaveLength(6);
+
+      const rule10 = rules.find(r => r.name === 'Ip: 10.0.0.0/8');
+      expect(rule10?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      expect(rule10?.regex).toBeTruthy();
+      if (!rule10?.regex) {
+        throw new Error('Expected IPv4 CIDR rule regex');
+      }
+      const rule10Regex = new RegExp(rule10.regex);
+      expect(rule10Regex.test('10.42.0.1')).toBe(true);
+      expect(rule10Regex.test('11.42.0.1')).toBe(false);
+
+      const rule172 = rules.find(r => r.name === 'Ip: [172.16.0.0/12]');
+      expect(rule172?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      expect(rule172?.regex).toBeTruthy();
+      if (!rule172?.regex) {
+        throw new Error('Expected bracketed IPv4 CIDR rule regex');
+      }
+      const rule172Regex = new RegExp(rule172.regex);
+      expect(rule172Regex.test('172.31.255.255')).toBe(true);
+      expect(rule172Regex.test('172.32.0.0')).toBe(false);
+
+      const ipv6Normalized = Utils.normalizeIpForMatching('2001:db8::1');
+      expect(ipv6Normalized).toBeTruthy();
+      const ipv6Rule = rules.find(r => r.name === 'Ip: 2001:db8::1/128');
+      expect(ipv6Rule?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      expect(ipv6Rule?.regex).toBeTruthy();
+      if (!ipv6Rule?.regex || !ipv6Normalized) {
+        throw new Error('Expected IPv6 CIDR rule regex');
+      }
+      const ipv6Regex = new RegExp(ipv6Rule.regex, 'i');
+      expect(ipv6Regex.test(ipv6Normalized)).toBe(true);
+    });
+
+    it('should treat malformed Ip: rules as invalid (no match-all fallback)', () => {
+      // A bare IP without a prefix length used to fall back to 0.0.0.0/0, producing a
+      // regex that matched every IPv4 address.  The fixed behaviour is:
+      //   • bare IP (no slash)  → treated as a /32 (IPv4) or /128 (IPv6) host rule
+      //   • trailing slash      → rule is dropped entirely (returns null from fromStr)
+      //   • non-numeric prefix  → rule is dropped entirely
+
+      // ── bare IPv4 ──────────────────────────────────────────────────────────
+      const bareText = `[SwitchyOmega Conditions]
+Ip: 192.168.1.1
+*.example.com`;
+      const bareResult = externalAppRuleParser.Switchy.parseAndCompile(bareText);
+      const bareRules = externalAppRuleParser.Switchy.convertToProxyRule(bareResult.compiled);
+      // The bare IP must become a host rule and must NOT match an unrelated address
+      const bareIpRule = bareRules.find(r => r.name === 'Ip: 192.168.1.1');
+      expect(bareIpRule).toBeDefined();
+      expect(bareIpRule?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      if (!bareIpRule?.regex) throw new Error('Expected bare IP rule regex');
+      const bareRegex = new RegExp(bareIpRule.regex);
+      expect(bareRegex.test('192.168.1.1')).toBe(true);
+      // Must NOT match every IPv4 address (old /0 behaviour)
+      expect(bareRegex.test('10.0.0.1')).toBe(false);
+      expect(bareRegex.test('1.2.3.4')).toBe(false);
+
+      // ── trailing slash ─────────────────────────────────────────────────────
+      const trailingText = `[SwitchyOmega Conditions]
+Ip: 192.168.0.1/
+*.example.com`;
+      const trailingResult = externalAppRuleParser.Switchy.parseAndCompile(trailingText);
+      const trailingRules = externalAppRuleParser.Switchy.convertToProxyRule(trailingResult.compiled);
+      // The invalid Ip: rule must be dropped; only the wildcard rule survives
+      expect(trailingRules).toHaveLength(1);
+      expect(trailingRules[0].name).toBe('*.example.com');
+
+      // ── non-numeric prefix ─────────────────────────────────────────────────
+      const nanText = `[SwitchyOmega Conditions]
+Ip: 192.168.0.0/abc
+*.example.com`;
+      const nanResult = externalAppRuleParser.Switchy.parseAndCompile(nanText);
+      const nanRules = externalAppRuleParser.Switchy.convertToProxyRule(nanResult.compiled);
+      // Same expectation: bad rule is dropped, only wildcard survives
+      expect(nanRules).toHaveLength(1);
+      expect(nanRules[0].name).toBe('*.example.com');
     });
 
     it('should handle patterns without prefix as HostWildcard (fromStr fix)', () => {
@@ -342,14 +437,22 @@ example.com
       // Test example.com rule - pattern without wildcards matches exact host
       const exampleRule = rules.find(r => r.name === 'example.com');
       expect(exampleRule).toBeDefined();
-      const exampleRegex = new RegExp(exampleRule!.regex);
+      expect(exampleRule?.regex).toBeTruthy();
+      if (!exampleRule?.regex) {
+        throw new Error('Expected example.com regex');
+      }
+      const exampleRegex = new RegExp(exampleRule.regex);
       expect(exampleRegex.test('example.com')).toBe(true);
       // Without explicit wildcards, it won't match subdomains
       
       // Test *.google.com - should match subdomains but not google.com itself
       const googleRule = rules.find(r => r.name === '*.google.com');
       expect(googleRule).toBeDefined();
-      const googleRegex = new RegExp(googleRule!.regex);
+      expect(googleRule?.regex).toBeTruthy();
+      if (!googleRule?.regex) {
+        throw new Error('Expected *.google.com regex');
+      }
+      const googleRegex = new RegExp(googleRule.regex);
       expect(googleRegex.test('www.google.com')).toBe(true);
       expect(googleRegex.test('mail.google.com')).toBe(true);
     });
@@ -399,16 +502,16 @@ H: google.com`;
       
       // Check each rule type
       const rule1 = rules.find(r => r.name.includes('10.0.0'));
-      expect(rule1!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      expect(rule1?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
       
       const rule2 = rules.find(r => r.name.includes('192.168'));
-      expect(rule2!.importedRuleType).toBe(CompiledProxyRuleType.RegexUrl);
+      expect(rule2?.importedRuleType).toBe(CompiledProxyRuleType.RegexUrl);
       
       const rule3 = rules.find(r => r.name === 'example.com');
-      expect(rule3!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      expect(rule3?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
       
       const rule4 = rules.find(r => r.name === 'H: google.com');
-      expect(rule4!.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      expect(rule4?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
     });
 
     it('should handle domain patterns with wildcards', () => {
@@ -427,7 +530,11 @@ H: google.com`;
       // Test *.example.com pattern - matches subdomains only (not the domain itself)
       const wildcardRule = rules.find(r => r.name.includes('*.example'));
       expect(wildcardRule).toBeDefined();
-      const wildcardRegex = new RegExp(wildcardRule!.regex);
+      expect(wildcardRule?.regex).toBeTruthy();
+      if (!wildcardRule?.regex) {
+        throw new Error('Expected wildcard regex');
+      }
+      const wildcardRegex = new RegExp(wildcardRule.regex);
       // *.example.com uses (.*\.)? which means "any characters followed by dot" is optional
       // This actually matches example.com (when optional part is omitted)
       expect(wildcardRegex.test('www.example.com')).toBe(true);

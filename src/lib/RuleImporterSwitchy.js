@@ -6,6 +6,8 @@
 * @source  https://github.com/FelisCatus/SwitchyOmega
 * @license  GPL3
 */
+const { Utils } = require('./Utils');
+
 const strStartsWith = function (str, prefix) {
 	return str.substr(0, prefix.length) === prefix;
 };
@@ -839,146 +841,69 @@ const Conditions = {
 		'IpCondition': {
 			abbrs: ['Ip'],
 			analyze: function (condition) {
-				let addr, cache, ip, mask;
+				let cache, ip, regex;
 				cache = {
-					addr: null,
-					normalized: null
+					regex: null
 				};
-				ip = condition.ip;
-				if (ip.charCodeAt(0) === '['.charCodeAt(0)) {
-					ip = ip.substr(1, ip.length - 2);
+				ip = (condition.ip || '').trim();
+				if (ip.charCodeAt(0) === '['.charCodeAt(0) && ip.charCodeAt(ip.length - 1) === ']'.charCodeAt(0)) {
+					ip = ip.substring(1, ip.length - 1).trim();
 				}
-				addr = ip + '/' + condition.prefixLength;
-				cache.addr = this.parseIp(addr);
-				if (cache.addr == null) {
-					throw new Error("Invalid IP address " + addr);
+				regex = Utils.ipCidrNotationToRegExp(ip, String(condition.prefixLength));
+				if (regex == null) {
+					throw new Error("Invalid IP address " + ip + '/' + condition.prefixLength);
 				}
-				cache.normalized = this.normalizeIp(cache.addr);
-				mask = cache.addr.v4 ? new IP.v4.Address('255.255.255.255/' + cache.addr.subnetMask) : new IP.v6.Address(this.ipv6Max + '/' + cache.addr.subnetMask);
-				cache.mask = this.normalizeIp(mask.startAddress());
+				cache.regex = regex;
 				return cache;
 			},
 			match: function (condition, request, cache) {
-				let addr;
-				addr = this.parseIp(request.host);
-				if (addr == null) {
+				let normalizedHost;
+				normalizedHost = Utils.normalizeIpForMatching(request.host);
+				if (normalizedHost == null) {
 					return false;
 				}
 				cache = cache.analyzed;
-				if (addr.v4 !== cache.addr.v4) {
-					return false;
-				}
-				return addr.isInSubnet(cache.addr);
+				return cache.regex.test(normalizedHost);
 			},
 			compile: function (condition, cache) {
-				let hostIsInNet, hostIsInNetEx, hostLooksLikeIp;
 				cache = cache.analyzed;
-				hostLooksLikeIp = cache.addr.v4 ? new U2.AST_Binary({
-					left: new U2.AST_Sub({
-						expression: new U2.AST_SymbolRef({
-							name: 'host'
-						}),
-						property: new U2.AST_Binary({
-							left: new U2.AST_Dot({
-								expression: new U2.AST_SymbolRef({
-									name: 'host'
-								}),
-								property: 'length'
-							}),
-							operator: '-',
-							right: new U2.AST_Number({
-								value: 1
-							})
-						})
-					}),
-					operator: '>=',
-					right: new U2.AST_Number({
-						value: 0
-					})
-				}) : new U2.AST_Binary({
-					left: new U2.AST_Call({
-						expression: new U2.AST_Dot({
-							expression: new U2.AST_SymbolRef({
-								name: 'host'
-							}),
-							property: 'indexOf'
-						}),
-						args: [
-							new U2.AST_String({
-								value: ':'
-							})
-						]
-					}),
-					operator: '>=',
-					right: new U2.AST_Number({
-						value: 0
-					})
-				});
-				if (cache.addr.subnetMask === 0) {
-					return hostLooksLikeIp;
-				}
-				hostIsInNet = new U2.AST_Call({
-					expression: new U2.AST_SymbolRef({
-						name: 'isInNet'
-					}),
-					args: [
-						new U2.AST_SymbolRef({
-							name: 'host'
-						}), new U2.AST_String({
-							value: cache.normalized
-						}), new U2.AST_String({
-							value: cache.mask
-						})
-					]
-				});
-				if (!cache.addr.v4) {
-					hostIsInNetEx = new U2.AST_Call({
-						expression: new U2.AST_SymbolRef({
-							name: 'isInNetEx'
-						}),
-						args: [
-							new U2.AST_SymbolRef({
-								name: 'host'
-							}), new U2.AST_String({
-								value: cache.normalized + cache.addr.subnet
-							})
-						]
-					});
-					hostIsInNet = new U2.AST_Conditional({
-						condition: new U2.AST_Binary({
-							left: new U2.AST_UnaryPrefix({
-								operator: 'typeof',
-								expression: new U2.AST_SymbolRef({
-									name: 'isInNetEx'
-								})
-							}),
-							operator: '===',
-							right: new U2.AST_String({
-								value: 'function'
-							})
-						}),
-						consequent: hostIsInNetEx,
-						alternative: hostIsInNet
-					});
-				}
-				return new U2.AST_Binary({
-					left: hostLooksLikeIp,
-					operator: '&&',
-					right: hostIsInNet
-				});
+				return this.regTest('host', cache.regex);
 			},
 			str: function (condition) {
 				return condition.ip + '/' + condition.prefixLength;
 			},
 			fromStr: function (str, condition) {
-				let addr;
-				addr = this.parseIp(str);
-				if (addr != null) {
-					condition.ip = addr.addressMinusSuffix;
-					condition.prefixLength = addr.subnetMask;
+				let ip, slashIndex;
+				str = str.trim();
+				if (str.charCodeAt(0) === '['.charCodeAt(0) && str.charCodeAt(str.length - 1) === ']'.charCodeAt(0)) {
+					str = str.substring(1, str.length - 1).trim();
+				}
+				slashIndex = str.lastIndexOf('/');
+				if (slashIndex > 0 && slashIndex < str.length - 1) {
+					ip = str.substring(0, slashIndex).trim();
+					condition.ip = ip;
+					condition.prefixLength = parseInt(str.substring(slashIndex + 1).trim(), 10);
+				} else if (slashIndex < 0) {
+					// Bare IP with no prefix — default to /32 for IPv4, /128 for IPv6.
+					// This restores the old parseIp behaviour for bare-IP entries and avoids
+					// silently producing a /0 match-all.
+					if (str.indexOf(':') >= 0) {
+						// IPv6 address — analyze() will validate via ipCidrNotationToRegExp.
+						condition.ip = str;
+						condition.prefixLength = 128;
+					} else if (str.indexOf('.') >= 0) {
+						// Looks like an IPv4 address.
+						condition.ip = str;
+						condition.prefixLength = 32;
+					} else {
+						return null;
+					}
 				} else {
-					condition.ip = '0.0.0.0';
-					condition.prefixLength = 0;
+					// Trailing slash or leading slash — treat as invalid.
+					return null;
+				}
+				if (isNaN(condition.prefixLength)) {
+					return null;
 				}
 				return condition;
 			}

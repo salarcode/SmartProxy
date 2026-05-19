@@ -602,23 +602,19 @@ export class Utils {
 	public static normalizeIpForMatching(host: string): string | null {
 		if (!host) return null;
 		let h = host.trim();
-
-		// remove surrounding brackets if any
-		h = h.replace(/^\[|\]$/g, '');
+		const bracketedHost = h.match(/^\[([^\]]+)\](?::\d+)?$/);
+		if (bracketedHost) {
+			h = bracketedHost[1];
+		}
+		else {
+			// remove surrounding brackets if any
+			h = h.replace(/^\[|\]$/g, '');
+		}
 
 		// If there's an IPv4 tail (possibly with a port), extract it: ::ffff:192.0.2.1 or 192.0.2.1:8080
 		const ipv4Tail = h.match(/(\d+\.\d+\.\d+\.\d+)(?::\d+)?$/);
 		if (ipv4Tail) {
 			return ipv4Tail[1];
-		}
-
-		// Remove trailing :port for IPv6 hosts that lost brackets earlier (e.g. ::1:8080)
-		if (/:\d+$/.test(h)) {
-			// Only strip if it looks like a port (all digits) and the rest contains ':' (likely IPv6)
-			const withoutPort = h.replace(/:\d+$/, '');
-			if (withoutPort.indexOf(':') >= 0) {
-				h = withoutPort;
-			}
 		}
 
 		// If it looks like IPv6, try to expand
