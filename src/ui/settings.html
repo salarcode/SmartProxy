@@ -210,19 +210,19 @@
 						<!-- Affiliate Ad Box -->
 						<div class="affiliate-ad-box">
 							<div class="affiliate-ad-label">Affiliate Ad</div>
-							<a href="https://www.avaproxy.com/?utm_source=smartproxy&utm_medium=affiliate&utm_campaign=extension" 
+							<a href="https://avaproxy.com/?utm_source=smartproxy&utm_medium=affiliate&utm_campaign=extension" 
 							   target="_blank" 
 							   rel="noopener nofollow" 
 							   class="affiliate-ad-content">
 								<div class="affiliate-ad-icon">
-									<img src="https://www.avaproxy.com/web/image/website/1/favicon" 
+									<img src="https://avaproxy.com/favicon.svg" 
 									     alt="AvaProxy" 
 									     class="affiliate-ad-favicon">
 									<i class="fas fa-server affiliate-ad-fallback"></i>
 								</div>
 								<div class="affiliate-ad-text">
-									<h4 class="affiliate-ad-title">AvaProxy: Custom VPN servers on shared hostings</h4>
-									<p class="affiliate-ad-description">Create custom VPN servers on shared hostings with AvaProxy Server - it's free!</p>
+									<h4 class="affiliate-ad-title" data-localize="settingsAffiliateAdTitle">AvaProxy: Run VPN Servers on Shared Hosting</h4>
+									<p class="affiliate-ad-description" data-localize="settingsAffiliateAdDescription">Deploy censorship resistant VPN servers on cheap shared hosting. No VPS required. Free to use.</p>
 								</div>
 							</a>
 						</div>
@@ -267,7 +267,7 @@
 							<div class="chrome-only alert alert-warning alert-dismissible fade show" role="alert"
 								style="display:none">
 								<span data-localize="settingsGeneralSmartFeaturesNoChrome">
-									<strong><a href='https://www.getfirefox.com/' target='_blank'
+									<strong><a href='https://www.getfirefox.com/?utm_source=smartproxy_extension' target='_blank'
 											rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not
 									supported by Chrome.
 								</span>
@@ -311,7 +311,7 @@
 							<div class="chrome-only alert alert-warning alert-dismissible fade show" role="alert"
 								style="display:none">
 								<span data-localize="settingsGeneralSmartFeaturesNoChrome">
-									<strong><a href='https://www.getfirefox.com/' target='_blank'
+									<strong><a href='https://www.getfirefox.com/?utm_source=smartproxy_extension' target='_blank'
 											rel='noopener'>Firefox</a> only!</strong> Unfortunately this feature is not
 									supported by Chrome.
 								</span>
@@ -352,13 +352,23 @@
 								<input type="radio" name="syncOption" id="chkSyncToBrowser" class="form-check-input" checked />
 								<span data-localize="settingsGeneralSyncToBrowser">Use the browser's sync servers</span>
 							</label>
+							<div id="divSyncToBrowserFields" class="mx-5 d-none">
+								<div class="">
+									<span class="float-start" data-localize="settingsGeneralWebDavBehaviourDesc">
+										Be warned that any restore will override local settings. Backups will occur on every change to the settings, while restore is only when the browser starts.
+									</span>
+									<div class="float-end">
+										<button id="btnSyncToBrowserBackupNow" type="button" class="btn btn-info" data-localize="settingsGeneralWebDavServerBackupNow">Backup Now</button>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
 							<br />
 							<label class="mx-4 form-label">
 								<input type="radio" name="syncOption" id="chkSyncToWebDAV" class="form-check-input" />
 								<span data-localize="settingsGeneralSyncToWebDAV">Sync to a WebDAV server</span>
 							</label>
 						
-							<!-- Conditional Visibility Fields -->
 							<div id="webDAVFields" class="mx-5 d-none">
 								<div class="row">
 									<div class="col-6">
@@ -390,7 +400,7 @@
 								</div>
 								<div class="mt-3">
 									<span class="float-start" data-localize="settingsGeneralWebDavBehaviourDesc">
-										Please note that backups will occur on every change to the settings, while restore is only when the browser starts.
+										Be warned that any restore will override local settings. Backups will occur on every change to the settings, while restore is only when the browser starts.
 									</span>
 									<div class="float-end">
 										<button id="btnWebDavServerRestoreNow" type="button" class="btn btn-warning" data-localize="settingsGeneralWebDavServerRestoreNow">Restore Now</button>

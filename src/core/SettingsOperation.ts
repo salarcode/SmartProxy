@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file is part of SmartProxy <https://github.com/salarcode/SmartProxy>,
  * Copyright (C) 2025 Salar Khalilzadeh <salar2k@gmail.com>
  *
@@ -19,7 +19,7 @@ import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { Settings } from "./Settings";
 import { Utils } from "../lib/Utils";
-import { GeneralOptions, ProxyServer, ProxyServerFromSubscription, ProxyServerSubscription, SettingsConfig, SmartProfile, UpdateInfo } from "./definitions";
+import { GeneralOptions, ProxyRule, ProxyRulesSubscription, ProxyServer, ProxyServerFromSubscription, ProxyServerSubscription, SettingsConfig, SmartProfile, UpdateInfo } from "./definitions";
 import { ProxyEngine } from "./ProxyEngine";
 import { ProxyRules } from "./ProxyRules";
 import { SubscriptionUpdater } from "./SubscriptionUpdater";
@@ -165,6 +165,58 @@ export class SettingsOperation {
 		Settings.current = restoredSyncedSettings;
 
 		Settings.updateActiveSettings();
+	}
+	public static performInitialSyncMerge(onSuccess?: () => void, onError?: (error: Error) => void) {
+		me.readConfiguredSyncSettings(
+			(syncedSettings: SettingsConfig) => {
+				if (!syncedSettings || !syncedSettings.options) {
+					me.saveAllSync();
+					me.reloadSubscriptionsAfterSyncMerge();
+					if (onSuccess)
+						onSuccess();
+					return;
+				}
+
+				const remoteSettings = Settings.getRestorableSettings(me.cloneSettingsConfig(syncedSettings));
+				const remoteSettingsSyncable = JSON.stringify(me.getStrippedSyncableSettings(remoteSettings));
+				const mergedSettings = me.mergeSettingsForInitialSync(remoteSettings, Settings.current);
+				const mergedSettingsSyncable = JSON.stringify(me.getStrippedSyncableSettings(mergedSettings));
+				const mergeChangedSettings = remoteSettingsSyncable !== mergedSettingsSyncable;
+
+				me.applySyncSettings(mergedSettings);
+				SettingsOperation.saveAllLocal(true);
+
+				if (mergeChangedSettings) {
+					me.saveAllSync();
+				}
+
+				me.reloadSubscriptionsAfterSyncMerge();
+
+				if (onSuccess)
+					onSuccess();
+			},
+			(error: Error) => {
+				if (me.isMissingSyncDataError(error)) {
+					me.saveAllSync();
+					me.reloadSubscriptionsAfterSyncMerge();
+					if (onSuccess)
+						onSuccess();
+					return;
+				}
+
+				if (onError)
+					onError(error);
+			});
+	}
+	public static mergeSettingsForInitialSync(remoteSettings: SettingsConfig, localSettings: SettingsConfig): SettingsConfig {
+		let mergedSettings = remoteSettings;
+
+		me.mergeProxyServers(mergedSettings, localSettings);
+		me.mergeProxyServerSubscriptions(mergedSettings, localSettings);
+		me.mergeSmartProfiles(mergedSettings, localSettings);
+
+		Settings.ensureIntegrityOfSettings(mergedSettings);
+		return mergedSettings;
 	}
 
 	/** In local options if sync is disabled for these particular options, don't update them from sync server */
@@ -387,21 +439,42 @@ export class SettingsOperation {
 				strippedSettings);
 		}
 		else {
-			// Sync to browser servers
+			me.saveToBrowserSyncStorage(
+				strippedSettings,
+				() => {
+					Debug.log("SettingsOperation.saveAllSync: Settings saved to sync storage successfully.");
+				},
+				(error: Error) => {
+					Debug.error(`SettingsOperation.saveAllSync error: ${error.message}`);
+				}
+			);
+		}
+	}
 
-			let saveObject = utilsLib.encodeSyncData(strippedSettings);
-			try {
-				polyFillLib.storageSyncSet(saveObject,
-					() => {
-						Debug.log(`SettingsOperation.saveAllSync: Settings saved to sync storage successfully.`, saveObject);
-					},
-					(error: Error) => {
-						Debug.error(`SettingsOperation.saveAllSync error: ${error.message} `, saveObject);
-					});
+	private static saveToBrowserSyncStorage(
+		settingsToSave: SettingsConfig,
+		onSuccess?: (saveObject: any) => void,
+		onError?: (error: Error, saveObject: any) => void,
+	): void {
+		const saveObject = utilsLib.encodeSyncData(settingsToSave);
 
-			} catch (e) {
-				Debug.error(`SettingsOperation.saveAllSync error: ${e}`);
-			}
+		try {
+			polyFillLib.storageSyncSet(
+				saveObject,
+				() => {
+					if (onSuccess)
+						onSuccess(saveObject);
+				},
+				(error: any) => {
+					const normalizedError = me.normalizeError(error);
+					if (onError)
+						onError(normalizedError, saveObject);
+				}
+			);
+		} catch (e) {
+			const normalizedError = me.normalizeError(e);
+			if (onError)
+				onError(normalizedError, saveObject);
 		}
 	}
 	public static saveToWebDavServer(
@@ -493,6 +566,193 @@ export class SettingsOperation {
 			return new TextDecoder().decode(rawData);
 
 		return String(rawData);
+	}
+	private static readConfiguredSyncSettings(onSuccess: (settings: SettingsConfig) => void, onError?: (error: Error) => void) {
+		if (Settings.current.options.syncWebDavServerEnabled) {
+			me.readFromWebDavServer(
+				Settings.current.options.syncWebDavServerUrl,
+				Settings.current.options.syncWebDavBackupFilename,
+				Settings.current.options.syncWebDavServerUser,
+				Settings.current.options.syncWebDavServerPassword,
+				onSuccess,
+				onError);
+			return;
+		}
+
+		polyFillLib.storageSyncGet(
+			null,
+			(data: any) => {
+				try {
+					onSuccess(utilsLib.decodeSyncData(data));
+				} catch (e) {
+					if (onError)
+						onError(me.normalizeError(e));
+				}
+			},
+			(error: any) => {
+				if (onError)
+					onError(me.normalizeError(error));
+			});
+	}
+	private static reloadSubscriptionsAfterSyncMerge() {
+		subscriptionUpdaterLib.setServerSubscriptionsRefreshTimers();
+		subscriptionUpdaterLib.reloadEmptyServerSubscriptions();
+		subscriptionUpdaterLib.setRulesSubscriptionsRefreshTimers();
+		subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
+		subscriptionUpdaterLib.updateProxyServerSubscriptionsCountryCode();
+	}
+	private static mergeProxyServers(targetSettings: SettingsConfig, sourceSettings: SettingsConfig) {
+		if (!sourceSettings?.proxyServers?.length)
+			return;
+
+		targetSettings.proxyServers ||= [];
+		for (const proxyServer of sourceSettings.proxyServers) {
+			if (!proxyServer?.id)
+				continue;
+
+			if (targetSettings.proxyServers.find(existing => existing.id === proxyServer.id))
+				continue;
+
+			let copyProxy = new ProxyServer();
+			copyProxy.CopyFrom(proxyServer);
+			if (copyProxy.isValid())
+				targetSettings.proxyServers.push(copyProxy);
+		}
+	}
+	private static mergeProxyServerSubscriptions(targetSettings: SettingsConfig, sourceSettings: SettingsConfig) {
+		if (!sourceSettings?.proxyServerSubscriptions?.length)
+			return;
+
+		targetSettings.proxyServerSubscriptions ||= [];
+		for (const subscription of sourceSettings.proxyServerSubscriptions) {
+			if (!subscription)
+				continue;
+
+			let existingSubscription = targetSettings.proxyServerSubscriptions.find(existing =>
+				existing.name === subscription.name &&
+				existing.url === subscription.url);
+			if (existingSubscription)
+				continue;
+
+			let copySubscription = new ProxyServerSubscription();
+			copySubscription.CopyFrom(subscription);
+			if (copySubscription.isValid())
+				targetSettings.proxyServerSubscriptions.push(copySubscription);
+		}
+	}
+	private static mergeSmartProfiles(targetSettings: SettingsConfig, sourceSettings: SettingsConfig) {
+		if (!sourceSettings?.proxyProfiles?.length)
+			return;
+
+		targetSettings.proxyProfiles ||= [];
+		for (const profile of sourceSettings.proxyProfiles) {
+			if (!profile)
+				continue;
+
+			let existingProfile = me.findMatchingProfileForMerge(targetSettings.proxyProfiles, profile);
+
+			if (!existingProfile) {
+				let copyProfile = new SmartProfile();
+				ProfileOperations.copySmartProfile(profile, copyProfile);
+				targetSettings.proxyProfiles.push(copyProfile);
+				continue;
+			}
+
+			existingProfile.proxyRules ||= [];
+			for (const rule of profile.proxyRules || []) {
+				let copyRule = new ProxyRule();
+				copyRule.CopyFrom(rule);
+
+				if (!copyRule.isValid())
+					continue;
+
+				if (existingProfile.proxyRules.find(existingRule => me.areProxyRulesEquivalent(existingRule, copyRule)))
+					continue;
+
+				existingProfile.proxyRules.push(copyRule);
+			}
+
+			existingProfile.rulesSubscriptions ||= [];
+			for (const subscription of profile.rulesSubscriptions || []) {
+				let existingSubscription = me.findMatchingRulesSubscriptionForMerge(existingProfile.rulesSubscriptions, subscription);
+				if (existingSubscription)
+					continue;
+
+				let copySubscription = new ProxyRulesSubscription();
+				copySubscription.CopyFrom(subscription);
+				if (copySubscription.isValid())
+					existingProfile.rulesSubscriptions.push(copySubscription);
+			}
+		}
+	}
+	private static areProxyRulesEquivalent(firstRule: ProxyRule, secondRule: ProxyRule): boolean {
+		const sameType = Number(firstRule.ruleType) === Number(secondRule.ruleType);
+		const sameHostName = (firstRule.hostName || '') === (secondRule.hostName || '');
+		const sameSearch = (firstRule.ruleSearch || '') === (secondRule.ruleSearch || '');
+		const samePattern = (firstRule.rulePattern || '') === (secondRule.rulePattern || '');
+		const sameRegex = (firstRule.ruleRegex || '') === (secondRule.ruleRegex || '');
+		const sameExact = (firstRule.ruleExact || '') === (secondRule.ruleExact || '');
+		const sameWhitelistMode = (firstRule.whiteList || false) === (secondRule.whiteList || false);
+		const sameProxyServer = (firstRule.proxyServerId || firstRule.proxy?.id || '') === (secondRule.proxyServerId || secondRule.proxy?.id || '');
+
+		return sameType &&
+			sameHostName &&
+			sameSearch &&
+			samePattern &&
+			sameRegex &&
+			sameExact &&
+			sameWhitelistMode &&
+			sameProxyServer;
+	}
+	private static findMatchingProfileForMerge(profiles: SmartProfile[], profileToMerge: SmartProfile): SmartProfile {
+		if (profileToMerge.profileId) {
+			let profileById = profiles.find(existing => existing.profileId == profileToMerge.profileId);
+			if (profileById)
+				return profileById;
+		}
+
+		let builtinProfile = profiles.find(existing =>
+			existing.profileTypeConfig?.builtin &&
+			existing.profileType == profileToMerge.profileType);
+		if (builtinProfile)
+			return builtinProfile;
+
+		return profiles.find(existing => existing.profileName == profileToMerge.profileName);
+	}
+	private static findMatchingRulesSubscriptionForMerge(subscriptions: ProxyRulesSubscription[], subscriptionToMerge: ProxyRulesSubscription): ProxyRulesSubscription {
+		if (subscriptionToMerge.id) {
+			let subscriptionById = subscriptions.find(existing => existing.id == subscriptionToMerge.id);
+			if (subscriptionById)
+				return subscriptionById;
+		}
+
+		return subscriptions.find(existing =>
+			existing.name == subscriptionToMerge.name &&
+			existing.url == subscriptionToMerge.url);
+	}
+	private static isMissingSyncDataError(error: any): boolean {
+		const errorMessage = `${error?.message || error || ''}`.toLowerCase();
+		return errorMessage.includes('404') ||
+			errorMessage.includes('not found') ||
+			errorMessage.includes('no such file');
+	}
+	private static cloneSettingsConfig(settings: SettingsConfig): SettingsConfig {
+		if (typeof structuredClone === 'function')
+			return structuredClone(settings);
+
+		return JSON.parse(JSON.stringify(settings));
+	}
+	private static normalizeError(error: any): Error {
+		if (error instanceof Error)
+			return error;
+
+		if (typeof error === 'string')
+			return new Error(error);
+
+		if (error && typeof error === 'object' && typeof error.message === 'string')
+			return new Error(error.message);
+
+		return new Error('Unknown error');
 	}
 
 	public static saveAllLocal(forceSave: boolean = false) {
@@ -1041,6 +1301,31 @@ export class SettingsOperation {
 					});
 				},
 				(error) => {
+					resolve({
+						success: false,
+						message: error?.message
+					});
+				}
+			);
+		});
+	}
+
+	public static handleBrowserSyncBackupNow(): Promise<{ success: boolean, message?: string }> {
+		return new Promise((resolve) => {
+			me.saveAllSync(false);
+
+			const strippedSettings = me.getStrippedSyncableSettings(Settings.current);
+
+			me.saveToBrowserSyncStorage(
+				strippedSettings,
+				(saveObject) => {
+					Debug.log("SettingsOperation.handleBrowserSyncBackupNow: Settings saved to sync storage successfully.", saveObject);
+					resolve({
+						success: true
+					});
+				},
+				(error: Error, saveObject: any) => {
+					Debug.error("SettingsOperation.handleBrowserSyncBackupNow error:", error, saveObject);
 					resolve({
 						success: false,
 						message: error?.message
