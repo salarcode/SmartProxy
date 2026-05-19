@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "Update naar {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: voer VPN-servers uit op gedeelde hosting"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Implementeer censuurbestendige VPN-servers op goedkope gedeelde hosting. Geen VPS vereist. Gratis te gebruiken."
+	},
 	"settingsTabAboutDescription": {
 		"message": "Het gebruik van proxies kan niet eenvoudiger zijn met SmartProxy. Beschouw het als een configureer-eens-en-vergeet-oplossing. Met SmartProxy hoef je je proxy niet handmatig te veranderen of aan en uit te zetten. Alles wat je hoeft te doen is SmartProxy vertellen dat je proxy wilt inschakelen voor je gewenste website met slechts één klik. Daarna, wanneer je die specifieke website bezoekt, zal SmartProxy optreden en al je gegevens voor die website worden overgedragen via de proxy, zonder dat je iets doet."
 	},
@@ -295,7 +301,7 @@
 		"message": "WebDAV Server wachtwoord:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Houd er rekening mee dat back-ups plaatsvinden bij elke wijziging in de instellingen, terwijl herstellen alleen gebeurt wanneer de browser start."
+		"message": "Houd er rekening mee dat elke herstelactie de lokale instellingen overschrijft. Back-ups worden gemaakt bij elke wijziging in de instellingen, terwijl herstellen alleen gebeurt wanneer de browser start."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Nu back-up maken"
@@ -326,6 +332,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "WebDAV-back-up mislukt:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "Back-up van browsersynchronisatie succesvol voltooid!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "Back-up van browsersynchronisatie mislukt:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Foutdetectie"
