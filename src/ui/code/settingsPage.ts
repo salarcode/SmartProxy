@@ -416,7 +416,6 @@ export class settingsPage {
 	}
 
 	private static initializeUi() {
-		debugger;
 		if (environment.chrome) {
 			jq("#divAlertChrome").show().removeClass('d-none');
 			jq(".firefox-only").hide();
