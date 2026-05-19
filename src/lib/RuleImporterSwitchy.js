@@ -883,13 +883,27 @@ const Conditions = {
 					ip = str.substring(0, slashIndex).trim();
 					condition.ip = ip;
 					condition.prefixLength = parseInt(str.substring(slashIndex + 1).trim(), 10);
+				} else if (slashIndex < 0) {
+					// Bare IP with no prefix — default to /32 for IPv4, /128 for IPv6.
+					// This restores the old parseIp behaviour for bare-IP entries and avoids
+					// silently producing a /0 match-all.
+					if (str.indexOf(':') >= 0) {
+						// IPv6 address — analyze() will validate via ipCidrNotationToRegExp.
+						condition.ip = str;
+						condition.prefixLength = 128;
+					} else if (str.indexOf('.') >= 0) {
+						// Looks like an IPv4 address.
+						condition.ip = str;
+						condition.prefixLength = 32;
+					} else {
+						return null;
+					}
 				} else {
-					condition.ip = '0.0.0.0';
-					condition.prefixLength = 0;
+					// Trailing slash or leading slash — treat as invalid.
+					return null;
 				}
 				if (isNaN(condition.prefixLength)) {
-					condition.ip = '0.0.0.0';
-					condition.prefixLength = 0;
+					return null;
 				}
 				return condition;
 			}

@@ -369,6 +369,51 @@ Ip: 2001:db8::1/128
       expect(ipv6Regex.test(ipv6Normalized)).toBe(true);
     });
 
+    it('should treat malformed Ip: rules as invalid (no match-all fallback)', () => {
+      // A bare IP without a prefix length used to fall back to 0.0.0.0/0, producing a
+      // regex that matched every IPv4 address.  The fixed behaviour is:
+      //   • bare IP (no slash)  → treated as a /32 (IPv4) or /128 (IPv6) host rule
+      //   • trailing slash      → rule is dropped entirely (returns null from fromStr)
+      //   • non-numeric prefix  → rule is dropped entirely
+
+      // ── bare IPv4 ──────────────────────────────────────────────────────────
+      const bareText = `[SwitchyOmega Conditions]
+Ip: 192.168.1.1
+*.example.com`;
+      const bareResult = externalAppRuleParser.Switchy.parseAndCompile(bareText);
+      const bareRules = externalAppRuleParser.Switchy.convertToProxyRule(bareResult.compiled);
+      // The bare IP must become a host rule and must NOT match an unrelated address
+      const bareIpRule = bareRules.find(r => r.name === 'Ip: 192.168.1.1');
+      expect(bareIpRule).toBeDefined();
+      expect(bareIpRule?.importedRuleType).toBe(CompiledProxyRuleType.RegexHost);
+      if (!bareIpRule?.regex) throw new Error('Expected bare IP rule regex');
+      const bareRegex = new RegExp(bareIpRule.regex);
+      expect(bareRegex.test('192.168.1.1')).toBe(true);
+      // Must NOT match every IPv4 address (old /0 behaviour)
+      expect(bareRegex.test('10.0.0.1')).toBe(false);
+      expect(bareRegex.test('1.2.3.4')).toBe(false);
+
+      // ── trailing slash ─────────────────────────────────────────────────────
+      const trailingText = `[SwitchyOmega Conditions]
+Ip: 192.168.0.1/
+*.example.com`;
+      const trailingResult = externalAppRuleParser.Switchy.parseAndCompile(trailingText);
+      const trailingRules = externalAppRuleParser.Switchy.convertToProxyRule(trailingResult.compiled);
+      // The invalid Ip: rule must be dropped; only the wildcard rule survives
+      expect(trailingRules).toHaveLength(1);
+      expect(trailingRules[0].name).toBe('*.example.com');
+
+      // ── non-numeric prefix ─────────────────────────────────────────────────
+      const nanText = `[SwitchyOmega Conditions]
+Ip: 192.168.0.0/abc
+*.example.com`;
+      const nanResult = externalAppRuleParser.Switchy.parseAndCompile(nanText);
+      const nanRules = externalAppRuleParser.Switchy.convertToProxyRule(nanResult.compiled);
+      // Same expectation: bad rule is dropped, only wildcard survives
+      expect(nanRules).toHaveLength(1);
+      expect(nanRules[0].name).toBe('*.example.com');
+    });
+
     it('should handle patterns without prefix as HostWildcard (fromStr fix)', () => {
       // Test that patterns without explicit type prefix default to HostWildcardCondition
       const text = `[SwitchyOmega Conditions]
