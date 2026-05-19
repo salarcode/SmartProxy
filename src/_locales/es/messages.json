@@ -213,6 +213,12 @@
 	"settingsTabUpdateText": {
 		"message": "Actualizado a {0}"
 	},
+	"settingsAffiliateAdTitle": {
+		"message": "AvaProxy: ejecuta servidores VPN en hosting compartido"
+	},
+	"settingsAffiliateAdDescription": {
+		"message": "Implementa servidores VPN resistentes a la censura en hosting compartido economico. No se requiere VPS. Gratis para usar."
+	},
 	"settingsTabAboutDescription": {
 		"message": "Usa patrones para automáticamente definir reglas para Proxificar tu experiencia web. Con Proxy inteligente, no necesitas cambiar manualmente el Proxy y encenderlo y apagarlo. Puedes agregar tus sitios web deseados a la lista de las reglas del Proxy con sólo un click. Luego de eso, cuando visites ese sitio web específico, Proxy Inteligente actuará y toda tu data para el sitio web será transferida por el proxy, sin hacer nada."
 	},
@@ -295,7 +301,7 @@
 		"message": "Contraseña del servidor WebDAV:"
 	},
 	"settingsGeneralWebDavBehaviourDesc": {
-		"message": "Tenga en cuenta que se realizarán copias de seguridad cada vez que cambien las configuraciones, mientras que la restauración solo ocurre al iniciar el navegador."
+		"message": "Tenga en cuenta que cualquier restauración sobrescribirá la configuración local. Las copias de seguridad se realizarán cada vez que cambie la configuración, mientras que la restauración solo ocurrirá cuando se inicie el navegador."
 	},
 	"settingsGeneralWebDavServerBackupNow": {
 		"message": "Hacer copia de seguridad ahora"
@@ -326,6 +332,12 @@
 	},
 	"settingsGeneralWebDavBackupNowFailed": {
 		"message": "La copia de seguridad de WebDav falló:"
+	},
+	"settingsGeneralBrowserSyncBackupNowSuccess": {
+		"message": "La copia de seguridad de sincronizacion del navegador se completo correctamente!"
+	},
+	"settingsGeneralBrowserSyncBackupNowFailed": {
+		"message": "La copia de seguridad de sincronizacion del navegador fallo:"
 	},
 	"settingsGeneralErrorDetection": {
 		"message": "Detección de errores"
