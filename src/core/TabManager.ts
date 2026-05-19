@@ -44,7 +44,7 @@ export class TabManager {
 		// listen to tab URL changes
 		api.tabs.onUpdated.addListener(TabManager.updateActiveTab);
 
-		let webNavigation = api["webNavigation"];
+		let webNavigation = api.webNavigation;
 		if (webNavigation) {
 			if (webNavigation.onBeforeNavigate)
 				webNavigation.onBeforeNavigate.addListener(TabManager.handleNavigationStarted);
@@ -251,8 +251,7 @@ export class TabManager {
 		TabManager.setRuleForProxyPerOrigin(tabData, url);
 		tabData.updated = new Date();
 		tabData.url = url;
-		if (!tabData.proxifiedParentDocumentUrl)
-			tabData.proxifiedParentDocumentUrl = url;
+		tabData.proxifiedParentDocumentUrl = url;
 
 		TabManager.onTabUpdated.trigger(tabData);
 	}
