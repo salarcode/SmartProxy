@@ -229,7 +229,7 @@ export class TabManager {
 			return;
 
 		let tabData = TabManager.tabs[details.tabId];
-		if (!tabData || tabData.url != details.url)
+		if (!tabData || tabData.url !== details.url)
 			return;
 
 		TabManager.loadTabData(tabData);
@@ -243,7 +243,7 @@ export class TabManager {
 			tabDataCreated = true;
 		}
 
-		if (!tabDataCreated && tabData.url == url)
+		if (!tabDataCreated && tabData.url === url)
 			return;
 
 		tabData.clearFailedRequests();
