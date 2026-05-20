@@ -207,6 +207,8 @@ export class settingsPage {
 
 		jq("#btnAddProxyServer").click(settingsPage.uiEvents.onClickAddProxyServer);
 
+		jq("#btnAddActiveSubscriptionProxyServerToMyServers").click(settingsPage.uiEvents.onClickAddActiveSubscriptionProxyServerToMyServers);
+
 		jq("#btnRemoveMultipleProxyServer").click(settingsPage.uiEvents.onClickRemoveMultipleProxyServer);
 
 		jq("#cmdServerProtocol").on("change", settingsPage.uiEvents.onChangeServerProtocol);
@@ -1201,6 +1203,7 @@ export class settingsPage {
 
 		// populate
 		this.populateProxyServersToComboBox(cmbActiveProxyServer, defaultProxyServerId, proxyServers, serverSubscriptions);
+		this.updateActiveSubscriptionProxyServerAction();
 	}
 
 	private static readServers(): ProxyServer[] {
@@ -1316,6 +1319,35 @@ export class settingsPage {
 				return proxy;
 		}
 		return null;
+	}
+
+	private static findProxyServerSubscriptionByProxyServerId(proxyServerId: string): ProxyServerSubscription | null {
+		if (!proxyServerId)
+			return null;
+
+		let serverSubscriptions = settingsPage.readServerSubscriptions();
+		for (let subscription of serverSubscriptions) {
+			if (!subscription.enabled || !subscription.proxies)
+				continue;
+
+			let proxy = subscription.proxies.find(item => item.id === proxyServerId);
+			if (proxy !== undefined)
+				return subscription;
+		}
+		return null;
+	}
+
+	private static updateActiveSubscriptionProxyServerAction() {
+		let proxyServerId = jq("#cmbActiveProxyServer").val() as string;
+		let subscription = settingsPage.findProxyServerSubscriptionByProxyServerId(proxyServerId);
+		let button = jq("#btnAddActiveSubscriptionProxyServerToMyServers");
+
+		if (subscription) {
+			button.removeClass("d-none");
+		}
+		else {
+			button.addClass("d-none");
+		}
 	}
 
 	private static exportServersListFormatted(): string {
@@ -2640,6 +2672,7 @@ export class settingsPage {
 			else {
 				Debug.warn("Settings> Selected ActiveProxyServer ID not found!");
 			}
+			settingsPage.updateActiveSubscriptionProxyServerAction();
 		},
 		onClickAddProxyServer() {
 
@@ -2647,6 +2680,29 @@ export class settingsPage {
 			modal.data("editing", null);
 
 			settingsPage.populateServerModal(modal, null);
+
+			modal.modal("show");
+			modal.find("#txtServerAddress").focus();
+		},
+		onClickAddActiveSubscriptionProxyServerToMyServers() {
+			let proxyServerId = jq("#cmbActiveProxyServer").val() as string;
+			let subscription = settingsPage.findProxyServerSubscriptionByProxyServerId(proxyServerId);
+			if (!subscription || !subscription.proxies)
+				return;
+
+			let server = subscription.proxies.find(item => item.id === proxyServerId);
+			if (!server)
+				return;
+
+			let modal = jq("#modalModifyProxyServer");
+			modal.data("editing", null);
+
+			let serverToAdd = new ProxyServer();
+			jQuery.extend(serverToAdd, server);
+			serverToAdd.order = settingsPage.readServers().reduce((order, item) => Math.max(order, item.order || 0), 0) + 1;
+			serverToAdd.name = settingsPage.generateNewServerName(subscription.name);
+
+			settingsPage.populateServerModal(modal, serverToAdd);
 
 			modal.modal("show");
 			modal.find("#txtServerAddress").focus();
@@ -4367,17 +4423,17 @@ export class settingsPage {
 	//#endregion
 
 	//#region Common functions ---------------
-	private static generateNewServerName(): string {
+	private static generateNewServerName(prefix: string = "Server"): string {
 		// generates a unique name for proxy server
 		let servers = this.readServers();
 		let serverNo = 1;
-		let result = `Server ${serverNo}`;
+		let result = `${prefix} ${serverNo}`;
 
 		if (servers && servers.length > 0) {
 			let exist;
 
 			serverNo = servers.length + 1;
-			result = `Server ${serverNo}`;
+			result = `${prefix} ${serverNo}`;
 
 			do {
 				exist = false;
@@ -4385,7 +4441,7 @@ export class settingsPage {
 					if (servers[i].name === result) {
 						exist = true;
 						serverNo++;
-						result = `Server ${serverNo}`;
+						result = `${prefix} ${serverNo}`;
 						break;
 					}
 				}
