@@ -2699,7 +2699,7 @@ export class settingsPage {
 
 			let serverToAdd = new ProxyServer();
 			jQuery.extend(serverToAdd, server);
-			serverToAdd.order = 0;
+			serverToAdd.order = settingsPage.readServers().reduce((order, item) => Math.max(order, item.order || 0), 0) + 1;
 			serverToAdd.name = settingsPage.generateNewServerName(subscription.name);
 
 			settingsPage.populateServerModal(modal, serverToAdd);
