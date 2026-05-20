@@ -1343,10 +1343,10 @@ export class settingsPage {
 		let button = jq("#btnAddActiveSubscriptionProxyServerToMyServers");
 
 		if (subscription) {
-			button.show().removeClass("d-none");
+			button.removeClass("d-none");
 		}
 		else {
-			button.hide();
+			button.addClass("d-none");
 		}
 	}
 
