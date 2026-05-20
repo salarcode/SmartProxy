@@ -2687,7 +2687,7 @@ export class settingsPage {
 		onClickAddActiveSubscriptionProxyServerToMyServers() {
 			let proxyServerId = jq("#cmbActiveProxyServer").val() as string;
 			let subscription = settingsPage.findProxyServerSubscriptionByProxyServerId(proxyServerId);
-			if (!subscription)
+			if (!subscription || !subscription.proxies)
 				return;
 
 			let server = subscription.proxies.find(item => item.id === proxyServerId);
