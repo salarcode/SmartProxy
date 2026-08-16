@@ -289,27 +289,18 @@ export class Utils {
 
 	/**
 	 * tabs.Tab.url lags webNavigation in both Firefox and Chrome.
-	 * Keep the tracked URL when the tabs API is still on a placeholder or the previous page.
+	 * Preserve the tracked URL only when the tabs API has no URL or is still
+	 * reporting a new-tab placeholder.
 	 */
-	public static shouldPreserveTrackedUrl(existingUrl: string, incomingUrl: string, tabStatus?: string, pendingUrl?: string): boolean {
+	public static shouldPreserveTrackedUrl(existingUrl: string, incomingUrl: string): boolean {
 		if (!existingUrl)
 			return false;
 		if (!incomingUrl)
 			return true;
 		if (incomingUrl === existingUrl)
 			return false;
-		if (Utils.isTransientTabUrl(incomingUrl) && !Utils.isTransientTabUrl(existingUrl))
-			return true;
 
-		// During loading, Firefox keeps about:blank and Chrome often still reports the previous committed URL.
-		// Only accept a different URL in that state when Chrome exposes it as pendingUrl.
-		if (tabStatus === "loading") {
-			if (pendingUrl && incomingUrl === pendingUrl && !Utils.isTransientTabUrl(incomingUrl))
-				return false;
-			return true;
-		}
-
-		return false;
+		return Utils.isTransientTabUrl(incomingUrl) && !Utils.isTransientTabUrl(existingUrl);
 	}
 
 	public static urlHasSchema(url: string): boolean {

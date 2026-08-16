@@ -94,7 +94,7 @@ describe('TabManager webNavigation tracking', () => {
     expect(tabData.index).toBe(4);
   });
 
-  it('accepts chrome pendingUrl during loading', () => {
+  it('accepts chrome pendingUrl from the tabs API', () => {
     let tabData = TabManager.getOrSetTab(56, false, 'https://old.example/');
 
     TabManager.updateTabData(tabData, {
@@ -104,6 +104,21 @@ describe('TabManager webNavigation tracking', () => {
       status: 'loading',
       incognito: false,
       index: 1
+    });
+
+    expect(tabData.url).toBe('https://new.example/');
+  });
+
+  it('accepts tabs.onUpdated url when webNavigation is unavailable', () => {
+    let tabData = TabManager.getOrSetTab(1, false, 'https://old.example/');
+
+    tabManagerType.handleTabUpdated(1, {
+      url: 'https://new.example/',
+      status: 'loading'
+    }, {
+      id: 1,
+      url: 'https://new.example/',
+      status: 'loading'
     });
 
     expect(tabData.url).toBe('https://new.example/');

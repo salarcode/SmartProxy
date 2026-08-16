@@ -31,20 +31,15 @@ describe('Utils', () => {
 
   describe('shouldPreserveTrackedUrl', () => {
     it('keeps a real URL when tabs.query reports a loading placeholder', () => {
-      expect(Utils.shouldPreserveTrackedUrl('https://example.com/', 'about:blank', 'loading')).toBe(true);
+      expect(Utils.shouldPreserveTrackedUrl('https://example.com/', 'about:blank')).toBe(true);
     });
 
     it('keeps a real URL when tabs.query has no url yet', () => {
-      expect(Utils.shouldPreserveTrackedUrl('https://example.com/', '', 'loading')).toBe(true);
+      expect(Utils.shouldPreserveTrackedUrl('https://example.com/', '')).toBe(true);
     });
 
-    it('accepts chrome pendingUrl during loading', () => {
-      expect(Utils.shouldPreserveTrackedUrl(
-        'https://old.example/',
-        'https://new.example/',
-        'loading',
-        'https://new.example/'
-      )).toBe(false);
+    it('accepts a real tabs url even while the tab is loading', () => {
+      expect(Utils.shouldPreserveTrackedUrl('https://old.example/', 'https://current.example/')).toBe(false);
     });
   });
 

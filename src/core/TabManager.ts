@@ -105,7 +105,7 @@ export class TabManager {
 		// Chrome may expose the destination as pendingUrl while url is still the old/placeholder page.
 		// Firefox only has url, and during loading that is often about:blank / about:newtab.
 		let incomingUrl = tabInfo.pendingUrl || tabInfo.url || "";
-		let keepExistingUrl = Utils.shouldPreserveTrackedUrl(tabData.url, incomingUrl, tabInfo.status, tabInfo.pendingUrl);
+		let keepExistingUrl = Utils.shouldPreserveTrackedUrl(tabData.url, incomingUrl);
 		let effectiveUrl = keepExistingUrl ? tabData.url : incomingUrl;
 
 		if (effectiveUrl && tabData.proxifiedParentDocumentUrl != effectiveUrl) {
@@ -226,6 +226,7 @@ export class TabManager {
 
 		TabManager.updateTabUrlFromNavigation(details.tabId, details.url);
 	}
+
 	private static handleNavigationCommitted(details: any) {
 		if (!TabManager.isMainFrameNavigation(details))
 			return;
@@ -304,7 +305,7 @@ export class TabManager {
 				// reload tab data
 				tabData.clearFailedRequests();
 				if (changeInfo.url &&
-					!Utils.shouldPreserveTrackedUrl(tabData.url, changeInfo.url, changeInfo.status || tabInfo?.status, tabInfo?.pendingUrl)) {
+					!Utils.shouldPreserveTrackedUrl(tabData.url, changeInfo.url)) {
 					TabManager.updateTabUrlFromNavigation(tabId, changeInfo.url);
 				}
 				callOnUpdate = true;
