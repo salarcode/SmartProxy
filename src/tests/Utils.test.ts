@@ -16,6 +16,38 @@ describe('Utils', () => {
     });
   });
 
+  describe('isTransientTabUrl', () => {
+    it('treats new-tab placeholders as transient', () => {
+      expect(Utils.isTransientTabUrl('')).toBe(true);
+      expect(Utils.isTransientTabUrl('about:blank')).toBe(true);
+      expect(Utils.isTransientTabUrl('about:newtab')).toBe(true);
+      expect(Utils.isTransientTabUrl('chrome://newtab/')).toBe(true);
+    });
+
+    it('does not treat real pages as transient', () => {
+      expect(Utils.isTransientTabUrl('https://example.com/')).toBe(false);
+    });
+  });
+
+  describe('shouldPreserveTrackedUrl', () => {
+    it('keeps a real URL when tabs.query reports a loading placeholder', () => {
+      expect(Utils.shouldPreserveTrackedUrl('https://example.com/', 'about:blank', 'loading')).toBe(true);
+    });
+
+    it('keeps a real URL when tabs.query has no url yet', () => {
+      expect(Utils.shouldPreserveTrackedUrl('https://example.com/', '', 'loading')).toBe(true);
+    });
+
+    it('accepts chrome pendingUrl during loading', () => {
+      expect(Utils.shouldPreserveTrackedUrl(
+        'https://old.example/',
+        'https://new.example/',
+        'loading',
+        'https://new.example/'
+      )).toBe(false);
+    });
+  });
+
   describe('extractHostFromUrl', () => {
     it('should extract hostname from URL', () => {
       expect(Utils.extractHostFromUrl('https://example.com/path')).toBe('example.com');

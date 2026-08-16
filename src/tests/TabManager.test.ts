@@ -78,4 +78,34 @@ describe('TabManager webNavigation tracking', () => {
 
     expect(tabData.url).toBe('https://current.example/');
   });
+
+  it('does not let a loading placeholder from tabs.query overwrite webNavigation url', () => {
+    let tabData = TabManager.getOrSetTab(56, false, 'https://example.com/');
+
+    TabManager.updateTabData(tabData, {
+      id: 56,
+      url: 'about:blank',
+      status: 'loading',
+      incognito: false,
+      index: 4
+    });
+
+    expect(tabData.url).toBe('https://example.com/');
+    expect(tabData.index).toBe(4);
+  });
+
+  it('accepts chrome pendingUrl during loading', () => {
+    let tabData = TabManager.getOrSetTab(56, false, 'https://old.example/');
+
+    TabManager.updateTabData(tabData, {
+      id: 56,
+      url: 'https://old.example/',
+      pendingUrl: 'https://new.example/',
+      status: 'loading',
+      incognito: false,
+      index: 1
+    });
+
+    expect(tabData.url).toBe('https://new.example/');
+  });
 });
