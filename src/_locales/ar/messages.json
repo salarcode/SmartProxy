@@ -462,6 +462,9 @@
 	"settingsAddServerButton": {
 		"message": "إضافة خادم"
 	},
+	"settingsAddActiveSubscriptionProxyServerButton": {
+		"message": "أضف إلى خوادمي"
+	},
 	"settingsRemoveMultipleServerButton": {
 		"message": "حذف متعدد"
 	},

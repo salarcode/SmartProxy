@@ -462,6 +462,9 @@
 	"settingsAddServerButton": {
 		"message": "افزودن پراکسی سرور"
 	},
+	"settingsAddActiveSubscriptionProxyServerButton": {
+		"message": "افزودن به سرورهای من"
+	},
 	"settingsRemoveMultipleServerButton": {
 		"message": "حذف چندتایی"
 	},

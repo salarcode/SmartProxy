@@ -462,6 +462,9 @@
 	"settingsAddServerButton": {
 		"message": "Server toevoegen"
 	},
+	"settingsAddActiveSubscriptionProxyServerButton": {
+		"message": "Toevoegen aan Mijn servers"
+	},
 	"settingsRemoveMultipleServerButton": {
 		"message": "Verwijder meerdere"
 	},

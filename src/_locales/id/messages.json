@@ -462,6 +462,9 @@
 	"settingsAddServerButton": {
 		"message": "Tambahkan Server"
 	},
+	"settingsAddActiveSubscriptionProxyServerButton": {
+		"message": "Tambahkan ke Server Saya"
+	},
 	"settingsRemoveMultipleServerButton": {
 		"message": "Hapus Banyak"
 	},
