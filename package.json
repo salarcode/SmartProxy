@@ -3,22 +3,23 @@
   "description": "SmartProxy is a browser extension that will automatically enable/disable proxy for the sites you visit, based on customizable patterns.",
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/pako": "^2.0.4",
+    "@types/pako": "^3.0.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^14.0.0",
     "decompress": "^4.2.1",
-    "eslint": "^10.4.0",
+    "eslint": "^10.8.1",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
-    "jest-webextension-mock": "^4.1.1",
-    "terser-webpack-plugin": "^5.6.0",
-    "ts-jest": "^29.4.9",
-    "ts-loader": "^9.5.7",
+    "jest-webextension-mock": "^4.2.0",
+    "terser-webpack-plugin": "^5.6.1",
+    "ts-jest": "^29.4.12",
+    "ts-loader": "^9.6.2",
     "tsc": "^2.0.4",
-    "typescript": "^6.0.3",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "web-ext-types": "^3.2.1",
-    "webpack": "^5.106.2",
-    "webpack-cli": "^7.0.2"
+    "webpack": "^5.109.2",
+    "webpack-cli": "^7.2.2"
   },
   "scripts": {
     "test": "jest",
@@ -41,9 +42,21 @@
     "build-th": "webpack --env browser=thunderbird",
     "build-th:watch": "webpack --watch --env browser=thunderbird --env dev=true"
   },
+  "jest": {
+    "setupFiles": [
+      "jest-webextension-mock"
+    ],
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "**/src/tests/**/*.test.ts"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
   "license": "GPL-3.0",
   "dependencies": {
-    "pako": "^2.1.0",
+    "pako": "^3.0.1",
     "webdav": "^5.10.0"
   }
 }

@@ -272,6 +272,37 @@ export class Utils {
 		catch (e) { return false; }
 	}
 
+	/** New-tab placeholders reported by tabs.query/get while a real navigation is already in flight. */
+	public static isTransientTabUrl(url: string): boolean {
+		if (!url)
+			return true;
+
+		let value = url.toLowerCase();
+		return value === "about:blank"
+			|| value === "about:newtab"
+			|| value === "about:home"
+			|| value === "about:privatebrowsing"
+			|| value.startsWith("chrome://newtab")
+			|| value.startsWith("chrome://new-tab-page")
+			|| value.startsWith("edge://newtab");
+	}
+
+	/**
+	 * tabs.Tab.url lags webNavigation in both Firefox and Chrome.
+	 * Preserve the tracked URL only when the tabs API has no URL or is still
+	 * reporting a new-tab placeholder.
+	 */
+	public static shouldPreserveTrackedUrl(existingUrl: string, incomingUrl: string): boolean {
+		if (!existingUrl)
+			return false;
+		if (!incomingUrl)
+			return true;
+		if (incomingUrl === existingUrl)
+			return false;
+
+		return Utils.isTransientTabUrl(incomingUrl) && !Utils.isTransientTabUrl(existingUrl);
+	}
+
 	public static urlHasSchema(url: string): boolean {
 		// note: this will accept like http:/example.org/ in Chrome and Firefox
 		if (!url)

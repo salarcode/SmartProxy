@@ -17,6 +17,7 @@
 		"<all_urls>",
 		"activeTab",
 		"tabs",
+		"webNavigation",
 		"proxy",
 		"webRequest",
 		"webRequestBlocking",

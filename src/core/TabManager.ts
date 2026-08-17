@@ -20,6 +20,7 @@ import { CompiledProxyRule, FailedRequestType, ProxyServer, TabProxyStatus } fro
 import { api, environment } from "../lib/environment";
 import { Settings } from "./Settings";
 import { ProxyRules } from "./ProxyRules";
+import { Utils } from "../lib/Utils";
 
 export class TabManager {
 
@@ -43,6 +44,20 @@ export class TabManager {
 		api.tabs.onUpdated.addListener(TabManager.handleTabUpdated);
 		// listen to tab URL changes
 		api.tabs.onUpdated.addListener(TabManager.updateActiveTab);
+
+		let webNavigation = api.webNavigation;
+		if (webNavigation) {
+			if (webNavigation.onBeforeNavigate)
+				webNavigation.onBeforeNavigate.addListener(TabManager.handleNavigationStarted);
+			if (webNavigation.onCommitted)
+				webNavigation.onCommitted.addListener(TabManager.handleNavigationCommitted);
+			if (webNavigation.onHistoryStateUpdated)
+				webNavigation.onHistoryStateUpdated.addListener(TabManager.handleNavigationCommitted);
+			if (webNavigation.onReferenceFragmentUpdated)
+				webNavigation.onReferenceFragmentUpdated.addListener(TabManager.handleNavigationCommitted);
+			if (webNavigation.onErrorOccurred)
+				webNavigation.onErrorOccurred.addListener(TabManager.handleNavigationError);
+		}
 
 		api.tabs.onRemoved.addListener(TabManager.handleTabRemoved);
 
@@ -86,19 +101,28 @@ export class TabManager {
 		if (!tabData) {
 			tabData = TabManager.getOrSetTab(tabId, false);
 		}
-		if (tabData.proxifiedParentDocumentUrl != tabInfo.url) {
+
+		// Chrome may expose the destination as pendingUrl while url is still the old/placeholder page.
+		// Firefox only has url, and during loading that is often about:blank / about:newtab.
+		let incomingUrl = tabInfo.pendingUrl || tabInfo.url || "";
+		let keepExistingUrl = Utils.shouldPreserveTrackedUrl(tabData.url, incomingUrl);
+		let effectiveUrl = keepExistingUrl ? tabData.url : incomingUrl;
+
+		if (effectiveUrl && tabData.proxifiedParentDocumentUrl != effectiveUrl) {
 			// resettings the state
 			tabData.resetTabState();
 
 			// apply `proxified` value
-			TabManager.setRuleForProxyPerOrigin(tabData, tabInfo.url);
+			TabManager.setRuleForProxyPerOrigin(tabData, effectiveUrl);
 		}
 		tabData.updated = new Date();
 		tabData.incognito = tabInfo.incognito;
-		tabData.url = tabInfo.url;
 		tabData.index = tabInfo.index;
-		if (!tabData.proxifiedParentDocumentUrl)
-			tabData.proxifiedParentDocumentUrl = tabInfo.url;
+		if (effectiveUrl) {
+			tabData.url = effectiveUrl;
+			if (!tabData.proxifiedParentDocumentUrl)
+				tabData.proxifiedParentDocumentUrl = effectiveUrl;
+		}
 
 		// saving the tab in the storage
 		TabManager.tabs[tabId] = tabData;
@@ -192,6 +216,58 @@ export class TabManager {
 		tabData.clearFailedRequests();
 	}
 
+	private static isMainFrameNavigation(details: any): boolean {
+		return details && details.tabId > -1 && details.frameId === 0 && details.url;
+	}
+
+	private static handleNavigationStarted(details: any) {
+		if (!TabManager.isMainFrameNavigation(details))
+			return;
+
+		TabManager.updateTabUrlFromNavigation(details.tabId, details.url);
+	}
+
+	private static handleNavigationCommitted(details: any) {
+		if (!TabManager.isMainFrameNavigation(details))
+			return;
+
+		TabManager.updateTabUrlFromNavigation(details.tabId, details.url);
+	}
+
+	private static handleNavigationError(details: any) {
+		if (!TabManager.isMainFrameNavigation(details))
+			return;
+
+		let tabData = TabManager.tabs[details.tabId];
+		if (!tabData || tabData.url !== details.url)
+			return;
+
+		TabManager.loadTabData(tabData);
+	}
+
+	private static updateTabUrlFromNavigation(tabId: number, url: string) {
+		let tabData = TabManager.tabs[tabId];
+		let tabDataCreated = false;
+		if (!tabData) {
+			tabData = TabManager.getOrSetTab(tabId, false, url);
+			tabDataCreated = true;
+		}
+
+		if (!tabDataCreated && tabData.url === url)
+			return;
+
+		tabData.clearFailedRequests();
+		tabData.resetTabState();
+		TabManager.setRuleForProxyPerOrigin(tabData, url);
+		tabData.updated = new Date();
+		tabData.url = url;
+		tabData.proxifiedParentDocumentUrl = url;
+
+		if (!TabManager.currentTab || TabManager.currentTab.tabId === tabId)
+			TabManager.currentTab = tabData;
+		TabManager.onTabUpdated.trigger(tabData);
+	}
+
 	private static handleTabUpdated(tabId: number, changeInfo: any, tabInfo: any) {
 		// only if url of the page is changed
 
@@ -228,7 +304,10 @@ export class TabManager {
 			if (tabData) {
 				// reload tab data
 				tabData.clearFailedRequests();
-				TabManager.loadTabData(tabData);
+				if (changeInfo.url &&
+					!Utils.shouldPreserveTrackedUrl(tabData.url, changeInfo.url)) {
+					TabManager.updateTabUrlFromNavigation(tabId, changeInfo.url);
+				}
 				callOnUpdate = true;
 			}
 		}
