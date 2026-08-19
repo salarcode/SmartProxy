@@ -425,6 +425,7 @@ export class SettingsOperation {
 			return;
 
 		if (!Settings.current.options.syncSettings) {
+			Settings.current.syncLastError = null;
 			return;
 		}
 
@@ -438,28 +439,32 @@ export class SettingsOperation {
 				current.options.syncWebDavServerUser,
 				current.options.syncWebDavServerPassword,
 				strippedSettings,
-				() => {
-					Debug.log("SettingsOperation.saveAllSync: Settings saved to WebDav storage successfully.");
-					// Clear any previous sync error
-					Settings.current.syncLastError = null;
-				},
-				(error: Error) => {
-					Debug.error(`SettingsOperation.saveAllSync WebDav error: ${error.message}`);
-					Settings.current.syncLastError = error?.message;
-				})
+			() => {
+				Debug.log("SettingsOperation.saveAllSync: Settings saved to WebDav storage successfully.");
+				// Clear any previous sync error
+				Settings.current.syncLastError = null;
+				me.saveAllLocal(true);
+			},
+			(error: Error) => {
+				Debug.error(`SettingsOperation.saveAllSync WebDav error: ${error.message}`);
+				Settings.current.syncLastError = error?.message;
+				me.saveAllLocal(true);
+			})
 		}
 		else {
 			me.saveToBrowserSyncStorage(
-				strippedSettings,
-				() => {
-					Debug.log("SettingsOperation.saveAllSync: Settings saved to sync storage successfully.");
-					// Clear any previous sync error
-					Settings.current.syncLastError = null;			
-				},
-				(error: Error) => {
-					Debug.error(`SettingsOperation.saveAllSync error: ${error.message}`);
-					Settings.current.syncLastError = error?.message;
-				}
+			strippedSettings,
+			() => {
+				Debug.log("SettingsOperation.saveAllSync: Settings saved to sync storage successfully.");
+				// Clear any previous sync error
+				Settings.current.syncLastError = null;
+				me.saveAllLocal(true);
+			},
+			(error: Error) => {
+				Debug.error(`SettingsOperation.saveAllSync error: ${error.message}`);
+				Settings.current.syncLastError = error?.message;
+				me.saveAllLocal(true);
+			}
 			)
 		}
 	}
@@ -1331,10 +1336,11 @@ export class SettingsOperation {
 
 			me.saveToBrowserSyncStorage(
 				strippedSettings,
-				(saveObject) => {
-					Debug.log("SettingsOperation.handleBrowserSyncBackupNow: Settings saved to sync storage successfully.", saveObject);
-					Settings.current.syncLastError = null;
-					resolve({
+			(saveObject) => {
+				Debug.log("SettingsOperation.handleBrowserSyncBackupNow: Settings saved to sync storage successfully.", saveObject);
+				Settings.current.syncLastError = null;
+				me.saveAllLocal(true);
+				resolve({
 						success: true
 					});
 				},
