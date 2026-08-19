@@ -288,6 +288,10 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "Sync to a WebDAV server"
 	},
+	,
+	"settingsGeneralSyncLastFailure": {
+		"message": "There was a failure in syncing the setting: "
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "WebDAV Server URL:"
 	},

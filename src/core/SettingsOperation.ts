@@ -39,6 +39,7 @@ export class SettingsOperation {
 		// deep clone required
 		let settingsCopy: SettingsConfig = JSON.parse(JSON.stringify(settings));
 
+		settingsCopy.syncLastError = '';
 		settingsCopy.options.syncWebDavServerUrl = '';
 		settingsCopy.options.syncWebDavBackupFilename = '';
 		settingsCopy.options.syncWebDavServerUser = '';
@@ -436,18 +437,30 @@ export class SettingsOperation {
 				current.options.syncWebDavBackupFilename,
 				current.options.syncWebDavServerUser,
 				current.options.syncWebDavServerPassword,
-				strippedSettings);
+				strippedSettings,
+				() => {
+					Debug.log("SettingsOperation.saveAllSync: Settings saved to WebDav storage successfully.");
+					// Clear any previous sync error
+					Settings.current.syncLastError = null;
+				},
+				(error: Error) => {
+					Debug.error(`SettingsOperation.saveAllSync WebDav error: ${error.message}`);
+					Settings.current.syncLastError = error?.message;
+				})
 		}
 		else {
 			me.saveToBrowserSyncStorage(
 				strippedSettings,
 				() => {
 					Debug.log("SettingsOperation.saveAllSync: Settings saved to sync storage successfully.");
+					// Clear any previous sync error
+					Settings.current.syncLastError = null;			
 				},
 				(error: Error) => {
 					Debug.error(`SettingsOperation.saveAllSync error: ${error.message}`);
+					Settings.current.syncLastError = error?.message;
 				}
-			);
+			)
 		}
 	}
 
@@ -1320,6 +1333,7 @@ export class SettingsOperation {
 				strippedSettings,
 				(saveObject) => {
 					Debug.log("SettingsOperation.handleBrowserSyncBackupNow: Settings saved to sync storage successfully.", saveObject);
+					Settings.current.syncLastError = null;
 					resolve({
 						success: true
 					});

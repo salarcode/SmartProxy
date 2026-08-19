@@ -536,6 +536,13 @@ export class settingsPage {
 				.find("span")
 				.text(updateAvailableText);
 		}
+
+		// Show sync error banner if there's a persisted error
+		let syncLastError = currentSettings.syncLastError;
+		if (syncLastError) {
+			let errorMessage= api.i18n.getMessage("settingsGeneralSyncLastFailure") + syncLastError;
+			messageBox.error(errorMessage, 0);
+		}
 	}
 
 	/** Used for ActiveProxy and ... */
