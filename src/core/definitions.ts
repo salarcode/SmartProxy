@@ -359,7 +359,7 @@ export class SettingsConfig implements Cloneable {
 	public version: string = '';
 	public configVersion: string = '';
 	public syncHash: string = '';
-	public syncLastError: string = '';
+	public syncLastError: string | null = null;
 	public syncErrorCount: number = 0;
 	public syncAutoDisabled: boolean = false;
 	public proxyProfiles: SmartProfile[] = getBuiltinSmartProfiles();

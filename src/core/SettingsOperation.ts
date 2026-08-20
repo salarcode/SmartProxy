@@ -427,9 +427,12 @@ export class SettingsOperation {
 	}
 
 	private static recordSyncError(error: Error) {
-		Debug.error(`SettingsOperation sync error: ${error.message}`);
-		Settings.current.syncLastError = error?.message;
-		Settings.current.syncErrorCount++;
+		const normalizedError = me.normalizeError(error);
+
+		Debug.error(`SettingsOperation sync error: ${normalizedError.message}`);
+		Settings.current.syncLastError = normalizedError?.message;
+		Settings.current.syncErrorCount = (Settings.current.syncErrorCount ?? 0) + 1;
+
 		if (Settings.current.syncErrorCount >= me.syncErrorDisableThreshold) {
 			Settings.current.options.syncSettings = false;
 			Settings.current.syncAutoDisabled = true;
@@ -450,7 +453,9 @@ export class SettingsOperation {
 			// Only clear error if sync was disabled by user, not auto-disabled
 			if (!Settings.current.syncAutoDisabled) {
 				Settings.current.syncLastError = null;
+				Settings.current.syncErrorCount = 0;
 			}
+			me.saveAllLocal(true);
 			return;
 		}
 
@@ -464,24 +469,24 @@ export class SettingsOperation {
 				current.options.syncWebDavServerUser,
 				current.options.syncWebDavServerPassword,
 				strippedSettings,
-			() => {
-				Debug.log("SettingsOperation.saveAllSync: Settings saved to WebDav storage successfully.");
-				me.clearSyncError();
-			},
-			(error: Error) => {
-				me.recordSyncError(error);
-			})
+				() => {
+					Debug.log("SettingsOperation.saveAllSync: Settings saved to WebDav storage successfully.");
+					me.clearSyncError();
+				},
+				(error: Error) => {
+					me.recordSyncError(error);
+				})
 		}
 		else {
 			me.saveToBrowserSyncStorage(
-			strippedSettings,
-			() => {
-				Debug.log("SettingsOperation.saveAllSync: Settings saved to sync storage successfully.");
-				me.clearSyncError();
-			},
-			(error: Error) => {
-				me.recordSyncError(error);
-			}
+				strippedSettings,
+				() => {
+					Debug.log("SettingsOperation.saveAllSync: Settings saved to sync storage successfully.");
+					me.clearSyncError();
+				},
+				(error: Error) => {
+					me.recordSyncError(error);
+				}
 			)
 		}
 	}
@@ -1355,10 +1360,10 @@ export class SettingsOperation {
 
 			me.saveToBrowserSyncStorage(
 				strippedSettings,
-			(saveObject) => {
-				Debug.log("SettingsOperation.handleBrowserSyncBackupNow: Settings saved to sync storage successfully.", saveObject);
-				me.clearSyncError();
-				resolve({
+				(saveObject) => {
+					Debug.log("SettingsOperation.handleBrowserSyncBackupNow: Settings saved to sync storage successfully.", saveObject);
+					me.clearSyncError();
+					resolve({
 						success: true
 					});
 				},
@@ -1389,13 +1394,13 @@ export class SettingsOperation {
 					// Apply restored settings while preserving sync options
 					// Note: applySyncSettings internally calls Settings.updateActiveSettings()
 					me.applySyncSettings(restoredSettings);
-					
+
 					// Save synced settings if needed
 					me.saveAllSync();
-					
+
 					// Update proxy rules/config
 					proxyEngineLib.updateBrowsersProxyConfig();
-					
+
 					resolve({
 						success: true
 					});

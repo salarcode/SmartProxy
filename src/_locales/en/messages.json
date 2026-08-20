@@ -288,9 +288,8 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "Sync to a WebDAV server"
 	},
-	,
 	"settingsGeneralSyncLastFailure": {
-		"message": "There was a failure in syncing the setting: "
+		"message": "There was a failure syncing settings: "
 	},
 	"settingsGeneralSyncAutoDisabled": {
 		"message": "Sync has been automatically disabled due to repeated failures. Please check your sync configuration and re-enable sync."
