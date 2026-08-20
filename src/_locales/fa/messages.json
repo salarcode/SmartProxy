@@ -288,6 +288,12 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "همگام سازی با سرور WebDAV"
 	},
+	"settingsGeneralSyncLastFailure": {
+		"message": "خطا در همگام‌سازی تنظیمات رخ داده است: "
+	},
+	"settingsGeneralSyncAutoDisabled": {
+		"message": "همگام‌سازی به دلیل خطاهای مکرر به طور خودکار غیرفعال شده است. لطفاً پیکربندی همگام‌سازی خود را بررسی کرده و همگام‌سازی را مجدداً فعال کنید."
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "آدرس سرور WebDAV:"
 	},
