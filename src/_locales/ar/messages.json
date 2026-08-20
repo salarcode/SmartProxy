@@ -288,6 +288,12 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "المزامنة إلى خادم WebDAV"
 	},
+	"settingsGeneralSyncLastFailure": {
+		"message": "حدث فشل في مزامنة الإعدادات: "
+	},
+	"settingsGeneralSyncAutoDisabled": {
+		"message": "تم تعطيل المزامنة تلقائيًا بسبب أخطاء متكررة. يرجى التحقق من إعدادات المزامنة وإعادة تفعيلها."
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "رابط خادم WebDAV:"
 	},
