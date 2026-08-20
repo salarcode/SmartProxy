@@ -288,6 +288,12 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "同步到 WebDAV 服务器"
 	},
+	"settingsGeneralSyncLastFailure": {
+		"message": "同步设置时出错："
+	},
+	"settingsGeneralSyncAutoDisabled": {
+		"message": "由于重复失败，同步已自动禁用。请检查您的同步配置并重新启用同步。"
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "WebDAV 服务器 URL："
 	},
