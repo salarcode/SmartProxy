@@ -288,6 +288,12 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "Sinkronkan ke server WebDAV"
 	},
+	"settingsGeneralSyncLastFailure": {
+		"message": "Gagal menyinkronkan pengaturan: "
+	},
+	"settingsGeneralSyncAutoDisabled": {
+		"message": "Sinkronisasi telah dinonaktifkan secara otomatis karena kegagalan berulang. Silakan periksa konfigurasi sinkronisasi Anda dan aktifkan kembali sinkronisasi."
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "URL Server WebDAV:"
 	},
