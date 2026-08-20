@@ -359,7 +359,9 @@ export class SettingsConfig implements Cloneable {
 	public version: string = '';
 	public configVersion: string = '';
 	public syncHash: string = '';
-	public syncLastError: string = '';	
+	public syncLastError: string = '';
+	public syncErrorCount: number = 0;
+	public syncAutoDisabled: boolean = false;
 	public proxyProfiles: SmartProfile[] = getBuiltinSmartProfiles();
 	public activeProfileId: string = SmartProfileTypeBuiltinIds.Direct;
 	public defaultProxyServerId: string;
@@ -412,7 +414,9 @@ export class SettingsConfig implements Cloneable {
 		this.firstEverInstallNotified = source.firstEverInstallNotified;
 		this.version = source.version;
 		this.syncHash = source.syncHash;
-		this.syncLastError = source.syncLastError;		
+		this.syncLastError = source.syncLastError;
+		this.syncErrorCount = source.syncErrorCount;
+		this.syncAutoDisabled = source.syncAutoDisabled;
 		this.configVersion = source.configVersion;
 	}
 }

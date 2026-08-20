@@ -540,8 +540,14 @@ export class settingsPage {
 		// Show sync error banner if there's a persisted error
 		let syncLastError = currentSettings.syncLastError;
 		if (syncLastError) {
-			let errorMessage= api.i18n.getMessage("settingsGeneralSyncLastFailure") + syncLastError;
+			let errorMessage = api.i18n.getMessage("settingsGeneralSyncLastFailure") + syncLastError;
 			messageBox.error(errorMessage, 0);
+		}
+
+		// Show auto-disable notification if sync was auto-disabled due to repeated failures
+		if (currentSettings.syncAutoDisabled) {
+			let autoDisableMessage = api.i18n.getMessage("settingsGeneralSyncAutoDisabled");
+			messageBox.error(autoDisableMessage, 0);
 		}
 	}
 

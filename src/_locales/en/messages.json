@@ -292,6 +292,9 @@
 	"settingsGeneralSyncLastFailure": {
 		"message": "There was a failure in syncing the setting: "
 	},
+	"settingsGeneralSyncAutoDisabled": {
+		"message": "Sync has been automatically disabled due to repeated failures. Please check your sync configuration and re-enable sync."
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "WebDAV Server URL:"
 	},

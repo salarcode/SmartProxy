@@ -371,6 +371,10 @@ export class Core {
 				settingsLib.current.options = message.options;
 
 				if (!syncWasEnabled && message.options.syncSettings) {
+					// Reset auto-disable flag when user manually re-enables sync
+					settingsLib.current.syncAutoDisabled = false;
+					settingsLib.current.syncErrorCount = 0;
+					settingsLib.current.syncLastError = null;
 					settingsOperationLib.performInitialSyncMerge(
 						() => {
 							// update proxy rules
@@ -397,6 +401,13 @@ export class Core {
 				}
 
 				settingsOperationLib.saveOptions();
+
+				// If user is manually toggling sync, reset auto-disable state
+				if (syncWasEnabled !== message.options.syncSettings) {
+					settingsLib.current.syncAutoDisabled = false;
+					settingsLib.current.syncErrorCount = 0;
+				}
+
 				settingsOperationLib.saveAllSync();
 
 				// update proxy rules
