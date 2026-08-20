@@ -288,6 +288,12 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "Synchroniser vers un serveur WebDAV"
 	},
+	"settingsGeneralSyncLastFailure": {
+		"message": "Une erreur s'est produite lors de la synchronisation des paramètres : "
+	},
+	"settingsGeneralSyncAutoDisabled": {
+		"message": "La synchronisation a été automatiquement désactivée en raison d'échecs répétés. Veuillez vérifier votre configuration de synchronisation et réactiver la synchronisation."
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "URL du serveur WebDAV :"
 	},

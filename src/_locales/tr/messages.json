@@ -288,6 +288,12 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "Bir WebDAV sunucusuna eşitle"
 	},
+	"settingsGeneralSyncLastFailure": {
+		"message": "Ayarlar eşitlemesinde bir hata oluştu: "
+	},
+	"settingsGeneralSyncAutoDisabled": {
+		"message": "Yinelenen hatalar nedeniyle eşitleme otomatik olarak devre dışı bırakıldı. Lütfen eşitleme yapılandırmanızı kontrol edin ve eşitlemeyi yeniden etkinleştirin."
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "WebDAV Sunucu URL'si:"
 	},
