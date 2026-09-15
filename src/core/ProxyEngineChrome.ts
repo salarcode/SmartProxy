@@ -138,13 +138,13 @@ function FindProxyForURL(url, host, noDiagnostics) {
 			return resultDirect;
 		}
 
-		// subscription whitelist rules -> force proxy (override any bypass)
+		// subscription rules → force proxy (override any bypass)
 		let subMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.SubscriptionRules);
 		if (subMatchedRule) {
 			return makeResultForAlwaysEnabledForced(subMatchedRule)
 		}
 
-		// subscription proxy rules -> bypass proxy
+		// subscription whitelist rules → bypass proxy
 		let subWhitelistMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.WhitelistSubscriptionRules)
 		if (subWhitelistMatchedRule) {
 			return resultDirect;

@@ -1,7 +1,7 @@
 import { Debug } from "../lib/Debug";
 import { api } from "../lib/environment";
 import { Utils } from "../lib/Utils";
-import { CompiledProxyRule, CompiledProxyRulesInfo, getSmartProfileTypeConfig, ProxyRule, ProxyRulesSubscription, ResultHolder, SettingsConfig, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
+import { CompiledProxyRule, CompiledProxyRulesInfo, getSmartProfileTypeConfig, ProxyRule, ProxyRulesSubscription, ResultHolder, RulesSubscriptionListType, SettingsConfig, SmartProfile, SmartProfileBase, SmartProfileCompiled, SmartProfileType } from "./definitions";
 import { ProxyRules } from "./ProxyRules";
 import { Settings } from "./Settings";
 import { SettingsOperation } from "./SettingsOperation";
@@ -161,33 +161,36 @@ export class ProfileOperations {
 				if (!subscription.enabled)
 					continue;
 
+				// Reversed: proxy rules bypass, whitelist rules force
+				const isReversed = subscription.rulesListType === RulesSubscriptionListType.Reversed;
+
 				if (subscription.proxyRules &&
 					subscription.proxyRules.length > 0) {
 
 					let subRules = ProxyRules.compileRulesSubscription(subscription.proxyRules);
-					if (subRules)
-						subscriptionRules = subscriptionRules.concat(subRules);
+					if (subRules) {
+						if (isReversed)
+							whitelistSubscriptionRules = whitelistSubscriptionRules.concat(subRules);
+						else
+							subscriptionRules = subscriptionRules.concat(subRules);
+					}
 				}
 
 				if (subscription.whitelistRules &&
 					subscription.whitelistRules.length > 0) {
 
 					let subWhitelistRules = ProxyRules.compileRulesSubscription(subscription.whitelistRules, true);
-					if (subWhitelistRules)
-						whitelistSubscriptionRules = whitelistSubscriptionRules.concat(subWhitelistRules);
+					if (subWhitelistRules) {
+						if (isReversed)
+							subscriptionRules = subscriptionRules.concat(subWhitelistRules);
+						else
+							whitelistSubscriptionRules = whitelistSubscriptionRules.concat(subWhitelistRules);
+					}
 				}
 			}
 
-			// For AlwaysEnabledBypassRules, the meaning of subscription rules is reversed:
-			// subscription proxy rules → bypass proxy (default is already proxy-on)
-			// subscription whitelist rules → force proxy (override bypass)
-			if (profile.profileType === SmartProfileType.AlwaysEnabledBypassRules) {
-				compiledProfile.compiledRules.SubscriptionRules = whitelistSubscriptionRules;
-				compiledProfile.compiledRules.WhitelistSubscriptionRules = subscriptionRules;
-			} else {
-				compiledProfile.compiledRules.SubscriptionRules = subscriptionRules;
-				compiledProfile.compiledRules.WhitelistSubscriptionRules = whitelistSubscriptionRules;
-			}
+			compiledProfile.compiledRules.SubscriptionRules = subscriptionRules;
+			compiledProfile.compiledRules.WhitelistSubscriptionRules = whitelistSubscriptionRules;
 		}
 	}
 

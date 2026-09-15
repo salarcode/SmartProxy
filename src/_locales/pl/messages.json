@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(Niestety ta funkcja nie jest dostępna w Chrome. Zostanie zastosowane bieżące proxy)"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "Typ reguł:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "Normalny: reguły białej listy omijają proxy"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "Odwrócony: reguły proxy omijają proxy"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "Nazwa użytkownika:"
 	},

@@ -275,14 +275,14 @@ export class ProxyEngineFirefox {
 					return makeResultForAlwaysEnabledBypassed(userWhitelistMatchedRule)
 				}
 
-				// subscription whitelist rules → force proxy (override any bypass)
+				// subscription rules → force proxy (override any bypass)
 				let subMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.SubscriptionRules);
 				if (subMatchedRule) {
 					proxyLog.ruleSource = CompiledProxyRuleSource.Subscriptions;
 					return makeResultForAlwaysEnabledForced(subMatchedRule)
 				}
 
-				// subscription proxy rules → bypass proxy
+				// subscription whitelist rules → bypass proxy
 				let subWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistSubscriptionRules)
 				if (subWhitelistMatchedRule) {
 					proxyLog.ruleSource = CompiledProxyRuleSource.Subscriptions;

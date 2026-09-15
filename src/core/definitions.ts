@@ -1075,6 +1075,17 @@ export enum SpecialRequestApplyProxyMode {
 	CurrentProxy,
 	SelectedProxy,
 }
+
+/**
+ * How subscription rules are interpreted in an AlwaysEnabled profile.
+ * - Normal: proxy rules and whitelist rules are kept separate (v2.2 default).
+ * - Reversed: subscription proxy rules are applied as whitelist (bypass proxy)
+ *   and subscription whitelist rules are applied as proxy rules (force proxy).
+ */
+export enum RulesSubscriptionListType {
+	Normal = 0,
+	Reversed = 1,
+}
 export enum ProxyServerSubscriptionFormat {
 	PlainText,
 	Json,
@@ -1256,6 +1267,9 @@ export class ProxyRulesSubscription implements IExternalRulesConfig {
 
 	public applyProxy: SpecialRequestApplyProxyMode;
 
+	/** Only used in AlwaysEnabled profiles. Defaults to Normal (v2.2 behavior). */
+	public rulesListType: RulesSubscriptionListType = RulesSubscriptionListType.Normal;
+
 	public stats: SubscriptionStats;
 
 	CopyFrom(source: any) {
@@ -1278,6 +1292,11 @@ export class ProxyRulesSubscription implements IExternalRulesConfig {
 		if (source['applyProxy'] != null)
 			if (+source['applyProxy'] in SpecialRequestApplyProxyMode) {
 				this.applyProxy = +source['applyProxy'];
+			}
+		this.rulesListType = RulesSubscriptionListType.Normal;
+		if (source['rulesListType'] != null)
+			if (+source['rulesListType'] in RulesSubscriptionListType) {
+				this.rulesListType = +source['rulesListType'];
 			}
 		this.proxyRules = [];
 		this.whitelistRules = [];

@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(Helaas is deze functie niet beschikbaar in Chrome. De huidige proxy wordt toegepast)"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "Regeltype:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "Normaal: whitelist-regels omzeilen de proxy"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "Omgekeerd: proxy-regels omzeilen de proxy"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "Gebruikersnaam:"
 	},

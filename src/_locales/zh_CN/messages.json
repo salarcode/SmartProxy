@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "（抱歉，此功能在 chrome 中不可用。当前代理将应用）"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "规则类型："
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "正常：白名单规则绕过代理"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "反转：代理规则绕过代理"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "用户名："
 	},

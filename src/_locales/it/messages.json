@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(Sfortunatamente questa funzione non è disponibile in Chrome. Verrà applicato il proxy corrente)"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "Tipo di regole:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "Normale: le regole della whitelist bypassano il proxy"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "Invertito: le regole del proxy bypassano il proxy"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "Nome Utente:"
 	},

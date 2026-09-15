@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(Maalesef bu özellik henüz Chrome'da mümkün değil. Aktif proxy kullanılacak)"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "Kural Türü:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "Normal: beyaz liste kuralları proxy'yi atlar"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "Ters: proxy kuralları proxy'yi atlar"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "Kullanıcı Adı:"
 	},

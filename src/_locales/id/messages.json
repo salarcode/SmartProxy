@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(Sayangnya fitur ini tidak tersedia di Chrome. Proxy saat ini akan diterapkan)"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "Tipe Aturan:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "Normal: aturan daftar putih melewati proxy"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "Terbalik: aturan proxy melewati proxy"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "Nama Pengguna:"
 	},

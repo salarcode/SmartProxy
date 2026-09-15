@@ -21,7 +21,7 @@ import { environment, api } from "../../lib/environment";
 import { Utils } from "../../lib/Utils";
 import { ProxyImporter } from "../../lib/ProxyImporter";
 import { RuleImporter } from "../../lib/RuleImporter";
-import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, UIOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats, getSmartProfileTypeName, ProxyRulesImportFromUI, ImportedProxyRule, ExternalRulesFormat } from "../../core/definitions";
+import { SettingsConfig, CommandMessages, SettingsPageInternalDataType, proxyServerProtocols, proxyServerSubscriptionObfuscate, ProxyServer, ProxyRule, ProxyRuleType, ProxyServerSubscription, GeneralOptions, UIOptions, ResultHolder, proxyServerSubscriptionFormat, SpecialRequestApplyProxyMode, specialRequestApplyProxyModeKeys, ProxyRulesSubscription, SmartProfile, SettingsPageSmartProfile, SmartProfileType, getSmartProfileTypeIcon, ProxyRuleSpecialProxyServer, getUserSmartProfileTypeConfig, themesCustomType, ThemeType, getSmartProfileTypeConfig, SubscriptionStats, getSmartProfileTypeName, ProxyRulesImportFromUI, ImportedProxyRule, ExternalRulesFormat, RulesSubscriptionListType } from "../../core/definitions";
 import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 import { SettingsOperation } from "../../core/SettingsOperation";
@@ -844,8 +844,7 @@ export class settingsPage {
 			tabContainer.find("#divRuleActionWhitelistDesc").hide();
 			tabContainer.find("#divRuleProxyServer").show();
 
-			if (!environment.chrome)
-			{
+			if (!environment.chrome) {
 				tabContainer.find("#divRuleProxyPerOrigin").show();
 			}
 		}
@@ -943,6 +942,7 @@ export class settingsPage {
 			modalContainer.find("#cmbRulesSubscriptionObfuscation").val(subscription.obfuscation);
 			modalContainer.find("#cmbRulesSubscriptionFormat").val(subscription.format);
 			modalContainer.find("#cmbRulesSubscriptionApplyProxy").val(subscription.applyProxy ?? SpecialRequestApplyProxyMode.CurrentProxy);
+			modalContainer.find("#cmbRulesSubscriptionListType").val(subscription.rulesListType ?? RulesSubscriptionListType.Normal);
 			modalContainer.find("#cmbRulesSubscriptionUsername").val(subscription.username);
 			if (subscription.password != null)
 				// from BASE64
@@ -961,6 +961,8 @@ export class settingsPage {
 			modalContainer.find("#cmbRulesSubscriptionApplyProxy")[0].selectedIndex = 0;
 			modalContainer.find("#cmbRulesSubscriptionUsername").val("");
 			modalContainer.find("#cmbRulesSubscriptionPassword").val("");
+			if (modalContainer.find("#cmbRulesSubscriptionListType").length)
+				modalContainer.find("#cmbRulesSubscriptionListType")[0].selectedIndex = 0;
 		}
 	}
 
@@ -974,6 +976,7 @@ export class settingsPage {
 		subscription.obfuscation = modalContainer.find("#cmbRulesSubscriptionObfuscation").val();
 		subscription.format = +modalContainer.find("#cmbRulesSubscriptionFormat").val();
 		subscription.applyProxy = +modalContainer.find("#cmbRulesSubscriptionApplyProxy").val();
+		subscription.rulesListType = +modalContainer.find("#cmbRulesSubscriptionListType").val();
 		subscription.username = modalContainer.find("#cmbRulesSubscriptionUsername").val();
 		// BASE 64 string
 		subscription.password = btoa(modalContainer.find("#cmbRulesSubscriptionPassword").val());
@@ -1613,6 +1616,10 @@ export class settingsPage {
 		}
 		if (!profile.profileTypeConfig.supportsSubscriptions) {
 			profileTab.find("#divSmartProfileSubscription").remove();
+		}
+		if (profile.profileType !== SmartProfileType.AlwaysEnabledBypassRules) {
+			// the "List rules type" option only applies to Always Enabled profiles
+			profileTab.find("#divRulesSubscriptionListType").remove();
 		}
 		if (!profile.profileTypeConfig.customProxyPerRule) {
 			profileTab.find("#divRuleProxyServer").remove();
@@ -3986,10 +3993,22 @@ export class settingsPage {
 
 						settingsPage.refreshRulesSubscriptionsGrid(pageProfile);
 
+						let blackListCount;
+						let whiteListCount;
+
+						if (editingSubscription.rulesListType == RulesSubscriptionListType.Normal) {
+							blackListCount = importResult.rules.blackList.length;
+							whiteListCount = importResult.rules.whiteList.length;
+						}
+						else {
+							blackListCount = importResult.rules.whiteList.length;
+							whiteListCount = importResult.rules.blackList.length;
+						}
+
 						// The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
 						messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
-							.replace("{0}", importResult.rules.blackList.length)
-							.replace("{1}", importResult.rules.whiteList.length));
+							.replace("{0}", blackListCount)
+							.replace("{1}", whiteListCount));
 
 						settingsPage.changeTracking.rulesSubscriptions = true;
 					} else {
@@ -4084,6 +4103,18 @@ export class settingsPage {
 						subscriptionModel.totalCount = count;
 						SubscriptionStats.updateStats(subscriptionModel.stats, true);
 
+						let blackListCount;
+						let whiteListCount;
+
+						if (subscriptionModel.rulesListType == RulesSubscriptionListType.Normal) {
+							blackListCount = importResult.rules.blackList.length;
+							whiteListCount = importResult.rules.whiteList.length;
+						}
+						else {
+							blackListCount = importResult.rules.whiteList.length;
+							whiteListCount = importResult.rules.blackList.length;
+						}
+
 						if (editingSubscription) {
 
 							// updating the model
@@ -4093,8 +4124,8 @@ export class settingsPage {
 
 							// The subscription is updated with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
 							messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveUpdated")
-								.replace("{0}", importResult.rules.blackList.length)
-								.replace("{1}", importResult.rules.whiteList.length));
+								.replace("{0}", blackListCount)
+								.replace("{1}", whiteListCount));
 						} else {
 
 							// insert to the grid
@@ -4102,8 +4133,8 @@ export class settingsPage {
 
 							// The subscription is added with {0} proxy rules and {1} white listed rules in it. <br/>Don't forget to save the changes.
 							messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionSaveAdded")
-								.replace("{0}", importResult.rules.blackList.length)
-								.replace("{1}", importResult.rules.whiteList.length));
+								.replace("{0}", blackListCount)
+								.replace("{1}", whiteListCount));
 						}
 
 						settingsPage.changeTracking.rulesSubscriptions = true;
@@ -4180,10 +4211,21 @@ export class settingsPage {
 							tabContainer.find("#btnTestRulesSubscriptions").button('reset');
 
 							if (importResult.success) {
+								let blackListCount;
+								let whiteListCount;
+
+								if (subscriptionModel.rulesListType == RulesSubscriptionListType.Normal) {
+									blackListCount = importResult.rules.blackList.length;
+									whiteListCount = importResult.rules.whiteList.length;
+								}
+								else {
+									blackListCount = importResult.rules.whiteList.length;
+									whiteListCount = importResult.rules.blackList.length;
+								}
 
 								messageBox.success(api.i18n.getMessage("settingsRulesSubscriptionTestSuccess")
-									.replace("{0}", importResult.rules.blackList.length)
-									.replace("{1}", importResult.rules.whiteList.length));
+									.replace("{0}", blackListCount)
+									.replace("{1}", whiteListCount));
 							} else {
 								messageBox.error(api.i18n.getMessage("settingsRulesSubscriptionTestFailed"));
 							}
