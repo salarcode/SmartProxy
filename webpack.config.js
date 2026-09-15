@@ -1,5 +1,5 @@
 const path = require('path');
-const decompress = require('decompress');
+const decompressPromise = import('@xhmikosr/decompress').then(m => m.default);
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -34,7 +34,7 @@ let plugins = [
   })
 ];
 
-const unzipPromise = decompress('src/ui/js/libs-unzip-before-build.zip', 'src/ui/js/');
+const unzipPromise = decompressPromise.then(decompress => decompress('src/ui/js/libs-unzip-before-build.zip', 'src/ui/js/'));
 
 module.exports = function (args) {
 
