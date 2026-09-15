@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(К сожалению, эта функция недоступна в Chrome. Будет применяться текущий прокси. )"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "Тип правил:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "Обычный: правила белого списка обходят прокси"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "Обратный: правила прокси обходят прокси"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "Имя пользователя:"
 	},
