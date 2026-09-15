@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(للأسف هذه الميزة غير متاحة في Chrome. سيُطبق البروكسي الحالي)"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "نوع القواعد:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "عادي: قواعد القائمة البيضاء تتجاوز البروكسي"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "معكوس: قواعد البروكسي تتجاوز البروكسي"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "اسم المستخدم:"
 	},
