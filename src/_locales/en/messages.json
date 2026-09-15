@@ -288,6 +288,12 @@
 	"settingsGeneralSyncToWebDAV": {
 		"message": "Sync to a WebDAV server"
 	},
+	"settingsGeneralSyncLastFailure": {
+		"message": "There was a failure syncing settings: "
+	},
+	"settingsGeneralSyncAutoDisabled": {
+		"message": "Sync has been automatically disabled due to repeated failures. Please check your sync configuration and re-enable sync."
+	},
 	"settingsGeneralWebDavServerUrl": {
 		"message": "WebDAV Server URL:"
 	},
@@ -1157,6 +1163,15 @@
 	},
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(Unfortunately this feature is not available in chrome. Current proxy will apply)"
+	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "Rules Type:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "Normal: Whitelist rules bypass the proxy"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "Reversed: Proxy rules bypass the proxy"
 	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "Username:"

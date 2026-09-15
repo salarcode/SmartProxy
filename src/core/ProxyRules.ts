@@ -234,7 +234,7 @@ export class ProxyRules {
 		compiledRule: CompiledProxyRule,
 		matchedRuleSource: CompiledProxyRulesMatchedSource
 	} | null {
-		// user skip the bypass rules
+		// user whitelist rules (skip proxy)
 		let userWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(searchUrl, compiledRules.WhitelistRules)
 		if (userWhitelistMatchedRule) {
 			return {
@@ -243,7 +243,7 @@ export class ProxyRules {
 			};
 		}
 
-		// user bypass rules
+		// user proxy rules (apply proxy)
 		let userMatchedRule = ProxyRules.findMatchedUrlInRules(searchUrl, compiledRules.Rules);
 		if (userMatchedRule) {
 			return {
@@ -252,7 +252,7 @@ export class ProxyRules {
 			};
 		}
 
-		// subscription skip bypass rules
+		// subscription whitelist rules (skip proxy)
 		let subWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(searchUrl, compiledRules.WhitelistSubscriptionRules)
 		if (subWhitelistMatchedRule) {
 			return {
@@ -261,7 +261,7 @@ export class ProxyRules {
 			};
 		}
 
-		// subscription bypass rules
+		// subscription proxy rules (apply proxy)
 		let subMatchedRule = ProxyRules.findMatchedUrlInRules(searchUrl, compiledRules.SubscriptionRules);
 		if (subMatchedRule) {
 			return {

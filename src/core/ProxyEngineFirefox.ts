@@ -207,7 +207,7 @@ export class ProxyEngineFirefox {
 			if (requestDetails.tabId > -1) {
 				tabData = TabManager.getTab(requestDetails.tabId);
 			}
-			
+
 			// applying ProxyPerOrigin
 			if (tabData != null && settings.options.proxyPerOrigin) {
 
@@ -259,31 +259,30 @@ export class ProxyEngineFirefox {
 
 			if (activeProfileType == SmartProfileType.AlwaysEnabledBypassRules) {
 				// NOTE: by default a proxy is applied in AlwaysEnabled profile
-
 				let compiledRules = settingsActive.activeProfile.compiledRules;
 
-				// user skip the bypass rules/ don't apply proxy
+				// user proxy rules → force proxy (override any bypass)
 				let userMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.Rules);
 				if (userMatchedRule) {
 					proxyLog.ruleSource = CompiledProxyRuleSource.Rules;
 					return makeResultForAlwaysEnabledForced(userMatchedRule)
 				}
 
-				// user bypass rules/ apply proxy by force
+				// user whitelist rules → bypass proxy
 				let userWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistRules)
 				if (userWhitelistMatchedRule) {
 					proxyLog.ruleSource = CompiledProxyRuleSource.Rules;
 					return makeResultForAlwaysEnabledBypassed(userWhitelistMatchedRule)
 				}
 
-				// subscription skip bypass rules/ don't apply proxy
+				// subscription rules → force proxy (override any bypass)
 				let subMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.SubscriptionRules);
 				if (subMatchedRule) {
 					proxyLog.ruleSource = CompiledProxyRuleSource.Subscriptions;
 					return makeResultForAlwaysEnabledForced(subMatchedRule)
 				}
 
-				// subscription bypass rules/ apply proxy by force
+				// subscription whitelist rules → bypass proxy
 				let subWhitelistMatchedRule = ProxyRules.findMatchedUrlInRules(requestDetails.url, compiledRules.WhitelistSubscriptionRules)
 				if (subWhitelistMatchedRule) {
 					proxyLog.ruleSource = CompiledProxyRuleSource.Subscriptions;

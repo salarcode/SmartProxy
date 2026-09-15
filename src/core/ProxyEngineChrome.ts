@@ -5,7 +5,7 @@ import { Settings } from "./Settings";
 
 export class ProxyEngineChrome {
 
-	/**  Chrome only. Updating Chrome proxy config. */
+	/**  Chrome only. Updating Chrome proxy config.  */
 	public static updateChromeProxyConfig() {
 		let settingsActive = Settings.active;
 
@@ -126,25 +126,25 @@ function FindProxyForURL(url, host, noDiagnostics) {
 
 	if (activeProfileType == SmartProfileType.AlwaysEnabledBypassRules) {
 
-		// user skip the bypass rules/ don't apply proxy
+		// user proxy rules -> force proxy (override any bypass)
 		let userMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.Rules);
 		if (userMatchedRule) {
 			return makeResultForAlwaysEnabledForced(userMatchedRule)
 		}
 
-		// user bypass rules/ apply proxy by force
+		// user whitelist rules -> bypass proxy
 		let userWhitelistMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.WhitelistRules)
 		if (userWhitelistMatchedRule) {
 			return resultDirect;
 		}
 
-		// subscription skip bypass rules/ don't apply proxy
+		// subscription rules → force proxy (override any bypass)
 		let subMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.SubscriptionRules);
 		if (subMatchedRule) {
 			return makeResultForAlwaysEnabledForced(subMatchedRule)
 		}
 
-		// subscription bypass rules/ apply proxy by force
+		// subscription whitelist rules → bypass proxy
 		let subWhitelistMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.WhitelistSubscriptionRules)
 		if (subWhitelistMatchedRule) {
 			return resultDirect;

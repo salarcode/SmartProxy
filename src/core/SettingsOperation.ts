@@ -32,6 +32,7 @@ const polyFillLib = PolyFill;
 const utilsLib = Utils;
 
 export class SettingsOperation {
+	private static syncErrorDisableThreshold = 5;
 
 	public static getStrippedSyncableSettings(settings: SettingsConfig): SettingsConfig {
 		/** Returns a copy of settings with only syncable settings. */
@@ -39,6 +40,9 @@ export class SettingsOperation {
 		// deep clone required
 		let settingsCopy: SettingsConfig = JSON.parse(JSON.stringify(settings));
 
+		settingsCopy.syncLastError = '';
+		settingsCopy.syncErrorCount = 0;
+		settingsCopy.syncAutoDisabled = false;
 		settingsCopy.options.syncWebDavServerUrl = '';
 		settingsCopy.options.syncWebDavBackupFilename = '';
 		settingsCopy.options.syncWebDavServerUser = '';
@@ -414,6 +418,28 @@ export class SettingsOperation {
 			subscriptionUpdaterLib.reloadEmptyRulesSubscriptions();
 		});
 	}
+
+	private static clearSyncError() {
+		Settings.current.syncLastError = null;
+		Settings.current.syncErrorCount = 0;
+		Settings.current.syncAutoDisabled = false;
+		me.saveAllLocal(true);
+	}
+
+	private static recordSyncError(error: Error) {
+		const normalizedError = me.normalizeError(error);
+
+		Debug.error(`SettingsOperation sync error: ${normalizedError.message}`);
+		Settings.current.syncLastError = normalizedError?.message;
+		Settings.current.syncErrorCount = (Settings.current.syncErrorCount ?? 0) + 1;
+
+		if (Settings.current.syncErrorCount >= me.syncErrorDisableThreshold) {
+			Settings.current.options.syncSettings = false;
+			Settings.current.syncAutoDisabled = true;
+		}
+		me.saveAllLocal(true);
+	}
+
 	public static saveAllSync(saveToSyncServer: boolean = true) {
 
 		Settings.current.syncHash = Utils.getNewUniqueIdString();
@@ -424,6 +450,12 @@ export class SettingsOperation {
 			return;
 
 		if (!Settings.current.options.syncSettings) {
+			// Only clear error if sync was disabled by user, not auto-disabled
+			if (!Settings.current.syncAutoDisabled) {
+				Settings.current.syncLastError = null;
+				Settings.current.syncErrorCount = 0;
+			}
+			me.saveAllLocal(true);
 			return;
 		}
 
@@ -436,18 +468,26 @@ export class SettingsOperation {
 				current.options.syncWebDavBackupFilename,
 				current.options.syncWebDavServerUser,
 				current.options.syncWebDavServerPassword,
-				strippedSettings);
+				strippedSettings,
+				() => {
+					Debug.log("SettingsOperation.saveAllSync: Settings saved to WebDav storage successfully.");
+					me.clearSyncError();
+				},
+				(error: Error) => {
+					me.recordSyncError(error);
+				})
 		}
 		else {
 			me.saveToBrowserSyncStorage(
 				strippedSettings,
 				() => {
 					Debug.log("SettingsOperation.saveAllSync: Settings saved to sync storage successfully.");
+					me.clearSyncError();
 				},
 				(error: Error) => {
-					Debug.error(`SettingsOperation.saveAllSync error: ${error.message}`);
+					me.recordSyncError(error);
 				}
-			);
+			)
 		}
 	}
 
@@ -1296,6 +1336,8 @@ export class SettingsOperation {
 				password,
 				null,
 				() => {
+					// Manual sync success clears persisted errors
+					me.clearSyncError();
 					resolve({
 						success: true
 					});
@@ -1320,6 +1362,7 @@ export class SettingsOperation {
 				strippedSettings,
 				(saveObject) => {
 					Debug.log("SettingsOperation.handleBrowserSyncBackupNow: Settings saved to sync storage successfully.", saveObject);
+					me.clearSyncError();
 					resolve({
 						success: true
 					});
@@ -1351,13 +1394,13 @@ export class SettingsOperation {
 					// Apply restored settings while preserving sync options
 					// Note: applySyncSettings internally calls Settings.updateActiveSettings()
 					me.applySyncSettings(restoredSettings);
-					
+
 					// Save synced settings if needed
 					me.saveAllSync();
-					
+
 					// Update proxy rules/config
 					proxyEngineLib.updateBrowsersProxyConfig();
-					
+
 					resolve({
 						success: true
 					});

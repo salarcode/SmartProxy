@@ -359,6 +359,9 @@ export class SettingsConfig implements Cloneable {
 	public version: string = '';
 	public configVersion: string = '';
 	public syncHash: string = '';
+	public syncLastError: string | null = null;
+	public syncErrorCount: number = 0;
+	public syncAutoDisabled: boolean = false;
 	public proxyProfiles: SmartProfile[] = getBuiltinSmartProfiles();
 	public activeProfileId: string = SmartProfileTypeBuiltinIds.Direct;
 	public defaultProxyServerId: string;
@@ -411,6 +414,9 @@ export class SettingsConfig implements Cloneable {
 		this.firstEverInstallNotified = source.firstEverInstallNotified;
 		this.version = source.version;
 		this.syncHash = source.syncHash;
+		this.syncLastError = source.syncLastError;
+		this.syncErrorCount = source.syncErrorCount;
+		this.syncAutoDisabled = source.syncAutoDisabled;
 		this.configVersion = source.configVersion;
 	}
 }
@@ -1069,6 +1075,17 @@ export enum SpecialRequestApplyProxyMode {
 	CurrentProxy,
 	SelectedProxy,
 }
+
+/**
+ * How subscription rules are interpreted in an AlwaysEnabled profile.
+ * - Normal: proxy rules and whitelist rules are kept separate (v2.2 default).
+ * - Reversed: subscription proxy rules are applied as whitelist (bypass proxy)
+ *   and subscription whitelist rules are applied as proxy rules (force proxy).
+ */
+export enum RulesSubscriptionListType {
+	Normal = 0,
+	Reversed = 1,
+}
 export enum ProxyServerSubscriptionFormat {
 	PlainText,
 	Json,
@@ -1250,6 +1267,9 @@ export class ProxyRulesSubscription implements IExternalRulesConfig {
 
 	public applyProxy: SpecialRequestApplyProxyMode;
 
+	/** Only used in AlwaysEnabled profiles. Defaults to Normal (v2.2 behavior). */
+	public rulesListType: RulesSubscriptionListType = RulesSubscriptionListType.Normal;
+
 	public stats: SubscriptionStats;
 
 	CopyFrom(source: any) {
@@ -1272,6 +1292,11 @@ export class ProxyRulesSubscription implements IExternalRulesConfig {
 		if (source['applyProxy'] != null)
 			if (+source['applyProxy'] in SpecialRequestApplyProxyMode) {
 				this.applyProxy = +source['applyProxy'];
+			}
+		this.rulesListType = RulesSubscriptionListType.Normal;
+		if (source['rulesListType'] != null)
+			if (+source['rulesListType'] in RulesSubscriptionListType) {
+				this.rulesListType = +source['rulesListType'];
 			}
 		this.proxyRules = [];
 		this.whitelistRules = [];
