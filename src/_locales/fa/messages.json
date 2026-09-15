@@ -1164,6 +1164,15 @@
 	"settingsRulesSubscriptionsApplyProxyHelpChrome": {
 		"message": "(متاسفانه این ویژگی در مرورگر کروم در دسترس نیست. پراکسی فعلی استفاده خواهد شد)"
 	},
+	"settingsRulesSubscriptionsListType": {
+		"message": "نوع قوانین:"
+	},
+	"settingsRulesSubscriptionsListTypeNormal": {
+		"message": "عادی: قوانین لیست سفید پروکسی را دور می‌زنند"
+	},
+	"settingsRulesSubscriptionsListTypeReversed": {
+		"message": "معکوس: قوانین پروکسی پروکسی را دور می‌زنند"
+	},
 	"settingsRulesSubscriptionsUsername": {
 		"message": "نام کاربری:"
 	},
