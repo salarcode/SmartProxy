@@ -1,6 +1,6 @@
 {
 	"latestVersion": {
-		"version": "2.4.1",
+		"version": "2.4.2",
 		"versionName": "2.4.1",
 		"downloadPage": "https://github.com/salarcode/SmartProxy/releases"
 	},
@@ -14,7 +14,7 @@
 		},
 		"Firefox": {
 			"latestVersion": {
-				"version": "2.4.1",
+				"version": "2.4.2",
 				"versionName": "2.4.1",
 				"downloadPage": "https://addons.mozilla.org/en-US/firefox/addon/smartproxy/"
 			}
