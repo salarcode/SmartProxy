@@ -89,7 +89,11 @@ module.exports = function (args) {
         path: path.resolve(__dirname, 'build' + (isDev ? '-' + browserType : '')),
       },
       optimization: {
-        minimize: !isDev
+        minimize: !isDev,
+        minimizeOptions: {
+          // webpack 5.111+ minifies HTML/CSS assets by default
+          html: false
+        }
       },
       plugins: plugins
     }
