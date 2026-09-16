@@ -2681,16 +2681,17 @@ export class settingsPage {
 		},
 		onChangeActiveProxyServer() {
 			let proxyServerId = jq("#cmbActiveProxyServer").val();
+			if (proxyServerId) {
+				let server = settingsPage.findProxyServerById(proxyServerId);
 
-			let server = settingsPage.findProxyServerById(proxyServerId);
-
-			if (server) {
-				// this can be null
-				settingsPage.currentSettings.defaultProxyServerId = server.id;
-				settingsPage.changeTracking.activeProxy = true;
-			}
-			else {
-				Debug.warn("Settings> Selected ActiveProxyServer ID not found!");
+				if (server) {
+					// this can be null
+					settingsPage.currentSettings.defaultProxyServerId = server.id;
+					settingsPage.changeTracking.activeProxy = true;
+				}
+				else {
+					Debug.warn("Settings> Selected ActiveProxyServer ID not found!");
+				}
 			}
 			settingsPage.updateActiveSubscriptionProxyServerAction();
 		},

@@ -24,8 +24,10 @@ Function BuildAndPack($Build, $BuildName) {
  if(!$global:Success) {
     return;
  }
- Write-Output "Cleaning build folder"
- Remove-Item -path .\build\* -recurse
+ if (Test-Path ".\build") {
+    Write-Output "Cleaning build folder"
+    Remove-Item -path .\build\* -recurse
+ }
 
  Invoke-Expression ("npm run build-$Build " + ';$global:Success=$?')
 
