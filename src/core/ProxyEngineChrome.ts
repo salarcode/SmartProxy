@@ -1,3 +1,4 @@
+// IMPORTANT: This file MUST stay in ASCII encoding, no non-ASCII characters are allowed.
 import { ProxyServer, CompiledProxyRule, SmartProfileType, CompiledProxyRuleType } from "./definitions";
 import { api } from "../lib/environment";
 import { Debug, DiagDebug } from "../lib/Debug";
@@ -138,13 +139,13 @@ function FindProxyForURL(url, host, noDiagnostics) {
 			return resultDirect;
 		}
 
-		// subscription rules → force proxy (override any bypass)
+		// subscription rules -> force proxy (override any bypass)
 		let subMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.SubscriptionRules);
 		if (subMatchedRule) {
 			return makeResultForAlwaysEnabledForced(subMatchedRule)
 		}
 
-		// subscription whitelist rules → bypass proxy
+		// subscription whitelist rules -> bypass proxy
 		let subWhitelistMatchedRule = findMatchedUrlInRules(url, host, hostAndPort, compiledRules.WhitelistSubscriptionRules)
 		if (subWhitelistMatchedRule) {
 			return resultDirect;
