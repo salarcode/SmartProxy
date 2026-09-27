@@ -1165,7 +1165,7 @@
 		"message": "(Maalesef bu özellik henüz Chrome'da mümkün değil. Aktif proxy kullanılacak)"
 	},
 	"settingsRulesSubscriptionsListType": {
-		"message": "Kural Türü:"
+		"message": "Kural türü:"
 	},
 	"settingsRulesSubscriptionsListTypeNormal": {
 		"message": "Normal: beyaz liste kuralları proxy'yi atlar"
