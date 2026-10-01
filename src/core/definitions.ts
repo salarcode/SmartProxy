@@ -153,6 +153,7 @@ export class CommandMessages {
 	//public static PopupChangeProxyMode = 'Popup_ChangeProxyMode';
 	public static PopupChangeActiveProfile = 'Popup_ChangeActiveProfile';
 	public static PopupChangeActiveProxyServer = 'Popup_ChangeActiveProxyServer';
+	public static PopupRequestProviderCredential = 'Popup_RequestProviderCredential';
 	public static PopupToggleProxyForDomain = 'Popup_ToggleProxyForDomain';
 	public static PopupChangeProxyForRule = 'Popup_ChangeProxyForRule';
 	public static PopupAddDomainListToProxyRule = 'Popup_AddDomainListToProxyRule';
@@ -792,6 +793,16 @@ class ProxyServerConnectDetails {
 	public username: string;
 	public password: string;
 	public proxyDNS: boolean;
+	/**
+	 * Optional URL of a web page that signs the user in and issues this server's password
+	 * (see lib/CredentialProvider.ts). Empty when the password is managed by hand.
+	 */
+	public credentialProviderUrl: string;
+	/**
+	 * Unix time (seconds) at which the password issued by the credential provider expires.
+	 * Null when the password was entered by hand or the provider did not say.
+	 */
+	public credentialExpiresAt: number;
 }
 
 export class ProxyServer extends ProxyServerConnectDetails implements Cloneable {
@@ -816,6 +827,8 @@ export class ProxyServer extends ProxyServerConnectDetails implements Cloneable 
 		this.protocol = source['protocol'];
 		this.username = source['username'];
 		this.password = source['password'];
+		this.credentialProviderUrl = source['credentialProviderUrl'] || '';
+		this.credentialExpiresAt = +source['credentialExpiresAt'] > 0 ? +source['credentialExpiresAt'] : null;
 		if (source['proxyDNS'] != null) this.proxyDNS = source['proxyDNS'] == true ? true : false;
 		this.failoverTimeout = source['failoverTimeout'] > 0 ? source['failoverTimeout'] : null;
 		this.countryCode = source['countryCode'];

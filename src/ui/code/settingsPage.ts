@@ -26,6 +26,7 @@ import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 import { SettingsOperation } from "../../core/SettingsOperation";
 import { CountryCode } from "../../lib/CountryCode";
+import { CredentialProvider, CredentialProviderError, CredentialProviderErrorCode, describeCredentialValidity } from "../../lib/CredentialProvider";
 
 const jq = jQuery;
 
@@ -214,6 +215,9 @@ export class settingsPage {
 		jq("#cmdServerProtocol").on("change", settingsPage.uiEvents.onChangeServerProtocol);
 
 		jq("#btnSubmitProxyServer").click(settingsPage.uiEvents.onClickSubmitProxyServer);
+		jq("#btnServerCredentialProviderRefresh").click(settingsPage.uiEvents.onClickServerCredentialProviderRefresh);
+		jq("#chkServerCredentialProvider").on("change", settingsPage.uiEvents.onChangeServerCredentialProvider);
+		jq("#txtServerPassword, #txtServerCredentialProviderUrl").on("input", () => settingsPage.populateServerCredentialValidity(jq("#modalModifyProxyServer")));
 
 		jq("#btnSaveProxyServers").click(settingsPage.uiEvents.onClickSaveProxyServers);
 
@@ -642,19 +646,20 @@ export class settingsPage {
 		else
 			modal.find("#chkServerProxyDNS-Control").hide();
 
+		let authenticationSupported = true;
 		if (serverInputInfo.protocol == "SOCKS4")
-			modal.find("#chkServerProxy-Authentication").hide();
-		else if (serverInputInfo.protocol == "SOCKS5") {
-			if (environment.chrome) {
-				modal.find("#chkServerProxy-Authentication").hide();
-				modal.find("#divServerProxy-AuthenticationMessage").show();
-			}
-			else
-				modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
+			authenticationSupported = false;
+		else if (serverInputInfo.protocol == "SOCKS5" && environment.chrome) {
+			authenticationSupported = false;
+			modal.find("#divServerProxy-AuthenticationMessage").show();
 		}
-		else {
-			modal.find("#chkServerProxy-Authentication").show().removeClass('d-none');
-		}
+
+		// the credential provider issues the password, so it is offered wherever a password is
+		let authenticationRows = modal.find("#chkServerProxy-Authentication, #divServerProxy-CredentialProvider");
+		if (authenticationSupported)
+			authenticationRows.show().removeClass('d-none');
+		else
+			authenticationRows.hide();
 	}
 
 	private static populateServerModal(modalContainer: any, server?: ProxyServer) {
@@ -669,6 +674,9 @@ export class settingsPage {
 			modalContainer.find("#chkServerProxyDNS").prop('checked', server.proxyDNS);
 			modalContainer.find("#txtServerUsername").val(server.username);
 			modalContainer.find("#txtServerPassword").val(server.password);
+			modalContainer.find("#chkServerCredentialProvider").prop('checked', !!server.credentialProviderUrl);
+			modalContainer.find("#txtServerCredentialProviderUrl").val(server.credentialProviderUrl || "");
+			settingsPage.setServerModalIssuedCredential(modalContainer, server.credentialExpiresAt ? server.password : null, server.credentialExpiresAt);
 		} else {
 			modalContainer.find("#txtServerOrder").val(0);
 			modalContainer.find("#txtServerName").val(this.generateNewServerName());
@@ -679,8 +687,68 @@ export class settingsPage {
 			modalContainer.find("#chkServerProxyDNS").prop('checked', true);
 			modalContainer.find("#txtServerUsername").val("");
 			modalContainer.find("#txtServerPassword").val("");
+			modalContainer.find("#chkServerCredentialProvider").prop('checked', false);
+			modalContainer.find("#txtServerCredentialProviderUrl").val("");
+			settingsPage.setServerModalIssuedCredential(modalContainer, null, null);
 		}
+		settingsPage.populateServerCredentialProvider(modalContainer);
 		settingsPage.populateServerProtocol();
+	}
+
+	/**
+	 * Remembers which password the credential provider issued and when it expires, so the expiry is
+	 * kept only while that exact password stays in the form (typing a new one clears it).
+	 */
+	private static setServerModalIssuedCredential(modalContainer: any, issuedPassword: string, expiresAt: number) {
+		modalContainer.data("credentialIssuedPassword", issuedPassword || null);
+		modalContainer.data("credentialExpiresAt", issuedPassword && expiresAt > 0 ? expiresAt : null);
+		settingsPage.populateServerCredentialValidity(modalContainer);
+	}
+
+	private static readServerModalCredentialExpiresAt(modalContainer: any, password: string, providerUrl: string): number {
+		let issuedPassword = modalContainer.data("credentialIssuedPassword");
+		if (!providerUrl || !issuedPassword || issuedPassword !== password)
+			return null;
+		return modalContainer.data("credentialExpiresAt") || null;
+	}
+
+	private static populateServerCredentialValidity(modalContainer: any) {
+		let label = modalContainer.find("#lblServerCredentialValidity");
+		let password = (modalContainer.find("#txtServerPassword").val() || "").trim();
+		let providerUrl = modalContainer.find("#chkServerCredentialProvider").prop("checked") == true
+			? (modalContainer.find("#txtServerCredentialProviderUrl").val() || "").trim()
+			: "";
+		let expiresAt = settingsPage.readServerModalCredentialExpiresAt(modalContainer, password, providerUrl);
+		let validity = describeCredentialValidity(expiresAt);
+		if (!validity) {
+			label.addClass("d-none").text("");
+			return;
+		}
+		let until = new Date(expiresAt * 1000).toLocaleString();
+		if (validity.expired)
+			label.text(api.i18n.getMessage("settingsServersCredentialExpired").replace("{0}", until)).addClass("text-danger");
+		else
+			label.text(api.i18n.getMessage("settingsServersCredentialValidUntil").replace("{0}", until).replace("{1}", validity.remaining)).removeClass("text-danger");
+		label.removeClass("d-none");
+	}
+
+	/** Shows the credential provider URL and refresh button only while the option is ticked. */
+	private static populateServerCredentialProvider(modalContainer: any) {
+		let enabled = modalContainer.find("#chkServerCredentialProvider").prop("checked") == true;
+		modalContainer.find("#divServerCredentialProviderDetails").toggleClass("d-none", !enabled);
+	}
+
+	private static describeCredentialProviderError(error: any): string {
+		let reasonKey = "settingsServersCredentialProviderErrorUnknown";
+		if (error instanceof CredentialProviderError) {
+			switch (error.code) {
+				case CredentialProviderErrorCode.InvalidUrl: reasonKey = "settingsServerCredentialProviderUrlInvalid"; break;
+				case CredentialProviderErrorCode.OpenFailed: reasonKey = "settingsServersCredentialProviderErrorOpenFailed"; break;
+				case CredentialProviderErrorCode.TabClosed: reasonKey = "settingsServersCredentialProviderErrorTabClosed"; break;
+				case CredentialProviderErrorCode.Timeout: reasonKey = "settingsServersCredentialProviderErrorTimeout"; break;
+			}
+		}
+		return api.i18n.getMessage("settingsServersCredentialProviderFailed") + " " + api.i18n.getMessage(reasonKey);
 	}
 
 	private static readServerModel(modalContainer: any): ProxyServer {
@@ -693,6 +761,10 @@ export class settingsPage {
 		proxy.protocol = modalContainer.find("#cmdServerProtocol").val();
 		proxy.username = modalContainer.find("#txtServerUsername").val().trim();
 		proxy.password = modalContainer.find("#txtServerPassword").val().trim();
+		proxy.credentialProviderUrl = modalContainer.find("#chkServerCredentialProvider").prop("checked") == true
+			? modalContainer.find("#txtServerCredentialProviderUrl").val().trim()
+			: "";
+		proxy.credentialExpiresAt = settingsPage.readServerModalCredentialExpiresAt(modalContainer, proxy.password, proxy.credentialProviderUrl);
 		proxy.proxyDNS = modalContainer.find("#chkServerProxyDNS").prop("checked");
 		if (proxy.order == 0) {
 			let proxyServers = settingsPage.readServers();
@@ -2695,6 +2767,44 @@ export class settingsPage {
 			}
 			settingsPage.updateActiveSubscriptionProxyServerAction();
 		},
+		onChangeServerCredentialProvider() {
+			let modal = jq("#modalModifyProxyServer");
+			settingsPage.populateServerCredentialProvider(modal);
+			settingsPage.populateServerCredentialValidity(modal);
+			if (modal.find("#chkServerCredentialProvider").prop("checked") == true)
+				modal.find("#txtServerCredentialProviderUrl").focus();
+		},
+		onClickServerCredentialProviderRefresh() {
+			let modal = jq("#modalModifyProxyServer");
+			let providerUrl: string = modal.find("#txtServerCredentialProviderUrl").val().trim();
+			if (!providerUrl || !CredentialProvider.isValidUrl(providerUrl)) {
+				messageBox.error(api.i18n.getMessage("settingsServerCredentialProviderUrlInvalid"));
+				modal.find("#txtServerCredentialProviderUrl").focus();
+				return;
+			}
+
+			let button = modal.find("#btnServerCredentialProviderRefresh");
+			button.prop("disabled", true);
+
+			CredentialProvider.requestCredential(providerUrl)
+				.then((credential) => {
+					modal.find("#txtServerPassword").val(credential.password);
+					settingsPage.setServerModalIssuedCredential(modal, credential.password, credential.expiresAt);
+					if (credential.username && !modal.find("#txtServerUsername").val().trim())
+						modal.find("#txtServerUsername").val(credential.username);
+					let message = api.i18n.getMessage("settingsServersCredentialProviderSuccess");
+					if (credential.expiresAt)
+						message += " " + api.i18n.getMessage("settingsServersCredentialProviderSuccessExpires")
+							.replace("{0}", new Date(credential.expiresAt * 1000).toLocaleString());
+					messageBox.success(message);
+				})
+				.catch((error) => {
+					messageBox.error(settingsPage.describeCredentialProviderError(error));
+				})
+				.finally(() => {
+					button.prop("disabled", false);
+				});
+		},
 		onClickAddProxyServer() {
 
 			let modal = jq("#modalModifyProxyServer");
@@ -2759,6 +2869,18 @@ export class settingsPage {
 			if (!serverInputInfo.name) {
 				messageBox.error(api.i18n.getMessage("settingsServerNameRequired"));
 				return;
+			}
+			if (modal.find("#chkServerCredentialProvider").prop("checked") == true) {
+				if (!serverInputInfo.credentialProviderUrl) {
+					messageBox.error(api.i18n.getMessage("settingsServerCredentialProviderUrlRequired"));
+					modal.find("#txtServerCredentialProviderUrl").focus();
+					return;
+				}
+				if (!CredentialProvider.isValidUrl(serverInputInfo.credentialProviderUrl)) {
+					messageBox.error(api.i18n.getMessage("settingsServerCredentialProviderUrlInvalid"));
+					modal.find("#txtServerCredentialProviderUrl").focus();
+					return;
+				}
 			}
 
 			// ------------------

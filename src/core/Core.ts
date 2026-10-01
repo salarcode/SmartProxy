@@ -45,6 +45,7 @@ import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
 import { ProfileOperations } from './ProfileOperations';
 import { ProfileRules } from './ProfileRules';
 import { Icons } from './Icons';
+import { CredentialProviderBackground } from './CredentialProviderBackground';
 
 const subscriptionUpdaterLib = SubscriptionUpdater;
 const proxyEngineLib = ProxyEngine;
@@ -109,6 +110,9 @@ export class Core {
 
 		// start proxy authentication request check
 		ProxyAuthentication.startMonitor();
+
+		// proxy password refreshes started from the popup
+		CredentialProviderBackground.startMonitor();
 
 		// listen to shortcut events
 		KeyboardShortcuts.startMonitor();
@@ -236,6 +240,19 @@ export class Core {
 				return;
 			}
 
+			case CommandMessages.PopupRequestProviderCredential: {
+				if (!message.proxyServerId)
+					return;
+
+				CredentialProviderBackground.requestForServer(message.proxyServerId)
+					.catch((error) => {
+						Debug.warn("Credential provider request failed", error);
+						let server = settingsOperationLib.findProxyServerById(message.proxyServerId);
+						CredentialProviderBackground.notifyError(server?.name ?? "",
+							api.i18n.getMessage("settingsServersCredentialProviderErrorOpenFailed"));
+					});
+				return;
+			}
 			case CommandMessages.PopupChangeActiveProxyServer: {
 				if (!message.id)
 					return;

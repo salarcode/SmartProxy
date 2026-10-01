@@ -716,6 +716,18 @@ export class Utils {
 		}
 	}
 
+	/**
+	 * Escapes every non-ASCII character in a JavaScript source text as a `\uXXXX` sequence.
+	 * Chromium only accepts ASCII in a PAC script (`chrome.proxy` rejects anything else with
+	 * "'pacScript.data' supports only ASCII code"); the escapes are valid inside string and
+	 * regular-expression literals as well as comments, so the script's behaviour is unchanged.
+	 */
+	public static escapeNonAsciiForScript(script: string): string {
+		if (!script)
+			return script;
+		return script.replace(/[^\x00-\x7f]/g, (char) => "\\u" + char.charCodeAt(0).toString(16).padStart(4, "0"));
+	}
+
 	public static deepClone<T>(array: T[]): T[] {
 		return JSON.parse(JSON.stringify(array));
 	}
