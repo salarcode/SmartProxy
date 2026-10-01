@@ -140,6 +140,22 @@ export class PolyFill {
 				.then(success, fail);
 		}
 	}
+	public static tabsUpdate(tabId: number, updateProperties: any, success?: Function, fail?: Function) {
+		if (environment.chrome) {
+			api.tabs.update(tabId, updateProperties,
+				(tabInfo: any) => {
+					let error = PolyFill.lastError();
+					if (error) {
+						if (fail) fail(error);
+					} else {
+						if (success) success(tabInfo);
+					}
+				});
+		} else {
+			api.tabs.update(tabId, updateProperties)
+				.then(success, fail);
+		}
+	}
 	public static runtimeSendMessage(message: any, success?: Function, fail?: Function, options?: any, extensionId?: string) {
 		if (environment.chrome) {
 			if (options != null) {

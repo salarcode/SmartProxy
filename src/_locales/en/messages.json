@@ -693,6 +693,66 @@
 	"settingsServersPassword": {
 		"message": "Password"
 	},
+	"popupCredentialProviderRefresh": {
+		"message": "Refresh proxy password"
+	},
+	"popupCredentialValidFor": {
+		"message": "Current password valid for {0}"
+	},
+	"popupCredentialExpired": {
+		"message": "Password expired, refresh it"
+	},
+	"settingsServersCredentialValidUntil": {
+		"message": "Current password valid until {0} ({1} left)."
+	},
+	"settingsServersCredentialExpired": {
+		"message": "The current password expired on {0}. Refresh it from the credential provider."
+	},
+	"notificationCredentialProviderSuccess": {
+		"message": "Got a new password for {0}."
+	},
+	"notificationCredentialProviderFailed": {
+		"message": "Could not get a password for {0}:"
+	},
+	"settingsServersCredentialProviderUrl": {
+		"message": "Credential provider URL"
+	},
+	"settingsServersCredentialProviderOptional": {
+		"message": "optional"
+	},
+	"settingsServersCredentialProviderUrlHelp": {
+		"message": "A web page that signs you in and issues the password for this server."
+	},
+	"settingsServerCredentialProviderUrlRequired": {
+		"message": "Enter the credential provider URL, or untick the option to keep a fixed password."
+	},
+	"settingsServersCredentialProviderRefresh": {
+		"message": "Refresh proxy password"
+	},
+	"settingsServerCredentialProviderUrlInvalid": {
+		"message": "The credential provider URL must be an absolute http:// or https:// address."
+	},
+	"settingsServersCredentialProviderSuccess": {
+		"message": "Password refreshed. Save the server to keep it."
+	},
+	"settingsServersCredentialProviderSuccessExpires": {
+		"message": "It is valid until {0}."
+	},
+	"settingsServersCredentialProviderFailed": {
+		"message": "Could not get a password from the credential provider:"
+	},
+	"settingsServersCredentialProviderErrorOpenFailed": {
+		"message": "the sign-in page could not be opened."
+	},
+	"settingsServersCredentialProviderErrorTabClosed": {
+		"message": "the sign-in tab was closed before a password was issued."
+	},
+	"settingsServersCredentialProviderErrorTimeout": {
+		"message": "the sign-in did not complete in time."
+	},
+	"settingsServersCredentialProviderErrorUnknown": {
+		"message": "unexpected error."
+	},
 	"settingsServersAuthChromeMv3Limitation": {
 		"message": "(Unfortunately proxy server authentication is not supported by chrome through extensions api. This is &quot;on purpose&quot;.)"
 	},

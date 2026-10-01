@@ -1529,6 +1529,32 @@
 							<input type="password" id="txtServerPassword" class="form-control" />
 						</div>
 					</div>
+					<div class="row mb-3" id="divServerProxy-CredentialProvider">
+						<div class="form-group col">
+							<label class="form-check-label" for="chkServerCredentialProvider">
+								<input class="form-check-input" type="checkbox" id="chkServerCredentialProvider">
+								<span data-localize="settingsServersCredentialProviderUrl" class="user-select-none">Credential
+									provider URL</span>
+								<small class="text-muted ms-1" data-localize="settingsServersCredentialProviderOptional">optional</small>
+							</label>
+							<div class="row mt-2 d-none" id="divServerCredentialProviderDetails">
+								<div class="col-sm-8">
+									<input type="url" id="txtServerCredentialProviderUrl" class="form-control"
+										placeholder="https://" autocomplete="off" />
+									<div class="form-text" data-localize="settingsServersCredentialProviderUrlHelp">A web page
+										that signs you in and issues the password for this server.</div>
+								</div>
+								<div class="col-sm-4">
+									<button type="button" class="btn btn-outline-primary w-100"
+										id="btnServerCredentialProviderRefresh"
+										data-localize="settingsServersCredentialProviderRefresh">Refresh proxy password</button>
+								</div>
+								<div class="col-12">
+									<div class="form-text d-none" id="lblServerCredentialValidity"></div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="row mb-3" id="divServerProxy-AuthenticationMessage">
 						<div class="form-group col chrome-only d-none">
 							<span data-localize="settingsServersAuthChromeMv3Limitation">(Unfortunately proxy server
