@@ -26,7 +26,7 @@ import { Debug } from "../../lib/Debug";
 import { ProfileOperations } from "../../core/ProfileOperations";
 import { SettingsOperation } from "../../core/SettingsOperation";
 import { CountryCode } from "../../lib/CountryCode";
-import { CredentialProvider, CredentialProviderError, CredentialProviderErrorCode, describeCredentialValidity } from "../../lib/CredentialProvider";
+import { CredentialProvider, CredentialProviderError, CredentialProviderErrorCode, ProviderCredential, describeCredentialValidity } from "../../lib/CredentialProvider";
 
 const jq = jQuery;
 
@@ -93,6 +93,9 @@ export class settingsPage {
 			let dataForSettings: SettingsPageInternalDataType = message.settingsPageInitialData;
 
 			settingsPage.applySettingsPageData(dataForSettings);
+		}
+		else if (command === CommandMessages.SettingsPageProviderCredentialResult) {
+			settingsPage.onProviderCredentialResult(message);
 		}
 		else if (command === CommandMessages.SettingsPageShowMessage) {
 			if (message.message) {
@@ -736,6 +739,43 @@ export class settingsPage {
 	private static populateServerCredentialProvider(modalContainer: any) {
 		let enabled = modalContainer.find("#chkServerCredentialProvider").prop("checked") == true;
 		modalContainer.find("#divServerCredentialProviderDetails").toggleClass("d-none", !enabled);
+	}
+
+	private static pendingCredentialRequests: { [requestId: string]: { resolve: Function, reject: Function, timer: any } } = {};
+
+	/**
+	 * Asks the background to run the credential provider sign-in (it follows the provider tab) and
+	 * resolves with the credential it sends back.
+	 */
+	private static requestProviderCredential(providerUrl: string): Promise<ProviderCredential> {
+		return new Promise<ProviderCredential>((resolve, reject) => {
+			let requestId = Utils.getNewUniqueIdString();
+			// the background reports a timeout too; this only guards against a lost reply
+			let timer = setTimeout(() => settingsPage.onProviderCredentialResult({ requestId, errorCode: CredentialProviderErrorCode.Timeout }),
+				CredentialProvider.defaultTimeoutMs + 10000);
+			settingsPage.pendingCredentialRequests[requestId] = { resolve, reject, timer };
+
+			PolyFill.runtimeSendMessage(
+				{
+					command: CommandMessages.SettingsPageRequestProviderCredential,
+					providerUrl: providerUrl,
+					requestId: requestId
+				},
+				null,
+				() => settingsPage.onProviderCredentialResult({ requestId, errorCode: CredentialProviderErrorCode.OpenFailed }));
+		});
+	}
+
+	private static onProviderCredentialResult(result: { requestId: string, credential?: ProviderCredential, errorCode?: CredentialProviderErrorCode }) {
+		let request = settingsPage.pendingCredentialRequests[result?.requestId];
+		if (!request)
+			return;
+		delete settingsPage.pendingCredentialRequests[result.requestId];
+		clearTimeout(request.timer);
+		if (result.credential?.password)
+			request.resolve(result.credential);
+		else
+			request.reject(new CredentialProviderError(result.errorCode ?? CredentialProviderErrorCode.OpenFailed));
 	}
 
 	private static describeCredentialProviderError(error: any): string {
@@ -2786,7 +2826,7 @@ export class settingsPage {
 			let button = modal.find("#btnServerCredentialProviderRefresh");
 			button.prop("disabled", true);
 
-			CredentialProvider.requestCredential(providerUrl)
+			settingsPage.requestProviderCredential(providerUrl)
 				.then((credential) => {
 					modal.find("#txtServerPassword").val(credential.password);
 					settingsPage.setServerModalIssuedCredential(modal, credential.password, credential.expiresAt);

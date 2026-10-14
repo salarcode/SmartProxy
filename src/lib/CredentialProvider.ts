@@ -14,9 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SmartProxy.  If not, see <http://www.gnu.org/licenses/>.
  */
-import { api } from "./environment";
-import { PolyFill } from "./PolyFill";
-
 /**
  * Obtains a proxy password from a "credential provider": a web page, chosen by the user,
  * that authenticates them (typically through the organisation's single sign-on) and hands
@@ -34,8 +31,8 @@ import { PolyFill } from "./PolyFill";
  *        https://provider.example/anything#username=alice&password=s3cret&expires=1789470000
  *
  *    `password` is required; `username` and `expires` (Unix seconds) are optional.
- * 4. The extension reads the credential from the navigation event, closes the tab and
- *    fills the proxy server form. The fragment is never sent over the network, and the
+ * 4. The extension reads the credential from the tab's navigation, closes the tab and
+ *    saves it to the proxy server (core/CredentialProviderBackground.ts runs the flow). The fragment is never sent over the network, and the
  *    extension never requests the provider with cookies or credentials itself.
  *
  * Providers should strip the fragment with `history.replaceState` once their page loads,
@@ -125,68 +122,6 @@ export class CredentialProvider {
 			credential.expiresAt = Number(expires);
 
 		return credential;
-	}
-
-	/**
-	 * Runs the sign-in flow in a new tab and resolves with the credential the provider returned.
-	 * Rejects with a CredentialProviderError when the URL is invalid, the tab cannot be opened,
-	 * the user closes the tab, or the timeout elapses.
-	 */
-	public static requestCredential(providerUrl: string, timeoutMs: number = CredentialProvider.defaultTimeoutMs): Promise<ProviderCredential> {
-		const requestUrl = CredentialProvider.buildRequestUrl(providerUrl); // throws on invalid URL
-
-		return new Promise<ProviderCredential>((resolve, reject) => {
-			let tabId: number | null = null;
-			let settled = false;
-
-			const finish = (action: () => void) => {
-				if (settled)
-					return;
-				settled = true;
-				api.tabs.onUpdated.removeListener(onTabUpdated);
-				api.tabs.onRemoved.removeListener(onTabRemoved);
-				clearTimeout(timer);
-				action();
-			};
-
-			const onTabUpdated = (updatedTabId: number, changeInfo: { url?: string }) => {
-				if (tabId === null || updatedTabId !== tabId || !changeInfo.url)
-					return;
-				const credential = CredentialProvider.parseCompletionUrl(changeInfo.url, providerUrl);
-				if (credential === null)
-					return;
-				finish(() => {
-					// Close the tab so the fragment leaves the address bar; ignore failures (user may have closed it).
-					PolyFill.tabsRemove(tabId, null, () => { });
-					resolve(credential);
-				});
-			};
-
-			const onTabRemoved = (removedTabId: number) => {
-				if (tabId === null || removedTabId !== tabId)
-					return;
-				finish(() => reject(new CredentialProviderError(CredentialProviderErrorCode.TabClosed)));
-			};
-
-			const timer = setTimeout(() => {
-				finish(() => {
-					if (tabId !== null)
-						PolyFill.tabsRemove(tabId, null, () => { });
-					reject(new CredentialProviderError(CredentialProviderErrorCode.Timeout));
-				});
-			}, timeoutMs);
-
-			api.tabs.onUpdated.addListener(onTabUpdated);
-			api.tabs.onRemoved.addListener(onTabRemoved);
-
-			PolyFill.tabsCreate({ url: requestUrl, active: true },
-				(tab: { id: number }) => {
-					tabId = tab.id;
-				},
-				(error: any) => {
-					finish(() => reject(new CredentialProviderError(CredentialProviderErrorCode.OpenFailed, error?.message)));
-				});
-		});
 	}
 }
 

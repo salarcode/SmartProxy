@@ -694,19 +694,19 @@
 		"message": "Password"
 	},
 	"popupCredentialProviderRefresh": {
-		"message": "Refresh proxy password"
+		"message": "Refresh"
 	},
 	"popupCredentialValidFor": {
-		"message": "Current password valid for {0}"
+		"message": "Password valid for {0}"
 	},
 	"popupCredentialExpired": {
-		"message": "Password expired, refresh it"
+		"message": "Password expired"
 	},
 	"settingsServersCredentialValidUntil": {
-		"message": "Current password valid until {0} ({1} left)."
+		"message": "Valid until {0} ({1} left)."
 	},
 	"settingsServersCredentialExpired": {
-		"message": "The current password expired on {0}. Refresh it from the credential provider."
+		"message": "Expired on {0}."
 	},
 	"notificationCredentialProviderSuccess": {
 		"message": "Got a new password for {0}."
@@ -727,7 +727,7 @@
 		"message": "Enter the credential provider URL, or untick the option to keep a fixed password."
 	},
 	"settingsServersCredentialProviderRefresh": {
-		"message": "Refresh proxy password"
+		"message": "Refresh"
 	},
 	"settingsServerCredentialProviderUrlInvalid": {
 		"message": "The credential provider URL must be an absolute http:// or https:// address."

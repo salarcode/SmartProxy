@@ -18,92 +18,171 @@ import { api } from "../lib/environment";
 import { PolyFill } from "../lib/PolyFill";
 import { Debug } from "../lib/Debug";
 import { CredentialProvider, CredentialProviderError, CredentialProviderErrorCode, ProviderCredential } from "../lib/CredentialProvider";
+import { CommandMessages } from "./definitions";
 import { Settings } from "./Settings";
 import { SettingsOperation } from "./SettingsOperation";
+import { TabDataType, TabManager } from "./TabManager";
 
 interface PendingCredentialRequest {
 	tabId: number;
-	proxyServerId: string;
 	providerUrl: string;
 	/** Unix time in milliseconds */
 	startedAt: number;
+	/** Saved proxy server that receives the password (refresh from the popup). */
+	proxyServerId?: string;
+	/** Settings page request that receives the password (the server may not be saved yet). */
+	requestId?: string;
 }
 
 /**
- * Runs the credential provider sign-in from the background, for requests started outside the
- * settings page (the toolbar popup closes as soon as the sign-in tab takes focus).
+ * Runs credential provider sign-ins (see lib/CredentialProvider.ts) for the popup and the settings page.
  *
- * The sign-in can take longer than a Manifest V3 service worker stays alive, so the pending request
- * is kept in `storage.session` (memory where unavailable) and the tab listeners are registered when
- * the background starts. A completion that arrives after the worker was restarted is still handled.
- * The issued password is saved to the proxy server and the user is told with a notification.
+ * It registers no browser listeners of its own: while a sign-in is pending it follows the provider tab
+ * through TabManager's tab events, and it unsubscribes as soon as no sign-in is pending.
+ *
+ * The sign-in can take longer than a Manifest V3 service worker stays alive, so pending requests are
+ * kept in `storage.session` (memory where unavailable). When the background starts again it re-checks
+ * those tabs directly, so a completion that happened while the worker was asleep is still picked up.
  */
 export class CredentialProviderBackground {
 	private static readonly storageKey = "credentialProviderPendingRequests";
 	private static pending: { [tabId: string]: PendingCredentialRequest } = {};
 	private static pendingLoaded = false;
+	private static subscribed = false;
 
-	/** Must run synchronously when the background starts, so events wake the worker after a restart. */
-	public static startMonitor() {
-		api.tabs.onUpdated.addListener(CredentialProviderBackground.onTabUpdated);
-		api.tabs.onRemoved.addListener(CredentialProviderBackground.onTabRemoved);
+	/** Resumes sign-ins that were pending when the background stopped. */
+	public static initialize() {
+		CredentialProviderBackground.resumePending()
+			.catch(error => Debug.warn("CredentialProviderBackground: could not resume pending requests", error));
 	}
 
-	/**
-	 * Opens the provider of a saved proxy server in a new tab. Resolves once the tab is open; the
-	 * outcome is reported with a notification.
-	 */
-	public static async requestForServer(proxyServerId: string): Promise<void> {
+	/** Refresh started from the popup: the password is saved to the proxy server and a notification is shown. */
+	public static requestForServer(proxyServerId: string): Promise<void> {
 		const server = CredentialProviderBackground.findOwnProxyServer(proxyServerId);
 		if (!server || !server.credentialProviderUrl)
-			throw new CredentialProviderError(CredentialProviderErrorCode.InvalidUrl);
+			return Promise.reject(new CredentialProviderError(CredentialProviderErrorCode.InvalidUrl));
+		return CredentialProviderBackground.start(server.credentialProviderUrl, { proxyServerId: server.id });
+	}
 
-		const requestUrl = CredentialProvider.buildRequestUrl(server.credentialProviderUrl);
+	/** Refresh started from the server dialog: the result is sent back to the settings page. */
+	public static requestForSettingsPage(providerUrl: string, requestId: string): Promise<void> {
+		return CredentialProviderBackground.start(providerUrl, { requestId });
+	}
+
+	/** Reports a request that could not be started to whoever asked for it. */
+	public static reportStartFailure(target: { proxyServerId?: string, requestId?: string }, error: any) {
+		const code = error instanceof CredentialProviderError ? error.code : CredentialProviderErrorCode.OpenFailed;
+		CredentialProviderBackground.reportFailure({ tabId: -1, providerUrl: "", startedAt: 0, ...target }, code);
+	}
+
+	/** Exposed for tests. */
+	public static onTabUpdated(tabData: TabDataType) {
+		const request = CredentialProviderBackground.pending[String(tabData?.tabId)];
+		if (!request)
+			return;
+		CredentialProviderBackground.checkTabUrl(request, tabData.url);
+	}
+
+	/** Exposed for tests. */
+	public static onTabRemoved(tabData: TabDataType) {
+		const request = CredentialProviderBackground.pending[String(tabData?.tabId)];
+		if (!request)
+			return;
+		CredentialProviderBackground.finish(request, null, CredentialProviderErrorCode.TabClosed);
+	}
+
+	// ---------------------------------------------------------------- flow
+
+	private static async start(providerUrl: string, target: { proxyServerId?: string, requestId?: string }): Promise<void> {
+		const requestUrl = CredentialProvider.buildRequestUrl(providerUrl); // throws on an invalid URL
+		await CredentialProviderBackground.loadPending();
 
 		// Open a blank tab first and record it before navigating, so a provider that completes
 		// immediately (user already signed in) cannot finish before the request is known.
 		const tab = await CredentialProviderBackground.createTab({ url: "about:blank", active: true });
-		await CredentialProviderBackground.savePending({
-			tabId: tab.id,
-			proxyServerId: server.id,
-			providerUrl: server.credentialProviderUrl,
-			startedAt: Date.now(),
-		});
-		await CredentialProviderBackground.updateTab(tab.id, { url: requestUrl });
+		const request: PendingCredentialRequest = { tabId: tab.id, providerUrl, startedAt: Date.now(), ...target };
+		CredentialProviderBackground.pending[String(tab.id)] = request;
+		await CredentialProviderBackground.persistPending();
+		CredentialProviderBackground.updateSubscription();
+
+		// best effort while the background stays alive; otherwise the next tab event or restart expires it
+		setTimeout(() => CredentialProviderBackground.expireIfPending(request), CredentialProvider.defaultTimeoutMs);
+
+		try {
+			await CredentialProviderBackground.updateTab(tab.id, { url: requestUrl });
+		} catch {
+			CredentialProviderBackground.finish(request, null, CredentialProviderErrorCode.OpenFailed);
+		}
 	}
 
-	/** Exposed for tests. */
-	public static async onTabUpdated(tabId: number, changeInfo: { url?: string }): Promise<void> {
-		if (!changeInfo || !changeInfo.url)
-			return;
-		const request = await CredentialProviderBackground.getPending(tabId);
-		if (!request)
-			return;
+	private static async resumePending(): Promise<void> {
+		await CredentialProviderBackground.loadPending();
+		CredentialProviderBackground.updateSubscription();
+		for (const request of Object.values(CredentialProviderBackground.pending)) {
+			PolyFill.tabsGet(request.tabId,
+				(tab: any) => CredentialProviderBackground.checkTabUrl(request, tab?.url),
+				() => CredentialProviderBackground.finish(request, null, CredentialProviderErrorCode.TabClosed));
+		}
+	}
 
-		if (Date.now() - request.startedAt > CredentialProvider.defaultTimeoutMs) {
-			await CredentialProviderBackground.removePending(tabId);
-			CredentialProviderBackground.notifyFailure(request, CredentialProviderErrorCode.Timeout);
+	private static checkTabUrl(request: PendingCredentialRequest, url: string) {
+		if (CredentialProviderBackground.expireIfPending(request) || !url)
+			return;
+		const credential = CredentialProvider.parseCompletionUrl(url, request.providerUrl);
+		if (credential !== null)
+			CredentialProviderBackground.finish(request, credential, null);
+	}
+
+	/** @returns true when the request had timed out */
+	private static expireIfPending(request: PendingCredentialRequest): boolean {
+		if (Date.now() - request.startedAt < CredentialProvider.defaultTimeoutMs)
+			return false;
+		if (CredentialProviderBackground.pending[String(request.tabId)] === request)
+			CredentialProviderBackground.finish(request, null, CredentialProviderErrorCode.Timeout);
+		return true;
+	}
+
+	private static finish(request: PendingCredentialRequest, credential: ProviderCredential, errorCode: CredentialProviderErrorCode) {
+		const key = String(request.tabId);
+		if (CredentialProviderBackground.pending[key] !== request)
+			return; // already finished
+		delete CredentialProviderBackground.pending[key];
+		CredentialProviderBackground.persistPending();
+		CredentialProviderBackground.updateSubscription();
+
+		if (!credential) {
+			CredentialProviderBackground.reportFailure(request, errorCode);
 			return;
 		}
+		// close the tab so the fragment leaves the address bar; it may already be gone
+		PolyFill.tabsRemove(request.tabId, null, () => { });
 
-		const credential = CredentialProvider.parseCompletionUrl(changeInfo.url, request.providerUrl);
-		if (credential === null)
+		if (request.requestId) {
+			CredentialProviderBackground.sendToSettingsPage({ requestId: request.requestId, credential });
 			return;
-
-		await CredentialProviderBackground.removePending(tabId);
-		PolyFill.tabsRemove(tabId, null, () => { });
-
-		await CredentialProviderBackground.whenSettingsReady();
-		CredentialProviderBackground.applyCredential(request, credential);
+		}
+		CredentialProviderBackground.whenSettingsReady()
+			.then(() => CredentialProviderBackground.applyCredential(request, credential));
 	}
 
-	/** Exposed for tests. */
-	public static async onTabRemoved(tabId: number): Promise<void> {
-		const request = await CredentialProviderBackground.getPending(tabId);
-		if (!request)
+	private static reportFailure(request: PendingCredentialRequest, errorCode: CredentialProviderErrorCode) {
+		if (request.requestId) {
+			CredentialProviderBackground.sendToSettingsPage({ requestId: request.requestId, errorCode });
 			return;
-		await CredentialProviderBackground.removePending(tabId);
-		CredentialProviderBackground.notifyFailure(request, CredentialProviderErrorCode.TabClosed);
+		}
+		const server = CredentialProviderBackground.findOwnProxyServer(request.proxyServerId);
+		CredentialProviderBackground.notify(api.i18n.getMessage("notificationCredentialProviderFailed").replace("{0}", server?.name ?? "")
+			+ " " + api.i18n.getMessage(CredentialProviderBackground.errorMessageKey(errorCode)));
+	}
+
+	public static errorMessageKey(errorCode: CredentialProviderErrorCode): string {
+		switch (errorCode) {
+			case CredentialProviderErrorCode.InvalidUrl: return "settingsServerCredentialProviderUrlInvalid";
+			case CredentialProviderErrorCode.OpenFailed: return "settingsServersCredentialProviderErrorOpenFailed";
+			case CredentialProviderErrorCode.TabClosed: return "settingsServersCredentialProviderErrorTabClosed";
+			case CredentialProviderErrorCode.Timeout: return "settingsServersCredentialProviderErrorTimeout";
+			default: return "settingsServersCredentialProviderErrorUnknown";
+		}
 	}
 
 	private static applyCredential(request: PendingCredentialRequest, credential: ProviderCredential) {
@@ -135,17 +214,9 @@ export class CredentialProviderBackground {
 		return Settings.current?.proxyServers?.find(server => server.id === proxyServerId) ?? null;
 	}
 
-	private static notifyFailure(request: PendingCredentialRequest, code: CredentialProviderErrorCode) {
-		const server = CredentialProviderBackground.findOwnProxyServer(request.proxyServerId);
-		const reasonKey = code === CredentialProviderErrorCode.TabClosed
-			? "settingsServersCredentialProviderErrorTabClosed"
-			: "settingsServersCredentialProviderErrorTimeout";
-		CredentialProviderBackground.notifyError(server?.name ?? "", api.i18n.getMessage(reasonKey));
-	}
-
-	public static notifyError(serverName: string, reason: string) {
-		CredentialProviderBackground.notify(api.i18n.getMessage("notificationCredentialProviderFailed")
-			.replace("{0}", serverName) + " " + reason);
+	private static sendToSettingsPage(result: { requestId: string, credential?: ProviderCredential, errorCode?: CredentialProviderErrorCode }) {
+		// the settings page may have been closed meanwhile: nobody to tell then
+		PolyFill.runtimeSendMessage({ command: CommandMessages.SettingsPageProviderCredentialResult, ...result }, null, () => { });
 	}
 
 	private static notify(message: string) {
@@ -161,6 +232,21 @@ export class CredentialProviderBackground {
 		if (Settings.active)
 			return Promise.resolve();
 		return new Promise<void>(resolve => Settings.addInitializeCompletedEventListener(() => resolve()));
+	}
+
+	/** Follows TabManager's tab events only while a sign-in is pending. */
+	private static updateSubscription() {
+		const needed = Object.keys(CredentialProviderBackground.pending).length > 0;
+		if (needed === CredentialProviderBackground.subscribed)
+			return;
+		CredentialProviderBackground.subscribed = needed;
+		if (needed) {
+			TabManager.TabUpdated.on(CredentialProviderBackground.onTabUpdated);
+			TabManager.TabRemoved.on(CredentialProviderBackground.onTabRemoved);
+		} else {
+			TabManager.TabUpdated.off(CredentialProviderBackground.onTabUpdated);
+			TabManager.TabRemoved.off(CredentialProviderBackground.onTabRemoved);
+		}
 	}
 
 	// ---------------------------------------------------------------- pending request store
@@ -196,27 +282,11 @@ export class CredentialProviderBackground {
 		}
 	}
 
-	private static async getPending(tabId: number): Promise<PendingCredentialRequest | null> {
-		await CredentialProviderBackground.loadPending();
-		return CredentialProviderBackground.pending[String(tabId)] ?? null;
-	}
-
-	private static async savePending(request: PendingCredentialRequest): Promise<void> {
-		await CredentialProviderBackground.loadPending();
-		CredentialProviderBackground.pending[String(request.tabId)] = request;
-		await CredentialProviderBackground.persistPending();
-	}
-
-	private static async removePending(tabId: number): Promise<void> {
-		await CredentialProviderBackground.loadPending();
-		delete CredentialProviderBackground.pending[String(tabId)];
-		await CredentialProviderBackground.persistPending();
-	}
-
 	/** Exposed for tests: forget the in-memory state, as a service worker restart would. */
 	public static resetForTests() {
 		CredentialProviderBackground.pending = {};
 		CredentialProviderBackground.pendingLoaded = false;
+		CredentialProviderBackground.updateSubscription();
 	}
 
 	private static createTab(properties: any): Promise<{ id: number }> {

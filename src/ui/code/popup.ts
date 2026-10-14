@@ -254,8 +254,10 @@ export class popup {
 			lblActiveProxyLabel.text(api.i18n.getMessage("popupActiveProxyDefault"));
 		}
 
+		// one server is shown too when it has a credential provider: its password refresh lives in this group
 		if (dataForPopup.proxyServers.length > 1 ||
-			dataForPopup.proxyServersSubscribed.length) {
+			dataForPopup.proxyServersSubscribed.length ||
+			popup.findCredentialProviderServer(dataForPopup)) {
 
 			// display select combo
 			divActiveProxy.show();
@@ -480,22 +482,19 @@ export class popup {
 		}
 	}
 
-	/** Offers "Refresh proxy password" when the active proxy server has a credential provider. */
+	/** Shows the password validity and a refresh button under the active proxy server when it has a credential provider. */
 	private static populateCredentialProvider(dataForPopup: PopupInternalDataType) {
 		let server = popup.findCredentialProviderServer(dataForPopup);
-		jQuery("#btnCredentialProviderRefresh").toggle(server != null);
+		jQuery("#divCredentialProvider").toggleClass("d-none", server == null);
 
 		let label = jQuery("#lblCredentialProviderValidity");
 		let validity = describeCredentialValidity(server?.credentialExpiresAt);
-		if (!validity) {
-			label.hide().text("");
-			return;
-		}
-		if (validity.expired)
+		if (!validity)
+			label.text("").removeClass("text-danger text-muted");
+		else if (validity.expired)
 			label.text(api.i18n.getMessage("popupCredentialExpired")).removeClass("text-muted").addClass("text-danger");
 		else
 			label.text(api.i18n.getMessage("popupCredentialValidFor").replace("{0}", validity.remaining)).removeClass("text-danger").addClass("text-muted");
-		label.show();
 	}
 
 	private static findCredentialProviderServer(dataForPopup: PopupInternalDataType): ProxyServer {

@@ -176,6 +176,8 @@ export class CommandMessages {
 	public static SettingsPageWebDavBackupNow = 'SettingsPage_WebDavBackupNow';
 	public static SettingsPageWebDavRestoreNow = 'SettingsPage_WebDavRestoreNow';
 	public static SettingsPageSaveUiOption = 'SettingsPage_SaveUiOption';
+	public static SettingsPageRequestProviderCredential = 'SettingsPage_RequestProviderCredential';
+	public static SettingsPageProviderCredentialResult = 'SettingsPage_ProviderCredentialResult';
 
 	// Request Logger
 	public static ProxyableRequestLog = 'Proxyable_RequestLog';

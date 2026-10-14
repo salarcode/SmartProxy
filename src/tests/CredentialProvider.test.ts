@@ -1,42 +1,3 @@
-type Listener = (...args: any[]) => void;
-
-function makeEvent() {
-	const listeners = new Set<Listener>();
-	return {
-		addListener: jest.fn((l: Listener) => listeners.add(l)),
-		removeListener: jest.fn((l: Listener) => listeners.delete(l)),
-		hasListeners: () => listeners.size > 0,
-		emit: (...args: any[]) => listeners.forEach(l => l(...args)),
-	};
-}
-
-const tabs = {
-	onUpdated: makeEvent(),
-	onRemoved: makeEvent(),
-	create: jest.fn(),
-	remove: jest.fn(),
-};
-
-jest.mock('../lib/environment', () => ({
-	environment: {
-		chrome: true,
-		name: 'chrome',
-		version: 1,
-		manifestV3: true,
-		notSupported: {},
-		notAllowed: {},
-		bugFreeVersions: {},
-		initialConfig: {},
-		storageQuota: { syncQuotaBytesPerItem: () => 8000 },
-		browserConfig: {}
-	},
-	api: {
-		runtime: { lastError: null },
-		i18n: { getMessage: (key: string) => key },
-		tabs: tabs
-	}
-}));
-
 import { CredentialProvider, CredentialProviderError, CredentialProviderErrorCode, describeCredentialValidity } from '../lib/CredentialProvider';
 
 const provider = 'https://provider.example/proxy-access';
@@ -81,63 +42,6 @@ describe('CredentialProvider completion parsing', () => {
 		expect(CredentialProvider.parseCompletionUrl('not a url', provider)).toBeNull();
 	});
 });
-
-describe('CredentialProvider.requestCredential', () => {
-	beforeEach(() => {
-		jest.useFakeTimers();
-		tabs.create.mockReset();
-		tabs.remove.mockReset();
-		tabs.create.mockImplementation((props: any, callback: Function) => callback({ id: 42, url: props.url }));
-		tabs.remove.mockImplementation((tabId: number, callback?: Function) => callback && callback());
-	});
-	afterEach(() => {
-		jest.useRealTimers();
-		expect(tabs.onUpdated.hasListeners()).toBe(false);
-		expect(tabs.onRemoved.hasListeners()).toBe(false);
-	});
-
-	it('opens the provider in a foreground tab and resolves once it navigates to a completion URL', async () => {
-		const pending = CredentialProvider.requestCredential(provider);
-		expect(tabs.create).toHaveBeenCalledWith(
-			expect.objectContaining({ url: 'https://provider.example/proxy-access?smartproxy=credential', active: true }),
-			expect.any(Function));
-
-		tabs.onUpdated.emit(42, { url: 'https://provider.example/proxy-access?smartproxy=credential' });   // provider page
-		tabs.onUpdated.emit(42, { url: 'https://accounts.idp.example/signin' });                            // redirect to IdP
-		tabs.onUpdated.emit(7, { url: 'https://provider.example/done#password=other-tab' });                // another tab
-		tabs.onUpdated.emit(42, { status: 'loading' });                                                     // no url change
-		tabs.onUpdated.emit(42, { url: 'https://provider.example/done#username=alice&password=pw&expires=1' });
-
-		await expect(pending).resolves.toEqual({ username: 'alice', password: 'pw', expiresAt: 1 });
-		expect(tabs.remove).toHaveBeenCalledWith(42, expect.any(Function));
-	});
-
-	it('rejects when the user closes the sign-in tab', async () => {
-		const pending = CredentialProvider.requestCredential(provider);
-		tabs.onRemoved.emit(42);
-		await expect(pending).rejects.toMatchObject({ code: CredentialProviderErrorCode.TabClosed });
-		expect(tabs.remove).not.toHaveBeenCalled();
-	});
-
-	it('rejects and closes the tab when the sign-in does not complete in time', async () => {
-		const pending = CredentialProvider.requestCredential(provider, 1000);
-		jest.advanceTimersByTime(1000);
-		await expect(pending).rejects.toMatchObject({ code: CredentialProviderErrorCode.Timeout });
-		expect(tabs.remove).toHaveBeenCalledWith(42, expect.any(Function));
-	});
-
-	it('rejects when the tab cannot be opened', async () => {
-		const runtime = require('../lib/environment').api.runtime;
-		tabs.create.mockImplementation((props: any, callback: Function) => { runtime.lastError = { message: 'no windows' }; callback(undefined); runtime.lastError = null; });
-		await expect(CredentialProvider.requestCredential(provider)).rejects.toMatchObject({ code: CredentialProviderErrorCode.OpenFailed });
-	});
-
-	it('rejects synchronously-invalid URLs without opening a tab', async () => {
-		expect(() => CredentialProvider.requestCredential('ftp://x')).toThrow(CredentialProviderError);
-		expect(tabs.create).not.toHaveBeenCalled();
-	});
-});
-
 
 describe('describeCredentialValidity', () => {
 	const now = 1_800_000_000_000; // ms

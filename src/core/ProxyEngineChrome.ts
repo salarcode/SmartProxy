@@ -3,7 +3,6 @@ import { ProxyServer, CompiledProxyRule, SmartProfileType, CompiledProxyRuleType
 import { api } from "../lib/environment";
 import { Debug, DiagDebug } from "../lib/Debug";
 import { Settings } from "./Settings";
-import { Utils } from "../lib/Utils";
 
 export class ProxyEngineChrome {
 
@@ -20,7 +19,7 @@ export class ProxyEngineChrome {
 				{ value: config, scope: "regular" },
 				function () {
 					if (api.runtime.lastError) {
-						Debug.error("updateChromeProxyConfig failed: " + (api.runtime.lastError?.message ?? "unknown error"));
+						Debug.error("updateChromeProxyConfig failed with ", api.runtime.lastError);
 					}
 				});
 			return;
@@ -33,14 +32,13 @@ export class ProxyEngineChrome {
 				{ value: config, scope: "regular" },
 				function () {
 					if (api.runtime.lastError) {
-						Debug.error("updateChromeProxyConfig failed: " + (api.runtime.lastError?.message ?? "unknown error"));
+						Debug.error("updateChromeProxyConfig failed with ", api.runtime.lastError);
 					}
 				});
 			return;
 		}
 		// generate PAC script specific to Chrome
-		// Chromium rejects PAC scripts that contain non-ASCII characters (e.g. IDN host names in rules)
-		let pacScript = Utils.escapeNonAsciiForScript(this.generateChromePacScript());
+		let pacScript = this.generateChromePacScript();
 
 		let config = {
 			mode: "pac_script",
@@ -52,7 +50,7 @@ export class ProxyEngineChrome {
 			{ value: config, scope: "regular" },
 			function () {
 				if (api.runtime.lastError) {
-					Debug.error("updateChromeProxyConfig failed: " + (api.runtime.lastError?.message ?? "unknown error"));
+					Debug.error("updateChromeProxyConfig failed with ", api.runtime.lastError);
 				}
 			});
 	}
