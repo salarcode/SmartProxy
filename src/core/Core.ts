@@ -45,6 +45,7 @@ import { ProxyEngineSpecialRequests } from './ProxyEngineSpecialRequests';
 import { ProfileOperations } from './ProfileOperations';
 import { ProfileRules } from './ProfileRules';
 import { Icons } from './Icons';
+import { CredentialProviderBackground } from './CredentialProviderBackground';
 
 const subscriptionUpdaterLib = SubscriptionUpdater;
 const proxyEngineLib = ProxyEngine;
@@ -109,6 +110,9 @@ export class Core {
 
 		// start proxy authentication request check
 		ProxyAuthentication.startMonitor();
+
+		// resume credential provider sign-ins that were pending when the background stopped
+		CredentialProviderBackground.initialize();
 
 		// listen to shortcut events
 		KeyboardShortcuts.startMonitor();
@@ -236,6 +240,31 @@ export class Core {
 				return;
 			}
 
+			case CommandMessages.PopupRequestProviderCredential: {
+				if (!message.proxyServerId)
+					return;
+
+				CredentialProviderBackground.requestForServer(message.proxyServerId)
+					.catch((error) => {
+						Debug.warn("Credential provider request failed", error);
+						CredentialProviderBackground.reportStartFailure({ proxyServerId: message.proxyServerId }, error);
+					});
+				return;
+			}
+			case CommandMessages.SettingsPageRequestProviderCredential: {
+				if (!message.requestId)
+					return;
+
+				CredentialProviderBackground.requestForSettingsPage(message.providerUrl, message.requestId)
+					.catch((error) => {
+						Debug.warn("Credential provider request failed", error);
+						CredentialProviderBackground.reportStartFailure({ requestId: message.requestId }, error);
+					});
+				// acknowledge right away: the outcome arrives later as SettingsPageProviderCredentialResult
+				if (sendResponse)
+					sendResponse({ accepted: true });
+				return;
+			}
 			case CommandMessages.PopupChangeActiveProxyServer: {
 				if (!message.id)
 					return;
