@@ -115,7 +115,8 @@ export class Settings {
 		Debug.log("onInitializeGetLocalData, local data:", JSON.stringify(data));
 
 		data = me.getRestorableSettings(data);
-		sop.copyNonSyncableSettings(data, me.current);
+		// `me.current` is empty at this point, the local data must keep its own subscription proxies
+		sop.copyNonSyncableSettings(data, me.current, true);
 
 		me.current = data;
 		me.updateActiveSettings();

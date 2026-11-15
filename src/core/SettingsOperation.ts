@@ -65,8 +65,13 @@ export class SettingsOperation {
 
 		return settingsCopy;
 	}
-	public static copyNonSyncableSettings(destSettings: SettingsConfig, sourceSettings: SettingsConfig) {
-		/** Copies non-syncable settings. Can be used to copy from local settings to newly received synced data. */
+	/**
+	 * Copies non-syncable settings. Can be used to copy from local settings to newly received synced data.
+	 * @param keepDestProxiesWhenSourceMissing When a proxy server subscription has no match in the source,
+	 * keep the proxies it already has in the destination (if they are valid) instead of clearing them.
+	 * Use it when the destination is the local storage data, which is not stripped of subscription proxies.
+	 */
+	public static copyNonSyncableSettings(destSettings: SettingsConfig, sourceSettings: SettingsConfig, keepDestProxiesWhenSourceMissing: boolean = false) {
 		if (destSettings.proxyProfiles && destSettings.proxyProfiles.length)
 			for (const destProfile of destSettings.proxyProfiles) {
 				if (destProfile.rulesSubscriptions && destProfile.rulesSubscriptions.length) {
@@ -99,9 +104,15 @@ export class SettingsOperation {
 		if (destSettings.proxyServerSubscriptions && destSettings.proxyServerSubscriptions.length)
 			for (const destSubscription of destSettings.proxyServerSubscriptions) {
 
-				let srcSubscription = sourceSettings.proxyServerSubscriptions.find(x => x.name == destSubscription.name && x.url == destSubscription.url);
+				let srcSubscription = sourceSettings.proxyServerSubscriptions?.find(x => x.name == destSubscription.name && x.url == destSubscription.url);
 				if (!srcSubscription) {
-					destSubscription.proxies = [];
+					if (keepDestProxiesWhenSourceMissing && Array.isArray(destSubscription.proxies)) {
+						// keeping the stored proxies, only dropping malformed items
+						destSubscription.proxies = destSubscription.proxies.filter(p => p && typeof p === 'object');
+					}
+					else {
+						destSubscription.proxies = [];
+					}
 					continue;
 				}
 

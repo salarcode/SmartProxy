@@ -187,6 +187,9 @@ export class SubscriptionUpdater {
 					SettingsOperation.saveProxyServerSubscriptions();
 					SettingsOperation.saveAllSync(false);
 
+					// the selected proxy might belong to this subscription, so it has to be resolved again
+					ProxyEngine.notifyProxyRulesChanged();
+
 					// Fire-and-forget: update country codes for proxy servers
 					SubscriptionUpdater.updateProxyServersCountryCode(subscription.proxies);
 

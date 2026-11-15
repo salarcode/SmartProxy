@@ -51,7 +51,15 @@
       "**/src/tests/**/*.test.ts"
     ],
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "tsconfig": {
+            "esModuleInterop": true,
+            "allowSyntheticDefaultImports": true
+          }
+        }
+      ]
     }
   },
   "license": "GPL-3.0",
