@@ -250,14 +250,14 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 							return rule;
 
 						rule.searchHost ??= extractHostFromInvalidUrl(rule.search);
-						if (rule.searchHost != null) {
+						if (rule.searchHost == null)
+							continue;
 
-							// should be the same
-							if (rule.searchHost != host && !host.endsWith('.' + rule.searchHost))
-								continue;
+						// should be the same
+						if (rule.searchHost != host && !host.endsWith('.' + rule.searchHost))
+							continue;
 
-							// after this state, we are sure that the url is for the same domain, now just checking the path
-						}
+						// after this state, we are sure that the url is for the same domain, now just checking the path
 
 						// subdomains
 						if (schemaLessUrlLowerCase.includes('.' + rule.search))
@@ -340,14 +340,14 @@ function findMatchedUrlInRules(searchUrl, host, hostAndPort, rules) {
 								return rule;
 
 							rule.searchHost ??= extractHostFromInvalidUrl(rule.search);
-							if (rule.searchHost != null) {
+							if (rule.searchHost == null)
+								continue;
 
-								// should be the same
-								if (rule.searchHost != host && !host.endsWith('.' + rule.searchHost))
-									continue;
+							// should be the same
+							if (rule.searchHost != host && !host.endsWith('.' + rule.searchHost))
+								continue;
 
-								// after this state, we are sure that the url is for the same domain, now just checking the path
-							}
+							// after this state, we are sure that the url is for the same domain, now just checking the path
 
 							// subdomains
 							if (schemaLessUrlLowerCase.includes('.' + rule.search))

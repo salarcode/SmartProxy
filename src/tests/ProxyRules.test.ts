@@ -1,5 +1,5 @@
 import { ProxyRules } from '../core/ProxyRules';
-import { GeneralOptions, ProxyRule, ProxyRuleType, CompiledProxyRuleType, SmartProfileBase, SettingsConfig, SmartProfile, SmartProfileType, getSmartProfileTypeConfig } from '../core/definitions';
+import { GeneralOptions, ProxyRule, ProxyRuleType, CompiledProxyRuleType, CompiledProxyRulesInfo, SmartProfileBase, SettingsConfig, SmartProfile, SmartProfileType, getSmartProfileTypeConfig } from '../core/definitions';
 import { ProfileRules } from '../core/ProfileRules';
 import { Settings } from '../core/Settings';
 import { externalAppRuleParser } from '../lib/RuleImporter';
@@ -98,6 +98,52 @@ Ip: 2001:db8::1/128`;
     expect(result.compiledList).toHaveLength(1);
     expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::1]/', result.compiledList)).toBeDefined();
     expect(ProxyRules.findMatchedUrlInRules('http://[2001:db8::2]/', result.compiledList)).toBeNull();
+  });
+});
+
+describe('ProxyRules.findMatchedUrlInRules domain anchoring', () => {
+  const buildCompiledInfoWithWhitelistSubscriptionLine = (line: string): CompiledProxyRulesInfo => {
+    const parsed = externalAppRuleParser.GFWList.parse(line + '\n');
+    const compiled = ProxyRules.compileRulesSubscription(parsed.whiteList, true);
+
+    const info = new CompiledProxyRulesInfo();
+    info.WhitelistSubscriptionRules = compiled;
+    return info;
+  };
+
+  it('GFWList subscription line with a malformed port cannot bypass host validation', () => {
+    // a rule.search with an unparseable port segment makes the host-anchoring
+    // check impossible; such a rule must never degrade to an unanchored
+    // substring match over host+path of an unrelated URL
+    const info = buildCompiledInfoWithWhitelistSubscriptionLine('@@.mybank.example:xx/account');
+
+    const search = info.WhitelistSubscriptionRules[0].search;
+    expect(search).toBe('mybank.example:xx/account');
+
+    const result = ProxyRules.findMatchedUrlInRulesInfo(
+      'https://tracker.evil-attacker.test/collect?ref=zzz.mybank.example:xx/account',
+      info
+    );
+    expect(result).toBeNull();
+  });
+
+  it('well-formed rule.search stays host-anchored and does not match unrelated URLs', () => {
+    const info = buildCompiledInfoWithWhitelistSubscriptionLine('@@.mybank.example/account');
+
+    expect(info.WhitelistSubscriptionRules[0].search).toBe('mybank.example/account');
+
+    const result = ProxyRules.findMatchedUrlInRulesInfo(
+      'https://tracker.evil-attacker.test/collect?ref=zzz.mybank.example/account',
+      info
+    );
+    expect(result).toBeNull();
+
+    // same domain and subdomains must still match
+    const subResult = ProxyRules.findMatchedUrlInRulesInfo(
+      'https://www.mybank.example/account?page=2',
+      info
+    );
+    expect(subResult).not.toBeNull();
   });
 });
 

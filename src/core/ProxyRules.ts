@@ -323,21 +323,21 @@ export class ProxyRules {
 							return rule;
 
 						let ruleSearchHost = Utils.extractHostNameFromInvalidUrl(rule.search);
-						if (ruleSearchHost != null) {
+						if (ruleSearchHost == null)
+							continue;
 
+						if (domainHostLowerCase == null) {
+							domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
 							if (domainHostLowerCase == null) {
-								domainHostLowerCase = Utils.extractHostNameFromUrl(lowerCaseUrl);
-								if (domainHostLowerCase == null) {
-									continue;
-								}
-							}
-
-							// should be the same
-							if (ruleSearchHost != domainHostLowerCase && !domainHostLowerCase.endsWith('.' + ruleSearchHost))
 								continue;
-
-							// after this state, we are sure that the url is for the same domain, now just checking the path
+							}
 						}
+
+						// should be the same
+						if (ruleSearchHost != domainHostLowerCase && !domainHostLowerCase.endsWith('.' + ruleSearchHost))
+							continue;
+
+						// after this state, we are sure that the url is for the same domain, now just checking the path
 
 						// subdomains
 						if (schemaLessUrlLowerCase.includes('.' + rule.search))
@@ -441,13 +441,14 @@ export class ProxyRules {
 									return rule;
 
 								let ruleSearchHost = Utils.extractHostFromInvalidUrl(rule.search);
-								if (ruleSearchHost != null) {
-									// should be the same
-									if (ruleSearchHost != domainHostLowerCase && !domainHostLowerCase.endsWith('.' + ruleSearchHost))
-										continue;
+								if (ruleSearchHost == null)
+									continue;
 
-									// after this state, we are sure that the url is for the same domain, now just checking the path
-								}
+								// should be the same
+								if (ruleSearchHost != domainHostLowerCase && !domainHostLowerCase.endsWith('.' + ruleSearchHost))
+									continue;
+
+								// after this state, we are sure that the url is for the same domain, now just checking the path
 
 								// subdomains
 								if (schemaLessUrlLowerCase.includes('.' + rule.search))
