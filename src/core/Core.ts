@@ -53,8 +53,14 @@ const settingsOperationLib = SettingsOperation;
 const iconsLib = Icons;
 
 export class Core {
+	private static localSettingsLoaded = false;
+	private static localSettingsReady: Promise<void>;
+
 	/** Start the application */
 	public static initializeApp() {
+		Core.localSettingsLoaded = false;
+		let resolveLocalSettings: () => void;
+		Core.localSettingsReady = new Promise<void>(resolve => { resolveLocalSettings = resolve; });
 
 		Debug.disable(); // comment this for debugging
 		//Debug.enableDiagnostics(true); // uncomment for verbose logs
@@ -90,7 +96,12 @@ export class Core {
 			Core.dumpDiagnosticsInfo();
 		};
 
-		settingsLib.onInitializedLocally = settingReadComplete;
+		settingsLib.onInitializedLocally = () => {
+			settingReadComplete();
+			// The UI can use local settings without waiting for remote sync.
+			Core.localSettingsLoaded = true;
+			resolveLocalSettings();
+		};
 		settingsLib.onInitializedRemoteSync = settingReadComplete;
 		settingsLib.initialize();
 
@@ -128,6 +139,35 @@ export class Core {
 		else {
 			command = message['command'];
 			isCommand = true;
+		}
+
+		if (!Core.localSettingsLoaded &&
+			(command == CommandMessages.PopupGetInitialData ||
+				command == CommandMessages.SettingsPageGetInitialData ||
+				command == CommandMessages.ProxyableGetInitialData)) {
+			if (!sendResponse)
+				return;
+
+			// MV3 can wake the worker for this request before storage.local.get completes.
+			// Keep the listener synchronous and the response channel open while it loads.
+			let responseSent = false;
+			const respond = (data: any) => {
+				if (responseSent) return;
+				responseSent = true;
+				clearTimeout(timeout);
+				sendResponse(data);
+			};
+			const timeout = setTimeout(() => respond(null), 10000);
+			Core.localSettingsReady.then(() => {
+				if (responseSent) return;
+				try {
+					Core.handleMessages(message, sender, respond);
+				} catch (error) {
+					Debug.error('Failed to get initial data after loading local settings', error);
+					respond(null);
+				}
+			});
+			return true;
 		}
 
 		if (!isCommand) {
