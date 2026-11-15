@@ -53,14 +53,8 @@ const settingsOperationLib = SettingsOperation;
 const iconsLib = Icons;
 
 export class Core {
-	private static localSettingsLoaded = false;
-	private static localSettingsReady: Promise<void>;
-
 	/** Start the application */
 	public static initializeApp() {
-		Core.localSettingsLoaded = false;
-		let resolveLocalSettings: () => void;
-		Core.localSettingsReady = new Promise<void>(resolve => { resolveLocalSettings = resolve; });
 
 		Debug.disable(); // comment this for debugging
 		//Debug.enableDiagnostics(true); // uncomment for verbose logs
@@ -96,12 +90,7 @@ export class Core {
 			Core.dumpDiagnosticsInfo();
 		};
 
-		settingsLib.onInitializedLocally = () => {
-			settingReadComplete();
-			// The UI can use local settings without waiting for remote sync.
-			Core.localSettingsLoaded = true;
-			resolveLocalSettings();
-		};
+		settingsLib.onInitializedLocally = settingReadComplete;
 		settingsLib.onInitializedRemoteSync = settingReadComplete;
 		settingsLib.initialize();
 
@@ -141,7 +130,7 @@ export class Core {
 			isCommand = true;
 		}
 
-		if (!Core.localSettingsLoaded &&
+		if (!settingsLib.isLocalLoaded &&
 			(command == CommandMessages.PopupGetInitialData ||
 				command == CommandMessages.SettingsPageGetInitialData ||
 				command == CommandMessages.ProxyableGetInitialData)) {
@@ -158,7 +147,7 @@ export class Core {
 				sendResponse(data);
 			};
 			const timeout = setTimeout(() => respond(null), 10000);
-			Core.localSettingsReady.then(() => {
+			settingsLib.whenLocalLoaded(() => {
 				if (responseSent) return;
 				try {
 					Core.handleMessages(message, sender, respond);

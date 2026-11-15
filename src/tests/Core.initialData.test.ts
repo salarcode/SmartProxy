@@ -125,6 +125,21 @@ describe('Core initial data during background startup', () => {
     expect(jest.getTimerCount()).toBe(0);
   });
 
+  it('Settings.whenLocalLoaded defers until local load, then runs immediately', async () => {
+    const early = jest.fn();
+    Settings.whenLocalLoaded(early);
+    expect(Settings.isLocalLoaded).toBe(false);
+    expect(early).not.toHaveBeenCalled();
+
+    readLocal({});
+    expect(Settings.isLocalLoaded).toBe(true);
+    expect(early).toHaveBeenCalledTimes(1);
+
+    const late = jest.fn();
+    Settings.whenLocalLoaded(late);
+    expect(late).toHaveBeenCalledTimes(1);
+  });
+
   it('does not hold unrelated messages during startup', () => {
     const respond = jest.fn();
     expect(listener({ command: 'UnknownCommand' }, {}, respond)).toBeUndefined();
