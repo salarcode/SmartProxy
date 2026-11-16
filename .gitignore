@@ -298,7 +298,7 @@ __pycache__/
 /build-edge-mv2
 /build-opera
 /src/manifest.json
-/src/manifest.json
+/deploy/secrets*.ps1
 *.map
 *.js
 src/assets/IPCountryDB

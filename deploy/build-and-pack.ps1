@@ -2,6 +2,9 @@
 # run this in powershell to enable scripts
 # Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
+# all the paths below are relative to the repository root, so this works from any folder
+Set-Location (Split-Path -Parent $PSScriptRoot)
+
 $global:Success = $true
 $global:version = ""
 

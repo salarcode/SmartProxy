@@ -1,0 +1,32 @@
+Build instructions (the full source code is attached):
+
+Requirements: Node.js 24 or later, npm.
+
+1. npm install
+2. npm run build-ff
+3. The extension is created in the "build" folder, this is what is submitted.
+
+Other targets: npm run build-ff-android (Android), npm run build-th (Thunderbird).
+Tests: npm test
+
+Third-party libraries are included unmodified as minified files in src/ui/js, src/ui/css and src/pako.min.js:
+
+Bootstrap v5.1.3 and Bootswatch (Cosmo, Flatly) v5.1.3
+https://github.com/twbs/bootstrap/releases/download/v5.1.3/bootstrap-5.1.3-dist.zip
+https://bootswatch.com/5/cosmo/bootstrap.min.css
+https://bootswatch.com/5/flatly/bootstrap.min.css
+
+DataTables 1.11.3 (with RowReorder 1.3.1)
+https://datatables.net/download/#bs5/dt-1.11.3/af-2.3.7/b-2.1.1/b-colvis-2.1.1/b-html5-2.1.1/fc-4.0.1/fh-3.2.1/kt-2.6.4/r-2.2.9/rg-1.1.4/rr-1.2.8/sc-2.0.5/sl-1.3.4
+
+Intro.js 4.3.0
+https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js
+
+jQuery 3.3.1
+https://code.jquery.com/jquery-3.3.1.min.js
+
+Noty 3.1.2
+https://github.com/needim/noty
+
+Pako 1.0.8 (src/pako.min.js) and pako from npm for the build
+https://github.com/nodeca/pako
