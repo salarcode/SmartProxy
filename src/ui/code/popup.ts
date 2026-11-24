@@ -22,6 +22,7 @@ import { CommonUi } from "./CommonUi";
 import { Utils } from "../../lib/Utils";
 import { ProfileOperations } from "../../core/ProfileOperations";
 import { CountryCode } from "../../lib/CountryCode";
+import { describeCredentialValidity } from "../../lib/CredentialProvider";
 
 export class popup {
 	private static popupData: PopupInternalDataType = null;
@@ -113,6 +114,8 @@ export class popup {
 			jQuery(".popup-menu-failed").toggle();
 		});
 
+		jQuery("#btnCredentialProviderRefresh").click(popup.onCredentialProviderRefreshClick);
+
 		jQuery("#btnAddFailedRequests").click(popup.onAddFailedRequestsClick);
 		jQuery("#btnAddIgnoredFailures").click(popup.onAddIgnoredFailuresClick);
 	}
@@ -125,6 +128,7 @@ export class popup {
 		popup.populateUnsupportedFeatures(dataForPopup);
 		popup.populateSmartProfiles(dataForPopup.proxyProfiles, dataForPopup.activeProfileId);
 		popup.populateActiveProxy(dataForPopup);
+		popup.populateCredentialProvider(dataForPopup);
 		popup.populateProxyableDomainList(dataForPopup.proxyableDomains);
 		popup.populateFailedRequests(dataForPopup.failedRequests);
 	}
@@ -250,8 +254,10 @@ export class popup {
 			lblActiveProxyLabel.text(api.i18n.getMessage("popupActiveProxyDefault"));
 		}
 
+		// one server is shown too when it has a credential provider: its password refresh lives in this group
 		if (dataForPopup.proxyServers.length > 1 ||
-			dataForPopup.proxyServersSubscribed.length) {
+			dataForPopup.proxyServersSubscribed.length ||
+			popup.findCredentialProviderServer(dataForPopup)) {
 
 			// display select combo
 			divActiveProxy.show();
@@ -476,11 +482,52 @@ export class popup {
 		}
 	}
 
+	/** Shows the password validity and a refresh button under the active proxy server when it has a credential provider. */
+	private static populateCredentialProvider(dataForPopup: PopupInternalDataType) {
+		let server = popup.findCredentialProviderServer(dataForPopup);
+		jQuery("#divCredentialProvider").toggleClass("d-none", server == null);
+
+		let label = jQuery("#lblCredentialProviderValidity");
+		let validity = describeCredentialValidity(server?.credentialExpiresAt);
+		if (!validity)
+			label.text("").removeClass("text-danger text-muted");
+		else if (validity.expired)
+			label.text(api.i18n.getMessage("popupCredentialExpired")).removeClass("text-muted").addClass("text-danger");
+		else
+			label.text(api.i18n.getMessage("popupCredentialValidFor").replace("{0}", validity.remaining)).removeClass("text-danger").addClass("text-muted");
+	}
+
+	private static findCredentialProviderServer(dataForPopup: PopupInternalDataType): ProxyServer {
+		if (!dataForPopup?.currentProxyServerId || !dataForPopup.proxyServers)
+			return null;
+		let server = dataForPopup.proxyServers.find(item => item.id === dataForPopup.currentProxyServerId);
+		return server?.credentialProviderUrl ? server : null;
+	}
+
+	private static onCredentialProviderRefreshClick() {
+		let server = popup.findCredentialProviderServer(popup.popupData);
+		if (!server)
+			return;
+
+		// the background runs the refresh: this popup closes as soon as the provider tab opens
+		PolyFill.runtimeSendMessage(
+			{
+				command: CommandMessages.PopupRequestProviderCredential,
+				proxyServerId: server.id
+			});
+		popup.closeSelf();
+	}
+
 	private static onActiveProxyChange() {
 		let cmbActiveProxy = jQuery("#divActiveProxy #cmbActiveProxy");
 
 		let id = cmbActiveProxy.val();
 		if (!id) return;
+
+		if (popup.popupData) {
+			popup.popupData.currentProxyServerId = id;
+			popup.populateCredentialProvider(popup.popupData);
+		}
 
 		PolyFill.runtimeSendMessage(
 			{

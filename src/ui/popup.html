@@ -142,6 +142,13 @@
 						<option value="0">No server is defined</option>
 					</select>
 				</div>
+				<div id="divCredentialProvider" class="d-none d-flex align-items-center gap-2 px-2 pb-2">
+					<small id="lblCredentialProviderValidity" class="flex-grow-1 text-truncate"></small>
+					<button type="button" id="btnCredentialProviderRefresh" class="btn btn-sm btn-outline-secondary text-nowrap">
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						<span data-localize="popupCredentialProviderRefresh">Refresh</span>
+					</button>
+				</div>
 			</div>
 			<div id="divProxyableContainer" style="display: none">
 				<hr class="afshin-line" />
