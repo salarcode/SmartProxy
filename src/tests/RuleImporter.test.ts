@@ -62,6 +62,22 @@ describe('externalAppRuleParser.GFWList', () => {
       expect(result.importedRuleType).toBe(CompiledProxyRuleType.RegexUrl);
     });
 
+    it.each([
+      ['||cdn*.i-scmp.com', ['https://cdn1.i-scmp.com/a.js', 'https://x.cdn1.i-scmp.com'], ['https://www.i-scmp.com', 'https://cdn1xi-scmp.com']],
+      ['||addons.mozilla.org/*-*/firefox/addon/ublock-origin/*', ['https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/'], ['https://addons.mozilla.org/en-US/firefox/addon/other/']],
+      ['|http://*.wordpress.com', ['http://foo.wordpress.com/'], ['http://wordpress.org', 'http://foo.wordpressxcom/']],
+      ['.example.com/*?a=(1)', ['http://www.example.com/x?a=(1)'], ['http://www.example.com/x?a=1']],
+      ['example.com/*.js|', ['http://example.com/lib/a.js'], ['http://example.com/lib/a.json', 'http://example.com/lib/ajs']],
+      ['a.example.com/b.c|', ['http://a.example.com/b.c'], ['http://a.example.com/bxc', 'http://axexample.com/b.c']],
+    ])('should convert wildcards and special characters: %s', (line, matches, others) => {
+      const result = externalAppRuleParser.GFWList.convertLineRegex(line);
+
+      expect(result.importedRuleType).toBe(CompiledProxyRuleType.RegexUrl);
+      const regex = new RegExp(result.regex);
+      for (const url of matches) expect(regex.test(url)).toBe(true);
+      for (const url of others) expect(regex.test(url)).toBe(false);
+    });
+
     it('should convert simple domain correctly', () => {
       const line = 'example.com';
       const result = externalAppRuleParser.GFWList.convertLineRegex(line);

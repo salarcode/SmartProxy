@@ -817,9 +817,7 @@ export const externalAppRuleParser = {
 			let hasSpecialChars = line.includes('*') || line.includes('(');
 
 			function rectifyRegexChars() {
-				line = line.replace('*', '.+').replace('?', '\\?');
-				line = line.replace('(', '\\(').replace(')', '\\)');
-				line = line.replace('.', '\\.');
+				line = line.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
 			}
 
 			if (line.startsWith('||')) {
