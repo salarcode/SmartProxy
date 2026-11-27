@@ -23,7 +23,9 @@ import { TabDataType, TabManager } from './TabManager';
 export class WebRequestMonitor {
 	private static isMonitoring = false;
 	private static monitorCallback: Function = null;
-	private static requestTimeoutTime: 5000;
+	private static requestTimeoutTime = 5000;
+	/** Hard cap: requests older than this are evicted even if no completion event ever arrives */
+	private static requestMaxLifetime = 60000;
 	private static timer: any = null;
 	private static requests: { [index: string]: any } = {};
 	private static debugInfo = false;
@@ -54,9 +56,20 @@ export class WebRequestMonitor {
 	}
 
 	private static timerTick() {
-		let now = Date.now();
 		let reqIds = Object.keys(WebRequestMonitor.requests);
+
+		if (reqIds.length === 0) {
+			// nothing left to monitor; stop the timer until a new request arrives
+			if (WebRequestMonitor.timer) {
+				clearInterval(WebRequestMonitor.timer);
+				WebRequestMonitor.timer = null;
+			}
+			return;
+		}
+
+		let now = Date.now();
 		let requestTimeoutTime = WebRequestMonitor.requestTimeoutTime;
+		let requestMaxLifetime = WebRequestMonitor.requestMaxLifetime;
 
 		for (let i = reqIds.length - 1; i >= 0; i--) {
 			let reqId = reqIds[i];
@@ -68,7 +81,26 @@ export class WebRequestMonitor {
 			if (!req)
 				continue;
 
-			if (now - req._startTime < requestTimeoutTime) {
+			let elapsed = now - req._startTime;
+
+			if (elapsed >= requestMaxLifetime) {
+				// Completion events may never arrive (e.g. redirects outside the
+				// monitored url filter or events lost while the MV3 service worker
+				// was suspended). Notify once, then evict so the requests table
+				// cannot grow forever.
+				req._isTimedOut = true;
+
+				// callback request-timeout
+				WebRequestMonitor.raiseCallback(RequestMonitorEvent.RequestTimeout, req);
+
+				if (WebRequestMonitor.debugInfo)
+					WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestTimeout], req);
+
+				WebRequestMonitor.removeRequest(reqId);
+				continue;
+			}
+
+			if (elapsed < requestTimeoutTime) {
 				continue;
 			}
 
@@ -83,6 +115,32 @@ export class WebRequestMonitor {
 			if (WebRequestMonitor.debugInfo)
 				WebRequestMonitor.logMessage(RequestMonitorEvent[RequestMonitorEvent.RequestTimeout], req);
 		}
+	}
+
+	/** Removes a request from the table and detaches it from related requests */
+	private static removeRequest(requestId: string) {
+		let req = WebRequestMonitor.requests[requestId];
+		if (!req)
+			return;
+
+		delete WebRequestMonitor.requests[requestId];
+		WebRequestMonitor.detachRelatedRequests(req);
+	}
+
+	/** Breaks the cross references so removed requests don't pin others in memory */
+	private static detachRelatedRequests(req: any) {
+		let related = req._relatedRequests;
+		if (!related || !related.length)
+			return;
+
+		for (const other of related) {
+			if (other && other._relatedRequests) {
+				let index = other._relatedRequests.indexOf(req);
+				if (index > -1)
+					other._relatedRequests.splice(index, 1);
+			}
+		}
+		req._relatedRequests = null;
 	}
 
 	private static raiseCallback(...args: any) {
@@ -123,6 +181,13 @@ export class WebRequestMonitor {
 
 	private static events = {
 		onBeforeRequest(requestDetails: any) {
+			// WebSocket connections are long-lived and never report completion events.
+			// Tracking them leaks entries in the requests table and reports false failures.
+			if (requestDetails.type === 'websocket' ||
+				(requestDetails.url &&
+					(requestDetails.url.startsWith('ws://') || requestDetails.url.startsWith('wss://')))) {
+				return;
+			}
 			let reqInfo = requestDetails;
 
 			if (requestDetails.tabId < 0) {
@@ -309,9 +374,9 @@ export class WebRequestMonitor {
 
 			for (const requestId in WebRequestMonitor.requests) {
 				const req = WebRequestMonitor.requests[requestId];
-			
+
 				if (req && req.tabId == tabId) {
-					delete WebRequestMonitor.requests[requestId];
+					WebRequestMonitor.removeRequest(requestId);
 				}
 			}
 		}
